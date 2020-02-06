@@ -1,6 +1,6 @@
 ---
 layout: post
-title: What, When, How: A Summer at GeorgiaTech
+title: What, When, How A Summer at GeorgiaTech
 ---
 
 After nearly 200 emails to professors and labs, applying to 3 international internship programs. Around 12PM
