@@ -2,10 +2,6 @@
 layout: post
 title: Intern at Invento Robotics Journal Entry 1
 ---
-
-
-
-
 Hello World!
 
 Invento Robotics, sounds familiar? The majority of the people I have interacted have heard of this start-up for the first time. So there are two ways I go about introducing this start-up to them
@@ -31,7 +27,7 @@ Next, I would like to specify on the team, For a lot of people, Invento is just 
 
 
 
-
+![config.yml](/images/mitra.jpeg)
 
 Mitri Taped up with my Laptop and webcam 
 Next talking about the man himself Balaji Vishwanathansir.
