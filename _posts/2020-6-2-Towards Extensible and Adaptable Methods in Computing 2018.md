@@ -43,8 +43,10 @@ Apart from that he is the only guy among us who knew a bit of graphic designing.
 Now the whole Neural Network is implemented in python, how do we trigger the arduino with python (this might sound easy but we were absolute proselytes in this domain) and then my third team mate Pandey, gets going. Once we were done with the paper and the presentation, we needed to integrate the work. Things did not seem to work out. The code was perfect, Hardware was fine but for some reasons actions were not being triggered. 
 
 After a few good hours of struggle things started falling place and eventually Tanuj went back home and did the final rites and everything was set in place. On the 3rd Day of the conference (Yes I did skip writing on the first two days) we were all suited up and got ready for the last punch. The presentation was perfect, the demo worked smooth as butter and the judges were really happy. Eventually other teams went on to give their presentations and I learned so much from each one of them. The results were to come, with a perfect presentation and a perfect demo the final result went in our favour! I have the links to the presentation and paper below if you find the time and have the patience consider going through
+
 Presentation
 https://docs.google.com/presentation/d/1oeXfdfVYI0qwIQfRBPUkqjzISrrgltSBI04iebqNvLg/edit?usp=sharing
+
 Paper
 https://drive.google.com/file/d/192Q6LXuE3CoJVnNt27BsLma3SxfTvCS2/view?usp=sharing
 
@@ -67,11 +69,6 @@ Incase you had any take aways from the blog I would be really happy, but never t
 4. Learning should never be a private affair
 
 5. Oh! the most important thing, have a visionuggle things started falling place and eventually Tanuj went back home and did the final rites and everything was set in place. On the 3rd Day of the conference (Yes I did skip writing on the first two days) we were all suited up and got ready for the last punch. The presentation was perfect, the demo worked smooth as butter and the judges were really happy. Eventually other teams went on to give their presentations and I learned so much from each one of them. The results were to come, with a perfect presentation and a perfect demo the final result went in our favour! I have the links to the presentation and paper below if you find the time and have the patience consider going through
-
-Presentation
-https://docs.google.com/presentation/d/1oeXfdfVYI0qwIQfRBPUkqjzISrrgltSBI04iebqNvLg/edit?usp=sharing
-Paper
-https://drive.google.com/file/d/192Q6LXuE3CoJVnNt27BsLma3SxfTvCS2/view?usp=sharing
 
 
 ![config.yml](/images/team.jpeg)
