@@ -21,14 +21,10 @@ Next, I would like to specify on the team, For a lot of people, Invento is just 
 3. Maintain a notebook and pen, if you believe you can remember everything you want to do, SORRY! you cant. You can also have sticky paper notes to remind you of what you have to do.
 
 
-
-
-
-
 ![config.yml](/images/mitra.jpeg)
-
 Mitri Taped up with my Laptop and webcam 
-Next talking about the man himself Balaji Vishwanathansir.
+
+Next talking about the man himself Balaji Vishwanathan sir.
 
 For sure he is a voracious reader, He can literally talk about anything on this planet. CEO is not an easy post to hold, and it requires great experience to be one. Some points I have noted from Balaji Sir through observation and was keen to share on are
 
