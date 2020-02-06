@@ -21,11 +21,7 @@ What fun is it to work all the time and have no fun! Invento knows this better t
 
 
 
-
-
-
-
-
+![config.yml](/images/cooking.jpeg) ![config.yml](images/cooking-2.jpeg)
 
 
 Cooking up some real food!
@@ -43,7 +39,7 @@ Cooking up some real food!
 
 
 
-
+![config.yml](/images/sparta.jpeg)
 
 
 Getting all set for the movie! **Hint:: This is Sparta!**
@@ -55,30 +51,7 @@ Getting all set for the movie! **Hint:: This is Sparta!**
 
 
 
-
-
-
-
-
-
-
-
-
-King Gamers! Electronic hacker(left) and CTO(right)! Name it they make it! Amazing people to work with :)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+![config.yml](/images/balaji-gaming.jpeg)
 
 
 
@@ -102,7 +75,7 @@ Mitra stole the show at different events across India for the past few years and
 
 
 
-
+![config.yml](/images/mitra-officials.jpeg)
 
 
 
@@ -122,7 +95,7 @@ Companies like KPMG which are keen on introducing AI and Machine Learning into t
 
 
 
-
+![config.yml](/images/mitra_prov.jpeg)
 
 
 
@@ -140,7 +113,7 @@ Companies like KPMG which are keen on introducing AI and Machine Learning into t
 
 
 
-
+![config.yml](/images/mitra_team.jpeg)
 
 
 
