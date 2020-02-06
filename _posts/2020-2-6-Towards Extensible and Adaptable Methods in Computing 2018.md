@@ -3,7 +3,7 @@ layout: post
 title: Towards Extensible and Adaptable Methods in Computing 2018
 ---
 
-Solving the global issue of crop vandalism using Neural Networks, Sounds Cool.This is going to be a really long one so gear up!
+Solving the global issue of crop vandalism using Neural Networks, Sounds Cool.This is going to be a really long one so gear up.
 
 They say destiny is predefined, sounds true in the case of me and my team. I hardly knew a twenty day Human centric software internship back in May 2017, will set tone for a full reserach paper in March 2018. If anyone asks me what is one of the most productive phases in my life without doubt it has to be SRISTI 2017. Got to know about it from my super-senior and eventually made through their selection procedure.
 
