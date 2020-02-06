@@ -50,7 +50,7 @@ Getting all set for the movie! **Hint:: This is Sparta!**
 
 
 
-![config.yml](/images/balaji-gaming.jpeg)
+![config.yml](/images/balaji_gaming.jpeg)
 
 
 Unlimited gaming! Bosses (CEO and CTO) chalking up some serious plans here!
@@ -76,7 +76,7 @@ Mitra stole the show at different events across India for the past few years and
 
 
 
-![config.yml](/images/mitra-officials.jpeg)
+![config.yml](/images/mitra_officials.jpeg)
 
 
 
@@ -126,6 +126,8 @@ Mitri at KPMG, Kochi
 
 
 HouseFull Invento Robotics Summer-2018!
+
+
 My core intentions for writing this series of internship stories were
 
 To give an insight into how exciting it is to work in start-ups.
