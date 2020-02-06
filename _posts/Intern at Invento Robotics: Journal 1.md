@@ -2,6 +2,7 @@
 layout: post
 title: Intern at Invento Robotics: Journal 1
 ---
+
 Hello World!
 
 Invento Robotics, sounds familiar? The majority of the people I have interacted have heard of this start-up for the first time. So there are two ways I go about introducing this start-up to them
