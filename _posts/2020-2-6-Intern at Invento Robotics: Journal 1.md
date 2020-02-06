@@ -22,7 +22,9 @@ Next, I would like to specify on the team, For a lot of people, Invento is just 
 
 
 ![config.yml](/images/mitra.jpeg)
+
 Mitri Taped up with my Laptop and webcam 
+
 
 Next talking about the man himself Balaji Vishwanathan sir.
 
