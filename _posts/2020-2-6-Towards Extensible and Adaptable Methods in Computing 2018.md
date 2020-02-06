@@ -1,4 +1,6 @@
+
 Solving the global issue of crop vandalism using Neural Networks, Sounds Cool.This is going to be a really long one so gear up!
+
 They say destiny is predefined, sounds true in the case of me and my team. I hardly knew a twenty day Human centric software internship back in May 2017, will set tone for a full reserach paper in March 2018. If anyone asks me what is one of the most productive phases in my life without doubt it has to be SRISTI 2017. Got to know about it from my super-senior and eventually made through their selection procedure.
 So what is Sristi?! Sristi in non-profit organization which itself is division of Honeybee Network which was founded by a super human, Padma Shri Prof.Anil Gupta. He is the heart and soul of bringing up grassroot innovation in India. Spend twenty days with him you will understand the mere purpose of engineering. World class mentors were bought to guide and mentor throught the 20 days which involved in solving real life rural challanges. Oh, meet professor below!
 
