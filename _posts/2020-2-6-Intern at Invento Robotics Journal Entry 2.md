@@ -1,21 +1,8 @@
-
-
-
-
-
-
-Hello World,
-
-
-“Time Flies,” they said and here it went on to fly faster than ever. With so much learning I had a great experience putting my learning and character to test. I will scribble down the last phase of my internship at Invento Robotics.
-
-In case you have missed the first 2 parts:
-
-
-
-https://yourguidetoundergradresearch.blogspot.com/2020/01/intern-at-invento-robotics-journal-1.html
-
-https://yourguidetoundergradresearch.blogspot.com/2020/01/one-more-month-to-go-before-i-end-up.html
+---
+layout: post
+title: Intern at Invento Robotics Journal Entry 2
+---
+“Time Flies,” they said and here it went on to fly faster than ever. With so much learning I had a great experience putting my learning and character to test. I will scribble down the last phase of my internship at Invento 
 
 When you work with the same set of exciting people for 8 hours a day over a period of nearly two months, they turn into family. Family always helps you understand different phases of life and how to come across them. I underwent a very similar period here, where I had senior developers and managers coming up and asking my future plans and helping me out how I should tackle them. I learned how as computer science students I have to hunt for problems and come up with solutions. I learned we need to make solutions that complement business models and not contradict them. I can go on, but the crux is me able to understand how meeting the market demands is a totally different ball game which I on a personal note never came across in my university till date.
 
