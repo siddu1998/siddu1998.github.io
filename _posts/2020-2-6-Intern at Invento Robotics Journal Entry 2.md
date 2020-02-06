@@ -24,7 +24,7 @@ What fun is it to work all the time and have no fun! Invento knows this better t
 ![config.yml](/images/cooking.jpeg) ![config.yml](/images/cooking-2.jpeg)
 
 
-Cooking up some real food!
+                                   Cooking up some real food!
 
 
 
@@ -53,7 +53,7 @@ Getting all set for the movie! **Hint:: This is Sparta!**
 ![config.yml](/images/balaji_gaming.jpeg)
 
 
-Unlimited gaming! Bosses (CEO and CTO) chalking up some serious plans here!
+                  Unlimited gaming! Bosses (CEO and CTO) chalking up some serious plans here!
 
 
 
@@ -80,7 +80,10 @@ Mitra stole the show at different events across India for the past few years and
 
 
 
-(Bottom Right) Mitra with Union Minister Ravi Shankar Prasad and the Chief Minister of Goa || Invento’s Mr.Cool with CEO Shradha Sharma(YourStory) I quote as our Mr.Cool says “She is the coolest entrepreneur you will ever meet!”
+(Bottom Right) Mitra with Union Minister Ravi Shankar Prasad and the Chief Minister of Goa 
+
+
+
 Companies like KPMG which are keen on introducing AI and Machine Learning into their ecosystem were spell-bound with Mitra and eventually, Mitra ended up at their event in Kochi.
 
 
@@ -107,7 +110,7 @@ Mitri at Provident Groups Home fest ||
 
 ![config.yml](/images/mitra_kpmg.jpeg)
 
-Mitri at KPMG, Kochi
+Mitra at KPMG, Kochi
 
 
 
@@ -125,7 +128,7 @@ Mitri at KPMG, Kochi
 
 
 
-HouseFull Invento Robotics Summer-2018!
+                                 HouseFull Invento Robotics Summer-2018!
 
 
 My core intentions for writing this series of internship stories were
