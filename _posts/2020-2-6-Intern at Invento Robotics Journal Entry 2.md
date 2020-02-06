@@ -41,7 +41,6 @@ Cooking up some real food!
 
 ![config.yml](/images/sparta.jpeg)
 
-
 Getting all set for the movie! **Hint:: This is Sparta!**
 
 
@@ -54,8 +53,10 @@ Getting all set for the movie! **Hint:: This is Sparta!**
 ![config.yml](/images/balaji-gaming.jpeg)
 
 
+Unlimited gaming! Bosses (CEO and CTO) chalking up some serious plans here!
 
-Unlimited gaming! Bosses (CEO and CTO) chalking up some serious plans here! (right image)
+
+
 The final few days involved the team taking turns to make sure the bot runs smoothly at various events across Goa, Kochi, Bangalore where the bot served various purposes. I was there for 2 turns on Friday and Sunday at Puravankra’s Expo and was one terrific experience to watch people walk-in and indulge in conversations with Mitra and his half-girlfriend Mitri ;-) You will find more here
 
 http://www.thehansindia.com/posts/index/Business/2018-07-14/Puravankara-bets-on-Artificial-Intelligence/397992
@@ -79,7 +80,7 @@ Mitra stole the show at different events across India for the past few years and
 
 
 
-(left) (Bottom Right) Mitra with Union Minister Ravi Shankar Prasad and the Chief Minister of Goa || (right) Invento’s Mr.Cool with CEO Shradha Sharma(YourStory) I quote as our Mr.Cool says “She is the coolest entrepreneur you will ever meet!”
+(Bottom Right) Mitra with Union Minister Ravi Shankar Prasad and the Chief Minister of Goa || Invento’s Mr.Cool with CEO Shradha Sharma(YourStory) I quote as our Mr.Cool says “She is the coolest entrepreneur you will ever meet!”
 Companies like KPMG which are keen on introducing AI and Machine Learning into their ecosystem were spell-bound with Mitra and eventually, Mitra ended up at their event in Kochi.
 
 
@@ -99,7 +100,14 @@ Companies like KPMG which are keen on introducing AI and Machine Learning into t
 
 
 
-(left) Mitri at Provident Groups Home fest || (right) Mitri at KPMG, Kochi
+Mitri at Provident Groups Home fest || 
+
+
+
+
+![config.yml](/images/mitra_kpmg.jpeg)
+
+Mitri at KPMG, Kochi
 
 
 
