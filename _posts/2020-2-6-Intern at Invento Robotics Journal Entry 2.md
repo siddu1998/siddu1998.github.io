@@ -21,7 +21,7 @@ What fun is it to work all the time and have no fun! Invento knows this better t
 
 
 
-![config.yml](/images/cooking.jpeg) ![config.yml](images/cooking-2.jpeg)
+![config.yml](/images/cooking.jpeg) ![config.yml](/images/cooking-2.jpeg)
 
 
 Cooking up some real food!
