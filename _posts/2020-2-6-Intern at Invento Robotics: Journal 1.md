@@ -2,8 +2,6 @@
 layout: post
 title: Intern at Invento Robotics Journal Entry 1
 ---
-Hello World!
-
 Invento Robotics, sounds familiar? The majority of the people I have interacted have heard of this start-up for the first time. So there are two ways I go about introducing this start-up to them
 
 1. “ Remember when Ivanka Trump came to India for the GES summit, there was this robot named MITRA which went on to welcome Ivanka and Modi”
