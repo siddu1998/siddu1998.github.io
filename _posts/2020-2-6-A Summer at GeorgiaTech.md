@@ -2,7 +2,8 @@
 layout: post
 title: What, When, How A Summer at GeorgiaTech
 ---
-![config.yml](/images/Gtech Board.jpeg)
+
+![config.yml](/images/Gtech.jpeg)
 
 After nearly 200 emails to professors and labs, applying to 3 international internship programs. Around 12 PM
 on 22nd January 2019, a professor who I had been interviewing with at GeorgiaTech for nearly 3 months wrote back to me
@@ -23,10 +24,14 @@ an excellent report sharing all my findings, how I tuned the hyperparameters and
 The third assignment dealt with SLAM and breaking down LiDAR data. It involved me studying research papers on LiDAR and 3D Object detection, point clouds, SFM. Based on these papers I was given a coding assignment that involved generating point clouds and performing analysis on it. This was brand new for me and was unable to generate a satisfactory solution within the stipulated deadline since I parallelly had my academic examinations. Nearly after a week, my professor had shared he would be interviewing me over skype. The interview went really good and was a discussion of my submissions and how I crafted some nice solutions to certain problems, and areas he wanted me to improve on before landing in Atlanta. We discussed a stipend and I could say this interview sealed the deal for me.
 
 I believe the following things helped in my application.
- Writing clean and modular code. 
-Submitting reports with detailed experiments and results.
-Always suggesting areas that can be improved on and other approaches I would like to try.
-During my interview, I maintained a very clear stance on what I am good at and what I would add to the lab.
+
+* Writing clean and modular code. 
+
+* Submitting reports with detailed experiments and results.
+
+* Always suggesting areas that can be improved on and other approaches I would like to try.
+
+* During my interview, I maintained a very clear stance on what I am good at and what I would add to the lab.
 
 Once in Atlanta, I had my logistics like a bank account, phone number, accommodation all set, I joined the lab on 16th June 2019. The initial few days weeks were really tough. I went through what people call 'Imposter Syndrome', people doing their Ph.D.'s and Masters were present in the same lab, they were doing all sorts of things, things which appeared like bread and butter to them sounded Latin to me. I was scared and did not feel in the right place. One of the simpleset solutions which worked for me was to talk to people. I was constantly talking about what I am doing in the lab about my work with my dad and friends and at the end of each conversation I just felt "Yeah, I am not doing that bad" . My assigned Ph.D. buddy was extremely friendly. He was from NIT Trichy and we connected really well, He allowed me to settle in easily and slowly started pushing the bar higher. I spent a lot of time in understanding the project and getting a bigger picture of it so I would be able to contribute even more efficiently. I was working on a project sponsored by GDOT (Georgia Department of Transportation) where we were looking to dynamically map and asses the quality of traffic signs in an efficient manner. 
 
