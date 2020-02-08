@@ -55,12 +55,11 @@ There is another dimension to interning as an undergraduate abroad. If research,
 
 
 
-![config.yml](/images/lab.jpeg)
-![config.yml](/images/ice.jpeg)
-![config.yml](/images/aman.jpeg)
-![config.yml](/images/car.jpeg)
-![config.yml](/images/local.jpeg)
-![config.yml](/images/me_board.jpeg)
+![config.yml](/images/lab.jpg)
+![config.yml](/images/ice.jpg)
+![config.yml](/images/aman.jpg)
+![config.yml](/images/local.jpg)
+![config.yml](/images/me_board.jpg)
 
 
 
