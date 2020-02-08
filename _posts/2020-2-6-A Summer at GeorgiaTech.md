@@ -4,7 +4,6 @@ title: What, When, How -> A Summer at GeorgiaTech
 ---
 
 ![config.yml](/images/Gtech.jpeg)
-
 After nearly 200 emails to professors and labs, applying to 3 international internship programs. Around 12 PM
 on 22nd January 2019, a professor who I had been interviewing with at GeorgiaTech for nearly 3 months wrote back to me
 saying "Congratulations on being selected as a Summer Intern 2019 at Georgia Tech". My excitement knew no bounds,
