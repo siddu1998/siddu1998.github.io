@@ -1,6 +1,6 @@
 ---
 layout: post
-title: What, When, How -> A Summer at GeorgiaTech
+title: What, When, How A Summer at GeorgiaTech
 ---
 
 ![config.yml](/images/Gtech.jpeg)
