@@ -24,7 +24,7 @@ What fun is it to work all the time and have no fun! Invento knows this better t
 ![config.yml](/images/cooking.jpeg) ![config.yml](/images/cooking-2.jpeg)
 
 
-                                   Cooking up some real food!
+  Cooking up some real food!
 
 
 
@@ -53,13 +53,13 @@ Getting all set for the movie! **Hint:: This is Sparta!**
 ![config.yml](/images/balaji_gaming.jpeg)
 
 
-                  Unlimited gaming! Bosses (CEO and CTO) chalking up some serious plans here!
+  Unlimited gaming! Bosses (CEO and CTO) chalking up some serious plans here!
 
 
 
 The final few days involved the team taking turns to make sure the bot runs smoothly at various events across Goa, Kochi, Bangalore where the bot served various purposes. I was there for 2 turns on Friday and Sunday at Puravankra’s Expo and was one terrific experience to watch people walk-in and indulge in conversations with Mitra and his half-girlfriend Mitri ;-) You will find more here
 
-http://www.thehansindia.com/posts/index/Business/2018-07-14/Puravankara-bets-on-Artificial-Intelligence/397992
+<http://www.thehansindia.com/posts/index/Business/2018-07-14/Puravankara-bets-on-Artificial-Intelligence/397992>
 
 Mitra stole the show at different events across India for the past few years and a few days ago met the man who was key behind our surgical strikes, current Chief Minister of Goa. At the same event in Goa Mitra was introduced to Union IT minister Ravi Shankar Prasad.
 
@@ -128,7 +128,7 @@ Mitra at KPMG, Kochi
 
 
 
-                                 HouseFull Invento Robotics Summer-2018!
+  HouseFull Invento Robotics Summer-2018!
 
 
 My core intentions for writing this series of internship stories were
