@@ -11,7 +11,7 @@ So what is Sristi?! Sristi in non-profit organization which itself is division o
 
 ![config.yml](/images/anilsir.jpeg)
 
-                                                   The Guru!
+  The Guru!
 
 One must read book, for all software engineers in “Hit Refresh” by Satya Nadella, In the book he makes a statement to develop with empathy, and professor has been doing it since half a century. So me and my friend (team mate) went to Ahmedabad to be part of Sristi and at the end of twenty days I will list a fraction of what we learnt.
 Emapthy
@@ -29,9 +29,9 @@ One important problem which was drawing a lot of attraction is crop vandalsim an
 Fast forward December 2017 when Teamc 2018 journey started. TEAMC chaired by Dr.Shampa Madam, had a very novel idea while conducting the hackathon. The hackathon was not there to develop any solution but actually allowed us to move out and develop solutions for serious issues out there in the country. Having spent nearly a month with the farming community in Gujarat, we knew most of their problems, because we just did not see their problems but lived with them. This was the instance when my team decided to dig out the of crop vandalism issue from sristi and use computer science to come up with a possible solution.
 Fast forward February 11th 2017, We packed our bags and were on the move to Delhi to give life to a brand new idea. We started of with proximity based sensors which we just learned at school! But unfortunatley the trade off between cost and result was not satisfactory and hence had to give up the method. With the world going behind Computer Vision we started reading computer science papers related to Computer Vision and that is when we were hit by the Paul Viola paper. Which in simple terms has pixel based features and runs a sliding window with certain stride rate to extract pixel features and find the required features. These features are encoded in the files called “Haar”, the Haar is loadead and frames are extracted from OpenCV and final detections are performed. Anyone intrested in the Paul Viola Jones paper should check the paper out for the implementation perspective do consider going through the following courses.
 
-1. OpenCV last few sessions by Sentdex at https://pythonprogramming.net/haar-cascade-face-eye-detection-python-opencv-tutorial/
+1. OpenCV last few sessions by Sentdex at <https://pythonprogramming.net/haar-cascade-face-eye-detection-python-opencv-tutorial/>
 2. Computer Vision A-Z by Hadelin de Ponteves atUdemy
-https://www.udemy.com/computer-vision-a-z/
+<https://www.udemy.com/computer-vision-a-z/>
 
 Both the courses contain really nice material and the second one covers a perfect combination of intuition and practical. Personal call the second one is better, since it also covers topics on GAN’s and SSD. But considering the trade of between money and output people tend to go for Sentdex. I had a taste of both and you can treat the second one as a super set of sentdex.
 
@@ -61,11 +61,11 @@ After a few good hours of struggle things started falling place and eventually T
 
 
 Presentation
-https://docs.google.com/presentation/d/1oeXfdfVYI0qwIQfRBPUkqjzISrrgltSBI04iebqNvLg/edit?usp=sharing
+<https://docs.google.com/presentation/d/1oeXfdfVYI0qwIQfRBPUkqjzISrrgltSBI04iebqNvLg/edit?usp=sharing>
 
 
 Paper
-https://drive.google.com/file/d/192Q6LXuE3CoJVnNt27BsLma3SxfTvCS2/view?usp=sharing
+<https://drive.google.com/file/d/192Q6LXuE3CoJVnNt27BsLma3SxfTvCS2/view?usp=sharing>
 
 
 Thats all from the research paper and implementation perspective. But we also attended the whole conference and there were people in the conference whose teaching expereience is (my age*2)+5. So it consisted of eminent people and we had some great learning we wanted to share. It did inspire me and might inspire you to.
