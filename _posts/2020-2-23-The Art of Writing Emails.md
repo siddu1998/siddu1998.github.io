@@ -25,8 +25,7 @@ Lets break down the above email into its pro's and cons. Before we go any furthe
 * Using acronyms stick to capitals. 'cgpa' is a big 'NO NO'.
 
 **Content**
-  * '3rd Year CSE undergraduate', an email is an oppotunity to show your best work. Whenever you get the opportunity drop of words which assert things that are obvious. Professors are smart people, they for sure will make out you are an undergraduate.
-  
+
   * The more we relate the way we talk the way we write, the messier it gets. When people talk, we talk with a lot of emotion and add all the adjectives we know. 'perfect cgpa of 10' is a very emotional statement. 'CGPA of 10' still has your CGPA 10 and also conveys the exact same point. The word perfect is rebundant and an emotional weight.
 
 **EDIT!**
@@ -40,4 +39,41 @@ This is going to be the fun part, let us edit the same email in a manner it soun
 
 So this is what we have from what student ABC had to showcase. Let us talk about the differences we saw in the two emails. 
 
-* 'I have had the opportunity to come across your work', this shows you are genuinely intrested in working with a professor and his lab. You have gone through homepage, papers and understood what the professor is working on. This is important because labs look to hire people who are familiar with their work.
+* 'I have had the opportunity to come across your work'. This shows you are genuinely intrested in working with a professor and his lab. You have gone through homepage, papers and understood what the professor is working on. This is important because labs look to hire people who are familiar with their work.
+
+* 'Reflect my desire to learn and apply'. Your scholarship and CGPA of 10 are not intrest to anyone if they dont reflect anything, mention what they reflect. 
+
+* 'Courses' Since Mr.ABC wanted to talk about his course, and I am sure many of you would like to do that. No one is really bothered if you complete course X,Y,Z and you might have a bigger list. What anyone would be intrested in is what you did with all the learning from X,Y,Z. A nice way to put it would be, 'I learnt Computer Vision from deeplearning.ai and used the concepts of object detection there to work on my project which consisted of building AIEOU'. This would make it more intresting and also gives an insight on how you see the practical side of things. 
+
+* 'Applying QRST on DEF to analyse'. No professor would be running a charity and hire you just since you are young and need experience. You need to share how you can contribute, can you take the initiative to come up with new things or even contribute to existing research. The more you can convey how you can contribute to different projects, I feel the better chances anyone has. The more you can convey what you can contribute, reflects your expertise in the domain and shows how eager you are. 
+
+Okay! Done for that section. A few important things before we look into some sample emails, which worked for me. 
+* **Be honest:**  Write to professors if you are really intrested in their work and you feel your intrests align with their work. Writing emails for the sake of an internship without a proper research on the professors work is useless and will backfire. You wont hearback, you might just damage your college reputation and even worse you might get accepted and struggle since it just does not align with what you know. 
+
+* **Work Hard:** The competition is fierce, your work will speak for your skill. Keep working really hard and try to stay ahead of the crowd. Keep updating your Git Repos, keep your Readme.md's very clear atleast for your best work you would like to showcase. Constantly keep working on things and build up a good portfolio.
+
+* **Coding:** If you are in the CS department and looking for internships in research labs associated with Computer Science, you are going to have a hard time if you are not upto the mark with your Data Structres and Algorithms, coding syntax, libraries. Even if you end up with an interview call, the struggle will be real during the coding interview/assignment. 
+
+* **Resume:** Keep your resume updated, and tailored as per the requirment. We will have a separate blog on this segment. 
+
+**TADA!**
+
+So after keeping you guys waiting for this long, here it is! Make sure you follow us on Instagram, Subscribe to the mailing list and help us GROW! 
+
+**Template**
+
+*Hello XXXX* 
+
+*I am ABC(homepage_link), currently a Visiting Research Intern at GeorgiaTech, Atlanta (3 months). I am in the final year of my undergraduate at OOOO, India (CGPA: 9/10). I have had the honor of going through your work at the A-LAB, A-UNIV on the quest of labs working on interactive technology.* 
+
+*My previous internships and projects have been streamlined in a direction, which would allow me to use my skills in the field of computer vision, machine learning and AI with concepts of Human-Centric Design, to come up with solutions and products doing better to the society. Two of my projects have also been accepted submissions at the prestigious YYYY Conferencce and ZZZZ Design Competition* 
+
+*Project 1 (git_repo_hyperlink): Project 1 Description.*
+
+*Project 2 (git_repo_hyperlink): Project 2 Description.*
+
+*Apart from these, my research papers and research projects have been indicated in my resume (attached) indicate my knowledge in the field of computer science and how I have used the same to give back using design principles. Currently, I have set targets for CHI 2021, Hawai. I believe 'IDEA-1' if guided and worked on has a chance of acceptance. I am keen to work on interesting projects and pursue research in your lab, to enhance my skill set and contribute to significant solutions. I was looking to intern under your guidance for a period of six months from January 2020 to June 2020 and if my performance is found apt, I am also keen on working for a Ph.D. in the same vertical. Please find attached a few of my previous award-winning conference papers. I am keen on hearing back from you!*
+
+P.S Drop a 'Hello' on instagram or Subscribe to our mailing list to get the complete template!
+
+Peace!
