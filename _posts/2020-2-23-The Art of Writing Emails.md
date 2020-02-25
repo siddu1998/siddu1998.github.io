@@ -58,7 +58,7 @@ Okay! Done for that section. A few important things before we look into some sam
 
 **TADA!**
 
-So after keeping you guys waiting for this long, here it is! Make sure you follow us on Instagram, Subscribe to the mailing list and help us GROW! 
+So after keeping you guys waiting for this long, here it is! Make sure you follow us on Instagram (link in the footer), Subscribe to the mailing list and help us GROW! 
 
 **Template**
 
