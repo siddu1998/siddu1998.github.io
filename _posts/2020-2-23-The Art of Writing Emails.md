@@ -26,7 +26,7 @@ Let us break down the above email into its pros and cons. Before we go any furth
 
 **Content**
 
-  * The more we relate the way we talk the way we write, the messier it gets. When people talk, we talk with a lot of emotion and add all the adjectives we know. 'perfect cgpa of 10' is a very emotional statement. 'CGPA of 10' still has your CGPA 10 and also conveys the same point. The word 'perfect' is redundant and adds emotional weight.
+  * The more we relate the way we talk and the way we write, the messier it gets. When people talk, we talk with a lot of emotion and add all the adjectives we know. 'perfect cgpa of 10' is a very emotional statement. 'CGPA of 10' still has your CGPA 10 and also conveys the same point. The word 'perfect' is redundant and adds emotional weight.
 
 **EDIT!**
 This is going to be the fun part, let us edit the same email in a manner it sounds a bit better and eventually move on to sample emails. 
