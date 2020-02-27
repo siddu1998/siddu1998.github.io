@@ -21,6 +21,12 @@ perfect email and curate a resume matching to the position you are applying to.
 My first assignment was pretty straight forward. It required me to develop a deep learning model, to detect various traffic signs. There were tons of tutorials on how to do this. I guess they used this assignment as an initial filter. Though the assignment was easy, I made sure I showed no signs of taking it easy and made
 an excellent report sharing all my findings, how I tuned the hyperparameters and also explained my choices of choosing certain neural networks over others. The second set of the assignment was where it started getting tougher. The first and second assignment was not comparable, this was tougher it tested the basics of camera model dealing with intrinsic parameters, extrinsic parameters, converting image coordinates to 3D world coordinates and estimating distances from a series of monocular images. I had studied the camera model from various photometry courses online and eventually developed an easy to use GUI to let users submit a sequence of images, choose a point of interest
 
+<https://github.com/siddu1998/Travel-Assistance/blob/master/Reports%20and%20Results/Module%20Submission%20Internship%202019.pdf>
+
+<https://github.com/siddu1998/Submission2.0>
+
+I really recommend you to go through the above repositories to understand by what I mean a good report and a clean submission. This would help in your future submissions.
+
 The third assignment dealt with SLAM and breaking down LiDAR data. It involved me studying research papers on LiDAR and 3D Object detection, point clouds, SFM. Based on these papers I was given a coding assignment that involved generating point clouds and performing analysis on it. This was brand new for me and was unable to generate a satisfactory solution within the stipulated deadline since I parallelly had my academic examinations. Nearly after a week, my professor had shared he would be interviewing me over skype. The interview went well and was a discussion of my submissions and how I crafted some nice solutions to certain problems, and areas he wanted me to improve on before landing in Atlanta. We discussed a stipend and I could say this interview sealed the deal for me.
 
 I believe the following things helped in my application.
@@ -48,7 +54,7 @@ I was very uncertain how to start since this was out of my comfort zone, there w
 
 * <https://github.com/siddu1998/LiDAR-filtering-tool>
 
-(Ofcourse go visit the Repo and give it a start!)
+(Ofcourse go visit the Repo and give it a start! Please makesure you visit the the first link, since it is a very well maitained git repo and would give a better picture on what a final paper ready git repo should look like)
 
 I had prioir worked on many projects, and wrote code for various purposes. But never did my code ever take volumes of data as input. At GeorgiaTech the way I wrote code become further modular, handling data, handling data structres the data needed to be stored in, optimizing code. I was happy to read papers, extract motivations and come up with novel ideas such as using 
 KD-Tree for LiDAR querying. Today the research tools I developed at GeorgiaTech, are being used by the lab to process, handle, filter, analyse and do all sorts of things with LiDAR data collected. 
