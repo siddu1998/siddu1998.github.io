@@ -44,9 +44,11 @@ The van was taken across various interstates (national highways) across Atlanta,
 I started working on developing algorithms to identify and asses traffic sign health quality using LiDAR point cloud data. 
 I was very uncertain how to start since this was out of my comfort zone, there was a parallel project running on computer vision and was willing to shift to that. But after discussions with my parents, seniors and friends I wanted to move out of my comfort zone and develop registration algorithms for point clouds and monocular images. I studied various papers dealing with LiDAR data processing, LiDAR querying, and GPS clustering techniques. Eventually, in time I was able to develop extremely fast LiDAR querying algorithms that filter out all the traffic signs from GigaBytes of LiDAR data. For assessing the traffic sign health quality, I harnessed the retro reflective value LiDAR point clouds returns and was able to filter and intimate the signs which required attention. To check out the work in more detail, feel free to check out the below GitHub Repositories and ofcourse give it a star.
 
-* https://github.com/siddu1998/colorizer-lidar-integration
+* <https://github.com/siddu1998/colorizer-lidar-integration>
 
-* https://github.com/siddu1998/LiDAR-filtering-tool
+* <https://github.com/siddu1998/LiDAR-filtering-tool>
+
+(Ofcourse go visit the Repo and give it a start!)
 
 I had prioir worked on many projects, and wrote code for various purposes. But never did my code ever take volumes of data as input. At GeorgiaTech the way I wrote code become further modular, handling data, handling data structres the data needed to be stored in, optimizing code. I was happy to read papers, extract motivations and come up with novel ideas such as using 
 KD-Tree for LiDAR querying. Today the research tools I developed at GeorgiaTech, are being used by the lab to process, handle, filter, analyse and do all sorts of things with LiDAR data collected. 
