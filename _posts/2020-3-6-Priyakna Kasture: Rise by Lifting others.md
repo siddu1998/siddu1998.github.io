@@ -1,3 +1,8 @@
+---
+layout: post
+title: Priyanka Kasture : Rise by Lifting others
+---
+
 These 23 years of my life, my biggest learning has been to - keep doing good to others, keep sharing all that you have with others, always, even if that demands you to go a lot out of your way. Strive to be a star in someone's dark sky. Maybe, in the beginning, it'll be unappreciated, unreciprocated, or ignored, but some fine day, all the good that you passed on to others, will come back to you.
 
 
