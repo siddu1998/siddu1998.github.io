@@ -7,7 +7,7 @@ It was just a week over New Year 2020 and I found myself in the admist of India'
 
 The ACM Winter School on Hybrid Cloud was hosted by IISc and IBM Research. DREAM being a research lab which focuses on distributed computing and emerging technologies was at the front of getting the winter school together. Two days before the Winter school kicked off we had lunch,breakfast and dinner coupons ready. Since the whole winter school was set to go on for a week the accomdation of the students was also taken care. I was majorly at the registration desk making sure people manage to get in time to attend talks by some pioneers in the field of Hybrid cloud. It was totally different experience staying on the other side of things and being a part of organizing comitee. I had great fun and learning. I made sure I attended all the talks and noted down, important points and most importantly build my network with people from the industry and other students.
 
-![config.yml](/images/iisc_yogesh.jpg)
+![config.yml](/images/iisc_yogesh.JPG)
 
 What made this one week really great was meeting people from across the country with simillar mindsets, everyone was passionate to do something attending the winter school itself is a testimonial of how they want to improve themselves. This school was not easy, it was very demanding and very challenging, the lectures and the marathon lab sessions were draining, but everyone managed to fight it out and have a great learning experience. 
 
@@ -15,7 +15,7 @@ The talks and lab sessions ranged from basics of cloud computing to topics relat
 
 Enough Tech! Can someone talk about the food please. If I had to list down the best things from this Winter School, food would find itself right on top of the list. Even today all the participants connected on social media, stress how they miss the food. Studnets across the country, had a chance to expericne classic South Indian Breakfast. The last day of the Winter School was the 'Pizza Day' where loads of boxes of pizza were eaten after a draining one week.
 
-![config.yml](/images/iisc_final.jpg)
+![config.yml](/images/iisc_final.JPG)
 
 This was the perfect first week for me, I got to know my lab better, I made friends in the lab and also many friends among the participants. Being and undegraduate myself I was able to sync in easily with the participants and a few of us even went out for dinner together. All the participants stay connected on social media such as Linkedin and Instagram and always are willing to share ideas and opportunities. ACM hosts such winter and summer schools across the country and I strongly recommend joining one. This is because you will have a steep learning curve and will develop an excellent community!
 
