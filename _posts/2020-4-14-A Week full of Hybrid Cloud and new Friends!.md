@@ -2,6 +2,7 @@
 layout: post
 title: A Week full of Hybrid Cloud and new Friends!
 ---
+![config.yml](/images/iisc_blog_shot.png)
 It was just a week over New Year 2020 and I found myself in the admist of India's premier Research Institute know as the 'Tata Institute' by the local auto drivers or also known as Indian Insitute of Science,Bangalore. I started working with Prof. Yogesh Simmhan at the DREAM-Lab. I suppose, I had the greatest ever first week of an internship among all my previous internships. 
 
 The ACM Winter School on Hybrid Cloud was hosted by IISc and IBM Research. DREAM being a research lab which focuses on distributed computing and emerging technologies was at the front of getting the winter school together. Two days before the Winter school kicked off we had lunch,breakfast and dinner coupons ready. Since the whole winter school was set to go on for a week the accomdation of the students was also taken care. I was majorly at the registration desk making sure people manage to get in time to attend talks by some pioneers in the field of Hybrid cloud. It was totally different experience staying on the other side of things and being a part of organizing comitee. I had great fun and learning. I made sure I attended all the talks and noted down, important points and most importantly build my network with people from the industry and other students.
