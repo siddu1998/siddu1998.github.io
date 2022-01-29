@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+    div.scrollmenu {
+      background-color: #333;
+      overflow: auto;
+      white-space: nowrap;
+    }
+    
+    div.scrollmenu a {
+      display: inline-block;
+      color: white;
+      text-align: center;
+      padding: 14px;
+      text-decoration: none;
+    }
+    
+    div.scrollmenu a:hover {
+      background-color: #777;
+    }
+
+    * {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+
+    </style>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/normalize-min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+
+<body style='overflow: scroll;'>
+
+
+
+
+    
+        <!-- LEFT -->
+        <div class="sequence-graph-container" style="border:1px solid black" >
+            <!-- <div class="sequence-graph-title">Sequence Graph</div>
+            <div class="sequence-graph-details">
+                <div class="total-sequences">Total Sequences: <span class="detail-nums" id="num-sequences"></span></div>
+            </div> -->
+            <svg class="sequence-graph-svg" id="sequence-graph-svg" width="100%" height="625px"></svg>            <!-- <div class="sequence-graph-controls">
+                <label for="incrementSequenceGraph">Graph Size:</label>
+                <input type="button" value="+" id="incrementSequenceGraph" onclick="incrementGraph(1)" />
+                <input type="button" value="-" onclick="decrementGraph(1)" />
+                <label for="toggleShowLinks">Show/Hide Links</label>
+                <input type="button" id="toggleShowLinks" value="Show/Hide" onclick="toggleShowLinks()" />
+            </div> -->
+        </div>
+            
+    <!-- RIGHT -->
+    <div class="state-graph-container"style="width:45%; border:1px solid black">
+
+        <p>Journey Maps</p>
+        <b>
+        <p style="color:#0048BA">Confusion</p>
+        <p style="color:#B0BF1A">Conflict</p>
+        <p style="color:#7CB9E8">Acquiring information</p>
+        <p style="color:#C0E8D5">Emotional Reaction</p>
+        <p style="color:#B284BE">Reactive Conflict Management</p>
+        <p style="color:#E52B50">Excitement</p>
+        <p style="color:#F19CBB">Encouragement</p>
+        <p style="color:#D0FF14">BOT Command/Sending Information</p>
+        <p style="color:#4B5320">Mutual Monitoring</p>
+        <p style="color:#000000">Back-up Behavior</p>
+        <p style="color:#8A2BE2">Cue Recognition</p>
+        <p style="color:#FFAA1D">Coordination</p>
+        <p style="color:#E30022">BOT Command/Getting Information</p>
+        <p style="color:#5F9EA0">Thanks</p>
+        <p style="color:#7FFF00">Meaning Ascription</p>
+        <p style="color:#6495ED">Awareness</p>
+        <p style="color:#EEDC82">Aquiring Information</p>
+    </b>
+       
+        <div id='intermediate_action_analysis_svg' style="overflow-x: scroll; width:100%; height:200px;">
+        </div>
+     
+            <svg id="state-graph-svg" width="100%" height="625px"></svg>
+            <div class="state-graph-details">
+                <!-- <div class="detail-nums" id="num-statenodes"></div>
+                <div for="num-players">Players: <span class="detail-nums" id="num-players"></span></div> --> 
+                <!-- <div for="num-teams">Teams: <span class="detail-team-nums" id="num-teams"></span></div> -->
+            </div>
+            <!-- <div id="complete-sequence-container" class="complete-sequence-container">
+                    <div class="complete-sequence">Complete sequence (<label id="num-states-in-trajectory"></label>
+                        states):
+                        <span style="color:red"><label id="infobox"></label></span></div>
+                </div> -->
+
+                
+        </div>
+
+    
+      <div class="graph-sidebar">
+        <div class="app-title-container">
+            <div class="app-title">Glyph</div>
+            <div class="level-select-container">
+                <label for="level-select">Select Level</label>
+                <select name="level-select" id="level-select" onchange="updateLevel()"></select>
+            </div>
+        </div>
+    
+        <div class="graph-controls">
+            <div class="opacity">
+                <label for="incrementOpacity">Opacity:</label>
+                <input type="button" id="incrementOpacity" value="+" onclick="incrementOpacity()"></input>
+                <input type="button" id="decrementOpacity" value="-" onclick="decrementOpacity()"></input>
+            </div>
+            <div class="layout-freeze">
+                <label for="freezeLayout">Layout:</label>
+                <input type="button" id="freezeLayout" value="Freeze/Unfreeze" onclick="freezeLayout()"></input>
+                <input type="button" id="fixLayout" value="Fix/Unfix" onclick="fixLayout()"></input>
+            </div>
+        </div>
+    </div>
+    <div id="highlight-controls" class="highlight-controls highlight-closed">
+        <div id="highlight-title" class="highlight-title highlight-title-active">Highlights</div>
+        <div class="highlight-button highlight-button-closed" id="highlight-button" onclick="toggleHighlightPanel()"><span id="highlight-button-icon" class="highlight-button-icon highlight-icon-closed">+</span></div>
+        <div class="sequence-highlight highlight-hide">
+            <span>Highlight Sequences:</span>
+            <label for="playtrace-index"></label>
+            <input type="text" id="playtrace-index">
+            <input type="button" id="highlightNodeID" value="Go" onclick="highlightNodeID()" />
+            <div class="sequence-highlight-modifiers">
+                <input type="button" id="highlightNodeID_first" value="First" onclick="highlightNodeID_index(0)" />
+                <input type="button" id="highlightNodeID_last" value="Last" onclick="highlightNodeID_index(-1)" />
+                <input type="button" id="highlightNodeID_reverse" value="Reverse" onclick="highlightNodeID(true)" />
+            </div>
+        </div>
+
+
+        
+        <div class="user-highlight highlight-hide">
+            <label for="userID">Highlight UserIDs:</label>
+            <input type="text" id="userID" />
+            <input type="button" id="highlightUserID" value="Go" onclick="highlightUserID()" />
+        </div>
+        <!-- <div class="group-highlight highlight-hide">
+            <label for="highlightGroup1">Highlight Groups:</label>
+            <input type="button" id="highlightGroup1" value="blue" onclick="highlightGroup(1)" />
+            <input type="button" value="red" onclick="highlightGroup(2)" />
+            <input type="button" value="All" onclick="highlightGroup(0)" />
+        </div> -->
+        <div class="k-highlight highlight-hide">
+            <label for="number-highlight">Enter K:</label>
+            <input type="text" id="number-highlight">
+            <input type="button" id="toggleFrequentTrajectories" value="Highlight K Most Frequent" onclick="toggleHighlightFreqTrajectories()" />
+        </div>
+        <div class="kth-highlight highlight-hide">
+            <input type="button" id="toggleKthTrajectories" value="Highlight K-th Most Frequent" onclick="toggleKthTrajectories()" />
+        </div>
+        <input type="button" class="clear-highlight highlight-hide" id="clearHighlight" value="Clear All Highlights" onclick="clearHighlight(); clearTextField(); clearGroupNodesActive()" />
+    </div>
+    <div id="group-graph-container" class="group-graph-container none">
+        <div class="group-graph-title">Group Graph</div>
+        <div class="group-graph-details">
+            <div class="group-trajectories-container">Total Trajectories:<span id="group-trajectories"></span></div>
+        </div>
+        <svg id="group-graph-svg" class="group-graph-svg"></svg>
+    </div>
+    <div id="tooltip">
+    </div>
+
+    
+    <script src="libs/d3.min.js"></script>
+    <script src="libs/lodash-min.js"></script>
+    <script src="app.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+</body>

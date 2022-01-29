@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<html>
+ 
+
+  <h1>Oh! You are here to see into the Kerr's Dimension! </h1>
+  <div style="width: 500px" id="reader"></div>
+  <p>QR SCANNER!</p>
+
+  <p>Augmented Dimension</p>
+  <div class="w3-container">
+    <div class="w3-panel w3-card w3-yellow"><p><a href="https://siddu1998.github.io/AR/index.html">Puzzle 1</a></p></div>
+    <div class="w3-panel w3-card-2 w3-yellow"> <a href="https://siddu1998.github.io/AR/test.html">Puzzle 2</a></p></div>
+  </div>
+
+<script>
+  function onScanSuccess(decodedText, decodedResult) {
+    // Handle on success condition with the decoded text or result.
+    alert("HAHAHAH! So you unlocked soemthing!")
+    console.log(`Scan result: ${decodedText}`, decodedResult);
+}
+
+var html5QrcodeScanner = new Html5QrcodeScanner(
+	"reader", { fps: 10, qrbox: 250 });
+html5QrcodeScanner.render(onScanSuccess);
+</script>
+  </html>
+  

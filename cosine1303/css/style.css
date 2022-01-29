@@ -1,0 +1,459 @@
+:root {
+    --padding: .8rem;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    /* overflow: scroll; */
+    font-size: 13px;
+}
+
+.app-container {
+    width: 100%;
+    
+}
+
+.graph-sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: lightgrey;
+    border: black solid 1px;
+    padding: var(--padding);
+    width: 310px;
+    font-size: .7rem;
+}
+
+.app-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: .8rem;
+    display: inline-block;
+}
+
+.level-select-container {
+    display: inline-block;
+    margin-left: .5rem;
+}
+
+.graph-controls {
+    display: inline-block;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.highlight-controls {
+    position: absolute;
+    font-size: .7rem;
+    top: 100px;
+    height: 180px;
+    left: 0;
+    background-color: lightgrey;
+    border: 1px solid black;
+    border: 1px solid black;
+    padding: var(--padding);
+    transition: .3s;
+}
+
+.highlight-title {
+    position: absolute;
+    transform: rotate(-90deg);
+    font-weight: 700;
+    font-size: 1.2rem;
+    top: 90px;
+    left: -20px;
+    transition: .1s;
+}
+
+.highlight-title-active {
+    opacity: 1
+}
+
+.highlight-title-inactive {
+    opacity: 0
+}
+
+.highlight-open {
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.highlight-open > .highlight-hide {
+    opacity: 1;
+    transition: .7s;
+}
+
+.highlight-closed {
+    width: 25px;
+}
+
+.highlight-closed > .highlight-hide {
+    opacity: 0;
+    transition: .1s;
+}
+
+.highlight-button {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    background-color: coral;
+    border: black solid 1px;
+    position: absolute;
+    right: -22px;
+    top: -1px;
+    padding: 0;
+    transition: .2s;
+}
+
+.highlight-button-closed {
+    background-color: lightgreen
+}
+
+.highlight-button-icon {
+    position: absolute;
+    top: -7px;
+    right: 2px;
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+.highlight-button-icon-closed {
+    transform: rotate(-45deg)
+}
+
+.clear-highlight {
+    margin-top: .5rem;
+    height: 30px;
+    font-weight: 700;
+}
+
+.sequence-highlight-modifiers {
+    position: relative;
+    left: 110px;
+}
+
+.kth-highlight {
+    position: relative;
+    left: 170px; 
+}
+
+.state-graph-container {
+    float: right;
+    position: relative;
+    
+    width: 50%;
+    padding: 10px;
+    /* border-left: 1px solid black; */
+}
+
+.state-graph-title {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-weight: 700;
+    font-size: .8rem;
+    text-align: center;
+    border: 1px black solid;
+    background-color: lightgrey;
+    width: 80px;
+    padding: .5rem;
+}
+
+.state-graph-controls {
+    position: absolute;
+    font-size: .5rem;
+    left: 15px;
+    top: 50px;
+}
+
+.state-graph-details {
+    top: 8px;
+    left: 110px;
+    position: absolute;
+    padding: var(--padding);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.state-graph-details>div {
+    margin-right: 1rem;
+}
+
+.image-style{
+    width: 25%;
+    height: 25%;
+    padding-left: 51px;
+}
+
+.sequence-graph-container {
+    word-wrap: wrap;
+    background-color: white;
+    float: left;
+    border-right: 1px solid black;
+    position: relative;
+    z-index: -100;
+    
+    width: 50%;
+    padding: 10px;
+}
+
+.sequence-graph-controls {
+    position: absolute;
+    font-size: .5rem;
+    right: 15px;
+    top: 50px;
+}
+
+.sequence-graph-details {
+    position: absolute;
+    top: 8px;
+    right: 135px;
+    padding: var(--padding);
+}
+
+.sequence-graph-title {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-weight: 700;
+    font-size: .8rem;
+    text-align: center;
+    border: 1px black solid;
+    background-color: lightgrey;
+    width: 100px;
+    padding: .5rem;
+}
+
+.group-graph-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    /* width: 200px;
+    height: 200px; */
+    border: black solid 1px;
+    background-color: white;
+}
+
+.group-graph-title {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-weight: 700;
+    font-size: .7rem;
+    text-align: center;
+    border: 1px black solid;
+    background-color: lightgrey;
+    width: 80px;
+    padding: .3rem;
+}
+
+.group-trajectories-container {
+    position: absolute;
+    top: 10px;
+    left: 110px;
+}
+
+#group-trajectories {
+    font-weight: 700;
+    margin-left: .5rem;
+}
+
+.complete-sequence-container {
+    left: 0px;
+    bottom: 0px;
+    position: absolute;
+    background-color: lightgrey;
+    border-top: 1px solid black;
+    padding: var(--padding);
+    opacity: 0;
+    transition: .2s;
+}
+
+.complete-sequence-active {
+    opacity: 1;
+}
+
+/* .total-sequences {
+    position: absolute;
+    font-style: italic;
+    margin: .2rem 0 0 .2rem;
+} */
+
+.detail-nums, .detail-team-nums {
+    font-weight: 700;
+}
+
+/* State Graph */
+
+.statenode {
+    stroke-opacity: .7;
+    fill-opacity: .7;
+    stroke-width: 3;
+}
+
+marker#start {
+    fill: green;
+}
+
+marker#end {
+    fill: #680000;
+}
+
+marker#mid {
+    fill: #5E4E00;
+}
+
+/*
+The part of the graph that consist of crowd behavior. Defined as a class
+*/
+
+marker {
+    stroke-opacity: .4;
+    fill-opacity: .4;
+}
+
+/*
+The part of the graph that consist of a selected path.
+*/
+
+.start {
+    stroke: #000062;
+    fill: #1962FF;
+}
+
+text.start {
+    fill: #000062;
+    stroke: none;
+}
+
+.mid {
+    stroke: #5E4E00;
+    fill: #F5FFA3;
+}
+
+text.mid {
+    fill: #5E4E00;
+    stroke: none;
+}
+
+.end {
+    stroke: #680000;
+    fill: #B74D3D;
+}
+
+text.end {
+    fill: #680000;
+    stroke: none;
+}
+
+.statelink {
+    stroke-opacity: .7;
+    /*        fill-opacity: 0;*/
+    fill: transparent;
+}
+
+/* selected placed here will overshadow start, mid and end */
+
+.selected {
+    stroke: #FF0509;
+    stroke-opacity: 1;
+}
+
+/* Behavior graph */
+
+.behaviornode, .behaviorlink {
+    stroke-opacity: .8;
+    fill-opacity: .8;
+    stroke-width: 3;
+    stroke: #FFFAC9;
+    transition: stroke-width .2s;
+}
+
+.behaviornode {
+    stroke: green;
+    fill: #88F37F;
+}
+
+.groupNode {
+    stroke: steelblue;
+    fill: lightsteelblue;
+}
+
+.groupNode-active {
+    stroke: salmon;
+    fill: lightsalmon;
+}
+
+.selectednode {
+    stroke-width: 5;
+    stroke: #FF0509;
+}
+
+text.complete {
+    fill: green;
+    stroke: none;
+}
+
+.incomplete {
+    fill: #FF77DF;
+    stroke: purple;
+}
+
+text.incomplete {
+    fill: purple;
+    stroke: none;
+}
+
+text {
+    font-family: sans-serif;
+    pointer-events: none;
+    stroke: none;
+    font-weight: bold;
+}
+
+/*   For coordinates */
+
+.axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+
+/* Grid line in the coordinate chart*/
+
+.grid .tick {
+    stroke: lightgrey;
+    stroke-opacity: 0.7;
+    shape-rendering: crispEdges;
+}
+
+.grid path {
+    stroke-width: 0;
+}
+
+#tooltip {
+    position: absolute;
+    background-color: #e6e6e6;
+    border: black 1px solid;
+    padding: .5rem;
+    opacity: 0;
+    transition: .02s;
+}
+
+.tooltip-key {
+    font-weight: 700;
+}
+
+.none {
+    display: none;
+}

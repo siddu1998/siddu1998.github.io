@@ -1,0 +1,526 @@
+<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1c2407b26c61958baa93967b5412487cd94b290b/dist/aframe-master.min.js"></script>
+<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+
+<style>
+  .arjs-loader {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .arjs-loader div {
+    text-align: center;
+    font-size: 1.25em;
+    color: white;
+  }
+
+  /* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(70, 41, 1); /* Fallback color */
+  background-color: rgba(120, 72, 12, 0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (image) */
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+}
+
+/* Caption of Modal Image */
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+/* Add Animation */
+.modal-content, #caption {  
+  -webkit-animation-name: zoom;
+  -webkit-animation-duration: 0.6s;
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+  from {-webkit-transform:scale(0)} 
+  to {-webkit-transform:scale(1)}
+}
+
+@keyframes zoom {
+  from {transform:scale(0)} 
+  to {transform:scale(1)}
+}
+
+/* The Close Button */
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+  .modal-content {
+    width: 100%;
+  }
+}
+
+
+.scanning::after {
+  content: '';
+  position: absolute;
+  width: 100vh;
+  height: 5%;
+  background-image: linear-gradient(to bottom,
+    rgba(255, 0, 0, 0.315),
+    rgba(214, 2, 2, 0.164));
+  animation: scanning 1.8s linear infinite;
+  
+}
+
+@keyframes scanning {
+    100% { transform: translate(0, 1000px); }
+}
+
+
+.topnav {
+  position: relative;
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color:#ad6a6c;
+  color: white;
+}
+
+.topnav-centered a {
+  float: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.topnav-right {
+  float: right;
+}
+
+/* Responsive navigation menu (for mobile devices) */
+@media screen and (max-width: 600px) {
+  .topnav a, .topnav-right {
+    float: none;
+    display: block;
+  }
+  
+  .topnav-centered a {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+  }
+}
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: rgb(0, 0, 0);
+   color: #ad6a6c;
+   text-align: center;
+}
+
+</style>
+
+
+<script>
+var target_urls={
+  // "0": {
+  //   "object_url": "/AR/patt_file/0.patt",
+  //   "redirect_url": "https://raw.githubusercontent.com/siddu1998/siddu1998.github.io/master/resilience/images/afunsudoku.png",
+  //   "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 0"
+  // },
+      "1":{
+            //AR marker Team - Help
+            "object_url":"/AR/patt_file/1.patt",
+            //Puzzle Team - Help
+            "redirect_url":"/AR/images/E1P1C1.png",
+            "unlock_text":"SOME TEXT FOR THIS TARGET IMAGE 1"
+        },
+        "2":{
+            "object_url":"/AR/patt_file/2.patt",
+            "redirect_url":"/AR/images/E1P2C1.png",
+            "unlock_text":"SOME TEXT FOR THIS TARGET IMAGE 2"
+        },
+        "3":{
+            "object_url":"/AR/patt_file/3.patt",
+            "redirect_url":"/AR/images/E1P3C1.png",
+            "unlock_text":"SOME TEXT FOR THIS TARGET IMAGE 3"
+        },
+        "4":{
+            "object_url":"/AR/patt_file/4.patt",
+            "redirect_url":"/AR/images/E2P1C1.png",
+            "unlock_text":"SOME TEXT FOR THIS TARGET IMAGE 4"
+        },
+        "5":{
+          "object_url":"/AR/patt_file/5.patt",
+          "redirect_url":"/AR/images/E2P1C2.png",
+          "unlock_text":"SOME TEXT FOR THIS TARGET IMAGE 5"
+        },
+        "6":{
+          "object_url":"/AR/patt_file/6.patt",
+          "redirect_url":"/AR/images/ChessPuzzleClue3.jpg",
+          "unlock_text":"SOME TEXT FOR THIS TARGET IMAGE 6"
+        },
+        "7":{
+          "object_url":"/AR/patt_file/7.patt",
+          "redirect_url":"/AR/images/E3P1C1.png",
+          "unlock_text":"SOME TEXT FOR THIS TARGET IMAGE 7"
+        },
+        "8":{
+          "object_url":"/AR/patt_file/8.patt",
+          "redirect_url":"/AR/images/E3P1C2.png",
+          "unlock_text":"SOME TEXT FOR THIS TARGET IMAGE 8"
+        },
+        "9":{
+          "object_url":"/AR/patt_file/9.patt",
+          "redirect_url":"/AR/images/E3P1C3.png",
+          "unlock_text":"SOME TEXT FOR THIS TARGET IMAGE 9"
+        },
+        "10":{
+          "object_url":"/AR/patt_file/10.patt",
+          "redirect_url":"/AR/images/JigsawPuzzleClue1.jpg",
+          "unlock_text":"SOME TEXT FOR THIS TARGET IMAGE 10"
+        },
+        "11": {
+          "object_url": "/AR/patt_file/11.patt",
+          "redirect_url": "/AR/images/JigsawPuzzleClue2.jpg",
+          "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 11"
+        },
+      "12": {
+        "object_url": "/AR/patt_file/12.patt",
+        "redirect_url": "/AR/images/E4P1C1.png",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 12"
+      },
+      "13": {
+        "object_url": "/AR/patt_file/13.patt",
+        "redirect_url": "/AR/images/E4P1C2.png",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 13"
+      },
+      "14": {
+        "object_url": "/AR/patt_file/14.patt",
+        "redirect_url": "/AR/images/E4P1C3.png",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 14"
+      },
+      "15": {
+        "object_url": "/AR/patt_file/15.patt",
+        "redirect_url": "/AR/images/E4P2C1.png",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 15"
+      },
+      "16": {
+        "object_url": "/AR/patt_file/16.patt",
+        "redirect_url": "/AR/images/E4P3C1.png",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 16"
+      },
+      "17": {
+        "object_url": "/AR/patt_file/17.patt",
+        "redirect_url": "/AR/images/E4P3C2.png",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 17"
+      },
+      "18": {
+        "object_url": "/AR/patt_file/18.patt",
+        "redirect_url": "/AR/images/E4P3C3.png",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 18"
+      },
+      "19": {
+        "object_url": "/AR/patt_file/19.patt",
+        "redirect_url": "/AR/images/E5P1C1b.png",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 19"
+      },
+      "20": {
+        "object_url": "/AR/patt_file/20.patt",
+        "redirect_url": "/AR/images/E5P1C2b.png",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 20"
+      },
+      "21": {
+        "object_url": "/AR/patt_file/21.patt",
+        "redirect_url": "/AR/images/E5P1C3.png",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 21"
+      },
+      "22": {
+        "object_url": "/AR/patt_file/22.patt",
+        "redirect_url": "/AR/images/E6P1C1.png",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 22"
+      },
+      "23": {
+        "object_url": "/AR/patt_file/23.patt",
+        "redirect_url": "https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?w=845&ssl=1",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 23"
+      },
+      "24": {
+        "object_url": "/AR/patt_file/24.patt",
+        "redirect_url": "/AR/images/E7P1C1.png",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 24"
+      },
+      "25": {
+        "object_url": "/AR/patt_file/25.patt",
+        "redirect_url": "/AR/images/E7P2C1.png",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 25"
+      },
+      "26": {
+        "object_url": "/AR/patt_file/26.patt",
+        "redirect_url": "https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?w=845&ssl=1",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 26"
+      },
+      "27": {
+        "object_url": "/AR/patt_file/27.patt",
+        "redirect_url": "https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?w=845&ssl=1",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 27"
+      },
+      "28": {
+        "object_url": "/AR/patt_file/28.patt",
+        "redirect_url": "https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?w=845&ssl=1",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 28"
+      },
+      "29": {
+        "object_url": "/AR/patt_file/29.patt",
+        "redirect_url": "https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?w=845&ssl=1",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 29"
+      },
+      "30": {
+        "object_url": "/AR/patt_file/30.patt",
+        "redirect_url": "https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?w=845&ssl=1",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 30"
+      },
+      "31": {
+        "object_url": "/AR/patt_file/31.patt",
+        "redirect_url": "https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?w=845&ssl=1",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 31"
+      },
+      "32": {
+        "object_url": "/AR/patt_file/32.patt",
+        "redirect_url": "https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?w=845&ssl=1",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 32"
+      },
+      "33": {
+        "object_url": "/AR/patt_file/33.patt",
+        "redirect_url": "https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?w=845&ssl=1",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 33"
+      },
+      "34": {
+        "object_url": "/AR/patt_file/34.patt",
+        "redirect_url": "https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?w=845&ssl=1",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 34"
+      },
+      "35": {
+        "object_url": "/AR/patt_file/35.patt",
+        "redirect_url": "https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?w=845&ssl=1",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 35"
+      },
+      "36": {
+        "object_url": "/AR/patt_file/36.patt",
+        "redirect_url": "https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?w=845&ssl=1",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 36"
+      },
+      "37": {
+        "object_url": "/AR/patt_file/37.patt",
+        "redirect_url": "https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?w=845&ssl=1",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 37"
+      },
+      "38": {
+        "object_url": "/AR/patt_file/38.patt",
+        "redirect_url": "https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?w=845&ssl=1",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 38"
+      },
+      "39": {
+        "object_url": "/AR/patt_file/39.patt",
+        "redirect_url": "https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?w=845&ssl=1",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 39"
+      },
+      "40": {
+        "object_url": "/AR/patt_file/40.patt",
+        "redirect_url": "https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?w=845&ssl=1",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 40"
+      },
+      "41": {
+        "object_url": "/AR/patt_file/41.patt",
+        "redirect_url": "https://i0.wp.com/learn.onemonth.com/wp-content/uploads/2017/08/1-10.png?w=845&ssl=1",
+        "unlock_text": "SOME TEXT FOR THIS TARGET IMAGE 41"
+      }
+}
+AFRAME.registerComponent('markers_start',{
+init:function(){
+  console.log('Add markers to the scene');
+  var sceneEl = document.querySelector('a-scene');
+
+          for(var item in target_urls)
+              {
+              console.log("HEHEHEHEHEHEH")
+              var markerEl = document.createElement('a-marker');
+              var url=target_urls[item]['object_url'];
+              var redirect_url = target_urls[item]['redirect_url'];
+
+              markerEl.setAttribute('type','pattern');
+              markerEl.setAttribute('url',url);
+              markerEl.setAttribute('id',item);
+              markerEl.setAttribute('registerevents','');
+              sceneEl.appendChild(markerEl);
+              //Adding text to each marker
+              var textEl = document.createElement('a-entity');
+              
+                  textEl.setAttribute('id','text');
+                  textEl.setAttribute('gltf-model',"https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf");
+                  textEl.object3D.position.set(5 ,5 ,0);
+                  textEl.object3D.scale.set(5, 5, 5);
+              
+              markerEl.appendChild(textEl);
+              }
+          }
+          });
+
+
+
+AFRAME.registerComponent('registerevents', {
+  init: function () {
+      const marker = this.el;
+
+      marker.addEventListener("markerFound", ()=> {
+          var audio = new Audio("ScanVoice.mp3");
+          audio.play();
+          var markerId = marker.id;
+          console.log('ITEM FOUND', markerId)
+          
+          var modal = document.getElementById("myModal");
+          var img = document.getElementById("myImg");
+          var modalImg = document.getElementById("img01");
+          var captionText = document.getElementById("caption");
+
+
+          modal.style.display = "block";
+          modalImg.src = target_urls[markerId]['redirect_url'];
+          //captionText.innerHTML = target_urls[markerId]['unlock_text'];
+          document.getElementById("download").innerHTML = "";
+          document.getElementById("download").innerHTML +="<a href='"+target_urls[markerId]['redirect_url']+"'+ download>Download Image</a>";
+          var span = document.getElementsByClassName("close")[0];
+
+          // When the user clicks on <span> (x), close the modal
+          span.onclick = function() { 
+          modal.style.display = "none";
+          }
+
+          // window.location = target_urls[markerId]['redirect_url'];
+          // alert(markerId);
+
+      });
+
+  },
+});
+
+
+
+</script>
+
+
+<body style="margin : 0px; overflow: hidden;">
+  <!-- minimal loader shown until image descriptors are loaded -->
+  
+  
+  <div class="topnav">
+    <!-- Centered link -->
+    <div class="topnav-centered">
+      <a href="#home" class="active">LUX-AR</a>
+    </div>
+    
+    <!-- Left-aligned links (default) -->
+
+    
+    <!-- Right-aligned links -->
+    <div class="topnav-right">
+  
+    </div>
+    
+  </div> 
+<div class="scanning"></div>
+<br>
+<button>Toggle Scan</button>
+  
+  <!-- <div class="arjs-loader">
+    <div>Loading, please wait...</div>
+  </div> -->
+
+  <div id="myModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="img01">
+    <div id='download'></div>
+    <div id="caption"></div>
+  </div>
+
+  <a-scene markers_start 
+  vr-mode-ui="enabled: false;"
+  renderer="logarithmicDepthBuffer: true;"
+  embedded
+  arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
+>
+    	<a-entity id='userCamera' camera>
+      
+		<a-cursor> </a-cursor>
+    	</a-entity>
+	</a-scene>
+
+  
+
+  <div class="footer">
+    <p>Your Portal To Truth</p>
+    <p> Emergency | About | Contact </p>
+
+  </div>
+  
+</body>

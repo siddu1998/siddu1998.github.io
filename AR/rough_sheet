@@ -1,0 +1,79 @@
+<script>
+    var target_urls={
+            "1":{
+                //AR marker Team - Help
+                "object_url":"/pattern-marker.patt",
+                //Puzzle Team - Help
+                "redirect_url":"https://raw.githubusercontent.com/siddu1998/siddu1998.github.io/master/resilience/images/afunsudoku.png",
+                "unlock_text":"SOME TEXT FOR THIS TARGET IMAGE 1"
+            },
+        }
+
+AFRAME.registerComponent('markers_start',{
+  init:function(){
+    console.log('Add markers to the scene');
+    var sceneEl = document.querySelector('a-scene');
+  
+            for(var item in target_urls)
+                {
+                console.log("HEHEHEHEHEHEH")
+                var markerEl = document.createElement('a-marker');
+                var url=target_urls[item]['object_url'];
+                var redirect_url = target_urls[item]['redirect_url'];
+
+                markerEl.setAttribute('type','pattern');
+                markerEl.setAttribute('url',url);
+                markerEl.setAttribute('id',item);
+                markerEl.setAttribute('registerevents','');
+                sceneEl.appendChild(markerEl);
+                //Adding text to each marker
+                var textEl = document.createElement('a-entity');
+                
+                    textEl.setAttribute('id','text');
+                    textEl.setAttribute('gltf-model',"https://arjs-cors-proxy.herokuapp.com/https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf");
+                    textEl.object3D.position.set(5 ,5 ,0);
+                    textEl.object3D.scale.set(5, 5, 5);
+                
+                markerEl.appendChild(textEl);
+                }
+            }
+            });
+
+
+
+AFRAME.registerComponent('registerevents', {
+    init: function () {
+        const marker = this.el;
+
+        marker.addEventListener("markerFound", ()=> {
+            var audio = new Audio("ScanVoice.mp3");
+            audio.play();
+            var markerId = marker.id;
+            console.log('ITEM FOUND', markerId)
+            
+            var modal = document.getElementById("myModal");
+            var img = document.getElementById("myImg");
+            var modalImg = document.getElementById("img01");
+            var captionText = document.getElementById("caption");
+
+            modal.style.display = "block";
+            modalImg.src = target_urls[markerId]['redirect_url'];
+            captionText.innerHTML = target_urls[markerId]['unlock_text'];
+            var span = document.getElementsByClassName("close")[0];
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() { 
+            modal.style.display = "none";
+            }
+
+            // window.location = target_urls[markerId]['redirect_url'];
+            // alert(markerId);
+
+        });
+
+    },
+});
+
+
+
+</script>
