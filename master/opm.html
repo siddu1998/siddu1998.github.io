@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<style>
+    div.scrollmenu {
+      background-color: #333;
+      overflow: auto;
+      white-space: nowrap;
+    }
+    
+    div.scrollmenu a {
+      display: inline-block;
+      color: white;
+      text-align: center;
+      padding: 14px;
+      text-decoration: none;
+    }
+    
+    div.scrollmenu a:hover {
+      background-color: #777;
+    }
+
+    .node_commenting {
+	width: 320px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    border-top: 5px solid #7c7878;
+    margin: 0 auto;
+}
+
+.node_commenting fieldset{
+	border: 0;
+}
+
+.node_commenting h3 {
+    text-align: center;
+    color: #666;
+    font-size: 18px;
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 20px;
+	font-weight: bold;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 12px;
+}
+
+.node_commenting input {
+    width: 100%;
+    height: 42px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-family: Montserrat;
+    padding: 0 20px 0 50px;
+    outline: none;
+}
+
+.node_commenting input#comment {
+    background: #fff;
+    background-size: 16px 80px;
+}
+
+.node_commenting input#comment:focus {
+    background: #fff;
+    background-size: 16px 80px;
+}
+
+
+.node_commenting input:active, .node_commenting input:focus {
+    border: 1px solid #d3d3d3;
+}
+
+.node_commenting button {
+    width: 100%;
+    height: 40px;
+    background: rgb(124, 182, 129);
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid #2f5e37;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-family: Montserrat;
+    outline: none;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+}
+.node_commenting button:hover {
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+}
+
+.node_commenting input#submit {
+    width: 100%;
+    height: 40px;
+    background: #e87e83;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid #e15960;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;
+    float:left;
+    font-family: Montserrat;
+    outline: none;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+}
+
+.node_commenting input#submit:hover {
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+}
+    
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+
+    </style>
+<head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/normalize-min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body style='overflow: scroll;'>
+
+
+
+
+
+
+<div class="sequence-graph-container" style="border:1px solid black" >
+ 
+    <label for="player1">Player 1</label>
+    <select name="player 1" id="player1" ></select>
+    
+        
+    <div class='node_commenting'  style="display:none;border:6px solid #333;">
+        <i class="fa fa-times-circle close_button"></i>
+        
+        <!-- <p id="player_id">Player Id : </p>
+        <p id="event_id">Event Id : </p>
+        <p id="event_type">Event Type : </p>
+        <button id='submit_comment' style="width:45%; margin-bottom:5px;">Submit Comment</button>
+        <button id='submit_upvote' style="margin-left:5px; width:45%; margin-bottom:5px;">UpVote</button> -->
+        <div id="show_screenshot"></div>
+        <!-- <div id="get_better_players"></div> -->
+        <b>OPM</b>
+        <div id="OPM"></div>
+        
+    </div>     
+    
+</div>
+
+
+<div class="state-graph-container" style="border:1px solid black">
+            
+        <div id='state_images' class="scrollmenu"></div>
+        <p>Red Flag: Moving Connected Elements </p>
+        <p>Orange Flag: Moving Elements In Same Zone (No Change In Order) </p>
+        <p>Black Flag: Linking Elements in The Same Zone </p>
+
+        <div id='intermediate_action_analysis_svg' style="overflow-x: scroll; width:100%; height:200px;">
+        </div>
+        <div id='intermediate_action_analysis_1_svg' style="overflow-x: scroll; width:100%; height:200px;">
+        </div>
+        <div id="stack-chart"></div>
+        <div id='player_state_image'></div>
+    
+        </div>
+
+    
+  
+    <!-- <div id="tooltip">
+    </div> -->
+
+    
+    <script src="libs/d3.min.js"></script>
+    <script src="libs/lodash-min.js"></script>
+    <script src="app_2.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    </script>
+
+</body>
