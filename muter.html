@@ -1,4 +1,4 @@
-<h1 style="color:green">Covid-ZOOM MASK MUTER</h1>
+<h1 style="color:green">Covid-ZOOM MASK MUTER //Use audio if you want to alert yourself on mask removal!</h1>
 <button style="color: brown;" type="button" onclick="init()">Start</button>
 <br>
 <br>
@@ -65,7 +65,8 @@
             if(prediction[i].className=="Class 2" && prediction[i].probability.toFixed(2)==1.00){
   
                 document.getElementById("log").innerHTML += "<p>Umuted (Execute Keyboard Command to press Space)</p>";
-  
+                var audio = new Audio("ScanVoice.mp3");
+                audio.play();
             }
             if(prediction[i].className=="Class 1" && prediction[i].probability.toFixed(2)>0.80){
       
