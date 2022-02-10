@@ -1,7 +1,11 @@
-<div>Teachable Machine Image Model</div>
-<button type="button" onclick="init()">Start</button>
+<h1 style="color:green">Covid-ZOOM MASK MUTER</h1>
+<button style="color: brown;" type="button" onclick="init()">Start</button>
+<br>
+<br>
 <div id="webcam-container"></div>
 <div id="label-container"></div>
+<div id="log"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
 <script type="text/javascript">
@@ -27,7 +31,7 @@
 
         // Convenience function to setup a webcam
         const flip = true; // whether to flip the webcam
-        webcam = new tmImage.Webcam(200, 200, flip); // width, height, flip
+        webcam = new tmImage.Webcam(400, 400, flip); // width, height, flip
         await webcam.setup(); // request access to the webcam
         await webcam.play();
         window.requestAnimationFrame(loop);
@@ -50,9 +54,25 @@
     async function predict() {
         // predict can take in an image, video or canvas html element
         const prediction = await model.predict(webcam.canvas);
+        mute_flag = true
         for (let i = 0; i < maxPredictions; i++) {
+            document.getElementById("log").innerHTML ="";
+            console.log(prediction[i].className,prediction[i].probability.toFixed(2))
+
             const classPrediction =
                 prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+  
+            if(prediction[i].className=="Class 2" && prediction[i].probability.toFixed(2)==1.00){
+  
+                document.getElementById("log").innerHTML += "<p>Umuted (Execute Keyboard Command to press Space)</p>";
+  
+            }
+            if(prediction[i].className=="Class 1" && prediction[i].probability.toFixed(2)>0.80){
+      
+                document.getElementById("log").innerHTML += "<p>Muted</p>";
+  
+            }
+            
             labelContainer.childNodes[i].innerHTML = classPrediction;
         }
     }
