@@ -69,6 +69,27 @@ class DraggableCanvas extends HTMLElement {
         this.canvas.width = this.getAttribute("width");
         this.loop();
     }
+    save(){
+        const dataURL = this.canvas.toDataURL();
+          // create a link element
+        const link = document.createElement('a');
+
+        // set the href of the link to the data URL
+        link.href = dataURL;
+
+        // set the download attribute of the link
+        link.download = 'character.png';
+
+        // append the link to the body of the document
+        document.body.appendChild(link);
+
+        // simulate a click on the link to trigger the download
+        link.click();
+
+        // remove the link from the document
+        document.body.removeChild(link);
+
+    }
     loop() {
         this.getCtx().clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.items.forEach((drawable)=> {

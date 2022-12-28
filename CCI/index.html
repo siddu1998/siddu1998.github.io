@@ -59,7 +59,8 @@
       <div class="col-4" id='editorColumn'>
         <h1>Canvas</h1>
         <drag-canvas id="drag" width="400" height="500"> </drag-canvas>
-        <button style="margin-top: 10px;" type="button" class="btn btn-primary" id="retrieve-button">Submit</button>
+        <button style="margin-top: 10px;" type="button" class="btn btn-primary" id="download-button">Submit</button>
+      
       </div>
       <div class="col-4">
         <h1>Metrics</h1>
@@ -135,6 +136,17 @@ class ImageDrawable extends Drawable {
         ctx.drawImage(this.htmlsrc, this.x, this.y);
     }
 }
+
+
+// get a reference to the download button
+const downloadButton = document.getElementById('download-button');
+
+// add a click event listener to the download button
+downloadButton.addEventListener('click', () => {
+  const canvas = document.getElementById('drag');
+  canvas.save()
+});
+
 
 // Add your objects once the window loads
 
