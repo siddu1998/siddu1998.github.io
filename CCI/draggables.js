@@ -42,6 +42,10 @@ class Rectangle extends Drawable {
 
 class DraggableCanvas extends HTMLElement {
     static fps = 60;
+    static bMouseDown = false;
+    static strokeStyle = "#FF0000";
+    static bErasing = false;
+
     constructor() {
         super();
         this.attachShadow({ mode: "open" });
@@ -52,10 +56,37 @@ class DraggableCanvas extends HTMLElement {
             if (event.button ^ event.buttons) {
                 this.handleDragEvent(event);
             }
+        //paint and draw part
+        // if (this.bMouseDown) {
+        //     console.log('drwaingn')
+        //     this.getCtx().strokeStyle = this.strokeStyle;
+        //     this.getCtx().lineWidth = 1;
+        //     this.getCtx().beginPath();
+        //     if(this.bErasing == true){
+        //         this.getCtx().globalCompositeOperation="destination-out";
+        //     }else{
+        //         this.getCtx().globalCompositeOperation="source-over";
+        //     }
+        //     this.getCtx().moveTo(event.pageX - this.offsetLeft, event.pageY - this.offsetTop);
+        //     this.getCtx().lineTo(event.pageX ,event.pageY);
+        //     console.log(event.pageX ,event.pageY)
+        //     this.getCtx().stroke();
+        //     console.log(this.getCtx().stroke())
+            
+        //}
+
         }
         this.canvas.onmouseup = (event) => {
             this.lastx = this.lasty = -1;
+            this.bMouseDown=false;
         }
+
+        this.canvas.onmousedown = (event)=>{
+            this.bMouseDown = true;
+        }
+
+
+
         this.items = [];
         //console.log(this.items);
         setInterval(()=>this.loop(), 1000/DraggableCanvas.fps);
@@ -115,6 +146,9 @@ class DraggableCanvas extends HTMLElement {
             this.lasty = y;
         }
     }
+
+
+   
 }
 
 customElements.define("drag-canvas", DraggableCanvas);
