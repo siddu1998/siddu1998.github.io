@@ -76,11 +76,11 @@
          
         <div class="container" style="margin-top: 20px;margin-bottom: 10px;">
           <div class="row">
-            <div class="col-sm">
+            <!-- <div class="col-sm">
                <button type='button' class="btn btn-dark" id='pencil'>Pencil</button>
-            </div>
+            </div> -->
             <div class="col-sm">
-              <button type='button' class="btn btn-danger" id='eraser'>Eraser</button> 
+              <button type='button' class="btn btn-danger" id='clearCanvas'>Clear</button> 
             </div>
             <div class="col-sm">
               <button  type="button" class="btn btn-primary" id="download-button">Submit</button>
@@ -293,6 +293,14 @@ var characterDataChart = new Chart("characterChart", {
 //     parent.bErasing = true;
 //     console.log(parent.bErasing)
 // 	});
+
+
+	$("#clearCanvas").click(function() {
+    var parent = document.getElementById('drag')
+    selectedImages=[] //clearing selected items
+    parent.clear() //clearing canvas
+
+	});
 
 
 

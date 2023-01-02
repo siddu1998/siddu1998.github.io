@@ -88,7 +88,7 @@ class DraggableCanvas extends HTMLElement {
 
 
         this.items = [];
-        //console.log(this.items);
+        console.log(this.items);
         setInterval(()=>this.loop(), 1000/DraggableCanvas.fps);
         this.lastx = this.lasty = -1;
     }
@@ -127,6 +127,10 @@ class DraggableCanvas extends HTMLElement {
             drawable.draw(this.getCtx());
         });
     }
+    clear(){
+        this.items=[]
+        this.getCtx().clearRect(0,0,this.canvas.width,this.height)
+    }
     addDrawable(drawable) {
         drawable.ctx = this.getCtx();
         this.items.push(drawable);
@@ -145,6 +149,7 @@ class DraggableCanvas extends HTMLElement {
             this.lastx = x;
             this.lasty = y;
         }
+        
     }
 
 
