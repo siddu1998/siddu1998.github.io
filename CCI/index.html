@@ -86,6 +86,7 @@
               <button  type="button" class="btn btn-primary" id="download-button">Submit</button>
             </div>
           </div>
+        <ul id="item-list"></ul>
         </div>       
        
 
@@ -184,12 +185,25 @@ const retrieveButton = document.getElementById('retrieve-button');
 retrieveButton.addEventListener('click', () => {
   // print the array of selected images to the console
   console.log(selectedImages);
+  renderList()
   let test = document.querySelector("#drag");
   for (const fileName of selectedImages){
   let element = document.createElement("img")
   element.src = fileName
   test.addDrawable(new ImageDrawable(getRandomInt(400), getRandomInt(400), element));
 }
+const container = document.getElementById('checkbox-container');
+const w_container = document.getElementById('weapon-container');
+const checkboxes = container.querySelectorAll('input[type=checkbox]');
+    for (const checkbox of checkboxes) {
+      checkbox.checked = false; // uncheck the checkbox
+    }
+const w_checkboxes = w_container.querySelectorAll('input[type=checkbox]');
+for (const checkbox of w_checkboxes) {
+  checkbox.checked = false; // uncheck the checkbox
+}
+//uncheck all the checkboxes
+
 });
 
 
@@ -299,10 +313,51 @@ var characterDataChart = new Chart("characterChart", {
     var parent = document.getElementById('drag')
     selectedImages=[] //clearing selected items
     parent.clear() //clearing canvas
+    renderList();
 
 	});
 
 
 
+function renderList() {
+    const itemList = document.getElementById('item-list');
+    itemList.innerHTML = ''; // clear the list
 
+    // loop through the items and create a list item for each one
+    for (const item of selectedImages) {
+      const listItem = document.createElement('li');
+      listItem.textContent = item;
+
+      // create a button to remove the item
+      const removeButton = document.createElement('button');
+      removeButton.textContent = 'X';
+      removeButton.addEventListener('click', () => {
+        console.log('clicked remove item')
+        // remove the item from the array when the button is clicked
+        const index = selectedImages.indexOf(item);
+        if (index > -1) {
+          //remove the item
+          selectedImages.splice(index, 1);
+          //empty the canvas
+          var parent = document.getElementById('drag')
+          parent.clear() //clearing canvas
+          //rerender the canvas
+          let test = document.querySelector("#drag");
+          for (const fileName of selectedImages){
+          let element = document.createElement("img")
+          element.src = fileName
+          test.addDrawable(new ImageDrawable(getRandomInt(400), getRandomInt(400), element));
+          }
+        }
+        // re-render the list
+        renderList();
+      });
+      listItem.appendChild(removeButton);
+
+      itemList.appendChild(listItem);
+    }
+  }
+
+  // render the list when the page loads
+  renderList();
 </script>
