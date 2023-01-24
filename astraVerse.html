@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AstraVerse</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="temporary/icon.png">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+    body {
+        font-family: 'Montserrat';
+    }
+
+
+
+.clear{
+  clear: both;
+}
+
+
+.slide-toggle{
+  display: none;
+}
+
+.slidemenu{
+  font-family: arial, sans-serif;
+  max-width: 80%;
+  margin: 0px auto;
+  overflow: auto;
+  background-color: white;
+}
+
+.slidemenu label{
+  width: 20%;
+  text-align: center;
+  display: block;
+  float: left;
+  color: #333;
+  font-weight: bold;
+  opacity: 0.2;
+
+}
+
+.slidemenu label:hover{
+  cursor: pointer;
+  color: #666;
+}
+
+.slidemenu label span{
+  display: block;
+  padding: 10px;    
+}
+
+.slidemenu label .icon{
+  font-size: 20px;
+  border: solid 2px orange;
+  text-align: center;
+  height: 50px;
+  width: 50px;
+  display: block;
+  margin: 0 auto;
+  line-height: 50px;
+  border-radius: 50%;
+}
+
+/*Bar Style*/
+
+.slider{
+  width: 100%;
+  height: 5px;
+  display: block;
+  background: whitesmoke;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.slider .bar{
+  width: 25%;
+  height: 5px;
+  background: orange;
+  border-radius: 5px;
+}
+
+/*Animations*/
+.slidemenu label, .slider .bar {
+  transition: all 500ms ease-in-out;
+  -webkit-transition: all 500ms ease-in-out;
+  -moz-transition: all 500ms ease-in-out;
+}
+
+/*Toggle*/
+
+.slidemenu .slide-toggle:checked + label{
+  opacity: 1;
+}
+
+
+
+.slidemenu #slide-item-1:checked ~ .slider .bar{ margin-left: 0; }
+.slidemenu #slide-item-2:checked ~ .slider .bar{ margin-left: 20%; }
+.slidemenu #slide-item-3:checked ~ .slider .bar{ margin-left: 40%; }
+.slidemenu #slide-item-4:checked ~ .slider .bar{ margin-left: 60%; }
+.slidemenu #slide-item-5:checked ~ .slider .bar{ margin-left: 80%; }
+
+.slidemenu #define_slide-item-1:checked ~ .slider .bar{ margin-left: 0; }
+.slidemenu #define_slide-item-2:checked ~ .slider .bar{ margin-left: 20%; }
+.slidemenu #define_slide-item-3:checked ~ .slider .bar{ margin-left: 40%; }
+.slidemenu #define_slide-item-4:checked ~ .slider .bar{ margin-left: 60%; }
+.slidemenu #define_slide-item-5:checked ~ .slider .bar{ margin-left: 80%; }
+
+.slidemenu #ideate_slide-item-1:checked ~ .slider .bar{ margin-left: 0; }
+.slidemenu #ideate_slide-item-2:checked ~ .slider .bar{ margin-left: 20%; }
+.slidemenu #ideate_slide-item-3:checked ~ .slider .bar{ margin-left: 40%; }
+.slidemenu #ideate_slide-item-4:checked ~ .slider .bar{ margin-left: 60%; }
+.slidemenu #ideate_slide-item-5:checked ~ .slider .bar{ margin-left: 80%; }
+
+.slidemenu #p_slide-item-1:checked ~ .slider .bar{ margin-left: 0; }
+.slidemenu #p_slide-item-2:checked ~ .slider .bar{ margin-left: 20%; }
+.slidemenu #p_slide-item-3:checked ~ .slider .bar{ margin-left: 40%; }
+.slidemenu #p_slide-item-4:checked ~ .slider .bar{ margin-left: 60%; }
+.slidemenu #p_slide-item-5:checked ~ .slider .bar{ margin-left: 80%; }
+
+
+.slidemenu #testing_slide-item-1:checked ~ .slider .bar{ margin-left: 0; }
+.slidemenu #testing_slide-item-2:checked ~ .slider .bar{ margin-left: 20%; }
+.slidemenu #testing_slide-item-3:checked ~ .slider .bar{ margin-left: 40%; }
+.slidemenu #testing_slide-item-4:checked ~ .slider .bar{ margin-left: 60%; }
+.slidemenu #testing_slide-item-5:checked ~ .slider .bar{ margin-left: 80%; }
+
+
+
+
+</style>
+</head>
+<body class="w3-content" style="max-width:1200px">
+    <span class="w3-button w3-top w3-white w3-xxlarge w3-text-grey w3-hover-text-black" style="width:auto;right:0;" onclick="openNav()"><i class="fa fa-bars"></i></span>
+
+    <nav class="w3-sidebar w3-black w3-animate-right w3-xxlarge" style="display:none;padding-top:150px;right:0;z-index:2" id="mySidebar">
+        <a href="javascript:void(0)" onclick="closeNav()" class="w3-button w3-black w3-xxxlarge w3-display-topright" style="padding:0 12px;">
+          <i class="fa fa-remove"></i>
+        </a>
+        <div class="w3-bar-block w3-center">
+          <a href="index.html" class="w3-bar-item w3-button w3-text-grey w3-hover-black" onclick="closeNav()">Home</a>
+          <a href="index.html#about" class="w3-bar-item w3-button w3-text-grey w3-hover-black" onclick="closeNav()">About</a>
+          <a href="index.html#workex" class="w3-bar-item w3-button w3-text-grey w3-hover-black" onclick="closeNav()">Work Experience</a>
+          <a href="index.html#papers" class="w3-bar-item w3-button w3-text-grey w3-hover-black" onclick="closeNav()">Academic Papers</a>
+          <a href="index.html#projects_menu" class="w3-bar-item w3-button w3-text-grey w3-hover-black" onclick="closeNav()">Projects</a>
+          <a href="index.html#unity-container" class="w3-bar-item w3-button w3-text-grey w3-hover-black" onclick="closeNav()">Drive through my work <i class='fas fa-car-side' style='font-size:24px;color: aliceblue;'></i></a>
+        </div>
+      </nav>
+<!-- First Grid: Logo & About -->
+<div class="w3-row" style="background-color: white;">
+<div class="w3-half w3-container">
+  <!-- <h1 class="w3-xxlarge" style="color: orange;">AstraVerse</h1> -->
+  <h3 class="w3-text-grey">UX case Study</h3>
+  <h1 class="w3-jumbo" style="color: orangered;">AstraVerse</h1>
+  <p>October 2023 - November 2023</p>
+  <!-- <p>ACM FDG 2023, Springer ICEC 2022, ACM CHI 2022</p> -->
+</div>
+<div class="w3-half w3-container w3-xlarge w3-text-grey">
+  
+    <h3 style="font-style: Montserrat;font-weight: bold;color: black;padding-top: 10%;"> A UX Case Study Exploring 
+        How Cultural Spaces can inform 
+        Character Design</h3>
+
+</div>
+</div>
+
+<!-- Second Grid: Resent -->
+<!-- <div class="w3-panel w3-text-grey" style="background-color: ghostwhite">
+<h4>MOST RECENT WORK:</h4>
+</div> -->
+<hr>
+<div class="w3-row" style="background-color: white;">
+    <div class="w3-half w3-container">
+    <h2 style="font-weight: bold;color: gray;">Problem</h2>
+    <p class="w3-xlarge w3-text-black">Mythology and culture have been pools of inspiration for character and avatar creation. Game studios have often copied religious and mythological characters in games. This results in two major problems:</p>
+    <ul>
+        <li class="w3-xlarge w3-text-black">A pragmatic upper cap on the number of characters that can be borrowed.</li>
+        <li class="w3-xlarge w3-text-black">Constant backlash by religious communities on using gods from active religions in video games. </li>
+    </ul>
+    <p class="w3-xlarge w3-text-black">We want to study how cultral spaces can inspire the creation of novel and sensisitive characters.</p>
+    </div>
+
+    <div class="w3-half w3-container">
+    <h2 style="font-weight: bold;color: gray;">Solution</h2>
+    <p class="w3-xlarge w3-text-black">Using a design thinking approach
+       we conduct generative and evaluative research to study how cultural spaces
+        can inform the design of character design in video games, metaverse and other virtual spaces.</p>
+        <hr>
+        <h1>Can cultural spaces inform 
+            the design of <mark style="background-color: white;color: orangered;font-weight: bold;">Culturally Sensitive</mark>
+            and <mark style="background-color: white;color: orangered;font-weight: bold;">Novel Characters</mark> in 
+            video games?</h1>
+    </div>
+
+</div>
+<hr>
+
+<div class="w3-content"></div>
+<nav id="navbar" class="slidemenu">
+  
+        <!-- Item 1 -->
+        <input type="radio" name="slideItem" id="slide-item-1" class="slide-toggle" checked/>
+        <label for="slide-item-1"><p class="icon">1</p><span>Empathize</span></label>
+        
+        <!-- Item 2 -->
+        <input type="radio" name="slideItem" id="slide-item-2" class="slide-toggle"/>
+        <label for="slide-item-2"><p class="icon">2</p><span>Define</span></label>
+        
+        <!-- Item 3 -->
+        <input type="radio" name="slideItem" id="slide-item-3" class="slide-toggle"/>
+        <label for="slide-item-3"><p class="icon">3</p><span>Ideate</span></label>
+        
+        <!-- Item 4 -->
+        <input type="radio" name="slideItem" id="slide-item-4" class="slide-toggle"/>
+        <label for="slide-item-4"><p class="icon">4</p><span>Prototype</span></label>
+
+         <!-- Item 5 -->
+         <input type="radio" name="slideItem" id="slide-item-5" class="slide-toggle" href="#testing"/>
+         <label href="#testing" for="slide-item-5"><a style='text-decoration: none;' href="#testing"><p href="#testing" class="icon">5</p></a><span href="#testing">Evaluate</span></label>
+        
+        <div class="clear"></div>
+        
+        <!-- Bar -->
+        <div class="slider">
+          <div class="bar"></div>
+        </div>
+        
+</nav>
+
+<div id="empathize">
+    <h1 class="w3-center w3-xxxlarge">1. Empathize</h1>
+</div>
+
+<nav id="navbar" class="slidemenu">
+  
+    <!-- Item 1 -->
+    <input type="radio" name="define_slideItem" id="define_slide-item-1" class="slide-toggle" href="#empathize"/>
+    <label for="define_slide-item-1"><p class="icon">1</p><span>Empathize</span></label>
+    
+    <!-- Item 2 -->
+    <input type="radio" name="define_slideItem" id="define_slide-item-2" class="slide-toggle" checked/>
+    <label for="define_slide-item-2"><p class="icon">2</p><span>Define</span></label>
+    
+    <!-- Item 3 -->
+    <input type="radio" name="define_slideItem" id="define_slide-item-3" class="slide-toggle"/>
+    <label for="define_slide-item-3"><p class="icon">3</p><span>Ideate</span></label>
+    
+    <!-- Item 4 -->
+    <input type="radio" name="define_slideItem" id="define_slide-item-4" class="slide-toggle"/>
+    <label for="define_slide-item-4"><p class="icon">4</p><span>Prototype</span></label>
+
+     <!-- Item 5 -->
+     <input type="radio" name="define_slideItem" id="define_slide-item-5" class="slide-toggle"/>
+     <label for="define_slide-item-5"><a style='text-decoration: none;' href="#testing"><p href="#testing" class="icon">5</p></a><span href="#testing">Evaluate</span></label>
+    
+    <div class="clear"></div>
+    
+    <!-- Bar -->
+    <div class="slider">
+      <div class="bar"></div>
+    </div>
+    
+</nav>
+
+<div id="define">
+    <h1 class="w3-center w3-xxxlarge">2. Define</h1>
+</div>
+
+
+
+<nav id="navbar" class="slidemenu">
+  
+    <!-- Item 1 -->
+    <input type="radio" name="ideate_slideItem" id="ideate_slide-item-1" class="slide-toggle"/>
+    <label for="ideate_slide-item-1"><p class="icon">1</p><span>Empathize</span></label>
+    
+    <!-- Item 2 -->
+    <input type="radio" name="ideate_slideItem" id="ideate_slide-item-2" class="slide-toggle"/>
+    <label for="ideate_slide-item-2"><p class="icon">2</p><span>Define</span></label>
+    
+    <!-- Item 3 -->
+    <input type="radio" name="ideate_slideItem" id="ideate_slide-item-3" class="slide-toggle" checked/>
+    <label for="ideate_slide-item-3"><p class="icon">3</p><span>Ideate</span></label>
+    
+    <!-- Item 4 -->
+    <input type="radio" name="ideate_slideItem" id="ideate_slide-item-4" class="slide-toggle"/>
+    <label for="ideate_slide-item-4"><p class="icon">4</p><span>Prototype</span></label>
+
+     <!-- Item 5 -->
+     <input type="radio" name="ideate_slideItem" id="ideate_slide-item-5" class="slide-toggle"/>
+     <label for="ideate_slide-item-5"><a style='text-decoration: none;' href="#testing"><p href="#testing" class="icon">5</p></a><span href="#testing">Evaluate</span></label>
+    
+    <div class="clear"></div>
+    
+    <!-- Bar -->
+    <div class="slider">
+      <div class="bar"></div>
+    </div>
+    
+</nav>
+
+<div id="ideate">
+    <h1 class="w3-center w3-xxxlarge">3. Ideate</h1>
+</div>
+
+
+<nav id="navbar" class="slidemenu">
+  
+    <!-- Item 1 -->
+    <input type="radio" name="p_slideItem" id="p_slide-item-1" class="slide-toggle"/>
+    <label for="p_slide-item-1"><p class="icon">1</p><span>Empathize</span></label>
+    
+    <!-- Item 2 -->
+    <input type="radio" name="p_slideItem" id="p_slide-item-2" class="slide-toggle"/>
+    <label for="p_slide-item-2"><p class="icon">2</p><span>Define</span></label>
+    
+    <!-- Item 3 -->
+    <input type="radio" name="p_ideate_slideItem" id="p_slide-item-3" class="slide-toggle"/>
+    <label for="p_slide-item-3"><p class="icon">3</p><span>Ideate</span></label>
+    
+    <!-- Item 4 -->
+    <input type="radio" name="p_slideItem" id="p_slide-item-4" class="slide-toggle" checked/>
+    <label for="p_slide-item-4"><p class="icon">4</p><span>Prototype</span></label>
+
+     <!-- Item 5 -->
+     <input type="radio" name="p_slideItem" id="p_slide-item-5" class="slide-toggle"/>
+     <label for="p_slide-item-5"><a style='text-decoration: none;' href="#testing"><p href="#testing" class="icon">5</p></a><span href="#testing">Evaluate</span></label>
+    
+    <div class="clear"></div>
+    
+    <!-- Bar -->
+    <div class="slider">
+      <div class="bar"></div>
+    </div>
+    
+</nav>
+
+<div id="prototype">
+    <h1 class="w3-center w3-xxxlarge">4. Prototype</h1>
+</div>
+
+
+
+
+
+
+<nav id="navbar" class="slidemenu">
+  
+    <!-- Item 1 -->
+    <input type="radio" name="testing_slideItem" id="testing_slide-item-1" class="slide-toggle"/>
+    <label for="testing_slide-item-1"><p class="icon">1</p><span>Empathize</span></label>
+    
+    <!-- Item 2 -->
+    <input type="radio" name="testing_slideItem" id="testing_slide-item-2" class="slide-toggle"/>
+    <label for="testing_slide-item-2"><p class="icon">2</p><span>Define</span></label>
+    
+    <!-- Item 3 -->
+    <input type="radio" name="p_ideate_slideItem" id="testing_slide-item-3" class="slide-toggle"/>
+    <label for="testing_slide-item-3"><p class="icon">3</p><span>Ideate</span></label>
+    
+    <!-- Item 4 -->
+    <input type="radio" name="testing_slideItem" id="testing_slide-item-4" class="slide-toggle"/>
+    <label for="testing_slide-item-4"><p class="icon">4</p><span>Prototype</span></label>
+
+     <!-- Item 5 -->
+     <input type="radio" name="testing_slideItem" id="testing_slide-item-5" class="slide-toggle" checked/>
+     <label for="testing_slide-item-5"><a style='text-decoration: none;' href="#testing"><p href="#testing" class="icon">5</p></a><span href="#testing">Evaluate</span></label>
+    
+    <div class="clear"></div>
+    
+    <!-- Bar -->
+    <div class="slider">
+      <div class="bar"></div>
+    </div>
+    
+</nav>
+
+<div id="testing">
+    <h1 class="w3-center w3-xxxlarge">5. Testing</h1>
+</div>
+
+
+
+
+
+</body>
+</html>
+<script>
+    // Open and close sidebar
+    function openNav() {
+      document.getElementById("mySidebar").style.width = "60%";
+      document.getElementById("mySidebar").style.display = "block";
+    }
+    
+    function closeNav() {
+      document.getElementById("mySidebar").style.display = "none";
+    }
+
+
+    </script>
