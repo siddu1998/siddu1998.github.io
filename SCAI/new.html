@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Split HTML Page into Two Halves</title>
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <style>
+        nav {
+        background-color: #5f236c;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        font-family: 'Poppins', sans-serif;
+      }
+      nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+      }
+      nav li {
+        margin-right: 20px;
+      }
+      nav a {
+        color: white;
+        text-decoration: none;
+      }
+        * {
+          box-sizing: border-box;
+        }
+        html,
+        body,
+        #app {
+          height: 100%;
+        }
+        body {
+          margin: 0;
+          font-family: -apple-system, "system-ui", "Segoe UI Adjusted", "Segoe UI",
+            "Liberation Sans", sans-serif;
+        }
+        pre {
+          overflow-x: auto;
+          border-radius: 6px;
+        }
+        button {
+          border: none;
+          background-color: transparent;
+          color: inherit;
+          padding: 0;
+          cursor: pointer;
+        }
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+        #app {
+          display: flex;
+          flex-direction: column;
+        }
+        header {
+          position: relative;
+          width: 100%;
+          height: 48px;
+          flex-shrink: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: #5f236c;
+          color: white;
+        }
+        header > button {
+          position: absolute;
+          padding: 12px;
+        }
+        button.menu {
+          left: 0;
+        }
+        button.clear {
+          right: 0;
+        }
+        .hidden {
+          display: none;
+        }
+        aside {
+          position: fixed;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          display: flex;
+        }
+        .sidebar-container {
+          background-color: #333;
+          color: white;
+          width: 300px;
+          overflow-y: auto;
+        }
+        .sidebar-modal {
+          flex: 1 0;
+          min-width: 64px;
+          background-color: rgba(0, 0, 0, 0.3);
+        }
+        li > button {
+          width: 100%;
+          height: 48px;
+          text-align: left;
+          padding: 0 16px;
+          transition: background-color 0.2s;
+        }
+        li > button:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+        main {
+          flex-grow: 1;
+          overflow-y: auto;
+        }
+        .chat-container {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          max-width: 768px;
+          margin: 0 auto;
+          overflow-wrap: break-word;
+        }
+        .chat-container .message {
+          padding: 2px 16px;
+        }
+        .chat-container .assistant {
+          background-color: #f0f0f0;
+        }
+        footer {
+          width: 100%;
+          padding: 8px;
+          display: flex;
+          justify-content: center;
+          border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        #input-box {
+          width: 100%;
+          max-width: 768px;
+          padding: 8px;
+          border-width: 1px;
+          border-color: rgba(0, 0, 0, 0.1);
+          border-radius: 6px;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+  
+        .container {
+              display: flex;
+              flex-wrap: wrap;
+              width: 100%;
+              height: 100%;
+              overflow: hidden;
+          }
+          .column {
+              flex-basis: 50%;
+              height: 100%;
+              overflow-y: scroll;
+              box-sizing: border-box;
+              padding: 20px;
+          }
+       
+    .links line {
+      stroke: #999;
+      stroke-opacity: 0.6;
+    }
+
+    .nodes circle {
+      stroke: #fff;
+      stroke-width: 1.5px;
+    }
+
+    .label {
+      font-size: 12px;
+    }
+
+    #json-input {
+      width: 20vw;
+      height: 10vh;
+    }
+
+    #json {
+      width: 30vw;
+      height: 80vh;
+      overflow-y: scroll;
+      border: 1px solid #000;
+      padding: 10px;
+    }
+
+    .tooltip {
+    position: absolute;
+    text-align: center;
+    width: 60px;
+    height: 28px;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: lightsteelblue;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+  </style>
+
+	<!-- <style>
+        footer {
+        width: 100%;
+        padding: 8px;
+        display: flex;
+        justify-content: center;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+      }
+      button.menu {
+        left: 0;
+      }
+      button.clear {
+        right: 0;
+      }
+      .hidden {
+        display: none;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      #input-box {
+        width: 100%;
+        max-width: 768px;
+        padding: 8px;
+        border-width: 1px;
+        border-color: rgba(0, 0, 0, 0.1);
+        border-radius: 6px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
+      
+      main {
+        flex-grow: 1;
+        overflow-y: auto;
+      }
+      header {
+        position: relative;
+        width: 100%;
+        height: 48px;
+        flex-shrink: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #5f236c;
+        color: white;
+      }
+        button {
+        border: none;
+        background-color: transparent;
+        color: inherit;
+        padding: 0;
+        cursor: pointer;
+      }
+      #app {
+        display: flex;
+        flex-direction: column;
+      }
+      .chat-container .message {
+        padding: 2px 16px;
+      }
+      .chat-container .assistant {
+        background-color: #915252;
+      }
+        nav {
+      background-color: #5f236c;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      font-family: 'Poppins', sans-serif;
+    }
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+    nav li {
+      margin-right: 20px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+    }
+		.container {
+			display: flex;
+			flex-wrap: wrap;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+		}
+		.column {
+			flex-basis: 50%;
+			height: 100%;
+			overflow-y: scroll;
+			box-sizing: border-box;
+			padding: 20px;
+		}
+	</style> -->
+</head>
+<body>
+    <nav>
+    <h1>StudyCrafter AI</h1>
+    <ul>
+      <li><a href="#">SAI Image Generator</a></li>
+      <li><a href="/Users/sid/Desktop/Code/StudyCrafterAI/CODE/chatgpt-api-frontend/index.html">SAI Narrative Generator</a></li>
+      <li><a href="#">SAI Graph Generator</a></li>
+    </ul>
+  </nav>
+
+	<div class="container">
+		<div class="column">
+			<div id="app"></div>
+		</div>
+		<div class="column">
+      
+     
+
+          <textarea id="json-input" placeholder="Enter transitions JSON"></textarea>
+          <button id="json-submit" onclick="drawGraph()">Draw Graph</button>
+          <br>
+          <label>Scene</label>
+          <div id="details"></div>
+          <div id="imagePrompt"></div>
+          
+          <div id="graph"></div>
+      
+      <div id="imageDiv">
+        <img id="myImage" src="">
+      </div>
+      </div>
+    
+      
+      
+
+
+      <!-- COMMENT OUT TO USE DALLE -->
+            <!-- <form>
+                <label for="prompt">Image Prompt Prompt:</label>
+                <input type="text" style="width: 100%;" id="prompt" name="prompt"><br><br> -->
+                <!-- <label for="api_key">API Key:</label> -->
+                <!-- <input type="password" id="api_key" name="api_key"><br><br> -->
+                <!-- <button type="button" onclick="generateImage()">Generate Image</button>
+              </form>
+
+              <div id='image-grid'class="w3-row"> -->
+		</div>
+	</div>
+
+<script
+    src="https://unpkg.com/react@18/umd/react.production.min.js"
+    crossorigin
+  ></script>
+  <script
+    src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+    crossorigin
+  ></script>
+  <script src="https://cdn.jsdelivr.net/npm/markdown-it@13.0.1/dist/markdown-it.min.js"></script>
+  <link
+    href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/github.min.css"
+    rel="stylesheet"
+  />
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"
+    integrity="sha512-bgHRAiTjGrzHzLyKOnpFvaEpGzJet3z4tZnXGjpsCcqOnAH6VGUx9frc5bcIhKTVLEiCO6vEhNAgx5jtLUYrfA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+  <script type="module">
+    function getToken() {
+      // Try localStorage first
+      let token = localStorage.getItem("openai-token");
+      if (token) return token;
+
+      token = prompt("Please enter your OpenAI API key");
+      if (token) {
+        localStorage.setItem("openai-token", token);
+        return token;
+      }
+    }
+
+    async function getApiUrl() {
+      if (getApiUrl.url) return getApiUrl.url;
+      try {
+        const response = await fetch("/api/completions", {
+          method: "OPTIONS",
+        });
+        if (response.status !== 200) throw new Error();
+        getApiUrl.url = "/api/completions";
+        const corsHeaders = (
+          response.headers.get("Access-Control-Allow-Headers") || ""
+        ).toLowerCase();
+        getApiUrl.tokenRequired = corsHeaders.includes("authorization");
+      } catch (e) {
+        getApiUrl.url = "https://api.openai.com/v1/chat/completions";
+        getApiUrl.tokenRequired = true;
+      }
+      return getApiUrl.url;
+    }
+
+    async function complete(messages, token, progressCallback) {
+      const headers = { "Content-Type": "application/json" };
+      if (getApiUrl.tokenRequired) headers.Authorization = `Bearer ${token}`;
+      const response = await fetch(await getApiUrl(), {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify({
+          model: "gpt-3.5-turbo",
+          messages: messages,
+          stream: true,
+        }),
+      });
+
+      if (response.status !== 200) {
+        throw new Error(await response.text());
+      }
+
+      const reader = response.body.getReader();
+      let responseObj = {};
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const lines = new TextDecoder("utf-8").decode(value).split("\n");
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            if (line.includes("[DONE]")) return responseObj;
+            try {
+              const data = JSON.parse(line.slice(6));
+              const delta = data.choices[0].delta;
+              for (const key in delta) {
+                if (!(key in responseObj)) responseObj[key] = delta[key];
+                else responseObj[key] += delta[key];
+                progressCallback(responseObj);
+              }
+            } catch (e) {
+              console.log("Error parsing line:", line);
+            }
+          }
+        }
+      }
+      return responseObj;
+    }
+
+    var md = window.markdownit();
+
+    function ChatContainer({ messages }) {
+      const ref = React.useRef(null);
+      React.useEffect(() => {
+        // Highlight code blocks but skip ones that are already highlighted
+        ref.current
+          .querySelectorAll("pre code:not(.hljs)")
+          .forEach((node) => {
+            hljs.highlightElement(node);
+          });
+
+        // Highlight code blocks in the last message
+        const last = ref.current.lastElementChild;
+        for (const node of last ? last.querySelectorAll("pre code") : []) {
+          node.textContent = node.innerText;
+          hljs.highlightElement(node);
+        }
+
+        // Scroll to bottom
+        const main = ref.current.parentElement;
+        main.scrollTop = main.scrollHeight;
+      });
+
+      return React.createElement(
+        "div",
+        { ref, className: "chat-container" },
+        messages.map((message, index) => {
+          return React.createElement("div", {
+            className: [message.role, "message"].join(" "),
+            key: index,
+            dangerouslySetInnerHTML: {
+              __html: md.render(message.content || ""),
+            },
+          });
+        })
+      );
+    }
+
+    export function Sidebar({
+      messages,
+      onMessagesChange,
+      onModalClick,
+      onClearClick,
+      onSettingsClick,
+    }) {
+      const initConversations = JSON.parse(
+        localStorage.getItem("conversations") || "[]"
+      );
+      const [conversations, setConversations] =
+        React.useState(initConversations);
+      const [currentConversation, setCurrentConversation] = React.useState(
+        conversations[0]
+      );
+      const currentConversationRef = React.useRef(currentConversation);
+
+      React.useEffect(() => {
+        if (!conversations.length) localStorage.removeItem("conversations");
+        else
+          localStorage.setItem(
+            "conversations",
+            JSON.stringify(conversations)
+          );
+      }, [conversations]);
+
+      React.useEffect(() => {
+        currentConversationRef.current = currentConversation;
+        onMessagesChange(currentConversation?.messages || []);
+      }, [currentConversation, onMessagesChange]);
+
+      React.useEffect(() => {
+        if (!messages.length && !currentConversationRef.current) return;
+
+        if (!currentConversationRef.current) {
+          const newCoversation = {
+            id: crypto.getRandomValues(new Uint32Array(1))[0],
+            title: messages[0].content.split("\n")[0].slice(0, 20),
+            messages,
+          };
+          setConversations([newCoversation, ...conversations]);
+          setCurrentConversation(newCoversation);
+        } else if (currentConversationRef.current.messages !== messages) {
+          currentConversationRef.current.messages = messages;
+          localStorage.setItem(
+            "conversations",
+            JSON.stringify(conversations)
+          );
+        }
+      }, [messages]);
+
+      return [
+        React.createElement(
+          "div",
+          { key: "sidebar-container", className: "sidebar-container" },
+          [
+            React.createElement("ul", { key: "list" }, [
+              React.createElement("li", { key: "new" }, [
+                React.createElement(
+                  "button",
+                  {
+                    key: "new",
+                    onClick: () => setCurrentConversation(null),
+                  },
+                  "New Chat"
+                ),
+              ]),
+              conversations.map((conversation, index) => {
+                return React.createElement("li", { key: index }, [
+                  React.createElement(
+                    "button",
+                    {
+                      key: conversation.id,
+                      onClick: () => {
+                        setCurrentConversation(conversation);
+                      },
+                      onContextMenu: (ev) => {
+                        ev.preventDefault();
+                        setConversations(
+                          conversations.filter((c) => c !== conversation)
+                        );
+                        if (currentConversation === conversation)
+                          setCurrentConversation(null);
+                      },
+                    },
+                    conversation.title
+                  ),
+                ]);
+              }),
+              React.createElement("li", { key: "clear" }, [
+                React.createElement(
+                  "button",
+                  {
+                    key: "clear",
+                    onClick: () => {
+                      setConversations([]);
+                      setCurrentConversation(null);
+                      onMessagesChange([]);
+                      onModalClick();
+                    },
+                  },
+                  "Clear Conversations"
+                ),
+              ]),
+              React.createElement("li", { key: "settings" }, [
+                React.createElement(
+                  "button",
+                  {
+                    key: "settings",
+                    onClick: onSettingsClick,
+                  },
+                  "Settings"
+                ),
+              ]),
+            ]),
+          ]
+        ),
+        React.createElement("div", {
+          key: "sidebar-modal",
+          className: "sidebar-modal",
+          onClick: onModalClick,
+        }),
+      ];
+    }
+
+    export function App() {
+      let token = null;
+      getApiUrl().then(() => {
+        if (getApiUrl.tokenRequired) token = getToken();
+      });
+
+      const [messages, setMessages] = React.useState([]);
+      const [editingMessage, setEditingMessage] = React.useState(null);
+
+      const [showSidebar, setShowSidebar] = React.useState(false);
+
+      return [
+        React.createElement("header", { key: "header" }, [
+          React.createElement("span", { key: "title" }, "StudyCrafter AI Chat"),
+          React.createElement(
+            "button",
+            {
+              key: "menu",
+              onClick: () => {
+                setShowSidebar(!showSidebar);
+              },
+              className: "menu",
+            }
+          ),
+          React.createElement(
+            "button",
+            {
+              key: "clear",
+              onClick: () => {
+                setMessages([]);
+              },
+              className: "clear",
+            },
+            React.createElement("img", {
+              src: "979773.png",
+              width: "24",
+              height: "24",
+              alt: "Clear",
+            })
+          ),
+        ]),
+
+        React.createElement(
+          "aside",
+          {
+            key: "sidebar",
+            className: showSidebar ? "sidebar" : "sidebar hidden",
+          },
+
+          React.createElement(Sidebar, {
+            key: "sidebar",
+            messages,
+            onMessagesChange: setMessages,
+
+            onModalClick: () => {
+              setShowSidebar(false);
+            },
+          })
+        ),
+
+        React.createElement(
+          "main",
+          { key: "main" },
+          React.createElement(ChatContainer, {
+            messages: [...messages, editingMessage].filter((m) => m),
+            key: "chat-container",
+          })
+        ),
+
+        React.createElement(
+          "footer",
+          { key: "footer" },
+          React.createElement("input", {
+            id: "input-box",
+            type: "text",
+            "aria-label": "Chat with AI",
+            onKeyUp: async (ev) => {
+              if (ev.key === "Enter") {
+                if (
+                  ev.target.value.length === 0 ||
+                  ev.target.value.length >= 4096
+                )
+                  return;
+                const message = ev.target.value;
+                ev.target.value = "";
+                ev.target.blur();
+                const userMessages = [
+                  ...messages,
+                  { role: "user", content: message },
+                ];
+                setMessages(userMessages);
+                try {
+                  const completion = await complete(
+                    userMessages,
+                    token,
+                    (message) => setEditingMessage({ ...message })
+                  );
+                  setMessages((messages) => [...messages, completion]);
+                } catch (error) {
+                  console.log(error.message);
+                  return;
+                } finally {
+                  setEditingMessage(null);
+                }
+              }
+            },
+          })
+        ),
+      ];
+    }
+
+    const rootNode = document.getElementById("app");
+    const root = ReactDOM.createRoot(rootNode);
+    root.render(React.createElement(App));
+  </script>
+
+<script>
+    function generateImage() {
+      var prompt = document.getElementById("prompt").value;
+      var api_key = localStorage.getItem("openai-token");
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var response = JSON.parse(xhr.responseText);
+          var image_url = response.data[0].url;
+          var image_container = document.createElement("div");
+          image_container.classList.add("w3-container");
+          image_container.classList.add("w3-quarter");
+          var image_element = document.createElement("img");
+          image_element.src = image_url;
+          image_element.width=200
+          image_element.height=200
+          image_container.appendChild(image_element);
+          document.getElementById("image-grid").appendChild(image_container);
+        }
+      };
+      xhr.open("POST", "https://api.openai.com/v1/images/generations", true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.setRequestHeader("Authorization", "Bearer " + api_key);
+      var data = JSON.stringify({
+        "prompt": prompt,
+        "n": 1,
+        "size": "1024x1024"
+      });
+      xhr.send(data);
+    }
+  </script>
+  <script src="narrative.js"></script>
+</body>
+</html>
