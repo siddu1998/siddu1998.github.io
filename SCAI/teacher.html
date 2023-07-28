@@ -157,6 +157,29 @@
     
     <script>
 
+// Declare the userInput variable as a global variable
+var key;
+
+window.onload = function() {
+  key = prompt("Please enter Your OpenAI Key:");
+    if (userInput !== null) {
+        var message = "You entered: " + key;
+        alert(key);
+    } else {
+        alert("You did not enter a Key. Refresh the page to try again.");
+    }
+};
+
+// function useUserInputInString() {
+//     var newMessage = "You also entered: " + userInput;
+//     alert(newMessage);
+// }
+
+// useUserInputInString();
+
+
+
+
    
 
 
@@ -680,7 +703,6 @@ const svgFreq = d3.select("#chartContainer")
 
 var project_title = document.getElementById("project_title");
 project_title.innerHTML = 'Project Name: ' + projectDetails.title
-
 var v_list = document.getElementById("v_list");
 var hyp_list = document.getElementById("hyp_list");
 
@@ -697,6 +719,7 @@ for(variable of projectDetails.research_variables){
 
 
 <script>
+
 let cleanedNodes = nodes.map(node => {
   let cleanedNode = {
     type: node.type,
@@ -778,16 +801,17 @@ async function sendToAI() {
         conversation.splice(1, 1);
     }
 
+    
     // Send the user's message and context to the OpenAI API
     try {
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer <REPLACE YOUR KEY>'
+                'Authorization': 'Bearer '+ key,
             },
             body: JSON.stringify({
-                model: 'gpt-3.5-turbo',
+                model: 'gpt-4',
                 messages: conversation
             })
         });
