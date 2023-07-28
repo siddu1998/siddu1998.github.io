@@ -37,7 +37,6 @@ public class ShrinkOnClick : MonoBehaviour
         {
             dialogueManager.StartNewDialogue(newDialogue);
             trash.SetActive(false);
-            teleport.SetActive(true);
         }
     }
 }

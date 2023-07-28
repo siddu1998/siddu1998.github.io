@@ -15,8 +15,8 @@ public class ManagerforAarti : MonoBehaviour
     public GameObject gestureCanvas;
     public GameObject threetimesCanvas;
     public GameObject firstdbutton;
-    public GameObject seconddbutton;
     public string dialogueName;
+    private bool doneonce; 
     [TextArea(3,10)]
     public string[] dialogueSentences;
     public TriggerforAarti dialogueTrigger;
@@ -31,6 +31,7 @@ public class ManagerforAarti : MonoBehaviour
     
     void Start()
     {
+        doneonce = false; 
         sentences = new Queue<string>();
         dialogueTrigger.TriggerDialogue();
         // recordbutton.SetBool("hideing", true);  
@@ -94,15 +95,15 @@ public class ManagerforAarti : MonoBehaviour
 
     void EndDialogue()
     {
-        threeanimtotal.SetBool("startshowing", true);
-        threeanimcurrent.SetBool("startshow", true);
-        animator.SetBool("isopen",false);
-        gestureCanvas.SetActive(true);
-        firstdbutton.SetActive(false);
-        seconddbutton.SetActive(true);
+        if (!doneonce) 
+        {
+            animator.SetBool("isopen",false);
+            gestureCanvas.SetActive(true);
 
 
-        Debug.Log("End convo");
+            Debug.Log("End convo");
+            doneonce = true; 
+        }
     }
 
     void EndSecondDialogue()

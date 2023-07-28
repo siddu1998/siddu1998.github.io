@@ -4,14 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static Sbox;
-using Trash;
+using Rangoli;
 [System.Serializable] 
-public class ManagerforTrash : MonoBehaviour
+public class ManagerforRan : MonoBehaviour
 {
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI dialogueText;
     public Animator animator; 
-    public GameObject webcame;
+    public GameObject writing;
     public string dialogueName;
     [TextArea(3,10)]
     public string[] dialogueSentences;
@@ -21,8 +21,12 @@ public class ManagerforTrash : MonoBehaviour
     private bool isEventTriggered = false;
     private bool gestured = false;
     public GameObject nextbutton; 
-    public GameObject newscenebutton;
-    public TriggerforTrash dialogueTrigger;
+    public TriggerforRan dialogueTrigger;
+    public GameObject randomcanvastoo;
+    
+
+
+
 
 
     
@@ -35,7 +39,7 @@ public class ManagerforTrash : MonoBehaviour
         // recordbutton.SetBool("hideing", true);  
     }
 
-    public void StartDiaglogue(DiagforTrash diaglogue)
+    public void StartDiaglogue(DiagforRan diaglogue)
     {
         animator.SetBool("isopen",true);
         // animator.SetBool("sboxopen",true);
@@ -64,7 +68,8 @@ public class ManagerforTrash : MonoBehaviour
 
         if (sentences.Count == 1 && !gestured){
            gestured = true; 
-           webcame.SetActive(true);
+           writing.SetActive(true);
+           randomcanvastoo.SetActive(true);
         }
         string sentence = sentences.Dequeue();
         Debug.Log(sentence);
@@ -98,7 +103,7 @@ public class ManagerforTrash : MonoBehaviour
         Debug.Log("End convo");
     }
     
-    public void StartNewDialogue(DiagforTrash newDialogue)
+    public void StartNewDialogue(DiagforRan newDialogue)
     {
         sentences.Clear();
         foreach (string sentence in newDialogue.sentences)
@@ -109,19 +114,46 @@ public class ManagerforTrash : MonoBehaviour
         // Display the first sentence of the new dialogue
         // DisplayNextSentence();
         // StartDiaglogue(Diaglogue newDialogue);
-        FindObjectOfType<ManagerforTrash>().StartDiaglogue(newDialogue);
+        FindObjectOfType<ManagerforRan>().StartDiaglogue(newDialogue);
         
     }
 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.CompareTag("Player"))
+        {
+            
+            isEventTriggered = true;
+            writing.SetActive(false);
+            randomcanvastoo.SetActive(false);
+            DiagforRan newDialogue = new DiagforRan();
+            newDialogue.name = dialogueName;
+            newDialogue.sentences = dialogueSentences;
+            nextbutton.SetActive(false);
+           
+            FindObjectOfType<ManagerforRan>().StartNewDialogue(newDialogue);
+        }
+
+        else if (threecurrent.fillAmount < 0.99f)
+        {
+            isEventTriggered = false;
+        }
+            
+            
+
+    }
     public void Update()
     {
         if(threecurrent.fillAmount >= 0.99f && !isEventTriggered){
             isEventTriggered = true;
-            webcame.SetActive(false);
-            DiagforTrash newDialogue = new DiagforTrash();
+            writing.SetActive(false);
+            randomcanvastoo.SetActive(false);
+            DiagforRan newDialogue = new DiagforRan();
             newDialogue.name = dialogueName;
             newDialogue.sentences = dialogueSentences;
-            FindObjectOfType<ManagerforTrash>().StartNewDialogue(newDialogue);
+            nextbutton.SetActive(false);
+           
+            FindObjectOfType<ManagerforRan>().StartNewDialogue(newDialogue);
         }
 
         else if (threecurrent.fillAmount < 0.99f)

@@ -88,7 +88,7 @@ public class ButtonHandler : MonoBehaviour
         Debug.Log(similarityResult);
         Debug.Log(predefinedText.text);
         
-        bool mynewres = AreTextsSimilar(similarityResult, predefinedText.text,  0.6);
+        bool mynewres = AreTextsSimilar(similarityResult, predefinedText.text,  0.1);
         Debug.Log(mynewres);
         
         if (mynewres)

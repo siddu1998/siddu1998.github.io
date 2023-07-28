@@ -9,6 +9,7 @@ public class TimeBar : MonoBehaviour
 {
     public string dialogueName;
     public string[] dialogueSentences;
+    
     public float fillAmountPerSecond = 0.033f; // The amount to fill per second
     public GameObject player; // Reference to the player object
     public GameObject canvasforgesture;

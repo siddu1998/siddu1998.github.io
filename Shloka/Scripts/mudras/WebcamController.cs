@@ -24,7 +24,7 @@ public class WebcamController : MonoBehaviour
         rawImage.texture = webcamTexture;
 
         // Adjust the RawImage's size to make it a square
-        rawImage.rectTransform.sizeDelta = new Vector2(350 , 350);
+        rawImage.rectTransform.sizeDelta = new Vector2(250 , 250);
 
         // Start the WebCamTexture
         webcamTexture.Play();

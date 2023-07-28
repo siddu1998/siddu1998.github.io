@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class LineMatcher : MonoBehaviour
@@ -10,6 +11,12 @@ public class LineMatcher : MonoBehaviour
     public GameObject[] prefabLineObjects;
     public Image onethird;
     public LineGenerator lineGenerator;
+    public Animator firstrock;
+    public Animator secondrock;
+    public Animator thirdrock;
+    public GameObject wallobject;
+    public TextMeshProUGUI clearbutton;
+
 
     public float matchingThreshold = 0.5f;
 
@@ -20,6 +27,7 @@ public class LineMatcher : MonoBehaviour
     {
         CapturePrefabLines();
         prefabLineMatched = new bool[prefabLineObjects.Length];
+        clearbutton.text = "Clear";
     }
 
     private void CapturePrefabLines()
@@ -87,10 +95,23 @@ public class LineMatcher : MonoBehaviour
         int prefabsLeftToMatch = prefabLineObjects.Length - matchingCount;
         Debug.Log("Prefabs left to match: " + prefabsLeftToMatch);
 
-        if (matchingCount == prefabLineObjects.Length)
+        if (matchingCount == prefabLineObjects.Length-1)
         {
             Debug.Log("All elements matched!");
             onethird.fillAmount+= 0.33f;
+            if (onethird.fillAmount== 0.33f)
+            {
+                firstrock.SetBool("written",true);
+            }
+            if (onethird.fillAmount== 0.66f)
+            {
+                secondrock.SetBool("wrote2",true);
+            }
+            if (onethird.fillAmount== 0.99f)
+            {
+                thirdrock.SetBool("popped",true);
+                wallobject.SetActive(false);
+            }
             ClearUserLinesAndResetMatchedPrefabs(lineGenerator);
 
             // Perform actions when all elements are matched

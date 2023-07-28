@@ -85,6 +85,7 @@ public class DiaglogueManager : MonoBehaviour
     
     public void StartNewDialogue(Diaglogue newDialogue)
     {
+        recordbutton.SetBool("hideing", true);
         sentences.Clear();
         foreach (string sentence in newDialogue.sentences)
         {

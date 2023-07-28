@@ -9,23 +9,30 @@ public class TrashImage : MonoBehaviour
     public Image threecurrent;
     public Image threetotal;
     bool prana = true;
+    bool isRunning = true;
+
     public void Start()
     {
-    
-    StartCoroutine(PostScreenshot());
+        // Start the coroutine to post the screenshot every 2.5 seconds
+        StartCoroutine(PostScreenshotRoutine(1.5f));
     }
 
-    public void Update()
+    IEnumerator PostScreenshotRoutine(float interval)
     {
-        StartCoroutine(PostScreenshot());
+        // Execute the coroutine until threecurrent.fillAmount >= 0.99f
+        while (isRunning && threecurrent.fillAmount < 0.99f)
+        {
+            yield return new WaitForSeconds(interval); // Wait for the specified interval
 
+            yield return StartCoroutine(PostScreenshot()); // Execute the screenshot posting
+
+            // Additional code if needed
+        }
     }
-    
-    
 
     IEnumerator PostScreenshot()
     {
-        string url = "https://shloka.herokuapp.com/predict";
+        string url = "https://shloka.herokuapp.com/predictPrana";
 
         // Capture the screenshot of the webcam
         Texture2D screenshot = new Texture2D(Screen.width, Screen.height);
@@ -48,14 +55,9 @@ public class TrashImage : MonoBehaviour
                 Debug.Log("Form upload complete!");
                 Debug.Log(www.downloadHandler.text);
 
-                if (www.downloadHandler.text.Contains("Prana Right") && prana){
-                    threecurrent.fillAmount += 0.33f;
-                    prana = false;
-                }
-                else if (www.downloadHandler.text.Contains("Prana Left")) 
+                if (www.downloadHandler.text.Contains("Pranayam"))
                 {
                     threecurrent.fillAmount += 0.33f;
-                    prana = true;
                 }
             }
             else
