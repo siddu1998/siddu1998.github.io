@@ -9,7 +9,6 @@ public class ManagerforChanting : MonoBehaviour
 {
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI dialogueText;
-    public Animator animator; 
     public Animator recordbutton;
     public Animator threeanimtotal;
     public Animator threeanimcurrent;
@@ -17,6 +16,7 @@ public class ManagerforChanting : MonoBehaviour
     public TriggerforChanting dialogueTrigger;
     public GameObject canvasforrecord;
     public GameObject canvasforapiresponse;
+    public bool chantedalready; 
 
 
 
@@ -29,12 +29,13 @@ public class ManagerforChanting : MonoBehaviour
     {
         sentences = new Queue<string>();
         dialogueTrigger.TriggerDialogue();
+        Debug.Log(sentences);
         // recordbutton.SetBool("hideing", false);  
     }
 
     public void StartDiaglogue(DiagforChanting diaglogue)
     {
-        animator.SetBool("isopen",true);
+        // animator.SetBool("isopen",true);
         // animator.SetBool("sboxopen",true);
         
 
@@ -77,13 +78,17 @@ public class ManagerforChanting : MonoBehaviour
 
     void EndDialogue()
     {
-        canvasforrecord.SetActive(true);
-        canvasforapiresponse.SetActive(true);
+        if (!chantedalready)
+        {
+            canvasforrecord.SetActive(true);
+            canvasforapiresponse.SetActive(true);
         // threeanimtotal.SetBool("startshowing", true);
         // threeanimcurrent.SetBool("startshow", true);
         // animator.SetBool("isopen",false);
         // recordbutton.SetBool("hideing", true);
         // hidehanuman.SetBool("hidehan", true);
+        }
+        chantedalready = true;
 
 
 

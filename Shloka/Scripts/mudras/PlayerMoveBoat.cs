@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMoveBoat : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private float jumpPower;
@@ -11,11 +11,11 @@ public class PlayerMovement : MonoBehaviour
     private BoxCollider2D boxCollider;
     private BoxCollider2D firstD;
     public SpriteRenderer head;
-    public SpriteRenderer torso;
-    public SpriteRenderer rightarm;
-    public SpriteRenderer leftarm;
-    public SpriteRenderer rightleg;
-    public SpriteRenderer leftleg;
+    // public SpriteRenderer torso;
+    // public SpriteRenderer rightarm;
+    // public SpriteRenderer leftarm;
+    // public SpriteRenderer rightleg;
+    // public SpriteRenderer leftleg;
 
 
     private float wallJumpCooldown;
@@ -43,19 +43,21 @@ public class PlayerMovement : MonoBehaviour
         if (horizontalInput > 0.01f) {
             transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
             head.flipX=false;
-            torso.flipX=false;
-            rightarm.flipX=false;
-            rightleg.flipX=false;
-            leftarm.flipX=false;
-            leftleg.flipX=false;
+            // torso.flipX=false;
+            // rightarm.flipX=false;
+            // rightleg.flipX=false;
+            // leftarm.flipX=false;
+            // leftleg.flipX=false;
         }
         else if (horizontalInput < -0.01f) {
+
+            
             head.flipX=true;
-            torso.flipX=true;
-            rightarm.flipX=true;
-            rightleg.flipX=true;
-            leftarm.flipX=true;
-            leftleg.flipX=true;
+            // torso.flipX=true;
+            // rightarm.flipX=true;
+            // rightleg.flipX=true;
+            // leftarm.flipX=true;
+            // leftleg.flipX=true;
 
            
 

@@ -15,11 +15,14 @@ public class ManagerforAarti : MonoBehaviour
     public GameObject gestureCanvas;
     public GameObject threetimesCanvas;
     public GameObject firstdbutton;
+    public GameObject chantingcanvass;
     public string dialogueName;
-    private bool doneonce; 
+    private bool doneonce;
+    private bool wantstoshow; 
     [TextArea(3,10)]
     public string[] dialogueSentences;
     public TriggerforAarti dialogueTrigger;
+    private bool nomore = false;
     
 
 
@@ -31,7 +34,8 @@ public class ManagerforAarti : MonoBehaviour
     
     void Start()
     {
-        doneonce = false; 
+        doneonce = false;
+        wantstoshow = false; 
         sentences = new Queue<string>();
         dialogueTrigger.TriggerDialogue();
         // recordbutton.SetBool("hideing", true);  
@@ -97,6 +101,7 @@ public class ManagerforAarti : MonoBehaviour
     {
         if (!doneonce) 
         {
+            Debug.Log("starting AARTI");
             animator.SetBool("isopen",false);
             gestureCanvas.SetActive(true);
 
@@ -104,6 +109,21 @@ public class ManagerforAarti : MonoBehaviour
             Debug.Log("End convo");
             doneonce = true; 
         }
+
+        if (doneonce && wantstoshow && !nomore) 
+        {
+            Debug.Log(wantstoshow);
+            Debug.Log("starting CHANT");
+            animator.SetBool("isopen",false);
+            chantingcanvass.SetActive(true);
+
+
+            Debug.Log("End convo");
+            doneonce = true; 
+            nomore = true; 
+        }
+
+        
     }
 
     void EndSecondDialogue()
@@ -119,6 +139,7 @@ public class ManagerforAarti : MonoBehaviour
     
     public void StartNewDialogue(DiagforAarti newDialogue)
     {
+        wantstoshow = true; 
         sentences.Clear();
         foreach (string sentence in newDialogue.sentences)
         {

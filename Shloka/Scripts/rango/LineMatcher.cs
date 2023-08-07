@@ -16,6 +16,7 @@ public class LineMatcher : MonoBehaviour
     public Animator thirdrock;
     public GameObject wallobject;
     public TextMeshProUGUI clearbutton;
+    public GameObject dicanvas;
 
 
     public float matchingThreshold = 0.5f;
@@ -111,6 +112,7 @@ public class LineMatcher : MonoBehaviour
             {
                 thirdrock.SetBool("popped",true);
                 wallobject.SetActive(false);
+                dicanvas.SetActive(true);
             }
             ClearUserLinesAndResetMatchedPrefabs(lineGenerator);
 

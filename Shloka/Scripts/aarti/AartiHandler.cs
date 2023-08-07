@@ -7,17 +7,21 @@ using System.Collections;
 using System.Collections.Generic;
 using AOT;
 using TMPro;
+using Aarti;
 
-public class ButtonHandler : MonoBehaviour
+public class AartiHandler : MonoBehaviour
 {
-    [SerializeField] private Button yourButton;
+    
+    [SerializeField] private string dialogueName;
+    [SerializeField] private string[] dialogueSentences;
+    public Button yourButton;
     [SerializeField] public Image progressBar;
     [SerializeField] public Text predefinedText;
     [SerializeField] public TextMeshProUGUI message;
     [SerializeField] public Image threetimesforchanting;
     public GameObject canvasforrec;
     public GameObject canvasforapi; 
-    public Animator windmill;
+    public GameObject collectableArti;
 
     private bool textsAreSimilar = false;
     public GameObject player;
@@ -56,8 +60,8 @@ public class ButtonHandler : MonoBehaviour
     {
         Debug.Log("You have clicked the button!");
         StartRecording();
-        fillProgressBarCoroutine = StartCoroutine(FillProgressBar(10f));
-        Invoke(nameof(OnStopButtonClicked), 10f); // Call OnStopButtonClicked after 10 seconds
+        fillProgressBarCoroutine = StartCoroutine(FillProgressBar(20f));
+        Invoke(nameof(OnStopButtonClicked), 20f); // Call OnStopButtonClicked after 10 seconds
     }
 
     public void OnStopButtonClicked()
@@ -94,22 +98,24 @@ public class ButtonHandler : MonoBehaviour
         
         if (mynewres)
         {
-            message.text = "Stotra reached hanuman. Success!";
+            message.text = "Stotra reached Surya. Success!";
             threetimesforchanting.fillAmount += 0.33f;
-            if (threetimesforchanting.fillAmount >= 0.99f)
+            if (threetimesforchanting.fillAmount >= 0.33f)
             {
                 canvasforrec.SetActive(false);
                 canvasforapi.SetActive(false);
-                
-                
-                
-                player.transform.localScale = new Vector3(80f, 80f, 320f);
+                Aarti.DiagforAarti newDialogue = new DiagforAarti();
+                newDialogue.name = dialogueName;
+                newDialogue.sentences = dialogueSentences;
+                FindObjectOfType<ManagerforAarti>().StartNewDialogue(newDialogue);
+                collectableArti.SetActive(true);
+                // player.transform.localScale = new Vector3(80f, 80f, 80f);
             }
         }
 
         if (!mynewres)
         {
-            message.text = "Stotra did not reach hanuman. Try again!";
+            message.text = "Stotra did not reach Surya. Try again!";
         }
         
         // if (similarityResult)
@@ -165,3 +171,4 @@ public class ButtonHandler : MonoBehaviour
 }
 
 
+ 

@@ -22,6 +22,7 @@ public class TimeBar : MonoBehaviour
     public TextMeshProUGUI countdownText; // The TextMeshProUGUI component of the countdown
     public TextMeshProUGUI breathingText; // The TextMeshProUGUI component of the breathing instructions
     public Canvas countdownCanvas;
+    public GameObject textbox;
 
 
     private float fillAmount = 0f;
@@ -37,6 +38,7 @@ public class TimeBar : MonoBehaviour
     }
     public void StartCountdown()
     {
+        textbox.SetActive(false);
         countdownCanvas.gameObject.SetActive(true);
         countdownText.gameObject.SetActive(true);
         starbreath.SetActive(false);
@@ -107,6 +109,7 @@ public class TimeBar : MonoBehaviour
                 gameObject.SetActive(false); // Disable the canvas that contains the TimeBar script
                 
 
+                textbox.SetActive(true);
                 Talking.Diaglogue newDialogue = new Diaglogue();
                 newDialogue.name = dialogueName;
                 newDialogue.sentences = dialogueSentences;

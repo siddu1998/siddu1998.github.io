@@ -17,6 +17,11 @@ public class ButtonHandlerGita : MonoBehaviour
     [SerializeField] public Image threetimesforchanting;
     [SerializeField] public Image totaltimesforchanting;
     [SerializeField] private GameObject canvasforapires;
+    public ParticleSystem rainParticleSystem;
+    public ParticleSystem rainbackgroundParticleSystem;
+    public GameObject regularfire;
+    public GameObject firethatshrink;
+    public GameObject collectgita;
 
     [SerializeField] private GameObject canvasforrec;
 
@@ -100,8 +105,14 @@ public class ButtonHandlerGita : MonoBehaviour
             threetimesforchanting.fillAmount += 0.33f; // Increment total fill amount
             if (threetimesforchanting.fillAmount >= 0.33f)
             {
+                
+                rainParticleSystem.Play();
+                rainbackgroundParticleSystem.Play();
+                regularfire.SetActive(false);
+                firethatshrink.SetActive(true);
                 canvasforrec.SetActive(false);
                 canvasforapires.SetActive(false);
+                collectgita.SetActive(true);
             }
         }
 

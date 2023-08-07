@@ -5,8 +5,6 @@ public class WebcamController : MonoBehaviour
 {
     private WebCamTexture webcamTexture;
     private RawImage rawImage;
-    [SerializeField]
-    private Vector3 positionAdjustment = new Vector3(50f, 0f, 0f);
     private bool hasAdjustedPosition = false;
 
     void Start()
@@ -24,21 +22,11 @@ public class WebcamController : MonoBehaviour
         rawImage.texture = webcamTexture;
 
         // Adjust the RawImage's size to make it a square
-        rawImage.rectTransform.sizeDelta = new Vector2(250 , 250);
+        rawImage.rectTransform.sizeDelta = new Vector2(300, 100);
 
         // Start the WebCamTexture
         webcamTexture.Play();
     }
 
-    void LateUpdate()
-    {
-        if (!hasAdjustedPosition && rawImage != null)
-        {
-            // Move the RawImage
-            Vector3 newPosition = rawImage.rectTransform.localPosition + positionAdjustment;
-            rawImage.rectTransform.localPosition = newPosition;
-
-            hasAdjustedPosition = true;
-        }
-    }
+   
 }

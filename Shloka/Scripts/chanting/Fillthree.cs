@@ -12,10 +12,10 @@ public class Fillthree : MonoBehaviour
     public static float count = 0; 
 
    
-   private void Start()
-   {
-        totalrecordtime.fillAmount = 100;
-   }
+//    private void Start()
+//    {
+//         totalrecordtime.fillAmount = 100;
+//    }
 
    private void Update()
    {

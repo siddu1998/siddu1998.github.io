@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.IO;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Talking;
 
@@ -10,7 +11,8 @@ public class PostImage : MonoBehaviour
     public float interval = 3f; // Time interval in seconds between each screenshot post
     public string dialogueName;
     public string[] dialogueSentences;
-
+    public GameObject Gesturel;
+    public Image timetofill;
     private void Start()
     {
         StartCoroutine(PostScreenshotRepeatedly());
@@ -49,12 +51,15 @@ public class PostImage : MonoBehaviour
                 // Print the server response
                 Debug.Log("Form upload complete!");
                 Debug.Log(www.downloadHandler.text);
-                if (www.downloadHandler.text.Contains("Fish"))
+                if (www.downloadHandler.text.Contains("Aarti"))
                 {
+                    timetofill.fillAmount+=0.33f;
                     Talking.Diaglogue newDialogue = new Diaglogue();
                     newDialogue.name = dialogueName;
                     newDialogue.sentences = dialogueSentences;
                     FindObjectOfType<DiaglogueManager>().StartNewDialogue(newDialogue);
+                    Gesturel.SetActive(false);
+
                 }
             }
             else

@@ -23,6 +23,7 @@ public class ManagerforRan : MonoBehaviour
     public GameObject nextbutton; 
     public TriggerforRan dialogueTrigger;
     public GameObject randomcanvastoo;
+    public GameObject dcanvas;
     
 
 
@@ -61,15 +62,16 @@ public class ManagerforRan : MonoBehaviour
 
     public void DisplayNextSentence()
     {
-        if (sentences.Count == 0){
+        if (sentences.Count == 0 && gestured ){
             EndDialogue();
             return;
         }
 
-        if (sentences.Count == 1 && !gestured){
+        if (sentences.Count == 0 && !gestured){
            gestured = true; 
            writing.SetActive(true);
            randomcanvastoo.SetActive(true);
+           dcanvas.SetActive(false);
         }
         string sentence = sentences.Dequeue();
         Debug.Log(sentence);
