@@ -9,74 +9,11 @@
     <title>Sai Siddartha Maram's Portfolio</title>
     <style>
   
-  .arrow {
-            font-size: 2em;
-            color: #666;
-            cursor: pointer;
-            user-select: none;
-            margin: 0 20px;
-            transition: color 0.2s;
-        }
-
-        .arrow:hover {
-            color: #007BFF;
-        }
-
 
         body {
             font-family: Arial, sans-serif;
             background-image: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMiIgZmlsbD0iI2QwZDBkMCIgLz4KPC9zdmc+Cg==");
             /* padding-top: 100px; */
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        .card {
-            background-color: #fff;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card-image {
-            width: 100%;
-            height: 200px;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .card-content {
-            padding: 15px;
-        }
-
-        .card-title {
-            font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        .card-description {
-            font-size: 14px;
-            color: #888;
-            margin-bottom: 15px;
-        }
-
-        .read-more {
-            color: #007BFF;
-            text-decoration: none;
-        }
-
-        .read-more:hover {
-            text-decoration: underline;
         }
 
         .description-container {
@@ -90,10 +27,10 @@
         .heading-container {
             font-family: 'Roboto', sans-serif; /* Using Roboto font */
             font-size: 3em; /* Large font size */
-            width: 70%; /* Takes 40% of the page width */
+            width: 50%; /* Takes 40% of the page width */
             margin-left: 5%; /* Slight offset from the left */
             font-weight: bold; /* Bold text */
-            margin-top: 40px; /* Some space from the top to avoid overlap with navbar */
+            margin-top: 80px; /* Some space from the top to avoid overlap with navbar */
         }
 
         .navbar {
@@ -168,7 +105,7 @@
         }
 
         .social-icons {
-                margin-left: 40px;
+                margin-left: 25px;
                 margin-top: 30px; /* Space from the description */
                 font-size: 1.5em; /* Icon size */
             }
@@ -257,12 +194,6 @@
             max-width: 100%; /* Ensures the image doesn't exceed its container */
             height: auto; /* Maintains the image's aspect ratio */
         }
-        .container {
-            display: flex;
-            align-items: center;
-        }
-
-
     </style>
 </head>
 <body>
@@ -277,7 +208,7 @@
             
             <!-- Dropdown for Case Studies -->
             <div class="dropdown">
-                <a href="./portfolio.html">Case Studies</a>
+                <a href="./portfolio.html">Projects</a>
                 <div class="dropdown-content">
                     <a href="./astraVerse.html">AstraVerse</a>
                     <a href="./meta_internship.html">Intern at Meta</a>
@@ -286,7 +217,7 @@
             </div>
 
             <a href="./research.html">Research</a>
-            <a href="./misc.html">Miscellaneous</a>
+            <a href="#">Miscellaneous</a>
         </div>
     </div>
 
@@ -299,40 +230,13 @@
             <div class="description-container">
                 I am a Master Chef UX Researcher, serving a menu of mixed methods research skills, and a pantry full of data science and coding. I craft unique and satisfying interactive user experiences, mixing together the perfect ingredients for a feast of insights and seamless functionality.
             </div>
+
             <div class="social-icons">
                 <a href="https://twitter.com/SiddarthaMaram" target="_blank"><i class="fab fa-twitter"></i></a>
                 <a href="https://scholar.google.com/citations?user=0eShD5EAAAAJ&hl=en" target="_blank"><i class="fas fa-user-graduate"></i></a>
                 <a href="https://www.linkedin.com/in/sai-siddartha-maram/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
             </div>
-            <h2 style="padding-left:30px ;">Some UXR Case Studies</h2>
-            <div class="container">
-            <!-- <div class="arrow" id="leftArrow">&lt;</div> -->
-            <div class="grid" style="padding: 20px;">
-                <div class="card" id="card1">
-                    <div class="card-image" style="background-image: url('temporary/images/hanuman_modern.png');"></div>
-                    <div class="card-content">
-                        <div class="card-title">AstraVerse</div>
-                        <div class="card-description">Dive into this case study to understand how Religion can inspire Character Creation in Media/Video games.</div>
-                        <a href="./astraVerse.html" class="read-more">Read More</a>
-                    </div>
-                </div>
-        
-              
-             
-                <div class="card" id="card2">
-                    <div class="card-image" style="background-image: url('temporary/meta.jpg');"></div>
-                    <div class="card-content">
-                        <div class="card-title">My UXR Internship at Meta</div>
-                        <div class="card-description">Dive into Research Methods I used/created to understand User Expectations for Facebook's Top of Home </div>
-                        <a href="./meta_internship.html" class="read-more">Read More</a>
-                    </div>
-                </div>
-                
-        
-                
-            </div>
-            <!-- <div class="arrow" id="rightArrow">&gt;</div> -->
-        </div>
+            
         </div>
 
 
@@ -349,70 +253,6 @@
             const navbar = document.querySelector('.navbar');
             navbar.classList.toggle('active');
         }
-
-        const cardData = [
-            [
-                {
-                    title: 'AstraVerse',
-                    description: 'Video Games and Religion often intersect to create interesting gameplay, Dive into this case study to understand how Religion can inspire Character Creation in Media/Video games.',
-                    img: 'temporary/images/hanuman_modern.png',
-                    link:'./astraVerse.html'
-                },
-                {
-                    title: 'My UXR Internship at Meta',
-                    description: "Dive into Research Methods I used/created to understand User Expectations for Facebook's Top of Home",
-                    img: 'temporary/meta.jpg',
-                    link:'./meta_internship.html'
-                }
-            ],
-            [
-                {
-                    title: 'Move',
-                    description: 'My first internship experience, where I took on multiple roles from being a developer to a UXR, to help streamline Robot production at Invento Robotics.',
-                    img: 'temporary/robots.jpg',
-                    link:'./move.html'
-                },
-                {
-                    title: 'Project Title 4',
-                    description: 'Description about the fourth project. It\'s concise.',
-                    img: 'path-to-your-image4.jpg'
-                }
-            ],
-            // ... Add more sets if needed ...
-        ];
-
-        let currentSet = 0;
-
-        function updateCards() {
-            document.querySelector("#card1 .card-title").textContent = cardData[currentSet][0].title;
-            document.querySelector("#card1 .card-description").textContent = cardData[currentSet][0].description;
-            document.querySelector("#card1 .card-image").style.backgroundImage = `url('${cardData[currentSet][0].img}')`;
-            document.querySelector("#card1 .read-more").href = cardData[currentSet][0].link;
-
-            document.querySelector("#card2 .card-title").textContent = cardData[currentSet][1].title;
-            document.querySelector("#card2 .card-description").textContent = cardData[currentSet][1].description;
-            document.querySelector("#card2 .card-image").style.backgroundImage = `url('${cardData[currentSet][1].img}')`;
-            document.querySelector("#card2 .read-more").href = cardData[currentSet][1].link;
-
-        }
-
-        document.getElementById('leftArrow').addEventListener('click', function() {
-            if (currentSet > 0) {
-                currentSet--;
-                updateCards();
-            }
-        });
-
-        document.getElementById('rightArrow').addEventListener('click', function() {
-            if (currentSet < cardData.length - 1) {
-                currentSet++;
-                updateCards();
-            }
-        });
-
-
-
-
     </script>
 </body>
 </html>

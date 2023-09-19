@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="icon" type="image" href="Group 522.png">
+    <title>Sai Siddartha Maram's Portfolio</title>
+    <style>
+        
+        .video-grid {
+            
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+        }
+
+        .video {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            background-color: #000; /* For a fallback color */
+        }
+
+        .video iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video img {
+            width: 100%;
+            cursor: pointer;
+        }
+  .arrow {
+            font-size: 2em;
+            color: #666;
+            cursor: pointer;
+            user-select: none;
+            margin: 0 20px;
+            transition: color 0.2s;
+        }
+
+        .arrow:hover {
+            color: #007BFF;
+        }
+
+
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMiIgZmlsbD0iI2QwZDBkMCIgLz4KPC9zdmc+Cg==");
+            /* padding-top: 100px; */
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card-content {
+            padding: 15px;
+        }
+
+        .card-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 15px;
+        }
+
+        .read-more {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        .description-container {
+            font-family: 'Roboto', sans-serif; /* Consistent font */
+            font-size: 1.2em; /* Slightly larger than default for readability */
+            width: 100%; /* Takes 40% of the page width */
+            margin-left: 5%; /* Aligns with the heading */
+            line-height: 1.6; /* Spacing between lines for better readability */
+            margin-top: 20px; /* Space between the heading and this description */
+        }
+        .heading-container {
+            font-family: 'Roboto', sans-serif; /* Using Roboto font */
+            font-size: 3em; /* Large font size */
+            width: 70%; /* Takes 40% of the page width */
+            margin-left: 5%; /* Slight offset from the left */
+            font-weight: bold; /* Bold text */
+            margin-top: 40px; /* Some space from the top to avoid overlap with navbar */
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 15px 60px;
+            font-size: 1.2em;
+            position: fixed;  /* This makes it stick to the top */
+            top: 0;           /* Position it at the very top */
+            left: 0;          /* Align to the left edge */
+            width: 100%;      /* Take full width of the viewport */
+            z-index: 1000;
+            box-sizing: border-box;    /* Keep it above other elements */
+        }
+
+        .navbar a, .dropdown-toggle {
+            color: black;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 5px 15px;
+            transition: underline 0.3s;
+        }
+
+        .navbar a:hover, .dropdown-toggle:hover {
+            text-decoration: underline;
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Dropdown styling */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: whitesmoke;
+            min-width: 190px;
+            z-index: 1;
+            /* border: 1px solid black; */
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f5f5f5;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Hamburger menu - hidden by default */
+        .menu-toggle {
+            display: none;
+        }
+
+        .social-icons {
+                margin-left: 40px;
+                margin-top: 30px; /* Space from the description */
+                font-size: 1.5em; /* Icon size */
+            }
+
+            .social-icons a {
+                color: gray; /* Icon color */
+                margin-right: 20px; /* Spacing between icons */
+                transition: color 0.3s; /* Smooth color transition for hover effect */
+            }
+
+            .social-icons a:hover {
+                color: #000; /* Change color on hover */
+            }
+
+        /* Mobile responsiveness */
+        @media screen and (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px;
+            }
+
+            .navbar-right {
+                display: none; /* Hide menu items by default on small screens */
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .navbar.active .navbar-right {
+                display: flex; /* Display menu items when navbar is active */
+            }
+
+            /* Display hamburger menu only on small screens */
+            .menu-toggle {
+                display: block;
+                cursor: pointer;
+                font-size: 1.5em;
+                color: black;
+            }
+
+            .dropdown-content {
+                position: relative; /* Make dropdowns expand below on mobile */
+            }
+            .text-container {
+                    width: 100%; /* Full width on mobile */
+                    padding: 10% 5%; /* Increased padding for better readability */
+                }
+
+                .heading-container {
+                    font-size: 2.5em; /* Slightly bigger font size for heading */
+                }
+
+                .description-container {
+                    font-size: 1.3em; /* Slightly bigger font size for description */
+                    line-height: 1.7; /* Increased line spacing */
+                }
+
+                .image-container {
+                    display: none; /* Hide the image on smaller screens */
+                }
+        }
+
+
+                /* Flex container for text and image */
+        .content-container {
+            display: flex;
+            justify-content: space-between; /* Spreads the child elements across the full width */
+            align-items: start; /* Aligns content to the top */
+            padding-top: 100px; /* To ensure content is below the fixed navbar */
+        }
+
+        .text-container {
+            width: 65%; /* Slightly reduced width */
+            padding: 0 3% 0 5%; /* Added right padding for some space and retained left padding */
+        }
+
+
+
+        .image-container {
+            width: 80%; /* Increased width to reduce the gap between text and image */
+            display: flex;
+            justify-content: center; /* Center the image horizontally */
+            align-items: center; /* Center the image vertically */
+}
+        .image-container img {
+            max-width: 100%; /* Ensures the image doesn't exceed its container */
+            height: auto; /* Maintains the image's aspect ratio */
+        }
+        .container {
+            display: flex;
+            align-items: center;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="./index.html">Sai Siddartha Maram</a>
+            <!-- Hamburger Menu for Mobile -->
+            <span class="menu-toggle" onclick="toggleMenu()">☰</span>
+        </div>
+        <div class="navbar-right">
+            <a href="./resume.html">Work Experience</a>
+            
+            <!-- Dropdown for Case Studies -->
+            <div class="dropdown">
+                <a href="./portfolio.html">Case Studies</a>
+                <div class="dropdown-content">
+                    <a href="./astraVerse.html">AstraVerse</a>
+                    <a href="./meta_internship.html">Intern at Meta</a>
+                    <!-- Add more case studies as needed -->
+                </div>
+            </div>
+
+            <a href="./research.html">Research</a>
+            <a href="./misc.html">Miscellaneous</a>
+        </div>
+    </div>
+
+    <div class="video-grid" style="padding-top: 80px;">
+        <div class="video">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/BomjoDKzQ48" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>        </div>
+        <div class="video">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/kFQSZ3ybtYo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <div class="video">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/BKnl_euJdPk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>          </div>
+            
+            <div class="video">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/1lTUY-_TEVU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="video">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/muyR9ZULk9Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>        </div>
+    
+    
+        <div class="video">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/jWzV8g9ywb8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>        </div>
+
+        <div class="video">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/09b07fk308A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>          </div>
+          <div class="video">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/gkBLK-Gx7Lg?start=266" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>          </div>
+      </div>
+
+    </body>
+</html>
