@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>OPM Viz</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="Group 116.png">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="./stylesheet.css">
+
+
+
+
+
+<style>
+    
+
+body {
+            font-family: Arial, sans-serif;
+            background-image: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMiIgZmlsbD0iI2QwZDBkMCIgLz4KPC9zdmc+Cg==");
+            /* padding-top: 100px; */
+        }
+        .card-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .card {
+            flex: 1;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .card iframe {
+            width: 100%;
+            border: none;
+        }
+
+        .caption {
+            background-color: #f8f8f8;
+            padding: 10px;
+            text-align: center;
+        }
+
+.navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 15px 60px;
+            font-size: 1.2em;
+            position: fixed;  /* This makes it stick to the top */
+            top: 0;           /* Position it at the very top */
+            left: 0;          /* Align to the left edge */
+            width: 100%;      /* Take full width of the viewport */
+            z-index: 1000;
+            box-sizing: border-box;    /* Keep it above other elements */
+        }
+
+        .navbar a, .dropdown-toggle {
+            color: black;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 5px 15px;
+            transition: underline 0.3s;
+        }
+
+        .navbar a:hover, .dropdown-toggle:hover {
+            text-decoration: underline;
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Dropdown styling */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: whitesmoke;
+            min-width: 190px;
+            z-index: 1;
+            /* border: 1px solid black; */
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f5f5f5;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Hamburger menu - hidden by default */
+        .menu-toggle {
+            display: none;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px;
+            }
+
+            .navbar-right {
+                display: none; /* Hide menu items by default on small screens */
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .navbar.active .navbar-right {
+                display: flex; /* Display menu items when navbar is active */
+            }
+
+            /* Display hamburger menu only on small screens */
+            .menu-toggle {
+                display: block;
+                cursor: pointer;
+                font-size: 1.5em;
+                color: black;
+            }
+          }
+
+
+
+
+.clear{
+  clear: both;
+}
+
+
+.slide-toggle{
+  display: none;
+}
+
+.slidemenu{
+  font-family: arial, sans-serif;
+  max-width: 80%;
+  margin: 0px auto;
+  overflow: auto;
+  background-color: white;
+}
+
+.slidemenu label{
+  width: 20%;
+  text-align: center;
+  display: block;
+  float: left;
+  color: #333;
+  font-weight: bold;
+  opacity: 0.2;
+
+}
+
+.slidemenu label:hover{
+  cursor: pointer;
+  color: #666;
+}
+
+.slidemenu label span{
+  display: block;
+  padding: 10px;    
+}
+
+.slidemenu label .icon{
+  font-size: 20px;
+  border: solid 2px orange;
+  text-align: center;
+  height: 50px;
+  width: 50px;
+  display: block;
+  margin: 0 auto;
+  line-height: 50px;
+  border-radius: 50%;
+}
+
+/*Bar Style*/
+
+.slider{
+  width: 100%;
+  height: 5px;
+  display: block;
+  background: whitesmoke;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.slider .bar{
+  width: 25%;
+  height: 5px;
+  background: blue;
+  border-radius: 5px;
+}
+
+/*Animations*/
+.slidemenu label, .slider .bar {
+  transition: all 500ms ease-in-out;
+  -webkit-transition: all 500ms ease-in-out;
+  -moz-transition: all 500ms ease-in-out;
+}
+
+/*Toggle*/
+
+.slidemenu .slide-toggle:checked + label{
+  opacity: 1;
+}
+
+
+
+.slidemenu #slide-item-1:checked ~ .slider .bar{ margin-left: 0; }
+.slidemenu #slide-item-2:checked ~ .slider .bar{ margin-left: 20%; }
+.slidemenu #slide-item-3:checked ~ .slider .bar{ margin-left: 40%; }
+.slidemenu #slide-item-4:checked ~ .slider .bar{ margin-left: 60%; }
+.slidemenu #slide-item-5:checked ~ .slider .bar{ margin-left: 80%; }
+
+
+.code-input-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.code-input {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    font-size: 16px;
+}
+
+.reveal-button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    background-color: #007BFF;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.reveal-button:hover {
+    background-color: #0056b3;
+}
+
+.reveal-button:focus {
+    outline: none;
+}
+
+
+</style>
+</head>
+<body class="w3-content" style="max-width:1200px;">
+
+
+  <div class="navbar">
+    <div class="navbar-left">
+        <a href="./index.html">Sai Siddartha Maram</a>
+        <!-- Hamburger Menu for Mobile -->
+        <span class="menu-toggle" onclick="toggleMenu()">☰</span>
+    </div>
+    <div class="navbar-right">
+        <a href="./resume.html">Work Experience</a>
+        
+        <!-- Dropdown for Case Studies -->
+        <div class="dropdown">
+            <a href="./portfolio.html">Case Studies</a>
+            <div class="dropdown-content">
+              <a href="./astraVerse.html">AstraVerse</a>
+              <a href="./meta_internship.html">Intern at Meta</a>
+
+                <!-- Add more case studies as needed -->
+            </div>
+        </div>
+
+        <a href="./research.html">Research</a>
+        <a href="./misc.html">Miscellaneous</a>
+    </div>
+</div>
+
+
+
+<div class="code-input-container" style="padding-top: 10%; padding-bottom: 0px;">
+<label style="padding-right: 20px;">If you are not reviewing for CHI 2024 - please enter Numeric '3' to view the Case Study</label>
+    <input type="text" id="code" class="code-input" placeholder="Enter 3">
+    <button class="reveal-button" onclick="decryptPage()">Reveal Content</button>
+</div>
+
+
+<!-- First Grid: Logo & About -->
+<div class="w3-row" style="padding-top: 100px;">
+
+    
+<div class="w3-half w3-container">
+  <!-- <h1 class="w3-xxlarge" style="color: orange;">AstraVerse</h1> -->
+  <h3 class="w3-text-grey">UX case Study</h3>
+  <h1 class="w3-jumbo" style="color: #97C1A9;">Visualization Systems for Student Reflection in Serious Games</h1>
+  <p>November 2022 - September 2023</p>
+  <!-- <p>ACM FDG 2023, Springer ICEC 2022, ACM CHI 2022</p> -->
+</div>
+<div class="w3-half w3-container w3-xlarge w3-text-grey">
+  
+    <h3 style="font-style: Montserrat;font-weight: bold;color: black;padding-top: 10%;"> A UX case study to understand and design a Visualization System to prompt reflection and learning in serious games.</h3>
+
+
+
+
+</div>
+
+</div>
+
+<!-- Second Grid: Resent -->
+<!-- <div class="w3-panel w3-text-grey" style="background-color: ghostwhite">
+<h4>MOST RECENT WORK:</h4>
+</div> -->
+
+<hr>
+  <div class="w3-row" style="background-color: white;">
+    <div class="w3-third w3-container">
+    <h3 style="font-weight: bold;color: black;">Team</h3>
+      <ul>
+        <li class="w3-large">2 Researcher</li>
+        <li class="w3-large">2 Faculty Mentors</li>
+        <li class="w3-large">1 Developer</li>
+
+      </ul>
+    
+      </div>
+      <div class="w3-third w3-container">
+        <h3 style="font-weight: bold;color: black;">Role</h3>
+          <li class="w3-large">UX Researcher</li> 
+          <li class="w3-large">Designer</li>   
+          <li class="w3-large">Developer</li> 
+        </div>
+      
+    <div class="w3-third w3-container">
+    <h3 style="font-weight: bold;color: black;">Tools</h3>
+    <li class="w3-large">Figma</li> 
+    <li class="w3-large">Coding</li> 
+    
+    </div>
+  
+  </div>
+
+<hr>
+
+
+<div class="w3-row" style="background-color: white;">
+    <div class="card-container">
+        <!-- Card 1 -->
+        <div class="card">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/sJTFw3Qix5o?si=xUFYlOV8RAiHKTvu" frameborder="0" allowfullscreen></iframe>
+            <div class="caption">The final visualization system explained</div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/MXeTHQlgcT8?si=38yGfgb_BQdqDCre" frameborder="0" allowfullscreen></iframe>
+            <div class="caption">Algorithms and Development Process</div>
+        </div>
+    </div>
+    <div class="w3-half w3-container">
+    <h2 style="font-weight: bold;color: black;">Problem</h2>
+    <p class="w3-xlarge w3-text-black">
+        Educational games have emerged as potent tools for helping students understand complex concepts and are now ubiquitous in global classrooms, amassing vast data. However, there is a notable gap in research concerning the effective visualization of this data to serve two key functions: (a) guiding students in reflecting upon their game-based learning and (b) aiding them in analyzing peer strategies.  </p>
+    </div>
+
+    <div class="w3-half w3-container">
+    <h2 style="font-weight: bold;color: black;">Solution</h2>
+    <p class="w3-xlarge">
+        In this UX study, me and my team engage educators, students, and researchers as essential stakeholders. Taking a Design-Based Research (DBR) approach, We incoporate UXR methods to develop an innovative visualization system that helps players learn through gaining insights from their own and peers' gameplay and strategies.
+     </p>
+     
+
+        <hr>
+    </div>
+</div>
+
+<div class="content">
+    <img src="temporary/images/Frame 10 (2) (1).png">
+    <p style="padding-left: 10%;">Figure 1: UXR pipeline adopted to understand student expectations, build a visualization system and evaluate the visualization system.</p>
+
+</div>
+
+
+<h2 style="font-weight: bold;color: black;padding-top: 10px;">Generative Steps</h2>
+<p class="w3-xlarge w3-text-black"> In the generative step, we aim to understand how instructors prompt reflection and learning in a serious game called 'Parallel'. Through focus groups, we identify how instructors prompt reflection, discussion and learning in class. Then through playtesting and semi-structured interviews, we ascertain what students expect from a visualization system that supports learning and peer reflection. </p>
+
+
+<h3 style="font-weight: bold;color: black;padding-top: 10px;">Instructor Focus Group</h3>
+<p class="w3-xlarge w3-text-black">
+To understand how human instructors facilitate learning in these topics, we conducted workshops with two parallel programming instructors. Instructors were presented them with a recording that showcased four students attempting to solve a level in Parallel. Instructors were then prompted with a series of tasks: Firstly, they were asked to discern the variations observed in the playtraces and the students' respective approaches to the parallel programming challenges. Secondly, they were tasked with ranking these playtraces based on performance, substantiating their rankings with explanations. Lastly, the instructors were asked to pinpoint specific segments in the same playtraces that the student should reflect upon  For these highlighted segments, instructors also provided textual feedback, suggesting ways the student could ameliorate their gameplay in that particular segment. In the end, we opened the floor for them to pose any questions and comments.</p>
+
+<h3 style="font-weight: bold;color: black;padding-top: 10px;">Insights from Instructor Interviews</h3>
+<ul class="w3-xlarge w3-text-black">
+    <li><strong>Breaking Down the Playtrace:</strong> The instructors regularly spoke about playtraces in chunks to explain or deduce what students were doing - <span style="color: gray; font-style: italic;">"Yeah, I think Steps 2 and Step 3, is where the student is trying to figure out the Switch and see what happens."</span></li>
+    
+    <li><strong>Identifying Important Spatial Zones:</strong> While examining student's playtraces, instructors often referred to how students have used different sections of the spatial map in analogous to parallel programming concepts - <span style="color: gray; font-style: italic;">"They seem to be placing the semaphore in this area to prevent this thread from reaching before the other thread"</span></li>
+    
+    <li><strong>Comparing Parts of Playtraces:</strong> Instructors compared and contrasted strategies used by students to solve parallel programming challenges within the game. They discussed how certain players' strategy was more efficient than others - <span style="color: gray; font-style: italic;">"If you compare the two players in the beginning, they seem to be tackling different problems. The first student places a semaphore here to work on the direction box, while the other student"</span></li>
+    
+    <li><strong>Ranking based on Parallel Programming Metrics:</strong> Instructors, when asked to rank play traces, compared playtraces based on (a) How accurately did the player identify critical sections? (b) Reducing the size of critical sections by placing semaphores as close as possible (c) and Identifying opportunities within the play trace to further optimize their playtrace by exploring alternate solutions.</li>
+</ul>
+
+<h3 style="font-weight: bold;color: black;padding-top: 10px;">Student Playtesting and Personas</h3>
+<p class="w3-xlarge w3-text-black">We invited 10 players to play the serious game 'Parallel'. Post the playtesting, we noted verbal cues, and followed up by a semi-strucutred interview to understand where students struggled, were looking for additional help and areas where the felt they did well. We performed thematic analysis on the responses and identified two personas that captured student expectations from a visualization support system that would help them better understand educational concepts embedded in the serious game.</p>
+
+<h3 style="font-weight: bold;color: black;padding-top: 10px;">Insights from Personas</h3>
+<ol class="w3-xlarge w3-text-black">
+    <li>
+        <strong>Improve Solution Efficiency:</strong>
+        <ul>
+            <li>Players aim to enhance the efficiency of their gameplay solutions.</li>
+            <li>Example: Jamie wishes to "locate and select more efficient players" to reflect and improve her gameplay.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Easy Gameplay Comparison:</strong>
+        <ul>
+            <li>Players desire an effortless way to compare their gameplay with peers from multiple perspectives.</li>
+            <li>Example 1: Jamie seeks a high-level community view to gauge her solution efficiency and identify better-performing players.</li>
+            <li>Example 2: Alex prefers a detailed perspective to explore players' gameplay actions and "examine other potential moves not encountered in her gameplay."</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Suggestions for Gameplay Improvement:</strong>
+        <ul>
+            <li>Players appreciate advice on enhancing their gameplay both during and post-gameplay.</li>
+            <li>Example 1: Alex wishes to view other players' solutions when facing challenges.</li>
+            <li>Example 2: Jamie prefers figuring out solutions independently but is keen on exploring alternative approaches post-gameplay.</li>
+        </ul>
+    </li>
+</ol>
+<div class="content">
+    <img style="width: 100%;" src="temporary/images/Group 107 (4).png">
+    <p style="padding-left: 30%;">Figure 2: The designed and developed Visualization System</p>
+
+</div>
+<h3 style="font-weight: bold;color: black;padding-top: 10px;">Design and Development</h3>
+<p class="w3-xlarge w3-text-black">Based on the insights generated form instructors and student personas, we used the Shniederman Visualization Design framework to design and build the visualization system. In this case study, I will not share details with regards to the development and design but stick to the UXR methods and process used. The visualization system designed and developed is presented in Figure 2. </p>
+</body>
+
+<h3 style="font-weight: bold;color: black;padding-top: 10px;">Evaluative Research</h3>
+<p class="w3-xlarge w3-text-black">
+    To understand if our visualization system prompts reflection and learning, we invited 8 participants to use the visualization system, think out aloud and we then followed it up with semi-structured interviews. From these interviews, we identified various themes (shown in Figure 3) which show how and why the participants used the visualization system and how the system helps in learning and reflection. 
+</p>
+<div class="content">
+    <img style="width: 100%;" src="temporary/images/Group 749 (1).png">
+    <p style="padding-left: 30%;">Figure 3: Various ways students interacted with the visualization system.</p>
+
+</div>
+
+<h3 style="font-weight: bold;color: black;padding-top: 10px;">Conclusion</h3>
+
+<p class="w3-xlarge w3-text-black">Our UX research makes contributions and has implications to various fields. Details as follows:</p>
+    <h4 style="font-weight: bold;color: black;padding-top: 10px;">Implications towards Open Learner Models:</h4>
+    <ul class="w3-xlarge w3-text-black">
+        <li>Open Learner Models (OLMs) are key in representing student learning journeys.</li>
+        <li>Modern classrooms are leaning towards game-centric learning.</li>
+        <li>There's a need to integrate OLMs within video games.</li>
+        <li>Our project is a trailblazer, combining video games and OLMs.</li>
+        <li>We introduce an OPM that takes traditional OLM principles and embeds them in a gaming environment.</li>
+        <li>Aim: Spur game designers and learning experts to create diverse OPMs for enhanced game-based learning experiences.</li>
+    </ul>
+
+
+
+    <h4 style="font-weight: bold;color: black;padding-top: 10px;">Implications towards Player Facing Visualization Systems:</h4>
+    <ul class="w3-xlarge w3-text-black">
+        <li>The growth of video games necessitates player-centric visualization systems promoting reflection and learning.</li>
+        <li>Most systems focus on aesthetics, aggregation, accuracy, readability, and interpretability.</li>
+        <li>Learning and reflection aspects are often sidelined.</li>
+        <li>We're pioneering by designing a visualization system informed by OLMs.</li>
+        <li>Our system stands as a testament to merging game design with learning literature principles.</li>
+        <li>Goal: Promote discussions about leveraging OLM principles in game visualization systems.</li>
+    </ul>
+
+
+    <h4 style="font-weight: bold;color: black;padding-top: 10px;">Implications towards Parallel Research Platform:</h4>
+    <ul class="w3-xlarge w3-text-black">
+        <li>The serious game, Parallel, is a popular tool for several visualization and learning analytics studies.</li>
+        <li>Parallel is recognized and used for teaching parallel programming in classrooms.</li>
+        <li>Our contribution:
+            <ul>
+                <li>Introduce a new learner model for classrooms within Parallel.</li>
+                <li>Provide a visualization system that features this learner model.</li>
+                <li>Enhance gameplay reflections and discussions through our visualization system.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <script>
+function caesarShift(text, amount) {
+    let output = '';
+    for (let i = 0; i < text.length; i++) {
+        let c = text[i];
+        if (c.match(/[a-z]/i)) {
+            let code = text.charCodeAt(i);
+            if ((code >= 65) && (code <= 90)) {
+                c = String.fromCharCode(((code - 65 + amount + 26) % 26) + 65);
+            } else if ((code >= 97) && (code <= 122)) {
+                c = String.fromCharCode(((code - 97 + amount + 26) % 26) + 97);
+            }
+        }
+        output += c;
+    }
+    return output;
+}    
+function decryptPage() {
+        let code = document.getElementById("code").value;
+        let elementsToDecrypt = document.querySelectorAll(".w3-xlarge, h2, h3, h4, p, li");
+        
+        elementsToDecrypt.forEach(element => {
+            element.innerHTML = caesarShift(element.innerHTML, -code);
+        });
+    }
+        window.onload = function() {
+        let elementsToEncrypt = document.querySelectorAll(".w3-xlarge, h2, h3, h4, p, li");
+        
+        elementsToEncrypt.forEach(element => {
+            element.innerHTML = caesarShift(element.innerHTML, 3);
+        });
+    };
+    
+    </script>
+
+</html>

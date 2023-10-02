@@ -4,25 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link rel="icon" type="image" href="Group 522.png">
     <title>Sai Siddartha Maram's Portfolio</title>
     <style>
   
-  .arrow {
-            font-size: 2em;
-            color: #666;
-            cursor: pointer;
-            user-select: none;
-            margin: 0 20px;
-            transition: color 0.2s;
-        }
-
-        .arrow:hover {
-            color: #007BFF;
-        }
-
-
         body {
             font-family: Arial, sans-serif;
             background-image: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMiIgZmlsbD0iI2QwZDBkMCIgLz4KPC9zdmc+Cg==");
@@ -31,8 +18,12 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            padding-left: 15%;
+            padding-top: 2%;
+            padding-right: 15%;
+
         }
 
         .card {
@@ -49,8 +40,8 @@
 
         .card-image {
             width: 100%;
-            height: 200px;
-            background-size: cover;
+            height: 210px;
+            background-size: contain;
             background-position: center;
         }
 
@@ -82,7 +73,7 @@
         .description-container {
             font-family: 'Roboto', sans-serif; /* Consistent font */
             font-size: 1.2em; /* Slightly larger than default for readability */
-            width: 100%; /* Takes 40% of the page width */
+            width: 60%; /* Takes 40% of the page width */
             margin-left: 5%; /* Aligns with the heading */
             line-height: 1.6; /* Spacing between lines for better readability */
             margin-top: 20px; /* Space between the heading and this description */
@@ -90,11 +81,20 @@
         .heading-container {
             font-family: 'Roboto', sans-serif; /* Using Roboto font */
             font-size: 3em; /* Large font size */
-            width: 70%; /* Takes 40% of the page width */
+            width: 100%; /* Takes 40% of the page width */
             margin-left: 5%; /* Slight offset from the left */
             font-weight: bold; /* Bold text */
             margin-top: 40px; /* Some space from the top to avoid overlap with navbar */
         }
+        .subheading-container {
+            font-family: 'Roboto', sans-serif; /* Using Roboto font */
+            font-size: 2em; /* Large font size */
+            width: 70%; /* Takes 40% of the page width */
+            margin-left: 5%; /* Slight offset from the left */
+            font-weight: bold; /* Bold text */
+            margin-top: 2px; /* Some space from the top to avoid overlap with navbar */
+        }
+        
 
         .navbar {
             display: flex;
@@ -108,7 +108,8 @@
             left: 0;          /* Align to the left edge */
             width: 100%;      /* Take full width of the viewport */
             z-index: 1000;
-            box-sizing: border-box;    /* Keep it above other elements */
+            box-sizing: border-box; 
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);   /* Keep it above other elements */
         }
 
         .navbar a, .dropdown-toggle {
@@ -120,8 +121,12 @@
         }
 
         .navbar a:hover, .dropdown-toggle:hover {
-            text-decoration: underline;
+            /* text-decoration: underline; */
         }
+
+        .navbar a.active, .dropdown-toggle.active {
+    color: #F39F5A; /* Change to your desired active color */
+}
 
         .navbar-left {
             display: flex;
@@ -168,8 +173,9 @@
         }
 
         .social-icons {
-                margin-left: 40px;
-                margin-top: 30px; /* Space from the description */
+              
+                padding-left: 5%;
+                padding-top:2%;
                 font-size: 1.5em; /* Icon size */
             }
 
@@ -221,6 +227,11 @@
                     font-size: 2.5em; /* Slightly bigger font size for heading */
                 }
 
+                .subheading-container {
+                    font-size: 1.3em; /* Slightly bigger font size for heading */
+                }
+
+
                 .description-container {
                     font-size: 1.3em; /* Slightly bigger font size for description */
                     line-height: 1.7; /* Increased line spacing */
@@ -235,27 +246,29 @@
                 /* Flex container for text and image */
         .content-container {
             display: flex;
-            justify-content: space-between; /* Spreads the child elements across the full width */
+            justify-content: space-between; 
             align-items: start; /* Aligns content to the top */
-            padding-top: 100px; /* To ensure content is below the fixed navbar */
+            padding-top: 50px; /* To ensure content is below the fixed navbar */
         }
 
         .text-container {
-            width: 65%; /* Slightly reduced width */
-            padding: 0 3% 0 5%; /* Added right padding for some space and retained left padding */
+            width: 70%; /* Slightly reduced width */
+            padding: 0 0% 0 5%; /* Added right padding for some space and retained 
+            left padding */
+            align-items: left;
         }
 
 
 
         .image-container {
-            width: 80%; /* Increased width to reduce the gap between text and image */
+            width: 50%; /* Increased width to reduce the gap between text and image */
             display: flex;
-            justify-content: center; /* Center the image horizontally */
-            align-items: center; /* Center the image vertically */
+            justify-content: left; /* Center the image horizontally */
+            align-items: start; /* Center the image vertically */
 }
         .image-container img {
-            max-width: 100%; /* Ensures the image doesn't exceed its container */
-            height: auto; /* Maintains the image's aspect ratio */
+            max-width: 80%; /* Ensures the image doesn't exceed its container */
+            height: 20%; /* Maintains the image's aspect ratio */
         }
         .container {
             display: flex;
@@ -268,380 +281,304 @@
 <body>
     <div class="navbar">
         <div class="navbar-left">
-            <a href="./index.html">Sai Siddartha Maram</a>
+            <a href="./index.html">
+            Sai Maram
+            </a>
             <!-- Hamburger Menu for Mobile -->
             <span class="menu-toggle" onclick="toggleMenu()">☰</span>
         </div>
         <div class="navbar-right">
-            <a href="./resume.html">Work Experience</a>
-            
-            <!-- Dropdown for Case Studies -->
-            <div class="dropdown">
-                <a href="./portfolio.html">Case Studies</a>
-                <div class="dropdown-content">
-                    <a href="./astraVerse.html">AstraVerse</a>
-                    <a href="./meta_internship.html">Intern at Meta</a>
-                    <!-- Add more case studies as needed -->
-                </div>
-            </div>
-
-            <a href="./research.html">Research</a>
-            <a href="./misc.html">Miscellaneous</a>
+            <a href="#uxr">Case Studies</a>
+            <a href="#wex">Work Experience</a>
+            <a href="#res">Research</a>
+            <!-- <a href="./misc.html">Miscellaneous</a> -->
         </div>
     </div>
 
-    <div class="content-container">
+ 
+    <div class="content-container" style="padding-top:100px;">
         <!-- Text Content (Heading + Description) -->
         <div class="text-container">
-            <div class="heading-container">
+            <div class="heading-container" style="color: #F39F5A;">
                 Sai Maram, UX Chef 🍰
             </div>
             <div class="description-container">
-                I am a Master Chef UX Researcher, serving a menu of mixed methods research skills, and a pantry full of data science and coding. I craft unique and satisfying interactive user experiences, mixing together the perfect ingredients for a feast of insights and seamless functionality.
+                <p  class="w3-xlarge w3-text-black">I am a 3rd Year PhD Student and a Master Chef UX Researcher. I serve a menu of Qualitative and Quantitative research skills, and a pantry full of data science and coding. Mixing the perfects amount of insights and product goals I craft satisfying user experiences while advocating for my stakeholders.</p>
             </div>
+            
+         
+
             <div class="social-icons">
                 <a href="https://twitter.com/SiddarthaMaram" target="_blank"><i class="fab fa-twitter"></i></a>
                 <a href="https://scholar.google.com/citations?user=0eShD5EAAAAJ&hl=en" target="_blank"><i class="fas fa-user-graduate"></i></a>
                 <a href="https://www.linkedin.com/in/sai-siddartha-maram/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
             </div>
-            <h2 style="padding-left:30px ;">Some UXR Case Studies</h2>
-            <div class="container">
-            <!-- <div class="arrow" id="leftArrow">&lt;</div> -->
-            <div class="grid" style="padding: 20px;">
-                <div class="card" id="card1">
-                    <div class="card-image" style="background-image: url('temporary/images/hanuman_modern.png');"></div>
-                    <div class="card-content">
-                        <div class="card-title">AstraVerse</div>
-                        <div class="card-description">Dive into this case study to understand how Religion can inspire Character Creation in Media/Video games.</div>
-                        <a href="./astraVerse.html" class="read-more">Read More</a>
-                    </div>
-                </div>
-        
-              
-             
-                <div class="card" id="card2">
-                    <div class="card-image" style="background-image: url('temporary/meta.jpg');"></div>
-                    <div class="card-content">
-                        <div class="card-title">My UXR Internship at Meta</div>
-                        <div class="card-description">Dive into Research Methods I used/created to understand User Expectations for Facebook's Top of Home </div>
-                        <a href="./meta_internship.html" class="read-more">Read More</a>
-                    </div>
-                </div>
-                
-        
-                
-            </div>
-            <!-- <div class="arrow" id="rightArrow">&gt;</div> -->
+           
+            
         </div>
-        </div>
-
-
-    
-        <!-- Image Content -->
+       
         <div class="image-container">
-            <img src="Group 522.png" alt="Sai Maram's Image" />
+            <img  src="temporary/images/Group 751 (2).png">
         </div>
     </div>
+    
+    
+    <div class="content-container" id="uxr">
+        <div class="text-container">
+            <div class="subheading-container">UXR Case Studies</div>
+        </div>
+    </div>
+    
+    <div class="grid" style="padding-top: 2%;">
+     
+        <div class="card">
+            <div class="card-image" style="background-image: url('temporary/images/Firefly\ young\ Indian\ girl\ kid\ with\ traditional\ clothes\ brown\ skin\ village\ 98018.jpg');"></div>
+            <div class="card-content">
+                <div class="card-title">Shloka - Culture for Climate Action</div>
+                <div class="card-description">An ethnographic and co-design study to design a video game for climate action. The mechanics of the game are inspired by cultural elements and stories.</div>
+                <a href="#" class="read-more">Coming Soon 🚧</a>
+            </div>
+        </div>
 
-    <script>
-        // Toggle the menu for mobile view
-        function toggleMenu() {
-            const navbar = document.querySelector('.navbar');
-            navbar.classList.toggle('active');
-        }
+        <div class="card">
+            <div class="card-image" style="background-image: url('temporary/images/Firefly Religious folks playing video games 92256.jpg');"></div>
+            <div class="card-content">
+                <div class="card-title">Cultural Inclusivity in Video Games</div>
+                <div class="card-description">Using digital ethnography and statistical methods, I analyzed Reddit threads to understand the opinions of cultural personnel regarding video games.</div>
+                <a href="#" class="read-more">Coming Soon 🚧</a>
+            </div>
+        </div>
 
-        const cardData = [
-            [
-                {
-                    title: 'AstraVerse',
-                    description: 'Video Games and Religion often intersect to create interesting gameplay, Dive into this case study to understand how Religion can inspire Character Creation in Media/Video games.',
-                    img: 'temporary/images/hanuman_modern.png',
-                    link:'./astraVerse.html'
-                },
-                {
-                    title: 'My UXR Internship at Meta',
-                    description: "Dive into Research Methods I used/created to understand User Expectations for Facebook's Top of Home",
-                    img: 'temporary/meta.jpg',
-                    link:'./meta_internship.html'
-                }
-            ],
-            [
-                {
-                    title: 'Move',
-                    description: 'My first internship experience, where I took on multiple roles from being a developer to a UXR, to help streamline Robot production at Invento Robotics.',
-                    img: 'temporary/robots.jpg',
-                    link:'./move.html'
-                },
-                {
-                    title: 'Project Title 4',
-                    description: 'Description about the fourth project. It\'s concise.',
-                    img: 'path-to-your-image4.jpg'
-                }
-            ],
-            // ... Add more sets if needed ...
-        ];
+        <div class="card">
+            <div class="card-image" style="background-image: url('temporary/images/Firefly\ Students\ Playing\ educational\ Games\ 37570.jpg');"></div>
+            <div class="card-content">
+                <div class="card-title">Visualization Systems for Player Reflection</div>
+                <div class="card-description">Using a Design-Based Research Approach, which includes semi-structured interviews, playtesting, and co-design, I developed a visualization system that encourages reflection and learning in students through Serious Games.</div>
+                <a href="opm.html" class="read-more">Read More</a>
+            </div>
+        </div>
 
-        let currentSet = 0;
+        
 
-        function updateCards() {
-            document.querySelector("#card1 .card-title").textContent = cardData[currentSet][0].title;
-            document.querySelector("#card1 .card-description").textContent = cardData[currentSet][0].description;
-            document.querySelector("#card1 .card-image").style.backgroundImage = `url('${cardData[currentSet][0].img}')`;
-            document.querySelector("#card1 .read-more").href = cardData[currentSet][0].link;
+        <div class="card" id="card1">
+            <div class="card-image" style="background-image: url('temporary/images/Firefly\ Hindu\ Monkey\ god\ fierce\ looking\ 98018.jpg');"></div>
+            <div class="card-content">
+                <div class="card-title">AstraVerse</div>
+                <div class="card-description">Through co-design and visual ethnography, I present a design space inspired by religion for the creation of new video game characters.</div>
+                <a href="./astraVerse.html" class="read-more">Read More</a>
+            </div>
+        </div>
 
-            document.querySelector("#card2 .card-title").textContent = cardData[currentSet][1].title;
-            document.querySelector("#card2 .card-description").textContent = cardData[currentSet][1].description;
-            document.querySelector("#card2 .card-image").style.backgroundImage = `url('${cardData[currentSet][1].img}')`;
-            document.querySelector("#card2 .read-more").href = cardData[currentSet][1].link;
+        <div class="card" id="card2">
+            <div class="card-image" style="background-image: url('temporary/images/Firefly\ people\ Chatting\ on\ phone\ screens\ 59051.jpg');"></div>
+            <div class="card-content">
+                <div class="card-title">UXR Internship at Meta</div>
+                <div class="card-description">During my Internship at Meta, I did generative research to develop ideas for the Future of Facebook Home. </div>
+                <a href="./meta_internship.html" class="read-more">Read More</a>
+            </div>
+        </div>
 
-        }
+        <div class="card">
+            <div class="card-image" style="background-image: url('temporary/images/Firefly A cute robot 98018.jpg');"></div>
+            <div class="card-content">
+                <div class="card-title">Move</div>
+                <div class="card-description">My first internship experience, where I took on multiple roles from being a developer to a UXR, to help streamline Robot production at Invento Robotics.</div>
+                <a href="./move.html" class="read-more">Read More</a>
+            </div>
+        </div>
 
-        document.getElementById('leftArrow').addEventListener('click', function() {
-            if (currentSet > 0) {
-                currentSet--;
-                updateCards();
-            }
+        <div class="card">
+            <div class="card-image" style="background-image: url('temporary/images/Firefly\ purple\ color\ shirt\ 98018.jpg');"></div>
+            <div class="card-content">
+                <div class="card-title">Abric</div>
+                <div class="card-description">Fashion is an important aspect of daily life. Digital fashion stores have taken the world by storm. In this case study, we explore pain points in current online fashion stores and propose an innovative interface and gamified system for Fashion shopping.</div>
+                <a href="./abric.html" class="read-more">Read More</a>
+            </div>
+        </div>
+
+       
+    </div>
+
+    
+  
+<div class="content-container">
+    <div class="text-container">
+        <div id="wex" class="subheading-container">Work Experience</div>
+    </div>
+</div>
+
+<div  class="w3-full  w3-xlarge w3-text-black" style="padding-left: 15%; padding-top: 2%;padding-right: 15%;">
+   
+
+    <img src="temporary/1659133639191.jpeg" style="width:5%;height:5%;float:left; margin-right:10px;">
+    <h3 style="color: black;"><b>GUII Lab, UCSC</b></h3>
+    <h5>Research Intern | September 2021 - Present</h5>
+    
+    <ul>
+        <li>Conducted <strong>10 User Interviews</strong> with cultural stakeholders to establish a design framework for referencing <strong>cultural elements in video games</strong>, resulting in publications at <strong>CSCW'23, CHI'22, ICEC'22,</strong> and <strong>FDG'23</strong>.</li>
+        <li>Conducted <strong>3 large surveys</strong>, <strong>10 player interviews</strong>, and used <strong>Statistical Methods</strong> to develop a player taxonomy that analyzes player perceptions of culture in video games.</li>
+        <li>Conducted <strong>2 diary studies</strong> and <strong>2 Game Playtests</strong> for 21 days to study the correlation between video games and stress, resulting in publications in <strong>FDG'23, HCII'22,</strong> and <strong>CHI Play'22</strong>.</li>
+    </ul>
+    
+
+
+        <img src="temporary/logo-Meta.png" style="width:5%;height:5%;float:left; margin-right:10px;">
+        <h3 style="color: black;"><b>Meta, Menlo Park, USA</b></h3>
+        <h5>UX Research Intern | June 2022 - September 2022</h5>
+        
+        <ul>
+            <li>Conducted <strong>Generative Research</strong> for Facebook's Top of Home</li>
+            <li>Conducted <strong>12 User Interviews</strong> with Facebook users and discovered <strong>4 major user expectations</strong> for Facebook <em>Top of Home</em>.</li>
+            <li>Executed <strong>18 Co-Design</strong> sessions and <strong>validated</strong> the design assumptions of the product design team for Facebook <em>Top of Home</em>.</li>
+            <li><strong>Prototyped</strong> <strong>21 new experiences</strong> identified from Co-Design sessions for Facebook <em>Top of Home</em>.</li>
+        </ul>
+        
+        
+   <img src="temporary/invento_trans.png" style="width:5%;height:5%;float:left; margin-right:10px;">
+   <h3 style="color: black;"><b>Invento Robotics, Bangalore, India</b></h3>
+   <h5>R&D Engineer | June 2020 - March 2021; May 2018 - June 2018</h5>
+   
+   <ul>
+    <li>Executed <strong>17 user interviews</strong> with stakeholders at various stages of a robot lifecycle, identifying <strong>6 critical bottlenecks</strong>.</li>
+    <li>Conducted <strong>card sorting</strong> to develop an information architecture module for robotic fleet management portals.</li>
+    <li>UX insights contributed to a reduction in robot deployment time by <strong>12 hours</strong> and increased robot fleet health by <strong>34%</strong>.</li>
+</ul>
+
+  </div>
+
+
+
+<div class="content-container" id="res">
+  <div class="text-container">
+      <div class="subheading-container">Academic Research Papers</div>
+  </div>
+</div>
+    
+    <div  class="w3-full  w3-xlarge w3-text-black" style="padding-left: 15%; padding-top: 2%;padding-right: 15%;">
+    
+      <table class="w3-table">
+        <tr>
+          <th style="color:black">Title</th>
+          <th style="color:black">Conference</th>
+          <th style="color:black">Authors</th>
+        </tr>
+
+        
+        <tr>
+          <td><a target="blank" href=''>Designing Religious Games for Climate Action</a></td>
+          <td>CSCW 2023</td>
+          <td><b>Sai Siddartha Maram</b>, Yash Malegaonkar, Magy Seif El-Nasr</td>
+        </tr>
+
+        <!-- <tr>
+          <td><a target="blank" href=''>Mining Player Behavior Patterns from Domain-Based Spatial Abstraction in Games</a></td>
+          <td>IEEE CoG 2023</td>
+          <td><b>Sai Siddartha Maram</b>, Johannes Pfau, Jennifer Villareale, Zhaoqing Teng, Jichen Zhu ,Magy Seif El-Nasr</td>
+        </tr> -->
+
+        <tr>
+          <td><a target="blank" href=''>Mining Player Behavior Patterns from Domain-Based Spatial Abstraction in Games</a></td>
+          <td>IEEE CoG 2023</td>
+          <td><b>Sai Siddartha Maram</b>, Johannes Pfau, Jennifer Villareale, Zhaoqing Teng, Jichen Zhu ,Magy Seif El-Nasr</td>
+        </tr>
+        
+        <tr>
+          <td><a target="blank" href=''>Parallel OPM A Visualization System for Analyzing Peers Board States for Gameplay Reflection</a></td>
+          <td>IEEE CoG 2023</td>
+          <td><b>Sai Siddartha Maram</b>, Jennifer Villareale, Boyd Fox, Jichen Zhu ,Magy Seif El-Nasr</td>
+        </tr>
+        
+
+        <tr>
+          <td><a target="blank" href='https://dl.acm.org/doi/10.1145/3582437.3582445'>A Visual Ethnographic Study at Cultural Spaces to Identify Character Creation Opportunities</a></td>
+          <td>FDG 2023</td>
+          <td><b>Sai Siddartha Maram</b>, Johannes Pfau, Jai Dodechani, Magy Seif El-Nasr</td>
+        </tr>
+        
+        <tr>
+          <td><a target="blank" href='https://www.springerprofessional.de/astraverse-establishing-a-culturally-sensitive-framework-for-int/23634780'>AstraVerse: Establishing a Culturally Sensitive Framework for Integrating Elements from Mythological Backgrounds</a></td>
+          <td>IFIP-ICEC 2022</td>
+          <td><b>Sai Siddartha Maram</b>, Johannes Pfau, Reza Habibi, Magy Seif El-Nasr</td>
+        </tr>
+        <tr>
+          <td><a target="blank" href=''>Integrating the Player's Perspective in AI-Based Game Design: Designing Player-AI Interaction in AI-Based Games</a></td>
+          <td>FDG 2023</td>
+          <td>Jennifer Villareale, <b>Sai Siddartha Maram</b> and Jichen Zhu</td>
+        </tr>
+        <tr>
+          <td><a target="blank" href=''>Under Pressure: A Multi-Modal Analysis of Induced Stressors in Games for Resilience</a></td>
+          <td>FDG 2023</td>
+          <td>Reza Habibi, Johannes Pfau, <b>Sai Siddartha Maram </b>, Jiahong Li, Bjarke Larsen, Jason Xu, Atieh Kashani, Shweta Sisodiya, Jonattan Holmes, Zhaoqing Teng, Elin Carstensdottir and Magy Seif El-Nasr</td>
+        </tr>
+
+        <tr>
+          <td><a target="blank" href='https://dl.acm.org/doi/abs/10.1145/3505270.3558340'>Player Segmentation with INSPECT: Revealing Systematic Behavior Differences within MMORPG and Educational Game Case Studies</a></td>
+          <td>CHI PLAY 2022</td>
+          <td>Zhaoqing Teng, Johannes Pfau, <b>Sai Siddartha Maram</b>, Magy Seif El-Nasr</td>
+        </tr>
+
+        <tr>
+          <td><a target="blank" href='HCIxB _ AstraVerse_ Gaming Beyond Mortal Borders (1).pdf'>Gaming Beyond Mortal Boarders</a></td>
+          <td>ACM CHI 2022 (Workshop)</td>
+          <td><b>Sai Siddartha Maram</b>, Magy Seif El-Nasr</td>
+        </tr>
+
+        <tr>
+          <td><a target="blank" href="">Gender, Cultures, and Communication</a></td>
+          <td>ACM CHI 2022 (Workshop)</td>
+          <td>Shweta Sisodiya, <b>Sai Siddartha Maram</b>, Magy Seif El-Nasr, Elin Carstensdottir</td>
+        </tr>
+        
+        <tr>
+          <td><a target="blank" href='https://link.springer.com/chapter/10.1007/978-3-031-05637-6_38'>A Data-driven Design of AR Alternate Reality Games to Measure Resilience</a> </td>
+          <td>HCII 2022 (Best Paper)</td>
+          <td>Rëza Habibi, <b>Sai Siddartha Maram</b>, Johannes Pfau, Jessica Wei, Shweta Sisodiya, Atieh Kashani, Elin Carstensdottir, Magy Seif El-Nasr</td>
+        </tr>
+
+        <tr>
+          <td><a target="blank" href='https://wimlworkshop.org/icml2021/program/#:~:text=CricNet%20%3A%20Segment%20and,Singh%20Indraprastha%20University)'>CricNet : Segment and Classify Cricket Events</a></td>
+          <td> ICML (Un-Workshop)</td>
+          <td ><b>Sai Siddartha Maram</b>, Shambhavi Mishra</td>
+        </tr>
+  
+        <tr>
+          <td><a target="blank" href='https://ieeexplore.ieee.org/abstract/document/9347962'>Images to Signals, Signals to Highlights</a>
+            <a href='https://youtu.be/muyR9ZULk9Y' style='color:blue'>(Presentation)</a></td>
+          <td> IEEE GLOBECOM 2020</td>
+          <td><b>Sai Siddartha Maram</b>, Neeraj Kumar, Joel J. P. C. Rodrigues, Sudeep Tanwar, Arjav Jain </td>
+        </tr>
+
+      <tr>
+          <td><a target="blank" href='https://dl.acm.org/doi/abs/10.1145/3422844.3423050'>Asking Graphs "How Did I Play?" Generating Graphs through Images Via Signals</a><a href='https://youtu.be/muyR9ZULk9Y' style='color:blue'>(Presentation)</a></td>
+          <td>ACM Multimedia (Workshop 2020)</td>
+          <td><b>Sai Siddartha Maram</b>, Arjav Jain </td> 
+      </tr>
+
+      <tr>
+        <td><a target="blank" href='https://ieeexplore.ieee.org/document/8883008'>Neural network and ROS based threat detection and patrolling assistance</a></td>
+        <td>IEEE ICACCP 2019 (Best Paper)</td>
+        <td><b>Sai Siddartha Maram</b>, Tanuj Vishnoi, Sachin Pandey </td> 
+    </tr>
+      </table>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.navbar a, .dropdown-toggle').forEach(link => {
+        link.addEventListener('click', function() {
+            // Remove active class from other links
+            document.querySelectorAll('.navbar a.active, .dropdown-toggle.active').forEach(activeLink => {
+                activeLink.classList.remove('active');
+            });
+
+            // Add active class to the clicked link
+            this.classList.add('active');
         });
+    });
+</script>
 
-        document.getElementById('rightArrow').addEventListener('click', function() {
-            if (currentSet < cardData.length - 1) {
-                currentSet++;
-                updateCards();
-            }
-        });
-
-
-
-
-    </script>
 </body>
 </html>
 
 
 
-<!-- <!DOCTYPE html>
-<html>
-<head profile="http://www.w3.org/2005/10/profile">
-<link rel="icon" 
-      type="image/png" 
-      href="Group 116.png">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<title>Sai</title>
-<link rel="stylesheet" href="./stylesheet.css">
-<style>
-/* Basic styling for the navbar */
-/* Basic styling for the navbar */
-.navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: white;
-            padding: 15px 60px;
-            font-size: 1.2em;
-        }
-
-        .navbar a {
-            color: black;
-            text-decoration: none;
-            margin: 0 15px;
-            padding: 5px 15px;
-            transition: underline 0.3s;
-        }
-
-        .navbar a:hover {
-            text-decoration: underline;
-        }
-
-        .navbar-left {
-            display: flex;
-            align-items: center;
-        }
-
-        .navbar-right {
-            display: flex;
-            align-items: center;
-        }
-
-        /* Dropdown styling */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: white;
-            min-width: 190px;
-            z-index: 1;
-        }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: whitesmoke;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-
-
-    .video-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  grid-gap: 20px;
-}
-
-.video {
-  position: relative;
-  width: 100%;
-  padding-bottom: 56.25%;
-}
-
-.video iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-</style>
-
-</head>
-<body> -->
-
-    <!-- <div class="navbar">
-        <div class="navbar-left">
-            <a href="#">Sai Siddartha Maram</a>
-        </div>
-        <div class="navbar-right">
-            <a href="#">Work Experience</a>
-            
-          
-            <div class="dropdown">
-                <a href="#">Case Studies</a>
-                <div class="dropdown-content">
-                    <a href="#">Case Study 1</a>
-                    <a href="#">Case Study 2</a>
-                     Add more case studies as needed 
-                </div>
-            </div>
-
-            <a href="#">Research</a>
-            <a href="#">Miscellaneous</a>
-        </div>
-    </div>-->
-
-<!-- <div class="sidenav">
-    <div class="navblock">
-        <div class="navblock_text">
-            <a style="color:#3498DB" href="./index.html">About</a>
-            <a href="./resume.html">Resume</a>
-            <a href="./research.html">Academic Papers</a>
-            <a href="./portfolio.html">Portfolio</a>
-            
-           
-        </div>
-        
-        
-    </div>
-    <div class="footer">
-        <p></p>
-    </div>
-</div> -->
-
-<!-- <div class="main" style="background-color: white;padding-top: 0;">
-    
-    <div class="portfolio-container">
-        <div class="portfolio-container_text">
-            <h2 style="margin-top: 20%;"><b style="color: orangered;">Sai Siddartha Maram.</b>  <footer>    
-
-                <a href="https://twitter.com/SiddarthaMaram" target="_blank"><i class="fa fa-twitter" style="font-size:16px;color: gray;"></i></a>
-                <a href="https://www.linkedin.com/in/sai-siddartha-maram/" target="_blank"><i class="fa fa-linkedin" style="font-size:16px;color: gray;"></i></a>
-                <a href="https://scholar.google.com/citations?user=0eShD5EAAAAJ&hl=en" target="_blank"> <i class="fa fa-graduation-cap" style="font-size:16px;color:gray"></i></a>
-                </footer>
-            </h2>
-            
-    
-            <hr>
-            <h4>I am a Master Chef <b style="color: orangered;">UX Researcher</b>, with a menu of <b style="color: orangered;">mixed methods</b> research skills, and a pantry full of <b style="color: orangered;">data science and coding</b>. I craft unique and satisfying interactive user experiences, mixing together the perfect ingredients for a feast of insights and seamless functionality.</h4>
-            <hr>
-            <small>
-                I am 3rd Year HCI Ph.D. Student at the GUII lab at UCSC.
-                 My advisor is <b><a href="https://guiilab.ucsc.edu/home" style="color:orangered">Dr. Magy Seif El-Nasr</a></b>. 
-                 Using UX Research methods, Graph Theory, and AI, I study the role of culture and religion in Video Games.
-                My Michelin star papers are at <b style="color:orangered">CHI, CHI PLAY, FDG, ACM Multimedia, and HCII</b>. 
-                Outside work, I love playing my Ukulele, watching sports, and going to the cinema (Have you watched RRR?)    
-            </small>
-        </div>
-        
-        <div class="portfolio-container_text" style="padding-top: 12%;">
-            <img src="Group 116.png" alt="Sai Siddartha Maram" class="about_photo">
-
-      </div>
-    
-    
-    </div>
-    <hr>
- 
-    <h3 style="padding-bottom: 16px;color: orangered;"><b>Lights! Camera! Action</b></h3>
- 
-    <div class="video-grid">
-        <div class="video">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/BomjoDKzQ48" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>        </div>
-        <div class="video">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/kFQSZ3ybtYo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        </div>
-        <div class="video">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/BKnl_euJdPk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>          </div>
-            
-            <div class="video">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/1lTUY-_TEVU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            </div>
-            <div class="video">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/muyR9ZULk9Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>        </div>
-    
-    
-        <div class="video">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/jWzV8g9ywb8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>        </div>
-
-        <div class="video">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/09b07fk308A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>          </div>
-          <div class="video">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/gkBLK-Gx7Lg?start=266" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>          </div>
-      </div>
-    
-
-     <div >
-        <img src="Group 114.png" style="width: 30%;height: 30%;" alt="Sai Siddartha Maram" class="about_photo">
-    </div>
-
-     <div class="about_text">
-        <h1 style="color: black;">Sai Maram.</h1>
-
-        <p>I am Sai Maram a 2nd Year PhD Student at UCSC</p>
-        <p>I contribute to <b>UX Research, Product Design and Software Engineering.</b></p>
-        <p>You can find my academic research at <b>CHI, CHI Play, FDG, ICEC, ACM Multimedia, HCII, GLOBECOM</b>.</p>
-        <p>My previous work expereinces include <b>Meta</b> (Facebook), <b>Invento Robotics</b>,<b>GeorgiaTech</b>, and <b>IISc</b>.</p>
-        
-
- 
-        <footer class="w3-container w3-padding-32 w3-center w3-xlarge" style="margin:-4px">
-        </footer>
-    </div> 
-</div> -->
-
-
-
-<!-- 
-</body>
-</html>  -->
