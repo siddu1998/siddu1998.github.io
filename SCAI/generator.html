@@ -1,0 +1,620 @@
+<html>
+    <title>Generator</title>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            background-image: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMiIgZmlsbD0iI2QwZDBkMCIgLz4KPC9zdmc+Cg==");
+            /* padding-top: 100px; */
+            flex-direction: column;
+            align-items: center;
+        }
+         .link { stroke: #999; stroke-opacity: 0.6; }
+        .node { stroke: #fff; stroke-width: 1.5px; }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        #mainContent {
+            width: 90%; /* Adjust based on your needs */
+            min-height: 400px; /* Adjust based on your needs */
+            border: 1px solid #ccc;
+            margin: 10px 0;
+        }
+
+        #panel {
+            width: 90%; /* Adjust to match the graph width */
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+        }
+
+        #tableContainer {
+            width: 90%; /* Adjust based on your needs */
+            height: 300px; /* Adjust based on your needs */
+            border: 1px solid #ccc;
+            overflow-y: auto; /* This will make it scrollable vertically */
+            margin: 10px 0;
+        }
+
+        h1, h3 {
+            text-align: center;
+        }
+
+    </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <body>
+        <h1>StudyCrafter Data Generator</h1>
+        <div id="panel">
+            <h3>Node Details</h3>
+            <p style="background-color: white;border-radius: 4px;" id="show_data">Hover over a node in the graph to get data</p>
+            <hr>
+        </div>
+        
+        <div id="mainContent">
+            <!-- Your D3 graph will be rendered here -->
+        </div>
+        
+        <div id="tableContainer">
+            <!-- Your table will be rendered here -->
+        </div>
+        
+        <div id="dataViewer"></div>
+        
+    </body>
+    <script>
+
+        // Declare the userInput variable as a global variable
+        var key;
+        
+        // window.onload = function() {
+        //   key = prompt("Please enter Your OpenAI Key:");
+        //     if (userInput !== null) {
+        //         var message = "You entered: " + key;
+        //         alert(key);
+        //     } else {
+        //         alert("You did not enter a Key. Refresh the page to try again.");
+        //     }
+        // };
+        
+        // function useUserInputInString() {
+        //     var newMessage = "You also entered: " + userInput;
+        //     alert(newMessage);
+        // }
+        
+        // useUserInputInString();
+        
+        
+        
+        
+           
+        
+        
+                var svg = d3.select("#mainContent").append("svg")
+                    .attr("width", window.innerWidth)
+                    .attr("height", window.innerHeight);
+        
+                var legend = svg.append("g")
+                                .attr("class","legend")
+                                .attr("transform","translate(1300,30)") // change this to move the legend around
+                                .style("font-size","12px");
+        
+                // get the node types and colors
+                var types = ['start', 'dialogue', 'action', 'choice', 'variable', 'if', 'end'];
+                var colors = ['green', 'skyblue', 'purple', 'orange', 'red', 'yellow', 'black'];
+        
+                // add one legend entry for each type
+                types.forEach(function(type, i) {
+                    var legendRow = legend.append("g")
+                        .attr("transform", "translate(0, " + (i * 20) + ")"); // space out the entries
+        
+                    legendRow.append("rect")
+                        .attr("width", 10)
+                        .attr("height", 10)
+                        .attr("fill", colors[i]);
+        
+                    legendRow.append("text")
+                        .attr("x", -10)
+                        .attr("y", 10)
+                        .attr("text-anchor", "end")
+                        .text(type);
+                });
+        
+        
+                var color = d3.scaleOrdinal()
+                    .domain(['start', 'dialogue', 'action', 'choice', 'variable', 'if', 'end'])
+                    .range(['green', 'skyblue', 'purple', 'orange', 'red', 'yellow', 'black']);
+        
+                // Assuming you already have the data loaded
+          var data = {"dictNodes":{"0":{"name":"Start Sticker","next":"94","tru":"True","index":"0","posX":"-25.30105","posY":"9.055415","minimized":"False","advance_mode":"OnClick","type":"start"},"94":{"choices":"98~~{Sprite} = 0~-~99~~{Sprite} = 1~-~100~~true~-~","isRandom":"False","name":"If Sticker","next":"-1","tru":"True","index":"94","posX":"-21.64332","posY":"6.801434","minimized":"False","advance_mode":"OnClick","type":"if"},"98":{"actionTarget":"Male","actionName":"Visibility","action_hidden":"False","name":null,"next":"274","tru":"True","index":"98","posX":"-18.00194","posY":"9.229395","minimized":"False","advance_mode":"Instantly","type":"action"},"99":{"actionTarget":"Female","actionName":"Visibility","action_hidden":"False","name":null,"next":"274","tru":"True","index":"99","posX":"-18.03037","posY":"6.107512","minimized":"False","advance_mode":"Instantly","type":"action"},"100":{"actionTarget":"Duck","actionName":"Visibility","action_hidden":"False","name":null,"next":"274","tru":"True","index":"100","posX":"-18.02578","posY":"3.023519","minimized":"False","advance_mode":"Instantly","type":"action"},"101":{"contents":"Character Selection Persistence","name":"Comment Sticker","next":"-1","tru":"True","index":"101","posX":"-21.59377","posY":"3.29743","minimized":"False","advance_mode":"OnClick","type":"comment"},"103":{"choices":"332~~true~-~333~~true~-~","isRandom":"True","name":"If Sticker","next":"-1","tru":"True","index":"103","posX":"3.170396","posY":"1.328252","minimized":"False","advance_mode":"OnClick","type":"if"},"104":{"displayName":null,"owner":"{Telegraphs}","newValue":"({Telegraphs} * 10) + 2","fromVariable":"False","get":"True","name":"Variable Sticker","next":"294","tru":"True","index":"104","posX":"9.106852","posY":"2.558458","minimized":"False","advance_mode":"OnClick","type":"variable"},"106":{"contents":"Randomize Telegraphed choice. \n0 = Control Scene, no Telegraph. \n1 = FAST will be telegraphed.\n2 = SAFE will be telegraphed.","name":"Comment Sticker","next":"-1","tru":"True","index":"106","posX":"3.30907","posY":"-2.487358","minimized":"False","advance_mode":"OnClick","type":"comment"},"107":{"content":"...But it'd be dangerous to cross so many lanes so quickly.","owner":null,"speaking":"True","name":"Dialogue State","next":"112","tru":"True","index":"107","posX":"18.74623","posY":"2.943316","minimized":"False","advance_mode":"OnClick","type":"dialogue"},"108":{"displayName":null,"owner":"{Telegraphs}","newValue":"({Telegraphs} * 10) + 1","fromVariable":"False","get":"True","name":"Variable Sticker","next":"334","tru":"True","index":"108","posX":"8.987175","posY":"-1.4334","minimized":"False","advance_mode":"OnClick","type":"variable"},"112":{"choiceType":"simple","content":"","owner":"","speaking":"False","prompted":"False","choices":"337~~Stay in your lane (SAFE)~~False~~snake_1~~true~-~338~~Take the exit lane (FAST)~~False~~rabbit_1~~true~-~","variable":null,"name":null,"next":"-1","tru":"True","index":"112","posX":"22.00204","posY":"4.553246","minimized":"False","advance_mode":"OnClick","type":"choice"},"114":{"displayName":null,"owner":"{Choices}","newValue":"({Choices} * 10) + 2","fromVariable":"False","get":"True","name":"Variable Sticker","next":"259","tru":"True","index":"114","posX":"32.32036","posY":"1.972733","minimized":"False","advance_mode":"OnClick","type":"variable"},"115":{"displayName":null,"owner":"{Choices}","newValue":"({Choices} * 10) + 1","fromVariable":"False","get":"True","name":"Variable Sticker","next":"260","tru":"True","index":"115","posX":"32.26222","posY":"-1.985006","minimized":"False","advance_mode":"OnClick","type":"variable"},"126":{"displayName":null,"owner":"{SceneOrder}","newValue":"({SceneOrder} * 10) + 2","fromVariable":"False","get":"True","name":"Variable Sticker","next":"103","tru":"True","index":"126","posX":"0.249254","posY":"1.890556","minimized":"False","advance_mode":"OnClick","type":"variable"},"128":{"contents":"Setup for Choice","name":"Comment Sticker","next":"-1","tru":"True","index":"128","posX":"1.404775","posY":"4.712592","minimized":"False","advance_mode":"OnClick","type":"comment"},"130":{"displayName":null,"owner":"{Freq}","newValue":"{Freq}+1","fromVariable":"False","get":"True","name":"Variable Sticker","next":"114","tru":"True","index":"130","posX":"29.03571","posY":"4.758818","minimized":"False","advance_mode":"OnClick","type":"variable"},"132":{"contents":"Picked Telegraphed Path?","name":"Comment Sticker","next":"-1","tru":"True","index":"132","posX":"28.90244","posY":"7.39327","minimized":"False","advance_mode":"OnClick","type":"comment"},"135":{"displayName":null,"owner":"{Arrow}","newValue":"true","fromVariable":"False","get":"True","name":"Variable Sticker","next":"232","tru":"True","index":"135","posX":"42.14712","posY":"0.04300976","minimized":"False","advance_mode":"OnClick","type":"variable"},"136":{"contents":"The Choice","name":"Comment Sticker","next":"-1","tru":"True","index":"136","posX":"25.25723","posY":"7.990146","minimized":"False","advance_mode":"OnClick","type":"comment"},"191":{"nextScript":"Null","transitionText":"","variablePairs":"","name":"End Sticker","next":"-1","tru":"True","index":"191","posX":"73.88869","posY":"-7.390001","minimized":"False","advance_mode":"OnClick","type":"end"},"192":{"nextScript":"Both","transitionText":"","variablePairs":"","name":"End Sticker","next":"-1","tru":"True","index":"192","posX":"77.46846","posY":"-5.506346","minimized":"False","advance_mode":"OnClick","type":"end"},"193":{"nextScript":"Regret","transitionText":"","variablePairs":"","name":"End Sticker","next":"-1","tru":"True","index":"193","posX":"80.99133","posY":"-3.406352","minimized":"False","advance_mode":"OnClick","type":"end"},"194":{"nextScript":"Appeal","transitionText":"","variablePairs":"","name":"End Sticker","next":"-1","tru":"True","index":"194","posX":"77.60201","posY":"2.445326","minimized":"False","advance_mode":"OnClick","type":"end"},"195":{"nextScript":"Suggest","transitionText":"","variablePairs":"","name":"End Sticker","next":"-1","tru":"True","index":"195","posX":"73.9016","posY":"0.6377009","minimized":"False","advance_mode":"OnClick","type":"end"},"232":{"choices":"233~~{Both}~-~240~~true~-~","isRandom":"False","name":"If Sticker","next":"-1","tru":"True","index":"232","posX":"46.32576","posY":"-0.4522312","minimized":"False","advance_mode":"OnClick","type":"if"},"233":{"choices":"234~~{Suggest}~-~240~~true~-~","isRandom":"False","name":"If Sticker","next":"-1","tru":"True","index":"233","posX":"49.29073","posY":"0.6116152","minimized":"False","advance_mode":"OnClick","type":"if"},"234":{"choices":"236~~{Appeal}~-~240~~true~-~","isRandom":"False","name":"If Sticker","next":"-1","tru":"True","index":"234","posX":"52.16687","posY":"1.832938","minimized":"False","advance_mode":"OnClick","type":"if"},"235":{"choices":"237~~{None}~-~240~~true~-~","isRandom":"False","name":"If Sticker","next":"-1","tru":"True","index":"235","posX":"57.8472","posY":"4.145292","minimized":"False","advance_mode":"OnClick","type":"if"},"236":{"choices":"235~~{Regret}~-~240~~true~-~","isRandom":"False","name":"If Sticker","next":"-1","tru":"True","index":"236","posX":"55.02084","posY":"3.106321","minimized":"False","advance_mode":"OnClick","type":"if"},"237":{"nextScript":"Debrief","transitionText":"","variablePairs":"","name":"End Sticker","next":"-1","tru":"True","index":"237","posX":"65.8493","posY":"6.532275","minimized":"False","advance_mode":"OnClick","type":"end"},"238":{"contents":"All Scenes Done","name":"Comment Sticker","next":"-1","tru":"True","index":"238","posX":"65.85282","posY":"8.404119","minimized":"False","advance_mode":"OnClick","type":"comment"},"239":{"contents":"Some Scenes Remaining, Loops through remaining scenes until one is found (Cannot infinite)","name":"Comment Sticker","next":"-1","tru":"True","index":"239","posX":"65.9498","posY":"2.92902","minimized":"False","advance_mode":"OnClick","type":"comment"},"240":{"choices":"243~~true~-~246~~true~-~245~~true~-~241~~true~-~244~~true~-~","isRandom":"True","name":"If Sticker","next":"-1","tru":"True","index":"240","posX":"65.87887","posY":"-1.582038","minimized":"False","advance_mode":"OnClick","type":"if"},"241":{"choices":"240~~{Both}~-~192~~true~-~","isRandom":"False","name":"If Sticker","next":"-1","tru":"True","index":"241","posX":"73.83052","posY":"-3.536445","minimized":"False","advance_mode":"OnClick","type":"if"},"243":{"choices":"240~~{Appeal}~-~194~~true~-~","isRandom":"False","name":"If Sticker","next":"-1","tru":"True","index":"243","posX":"73.88759","posY":"4.395061","minimized":"False","advance_mode":"OnClick","type":"if"},"244":{"choices":"240~~{None}~-~191~~true~-~","isRandom":"False","name":"If Sticker","next":"-1","tru":"True","index":"244","posX":"70.14024","posY":"-5.436311","minimized":"False","advance_mode":"OnClick","type":"if"},"245":{"choices":"240~~{Regret}~-~193~~true~-~","isRandom":"False","name":"If Sticker","next":"-1","tru":"True","index":"245","posX":"77.54568","posY":"-1.366312","minimized":"False","advance_mode":"OnClick","type":"if"},"246":{"choices":"240~~{Suggest}~-~195~~true~-~","isRandom":"False","name":"If Sticker","next":"-1","tru":"True","index":"246","posX":"70.06694","posY":"2.588578","minimized":"False","advance_mode":"OnClick","type":"if"},"253":{"displayName":null,"owner":"{Freq}","newValue":"{Freq}+1","fromVariable":"False","get":"True","name":"Variable Sticker","next":"115","tru":"True","index":"253","posX":"28.84837","posY":"-2.971872","minimized":"False","advance_mode":"OnClick","type":"variable"},"259":{"displayName":null,"owner":"{LastChoice}","newValue":"2","fromVariable":"False","get":"True","name":"Variable Sticker","next":"273","tru":"True","index":"259","posX":"35.50461","posY":"1.777269","minimized":"False","advance_mode":"OnClick","type":"variable"},"260":{"displayName":null,"owner":"{LastChoice}","newValue":"1","fromVariable":"False","get":"True","name":"Variable Sticker","next":"272","tru":"True","index":"260","posX":"35.55015","posY":"-2.179507","minimized":"False","advance_mode":"OnClick","type":"variable"},"272":{"displayName":null,"owner":"{Timer}","newValue":"{Timer} + 1","fromVariable":"False","get":"True","name":"Variable Sticker","next":"135","tru":"True","index":"272","posX":"38.68036","posY":"-2.201486","minimized":"False","advance_mode":"OnClick","type":"variable"},"273":{"displayName":null,"owner":"{Timer}","newValue":"{Timer} + 2","fromVariable":"False","get":"True","name":"Variable Sticker","next":"135","tru":"True","index":"273","posX":"38.63481","posY":"1.755289","minimized":"False","advance_mode":"OnClick","type":"variable"},"274":{"choices":"275~~{Timer} = 1~-~277~~{Timer} = 2~-~278~~{Timer} = 3~-~279~~{Timer} = 4~-~282~~{Timer} = 5~-~280~~{Timer} = 6~-~286~~{Timer} = 7~-~287~~{Timer} = 8~-~281~~{Timer} = 9~-~285~~{Timer} = 10~-~284~~true~-~","isRandom":"False","name":"If Sticker","next":"-1","tru":"True","index":"274","posX":"-12.80783","posY":"2.037637","minimized":"False","advance_mode":"OnClick","type":"if"},"275":{"actionTarget":"Clock","actionName":"ChangeImage","action_image-name":"clock_a_time_1","name":null,"next":"126","tru":"True","index":"275","posX":"-9.483649","posY":"6.910313","minimized":"False","advance_mode":"Instantly","type":"action"},"277":{"actionTarget":"Clock","actionName":"ChangeImage","action_image-name":"clock_a_time_2","name":null,"next":"126","tru":"True","index":"277","posX":"-6.570208","posY":"5.764352","minimized":"False","advance_mode":"Instantly","type":"action"},"278":{"actionTarget":"Clock","actionName":"ChangeImage","action_image-name":"clock_a_time_3","name":null,"next":"126","tru":"True","index":"278","posX":"-3.654702","posY":"4.814229","minimized":"False","advance_mode":"Instantly","type":"action"},"279":{"actionTarget":"Clock","actionName":"ChangeImage","action_image-name":"clock_a_time_4","name":null,"next":"126","tru":"True","index":"279","posX":"-9.448718","posY":"3.059925","minimized":"False","advance_mode":"Instantly","type":"action"},"280":{"actionTarget":"Clock","actionName":"ChangeImage","action_image-name":"clock_a_time_6","name":null,"next":"126","tru":"True","index":"280","posX":"-3.66652","posY":"1.237981","minimized":"False","advance_mode":"Instantly","type":"action"},"281":{"actionTarget":"Clock","actionName":"ChangeImage","action_image-name":"clock_a_time_9","name":null,"next":"126","tru":"True","index":"281","posX":"-3.676355","posY":"-2.469928","minimized":"False","advance_mode":"Instantly","type":"action"},"282":{"actionTarget":"Clock","actionName":"ChangeImage","action_image-name":"clock_a_time_5","name":null,"next":"126","tru":"True","index":"282","posX":"-6.610527","posY":"1.921122","minimized":"False","advance_mode":"Instantly","type":"action"},"284":{"actionTarget":"Clock","actionName":"ChangeImage","action_image-name":"clock_a_time_12","name":null,"next":"126","tru":"True","index":"284","posX":"-6.512938","posY":"-5.453896","minimized":"False","advance_mode":"Instantly","type":"action"},"285":{"actionTarget":"Clock","actionName":"ChangeImage","action_image-name":"clock_a_time_10","name":null,"next":"126","tru":"True","index":"285","posX":"-9.427565","posY":"-4.33835","minimized":"False","advance_mode":"Instantly","type":"action"},"286":{"actionTarget":"Clock","actionName":"ChangeImage","action_image-name":"clock_a_time_7","name":null,"next":"126","tru":"True","index":"286","posX":"-9.470954","posY":"-0.6904793","minimized":"False","advance_mode":"Instantly","type":"action"},"287":{"actionTarget":"Clock","actionName":"ChangeImage","action_image-name":"clock_a_time_8","name":null,"next":"126","tru":"True","index":"287","posX":"-6.577147","posY":"-1.786184","minimized":"False","advance_mode":"Instantly","type":"action"},"294":{"content":"You're driving along when you get a notification from your GPS.","owner":null,"speaking":"True","name":"Dialogue State","next":"296","tru":"True","index":"294","posX":"12.11275","posY":"2.981057","minimized":"False","advance_mode":"OnClick","type":"dialogue"},"296":{"content":"There's significant traffic up ahead and you can save time by taking the exit to your right.","owner":null,"speaking":"True","name":"Dialogue State","next":"107","tru":"True","index":"296","posX":"15.57444","posY":"2.827146","minimized":"False","advance_mode":"OnClick","type":"dialogue"},"298":{"choiceType":"simple","content":"","owner":"","speaking":"False","prompted":"False","choices":"300~~Stay in your lane (SAFE)~~False~~snake_1~~true~-~303~~Take the exit lane (FAST)~~False~~rabbit_1~~true~-~","variable":null,"name":null,"next":"-1","tru":"True","index":"298","posX":"22.25678","posY":"-1.678384","minimized":"False","advance_mode":"OnClick","type":"choice"},"300":{"content":"You decide it's not worth the risk.","owner":null,"speaking":"True","name":"Dialogue State","next":"114","tru":"True","index":"300","posX":"25.75923","posY":"-0.5145008","minimized":"False","advance_mode":"OnClick","type":"dialogue"},"303":{"content":"You cut across traffic to get off the highway.","owner":null,"speaking":"True","name":"Dialogue State","next":"253","tru":"True","index":"303","posX":"25.57873","posY":"-3.265203","minimized":"False","advance_mode":"OnClick","type":"dialogue"},"332":{"actionTarget":"Left","actionName":"Visibility","action_hidden":"False","name":null,"next":"104","tru":"True","index":"332","posX":"6.155658","posY":"2.668804","minimized":"False","advance_mode":"Instantly","type":"action"},"333":{"actionTarget":"Right","actionName":"Visibility","action_hidden":"False","name":null,"next":"108","tru":"True","index":"333","posX":"6.107039","posY":"-1.233303","minimized":"False","advance_mode":"Instantly","type":"action"},"334":{"content":"You're driving along when you get a notification from your GPS.","owner":null,"speaking":"True","name":"Dialogue State","next":"335","tru":"True","index":"334","posX":"12.0363","posY":"-0.9677355","minimized":"False","advance_mode":"OnClick","type":"dialogue"},"335":{"content":"There's significant traffic up ahead and you can save time by taking the exit to your right.","owner":null,"speaking":"True","name":"Dialogue State","next":"336","tru":"True","index":"335","posX":"15.31474","posY":"-1.049113","minimized":"False","advance_mode":"OnClick","type":"dialogue"},"336":{"content":"...But it'd be dangerous to cross so many lanes so quickly.","owner":null,"speaking":"True","name":"Dialogue State","next":"298","tru":"True","index":"336","posX":"18.86586","posY":"-0.9671448","minimized":"False","advance_mode":"OnClick","type":"dialogue"},"337":{"content":"You decide it's not worth the risk.","owner":null,"speaking":"True","name":"Dialogue State","next":"130","tru":"True","index":"337","posX":"25.60813","posY":"5.13357","minimized":"False","advance_mode":"OnClick","type":"dialogue"},"338":{"content":"You cut across traffic to get off the highway.","owner":null,"speaking":"True","name":"Dialogue State","next":"115","tru":"True","index":"338","posX":"25.59836","posY":"2.796393","minimized":"False","advance_mode":"OnClick","type":"dialogue"}},"scene":{"name":"Scene 1","title":"Arrow","pos":{"x":0,"y":0,"z":0},"uid":"8","background":"road_1","furniture":[{"uid":0,"rotation":0,"visible":true,"locked":true,"color":"FFFFFF","textcolor":"000000","image":"road_1","value":0,"text":"","fontSize":0,"parentName":"","objectType":3,"name":"Background","pos":{"x":0,"y":0,"z":0},"size":{"x":960,"y":540}},{"uid":1,"rotation":0,"visible":true,"locked":false,"color":"FFFFFF","textcolor":"000000","image":"clock_a_time_12","value":0,"text":"","fontSize":0,"parentName":"","objectType":0,"name":"Clock","pos":{"x":0,"y":200,"z":0},"size":{"x":81.40255,"y":81.40255}},{"uid":2,"rotation":0,"visible":false,"locked":false,"color":"FFFFFF","textcolor":"000000","image":"male_14","value":0,"text":"","fontSize":0,"parentName":"","objectType":4,"name":"Male","pos":{"x":-358.153076,"y":-152.188782,"z":0},"size":{"x":72,"y":273}},{"uid":3,"rotation":0,"visible":false,"locked":false,"color":"FFFFFF","textcolor":"000000","image":"female_business_3","value":0,"text":"","fontSize":0,"parentName":"","objectType":4,"name":"Female","pos":{"x":-360.988678,"y":-157.40715,"z":0},"size":{"x":77,"y":283}},{"uid":4,"rotation":0,"visible":false,"locked":false,"color":"FFFFFF","textcolor":"000000","image":"duck_2","value":0,"text":"","fontSize":0,"parentName":"","objectType":0,"name":"Duck","pos":{"x":-377.53653,"y":-100.112595,"z":0},"size":{"x":100,"y":120}},{"uid":5,"rotation":0,"visible":true,"locked":false,"color":"FFFFFF","textcolor":"000000","image":"love_seat_5","value":0,"text":"","fontSize":0,"parentName":"","objectType":0,"name":"love_seat_5","pos":{"x":-141.761322,"y":-106.774323,"z":0},"size":{"x":63.6542969,"y":43.9549522}},{"uid":6,"rotation":0,"visible":true,"locked":false,"color":"FFFFFF","textcolor":"000000","image":"love_seat_6","value":0,"text":"","fontSize":0,"parentName":"","objectType":0,"name":"love_seat_6","pos":{"x":-62.2976646,"y":-65.53912,"z":0},"size":{"x":31.5263176,"y":15.5511351}},{"uid":7,"rotation":0,"visible":true,"locked":false,"color":"FFFFFF","textcolor":"000000","image":"love_seat_3","value":0,"text":"","fontSize":0,"parentName":"","objectType":0,"name":"love_seat_3","pos":{"x":-106.9066,"y":-58.8759422,"z":0},"size":{"x":13.3654785,"y":8.140915}},{"uid":8,"rotation":0,"visible":true,"locked":false,"color":"FFFFFF","textcolor":"000000","image":"love_seat_1","value":0,"text":"","fontSize":0,"parentName":"","objectType":0,"name":"love_seat_1","pos":{"x":-64.10878,"y":-148.036865,"z":0},"size":{"x":78.27554,"y":50.9028168}},{"uid":9,"rotation":0,"visible":true,"locked":false,"color":"FFFFFF","textcolor":"000000","image":"suv_1","value":0,"text":"","fontSize":0,"parentName":"","objectType":0,"name":"suv_1","pos":{"x":-418.1383,"y":-186.543625,"z":0},"size":{"x":512.2304,"y":243.444733}},{"uid":10,"rotation":0,"visible":true,"locked":false,"color":"FFFFFF","textcolor":"000000","image":"sofa_6","value":0,"text":"","fontSize":0,"parentName":"","objectType":0,"name":"sofa_6","pos":{"x":72.98826,"y":-63.75533,"z":0},"size":{"x":28.41213,"y":22.3172779}},{"uid":11,"rotation":180,"visible":false,"locked":false,"color":"FFFFFF","textcolor":"000000","image":"prism_1","value":0,"text":"","fontSize":0,"parentName":"","objectType":0,"name":"Left","pos":{"x":-89.9896851,"y":-8.794292,"z":0},"size":{"x":64.21468,"y":55.58099}},{"uid":12,"rotation":180,"visible":false,"locked":false,"color":"FFFFFF","textcolor":"000000","image":"prism_1","value":0,"text":"","fontSize":0,"parentName":"","objectType":0,"name":"Right","pos":{"x":63.0912247,"y":-9.550467,"z":0},"size":{"x":64.21468,"y":55.58099}}],"recent_assets":["mail_package_1","paris_arch_of_triumph_1","love_seat_3","prism_1","prism_1","suv_1","prism_1","gas_statopm_flag_group_1"],"recent_backgrounds":["wall_inside_15","classroom_1","classroom_2","forest_dream_1","forest_dream_1","road_1"],"recent_characters":[],"layoutScale":0.4576977,"layoutPosition":{"x":15.1191483,"y":-0.7815861},"scriptorScale":0.3373808,"scriptorPosition":{"x":472.101349,"y":-110.403488},"layoutParamSet":true,"scriptorParamSet":true},"started":false}
+            var nodes = Object.keys(data.dictNodes).map(function(id) {
+                    return { id: id, ...data.dictNodes[id] };
+                }).filter(function(node) {
+                    return node.type !== 'comment';
+                });
+        
+                var links = nodes.flatMap(function(node) {
+                    
+                    var targets = [];
+                    var edge_labels = []
+                    if (node.next && node.next !== "-1" && !['choice', 'if'].includes(node.type)) {
+                        targets.push(node.next);
+                        edge_labels.push('')
+                    }
+                    if (node.type === 'choice' || node.type === 'if') {
+                        targets = targets.concat(node.choices.split('~-~').map(function(choice) {
+                            if(choice.split('~~')[1]){
+                                // console.log(choice.split('~~')[1])
+                                edge_labels.push(choice.split('~~')[1])
+                            }else{edge_labels.push('')}
+                            return choice.split('~~')[0];
+                        }));
+                    }
+                    
+        
+                    return targets.map(function(target,index) {
+                        console.log(edge_labels[index])
+                        return { source: node.id, target: target,edge_label:edge_labels[index]};
+                    });
+                });
+        
+                // console.log(nodes)
+                links = links.filter(link => link.target !== "");
+                console.log(
+                    'test',links)
+        
+                let simulation = d3.forceSimulation(nodes)
+                    .force("link", d3.forceLink().id((d, i) => d.id)) // Use index for id
+                    .force("charge", d3.forceManyBody())
+                    .force("center", d3.forceCenter(window.innerWidth/2, window.innerHeight / 2));
+        
+                var link = svg.append("g")
+                    .selectAll("line")
+                    .data(links)
+                    .enter().append("line")
+                    .attr("class", "link");
+        
+        
+                svg.append("defs").selectAll("marker")
+                    .data(links)
+                    .enter().append("marker")
+                    .attr("id", (d) => "arrow-" + d.source.id + "-" + d.target.id)
+                    .attr("viewBox", "0 -5 10 10")
+                    .attr("refX", 15) // Adjust the position of the arrowhead
+                    .attr("refY", 0)
+                    .attr("markerWidth", 6)
+                    .attr("markerHeight", 6)
+                    .attr("orient", "auto")
+                    .append("path")
+                    .attr("d", "M0,-5L10,0L0,5") // Adjust the size and shape of the arrowhead
+                    .attr("class", "arrowhead");
+        
+                // Update the link selection to include the arrowhead
+                var link = svg.append("g")
+                    .attr("class", "links")
+                    .selectAll("line")
+                    .data(links)
+                    .enter().append("line")
+                    .attr("class", "link")
+                    .attr("marker-end", (d) => "url(#arrow-" + d.source.id + "-" + d.target.id + ")");
+        
+                var linkLabels = svg.append("g")
+                    .attr("class", "link-labels")
+                    .selectAll("text")
+                    .data(links)
+                    .enter().append("text")
+                    .attr("class", "link-label")
+                    .text(function(d) { return d.edge_label; })
+                    .style("font-size", "10px")
+                    .attr("text-anchor", "middle")
+                    .attr("dy", "-5");
+        
+        
+        
+                    
+        
+                var node = svg.append("g")
+                    .selectAll("circle")
+                    .data(nodes)
+                    .enter().append("circle")
+                    .attr("class", "node")
+                    .attr("r", 5)
+                    .attr("fill", function(d) { return color(d.type); })
+                    .call(d3.drag()
+                        .on("start", dragstarted)
+                        .on("drag", dragged)
+                        .on("end", dragended));
+        
+        
+
+                        node.on("mouseover", function(d) {
+            d3.select(this).attr("r", 10); // adjust the size of the node on hover
+            nodeLabels.filter(function(labelData) {
+                // console.log(d.id);
+                var element = document.getElementById("show_data");
+                
+                if(d.type=='variable'){
+                    element.innerHTML =  '<b>Node ID:</b> '+ d.id + ' | <b>Node Type:</b> ' + d.type + ' | <b>Variable Updated:</b> ' + d.owner + ' | <b> Operation:</b> ' + d.newValue;
+                }
+                if(d.type=='dialogue'){
+                    element.innerHTML =  '<b>Node ID:</b> '+ d.id + ' | <b>Node Type:</b> ' + d.type + ' | <b>Node Content:</b> ' + d.content;
+                }
+                if(d.type=='action'){
+                    element.innerHTML =  '<b>Node ID:</b> '+ d.id + ' | <b>Node Type:</b> ' + d.type + ' | <b>Action On Asset:</b> ' + d.actionTarget + ' | <b>Action Type:</b> ' + d.actionName
+                }
+                if(d.type=='choice'){
+                    element.innerHTML =  '<b>Node ID:</b> '+ d.id + ' | <b>Node Type:</b> ' + d.type 
+                }
+                if(d.type=='if'){
+                    element.innerHTML =  '<b>Node ID:</b> '+ d.id + ' | <b>Node Type:</b> ' + d.type 
+                }
+ 
+                return labelData === d.id;
+            }).style("opacity", 4); // show label on hover
+        });
+
+        node.on("mouseout", function(d) {
+            d3.select(this).attr("r", 5); // revert the size of the node on mouseout
+            nodeLabels.filter(function(labelData) {
+                return labelData === d;
+            }).style("opacity", 0); // hide label on mouseout
+        });
+
+                // Add labels to the nodes
+                var nodeLabels = svg.append("g")
+                    .attr("class", "node-labels")
+                    .selectAll("text")
+                    .data(nodes)
+                    .enter().append("text")
+                    .attr("class", "node-label")
+                    .text(function(d) { 
+                        // console.log(d.id)
+                        return d.id; })
+                    .style("font-size", "10px")
+                    .attr("dx", 12)
+                    .attr("dy", 4)
+                    .style("opacity", 0); // initially hide the labels
+        
+                // ...
+        
+           
+             
+        
+                node.append("title")
+                    .text(function(d) { return d.id; });
+        
+        
+                simulation
+                    .nodes(nodes)
+                    .on("tick", ticked);
+        
+                simulation.force("link")
+                    .links(links);
+        
+                function ticked() {
+                    link
+                        .attr("x1", function(d) { return d.source.x; })
+                        .attr("y1", function(d) { return d.source.y; })
+                        .attr("x2", function(d) { return d.target.x; })
+                        .attr("y2", function(d) { return d.target.y; });
+        
+                    linkLabels.attr("x", function(d) { return (d.source.x + d.target.x) / 2; })
+                              .attr("y", function(d) { return (d.source.y + d.target.y) / 2; });
+        
+        
+                    node
+                        .attr("cx", function(d) { return d.x; })
+                        .attr("cy", function(d) { return d.y; });
+                }
+        
+                function dragstarted(d) {
+                    if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+                    d.fx = d.x;
+                    d.fy = d.y;
+                }
+        
+                function dragged(d) {
+                    d.fx = d3.event.x;
+                    d.fy = d3.event.y;
+                }
+        
+                function dragended(d) {
+                    if (!d3.event.active) simulation.alphaTarget(0);
+                    d.fx = null;
+                    d.fy = null;
+                }
+        
+        
+        console.log('NODES',nodes)
+        console.log('LINKS',links)
+        
+        
+        //Paths explored
+        function createGraph(nodes, links) {
+          const graph = new Map();
+        
+          // Initialize the graph
+          for (const node of nodes) {
+            graph.set(node.id, []);
+          }
+        
+          // Fill the graph
+          for (const link of links) {
+            graph.get(link.source.id).push(link.target.id);
+          }
+        
+          return graph;
+        }
+        
+        function depthFirstSearch(graph, startNode, endNodes, visited, path, allPaths) {
+          // Mark the current node as visited and add it to the path
+          visited[startNode] = true;
+          path.push(startNode);
+        
+          // If current node is one of the destination nodes, add the path to allPaths
+          if (endNodes.includes(startNode)) {
+            allPaths.push([...path]);
+          }
+        
+          // If current node is not destination
+          // Recur for all the vertices adjacent to this vertex
+          const neighbors = graph.get(startNode);
+          for (let i of neighbors) {
+            if (!visited[i]) {
+              depthFirstSearch(graph, i, endNodes, visited, path, allPaths);
+            }
+          }
+        
+          // Remove current node from path[] and mark it as unvisited
+          path.pop();
+          visited[startNode] = false;
+        }
+        
+        function findAllPaths(nodes, links, startNode, endNodes) {
+          const graph = createGraph(nodes, links);
+          const visited = {};
+          nodes.forEach(node => visited[node.id] = false);
+          const path = [];
+          const allPaths = [];
+        
+          depthFirstSearch(graph, startNode, endNodes, visited, path, allPaths);
+          
+          return allPaths;
+        }
+        
+        function getEndNodes(nodes){
+            var end_nodes = []
+            for (const node of nodes) {
+                if (node.type === 'end') {
+                    end_nodes.push(node.id); // Output the id of the node with type 'end'
+                }
+            }
+            return end_nodes
+        }
+        
+        
+        function getPathDescription(links,path){
+            //console.log(path,typeof(path))
+            var description = ''
+            for (let i = 0; i < path.length; i++) {
+            const sourceNode = path[i];
+            if (i + 1 < path.length) {
+                const targetNode = path[i + 1];
+                //console.log(`Current item: ${sourceNode}, Next item: ${targetNode}`);
+                edge = links.find(link => link.source.id === sourceNode && link.target.id === targetNode);
+                //console.log(edge)
+                if(edge.edge_label==''){
+                    description+= `${edge.target.content} `
+                }else{
+                    description+= `(${edge.edge_label}) ${edge.target.content} `
+                }
+               
+        
+            } else {
+                //console.log(`Current item: ${sourceNode}, Next item does not exist`);
+            }
+        }
+        
+            return description
+        }
+        
+        paths=(findAllPaths(nodes, links, "0", getEndNodes(nodes)));
+        // var unique_paths = document.getElementById("unique_path_label");
+        // unique_paths.innerHTML =  paths.length
+        
+        
+        // for(const path of paths){
+        //     console.log(path)
+        //     console.log(getPathDescription(links,path))
+        //     console.log('-----')
+        // }
+        
+        console.log('Nodes',nodes)
+        console.log('Links',links)
+        
+        // Graphs
+        const nodeFrequency = {};
+        for (const node of nodes) {
+          const type = node.type;
+          if (nodeFrequency[type]) {
+            nodeFrequency[type]++;
+          } else {
+            nodeFrequency[type] = 1;
+          }
+        }
+        
+        // Step 2: Convert frequency data into an array of objects
+        const freqData = Object.entries(nodeFrequency).map(([type, frequency]) => ({ type, frequency }));
+        
+        // Step 3: Create the bar chart using D3.js
+        const margin = { top: 20, right: 20, bottom: 30, left: 40 };
+        const width = 400 - margin.left - margin.right;
+        const height = 300 - margin.top - margin.bottom;
+        
+        const x = d3.scaleBand()
+          .range([0, width])
+          .padding(0.1)
+          .domain(freqData.map(d => d.type));
+        
+        const y = d3.scaleLinear()
+          .range([height, 0])
+          .domain([0, d3.max(freqData, d => d.frequency)]);
+        
+        const svgFreq = d3.select("#chartContainer")
+          .append("svg")
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+          .attr("transform", `translate(${margin.left},${margin.top})`);
+        
+          svgFreq.selectAll(".bar")
+          .data(freqData)
+          .enter().append("rect")
+          .attr("class", "bar")
+          .attr("x", d => x(d.type))
+          .attr("width", x.bandwidth())
+          .attr("y", d => y(d.frequency))
+          .attr("height", d => height - y(d.frequency));
+        
+          svgFreq.append("g")
+          .attr("transform", `translate(0,${height})`)
+          .call(d3.axisBottom(x));
+        
+          svgFreq.append("g")
+          .call(d3.axisLeft(y));
+        
+        
+
+
+</script>
+<script>
+let cleanedNodes = nodes.map(node => {
+  let cleanedNode = {
+    type: node.type,
+    index: node.id
+  };
+  
+  if (node.content !== undefined) {
+    cleanedNode.content = node.content;
+  }
+  
+  return cleanedNode;
+});
+
+function cleanNode(node) {
+  let cleanedNode = {
+    type: node.type,
+    index: node.id
+  };
+
+  if (node.content !== undefined) {
+    cleanedNode.content = node.content;
+  }
+
+  return cleanedNode;
+}
+
+
+let cleanedEdges = links.map(edge => {
+  return {
+    source: cleanNode(edge.source),
+    target: cleanNode(edge.target),
+    edge_label: edge.edge_label
+  };
+});
+
+console.log(cleanedNodes,'test')
+console.log(cleanedEdges,'test',typeof(cleanedEdges))
+// $("#dataViewer").append(JSON.stringify(cleanedEdges, null, 2)); 
+        
+// Your edges data
+const usersData = [];
+function getNextNodes(sourceIndex) {
+    return cleanedEdges.filter(edge => edge.source.index === sourceIndex);
+}
+
+for (let userId = 1; userId <= 10; userId++) {
+    let currentNode = { type: "start", index: "0" };
+    const userChoices = [];
+    let userVariables = [];
+
+    while (currentNode.type !== "end" && currentNode) {
+        const nextNodes = getNextNodes(currentNode.index);
+
+        if (currentNode.type === "variable") {
+            userVariables.push(currentNode.index);
+        }
+
+        if (currentNode.type === "choice" || currentNode.type === "if") {
+            const chosenEdge = nextNodes[Math.floor(Math.random() * nextNodes.length)];
+            if (currentNode.type === "choice") {
+                userChoices.push({
+                    ChoiceNode: currentNode.index,
+                    SelectedNode: chosenEdge.target.index,
+                    Content: chosenEdge.target.content || "",
+                    Variables: []
+                });
+            }
+            currentNode = chosenEdge.target;
+        } else if (nextNodes.length) {
+            currentNode = nextNodes[0].target;
+        } else {
+            currentNode = null;
+        }
+
+        if (currentNode && (currentNode.type === "choice" || currentNode.type === "end") && userChoices.length) {
+            userChoices[userChoices.length - 1].Variables = userVariables.slice();
+            userVariables = [];
+        }
+    }
+
+    usersData.push({ ID: userId, Choices: userChoices });
+}
+
+// Creating and appending the table to the DOM
+const table = document.createElement('table');
+
+// Creating headers
+const thead = document.createElement('thead');
+const headerRow = document.createElement('tr');
+['User ID', 'Choice Node', 'Selected Node', 'Content', 'Variables'].forEach(headerText => {
+    const th = document.createElement('th');
+    th.appendChild(document.createTextNode(headerText));
+    headerRow.appendChild(th);
+});
+thead.appendChild(headerRow);
+table.appendChild(thead);
+
+// Creating body
+const tbody = document.createElement('tbody');
+usersData.forEach(user => {
+    user.Choices.forEach(choice => {
+        const tr = document.createElement('tr');
+        [user.ID, choice.ChoiceNode, choice.SelectedNode, choice.Content, choice.Variables.join(', ')].forEach(cellData => {
+            const td = document.createElement('td');
+            td.appendChild(document.createTextNode(cellData));
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+    });
+});
+table.appendChild(tbody);
+
+document.getElementById('tableContainer').appendChild(table);
+
+
+
+
+
+</script>                  
+   
+        
+</html>
