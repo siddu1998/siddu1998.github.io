@@ -58,7 +58,7 @@
 <body>
     <div class="meeting-container">
         <div class="virtual-character-panel">
-            <img src="path_to_virtual_character_image.jpg" alt="Virtual Character">
+            <img src="images/powerPuff.png" alt="Virtual Character">
         </div>
         <div class="user-panel">
             <video id="userVideo" autoplay></video>
@@ -97,7 +97,7 @@ window.onload = function() {
 
 
         // Access the camera
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+        navigator.mediaDevices.getUserMedia({ video: true })
             .then(localStream => {
                 stream = localStream;
                 userVideo.srcObject = localStream;
