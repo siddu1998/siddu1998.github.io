@@ -93,15 +93,14 @@
     <div class="meeting-container">
         <div class="virtual-character-panel">
             <div class="system-message-container">
-                <textarea id="systemMessage" style="width: 100%;" placeholder="Enter the behavior of the assistant..."></textarea>
+                <textarea id="systemMessage" style="width: 100%;" placeholder="Whom are you interviewing..."></textarea>
                 <button id="updateSystemMessage">Update</button>
             </div>
-            <label for="voiceList">Choose a voice:</label>
             <img src="images/giphy.gif" style="width: 100%;" alt="Virtual Character">
             <!-- <div style="width:480px"><iframe allow="fullscreen" frameBorder="0" height="270" src="https://giphy.com/embed/or5Fd8WKuuNCjfXNjy/video" width="480"></iframe></div> -->
         </div>
         <div class="user-panel">
-            <video id="userVideo" autoplay></video>
+            <video id="userVideo" autoplay style="width: 100%; padding-top: 10%;"></video>
             <div class="controls">
                 <button id="toggleCamera">Close Camera</button>
                 <button id="startRecord">Start Recording</button>
@@ -118,7 +117,7 @@
     <script>
 
 
-// I am a student and a researcher practicing my research interview skills. I will need you to respond to various questions. You are being interviewed, and you are an instructor at UCSC teaching research methods class. I am interviewing to learn more about how we can use games in classrooms. 
+// you are an instructor at UCSC teaching research methods class. I am interviewing to learn more about how we can use games in classrooms. 
 
 
 
@@ -150,9 +149,10 @@ let chatHistory = [{
 
 $('#updateSystemMessage').on('click', function() {
     const systemContent = $('#systemMessage').val().trim();
+    var prompt = 'I am a student and a researcher practicing my research interview skills. I will need you to respond to various questions I ask. Respond very natuarlly to mimic a scenario in a real life interview, feel free to have filler words. You are being interviewed.'
     if (systemContent) {
         chatHistory = [
-            {role: 'system', content: systemContent}
+            {role: 'system', content: prompt + ' ' + systemContent}
         ];
         console.log('updated system role')
     } else {
@@ -233,8 +233,6 @@ function getAIresponse(transcription){
            $('#transcription').text('Response: ' + aiResponse);
            let speech = new SpeechSynthesisUtterance(aiResponse);
             speech.lang = 'hi-IN'; 
-            speech.pitch = 1; // Range between 0 and 2
-            speech.rate = 1.5; // Speed at which it'll be spoken, can range between 0.1 to 10
             
             window.speechSynthesis.speak(speech);
            
