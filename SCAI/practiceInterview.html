@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Meeting</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f3f4f6;
+}
+
+.meeting-container {
+    display: flex;
+    height: 100vh;
+}
+
+.user-panel, .virtual-character-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border: 2px solid #e0e0e0;
+}
+
+#userVideo {
+    width: 100%;
+    max-height: 60vh;
+    border-radius: 10px;
+}
+
+.controls {
+    margin-top: 20px;
+}
+
+.controls button {
+    margin: 5px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #2d2d2d;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.controls button:hover {
+    background-color: #555555;
+}
+</style>
+
+<body>
+    <div class="meeting-container">
+        <div class="virtual-character-panel">
+            <img src="path_to_virtual_character_image.jpg" alt="Virtual Character">
+        </div>
+        <div class="user-panel">
+            <video id="userVideo" autoplay></video>
+            <div class="controls">
+                <button id="toggleCamera">Close Camera</button>
+                <button id="startRecord">Start Recording</button>
+                <button id="stopRecord" disabled>Stop Recording</button>
+                <div id="transcription"></div>
+                
+            </div>
+            <div id="transcription"></div>
+        </div>
+       
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+
+
+window.onload = function() {
+  key = prompt("Please enter Your OpenAI Key:");
+    if (userInput !== null) {
+        var message = "You entered: " + key;
+        alert(key);
+    } else {
+        alert("You did not enter a Key. Refresh the page to try again.");
+    }
+};
+        const userVideo = document.getElementById('userVideo');
+        const toggleCameraButton = document.getElementById('toggleCamera');
+      
+        let stream = null;
+        let isCameraOn = true;
+        let audioChunks = [];
+
+
+
+        // Access the camera
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            .then(localStream => {
+                stream = localStream;
+                userVideo.srcObject = localStream;
+            })
+            .catch(error => {
+                console.error('Error accessing the camera or microphone:', error);
+            });
+
+        toggleCameraButton.addEventListener('click', () => {
+            if (!stream) return;
+
+            isCameraOn = !isCameraOn;
+            stream.getVideoTracks()[0].enabled = isCameraOn;
+            toggleCameraButton.textContent = isCameraOn ? 'Close Camera' : 'Open Camera';
+        });
+
+        navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(stream => {
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = event => {
+            audioChunks.push(event.data);
+        };
+
+        mediaRecorder.onstop = () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+            sendDataToServer(audioBlob);
+        };
+    });
+
+        $('#startRecord').on('click', function() {
+            mediaRecorder.start();
+            $(this).prop('disabled', true);
+            $('#stopRecord').prop('disabled', false);
+        });
+
+        $('#stopRecord').on('click', function() {
+            mediaRecorder.stop();
+            $(this).prop('disabled', true);
+            $('#startRecord').prop('disabled', false);
+        });
+
+    function sendDataToServer(audioBlob) {
+        let formData = new FormData();
+        formData.append('audio', audioBlob);
+
+        $.ajax({
+            type: 'POST',
+            url: 'https://api.openai.com/v1/audio/transcriptions/',
+            model:'whisper-1',
+            data: formData,
+            
+            processData: false,
+            contentType: false,
+            headers: {
+                'Authorization': 'Bearer '+ key,
+            },
+            success: function(response) {
+                const transcription = response.alternatives[0].transcript;
+                $('#transcription').text('Transcription: ' + transcription);
+            },
+            error: function(error) {
+                console.error('Error sending data to OpenAI:', error);
+            }
+        });
+    }
+
+
+    </script>
+</body>
+</html>
