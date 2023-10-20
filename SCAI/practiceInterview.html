@@ -53,11 +53,50 @@
 .controls button:hover {
     background-color: #555555;
 }
+.system-message-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#systemMessage {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+    flex-grow: 1; /* Makes the textarea take all available space */
+    margin-right: 10px; /* Spacing between textarea and button */
+    outline: none; /* Removes the default focus outline */
+    transition: border-color 0.3s ease; /* Smooth transition for focus effect */
+}
+
+#systemMessage:focus {
+    border-color: #007BFF; /* Changes the border color when textarea is focused */
+}
+
+#updateSystemMessage {
+    padding: 10px 15px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+#updateSystemMessage:hover {
+    background-color: #0056b3; /* Slightly darker shade for hover */
+}
 </style>
 
 <body>
     <div class="meeting-container">
         <div class="virtual-character-panel">
+            <div class="system-message-container">
+                <textarea id="systemMessage" placeholder="Enter the behavior of the assistant..."></textarea>
+                <button id="updateSystemMessage">Update</button>
+            </div>
             <img src="images/powerPuff.png" alt="Virtual Character">
         </div>
         <div class="user-panel">
@@ -78,45 +117,29 @@
     <script>
 
 
-window.onload = function() {
-  key = prompt("Please enter Your OpenAI Key:");
-    if (userInput !== null) {
-        var message = "You entered: " + key;
-        alert(key);
+
+        
+let audioChunks = [];
+let chatHistory = [{
+    role: 'system',
+    content: 'You are a helpful teacher assisting with interview preparations.'}
+];
+
+$('#updateSystemMessage').on('click', function() {
+    const systemContent = $('#systemMessage').val().trim();
+    if (systemContent) {
+        chatHistory = [
+            {role: 'system', content: systemContent}
+        ];
+        console.log('updated system role')
     } else {
-        alert("You did not enter a Key. Refresh the page to try again.");
+        console.log('Failed to update system role');
     }
-};
-        const userVideo = document.getElementById('userVideo');
-        const toggleCameraButton = document.getElementById('toggleCamera');
-      
-        let stream = null;
-        let isCameraOn = true;
-        let audioChunks = [];
+});
 
-
-
-        // Access the camera
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(localStream => {
-                stream = localStream;
-                userVideo.srcObject = localStream;
-            })
-            .catch(error => {
-                console.error('Error accessing the camera or microphone:', error);
-            });
-
-        toggleCameraButton.addEventListener('click', () => {
-            if (!stream) return;
-
-            isCameraOn = !isCameraOn;
-            stream.getVideoTracks()[0].enabled = isCameraOn;
-            toggleCameraButton.textContent = isCameraOn ? 'Close Camera' : 'Open Camera';
-        });
-
-        navigator.mediaDevices.getUserMedia({ audio: true })
+navigator.mediaDevices.getUserMedia({ audio: true })
     .then(stream => {
-        mediaRecorder = new MediaRecorder(stream);
+        const mediaRecorder = new MediaRecorder(stream);
         mediaRecorder.ondataavailable = event => {
             audioChunks.push(event.data);
         };
@@ -124,8 +147,8 @@ window.onload = function() {
         mediaRecorder.onstop = () => {
             const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
             sendDataToServer(audioBlob);
+            audioChunks = []; // Reset the audio chunks after sending
         };
-    });
 
         $('#startRecord').on('click', function() {
             mediaRecorder.start();
@@ -138,31 +161,78 @@ window.onload = function() {
             $(this).prop('disabled', true);
             $('#startRecord').prop('disabled', false);
         });
+    })
+    .catch(error => {
+        console.error('Error accessing the microphone:', error);
+    });
 
-    function sendDataToServer(audioBlob) {
-        let formData = new FormData();
-        formData.append('audio', audioBlob);
 
-        $.ajax({
-            type: 'POST',
-            url: 'https://api.openai.com/v1/audio/transcriptions/',
-            model:'whisper-1',
-            data: formData,
-            
-            processData: false,
-            contentType: false,
-            headers: {
-                'Authorization': 'Bearer '+ key,
-            },
-            success: function(response) {
-                const transcription = response.alternatives[0].transcript;
-                $('#transcription').text('Transcription: ' + transcription);
-            },
-            error: function(error) {
-                console.error('Error sending data to OpenAI:', error);
-            }
-        });
+function sendDataToServer(audioBlob) {
+    let formData = new FormData();
+    formData.append('audio', audioBlob);
+
+    $.ajax({
+        type: 'POST',
+        url: 'https://shloka.herokuapp.com/process_wav_js',  // This URL might need adjustment based on your setup
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(transcription) {
+            $('#transcription').text('Transcription: ' + transcription);
+            getAIresponse(transcription)
+        },
+        error: function(error) {
+            console.error('Error sending data to server:', error);
+        }
+    });
+}
+
+function getAIresponse(transcription){
+    // Add user's message to chat history
+    chatHistory.push({role: 'user', content: transcription});
+
+    // Later, when you get the AI's response:
+   
+    // If chat history exceeds 3 messages (or your desired number), remove the oldest
+    while (chatHistory.length > 3) {
+        chatHistory.shift();
     }
+        
+    // var settings = {
+    // "url": "https://shloka.herokuapp.com/getChatCompletion",
+    // "method": "POST",
+    // "headers": {
+    //     "Content-Type": "application/json"
+    // },
+    // data: JSON.stringify({ chatHistory: chatHistory }),
+    // };
+
+    // $.ajax(settings).done(function (response) {
+    // console.log(response);
+    // chatHistory.push({role: 'assistant', content: response});
+    // $('#transcription').text('Response: ' + response);
+    // });
+
+    $.ajax({
+        type: 'POST',
+        url: 'https://shloka.herokuapp.com/get_chat_completion',  // This URL might need adjustment based on your setup
+        data: JSON.stringify({ chatHistory: chatHistory }),
+        headers: {
+                'Content-Type': 'application/json',
+            },
+        success: function(aiResponse) {
+           console.log(aiResponse)
+           $('#transcription').text('Response: ' + aiResponse);
+           
+        },
+        error: function(error) {
+            console.error('Error getting AI Response:', error);
+        }
+    });
+
+
+
+}
 
 
     </script>
