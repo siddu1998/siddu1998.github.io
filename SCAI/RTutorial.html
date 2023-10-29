@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>R Learning with AI Assistant</title>
+</head>
+<style>
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+#container {
+  display: flex;
+  height: 100%;
+}
+
+#chat-box {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  background-color: #f0f0f0;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+
+#r-interpreter {
+padding-top: 10px;
+  width: 60%;
+}
+
+#messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.message {
+  max-width: 70%;
+  margin-bottom: 5px;
+  padding: 8px;
+  border-radius: 10px;
+  color: black;
+}
+
+.message code {
+  background-color: #f6ffd7;
+  border-radius: 4px;
+  padding: 2px 4px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.message pre {
+  background-color: #ffffcb;
+  padding: 10px;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+
+.user {
+  background-color: #baf4bb; /* Green */
+  margin-left: auto;
+  text-align: right;
+}
+
+.ai {
+  background-color: #f1f1d6; /* Light grey */
+  text-align: left;
+}
+
+input[type="text"] {
+  width: calc(100% - 90px);
+  padding: 10px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+button {
+  width: 60px;
+  background-color: #4CAF50; /* Green */
+  color: white;
+  border: none;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+input:focus, button:focus {
+  outline: none;
+}
+
+  
+  </style>
+
+<body>
+    <div id="container">
+        <div id="chat-box">
+            <!-- Chat content will go here -->
+            <div id="messages"></div>
+            <div id="input-area">
+                <input type="text" id="user-input" placeholder="Type your message...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+            
+        </div>
+        <div id="r-interpreter">
+            <iframe width='100%' height='100%' src='https://rdrr.io/snippets/embed/' frameborder='0'></iframe>
+        </div>
+    </div>
+
+
+
+
+<script>
+    let openAIKey;
+let messageHistory = []; // Array to store the last four messages
+
+document.addEventListener("DOMContentLoaded", function() {
+    openAIKey = prompt("Please enter your OpenAI API key:");
+    if (openAIKey) {
+        initializeAIConversation();
+    }
+    document.getElementById('user-input').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+});
+
+function initializeAIConversation() {
+    const initialMessage = {
+        role: "system",
+        content: "You are an instructor who is teaching students R programming language for Research. Give students a sample datasets or situations, and scaffold them into learning how to load data, perform simple statistical tests. Use only the default datasets, so they do not need to upload, or make new datasets. Ask students to share lines of code, fill in missing lines of code and other fun ways to learn R. As an instructor check the code of students and help them improve. Start by greeting the student."
+    };
+
+    messageHistory.push(initialMessage);
+    getAIResponse(""); // Call with empty user message to trigger only the initial AI response
+}
+
+
+function sendMessage() {
+    const userInputField = document.getElementById('user-input');
+    const userMessage = userInputField.value.trim();
+    userInputField.value = '';
+
+    if (userMessage) {
+        displayMessage("You: " + userMessage, 'user');
+        updateMessageHistory({ role: "user", content: userMessage });
+        getAIResponse(userMessage);
+    }
+}
+
+function getAIResponse(userMessage) {
+    // Only add user messages that are not empty (i.e., actual user input)
+    if (userMessage) {
+        updateMessageHistory({ role: "user", content: userMessage });
+    }
+
+    const data = {
+        model: "gpt-4",
+        messages: messageHistory
+    };
+
+    fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + openAIKey
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        const aiMessage = data.choices[0].message.content.trim();
+        console.log(aiMessage)
+        if (aiMessage) { // Prevent displaying empty messages
+            displayMessage("AI: " + aiMessage, 'ai');
+            updateMessageHistory({ role: "assistant", content: aiMessage });
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+function updateMessageHistory(message) {
+    messageHistory.push(message);
+    // Keep only the last four messages (two pairs of user and AI messages)
+    if (messageHistory.length > 4) {
+        messageHistory.shift();
+    }
+}
+
+// function displayMessage(message, sender) {
+//     const messagesContainer = document.getElementById('messages');
+//     const messageElement = document.createElement('div');
+//     messageElement.className = 'message ' + sender;
+//     // Parse Markdown content
+//     messageElement.innerHTML = marked(message);
+//     messagesContainer.appendChild(messageElement);
+//     messagesContainer.scrollTop = messagesContainer.scrollHeight;
+// }
+
+function displayMessage(message, sender) {
+    const converter = new showdown.Converter();
+    const html = converter.makeHtml(message);
+
+    const messagesContainer = document.getElementById('messages');
+    const messageElement = document.createElement('div');
+    messageElement.className = 'message ' + sender;
+    messageElement.innerHTML = html;
+    messagesContainer.appendChild(messageElement);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
+</body>
+</html>
