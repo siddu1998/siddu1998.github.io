@@ -149,7 +149,7 @@ let chatHistory = [{
 
 $('#updateSystemMessage').on('click', function() {
     const systemContent = $('#systemMessage').val().trim();
-    var prompt = 'I am a student and a researcher practicing my research interview skills. I will need you to respond to various questions I ask. Respond very natuarlly to mimic a scenario in a real life interview, feel free to have filler words. You are being interviewed.'
+    var prompt = 'I am a student and a researcher practicing my research interview skills. I will need you to respond to various questions I ask. Respond very natuarlly to mimic a scenario in a real life interview, feel free to have filler words. You are being interviewed and make sure you act like the persona you are assigned, you are free to make up responses.'
     if (systemContent) {
         chatHistory = [
             {role: 'system', content: prompt + ' ' + systemContent}
@@ -217,8 +217,14 @@ function getAIresponse(transcription){
     // Later, when you get the AI's response:
    
     // If chat history exceeds 3 messages (or your desired number), remove the oldest
-    while (chatHistory.length > 3) {
-        chatHistory.shift();
+    // while (chatHistory.length > 3) {
+    //     chatHistory.shift();
+    // }
+
+
+    if (chatHistory.length > 5) {
+        // Keep the initial context message and the last four messages
+        chatHistory = [chatHistory[0], ...chatHistory.slice(-4)];
     }
         
     $.ajax({
