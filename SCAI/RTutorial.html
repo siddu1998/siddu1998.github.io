@@ -10,7 +10,36 @@ body, html {
   height: 100%;
   font-family: Arial, sans-serif;
 }
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #2E3A59;
+}
 
+.navbar .brand {
+    color: #FFF;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.navbar li a {
+    text-decoration: none;
+    color: #FFF;
+    transition: color 0.2s;
+}
+
+.navbar li a:hover {
+    color: #FFD700;
+}
 #container {
   display: flex;
   height: 100%;
@@ -106,6 +135,15 @@ input:focus, button:focus {
   </style>
 
 <body>
+    <nav class="navbar">
+        <div class="brand">StudyHelper 🦖</div>
+        <ul>
+            <!-- <li><a href="#section1">Section 1</a></li>
+            <li><a href="#section2">Section 2</a></li> -->
+            <!-- Add more sections as needed -->
+        </ul>
+    </nav>
+
     <div id="container">
         <div id="chat-box">
             <!-- Chat content will go here -->
@@ -143,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function() {
 function initializeAIConversation() {
     const initialMessage = {
         role: "system",
-        content: "You are an instructor who is teaching a student R programming language for Research. Give the student a sample datasets or situations, and scaffold them into learning how to load data, perform simple statistical tests. Use only the default datasets, so they do not need to upload, or make new datasets. Discuss what is the dependent variable, independent variable. Ask students to share lines of code, fill in missing lines of code and other fun ways to learn R. As an instructor give them fun situations (with the default datasets). Start by greeting the student."
+        content: "You are an instructor who is teaching a student R programming language for Research. Give the student a sample datasets or situations, and scaffold them into learning how to load data, perform simple statistical tests. Use only the default datasets, so they do not need to upload, or make new datasets. Discuss what is the dependent variable, independent variable, various tests they can perform (t-tests, corelation, regression etc) and plotting. Give simple tasks, challenges, code for them to execute. As an instructor give them fun situations (with the default datasets). Give them only one task at a time and slowly build from easy to tough concepts.Start by greeting the student. All your responses should give tasks, but not ask the student what they want to learn."
     };
 
     messageHistory.push(initialMessage);
@@ -187,7 +225,7 @@ function getAIResponse(userMessage) {
         const aiMessage = data.choices[0].message.content.trim();
         console.log(aiMessage)
         if (aiMessage) { // Prevent displaying empty messages
-            displayMessage("AI: " + aiMessage, 'ai');
+            displayMessage("🦖 AI: " + aiMessage, 'ai');
             updateMessageHistory({ role: "assistant", content: aiMessage });
         }
     })
@@ -196,13 +234,17 @@ function getAIResponse(userMessage) {
     });
 }
 
-function updateMessageHistory(message) {
-    messageHistory.push(message);
-    // Keep only the last four messages (two pairs of user and AI messages)
-    if (messageHistory.length > 4) {
-        messageHistory.shift();
+function updateMessageHistory(newMessage) {
+    // Add new message to the history
+    messageHistory.push(newMessage);
+
+    // Ensure the first message (context message) always remains in history
+    if (messageHistory.length > 5) {
+        // Keep the initial context message and the last four messages
+        messageHistory = [messageHistory[0], ...messageHistory.slice(-4)];
     }
 }
+
 
 // function displayMessage(message, sender) {
 //     const messagesContainer = document.getElementById('messages');
