@@ -120,6 +120,14 @@
 // you are an instructor at UCSC teaching research methods class. I am interviewing to learn more about how we can use games in classrooms. 
 
 
+window.onload = function() {
+    // Ask the user for a key
+    var key = prompt("Please enter your OpenAI key:");
+
+    if (key) {
+        localStorage.setItem('key', key);
+    }
+};
 
 const toggleCameraButton = document.getElementById('toggleCamera');
 navigator.mediaDevices.getUserMedia({ video: true})
@@ -226,19 +234,30 @@ function getAIresponse(transcription){
         // Keep the initial context message and the last four messages
         chatHistory = [chatHistory[0], ...chatHistory.slice(-4)];
     }
+
+    const data = {
+        model: "gpt-4",
+        messages: chatHistory
+    };
+
+
         
     $.ajax({
         type: 'POST',
-        url: 'https://shloka.herokuapp.com/get_chat_completion',  // This URL might need adjustment based on your setup
-        data: JSON.stringify({ chatHistory: chatHistory }),
+        url: 'https://api.openai.com/v1/chat/completions',  // This URL might need adjustment based on your setup
+        data: JSON.stringify({ model: "gpt-4",
+        messages: chatHistory }),
         headers: {
                 'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('key')
             },
         success: function(aiResponse) {
-           console.log(aiResponse)
-           $('#transcription').text('Response: ' + aiResponse);
-           let speech = new SpeechSynthesisUtterance(aiResponse);
-            speech.lang = 'hi-IN'; 
+           console.log(aiResponse.choices[0].message.content.trim())
+           
+           $('#transcription').text('Response: ' + aiResponse.choices[0].message.content.trim());
+           let speech = new SpeechSynthesisUtterance(aiResponse.choices[0].message.content.trim());
+            //speech.lang = 'hi-IN'; 
+            speech.rate = 1.5
             window.speechSynthesis.speak(speech);
            
         },
