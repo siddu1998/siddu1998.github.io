@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Virtual Meeting</title>
-    <link rel="stylesheet" href="styles.css">
+  
 </head>
 <style>
     body {
@@ -30,16 +30,18 @@
 }
 
 #userVideo {
-    width: 100%;
-    max-height: 60vh;
+    width: 40%;
+    max-height: 40%;
     border-radius: 10px;
 }
 
 .controls {
     margin-top: 20px;
+    display: inline-block;
 }
 
 .controls button {
+    display: inline-block;
     margin: 5px;
     padding: 10px 20px;
     border: none;
@@ -73,7 +75,9 @@
 #systemMessage:focus {
     border-color: #007BFF; /* Changes the border color when textarea is focused */
 }
-
+.hidden {
+    display: none;
+  }
 #updateSystemMessage {
     padding: 10px 15px;
     background-color: #007BFF;
@@ -87,28 +91,146 @@
 #updateSystemMessage:hover {
     background-color: #0056b3; /* Slightly darker shade for hover */
 }
+
+.key-input-container {
+    width: 300px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .form-group {
+    margin-bottom: 10px;
+  }
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  button:hover {
+    background: #0056b3;
+  }
+
+  .checkbox-group {
+    margin-bottom: 15px;
+  }
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+  }
+  .checkbox-label input[type="checkbox"] {
+    margin-right: 5px;
+  }
+
+  #transcription {
+  background-color: #f5f5f5; /* light grey background for the whole chat */
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.message {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 8px;
+  display: inline-block;
+  max-width: 80%;
+}
+
+.interviewee {
+  background-color: #c8e6c9; /* pastel green for interviewee */
+  align-self: flex-end;
+  margin-left: auto;
+}
+
+.transcription {
+  background-color: #bbdefb; /* pastel blue for AI */
+  align-self: flex-start;
+  margin-right: auto;
+}
+
+/* Scroll to bottom automatically */
+.autoscroll {
+  scroll-behavior: smooth;
+}
+#download-btn {
+  padding: 10px 20px;
+  background-color: #e0e0e0; /* Light grey color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+#download-btn:hover {
+  background-color: #d5d5d5; /* Slightly darker grey on hover */
+}
 </style>
 
 <body>
+    
     <div class="meeting-container">
-        <div class="virtual-character-panel">
-            <div class="system-message-container">
-                <textarea id="systemMessage" style="width: 100%;" placeholder="Whom are you interviewing..."></textarea>
-                <button id="updateSystemMessage">Update</button>
+        <div class="key-input-container">
+            <div class="form-group">
+              <label for="openai-key">AI API Key:</label>
+              <input type="text" id="openai-key" placeholder="Enter your OpenAI key">
             </div>
-            <img src="images/giphy.gif" style="width: 100%;" alt="Virtual Character">
+            <div class="checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="ai-audio-checkbox">
+                  Use AI Enhanced Audio
+                </label>
+              </div>
+              <div class="form-group hidden" id="elevenlabs-key-group">
+                <label for="elevenlabs-key">Enhanced Audio API Key:</label>
+                <input type="text" id="elevenlabs-key" placeholder="Enter your ElevenLabs key">
+              </div>
+
+            <button id="submit-keys">Submit Keys</button>
+            <br>
+            <div class="form-group" style="padding-top: 10px;">
+              <label for="systemMessage">Whom are you interviewing:</label>
+              <textarea id="systemMessage" placeholder="Enter the role of your interviewee"></textarea>
+            </div>
+            
+            <button id="updateSystemMessage">Update System Message</button>
+          </div>
+
+          
+        <div class="virtual-character-panel">
+            
+            <video id="background-video" width="100%" height="320" loop>
+                <source src="images/womentalking.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            <video id="userVideo" autoplay style="width: 100%; padding-top: 10%;"></video>
+            <div class="controls">
+                <!-- <button id="toggleCamera">Close Camera</button> -->
+                <button id="startRecord">Start Recording</button>
+                <button id="stopRecord" disabled>Stop Recording</button>
+              
+            </div>
             <!-- <div style="width:480px"><iframe allow="fullscreen" frameBorder="0" height="270" src="https://giphy.com/embed/or5Fd8WKuuNCjfXNjy/video" width="480"></iframe></div> -->
         </div>
         <div class="user-panel">
-            <video id="userVideo" autoplay style="width: 100%; padding-top: 10%;"></video>
-            <div class="controls">
-                <button id="toggleCamera">Close Camera</button>
-                <button id="startRecord">Start Recording</button>
-                <button id="stopRecord" disabled>Stop Recording</button>
-                <div id="transcription"></div>
-                
-            </div>
-            <div id="transcription"></div>
+            <button id="download-btn">Download Transcription</button>
+            <div id="transcription" style="font-size: large; overflow-y: scroll; height: 100%;"></div>
         </div>
        
     </div>
@@ -120,14 +242,34 @@
 // you are an instructor at UCSC teaching research methods class. I am interviewing to learn more about how we can use games in classrooms. 
 
 
-window.onload = function() {
-    // Ask the user for a key
-    var key = prompt("Please enter your OpenAI key:");
-
-    if (key) {
-        localStorage.setItem('key', key);
+document.getElementById('ai-audio-checkbox').addEventListener('change', function() {
+    var elevenLabsGroup = document.getElementById('elevenlabs-key-group');
+    if (this.checked) {
+      elevenLabsGroup.classList.remove('hidden');
+    } else {
+      elevenLabsGroup.classList.add('hidden');
     }
-};
+  });
+
+
+  document.getElementById('submit-keys').onclick = function() {
+    var openaiKey = document.getElementById('openai-key').value;
+    var elevenLabsKey = document.getElementById('elevenlabs-key').value;
+    var useAIAudio = document.getElementById('ai-audio-checkbox').checked;
+
+    // Make sure to check if AI audio checkbox is checked before saving ElevenLabs key
+    if (openaiKey && (useAIAudio ? elevenLabsKey : true)) {
+      localStorage.setItem('openaiKey', openaiKey);
+      if (useAIAudio) {
+        localStorage.setItem('elevenLabsKey', elevenLabsKey);
+      }
+      localStorage.setItem('useAIAudio', useAIAudio);
+      alert('API Keys and preferences saved!');
+    } else {
+      alert('Please enter the OpenAI key and ElevenLabs key if AI Enhanced Audio is selected.');
+    }
+  };
+
 
 const toggleCameraButton = document.getElementById('toggleCamera');
 navigator.mediaDevices.getUserMedia({ video: true})
@@ -139,14 +281,14 @@ navigator.mediaDevices.getUserMedia({ video: true})
         console.error('Error accessing the camera or microphone:', error);
     });
 
-toggleCameraButton.addEventListener('click', () => {
-    if (!stream) return;
+// toggleCameraButton.addEventListener('click', () => {
+//     if (!stream) return;
 
-    isCameraOn = !isCameraOn;
-    stream.getVideoTracks()[0].enabled = isCameraOn;
+//     isCameraOn = !isCameraOn;
+//     stream.getVideoTracks()[0].enabled = isCameraOn;
 
-    toggleCameraButton.textContent = isCameraOn ? 'Close Camera' : 'Open Camera';
-});
+//     toggleCameraButton.textContent = isCameraOn ? 'Close Camera' : 'Open Camera';
+// });
 
         
 let audioChunks = [];
@@ -157,7 +299,7 @@ let chatHistory = [{
 
 $('#updateSystemMessage').on('click', function() {
     const systemContent = $('#systemMessage').val().trim();
-    var prompt = 'I am a student and a researcher practicing my research interview skills. I will need you to respond to various questions I ask. Respond very natuarlly to mimic a scenario in a real life interview, feel free to have filler words. You are being interviewed and make sure you act like the persona you are assigned, you are free to make up responses.'
+    var prompt = 'I am a student and a researcher practicing my ability to conduct UX research interviews skills. I will need you to respond to various questions I ask. Respond very natuarlly to mimic a scenario in a real life interview, feel free to have filler words. You are being interviewed and make sure you act like the persona you are assigned, you are free to make up responses.'
     if (systemContent) {
         chatHistory = [
             {role: 'system', content: prompt + ' ' + systemContent}
@@ -198,6 +340,19 @@ navigator.mediaDevices.getUserMedia({ audio: true })
     });
 
 
+function appendMessage(className, text) {
+  // Create a new div for the message
+  var messageDiv = $('<div></div>').addClass('message ' + className);
+  messageDiv.text(text);
+
+  // Append the message div to the transcription container
+  $('#transcription').append(messageDiv);
+
+  // Keep the scroll at the bottom
+  $('#transcription').scrollTop($('#transcription')[0].scrollHeight);
+}
+
+
 function sendDataToServer(audioBlob) {
     let formData = new FormData();
     formData.append('audio', audioBlob);
@@ -209,7 +364,8 @@ function sendDataToServer(audioBlob) {
         processData: false,
         contentType: false,
         success: function(transcription) {
-            $('#transcription').text('Transcription: ' + transcription);
+            // $('#transcription').text('Transcription: ' + transcription);
+            appendMessage('transcription', transcription);
             getAIresponse(transcription)
         },
         error: function(error) {
@@ -218,58 +374,118 @@ function sendDataToServer(audioBlob) {
     });
 }
 
-function getAIresponse(transcription){
-    // Add user's message to chat history
-    chatHistory.push({role: 'user', content: transcription});
-
-    // Later, when you get the AI's response:
-   
-    // If chat history exceeds 3 messages (or your desired number), remove the oldest
-    // while (chatHistory.length > 3) {
-    //     chatHistory.shift();
-    // }
-
+function getAIresponse(transcription) {
+    chatHistory.push({ role: 'user', content: transcription });
 
     if (chatHistory.length > 5) {
-        // Keep the initial context message and the last four messages
         chatHistory = [chatHistory[0], ...chatHistory.slice(-4)];
     }
 
-    const data = {
-        model: "gpt-4",
-        messages: chatHistory
-    };
-
-
-        
     $.ajax({
         type: 'POST',
-        url: 'https://api.openai.com/v1/chat/completions',  // This URL might need adjustment based on your setup
-        data: JSON.stringify({ model: "gpt-4",
-        messages: chatHistory }),
+        url: 'https://api.openai.com/v1/chat/completions',
+        data: JSON.stringify({ model: "gpt-4", messages: chatHistory }),
         headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('key')
-            },
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+ localStorage.getItem('openaiKey')// Replace with your actual API key
+        },
         success: function(aiResponse) {
-           console.log(aiResponse.choices[0].message.content.trim())
-           
-           $('#transcription').text('Response: ' + aiResponse.choices[0].message.content.trim());
-           let speech = new SpeechSynthesisUtterance(aiResponse.choices[0].message.content.trim());
-            //speech.lang = 'hi-IN'; 
-            speech.rate = 1.5
-            window.speechSynthesis.speak(speech);
-           
+            let responseText = aiResponse.choices[0].message.content.trim();
+            console.log(responseText);
+            // $('#transcription').text('Interviewee: ' + responseText);
+            appendMessage('interviewee', responseText);
+
+            // Call the ElevenLabs API to get the audio stream and play it
+            getSpeechFromElevenLabs(responseText);
         },
         error: function(error) {
             console.error('Error getting AI Response:', error);
         }
     });
-
-
-
 }
 
+
+function getSpeechFromElevenLabs(text) {
+
+    let enhancedAudio = document.getElementById('ai-audio-checkbox').checked;
+    let backgroundVideo = document.getElementById('background-video');
+
+    if(enhancedAudio){
+    
+        const postData = {
+            text: text,
+            model_id: "eleven_monolingual_v1",
+            voice_settings: {
+                stability: 0,
+                similarity_boost: 0,
+                style: 0,
+                use_speaker_boost: true
+            }
+        };
+
+    
+
+        fetch('https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM/stream?optimize_streaming_latency=0&output_format=mp3_44100_128', {
+            method: 'POST',
+            headers: {
+                'accept': 'audio/mpeg',
+                'xi-api-key': localStorage.getItem('elevenLabsKey'), // Replace with your actual API key
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(postData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.blob();
+        })
+        .then(blob => {
+            var audioUrl = URL.createObjectURL(blob);
+            var audio = new Audio(audioUrl);
+            audio.onplay = function() {
+                backgroundVideo.play();
+            };
+
+            // Pause the video when the audio ends
+            audio.onended = function() {
+                backgroundVideo.pause();
+            };
+            audio.play();
+        })
+        .catch(error => {
+            console.error('Error with ElevenLabs API:', error);
+        });
+    }
+    else{
+        let speech = new SpeechSynthesisUtterance(text);
+        // speech.lang = 'en-US';
+        speech.rate = 1; // Adjust the speech rate if needed
+        window.speechSynthesis.speak(speech);
+    }
+}
+
+document.getElementById('download-btn').addEventListener('click', function() {
+  // Get the transcription content
+  var transcriptionContent = document.getElementById('transcription').innerHTML;
+
+  // Convert the content to a Blob of type plain text
+  var blob = new Blob([transcriptionContent], {
+    type: 'text/plain;charset=utf-8'
+  });
+
+  // Create a temporary anchor element
+  var tempLink = document.createElement('a');
+  tempLink.download = 'transcription.txt'; // Name of the file to download
+  tempLink.href = window.URL.createObjectURL(blob);
+
+  // Temporarily add link to the body and trigger the download
+  document.body.appendChild(tempLink);
+  tempLink.click();
+
+  // Clean up by removing the temporary link
+  document.body.removeChild(tempLink);
+});
 
     </script>
 </body>
