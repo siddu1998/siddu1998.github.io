@@ -197,7 +197,7 @@
               <label for="openai-key">AI API Key:</label>
               <input type="password" id="openai-key" placeholder="Enter your OpenAI key">
             </div>
-            <div class="checkbox-group">
+            <!-- <div class="checkbox-group">
                 <label class="checkbox-label">
                   <input type="checkbox" id="ai-audio-checkbox">
                   Use AI Enhanced Audio
@@ -206,7 +206,7 @@
               <div class="form-group hidden" id="elevenlabs-key-group">
                 <label for="elevenlabs-key">Enhanced Audio API Key:</label>
                 <input type="password" id="elevenlabs-key" placeholder="Enter your ElevenLabs key">
-              </div>
+              </div> -->
 
             <button id="submit-keys">Submit Keys</button>
             <br>
@@ -248,14 +248,14 @@
 // you are an instructor at UCSC teaching research methods class. I am interviewing to learn more about how we can use games in classrooms. 
 
 
-document.getElementById('ai-audio-checkbox').addEventListener('change', function() {
-    var elevenLabsGroup = document.getElementById('elevenlabs-key-group');
-    if (this.checked) {
-      elevenLabsGroup.classList.remove('hidden');
-    } else {
-      elevenLabsGroup.classList.add('hidden');
-    }
-  });
+// document.getElementById('ai-audio-checkbox').addEventListener('change', function() {
+//     var elevenLabsGroup = document.getElementById('elevenlabs-key-group');
+//     if (this.checked) {
+//       elevenLabsGroup.classList.remove('hidden');
+//     } else {
+//       elevenLabsGroup.classList.add('hidden');
+//     }
+//   });
 
 
   document.getElementById('submit-keys').onclick = function() {
@@ -413,29 +413,20 @@ function getAIresponse(transcription) {
 
 function getSpeechFromElevenLabs(text) {
 
-    let enhancedAudio = document.getElementById('ai-audio-checkbox').checked;
+    // let enhancedAudio = document.getElementById('ai-audio-checkbox').checked;
     let backgroundVideo = document.getElementById('background-video');
 
-    if(enhancedAudio){
-    
-        const postData = {
-            text: text,
-            model_id: "eleven_monolingual_v1",
-            voice_settings: {
-                stability: 0,
-                similarity_boost: 0,
-                style: 0,
-                use_speaker_boost: true
-            }
+      const postData = {
+            input: text,
+            model: "tts-1",
+            voice: "alloy"
         };
 
-    
-
-        fetch('https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM/stream?optimize_streaming_latency=0&output_format=mp3_44100_128', {
+      fetch('https://api.openai.com/v1/audio/speech', {
             method: 'POST',
             headers: {
                 'accept': 'audio/mpeg',
-                'xi-api-key': localStorage.getItem('elevenLabsKey'), // Replace with your actual API key
+                'Authorization': 'Bearer '+ localStorage.getItem('openaiKey'),
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(postData)
@@ -462,13 +453,58 @@ function getSpeechFromElevenLabs(text) {
         .catch(error => {
             console.error('Error with ElevenLabs API:', error);
         });
-    }
-    else{
-        let speech = new SpeechSynthesisUtterance(text);
-        // speech.lang = 'en-US';
-        speech.rate = 1; // Adjust the speech rate if needed
-        window.speechSynthesis.speak(speech);
-    }
+
+
+    // if(enhancedAudio){
+    //     const postData = {
+    //         text: text,
+    //         model_id: "eleven_monolingual_v1",
+    //         voice_settings: {
+    //             stability: 0,
+    //             similarity_boost: 0,
+    //             style: 0,
+    //             use_speaker_boost: true
+    //         }
+    //     };
+
+    //     fetch('https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM/stream?optimize_streaming_latency=0&output_format=mp3_44100_128', {
+    //         method: 'POST',
+    //         headers: {
+    //             'accept': 'audio/mpeg',
+    //             'xi-api-key': localStorage.getItem('elevenLabsKey'), // Replace with your actual API key
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify(postData)
+    //     })
+    //     .then(response => {
+    //         if (!response.ok) {
+    //             throw new Error('Network response was not ok');
+    //         }
+    //         return response.blob();
+    //     })
+    //     .then(blob => {
+    //         var audioUrl = URL.createObjectURL(blob);
+    //         var audio = new Audio(audioUrl);
+    //         audio.onplay = function() {
+    //             backgroundVideo.play();
+    //         };
+
+    //         // Pause the video when the audio ends
+    //         audio.onended = function() {
+    //             backgroundVideo.pause();
+    //         };
+    //         audio.play();
+    //     })
+    //     .catch(error => {
+    //         console.error('Error with ElevenLabs API:', error);
+    //     });
+    // }
+    // else{
+    //     let speech = new SpeechSynthesisUtterance(text);
+    //     // speech.lang = 'en-US';
+    //     speech.rate = 1; // Adjust the speech rate if needed
+    //     window.speechSynthesis.speak(speech);
+    // }
 }
 
 document.getElementById('download-btn').addEventListener('click', function() {
