@@ -260,20 +260,21 @@
 
   document.getElementById('submit-keys').onclick = function() {
     var openaiKey = document.getElementById('openai-key').value;
-    var elevenLabsKey = document.getElementById('elevenlabs-key').value;
-    var useAIAudio = document.getElementById('ai-audio-checkbox').checked;
+    localStorage.setItem('openaiKey', openaiKey);
+    // var elevenLabsKey = document.getElementById('elevenlabs-key').value;
+    // var useAIAudio = document.getElementById('ai-audio-checkbox').checked;
 
     // Make sure to check if AI audio checkbox is checked before saving ElevenLabs key
-    if (openaiKey && (useAIAudio ? elevenLabsKey : true)) {
-      localStorage.setItem('openaiKey', openaiKey);
-      if (useAIAudio) {
-        localStorage.setItem('elevenLabsKey', elevenLabsKey);
-      }
-      localStorage.setItem('useAIAudio', useAIAudio);
-      alert('API Keys and preferences saved!');
-    } else {
-      alert('Please enter the OpenAI key and ElevenLabs key if AI Enhanced Audio is selected.');
-    }
+    // if (openaiKey && (useAIAudio ? elevenLabsKey : true)) {
+    //   localStorage.setItem('openaiKey', openaiKey);
+    //   if (useAIAudio) {
+    //     localStorage.setItem('elevenLabsKey', elevenLabsKey);
+    //   }
+    //   localStorage.setItem('useAIAudio', useAIAudio);
+    //   alert('API Keys and preferences saved!');
+    // } else {
+    //   alert('Please enter the OpenAI key and ElevenLabs key if AI Enhanced Audio is selected.');
+    // }
   };
 
 
@@ -362,10 +363,12 @@ function appendMessage(className, text) {
 function sendDataToServer(audioBlob) {
     let formData = new FormData();
     formData.append('audio', audioBlob);
+    var aikey = localStorage.getItem('openaiKey');
+    formData.append('key',aikey)
 
     $.ajax({
         type: 'POST',
-        url: 'https://shloka.herokuapp.com/process_wav_js',  // This URL might need adjustment based on your setup
+        url: 'https://shloka.herokuapp.com/process_wav_js_key',  // This URL might need adjustment based on your setup
         data: formData,
         processData: false,
         contentType: false,
