@@ -362,23 +362,44 @@ function appendMessage(className, text) {
 
 function sendDataToServer(audioBlob) {
     let formData = new FormData();
-    formData.append('audio', audioBlob);
+    formData.append('file', audioBlob,'recording.wav');
     var aikey = localStorage.getItem('openaiKey');
-    formData.append('key',aikey)
+    formData.append('model', 'whisper-1');
+    // formData.append('key',aikey)
+
+    // $.ajax({
+    //     type: 'POST',
+    //     url: 'https://shloka.herokuapp.com/process_wav_js_key',  // This URL might need adjustment based on your setup
+    //     data: formData,
+    //     processData: false,
+    //     contentType: false,
+    //     success: function(transcription) {
+    //         // $('#transcription').text('Transcription: ' + transcription);
+    //         appendMessage('transcription', transcription);
+    //         getAIresponse(transcription)
+    //     },
+    //     error: function(error) {
+    //         console.error('Error sending data to server:', error);
+    //     }
+    // });
 
     $.ajax({
+        url: 'https://api.openai.com/v1/audio/transcriptions',
         type: 'POST',
-        url: 'https://shloka.herokuapp.com/process_wav_js_key',  // This URL might need adjustment based on your setup
         data: formData,
-        processData: false,
-        contentType: false,
-        success: function(transcription) {
-            // $('#transcription').text('Transcription: ' + transcription);
-            appendMessage('transcription', transcription);
-            getAIresponse(transcription)
+        processData: false, // prevent jQuery from converting the data into a query string
+        contentType: false, // set to false as jQuery will set the Content-Type correctly with FormData
+        headers: {
+            'Authorization': 'Bearer ' + aikey // Replace with your OpenAI API key
         },
-        error: function(error) {
-            console.error('Error sending data to server:', error);
+        success: function (data) {
+              console.log(data);
+              var transcription = data.text
+              appendMessage('transcription', transcription);
+              getAIresponse(transcription)
+        },
+        error: function (error) {
+            console.error('Error:', error);
         }
     });
 }
