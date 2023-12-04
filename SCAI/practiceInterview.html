@@ -23,10 +23,12 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
     padding: 20px;
     border: 2px solid #e0e0e0;
+    justify-content: space-between;
+    
 }
 
 #userVideo {
@@ -163,12 +165,16 @@
   background-color: #c8e6c9; /* pastel green for interviewee */
   align-self: flex-end;
   margin-left: auto;
+  word-wrap: break-word;
+    align-self: flex-end;
+    margin-left: auto;
 }
 
 .transcription {
   background-color: #bbdefb; /* pastel blue for AI */
   align-self: flex-start;
   margin-right: auto;
+  word-wrap: break-word; /* Ensure long texts wrap */
 }
 
 /* Scroll to bottom automatically */
@@ -187,13 +193,56 @@
 #download-btn:hover {
   background-color: #d5d5d5; /* Slightly darker grey on hover */
 }
+
+.message-input {
+    display: flex;
+    width: 100%;
+    gap: 10px; /* Space between elements */
+}
+
+#messageInput {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px; /* Rounded corners */
+    font-size: large;
+}
+
+#sendMessage {
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer;
+    font-size: large;
+}
+
+#sendMessage:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
 </style>
 
 <body>
     
     <div class="meeting-container">
         <div class="key-input-container">
-            <div class="form-group">
+            
+          <div class="form-group">
+            <label for="Details">User Details:</label>
+            <input type="text" id="student_id" placeholder="Enter your Assigned ID">
+            <br>
+            <br>
+            <input type="text" id="session_id" placeholder="Enter your Session ID">
+            <br>
+            <br>
+            <button id="submit-details">Submit Details</button>
+          </div>
+          
+          <br>
+          
+          <div class="form-group">
               <label for="openai-key">AI API Key:</label>
               <input type="password" id="openai-key" placeholder="Enter your OpenAI key">
             </div>
@@ -210,12 +259,40 @@
 
             <button id="submit-keys">Submit Keys</button>
             <br>
-            <div class="form-group" style="padding-top: 10px;">
+            <!-- <div class="form-group" style="padding-top: 10px;">
               <label for="systemMessage">Whom are you interviewing:</label>
               <textarea id="systemMessage" placeholder="Enter the role of your interviewee"></textarea>
             </div>
+             -->
+             <br>
+             <button id="showCreateGptModal">+ Create New GPT</button>
+             <div id="createGptModal" style="display:none;">
+              <div>
+                  <h2>Create New Custom GPT</h2>
+                  <label for="gptName">Name:</label>
+                  <input type="text" id="gptName" name="gptName"><br><br>
+                  <label for="gptCreatedBy">Created By:</label>
+                  <input type="text" id="gptCreatedBy" name="gptCreatedBy"><br><br>
+                  <label for="gptUniversity">University:</label>
+                  <input type="text" id="gptUniversity" name="gptUniversity"><br><br>
+                  <label for="gptType">GPT Type:</label>
+                  <input type="text" id="gptType" name="gptType"><br><br>
+                  <label for="gptInstructions">Instructions:</label>
+                  <textarea id="gptInstructions" name="gptInstructions"></textarea><br><br>
+                  <button id="submitGptForm">Submit</button>
+                  <button onclick="closeCreateGptModal()">Close</button>
+              </div>
+          </div>
+          
             
-            <button id="updateSystemMessage">Update System Message</button>
+              <div class="form-group" style="padding-top: 10px;">
+                <label for="gptSelection">Choose a Custom GPT:</label>
+                <select id="gptSelection">
+                    <!-- Options will be populated here -->
+                    
+                </select>
+              </div>          
+             <button id="updateSystemMessage">Update System Message</button>
           </div>
 
           
@@ -232,12 +309,17 @@
                 <button id="stopRecord" disabled>Stop Recording</button>
               
             </div>
-            <!-- <div style="width:480px"><iframe allow="fullscreen" frameBorder="0" height="270" src="https://giphy.com/embed/or5Fd8WKuuNCjfXNjy/video" width="480"></iframe></div> -->
+
         </div>
+        
         <div class="user-panel">
             <button id="download-btn">Download Transcription</button>
             <div id="transcription" style="font-size: large; overflow-y: scroll; height: 100%;"></div>
-        </div>
+            <div class="message-input">
+              <input type="text" id="messageInput" placeholder="Type your message here...">
+              <button id="sendMessage">Send</button>
+          </div>
+          </div>
        
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -245,37 +327,41 @@
     <script>
 
 
-// you are an instructor at UCSC teaching research methods class. I am interviewing to learn more about how we can use games in classrooms. 
-
-
-// document.getElementById('ai-audio-checkbox').addEventListener('change', function() {
-//     var elevenLabsGroup = document.getElementById('elevenlabs-key-group');
-//     if (this.checked) {
-//       elevenLabsGroup.classList.remove('hidden');
-//     } else {
-//       elevenLabsGroup.classList.add('hidden');
-//     }
-//   });
+$(document).ready(function() {
+    // Fetch and populate the dropdown with custom GPTs
+    $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function(gpts) {
+        gpts.forEach(function(gpt) {
+            $('#gptSelection').append(new Option(gpt.name, gpt.id));
+        });
+    });
+});
 
 
   document.getElementById('submit-keys').onclick = function() {
     var openaiKey = document.getElementById('openai-key').value;
     localStorage.setItem('openaiKey', openaiKey);
-    // var elevenLabsKey = document.getElementById('elevenlabs-key').value;
-    // var useAIAudio = document.getElementById('ai-audio-checkbox').checked;
-
-    // Make sure to check if AI audio checkbox is checked before saving ElevenLabs key
-    // if (openaiKey && (useAIAudio ? elevenLabsKey : true)) {
-    //   localStorage.setItem('openaiKey', openaiKey);
-    //   if (useAIAudio) {
-    //     localStorage.setItem('elevenLabsKey', elevenLabsKey);
-    //   }
-    //   localStorage.setItem('useAIAudio', useAIAudio);
-    //   alert('API Keys and preferences saved!');
-    // } else {
-    //   alert('Please enter the OpenAI key and ElevenLabs key if AI Enhanced Audio is selected.');
-    // }
   };
+
+  document.getElementById('submit-details').addEventListener('click', function() {
+        // Retrieve the values from the input fields
+        var studentId = document.getElementById('student_id').value;
+        var sessionId = document.getElementById('session_id').value;
+
+        // Store the values in local storage
+        localStorage.setItem('studentId', studentId);
+        localStorage.setItem('sessionId', sessionId);
+
+        // Optional: Confirmation or further actions after storing
+        console.log('Details submitted and stored in local storage.');
+    });
+
+  function openCreateGptModal() {
+    document.getElementById('createGptModal').style.display = 'block';
+}
+
+
+
+
 
 
 const toggleCameraButton = document.getElementById('toggleCamera');
@@ -288,33 +374,81 @@ navigator.mediaDevices.getUserMedia({ video: true})
         console.error('Error accessing the camera or microphone:', error);
     });
 
-// toggleCameraButton.addEventListener('click', () => {
-//     if (!stream) return;
-
-//     isCameraOn = !isCameraOn;
-//     stream.getVideoTracks()[0].enabled = isCameraOn;
-
-//     toggleCameraButton.textContent = isCameraOn ? 'Close Camera' : 'Open Camera';
-// });
 
         
 let audioChunks = [];
-let chatHistory = [{
-    role: 'system',
-    content: 'You are a helpful teacher assisting with interview preparations.'}
-];
+// let chatHistory = [{
+//     role: 'system',
+//     content: 'You are a helpful teacher assisting with interview preparations.'}
+// ];
+// $('#updateSystemMessage').on('click', function() {
+//     const systemContent = $('#systemMessage').val().trim();
+//     var prompt = 'I am a student and a researcher practicing my ability to conduct UX research interviews skills. I will need you to respond to various questions I ask. Respond very natuarlly to mimic a scenario in a real life interview, feel free to have filler words. You are being interviewed and make sure you act like the persona you are assigned, you are free to make up responses.'
+//     if (systemContent) {
+//         chatHistory = [
+//             {role: 'system', content: prompt + ' ' + systemContent}
+//         ];
+//         console.log('updated system role')
+//     } else {
+//         console.log('Failed to update system role');
+//     }
+// });
+
+
+function openCreateGptModal() {
+    document.getElementById('createGptModal').style.display = 'block';
+}
+
+// Function to close the modal
+function closeCreateGptModal() {
+    document.getElementById('createGptModal').style.display = 'none';
+}
+
+// Event listener for opening the modal
+document.getElementById('showCreateGptModal').addEventListener('click', openCreateGptModal);
+
+// Event listener for form submission
+document.getElementById('submitGptForm').addEventListener('click', function() {
+    var data = {
+        name: document.getElementById('gptName').value,
+        created_by: document.getElementById('gptCreatedBy').value,
+        university: document.getElementById('gptUniversity').value,
+        gpt_type: document.getElementById('gptType').value,
+        instructions: document.getElementById('gptInstructions').value
+    };
+
+    // AJAX call to send data to the server
+    $.ajax({
+        type: "POST",
+        url: "https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/create_new_gpt/",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(response) {
+            console.log(response);
+            closeCreateGptModal();
+            // Optional: Refresh the list or update the UI accordingly
+        },
+        error: function(error) {
+            console.error("Error creating Custom GPT:", error);
+        }
+    });
+});
+
+
 
 $('#updateSystemMessage').on('click', function() {
-    const systemContent = $('#systemMessage').val().trim();
-    var prompt = 'I am a student and a researcher practicing my ability to conduct UX research interviews skills. I will need you to respond to various questions I ask. Respond very natuarlly to mimic a scenario in a real life interview, feel free to have filler words. You are being interviewed and make sure you act like the persona you are assigned, you are free to make up responses.'
-    if (systemContent) {
-        chatHistory = [
-            {role: 'system', content: prompt + ' ' + systemContent}
-        ];
-        console.log('updated system role')
-    } else {
-        console.log('Failed to update system role');
-    }
+    const selectedGptId = $('#gptSelection').val();
+    $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function(gpts) {
+        const selectedGpt = gpts.find(g => g.id == selectedGptId);
+        if (selectedGpt) {
+            chatHistory = [
+                {role: 'system', content: selectedGpt.instructions}
+            ];
+            console.log('updated system role');
+        } else {
+            console.log('Failed to update system role');
+        }
+    });
 });
 
 navigator.mediaDevices.getUserMedia({ audio: true })
@@ -326,7 +460,7 @@ navigator.mediaDevices.getUserMedia({ audio: true })
 
         mediaRecorder.onstop = () => {
             const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-            sendDataToServer(audioBlob);
+            getTextFromSpeech(audioBlob);
             audioChunks = []; // Reset the audio chunks after sending
         };
 
@@ -347,6 +481,34 @@ navigator.mediaDevices.getUserMedia({ audio: true })
     });
 
 
+
+
+  
+
+
+function sendMessageToStorage(content){
+  var data = {
+                session_id: localStorage.getItem('sessionId'),
+                student_id: localStorage.getItem('studentId'),
+                content: content
+            };
+
+            $.ajax({
+                url: 'https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/message/',  // Update with your correct URL
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function(response) {
+                    console.log("Message sent successfully:", response);
+                },
+                error: function(error) {
+                    console.error("Error sending message:", error);
+                }
+            });
+}
+
+
+
 function appendMessage(className, text) {
   // Create a new div for the message
   var messageDiv = $('<div></div>').addClass('message ' + className);
@@ -354,34 +516,21 @@ function appendMessage(className, text) {
 
   // Append the message div to the transcription container
   $('#transcription').append(messageDiv);
-
+  $('#transcription').append('<br>');
+  
   // Keep the scroll at the bottom
   $('#transcription').scrollTop($('#transcription')[0].scrollHeight);
 }
 
 
-function sendDataToServer(audioBlob) {
+
+
+
+function getTextFromSpeech(audioBlob) {
     let formData = new FormData();
     formData.append('file', audioBlob,'recording.wav');
     var aikey = localStorage.getItem('openaiKey');
     formData.append('model', 'whisper-1');
-    // formData.append('key',aikey)
-
-    // $.ajax({
-    //     type: 'POST',
-    //     url: 'https://shloka.herokuapp.com/process_wav_js_key',  // This URL might need adjustment based on your setup
-    //     data: formData,
-    //     processData: false,
-    //     contentType: false,
-    //     success: function(transcription) {
-    //         // $('#transcription').text('Transcription: ' + transcription);
-    //         appendMessage('transcription', transcription);
-    //         getAIresponse(transcription)
-    //     },
-    //     error: function(error) {
-    //         console.error('Error sending data to server:', error);
-    //     }
-    // });
 
     $.ajax({
         url: 'https://api.openai.com/v1/audio/transcriptions',
@@ -396,6 +545,7 @@ function sendDataToServer(audioBlob) {
               console.log(data);
               var transcription = data.text
               appendMessage('transcription', transcription);
+              sendMessageToStorage(transcription)
               getAIresponse(transcription)
         },
         error: function (error) {
@@ -403,6 +553,35 @@ function sendDataToServer(audioBlob) {
         }
     });
 }
+
+
+
+
+
+$('#sendMessage').on('click', function() {
+        // Get the message from the input
+        var message = $('#messageInput').val().trim();
+
+        // Check if the message is not empty
+        if (message) {
+            // Append the message as a user message
+            appendMessage('transcription', message);
+            $('#messageInput').val('');
+            sendMessageToStorage(message)
+            getAIresponse(message)
+        }
+    });
+
+    // Optional: Send message when 'Enter' is pressed
+    $('#messageInput').on('keypress', function(e) {
+        if (e.which == 13) { // Enter key
+            $('#sendMessage').click();
+        }
+    });
+
+
+
+
 
 function getAIresponse(transcription) {
     chatHistory.push({ role: 'user', content: transcription });
@@ -424,9 +603,11 @@ function getAIresponse(transcription) {
             console.log(responseText);
             // $('#transcription').text('Interviewee: ' + responseText);
             appendMessage('interviewee', responseText);
-
+            sendMessageToStorage(responseText)
+            chatHistory.push({ role: 'system', content: responseText });
+            console.log(chatHistory)
             // Call the ElevenLabs API to get the audio stream and play it
-            getSpeechFromElevenLabs(responseText);
+            getSpeechFromText(responseText);
         },
         error: function(error) {
             console.error('Error getting AI Response:', error);
@@ -435,7 +616,7 @@ function getAIresponse(transcription) {
 }
 
 
-function getSpeechFromElevenLabs(text) {
+function getSpeechFromText(text) {
 
     // let enhancedAudio = document.getElementById('ai-audio-checkbox').checked;
     let backgroundVideo = document.getElementById('background-video');
@@ -478,69 +659,18 @@ function getSpeechFromElevenLabs(text) {
             console.error('Error with ElevenLabs API:', error);
         });
 
-
-    // if(enhancedAudio){
-    //     const postData = {
-    //         text: text,
-    //         model_id: "eleven_monolingual_v1",
-    //         voice_settings: {
-    //             stability: 0,
-    //             similarity_boost: 0,
-    //             style: 0,
-    //             use_speaker_boost: true
-    //         }
-    //     };
-
-    //     fetch('https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM/stream?optimize_streaming_latency=0&output_format=mp3_44100_128', {
-    //         method: 'POST',
-    //         headers: {
-    //             'accept': 'audio/mpeg',
-    //             'xi-api-key': localStorage.getItem('elevenLabsKey'), // Replace with your actual API key
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(postData)
-    //     })
-    //     .then(response => {
-    //         if (!response.ok) {
-    //             throw new Error('Network response was not ok');
-    //         }
-    //         return response.blob();
-    //     })
-    //     .then(blob => {
-    //         var audioUrl = URL.createObjectURL(blob);
-    //         var audio = new Audio(audioUrl);
-    //         audio.onplay = function() {
-    //             backgroundVideo.play();
-    //         };
-
-    //         // Pause the video when the audio ends
-    //         audio.onended = function() {
-    //             backgroundVideo.pause();
-    //         };
-    //         audio.play();
-    //     })
-    //     .catch(error => {
-    //         console.error('Error with ElevenLabs API:', error);
-    //     });
-    // }
-    // else{
-    //     let speech = new SpeechSynthesisUtterance(text);
-    //     // speech.lang = 'en-US';
-    //     speech.rate = 1; // Adjust the speech rate if needed
-    //     window.speechSynthesis.speak(speech);
-    // }
 }
 
-document.getElementById('download-btn').addEventListener('click', function() {
-  // Get the transcription content
-  var transcriptionContent = document.getElementById('transcription').innerHTML;
 
-  // Convert the content to a Blob of type plain text
+
+
+
+
+document.getElementById('download-btn').addEventListener('click', function() {
+  var transcriptionContent = document.getElementById('transcription').innerHTML;
   var blob = new Blob([transcriptionContent], {
     type: 'text/plain;charset=utf-8'
   });
-
-  // Create a temporary anchor element
   var tempLink = document.createElement('a');
   tempLink.download = 'transcription.txt'; // Name of the file to download
   tempLink.href = window.URL.createObjectURL(blob);
