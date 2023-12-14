@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Collection Platform</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background: #f4f4f4; color: #333; }
+        .container { width: 90%; margin: 20px auto; max-width: 400px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        input[type="text"], select { width: 100%; padding: 10px; margin: 8px 0; display: inline-block; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        input[type="password"], select { width: 100%; padding: 10px; margin: 8px 0; display: inline-block; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        video { width: 100%; height: auto; border-radius: 8px; }
+        .record-btn { width: 100%; background-color: #4CAF50; color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        .record-btn.recording { background-color: #ff3b3b; }
+        .transcription { margin-top: 20px; background-color: #e9e9e9; padding: 10px; border-radius: 5px; min-height: 50px; }
+        .info-text { font-size: 0.9em; color: #666; margin-bottom: 5px; }
+        .api-key-input { margin-bottom: 15px; }
+        .user-message {   background-color: #c8e6c9; /* pastel green for interviewee */
+  align-self: flex-end;
+  margin-left: auto;
+  word-wrap: break-word;
+    align-self: flex-end;
+    margin-left: auto; } /* Pastel green for user messages */
+        .ai-message {   background-color: #bbdefb; /* pastel blue for AI */
+  align-self: flex-start;
+  margin-right: auto;
+  word-wrap: break-word;} /* Light pastel blue for AI messages */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Student Feedback</h2>
+        <input type="text" id="studentId" placeholder="Enter Student ID">
+
+        <select id="gptSelection">
+            <option value="">Select Class</option>
+            <!-- Add class options here -->
+        </select>
+
+        <video id="background-video" width="100%" height="320" loop>
+            <source src="images/womentalking.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+
+        <button id="recordButton" class="record-btn">Hold to Record</button>
+
+        <div id="transcription" class="transcription"></div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+
+
+$(document).ready(function() {
+        var uniqueID = 'id_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('sessionID', uniqueID);
+
+
+    $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/getOAI/', function(data) {
+                localStorage.setItem('openaiKey', data.key)
+                console.log('keySet')
+    });
+    // Fetch and populate the dropdown with custom GPTs
+    $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_feedback_gpts/', function(gpts) {
+        $('#gptSelection').append(new Option('', '')); // Initial blank option
+        gpts.forEach(function(gpt) {
+            $('#gptSelection').append(new Option(gpt.name, gpt.id));
+        });
+    });
+
+        // Generate and update introductory message when a GPT is selected
+        $('#gptSelection').on('change', function() {
+            const selectedGptId = $(this).val();
+            if (!selectedGptId) return; // Do nothing if the blank option is selected
+
+            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_feedback_gpts/', function(gpts) {
+                const selectedGpt = gpts.find(g => g.id == selectedGptId);
+                if (selectedGpt) {
+                    console.log(selectedGpt.instructions)
+                    localStorage.setItem('selectedGPT',selectedGpt.name)
+                    generateIntroductoryMessage(selectedGpt.instructions + ": For the above instructions generate an introductory message, welcoming the student and setting the context of this session, keep it short and neat.");
+                } else {
+                    console.error('Failed to find selected GPT');
+                }
+            });
+        });
+    });
+
+    function generateIntroductoryMessage(instructions) {
+        // Here, we generate a greeting or introductory message based on the instructions
+        $.ajax({
+            type: 'POST',
+            url: 'https://api.openai.com/v1/chat/completions',
+            data: JSON.stringify({
+                model: "gpt-4",
+                messages: [{role: 'system', content: instructions}]
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
+            },
+            success: function(aiResponse) {
+                let introMessage = aiResponse.choices[0].message.content.trim();
+                appendMessage('ai-message', introMessage);
+                getSpeechFromText(introMessage);
+                chatHistory = [{ role: 'system', content: introMessage }];
+                console.log('Introductory message:', introMessage);
+            },
+            error: function(error) {
+                console.error('Error generating introductory message:', error);
+            }
+        });
+    }
+
+    function storeData(content, sentBy) {
+        // Get student ID from a text box (assuming the text box has an id 'studentId')
+        var studentId = $('#studentId').val();
+
+        // Prepare the data to be sent
+        var data = {
+            session_id: localStorage.getItem('sessionID'), // You need to define how to get this
+            student_id: studentId,
+            sent_by: sentBy,
+            content: content,
+            gpt_used: localStorage.getItem('selectedGPT')
+        };
+
+        // Send the data using an AJAX POST request
+        $.ajax({
+            type: 'POST',
+            url: 'https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/feedback_message_api/', // Replace with the correct URL to your Django view
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function(response) {
+                console.log('Success:', response);
+                // Handle success (e.g., display a success message)
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                // Handle error (e.g., display an error message)
+            }
+        });
+    }
+
+
+
+        let audioChunks = [];
+        let chatHistory = [];
+        const recordButton = document.getElementById('recordButton');
+        const backgroundVideo = document.getElementById('background-video'); // If you have a background video element
+
+        const transcription = document.getElementById('transcription');
+        
+
+        
+
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(stream => {
+                const mediaRecorder = new MediaRecorder(stream);
+
+                mediaRecorder.ondataavailable = event => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    getTextFromSpeech(audioBlob);
+                    audioChunks = []; // Reset the audio chunks after sending
+                };
+
+                const recordButton = document.getElementById('recordButton');
+
+                recordButton.addEventListener('mousedown', () => {
+                    mediaRecorder.start();
+                    recordButton.textContent = 'Release to Stop';
+                    recordButton.classList.add('recording');
+                    transcription.textContent = "Recording...";
+                });
+
+                recordButton.addEventListener('mouseup', () => {
+                    mediaRecorder.stop();
+                    recordButton.textContent = 'Hold to Record';
+                    recordButton.classList.remove('recording');
+                    transcription.textContent = "";
+                });
+
+                // For touch devices
+                recordButton.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    mediaRecorder.start();
+                    recordButton.textContent = 'Release to Stop';
+                    recordButton.classList.add('recording');
+                    transcription.textContent = "Recording...";
+                });
+
+                recordButton.addEventListener('touchend', () => {
+                    mediaRecorder.stop();
+                    recordButton.textContent = 'Hold to Record';
+                    recordButton.classList.remove('recording');
+                    transcription.textContent = "";
+                });
+            })
+            .catch(error => {
+                console.error('Error accessing the microphone:', error);
+            });
+
+        function getTextFromSpeech(audioBlob) {
+            let formData = new FormData();
+            formData.append('file', audioBlob, 'recording.wav');
+            formData.append('model', 'whisper-1');
+
+            $.ajax({
+                url: 'https://api.openai.com/v1/audio/transcriptions',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
+                },
+                success: function (data) {
+                    console.log(data)
+                    var transcriptionResult = data.text || "No transcription available.";
+                    // transcription.textContent = transcriptionResult;
+                    // Additional functions like sendMessageToStorage and getAIresponse can be implemented here.
+                    appendMessage('user-message',transcriptionResult)
+                    getAIresponse(transcriptionResult)
+                    chatHistory.push({ role: 'user', content: transcriptionResult });
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                    transcription.textContent = "Error processing transcription.";
+                }
+            });
+        }
+    
+    
+        function appendMessage(className, message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = className;
+            messageDiv.textContent = message;
+            transcription.appendChild(messageDiv);
+            //storing data to our database
+            storeData(message,className)
+        }
+
+        function getAIresponse(transcription) {
+            chatHistory.push({ role: 'user', content: transcription });
+
+            if (chatHistory.length > 5) {
+                chatHistory = [chatHistory[0], ...chatHistory.slice(-4)];
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: 'https://api.openai.com/v1/chat/completions',
+                data: JSON.stringify({ model: "gpt-4", messages: chatHistory }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
+                },
+                success: function(aiResponse) {
+                    let responseText = aiResponse.choices[0].message.content.trim();
+                    appendMessage('ai-message', responseText);
+                    chatHistory.push({ role: 'system', content: responseText });
+                    getSpeechFromText(responseText);
+                },
+                error: function(error) {
+                    console.error('Error getting AI Response:', error);
+                }
+            });
+        }
+
+        function getSpeechFromText(text) {
+            const postData = {
+                input: text,
+                model: "tts-1",
+                voice: "alloy"
+            };
+
+            fetch('https://api.openai.com/v1/audio/speech', {
+                method: 'POST',
+                headers: {
+                    'accept': 'audio/mpeg',
+                    'Authorization': 'Bearer ' + localStorage.getItem('openaiKey'),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                var audioUrl = URL.createObjectURL(blob);
+                var audio = new Audio(audioUrl);
+                audio.onplay = function() {
+                    recordButton.disabled = true; // Disable record button while AI message is being read out
+                    if (backgroundVideo) backgroundVideo.play();
+                };
+
+                audio.onended = function() {
+                    recordButton.disabled = false; // Enable record button after AI message is read out
+                    if (backgroundVideo) backgroundVideo.pause();
+                };
+                audio.play();
+            })
+            .catch(error => {
+                console.error('Error with ElevenLabs API:', error);
+            });
+        }
+    
+    
+    
+    </script>
+</body>
+</html>
