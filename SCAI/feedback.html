@@ -25,6 +25,31 @@
   align-self: flex-start;
   margin-right: auto;
   word-wrap: break-word;} /* Light pastel blue for AI messages */
+
+  .autoscroll {
+  scroll-behavior: smooth;
+}
+
+
+#download-btn:hover {
+  background-color: #d5d5d5; /* Slightly darker grey on hover */
+}
+
+.message-input {
+    display: flex;
+    width: 100%;
+    gap: 10px; /* Space between elements */
+}
+
+#messageInput {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px; /* Rounded corners */
+    font-size: large;
+}
+
+
     </style>
 </head>
 <body>
@@ -42,9 +67,17 @@
             Your browser does not support the video tag.
           </video>
 
-        <button id="recordButton" class="record-btn">Hold to Record</button>
-
-        <div id="transcription" class="transcription"></div>
+        <!-- <button id="recordButton" class="record-btn">Hold to Record</button> -->
+        <button id="startRecord" disabled>Start Recording</button>
+        <button id="stopRecord" disabled>Stop Recording</button>
+        <!-- <button id="download-btn">Download Transcription</button> -->
+        <br>
+        <div id="transcription" style="font-size: large; overflow-y: scroll; height: 100%;"></div>
+        <div class="message-input">
+          <input type="text" id="messageInput" placeholder="Type your message here...">
+          <button id="sendMessage" disabled>Send</button>
+      </div>
+      <button id="download-btn">Download Transcription</button>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -144,65 +177,69 @@ $(document).ready(function() {
 
 
 
-        let audioChunks = [];
-        let chatHistory = [];
-        const recordButton = document.getElementById('recordButton');
-        const backgroundVideo = document.getElementById('background-video'); // If you have a background video element
+let audioChunks = [];
+let chatHistory = [];
+const startRecordButton = document.getElementById('startRecord');
+const sendMessageButton = document.getElementById('sendMessage');
+const stopRecordButton = document.getElementById('stopRecord');
+const backgroundVideo = document.getElementById('background-video'); 
 
-        const transcription = document.getElementById('transcription');
+const transcription = document.getElementById('transcription');
+
+
         
 
-        
+navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(stream => {
+        const mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = event => {
+            audioChunks.push(event.data);
+        };
 
-        navigator.mediaDevices.getUserMedia({ audio: true })
-            .then(stream => {
-                const mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.onstop = () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+            getTextFromSpeech(audioBlob);
+            audioChunks = []; // Reset the audio chunks after sending
+        };
 
-                mediaRecorder.ondataavailable = event => {
-                    audioChunks.push(event.data);
-                };
+        $('#startRecord').on('click', function() {
+            mediaRecorder.start();
+            $(this).prop('disabled', true);
+            $('#stopRecord').prop('disabled', false);
+        });
 
-                mediaRecorder.onstop = () => {
-                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                    getTextFromSpeech(audioBlob);
-                    audioChunks = []; // Reset the audio chunks after sending
-                };
+        $('#stopRecord').on('click', function() {
+            mediaRecorder.stop();
+            $(this).prop('disabled', true);
+            $('#startRecord').prop('disabled', false);
+        });
+    })
+    .catch(error => {
+        console.error('Error accessing the microphone:', error);
+    });
 
-                const recordButton = document.getElementById('recordButton');
+    $('#sendMessage').on('click', function() {
+        // Get the message from the input
+        var message = $('#messageInput').val().trim();
 
-                recordButton.addEventListener('mousedown', () => {
-                    mediaRecorder.start();
-                    recordButton.textContent = 'Release to Stop';
-                    recordButton.classList.add('recording');
-                    transcription.textContent = "Recording...";
-                });
+        // Check if the message is not empty
+        if (message) {
+            appendMessage('user-message',message)
+            $('#messageInput').val('');
+            getAIresponse(message)
+            chatHistory.push({ role: 'user', content: message });
+            
+        }
+    });
 
-                recordButton.addEventListener('mouseup', () => {
-                    mediaRecorder.stop();
-                    recordButton.textContent = 'Hold to Record';
-                    recordButton.classList.remove('recording');
-                    transcription.textContent = "";
-                });
+    // Optional: Send message when 'Enter' is pressed
+    $('#messageInput').on('keypress', function(e) {
+        if (e.which == 13) { // Enter key
+            $('#sendMessage').click();
+        }
+    });
 
-                // For touch devices
-                recordButton.addEventListener('touchstart', (e) => {
-                    e.preventDefault();
-                    mediaRecorder.start();
-                    recordButton.textContent = 'Release to Stop';
-                    recordButton.classList.add('recording');
-                    transcription.textContent = "Recording...";
-                });
 
-                recordButton.addEventListener('touchend', () => {
-                    mediaRecorder.stop();
-                    recordButton.textContent = 'Hold to Record';
-                    recordButton.classList.remove('recording');
-                    transcription.textContent = "";
-                });
-            })
-            .catch(error => {
-                console.error('Error accessing the microphone:', error);
-            });
 
         function getTextFromSpeech(audioBlob) {
             let formData = new FormData();
@@ -242,6 +279,7 @@ $(document).ready(function() {
             transcription.appendChild(messageDiv);
             //storing data to our database
             storeData(message,className)
+            console.log('data stored')
         }
 
         function getAIresponse(transcription) {
@@ -297,12 +335,14 @@ $(document).ready(function() {
                 var audioUrl = URL.createObjectURL(blob);
                 var audio = new Audio(audioUrl);
                 audio.onplay = function() {
-                    recordButton.disabled = true; // Disable record button while AI message is being read out
+                    startRecordButton.disabled = true;
+                    sendMessageButton.disabled = true; // Disable record button while AI message is being read out
                     if (backgroundVideo) backgroundVideo.play();
                 };
 
                 audio.onended = function() {
-                    recordButton.disabled = false; // Enable record button after AI message is read out
+                    startRecordButton.disabled = false;
+                    sendMessageButton.disabled = false; // Enable record button after AI message is read out
                     if (backgroundVideo) backgroundVideo.pause();
                 };
                 audio.play();
@@ -313,7 +353,22 @@ $(document).ready(function() {
         }
     
     
-    
+document.getElementById('download-btn').addEventListener('click', function() {
+  var transcriptionContent = document.getElementById('transcription').innerHTML;
+  var blob = new Blob([transcriptionContent], {
+    type: 'text/plain;charset=utf-8'
+  });
+  var tempLink = document.createElement('a');
+  tempLink.download = 'transcription.html'; // Name of the file to download
+  tempLink.href = window.URL.createObjectURL(blob);
+
+  // Temporarily add link to the body and trigger the download
+  document.body.appendChild(tempLink);
+  tempLink.click();
+
+  // Clean up by removing the temporary link
+  document.body.removeChild(tempLink);
+});
     </script>
 </body>
 </html>

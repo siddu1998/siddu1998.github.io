@@ -568,7 +568,8 @@ $('#sendMessage').on('click', function() {
             appendMessage('transcription', message);
             $('#messageInput').val('');
             sendMessageToStorage(message)
-            getAIresponse(message)
+            getAIresponse(message);
+            chatHistory.push({ role: 'user', content: message });
         }
     });
 
@@ -672,7 +673,7 @@ document.getElementById('download-btn').addEventListener('click', function() {
     type: 'text/plain;charset=utf-8'
   });
   var tempLink = document.createElement('a');
-  tempLink.download = 'transcription.txt'; // Name of the file to download
+  tempLink.download = 'transcription.html'; // Name of the file to download
   tempLink.href = window.URL.createObjectURL(blob);
 
   // Temporarily add link to the body and trigger the download
