@@ -3,192 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Virtual Meeting</title>
-  
-</head>
-<style>
-    body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f3f4f6;
-}
-
-.meeting-container {
-    display: flex;
-    height: 100vh;
-}
-
-.user-panel, .virtual-character-panel {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-    padding: 20px;
-    border: 2px solid #e0e0e0;
-    justify-content: space-between;
-    
-}
-
-#userVideo {
-    width: 40%;
-    max-height: 40%;
-    border-radius: 10px;
-}
-
-.controls {
-    margin-top: 20px;
-    display: inline-block;
-}
-
-.controls button {
-    display: inline-block;
-    margin: 5px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #2d2d2d;
-    color: #ffffff;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.controls button:hover {
-    background-color: #555555;
-}
-.system-message-container {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-#systemMessage {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    flex-grow: 1; /* Makes the textarea take all available space */
-    margin-right: 10px; /* Spacing between textarea and button */
-    outline: none; /* Removes the default focus outline */
-    transition: border-color 0.3s ease; /* Smooth transition for focus effect */
-}
-
-#systemMessage:focus {
-    border-color: #007BFF; /* Changes the border color when textarea is focused */
-}
-.hidden {
-    display: none;
-  }
-#updateSystemMessage {
-    padding: 10px 15px;
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-}
-
-#updateSystemMessage:hover {
-    background-color: #0056b3; /* Slightly darker shade for hover */
-}
-
-.key-input-container {
-    width: 300px;
-    margin: 50px auto;
-    padding: 20px;
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  .form-group {
-    margin-bottom: 10px;
-  }
-  label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  input[type="text"] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  input[type="password"] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  button {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    background: #007bff;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  button:hover {
-    background: #0056b3;
-  }
-
-  .checkbox-group {
-    margin-bottom: 15px;
-  }
-  .checkbox-label {
-    display: flex;
-    align-items: center;
-  }
-  .checkbox-label input[type="checkbox"] {
-    margin-right: 5px;
-  }
-
-  #transcription {
-  background-color: #f5f5f5; /* light grey background for the whole chat */
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.message {
-  padding: 10px;
-  margin: 5px;
-  border-radius: 8px;
-  display: inline-block;
-  max-width: 80%;
-}
-
-.interviewee {
-  background-color: #c8e6c9; /* pastel green for interviewee */
+    <title>Feedback Collection Platform</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background: #f4f4f4; color: #333; }
+        .container { width: 90%; margin: 20px auto; max-width: 400px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        input[type="text"], select { width: 100%; padding: 10px; margin: 8px 0; display: inline-block; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        input[type="password"], select { width: 100%; padding: 10px; margin: 8px 0; display: inline-block; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        video { width: 100%; height: auto; border-radius: 8px; }
+        .record-btn { width: 100%; background-color: #4CAF50; color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        .record-btn.recording { background-color: #ff3b3b; }
+        .transcription { margin-top: 20px; background-color: #e9e9e9; padding: 10px; border-radius: 5px; min-height: 50px; }
+        .info-text { font-size: 0.9em; color: #666; margin-bottom: 5px; }
+        .api-key-input { margin-bottom: 15px; }
+        .user-message {   background-color: #c8e6c9; /* pastel green for interviewee */
   align-self: flex-end;
   margin-left: auto;
   word-wrap: break-word;
     align-self: flex-end;
-    margin-left: auto;
-}
-
-.transcription {
-  background-color: #bbdefb; /* pastel blue for AI */
+    margin-left: auto; } /* Pastel green for user messages */
+        .ai-message {   background-color: #bbdefb; /* pastel blue for AI */
   align-self: flex-start;
   margin-right: auto;
-  word-wrap: break-word; /* Ensure long texts wrap */
-}
+  word-wrap: break-word;} /* Light pastel blue for AI messages */
 
-/* Scroll to bottom automatically */
-.autoscroll {
+  .autoscroll {
   scroll-behavior: smooth;
 }
-#download-btn {
-  padding: 10px 20px;
-  background-color: #e0e0e0; /* Light grey color */
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin: 10px 0;
-}
+
 
 #download-btn:hover {
   background-color: #d5d5d5; /* Slightly darker grey on hover */
@@ -207,249 +48,228 @@
     border-radius: 5px; /* Rounded corners */
     font-size: large;
 }
-
-#sendMessage {
-    padding: 10px 20px;
-    background-color: #4CAF50; /* Green background */
-    color: white;
-    border: none;
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer;
-    font-size: large;
+.overlay {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
 }
 
-#sendMessage:hover {
-    background-color: #45a049; /* Darker green on hover */
+.highlighted {
+    position: relative;
+    z-index: 1001;
+    border: 2px solid yellow;
+}
+.tooltip {
+    position: absolute;
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 1002;
 }
 
-</style>
 
+    </style>
+</head>
 <body>
-    
-    <div class="meeting-container">
-        <div class="key-input-container">
-            
-          <div class="form-group">
-            <label for="Details">User Details:</label>
-            <input type="text" id="student_id" placeholder="Enter your Assigned ID">
-            <br>
-            <br>
-            <input type="text" id="session_id" placeholder="Enter your Session ID">
-            <br>
-            <br>
-            <button id="submit-details">Submit Details</button>
-          </div>
-          
-          <br>
-          
-          <div class="form-group">
-              <label for="openai-key">AI API Key:</label>
-              <input type="password" id="openai-key" placeholder="Enter your OpenAI key">
-            </div>
-            <!-- <div class="checkbox-group">
-                <label class="checkbox-label">
-                  <input type="checkbox" id="ai-audio-checkbox">
-                  Use AI Enhanced Audio
-                </label>
-              </div>
-              <div class="form-group hidden" id="elevenlabs-key-group">
-                <label for="elevenlabs-key">Enhanced Audio API Key:</label>
-                <input type="password" id="elevenlabs-key" placeholder="Enter your ElevenLabs key">
-              </div> -->
+    <div id="overlay" class="overlay"></div>
+    <div id="tooltip" class="tooltip" style="display: none;"></div>
 
-            <button id="submit-keys">Submit Keys</button>
-            <br>
-            <!-- <div class="form-group" style="padding-top: 10px;">
-              <label for="systemMessage">Whom are you interviewing:</label>
-              <textarea id="systemMessage" placeholder="Enter the role of your interviewee"></textarea>
-            </div>
-             -->
-             <br>
-             <button id="showCreateGptModal">+ Create New GPT</button>
-             <div id="createGptModal" style="display:none;">
-              <div>
-                  <h2>Create New Custom GPT</h2>
-                  <label for="gptName">Name:</label>
-                  <input type="text" id="gptName" name="gptName"><br><br>
-                  <label for="gptCreatedBy">Created By:</label>
-                  <input type="text" id="gptCreatedBy" name="gptCreatedBy"><br><br>
-                  <label for="gptUniversity">University:</label>
-                  <input type="text" id="gptUniversity" name="gptUniversity"><br><br>
-                  <label for="gptType">GPT Type:</label>
-                  <input type="text" id="gptType" name="gptType"><br><br>
-                  <label for="gptInstructions">Instructions:</label>
-                  <textarea id="gptInstructions" name="gptInstructions"></textarea><br><br>
-                  <button id="submitGptForm">Submit</button>
-                  <button onclick="closeCreateGptModal()">Close</button>
-              </div>
-          </div>
-          
-            
-              <div class="form-group" style="padding-top: 10px;">
-                <label for="gptSelection">Choose a Custom GPT:</label>
-                <select id="gptSelection">
-                    <!-- Options will be populated here -->
-                    
-                </select>
-              </div>          
-             <button id="updateSystemMessage">Update System Message</button>
-          </div>
+    <button onclick="startTutorial()">Start Tutorial</button>
 
-          
-        <div class="virtual-character-panel">
-            
-            <video id="background-video" width="100%" height="320" loop>
-                <source src="images/womentalking.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-              </video>
-            <video id="userVideo" autoplay style="width: 100%; padding-top: 10%;"></video>
-            <div class="controls">
-                <!-- <button id="toggleCamera">Close Camera</button> -->
-                <button id="startRecord">Start Recording</button>
-                <button id="stopRecord" disabled>Stop Recording</button>
-              
-            </div>
+    <div class="container">
+        <h2>AI Helpers</h2>
+        <input type="text" id="studentId" placeholder="Enter Student ID">
 
-        </div>
-        
-        <div class="user-panel">
-            <button id="download-btn">Download Transcription</button>
-            <div id="transcription" style="font-size: large; overflow-y: scroll; height: 100%;"></div>
-            <div class="message-input">
-              <input type="text" id="messageInput" placeholder="Type your message here...">
-              <button id="sendMessage">Send</button>
-          </div>
-          </div>
-       
+        <select id="gptSelection">
+            <option value="">Select Class</option>
+            <!-- Add class options here -->
+        </select>
+
+        <video id="background-video" width="100%" height="320" loop>
+            <source src="images/womentalking.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p>Ensure your Volume is turned on; and you give permission to your microphone.</p>
+
+        <!-- <button id="recordButton" class="record-btn">Hold to Record</button> -->
+        <button id="startRecord" disabled>Start Recording</button>
+        <button id="stopRecord" disabled>Stop Recording</button>
+        <!-- <button id="download-btn">Download Transcription</button> -->
+        <br>
+        <div id="transcription" style="font-size: large; overflow-y: scroll; height: 100%;"></div>
+        <div class="message-input">
+          <input type="text" id="messageInput" placeholder="Type your message here...">
+          <button id="sendMessage" disabled>Send</button>
+      </div>
+      <button id="download-btn">Download Transcription</button>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script>
 
 
+
 $(document).ready(function() {
+        var uniqueID = 'id_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('sessionID', uniqueID);
+
+        startTutorial();
+
+    $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/getOAI/', function(data) {
+                localStorage.setItem('openaiKey', data.key)
+                console.log('keySet')
+    });
     // Fetch and populate the dropdown with custom GPTs
     $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function(gpts) {
+        $('#gptSelection').append(new Option('', '')); // Initial blank option
         gpts.forEach(function(gpt) {
             $('#gptSelection').append(new Option(gpt.name, gpt.id));
         });
     });
-});
 
+        // Generate and update introductory message when a GPT is selected
+        $('#gptSelection').on('change', function() {
+            const selectedGptId = $(this).val();
+            if (!selectedGptId) return; // Do nothing if the blank option is selected
 
-  document.getElementById('submit-keys').onclick = function() {
-    var openaiKey = document.getElementById('openai-key').value;
-    localStorage.setItem('openaiKey', openaiKey);
-  };
-
-  document.getElementById('submit-details').addEventListener('click', function() {
-        // Retrieve the values from the input fields
-        var studentId = document.getElementById('student_id').value;
-        var sessionId = document.getElementById('session_id').value;
-
-        // Store the values in local storage
-        localStorage.setItem('studentId', studentId);
-        localStorage.setItem('sessionId', sessionId);
-
-        // Optional: Confirmation or further actions after storing
-        console.log('Details submitted and stored in local storage.');
+            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function(gpts) {
+                const selectedGpt = gpts.find(g => g.id == selectedGptId);
+                if (selectedGpt) {
+                    console.log(selectedGpt.instructions)
+                    localStorage.setItem('selectedGPT',selectedGpt.name)
+                    generateIntroductoryMessage(selectedGpt.instructions + ": For the above instructions generate an introductory message, welcoming the student and setting the context of this session, keep it short and neat.");
+                } else {
+                    console.error('Failed to find selected GPT');
+                }
+            });
+        });
     });
 
-  function openCreateGptModal() {
-    document.getElementById('createGptModal').style.display = 'block';
+    function generateIntroductoryMessage(instructions) {
+        // Here, we generate a greeting or introductory message based on the instructions
+        $.ajax({
+            type: 'POST',
+            url: 'https://api.openai.com/v1/chat/completions',
+            data: JSON.stringify({
+                model: "gpt-4",
+                messages: [{role: 'system', content: instructions}]
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
+            },
+            success: function(aiResponse) {
+                let introMessage = aiResponse.choices[0].message.content.trim();
+                appendMessage('ai-message', introMessage);
+                getSpeechFromText(introMessage);
+                chatHistory = [{ role: 'system', content: introMessage }];
+                console.log('Introductory message:', introMessage);
+            },
+            error: function(error) {
+                console.error('Error generating introductory message:', error);
+            }
+        });
+    }
+
+    function storeData(content, sentBy) {
+        // Get student ID from a text box (assuming the text box has an id 'studentId')
+        var studentId = $('#studentId').val();
+
+        // Prepare the data to be sent
+        var data = {
+            session_id: localStorage.getItem('sessionID'), // You need to define how to get this
+            student_id: studentId,
+            sent_by: sentBy,
+            content: content,
+            gpt_used: localStorage.getItem('selectedGPT')
+        };
+
+        // Send the data using an AJAX POST request
+        $.ajax({
+            type: 'POST',
+            url: 'https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/message/', // Replace with the correct URL to your Django view
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function(response) {
+                console.log('Success:', response);
+                // Handle success (e.g., display a success message)
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                // Handle error (e.g., display an error message)
+            }
+        });
+    }
+
+
+
+    function startTutorial() {
+    const components = [
+        { selector: '#studentId', text: 'Enter your Student ID here. Click anywhere on the screen to continue.' },
+        { selector: '#startRecord', text: 'When enabled, press this button to start Recording your response. Speak normally as if you speak on zoom.' },
+        { selector: '#stopRecord', text: 'When enabled, press this button to stop Recording your response.' },
+        { selector: '#messageInput', text: 'If you prefer typing, please type your response here.' },
+        { selector: '#sendMessage', text: 'When enabled, after typing your message click send or press enter to send' },
+        { selector: '#download-btn', text: 'Once you are finished responding, or do not want to respond anymore, click Download to get a sharable HTML file. Share with the concerned.' },
+        { selector: '#gptSelection', text: 'Select your class from this dropdown.' },
+      
+    ];
+
+    let currentStep = 0;
+    function positionTooltip(element) {
+        const tooltip = document.getElementById('tooltip');
+        const rect = element.getBoundingClientRect();
+        tooltip.style.top = `${rect.bottom + window.scrollY + 10}px`;
+        tooltip.style.left = `${rect.left + window.scrollX}px`;
+    }
+
+    function showStep() {
+        document.getElementById('overlay').style.display = 'block';
+        const component = document.querySelector(components[currentStep].selector);
+        const explainerText = components[currentStep].text;
+        component.classList.add('highlighted');
+        const tooltip = document.getElementById('tooltip');
+        tooltip.innerHTML = explainerText;
+        tooltip.style.display = 'block';
+        positionTooltip(component);
+    }
+
+    function nextStep() {
+        const component = document.querySelector(components[currentStep].selector);
+        component.classList.remove('highlighted');
+        currentStep++;
+        if (currentStep < components.length) {
+            showStep();
+        } else {
+            document.getElementById('tooltip').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+    }
+
+    document.getElementById('overlay').onclick = nextStep;
+    showStep();
 }
 
 
 
 
+let audioChunks = [];
+let chatHistory = [];
+const startRecordButton = document.getElementById('startRecord');
+const sendMessageButton = document.getElementById('sendMessage');
+const stopRecordButton = document.getElementById('stopRecord');
+const backgroundVideo = document.getElementById('background-video'); 
 
-
-const toggleCameraButton = document.getElementById('toggleCamera');
-navigator.mediaDevices.getUserMedia({ video: true})
-    .then(localStream => {
-        stream = localStream;
-        userVideo.srcObject = localStream;
-    })
-    .catch(error => {
-        console.error('Error accessing the camera or microphone:', error);
-    });
+const transcription = document.getElementById('transcription');
 
 
         
-let audioChunks = [];
-// let chatHistory = [{
-//     role: 'system',
-//     content: 'You are a helpful teacher assisting with interview preparations.'}
-// ];
-// $('#updateSystemMessage').on('click', function() {
-//     const systemContent = $('#systemMessage').val().trim();
-//     var prompt = 'I am a student and a researcher practicing my ability to conduct UX research interviews skills. I will need you to respond to various questions I ask. Respond very natuarlly to mimic a scenario in a real life interview, feel free to have filler words. You are being interviewed and make sure you act like the persona you are assigned, you are free to make up responses.'
-//     if (systemContent) {
-//         chatHistory = [
-//             {role: 'system', content: prompt + ' ' + systemContent}
-//         ];
-//         console.log('updated system role')
-//     } else {
-//         console.log('Failed to update system role');
-//     }
-// });
-
-
-function openCreateGptModal() {
-    document.getElementById('createGptModal').style.display = 'block';
-}
-
-// Function to close the modal
-function closeCreateGptModal() {
-    document.getElementById('createGptModal').style.display = 'none';
-}
-
-// Event listener for opening the modal
-document.getElementById('showCreateGptModal').addEventListener('click', openCreateGptModal);
-
-// Event listener for form submission
-document.getElementById('submitGptForm').addEventListener('click', function() {
-    var data = {
-        name: document.getElementById('gptName').value,
-        created_by: document.getElementById('gptCreatedBy').value,
-        university: document.getElementById('gptUniversity').value,
-        gpt_type: document.getElementById('gptType').value,
-        instructions: document.getElementById('gptInstructions').value
-    };
-
-    // AJAX call to send data to the server
-    $.ajax({
-        type: "POST",
-        url: "https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/create_new_gpt/",
-        data: JSON.stringify(data),
-        contentType: "application/json",
-        success: function(response) {
-            console.log(response);
-            closeCreateGptModal();
-            // Optional: Refresh the list or update the UI accordingly
-        },
-        error: function(error) {
-            console.error("Error creating Custom GPT:", error);
-        }
-    });
-});
-
-
-
-$('#updateSystemMessage').on('click', function() {
-    const selectedGptId = $('#gptSelection').val();
-    $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function(gpts) {
-        const selectedGpt = gpts.find(g => g.id == selectedGptId);
-        if (selectedGpt) {
-            chatHistory = [
-                {role: 'system', content: selectedGpt.instructions}
-            ];
-            console.log('updated system role');
-        } else {
-            console.log('Failed to update system role');
-        }
-    });
-});
 
 navigator.mediaDevices.getUserMedia({ audio: true })
     .then(stream => {
@@ -480,96 +300,17 @@ navigator.mediaDevices.getUserMedia({ audio: true })
         console.error('Error accessing the microphone:', error);
     });
 
-
-
-
-  
-
-
-function sendMessageToStorage(content){
-  var data = {
-                session_id: localStorage.getItem('sessionId'),
-                student_id: localStorage.getItem('studentId'),
-                content: content
-            };
-
-            $.ajax({
-                url: 'https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/message/',  // Update with your correct URL
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(data),
-                success: function(response) {
-                    console.log("Message sent successfully:", response);
-                },
-                error: function(error) {
-                    console.error("Error sending message:", error);
-                }
-            });
-}
-
-
-
-function appendMessage(className, text) {
-  // Create a new div for the message
-  var messageDiv = $('<div></div>').addClass('message ' + className);
-  messageDiv.text(text);
-
-  // Append the message div to the transcription container
-  $('#transcription').append(messageDiv);
-  $('#transcription').append('<br>');
-  
-  // Keep the scroll at the bottom
-  $('#transcription').scrollTop($('#transcription')[0].scrollHeight);
-}
-
-
-
-
-
-function getTextFromSpeech(audioBlob) {
-    let formData = new FormData();
-    formData.append('file', audioBlob,'recording.wav');
-    var aikey = localStorage.getItem('openaiKey');
-    formData.append('model', 'whisper-1');
-
-    $.ajax({
-        url: 'https://api.openai.com/v1/audio/transcriptions',
-        type: 'POST',
-        data: formData,
-        processData: false, // prevent jQuery from converting the data into a query string
-        contentType: false, // set to false as jQuery will set the Content-Type correctly with FormData
-        headers: {
-            'Authorization': 'Bearer ' + aikey // Replace with your OpenAI API key
-        },
-        success: function (data) {
-              console.log(data);
-              var transcription = data.text
-              appendMessage('transcription', transcription);
-              sendMessageToStorage(transcription)
-              getAIresponse(transcription)
-        },
-        error: function (error) {
-            console.error('Error:', error);
-        }
-    });
-}
-
-
-
-
-
-$('#sendMessage').on('click', function() {
+    $('#sendMessage').on('click', function() {
         // Get the message from the input
         var message = $('#messageInput').val().trim();
 
         // Check if the message is not empty
         if (message) {
-            // Append the message as a user message
-            appendMessage('transcription', message);
+            appendMessage('user-message',message)
             $('#messageInput').val('');
-            sendMessageToStorage(message)
-            getAIresponse(message);
+            getAIresponse(message)
             chatHistory.push({ role: 'user', content: message });
+            
         }
     });
 
@@ -582,91 +323,118 @@ $('#sendMessage').on('click', function() {
 
 
 
+        function getTextFromSpeech(audioBlob) {
+            let formData = new FormData();
+            formData.append('file', audioBlob, 'recording.wav');
+            formData.append('model', 'whisper-1');
 
-
-function getAIresponse(transcription) {
-    chatHistory.push({ role: 'user', content: transcription });
-
-    if (chatHistory.length > 5) {
-        chatHistory = [chatHistory[0], ...chatHistory.slice(-4)];
-    }
-
-    $.ajax({
-        type: 'POST',
-        url: 'https://api.openai.com/v1/chat/completions',
-        data: JSON.stringify({ model: "gpt-4", messages: chatHistory }),
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+ localStorage.getItem('openaiKey')// Replace with your actual API key
-        },
-        success: function(aiResponse) {
-            let responseText = aiResponse.choices[0].message.content.trim();
-            console.log(responseText);
-            // $('#transcription').text('Interviewee: ' + responseText);
-            appendMessage('interviewee', responseText);
-            sendMessageToStorage(responseText)
-            chatHistory.push({ role: 'system', content: responseText });
-            console.log(chatHistory)
-            // Call the ElevenLabs API to get the audio stream and play it
-            getSpeechFromText(responseText);
-        },
-        error: function(error) {
-            console.error('Error getting AI Response:', error);
+            $.ajax({
+                url: 'https://api.openai.com/v1/audio/transcriptions',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
+                },
+                success: function (data) {
+                    console.log(data)
+                    var transcriptionResult = data.text || "No transcription available.";
+                    // transcription.textContent = transcriptionResult;
+                    // Additional functions like sendMessageToStorage and getAIresponse can be implemented here.
+                    appendMessage('user-message',transcriptionResult)
+                    getAIresponse(transcriptionResult)
+                    chatHistory.push({ role: 'user', content: transcriptionResult });
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                    transcription.textContent = "Error processing transcription.";
+                }
+            });
         }
-    });
-}
+    
+    
+        function appendMessage(className, message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = className;
+            messageDiv.textContent = message;
+            transcription.appendChild(messageDiv);
+            //storing data to our database
+            storeData(message,className)
+            console.log('data stored')
+        }
 
+        function getAIresponse(transcription) {
+            chatHistory.push({ role: 'user', content: transcription });
 
-function getSpeechFromText(text) {
-
-    // let enhancedAudio = document.getElementById('ai-audio-checkbox').checked;
-    let backgroundVideo = document.getElementById('background-video');
-
-      const postData = {
-            input: text,
-            model: "tts-1",
-            voice: "alloy"
-        };
-
-      fetch('https://api.openai.com/v1/audio/speech', {
-            method: 'POST',
-            headers: {
-                'accept': 'audio/mpeg',
-                'Authorization': 'Bearer '+ localStorage.getItem('openaiKey'),
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(postData)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+            if (chatHistory.length > 5) {
+                chatHistory = [chatHistory[0], ...chatHistory.slice(-4)];
             }
-            return response.blob();
-        })
-        .then(blob => {
-            var audioUrl = URL.createObjectURL(blob);
-            var audio = new Audio(audioUrl);
-            audio.onplay = function() {
-                backgroundVideo.play();
+
+            $.ajax({
+                type: 'POST',
+                url: 'https://api.openai.com/v1/chat/completions',
+                data: JSON.stringify({ model: "gpt-4", messages: chatHistory }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
+                },
+                success: function(aiResponse) {
+                    let responseText = aiResponse.choices[0].message.content.trim();
+                    appendMessage('ai-message', responseText);
+                    chatHistory.push({ role: 'system', content: responseText });
+                    getSpeechFromText(responseText);
+                },
+                error: function(error) {
+                    console.error('Error getting AI Response:', error);
+                }
+            });
+        }
+
+        function getSpeechFromText(text) {
+            const postData = {
+                input: text,
+                model: "tts-1",
+                voice: "alloy"
             };
 
-            // Pause the video when the audio ends
-            audio.onended = function() {
-                backgroundVideo.pause();
-            };
-            audio.play();
-        })
-        .catch(error => {
-            console.error('Error with ElevenLabs API:', error);
-        });
+            fetch('https://api.openai.com/v1/audio/speech', {
+                method: 'POST',
+                headers: {
+                    'accept': 'audio/mpeg',
+                    'Authorization': 'Bearer ' + localStorage.getItem('openaiKey'),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                var audioUrl = URL.createObjectURL(blob);
+                var audio = new Audio(audioUrl);
+                audio.onplay = function() {
+                    startRecordButton.disabled = true;
+                    sendMessageButton.disabled = true; // Disable record button while AI message is being read out
+                    if (backgroundVideo) backgroundVideo.play();
+                };
 
-}
-
-
-
-
-
-
+                audio.onended = function() {
+                    startRecordButton.disabled = false;
+                    sendMessageButton.disabled = false; // Enable record button after AI message is read out
+                    if (backgroundVideo) backgroundVideo.pause();
+                };
+                audio.play();
+            })
+            .catch(error => {
+                console.error('Error with ElevenLabs API:', error);
+            });
+        }
+    
+    
 document.getElementById('download-btn').addEventListener('click', function() {
   var transcriptionContent = document.getElementById('transcription').innerHTML;
   var blob = new Blob([transcriptionContent], {
@@ -683,7 +451,6 @@ document.getElementById('download-btn').addEventListener('click', function() {
   // Clean up by removing the temporary link
   document.body.removeChild(tempLink);
 });
-
     </script>
 </body>
 </html>
