@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <link rel="icon" type="image" href="Group 522.png">
+    <title>Sai Siddartha Maram's Portfolio</title>
+    <style>
+  
+        body {
+            font-family: "Inter", system-ui, sans-serif;
+            color: #333;
+/* 
+            background-image: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMiIgZmlsbD0iI2QwZDBkMCIgLz4KPC9zdmc+Cg=="); */
+            /* padding-top: 100px; */
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            padding-left: 15%;
+            padding-top: 2%;
+            padding-right: 15%;
+
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 210px;
+            background-size: contain;
+            background-position: center;
+        }
+
+        .card-content {
+            padding: 15px;
+        }
+
+        .card-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 15px;
+        }
+
+        .read-more {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        .description-container {
+            font-family: 'Roboto', sans-serif; /* Consistent font */
+            font-size: 1.5em; /* Slightly larger than default for readability */
+            width: 100%; /* Takes 40% of the page width */
+            margin-left: 5%; /* Aligns with the heading */
+            line-height: 1.6; /* Spacing between lines for better readability */
+            margin-top: 20px; /* Space between the heading and this description */
+        }
+        .heading-container {
+            font-family: 'Roboto', sans-serif; /* Using Roboto font */
+            font-size: 3em; /* Large font size */
+            width: 100%; /* Takes 40% of the page width */
+            margin-left: 5%; /* Slight offset from the left */
+            font-weight: bold; /* Bold text */
+            margin-top: 40px; /* Some space from the top to avoid overlap with navbar */
+        }
+        .subheading-container {
+            font-family: 'Roboto', sans-serif; /* Using Roboto font */
+            font-size: 2em; /* Large font size */
+            width: 70%; /* Takes 40% of the page width */
+            margin-left: 5%; /* Slight offset from the left */
+            font-weight: bold; /* Bold text */
+            margin-top: 2px; /* Some space from the top to avoid overlap with navbar */
+        }
+        
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 15px 60px;
+            font-size: 1.2em;
+            position: fixed;  /* This makes it stick to the top */
+            top: 0;           /* Position it at the very top */
+            left: 0;          /* Align to the left edge */
+            width: 100%;      /* Take full width of the viewport */
+            z-index: 1000;
+            box-sizing: border-box; 
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);   /* Keep it above other elements */
+        }
+
+        .navbar a, .dropdown-toggle {
+            color: black;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 5px 15px;
+            transition: underline 0.3s;
+        }
+
+        .navbar a:hover, .dropdown-toggle:hover {
+            /* text-decoration: underline; */
+        }
+
+        .navbar a.active, .dropdown-toggle.active {
+    color: #F39F5A; /* Change to your desired active color */
+}
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Dropdown styling */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: whitesmoke;
+            min-width: 190px;
+            z-index: 1;
+            /* border: 1px solid black; */
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f5f5f5;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Hamburger menu - hidden by default */
+        .menu-toggle {
+            display: none;
+        }
+
+        .social-icons {
+              
+                padding-left: 5%;
+                padding-top:2%;
+                font-size: 1.5em; /* Icon size */
+            }
+
+            .social-icons a {
+                color: gray; /* Icon color */
+                margin-right: 20px; /* Spacing between icons */
+                transition: color 0.3s; /* Smooth color transition for hover effect */
+            }
+
+            .social-icons a:hover {
+                color: #000; /* Change color on hover */
+            }
+
+        /* Mobile responsiveness */
+        @media screen and (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px;
+            }
+
+            .navbar-right {
+                display: none; /* Hide menu items by default on small screens */
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .navbar.active .navbar-right {
+                display: flex; /* Display menu items when navbar is active */
+            }
+
+            /* Display hamburger menu only on small screens */
+            .menu-toggle {
+                display: block;
+                cursor: pointer;
+                font-size: 1.5em;
+                color: black;
+            }
+
+            .dropdown-content {
+                position: relative; /* Make dropdowns expand below on mobile */
+            }
+            .text-container {
+                    width: 100%; /* Full width on mobile */
+                    padding: 10% 5%; /* Increased padding for better readability */
+                }
+
+                .heading-container {
+                    font-size: 2.5em; /* Slightly bigger font size for heading */
+                }
+
+                .subheading-container {
+                    font-size: 1.3em; /* Slightly bigger font size for heading */
+                }
+
+
+                .description-container {
+                    font-size: 1.3em; /* Slightly bigger font size for description */
+                    line-height: 1.7; /* Increased line spacing */
+                }
+
+                .image-container {
+                    display: none; /* Hide the image on smaller screens */
+                }
+        }
+
+
+                /* Flex container for text and image */
+        .content-container {
+            display: flex;
+            justify-content: space-between; 
+            align-items: start; /* Aligns content to the top */
+            padding-top: 50px; /* To ensure content is below the fixed navbar */
+        }
+
+        .text-container {
+            width: 70%; /* Slightly reduced width */
+            padding: 0 0% 0 5%; /* Added right padding for some space and retained 
+            left padding */
+            align-items: left;
+        }
+
+
+
+        .image-container {
+            width: 50%; /* Increased width to reduce the gap between text and image */
+            display: flex;
+            /* justify-content: center; 
+            align-items: center; */
+}
+        .image-container img {
+            max-width: 80%; 
+            height: 10%;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="./index.html">
+            Sai Maram
+            </a>
+            <!-- Hamburger Menu for Mobile -->
+            <span class="menu-toggle" onclick="toggleMenu()">☰</span>
+        </div>
+        <div class="navbar-right">
+            <a href="./index.html#uxr">Case Studies</a>
+            <a href="./index.html#wex">Work Experience</a>
+            <a href="./index.html#res">Research</a>
+            <!-- <a href="./misc.html">Miscellaneous</a> -->
+        </div>
+    </div>
+
+ 
+    <div class="content-container" style="padding-top:100px;">
+        <!-- Text Content (Heading + Description) -->
+        <div class="text-container">
+            <div class="heading-container" style="color: #333;">
+                Welcome to my little corner  👋
+            </div>
+            <div class="description-container">
+                <p class="w3-xlarge w3-text-black">
+                    Thank you for staying to read a bit about me! My name is Sai Siddartha Maram, but you can call me Sai, Sid, Siddu, or Maram. Interestingly, my birth on May 11, 1998, coincided with Buddha Janmastami or Buddha's Birthday, leading my father to name me 'Siddartha', which was Buddha's birth name.
+                </p>
+                <p class="w3-xlarge w3-text-black">
+                    My education journey took me to various places, including Chennai, Zurich, and Hyderabad, before I completed my undergraduate studies at Thapar University, Patiala. I then moved to California for my PhD. These diverse educational experiences enabled me to learn English, Hindi, Telugu, Tamil, read Kannada, and understand some German.
+                </p>
+                <p class="w3-xlarge w3-text-black">
+                    When I'm not immersed in academic or UX work, I enjoy watching movies, OTT shows, crafting, playing my Ukulele, or exploring cafes. As a product of a Telugu household, I have a deep appreciation for Telugu cinema. Watching movies enriches my UXR and academic work; I pay close attention to direction, dialogues, and narrative styles, incorporating them into my work. I also enjoy films in Tamil, Hindi, Kannada, and Malayalam.
+                </p>
+                <p class="w3-xlarge w3-text-black">
+                    My foray into UX sparked an interest in crafts and art. Thanks to YouTube, I learned to play the Ukulele and ventured into painting and sculpting, although I'm still a novice. You can see some of my initial works below!
+                </p>
+                <img src="Group 786.png" style="width: 100%;">
+                <p class="w3-xlarge w3-text-black">
+                    I'm always eager to try new desserts 🍰 around the Bay Area. If you're a coffee ☕ or bubble tea 🧋 enthusiast and enjoy discussing academic HCI, AI, or just networking, please reach out (msaisiddartha1@gmail.com)! I'm also open to suggestions for new places to explore.
+                </p>
+                
+            </div>
+            <!-- <span id="element" style="font-size: 40px;"></span> -->
+         
+
+           
+            
+        </div>
+       
+    
+    
+    
+    
+    </div>
+    
+  
+<script>
+    document.querySelectorAll('.navbar a, .dropdown-toggle').forEach(link => {
+        link.addEventListener('click', function() {
+            // Remove active class from other links
+            document.querySelectorAll('.navbar a.active, .dropdown-toggle.active').forEach(activeLink => {
+                activeLink.classList.remove('active');
+            });
+
+            // Add active class to the clicked link
+            this.classList.add('active');
+        });
+    });
+</script>
+<script>
+    var typed = new Typed('#element', {
+      strings: ['I am a 3rd Year PhD Student and a Master Chef UX Researcher. I serve a menu of Qualitative and Quantitative research skills, and a pantry full of data science and coding. Mixing the perfects amount of insights and product goals I craft satisfying user experiences while advocating for my stakeholders.'],
+      typeSpeed: 10,
+    });
+
+</script>
+
+</body>
+</html>
+
+
+
