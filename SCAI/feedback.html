@@ -85,7 +85,7 @@
 
     <div class="container">
         <h2>Student Feedback</h2>
-        <input type="text" id="studentId" placeholder="Enter Student ID">
+        <!-- <input type="text" id="studentId" placeholder="Enter Student ID"> -->
 
         <select id="gptSelection">
             <option value="">Select Class</option>
@@ -179,7 +179,7 @@ $(document).ready(function() {
 
     function storeData(content, sentBy) {
         // Get student ID from a text box (assuming the text box has an id 'studentId')
-        var studentId = $('#studentId').val();
+        var studentId = localStorage.getItem('sessionID');
 
         // Prepare the data to be sent
         var data = {
@@ -211,7 +211,7 @@ $(document).ready(function() {
 
     function startTutorial() {
     const components = [
-        { selector: '#studentId', text: 'Enter your Student ID here. Click anywhere on the screen to continue.' },
+        //{ selector: '#studentId', text: 'Enter your Student ID here. Click anywhere on the screen to continue.' },
         { selector: '#startRecord', text: 'When enabled, press this button to start Recording your response. Speak normally as if you speak on zoom.' },
         { selector: '#stopRecord', text: 'When enabled, press this button to stop Recording your response.' },
         { selector: '#messageInput', text: 'If you prefer typing, please type your response here.' },
