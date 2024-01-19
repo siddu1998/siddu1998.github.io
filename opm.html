@@ -298,11 +298,7 @@ body {
 
 
 
-<div class="code-input-container" style="padding-top: 10%; padding-bottom: 0px;">
-<label style="padding-right: 20px;">If you are not reviewing for CHI 2024 - please enter Numeric '3' to view the Case Study</label>
-    <input type="text" id="code" class="code-input" placeholder="Enter 3">
-    <button class="reveal-button" onclick="decryptPage()">Reveal Content</button>
-</div>
+
 
 
 <!-- First Grid: Logo & About -->
@@ -337,7 +333,7 @@ body {
     <div class="w3-third w3-container">
     <h3 style="font-weight: bold;color: black;">Team</h3>
       <ul>
-        <li class="w3-large">2 Researcher</li>
+        <li class="w3-large">2 Researchers</li>
         <li class="w3-large">2 Faculty Mentors</li>
         <li class="w3-large">1 Developer</li>
 
@@ -508,38 +504,7 @@ To understand how human instructors facilitate learning in these topics, we cond
     </ul>
 
     <script>
-function caesarShift(text, amount) {
-    let output = '';
-    for (let i = 0; i < text.length; i++) {
-        let c = text[i];
-        if (c.match(/[a-z]/i)) {
-            let code = text.charCodeAt(i);
-            if ((code >= 65) && (code <= 90)) {
-                c = String.fromCharCode(((code - 65 + amount + 26) % 26) + 65);
-            } else if ((code >= 97) && (code <= 122)) {
-                c = String.fromCharCode(((code - 97 + amount + 26) % 26) + 97);
-            }
-        }
-        output += c;
-    }
-    return output;
-}    
-function decryptPage() {
-        let code = document.getElementById("code").value;
-        let elementsToDecrypt = document.querySelectorAll(".w3-xlarge, h2, h3, h4, p, li");
-        
-        elementsToDecrypt.forEach(element => {
-            element.innerHTML = caesarShift(element.innerHTML, -code);
-        });
-    }
-        window.onload = function() {
-        let elementsToEncrypt = document.querySelectorAll(".w3-xlarge, h2, h3, h4, p, li");
-        
-        elementsToEncrypt.forEach(element => {
-            element.innerHTML = caesarShift(element.innerHTML, 3);
-        });
-    };
-    
+
     </script>
 
 </html>
