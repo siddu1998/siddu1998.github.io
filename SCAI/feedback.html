@@ -157,7 +157,7 @@ $(document).ready(function() {
             type: 'POST',
             url: 'https://api.openai.com/v1/chat/completions',
             data: JSON.stringify({
-                model: "gpt-4",
+                model: "gpt-4-turbo-preview",
                 messages: [{role: 'system', content: instructions}]
             }),
             headers: {
@@ -374,7 +374,8 @@ navigator.mediaDevices.getUserMedia({ audio: true })
             $.ajax({
                 type: 'POST',
                 url: 'https://api.openai.com/v1/chat/completions',
-                data: JSON.stringify({ model: "gpt-4", messages: chatHistory }),
+                data: JSON.stringify({ model: "gpt-4", 
+                messages: chatHistory }),
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
