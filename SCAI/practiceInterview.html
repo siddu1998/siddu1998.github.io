@@ -114,7 +114,7 @@
     <script>
 
 
-
+let chatHistory = [];
 $(document).ready(function() {
         var uniqueID = 'id_' + Math.random().toString(36).substr(2, 9);
         localStorage.setItem('sessionID', uniqueID);
@@ -143,6 +143,8 @@ $(document).ready(function() {
                 if (selectedGpt) {
                     console.log(selectedGpt.instructions)
                     localStorage.setItem('selectedGPT',selectedGpt.name)
+                    chatHistory.push({ role: 'system', content: selectedGpt.instructions })
+                    
                     generateIntroductoryMessage(selectedGpt.instructions + ": For the above instructions generate an introductory message, welcoming the student and setting the context of this session, keep it short and neat.");
                 } else {
                     console.error('Failed to find selected GPT');
@@ -157,7 +159,7 @@ $(document).ready(function() {
             type: 'POST',
             url: 'https://api.openai.com/v1/chat/completions',
             data: JSON.stringify({
-                model: "gpt-4",
+                model: "gpt-4-turbo-preview",
                 messages: [{role: 'system', content: instructions}]
             }),
             headers: {
@@ -168,7 +170,9 @@ $(document).ready(function() {
                 let introMessage = aiResponse.choices[0].message.content.trim();
                 appendMessage('ai-message', introMessage);
                 getSpeechFromText(introMessage);
-                chatHistory = [{ role: 'system', content: introMessage }];
+                // chatHistory = [{ role: 'system', content: introMessage }];
+                chatHistory.push({ role: 'system', content: introMessage })
+                
                 console.log('Introductory message:', introMessage);
             },
             error: function(error) {
@@ -260,7 +264,7 @@ $(document).ready(function() {
 
 
 let audioChunks = [];
-let chatHistory = [];
+
 const startRecordButton = document.getElementById('startRecord');
 const sendMessageButton = document.getElementById('sendMessage');
 const stopRecordButton = document.getElementById('stopRecord');
@@ -308,8 +312,9 @@ navigator.mediaDevices.getUserMedia({ audio: true })
         if (message) {
             appendMessage('user-message',message)
             $('#messageInput').val('');
+            chatHistory.push({ role: 'user', content: message});
             getAIresponse(message)
-            chatHistory.push({ role: 'user', content: message });
+            console.log('Post enter:', chatHistory)
             
         }
     });
@@ -365,11 +370,12 @@ navigator.mediaDevices.getUserMedia({ audio: true })
         }
 
         function getAIresponse(transcription) {
-            chatHistory.push({ role: 'user', content: transcription });
+            //chatHistory.push({ role: 'user', content: transcription });
 
             if (chatHistory.length > 5) {
                 chatHistory = [chatHistory[0], ...chatHistory.slice(-4)];
             }
+            console.log('ChatHistory before API Call:', chatHistory)
 
             $.ajax({
                 type: 'POST',
@@ -383,6 +389,7 @@ navigator.mediaDevices.getUserMedia({ audio: true })
                     let responseText = aiResponse.choices[0].message.content.trim();
                     appendMessage('ai-message', responseText);
                     chatHistory.push({ role: 'system', content: responseText });
+                    console.log('Chat History after AI response', chatHistory)
                     getSpeechFromText(responseText);
                 },
                 error: function(error) {
