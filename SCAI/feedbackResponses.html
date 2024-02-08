@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Groups</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .session-list { list-style-type: none; padding: 0; }
+        .session-list li { cursor: pointer; padding: 10px; background-color: #f0f0f0; margin-top: 5px; }
+        .message { margin: 10px 0; padding: 10px; background-color: #e7e7e7; border-left: 3px solid #2196F3; }
+        .ai_message { border-color: #4CAF50; }
+        .student_message { border-color: #2196F3; }
+    </style>
+</head>
+<body>
+    <h2>Session Groups</h2>
+    <ul id="sessionList" class="session-list"></ul>
+
+    <h2>Messages</h2>
+    <div id="messageDisplay"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/feedbackList/') // Make sure to replace this with your actual API endpoint
+                .then(response => response.json())
+                .then(data => {
+                    const sessionList = document.getElementById('sessionList');
+                    for (const [sessionId, messages] of Object.entries(data)) {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `Session ${sessionId} (${messages.length} messages)`;
+                        listItem.onclick = () => displayMessages(sessionId, messages);
+                        sessionList.appendChild(listItem);
+                    }
+                });
+
+            function displayMessages(sessionId, messages) {
+                const messageDisplay = document.getElementById('messageDisplay');
+                messageDisplay.innerHTML = ''; // Clear previous messages
+                messages.forEach(message => {
+                    const div = document.createElement('div');
+                    div.className = `message ${message.sent_by}`;
+                    div.innerHTML = `<p><strong>${message.sent_by.replace('_', ' ').toUpperCase()}:</strong> ${message.content}</p>
+                                     <p><small>Sent on: ${message.created_at}</small></p>`;
+                    messageDisplay.appendChild(div);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
