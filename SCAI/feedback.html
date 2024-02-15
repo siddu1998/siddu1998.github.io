@@ -42,11 +42,14 @@
 }
 
 #messageInput {
-    flex-grow: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px; /* Rounded corners */
-    font-size: large;
+    width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none; /* Prevents manual resizing */
+  overflow-y: hidden; /* Hides the scrollbar */
 }
 .overlay {
     display: none;
@@ -105,7 +108,7 @@
         <br>
         <div id="transcription" style="font-size: large; overflow-y: scroll; height: 100%;"></div>
         <div class="message-input">
-          <input type="text" id="messageInput" placeholder="Type your message here...">
+          <textarea type="text" id="messageInput" placeholder="Type your message here..."></textarea>
           <button id="sendMessage" disabled>Send</button>
       </div>
       <button id="download-btn">Download Transcription</button>
