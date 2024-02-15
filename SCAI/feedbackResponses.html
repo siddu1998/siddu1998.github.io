@@ -25,10 +25,12 @@
             fetch('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/feedbackList/') // Make sure to replace this with your actual API endpoint
                 .then(response => response.json())
                 .then(data => {
+                    console.log(data)
                     const sessionList = document.getElementById('sessionList');
                     for (const [sessionId, messages] of Object.entries(data)) {
+                        console.log(messages)
                         const listItem = document.createElement('li');
-                        listItem.textContent = `Session ${sessionId} (${messages.length} messages)`;
+                        listItem.textContent = `Session ${sessionId} (${messages.length} messages) ${messages[0].gpt_used})`;
                         listItem.onclick = () => displayMessages(sessionId, messages);
                         sessionList.appendChild(listItem);
                     }
