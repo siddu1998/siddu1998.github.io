@@ -1,53 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Message Groups</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        .session-list { list-style-type: none; padding: 0; }
-        .session-list li { cursor: pointer; padding: 10px; background-color: #f0f0f0; margin-top: 5px; }
-        .message { margin: 10px 0; padding: 10px; background-color: #e7e7e7; border-left: 3px solid #2196F3; }
-        .ai_message { border-color: #4CAF50; }
-        .student_message { border-color: #2196F3; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feedback Session Messages</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 20px;
+        background-color: #f4f4f4;
+        color: #333;
+    }
+
+    .filter-group {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .filter-group label, .filter-group input, .filter-group select, .filter-group button {
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #fff;
+        outline: none;
+    }
+
+    .filter-group button {
+        cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        border: none;
+    }
+
+    #sessionList {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 20px;
+    }
+
+    #sessionList li {
+        cursor: pointer;
+        background-color: #fff;
+        margin-bottom: 5px;
+        padding: 10px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+    }
+
+    .message {
+        background-color: #fff;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        border-left: 5px solid;
+    }
+
+    .ai-message {
+        border-color: #007bff;
+    }
+
+    .student-message {
+        border-color: #28a745;
+    }
+
+    .message p {
+        margin: 5px 0;
+    }
+
+    .message strong {
+        display: block;
+    }
+</style>
 </head>
 <body>
-    <h2>Session Groups</h2>
-    <ul id="sessionList" class="session-list"></ul>
 
-    <h2>Messages</h2>
-    <div id="messageDisplay"></div>
+<!-- Filter UI Elements -->
+<label for="startTime">Start Time:</label>
+<input type="datetime-local" id="startTime">
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/feedbackList/') // Make sure to replace this with your actual API endpoint
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    const sessionList = document.getElementById('sessionList');
-                    for (const [sessionId, messages] of Object.entries(data)) {
-                        console.log(messages)
-                        const listItem = document.createElement('li');
-                        listItem.textContent = `Session ${sessionId} (${messages.length} messages) ${messages[0].gpt_used})`;
-                        listItem.onclick = () => displayMessages(sessionId, messages);
-                        sessionList.appendChild(listItem);
-                    }
-                });
+<label for="endTime">End Time:</label>
+<input type="datetime-local" id="endTime">
 
-            function displayMessages(sessionId, messages) {
-                const messageDisplay = document.getElementById('messageDisplay');
-                messageDisplay.innerHTML = ''; // Clear previous messages
-                messages.forEach(message => {
-                    const div = document.createElement('div');
-                    div.className = `message ${message.sent_by}`;
-                    div.innerHTML = `<p><strong>${message.sent_by.replace('_', ' ').toUpperCase()}:</strong> ${message.content}</p>
-                                     <p><small>Sent on: ${message.created_at}</small></p>`;
-                    messageDisplay.appendChild(div);
-                });
+<label for="gptUsed">GPT Used:</label>
+<select id="gptUsed">
+    <option value="">Select GPT Used</option>
+    <!-- Options will be populated dynamically -->
+</select>
+
+<button id="applyFilters">Apply Filters</button>
+
+<ul id="sessionList"></ul>
+<div id="messageDisplay"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const applyFiltersBtn = document.getElementById('applyFilters');
+
+    fetch('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/feedbackList/')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            populateGptUsedOptions(data);
+            applyFiltersBtn.onclick = () => applyFilters(data);
+        });
+
+    function populateGptUsedOptions(data) {
+        const gptUsedSelect = document.getElementById('gptUsed');
+        const gptUseds = new Set();
+        Object.values(data).flat().forEach(message => {
+            gptUseds.add(message.gpt_used);
+        });
+        gptUseds.forEach(gptUsed => {
+            const option = document.createElement('option');
+            option.value = gptUsed;
+            option.textContent = gptUsed;
+            gptUsedSelect.appendChild(option);
+        });
+    }
+
+    function applyFilters(data) {
+        const startTime = document.getElementById('startTime').value;
+        const endTime = document.getElementById('endTime').value;
+        const gptUsed = document.getElementById('gptUsed').value;
+
+        const filteredData = {};
+        Object.entries(data).forEach(([sessionId, messages]) => {
+            const filteredMessages = messages.filter(message => {
+                const messageTime = new Date(message.created_at).getTime();
+                const start = startTime ? new Date(startTime).getTime() : null;
+                const end = endTime ? new Date(endTime).getTime() : null;
+                return (!start || messageTime >= start) && 
+                       (!end || messageTime <= end) &&
+                       (!gptUsed || message.gpt_used === gptUsed);
+            });
+            if (filteredMessages.length > 0) {
+                filteredData[sessionId] = filteredMessages;
             }
         });
-    </script>
+
+        displaySessions(filteredData);
+    }
+
+    function displaySessions(data) {
+        const sessionList = document.getElementById('sessionList');
+        sessionList.innerHTML = ''; // Clear existing sessions
+        Object.entries(data).forEach(([sessionId, messages]) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `Session ${sessionId} (${messages.length} messages) - ${messages[0].gpt_used}`;
+            listItem.onclick = () => displayMessages(sessionId, messages);
+            sessionList.appendChild(listItem);
+        });
+    }
+
+    function displayMessages(sessionId, messages) {
+        const messageDisplay = document.getElementById('messageDisplay');
+        messageDisplay.innerHTML = ''; // Clear previous messages
+        messages.forEach(message => {
+            const div = document.createElement('div');
+            div.className = `message ${message.sent_by}`;
+            div.innerHTML = `<p><strong>${message.sent_by.replace('_', ' ').toUpperCase()}:</strong> ${message.content}</p>
+                             <p><small>Sent on: ${message.created_at}</small></p>`;
+            messageDisplay.appendChild(div);
+        });
+    }
+});
+</script>
 </body>
 </html>
