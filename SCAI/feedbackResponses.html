@@ -5,94 +5,84 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Feedback Session Messages</title>
 <style>
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        padding: 20px;
-        background-color: #f4f4f4;
+    body, html {
+        height: 100%;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f0f0f0;
         color: #333;
     }
-
-    .filter-group {
+    .container {
         display: flex;
-        gap: 10px;
-        margin-bottom: 20px;
+        height: 100%;
     }
-
-    .filter-group label, .filter-group input, .filter-group select, .filter-group button {
-        padding: 8px;
-        font-size: 14px;
+    .sidebar {
+        padding: 20px;
+        width: 30%;
+        background: #fff;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        overflow-y: auto;
+    }
+    .main-content {
+        flex-grow: 1;
+        padding: 20px;
+        overflow-y: auto;
+    }
+    .message {
+        margin-bottom: 15px;
+        padding: 10px;
+        background: #ffffff;
         border: 1px solid #ddd;
-        border-radius: 4px;
-        background-color: #fff;
-        outline: none;
+        border-radius: 5px;
     }
-
-    .filter-group button {
-        cursor: pointer;
-        background-color: #007bff;
-        color: white;
-        border: none;
+    .ai-message { background-color: #e1f5fe; }
+    .student-message { background-color: #fff9c4; }
+    input, select, button {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        width: calc(100% - 22px);
     }
-
-    #sessionList {
+    ul {
         list-style: none;
         padding: 0;
-        margin-bottom: 20px;
     }
-
-    #sessionList li {
-        cursor: pointer;
-        background-color: #fff;
-        margin-bottom: 5px;
+    li {
         padding: 10px;
-        border-radius: 4px;
-        border: 1px solid #ddd;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
     }
-
-    .message {
-        background-color: #fff;
-        padding: 15px;
-        margin-bottom: 10px;
-        border-radius: 4px;
-        border-left: 5px solid;
-    }
-
-    .ai-message {
-        border-color: #007bff;
-    }
-
-    .student-message {
-        border-color: #28a745;
-    }
-
-    .message p {
-        margin: 5px 0;
-    }
-
-    .message strong {
-        display: block;
+    li:hover {
+        background: #f9f9f9;
     }
 </style>
 </head>
 <body>
 
-<!-- Filter UI Elements -->
-<label for="startTime">Start Time:</label>
-<input type="datetime-local" id="startTime">
+<div class="container">
+    <div class="sidebar">
+        <!-- Filter UI Elements -->
+        <label for="startTime">Start Time:</label>
+        <input type="datetime-local" id="startTime">
 
-<label for="endTime">End Time:</label>
-<input type="datetime-local" id="endTime">
+        <label for="endTime">End Time:</label>
+        <input type="datetime-local" id="endTime">
 
-<label for="gptUsed">GPT Used:</label>
-<select id="gptUsed">
-    <option value="">Select GPT Used</option>
-    <!-- Options will be populated dynamically -->
-</select>
+        <label for="gptUsed">GPT Used:</label>
+        <select id="gptUsed">
+            <option value="">Select GPT Used</option>
+            <!-- Options will be populated dynamically -->
+        </select>
 
-<button id="applyFilters">Apply Filters</button>
+        <button id="applyFilters">Apply Filters</button>
 
-<ul id="sessionList"></ul>
-<div id="messageDisplay"></div>
+        <ul id="sessionList"></ul>
+    </div>
+    <div class="main-content" id="messageDisplay">
+        <!-- Messages will be displayed here -->
+    </div>
+</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
