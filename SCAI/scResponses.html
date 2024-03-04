@@ -134,11 +134,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function displaySessions(data) {
+        
         const sessionList = document.getElementById('sessionList');
         sessionList.innerHTML = ''; // Clear existing sessions
         Object.entries(data).forEach(([sessionId, messages]) => {
+            console.log(messages[0].student_id)
             const listItem = document.createElement('li');
-            listItem.textContent = `Session ${sessionId} (${messages.length} messages) - ${messages[0].gpt_used}`;
+            listItem.textContent = `Project: ${messages[0].student_id} (${messages.length} messages) - ${messages[0].gpt_used}`;
             listItem.onclick = () => displayMessages(sessionId, messages);
             sessionList.appendChild(listItem);
         });
