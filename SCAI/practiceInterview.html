@@ -375,8 +375,8 @@ navigator.mediaDevices.getUserMedia({ audio: true })
         function getAIresponse(transcription) {
             //chatHistory.push({ role: 'user', content: transcription });
 
-            if (chatHistory.length > 10) {
-                chatHistory = [chatHistory[0], ...chatHistory.slice(-9)];
+            if (chatHistory.length > 7) {
+                chatHistory = [chatHistory[0], ...chatHistory.slice(-6)];
             }
             console.log('ChatHistory before API Call:', chatHistory)
 
