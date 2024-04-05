@@ -19,6 +19,8 @@ let nextbutton;
 
 var micSensitivity = 0.02;
 
+
+let VayuSpeed = 0.5;
 let currentState = "screen1"; // Variable to track the current state
 
 function preload(){
@@ -35,6 +37,7 @@ function preload(){
   text8 = loadImage('assets/text8.png');
   text9 = loadImage('assets/text9.png');
   text10 = loadImage('assets/text10.png');
+  vayufull = loadImage('assets/vayufullpic.png');
 
 
   
@@ -51,6 +54,8 @@ function preload(){
   audio7 = loadSound('assets/audio/audio7.mp3');
   audio9 = loadSound('assets/audio/audio9.mp3');
   audio10 = loadSound('assets/audio/audio10.mp3');
+  vayuaudio = loadSound('assets/audio/vayumantra.mp3');
+
 
 
 
@@ -66,10 +71,13 @@ function preload(){
 function setup() {
   createCanvas(1000, 600);
   imageMode(CENTER);
+  frameRate(60);
 
   micIn = new p5.AudioIn();
   shlokaX = width/10;
   shlokaY = height/1.2;
+  VayuX = width/1.5;
+  VayuY = height/1.5;
 
   cloud1X = width/2;
   cloud1Y = height/2;
@@ -105,6 +113,13 @@ function setup() {
     // Transition to the next state when audio1 ends
     currentState = "screen5";
   });
+
+
+  vayuaudio.onended(() => {
+    // Transition to the next state when audio1 ends
+    currentState = "screen6";
+  });
+
   audio5.onended(() => {
     // Transition to the next state when audio1 ends
     currentState = "screen7.5";
@@ -131,6 +146,10 @@ function setup() {
 
 function draw() {
   background(220);
+  if (currentState === 'screen5.5'){
+    VayuX -= VayuSpeed;
+    VayuY -= VayuSpeed-0.1;
+  }
 
   if (cloud1X-70 > width &&
     cloud2X < 0 &&
@@ -139,7 +158,7 @@ function draw() {
     cloud5X > width) {
   console.log("All clouds are off-screen");
   if (currentState === 'screen5') {
-    currentState = 'screen6';
+    currentState = 'screen5.5';
     console.log(currentState);
   }
 }
@@ -160,6 +179,7 @@ function draw() {
 
   // Draw the appropriate screen based on the current state
   if (currentState === "screen1") {
+
     image(text1, width/4.5, height/5, dbox.width/4.5, dbox.height/4.5);
     if (!audio1.isPlaying()) {
       audio1.play();
@@ -194,12 +214,24 @@ function draw() {
     image(text2, width/4.5, height-900, dbox.width/4.5, dbox.height/6);
   }
 
+  else if (currentState === "screen5.5") {
+    image(vayufull, VayuX, VayuY, vayufull.width/4, vayufull.height/4);
+    if (!vayuaudio.isPlaying()) {
+      vayuaudio.play();
+    }
+
+  }
+
   else if (currentState === "screen6") {
+    // image(shloka, width/frameCount, height/frameCount, shloka.width/17, shloka.height/17);
+    //do god coroutine here
+    //before image 5 pops up
     image(text5, width/4.5, height/5, dbox.width/4.5, dbox.height/4.5);
     if (!audio5.isPlaying()) {
       audio5.play();
     }
-    
+
+   
   }
 
   // else if (currentState === "screen7") {
@@ -298,3 +330,34 @@ function draw() {
 function mousePressed() {
   // Empty function to prevent triggering state changes multiple times
 }
+
+function animateGod(callback){
+  //draw the god image in the middle
+  //slowly move it to the left and shink, where the text box is 
+  let duration = 500;
+  let steps = 50;
+  let startX = width/2;
+  let startY = height/2;
+  let targetX = width/4.5;
+  let targetY = height/5;
+  let stepX = (targetX - startX) / steps;
+  let stepY = (targetY - startY) / steps;
+
+  function animateSteps(step){
+    let newX = startX + stepX * step;
+    let newY = startY + stepY * step;
+    setTimeout(() => {
+      image(shloka, newX, newY, shloka.width/17, shloka.height/17);
+
+      if (step === steps){
+        callback();
+      }
+    }, duration/steps * step);
+  }
+  for (let i = 0; i <= steps; i++){
+    animateSteps(i);
+  }
+
+
+}
+
