@@ -1,0 +1,113 @@
+// using System.Collections;
+// using System.Collections.Generic;
+// using UnityEngine;
+
+// public class LineMatcher : MonoBehaviour
+// {
+//     public Line userLine;
+//     public GameObject[] prefabLineObjects;
+//     public LineGenerator lineGenerator;
+
+//     public float matchingThreshold = 0.5f;
+
+//     private void Start()
+//     {
+//         CapturePrefabLines();
+//     }
+
+//     private void CapturePrefabLines()
+//     {
+//         prefabLineObjects = GameObject.FindGameObjectsWithTag("PrefabLine");
+
+//         foreach (GameObject prefabLineObject in prefabLineObjects)
+//         {
+//             PrefabLine prefabLine = prefabLineObject.GetComponent<PrefabLine>();
+//             prefabLine.CapturePoints();
+//         }
+//     }
+
+//     public void CheckLineMatching(Line userLine)
+//     {
+//         this.userLine = userLine;
+
+//         if (userLine == null)
+//         {
+//             Debug.Log("User line is null.");
+//             return;
+//         }
+
+//         List<Vector2> userPoints = userLine.GetPoints();
+
+//         int matchingCount = 0;
+//         bool[] prefabLineMatched = new bool[prefabLineObjects.Length];
+
+//         foreach (GameObject prefabLineObject in prefabLineObjects)
+//         {
+//             PrefabLine prefabLine = prefabLineObject.GetComponent<PrefabLine>();
+
+//             if (prefabLine.Points.Count == 0 || userPoints.Count == 0)
+//             {
+//                 Debug.Log("User line or prefab line has no points.");
+//                 continue;
+//             }
+
+//             Debug.Log("Prefab: " + prefabLineObject.name + ", Points Count: " + prefabLine.Points.Count);
+
+//             int matchingPointsCount = 0;
+
+//             foreach (Vector2 userPoint in userPoints)
+//             {
+//                 foreach (Vector2 prefabPoint in prefabLine.Points)
+//                 {
+//                     if (Vector2.Distance(userPoint, prefabPoint) < matchingThreshold)
+//                     {
+//                         matchingPointsCount++;
+//                         break;
+//                     }
+//                 }
+//             }
+
+//             if (matchingPointsCount > 5 && !prefabLineMatched[matchingCount])
+//             {
+//                 Debug.Log("Similar line found for prefab: " + prefabLineObject.name);
+//                 prefabLineMatched[matchingCount] = true;
+//                 Debug.Log("matching count" + matchingCount);
+//                 if (matchingCount == 0)
+//                 {
+//                     Debug.Log("Have matched them all");
+//                 }
+
+//             }
+
+//             matchingCount++;
+//             Debug.Log("matching count" + matchingCount); // Increment the index here
+//         }
+
+//         int prefabsLeftToMatch = prefabLineObjects.Length - matchingCount;
+//         Debug.Log("Prefabs left to match: " + prefabsLeftToMatch);
+
+//         if (matchingCount == prefabLineObjects.Length)
+//         {
+//             Debug.Log("All elements matched!");
+//             // Perform actions when all elements are matched
+//         }
+//         else if (matchingCount == 0)
+//         {
+//             Debug.Log("Matched 4 or more prefabs!");
+//             // Perform actions when 4 or more prefabs are matched
+//         }
+//         else
+//         {
+//             Debug.Log("Lines do not match enough prefabs.");
+//         }
+//     }
+
+//     public void ClearUserLinesAndResetMatchedPrefabs(LineGenerator lineGenerator)
+//     {
+//         lineGenerator.ClearUserLines();
+//         for (int i = 0; i < prefabLineMatched.Length; i++)
+//         {
+//             prefabLineMatched[i] = false;
+//         }
+//     }
+// }
