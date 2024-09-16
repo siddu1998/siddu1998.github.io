@@ -99,6 +99,9 @@
             <source src="images/womentalking.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
+          <label for="speechCheckbox">
+            <input type="checkbox" id="speechCheckbox"> Enable Speech Output
+        </label>
           <p>Ensure your Volume is turned on; and you give permission to your microphone.</p>
 
         <!-- <button id="recordButton" class="record-btn">Hold to Record</button> -->
@@ -172,7 +175,10 @@ $(document).ready(function() {
             success: function(aiResponse) {
                 let introMessage = aiResponse.choices[0].message.content.trim();
                 appendMessage('ai-message', introMessage);
-                getSpeechFromText(introMessage);
+                let isSpeechEnabled = document.getElementById('speechCheckbox').checked;
+                if (isSpeechEnabled) {
+                    getSpeechFromText(responseText);
+                }
                 // chatHistory = [{ role: 'system', content: introMessage }];
                 chatHistory.push({ role: 'system', content: introMessage })
                 
@@ -372,35 +378,50 @@ navigator.mediaDevices.getUserMedia({ audio: true })
             console.log('data stored')
         }
 
-        function getAIresponse(transcription) {
-            //chatHistory.push({ role: 'user', content: transcription });
+// Function to calculate total character length of messages
+function getTotalCharacterLength(messages) {
+    return messages.reduce((acc, msg) => acc + msg.content.length, 0);
+}
 
-            if (chatHistory.length > 7) {
-                chatHistory = [chatHistory[0], ...chatHistory.slice(-6)];
+function getAIresponse(transcription) {
+    chatHistory.push({ role: 'user', content: transcription });
+
+    // Set a max character length limit to prevent too much data
+    const maxCharacterLimit = 4000; // You can adjust this value depending on how long the response context you want
+
+    // Trimming older messages while keeping important system info (the first message)
+    let totalCharacterLength = getTotalCharacterLength(chatHistory);
+    while (totalCharacterLength > maxCharacterLimit) {
+        // Remove the oldest message (except the first one) until it's under the limit
+        chatHistory.splice(1, 1); // Keep the first system/user message as context
+        totalCharacterLength = getTotalCharacterLength(chatHistory);
+    }
+
+    console.log('ChatHistory before API Call:', chatHistory);
+
+    $.ajax({
+        type: 'POST',
+        url: 'https://api.openai.com/v1/chat/completions',
+        data: JSON.stringify({ model: "gpt-4-turbo", messages: chatHistory }),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
+        },
+        success: function(aiResponse) {
+            let responseText = aiResponse.choices[0].message.content.trim();
+            appendMessage('ai-message', responseText);
+            chatHistory.push({ role: 'assistant', content: responseText });
+            console.log('Chat History after AI response', chatHistory);
+            let isSpeechEnabled = document.getElementById('speechCheckbox').checked;
+            if (isSpeechEnabled) {
+                getSpeechFromText(responseText);
             }
-            console.log('ChatHistory before API Call:', chatHistory)
-
-            $.ajax({
-                type: 'POST',
-                url: 'https://api.openai.com/v1/chat/completions',
-                data: JSON.stringify({ model: "gpt-4-turbo-preview", messages: chatHistory }),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
-                },
-                success: function(aiResponse) {
-                    let responseText = aiResponse.choices[0].message.content.trim();
-                    appendMessage('ai-message', responseText);
-                    chatHistory.push({ role: 'system', content: responseText });
-                    console.log('Chat History after AI response', chatHistory)
-                    getSpeechFromText(responseText);
-                },
-                error: function(error) {
-                    console.error('Error getting AI Response:', error);
-                }
-            });
+        },
+        error: function(error) {
+            console.error('Error getting AI Response:', error);
         }
-
+    });
+}
         function getSpeechFromText(text) {
             const postData = {
                 input: text,
