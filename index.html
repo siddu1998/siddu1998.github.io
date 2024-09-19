@@ -8,25 +8,60 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
-    <link rel="icon" type="image" href="Group 522.png">
+    <link rel="icon" type="image/png" href="Group 522.png">
     <title>Sai's Portfolio</title>
     <style>
         body {
             font-family: "Inter", system-ui, sans-serif;
             color: #333;
-            /* 
-            background-image: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMiIgZmlsbD0iI2QwZDBkMCIgLz4KPC9zdmc+Cg=="); */
-            /* padding-top: 100px; */
         }
 
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 15px 20px;
+            font-size: 1.2em;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar a,
+        .dropdown-toggle {
+            color: black;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 5px 15px;
+            transition: color 0.3s;
+        }
+
+        .navbar a:hover,
+        .dropdown-toggle:hover {
+            color: #F39F5A;
+        }
+
+        .navbar a.active,
+        .dropdown-toggle.active {
+            color: #F39F5A;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5em;
+        }
+
+        /* Grid and Card */
         .grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 40px;
-            padding-left: 15%;
-            padding-top: 2%;
-            padding-right: 15%;
-
+            padding: 2% 5%;
         }
 
         .card {
@@ -43,8 +78,8 @@
 
         .card-image {
             width: 100%;
-            height: 210px;
-            background-size: contain;
+            height: 200px;
+            background-size: cover;
             background-position: center;
         }
 
@@ -73,157 +108,67 @@
             text-decoration: underline;
         }
 
-        .description-container {
-            font-family: 'Roboto', sans-serif;
-            /* Consistent font */
-            font-size: 1.5em;
-            /* Slightly larger than default for readability */
-            width: 100%;
-            /* Takes 40% of the page width */
-            margin-left: 5%;
-            /* Aligns with the heading */
-            line-height: 1.6;
-            /* Spacing between lines for better readability */
-            margin-top: 20px;
-            /* Space between the heading and this description */
+        /* Content */
+        .content-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding-top: 100px;
+        }
+
+        .text-container {
+            width: 60%;
+            padding: 0 5%;
+        }
+
+        .image-container {
+            width: 30%;
+            padding-top: 2%;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
         }
 
         .heading-container {
             font-family: 'Roboto', sans-serif;
-            /* Using Roboto font */
             font-size: 3em;
-            /* Large font size */
-            width: 100%;
-            /* Takes 40% of the page width */
-            margin-left: 5%;
-            /* Slight offset from the left */
             font-weight: bold;
-            /* Bold text */
-            margin-top: 40px;
-            /* Some space from the top to avoid overlap with navbar */
+            margin: 40px 5% 20px 5%;
+            color: #333;
+        }
+
+        .description-container {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.5em;
+            line-height: 1.6;
+            margin-left: 5%;
+            margin-top: 20px;
         }
 
         .subheading-container {
-            font-family: 'Roboto', sans-serif;
-            /* Using Roboto font */
             font-size: 2em;
-            /* Large font size */
-            width: 70%;
-            /* Takes 40% of the page width */
-            margin-left: 5%;
-            /* Slight offset from the left */
             font-weight: bold;
-            /* Bold text */
-            margin-top: 2px;
-            /* Some space from the top to avoid overlap with navbar */
+            margin: 2% 0;
+            color: #333;
         }
 
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: white;
-            padding: 15px 60px;
-            font-size: 1.2em;
-            position: fixed;
-            /* This makes it stick to the top */
-            top: 0;
-            /* Position it at the very top */
-            left: 0;
-            /* Align to the left edge */
-            width: 100%;
-            /* Take full width of the viewport */
-            z-index: 1000;
-            box-sizing: border-box;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-            /* Keep it above other elements */
-        }
-
-        .navbar a,
-        .dropdown-toggle {
-            color: black;
-            text-decoration: none;
-            margin: 0 15px;
-            padding: 5px 15px;
-            transition: underline 0.3s;
-        }
-
-        .navbar a:hover,
-        .dropdown-toggle:hover {
-            /* text-decoration: underline; */
-        }
-
-        .navbar a.active,
-        .dropdown-toggle.active {
-            color: #F39F5A;
-            /* Change to your desired active color */
-        }
-
-        .navbar-left {
-            display: flex;
-            align-items: center;
-        }
-
-        .navbar-right {
-            display: flex;
-            align-items: center;
-        }
-
-        /* Dropdown styling */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: whitesmoke;
-            min-width: 190px;
-            z-index: 1;
-            /* border: 1px solid black; */
-        }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #f5f5f5;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        /* Hamburger menu - hidden by default */
-        .menu-toggle {
-            display: none;
-        }
-
+        /* Social Icons */
         .social-icons {
-
             padding-left: 5%;
             padding-top: 2%;
             font-size: 1.5em;
-            /* Icon size */
         }
 
         .social-icons a {
             color: gray;
-            /* Icon color */
             margin-right: 20px;
-            /* Spacing between icons */
             transition: color 0.3s;
-            /* Smooth color transition for hover effect */
         }
 
         .social-icons a:hover {
             color: #000;
-            /* Change color on hover */
         }
 
         /* Mobile responsiveness */
@@ -236,99 +181,47 @@
 
             .navbar-right {
                 display: none;
-                /* Hide menu items by default on small screens */
-                flex-direction: column;
-                width: 100%;
+            }
+
+            .menu-toggle {
+                display: block;
+                cursor: pointer;
+                color: black;
             }
 
             .navbar.active .navbar-right {
                 display: flex;
-                /* Display menu items when navbar is active */
+                flex-direction: column;
+                width: 100%;
             }
 
-            /* Display hamburger menu only on small screens */
-            .menu-toggle {
-                display: block;
-                cursor: pointer;
-                font-size: 1.5em;
-                color: black;
-            }
-
-            .dropdown-content {
-                position: relative;
-                /* Make dropdowns expand below on mobile */
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
             }
 
             .text-container {
                 width: 100%;
-                /* Full width on mobile */
                 padding: 10% 5%;
-                /* Increased padding for better readability */
             }
 
             .heading-container {
                 font-size: 2.5em;
-                /* Slightly bigger font size for heading */
             }
-
-            .subheading-container {
-                font-size: 1.3em;
-                /* Slightly bigger font size for heading */
-            }
-
 
             .description-container {
                 font-size: 1.3em;
-                /* Slightly bigger font size for description */
                 line-height: 1.7;
-                /* Increased line spacing */
             }
 
             .image-container {
-                display: none;
-                /* Hide the image on smaller screens */
+                width: 100%;
+                margin-top: 20px;
             }
-        }
 
-
-        /* Flex container for text and image */
-        .content-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            /* Aligns content to the top */
-            padding-top: 50px;
-            /* To ensure content is below the fixed navbar */
-        }
-
-        .text-container {
-            width: 60%;
-            /* Slightly reduced width */
-            padding: 0 0% 0 5%;
-            /* Added right padding for some space and retained 
-            left padding */
-            align-items: left;
-        }
-
-
-
-        .image-container {
-            width: 30%;
-            /* Increased width to reduce the gap between text and image */
-            display: flex;
-            justify-content: left;
-            align-items: left;
-            padding-top: 2%;
-        }
-
-        .image-container img {
-            max-width: 80%;
-            height: 10%;
-        }
-
-        .container {
-            display: flex;
-            align-items: center;
+            .card {
+                margin-bottom: 20px;
+            }
         }
     </style>
 </head>
@@ -347,49 +240,39 @@
             <a href="#wex">Work Experience</a>
             <a href="#res">Research</a>
             <a href="./about.html">About</a>
+            <a href="cv.pdf" target="_blank">Resume</a>
            
         </div>
     </div>
 
-
-    <div class="content-container" style="padding-top:100px;">
-        
-        <div class="text-container">
-            <div class="heading-container" style="color: #333;">
-                Hello, I'm Sai 👋
-            </div>
-            <div class="description-container">
-                <p class="w3-xlarge w3-text-black">
-
-                    Let's bake some amazing customer experiences! I am a 4th Year PhD Candidate at UCSC and a 🧑‍🍳
-                    MasterChef UX Researcher. I serve Michelin 🌟 insights using my seasoned blend of Qualitative and
-                    Quantitative research skills. By mixing the perfect amounts of methods and aligning them with stakeholder goals, I
-                    craft appetizing user experiences that delight and satisfy. My previous UX collaborations include <b style="color: olivedrab;">Xbox (Microsoft)</b>, <b
-                        style="color: #007BFF;">Facebook (Meta)</b>, <b style="color: maroon;">Invento Robotics</b>, and
-                    academic institutions such as <b style="color:rgba(142, 142, 3, 0.843)">GaTech</b>, <b
-                        style="color: #888;">IISc</b>, <b style="color: rgb(209, 123, 209);">NYU</b>, <b
-                        style="color: peru;">Drexel</b>, <b style="color: navy;">Northeastern</b>. My recipes have been
-                    published in reputed conferences like CHI, CSCW, CHI Play, FDG, CoG, ICEC and ACM Multimedia.
-
-                </p>
-            </div>
-
-
-            <div class="social-icons">
-                <a href="https://twitter.com/SiddarthaMaram" target="_blank"><i class="fab fa-twitter"></i></a>
-                <a href="https://scholar.google.com/citations?user=0eShD5EAAAAJ&hl=en" target="_blank"><i
-                        class="fas fa-user-graduate"></i></a>
-                <a href="https://www.linkedin.com/in/sai-siddartha-maram/" target="_blank"><i
-                        class="fab fa-linkedin-in"></i></a>
-            </div>
-
+<!-- Introduction -->
+<div class="content-container" style="padding-top:100px;">
+    <div class="text-container">
+        <div class="heading-container">Hello, I'm Sai 👋</div>
+        <div class="description-container">
+            <p>Let's bake some amazing customer experiences! I am a 4th Year PhD Candidate at UCSC and a 🧑‍🍳
+                MasterChef UX Researcher. I serve Michelin 🌟 insights using my seasoned blend of Qualitative and
+                Quantitative research skills. My previous UX collaborations include <b style="color: olivedrab;">Xbox (Microsoft)</b>, <b
+                    style="color: #007BFF;">Facebook (Meta)</b>, <b style="color: maroon;">Invento Robotics</b>,
+                and academic institutions such as <b style="color:rgba(142, 142, 3, 0.843)">GaTech</b>, <b
+                    style="color: #888;">IISc</b>, <b style="color: rgb(209, 123, 209);">NYU</b>, and <b
+                    style="color: peru;">Drexel</b>. My work has been published in reputed conferences like CHI,
+                CSCW, and FDG.</p>
         </div>
 
-        <div class="image-container">
-            <img src="Group 793 (6).png">
+        <div class="social-icons">
+            <a href="https://twitter.com/SiddarthaMaram" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://scholar.google.com/citations?user=0eShD5EAAAAJ&hl=en" target="_blank"><i
+                    class="fas fa-user-graduate"></i></a>
+            <a href="https://www.linkedin.com/in/sai-siddartha-maram/" target="_blank"><i
+                    class="fab fa-linkedin-in"></i></a>
         </div>
     </div>
 
+    <div class="image-container">
+        <img src="Group 793 (6).png" alt="Sai's Image">
+    </div>
+</div>
     
     <div class="content-container" id="uxr">
         <div class="text-container">
@@ -499,6 +382,17 @@
     <div class="w3-full  w3-large w3-text-black" style="padding-left: 15%; padding-top: 2%;padding-right: 15%;">
 
 
+        <img src="Xbox_one_logo.svg.png" style="width:5%;height:5%;float:left; margin-right:10px;">
+        <h3 style="color: black;"><b>Microsoft (Xbox), Redmond, USA</b></h3>
+        <h5>UX Research Intern | June 2024 - September 2024</h5>
+
+        <ul>
+            <li>Conducted <strong>13 usability studies</strong> to understand pain-points and opportunities for parental controls in video games.</li>
+            <li>Initiated strategy for merging Microsoft's <strong>6 parental control end-points into a single streamlined application.</strong></li>
+            <li>Established a <strong>taxonomy of mental models around parental controls</strong> and parenting styles for future designers and stakeholders to design video game parental controls.</li>
+          </ul>
+          
+
         <img src="temporary/1659133639191.jpeg" style="width:5%;height:5%;float:left; margin-right:10px;">
         <h3 style="color: black;"><b>GUII Lab, UCSC</b></h3>
         <h5>Research Intern | September 2021 - Present</h5>
@@ -564,6 +458,18 @@
                 <th style="color:black">Authors</th>
             </tr>
 
+
+            <tr>
+                <td><a target="blank">A Topic Modeling Approach Towards Understanding the Discourse between Religion and Videogames on Reddit</a></td>
+                <td>ACM CHI PLAY 2024</td>
+                <td><b>Sai Siddartha Maram</b>, Johannes Pfau, Mansi Kasar, Magy Seif El-Nasr</td>
+            </tr>
+
+            <tr>
+                <td><a target="blank"> Shloka: Developing Climate Change interventions through a lens of Religion and Videogames</a></td>
+                <td>ACM CHI PLAY 2024</td>
+                <td><b>Sai Siddartha Maram</b>, Yash Malegaonkar, Mário Escarce Junior, Magy Seif El-Nasr</td>
+            </tr>
             <tr>
                 <td><a target="blank">"Ah! I see'' - Facilitating Process Reflection in Gameplay through a Novel
                         Spatio-Temporal Visualization System</a></td>
@@ -724,13 +630,7 @@
             });
         });
     </script>
-    <script>
-        var typed = new Typed('#element', {
-            strings: ['I am a 3rd Year PhD Student and a Master Chef UX Researcher. I serve a menu of Qualitative and Quantitative research skills, and a pantry full of data science and coding. Mixing the perfects amount of insights and product goals I craft satisfying user experiences while advocating for my stakeholders.'],
-            typeSpeed: 10,
-        });
-
-    </script>
+  
 
 </body>
 
