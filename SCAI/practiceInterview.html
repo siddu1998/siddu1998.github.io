@@ -112,7 +112,7 @@
         <div id="transcription" style="font-size: large; overflow-y: scroll; height: 100%;"></div>
         <div class="message-input">
             <textarea type="text" id="messageInput" placeholder="Type your message here..."></textarea>
-          <button id="sendMessage" disabled>Send</button>
+          <button id="sendMessage" disabled>Press Enter to Send</button>
       </div>
       <button id="download-btn">Download Transcription</button>
     </div>
@@ -393,7 +393,7 @@ function getAIresponse(transcription) {
     let totalCharacterLength = getTotalCharacterLength(chatHistory);
     while (totalCharacterLength > maxCharacterLimit) {
         // Remove the oldest message (except the first one) until it's under the limit
-        chatHistory.splice(1, 1); // Keep the first system/user message as context
+        chatHistory.splice(1, 1); // Keep the first system/user add .message as context
         totalCharacterLength = getTotalCharacterLength(chatHistory);
     }
 
