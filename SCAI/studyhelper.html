@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyHelper</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'system-ui', sans-serif;
+            background: #F7F7F8;
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 30%;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+        }
+
+        .main-content {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background-color: #10A37F;
+            padding: 10px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar input[type="text"] {
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .navbar select {
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .chat-window {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: white;
+        }
+
+        .dynamic-responses {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            background-color: #eaeaea;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .response-button {
+            background-color: #10A37F;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .message-input-area {
+            display: flex;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border-top: 1px solid #ddd;
+            position: sticky;
+            bottom: 0;
+        }
+
+        textarea {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background-color: #F0F0F0;
+            resize: none;
+            min-height: 50px;
+        }
+
+        button {
+            background-color: #10A37F;
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .user-message {
+            background-color: #DCF8C6;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+            margin-bottom: 10px;
+            word-wrap: break-word;
+        }
+        .user-message-ai {
+            background-color: #DCF8C6;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+            margin-bottom: 10px;
+            word-wrap: break-word;
+        }
+
+        .ai-message {
+            background-color: #F1F1F1;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+            margin-bottom: 10px;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <!-- Side Navigation Bar -->
+    <div class="sidebar">
+        <h1>StudyHelper</h1>
+  
+        <br>
+        <br>
+        
+        <h3>Instructions</h3>
+        <hr>
+        <ul>
+            <li>Enter your ID on the top-right (ask your instructor)</li>
+            <li>In the Dropdown (top-left corner of the page) choose the AI tool your instructor mentions.</li>
+            <li>For best performance, if you want to use a new AI tool, refresh the page.</li>
+            <li>Each time you finish using a AI tool, download the transcript for your reference.</li>
+        </ul>
+        
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- Top Navigation Bar -->
+        <div class="navbar">
+            <input type="text" id="studentId" placeholder="Enter Student ID">
+            <select id="gptSelection">
+                <option value="">Select Class</option>
+                <!-- Class options will be populated here -->
+            </select>
+        </div>
+
+        <!-- Chat Window (AI Responses and Messages) -->
+        <div id="transcription" class="chat-window"></div>
+
+        <!-- Dynamic Responses Area (Above the input) -->
+        <div id="dynamic-responses" class="dynamic-responses">
+            <!-- Buttons for dynamic responses will be inserted here -->
+        </div>
+
+        <!-- Message Input Area -->
+        <div class="message-input-area">
+            <textarea id="messageInput" placeholder="Type your message here..."></textarea>
+            <button id="sendMessage" disabled>Send</button>
+            <button id="download-btn">Download Transcript</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.16/marked.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        let chatHistory = [];
+
+        $(document).ready(function() {
+            var uniqueID = 'id_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('sessionID', uniqueID);
+
+            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/getOAI/', function(data) {
+                localStorage.setItem('openaiKey', data.key);
+                console.log('Key set');
+            });
+
+            // Fetch and populate the dropdown with custom GPTs
+            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function(gpts) {
+                gpts.forEach(function(gpt) {
+                    $('#gptSelection').append(new Option(gpt.name, gpt.id));
+                });
+            });
+
+            $('#gptSelection').on('change', function() {
+                const selectedGptId = $(this).val();
+                if (!selectedGptId) return;
+
+                $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function(gpts) {
+                    const selectedGpt = gpts.find(g => g.id == selectedGptId);
+                    if (selectedGpt) {
+                        localStorage.setItem('selectedGPT', selectedGpt.name);
+                        chatHistory.push({ role: 'system', content: selectedGpt.instructions });
+                        generateIntroductoryMessage(selectedGpt.instructions);
+                    }
+                });
+            });
+
+            // Enable the download button after content is added
+            $('#messageInput').on('input', function() {
+                $('#sendMessage').prop('disabled', !$(this).val().trim());
+            });
+        });
+
+        function generateIntroductoryMessage(instructions) {
+            $.ajax({
+                type: 'POST',
+                url: 'https://api.openai.com/v1/chat/completions',
+                data: JSON.stringify({
+                    model: "gpt-4-turbo-preview",
+                    messages: [{ role: 'system', content: instructions }]
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
+                },
+                success: function(aiResponse) {
+                    let introMessage = aiResponse.choices[0].message.content.trim();
+                    appendMessage('ai-message', introMessage);
+                    chatHistory.push({ role: 'system', content: introMessage });
+                }
+            });
+        }
+
+        $('#sendMessage').on('click', function() {
+            var message = $('#messageInput').val().trim();
+            if (message) {
+                chatHistory.push({ role: 'user', content: message });
+                appendMessage('user-message', message);
+                $('#messageInput').val('');
+                getAIresponse(message);
+            }
+        });
+
+        $('#messageInput').on('keypress', function(e) {
+            if (e.which == 13) {
+                $('#sendMessage').click();
+            }
+        });
+
+        function appendMessage(className, message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = className;
+
+            if (className === 'ai-message') {
+                messageDiv.innerHTML = marked.parse(message);
+            } else {
+                messageDiv.textContent = message;
+            }
+
+            document.getElementById('transcription').appendChild(messageDiv);
+            storeData(message, className); // Store message to the DB
+
+           
+        }
+
+        function storeData(content, sentBy) {
+            const studentId = $('#studentId').val();
+            const data = {
+                session_id: localStorage.getItem('sessionID'),
+                student_id: studentId,
+                sent_by: sentBy,
+                content: content,
+                gpt_used: localStorage.getItem('selectedGPT')
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: 'https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/message/',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function(response) {
+                    console.log('Message stored:', response);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error storing message:', error);
+                }
+            });
+        }
+
+        function getAIresponse(transcription) {
+            const maxCharacterLimit = 4000;
+            let totalCharacterLength = chatHistory.reduce((acc, msg) => acc + msg.content.length, 0);
+            
+            while (totalCharacterLength > maxCharacterLimit) {
+                chatHistory.splice(1, 1); 
+                totalCharacterLength = chatHistory.reduce((acc, msg) => acc + msg.content.length, 0);
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: 'https://api.openai.com/v1/chat/completions',
+                data: JSON.stringify({
+                    model: "gpt-4-turbo",
+                    messages: chatHistory
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
+                },
+                success: function(aiResponse) {
+                    let responseText = aiResponse.choices[0].message.content.trim();
+                    appendMessage('ai-message', responseText);
+                    chatHistory.push({ role: 'assistant', content: responseText });
+                    generateDynamicResponses(); // Generate dynamic responses after message
+                }
+            });
+        }
+
+        // Function to generate dynamic responses that sound like the user
+        function generateDynamicResponses() {
+            console.log(chatHistory)
+            $.ajax({
+                type: 'POST',
+                url: 'https://api.openai.com/v1/chat/completions',
+                data: JSON.stringify({
+                    model: "gpt-4-turbo",
+                    messages: chatHistory.concat({ role: 'system', content: "Generate a short, user-like responses based on the above conversation. If the last message of the system, is a question for example 'can you think of __' or 'can you share __' do not respond with answers but just simple responses like 'not sure', 'can you explain' etc." }),
+                    temperature: 0.7,
+                    n: 3, // Request 3 responses
+                    max_tokens: 25 // Limit tokens to keep responses short
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
+                },
+                success: function(aiResponse) {
+                    const dynamicResponses = document.getElementById('dynamic-responses');
+                    dynamicResponses.innerHTML = ''; // Clear previous responses
+
+                    aiResponse.choices.forEach(function(choice, index) {
+                        const responseButton = document.createElement('button');
+                        responseButton.classList.add('response-button');
+                        responseButton.textContent = choice.message.content.trim();
+                        responseButton.onclick = function() {
+                            appendMessage('user-message-ai', responseButton.textContent);
+                            chatHistory.push({ role: 'user', content: responseButton.textContent });
+                            getAIresponse(responseButton.textContent); // Process the selected response
+                        };
+                        dynamicResponses.appendChild(responseButton);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error generating dynamic responses:', error);
+                }
+            });
+        }
+
+        // Download Transcript Functionality
+        document.getElementById('download-btn').addEventListener('click', function() {
+            var transcriptionContent = document.getElementById('transcription').innerHTML;
+
+            var css = `
+            body { font-family: 'Arial', sans-serif; background: #f4f4f4; color: #333; }
+            .container { width: 90%; margin: 20px auto; max-width: 400px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+            input[type="text"], select, input[type="password"], select { width: 100%; padding: 10px; margin: 8px 0; display: inline-block; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+            video { width: 100%; height: auto; border-radius: 8px; }
+            .user-message { background-color: #c8e6c9; align-self: flex-end; margin-left: auto; word-wrap: break-word; }
+            .ai-message { background-color: #bbdefb; align-self: flex-start; margin-right: auto; word-wrap: break-word; }
+            .autoscroll { scroll-behavior: smooth; }`;
+
+            var htmlContentWithCSS = `<html><head><style>${css}</style></head><body>${transcriptionContent}</body></html>`;
+          
+            var blob = new Blob([htmlContentWithCSS], {
+                type: 'text/html'
+            });
+            var tempLink = document.createElement('a');
+            tempLink.download = 'transcript.html'; // Name of the file to download
+            tempLink.href = window.URL.createObjectURL(blob);
+
+            // Temporarily add link to the body and trigger the download
+            document.body.appendChild(tempLink);
+            tempLink.click();
+
+            // Clean up by removing the temporary link
+            document.body.removeChild(tempLink);
+        });
+    </script>
+</body>
+</html>
