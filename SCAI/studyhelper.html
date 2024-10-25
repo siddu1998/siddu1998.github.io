@@ -148,7 +148,15 @@
             <li>For best performance, if you want to use a new AI tool, refresh the page.</li>
             <li>Each time you finish using a AI tool, download the transcript for your reference.</li>
         </ul>
-        
+
+        <br>
+        <!-- <h3>Peer Conversations</h3>
+        <hr>
+        <br>
+        <li>Load Conversation 1</li>
+        <li>Load Conversation 2</li>
+        <li>Load Conversation 3</li>
+        <li>Load Conversation 4</li> -->
     </div>
 
     <!-- Main Content Area -->
@@ -224,8 +232,8 @@
                 type: 'POST',
                 url: 'https://api.openai.com/v1/chat/completions',
                 data: JSON.stringify({
-                    model: "gpt-4-turbo-preview",
-                    messages: [{ role: 'system', content: instructions }]
+                    model: "gpt-4-turbo",
+                    messages: [{ role: 'system', content: instructions + ": For the above instructions generate an introductory message, welcoming the student and setting the context of this session, keep it short and neat." }]
                 }),
                 headers: {
                     'Content-Type': 'application/json',
