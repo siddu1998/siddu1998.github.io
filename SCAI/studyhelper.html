@@ -274,6 +274,7 @@
             }
 
             document.getElementById('transcription').appendChild(messageDiv);
+            scrollToBottom()
             storeData(message, className); // Store message to the DB
 
            
@@ -369,6 +370,11 @@
                     console.error('Error generating dynamic responses:', error);
                 }
             });
+        }
+       
+        function scrollToBottom() {
+            const chatWindow = document.getElementById("transcription");
+            chatWindow.scrollTop = chatWindow.scrollHeight;
         }
 
         // Download Transcript Functionality
