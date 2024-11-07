@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Custom GPT</title>
+</head>
+<body>
+    <h2>Create a New Custom GPT</h2>
+    <form id="customGPTForm">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="created_by">Created By:</label><br>
+        <input type="text" id="created_by" name="created_by" required><br><br>
+
+        <label for="university">University:</label><br>
+        <input type="text" id="university" name="university" required><br><br>
+
+        <label for="gpt_type">GPT Type:</label><br>
+        <input type="text" id="gpt_type" name="gpt_type" required><br><br>
+
+        <label for="instructions">Instructions:</label><br>
+        <textarea id="instructions" name="instructions" required></textarea><br><br>
+
+        <button type="submit">Create Custom GPT</button>
+    </form>
+
+    <p id="result"></p>
+
+    <script>
+        document.getElementById("customGPTForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            // Gather form data
+            const formData = {
+                name: document.getElementById("name").value,
+                created_by: document.getElementById("created_by").value,
+                university: document.getElementById("university").value,
+                gpt_type: document.getElementById("gpt_type").value,
+                instructions: document.getElementById("instructions").value
+            };
+
+            // Send POST request to the API
+            try {
+                const response = await fetch("https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/create_new_gpt", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": "{{ csrf_token }}"  // Replace with a dynamic CSRF token if needed
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    document.getElementById("result").textContent = "Custom GPT created successfully with ID: " + result.id;
+                } else {
+                    const errorText = await response.text();
+                    document.getElementById("result").textContent = "Error: " + errorText;
+                }
+            } catch (error) {
+                document.getElementById("result").textContent = "Error: " + error.message;
+            }
+        });
+    </script>
+</body>
+</html>
