@@ -160,7 +160,7 @@
         <ul>
             <li>📝 <strong>Start with Clear Descriptions</strong>: When asked to describe your study or variables, provide as much detail as you can. Clear descriptions help the bot give you more relevant guidance.</li>
 
-            <li>💭 <strong>Think Out Loud</strong>: Treat your responses as a chance to explore your thoughts. Even if you're unsure, sharing your reasoning helps the bot prompt you with helpful questions and explanations.</li>
+            <!-- <li>💭 <strong>Think Out Loud</strong>: Treat your responses as a chance to explore your thoughts. Even if you're unsure, sharing your reasoning helps the bot prompt you with helpful questions and explanations.</li> -->
 
             <li>❓ <strong>Ask Questions Frequently</strong>: Don’t hesitate to ask the bot to clarify concepts or provide examples. If you’re not sure about a term or a test, ask the bot to explain or elaborate.</li>
 
@@ -168,17 +168,17 @@
 
             <li>🤔 <strong>Use ‘I’m Not Sure’ Responses</strong>: If you’re stuck, try using responses like “I’m not sure,” “Can you help me think through this?” or “What would you suggest?” This encourages the bot to guide you with hints rather than direct answers.</li>
 
-            <li>🔎 <strong>Reflect on Feedback</strong>: When the bot provides feedback or sample data, take a moment to review and think about why certain variables or tests are recommended. This will help deepen your understanding of when and why certain statistical methods are used.</li>
+            <!-- <li>🔎 <strong>Reflect on Feedback</strong>: When the bot provides feedback or sample data, take a moment to review and think about why certain variables or tests are recommended. This will help deepen your understanding of when and why certain statistical methods are used.</li> -->
 
-            <li>📊 <strong>Take Advantage of Practice Data</strong>: When the bot gives sample data, treat it like an actual exercise. Go through the steps of running the tests, even if it’s a mental exercise, and explain your reasoning aloud to reinforce your learning.</li>
+            <!-- <li>📊 <strong>Take Advantage of Practice Data</strong>: When the bot gives sample data, treat it like an actual exercise. Go through the steps of running the tests, even if it’s a mental exercise, and explain your reasoning aloud to reinforce your learning.</li> -->
 
             <li>✅ <strong>Review Each Step Before Moving On</strong>: After each topic or example, take a moment to review what you’ve learned and make sure you feel comfortable before moving to the next question or example.</li>
 
-            <li>🔄 <strong>End Conversations with a Recap</strong>: Summarize what you’ve learned or clarify any remaining doubts. Ask the bot if there’s anything it recommends focusing on before your exam.</li>
+            <!-- <li>🔄 <strong>End Conversations with a Recap</strong>: Summarize what you’ve learned or clarify any remaining doubts. Ask the bot if there’s anything it recommends focusing on before your exam.</li> -->
 
             <li>⏹️ <strong>Type ‘STOP’ to End</strong>: If you need a break, type STOP, and the conversation will end. You can come back anytime to continue practicing!</li>
 
-            <li>🔄 <strong>Experiment with Different Scenarios</strong>: If you have multiple research ideas or different study designs, try describing each to see how the recommended tests and variables might change.</li>
+            <!-- <li>🔄 <strong>Experiment with Different Scenarios</strong>: If you have multiple research ideas or different study designs, try describing each to see how the recommended tests and variables might change.</li> -->
 
         </ul>
 
@@ -374,7 +374,7 @@
                     let responseText = aiResponse.choices[0].message.content.trim();
                     appendMessage('ai-message', responseText);
                     chatHistory.push({ role: 'assistant', content: responseText });
-                    //generateDynamicResponses(); // Generate dynamic responses after message
+                   // generateDynamicResponses(); // Generate dynamic responses after message
                 }
             });
         }
@@ -387,7 +387,7 @@
                 url: 'https://api.openai.com/v1/chat/completions',
                 data: JSON.stringify({
                     model: "gpt-4-turbo",
-                    messages: chatHistory.concat({ role: 'user', content: "Generate short, suggestive responses as if from a user using bot. For general responses, use reactions like ‘Got it,’ ‘That makes sense,’ ‘Can we try another example?’ or ‘I understand so far', 'STOP'. When the bot asks questions that invite answers (e.g., ‘Can you think of __’ or ‘Can you share __’,'How____' ,'What ___', 'Why____','When____', 'Where____', 'Which___'), respond with prompts for clarification or hesitation, such as ‘Not sure,’ ‘Can you explain?’ ‘I think I need help with this,’ or ‘Can you give me a hint?’ Avoid giving direct answers to these questions." }),
+                    messages: chatHistory.concat({ role: 'system', content: "Generate short, suggestive responses as if from a user using bot. For general responses, use reactions like ‘Got it,’ ‘That makes sense,’ ‘Can we try another example?’ or ‘I understand so far', 'STOP'. When the bot asks questions that invite answers (e.g., ‘Can you think of __’ or ‘Can you share __’,'How____' ,'What ___', 'Why____','When____', 'Where____', 'Which___'), respond with prompts for clarification or hesitation, such as ‘Not sure,’ ‘Can you explain?’ ‘I think I need help with this,’ or ‘Can you give me a hint?’ Avoid giving direct answers to these questions." }),
                     temperature: 0.7,
                     n: 3, // Request 3 responses
                     max_tokens: 25 // Limit tokens to keep responses short
