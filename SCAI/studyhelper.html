@@ -352,7 +352,7 @@
 
         function getAIresponse(transcription) {
             const maxCharacterLimit = 4000;
-            let totalCharacterLength = chatHistory.reduce((acc, msg) => acc + msg.content.length, 0);
+            let totalCharacterLength = chatHistory.slice(1).reduce((acc, msg) => acc + msg.content.length, 0);
             
             while (totalCharacterLength > maxCharacterLimit) {
                 chatHistory.splice(1, 1); 
