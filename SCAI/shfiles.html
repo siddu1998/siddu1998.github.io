@@ -158,27 +158,17 @@
         <h3>How to Interact with an AI Bot</h3>
         <hr>
         <ul>
-            <li>📝 <strong>Start with Clear Descriptions</strong>: When asked to describe your study or variables, provide as much detail as you can. Clear descriptions help the bot give you more relevant guidance.</li>
+            <li>📝 <strong>Start with Clear Descriptions</strong></li>
 
-            <!-- <li>💭 <strong>Think Out Loud</strong>: Treat your responses as a chance to explore your thoughts. Even if you're unsure, sharing your reasoning helps the bot prompt you with helpful questions and explanations.</li> -->
+            <li>❓ <strong>Ask Questions Frequently</strong></li>
 
-            <li>❓ <strong>Ask Questions Frequently</strong>: Don’t hesitate to ask the bot to clarify concepts or provide examples. If you’re not sure about a term or a test, ask the bot to explain or elaborate.</li>
+            <li>📌 <strong>Ask for Examples</strong></li>
 
-            <li>📌 <strong>Ask for Examples</strong>: Whenever you're unsure, ask the bot to provide an example. Seeing how concepts apply in different scenarios will help you grasp each topic more concretely.</li>
+            <li>✅ <strong>Review Each Step Before Moving On</strong></li>
 
-            <!-- <li>🤔 <strong>Use ‘I’m Not Sure’ Responses</strong>: If you’re stuck, try using responses like “I’m not sure,” “Can you help me think through this?” or “What would you suggest?” This encourages the bot to guide you with hints rather than direct answers.</li> -->
-
-            <!-- <li>🔎 <strong>Reflect on Feedback</strong>: When the bot provides feedback or sample data, take a moment to review and think about why certain variables or tests are recommended. This will help deepen your understanding of when and why certain statistical methods are used.</li> -->
-
-            <!-- <li>📊 <strong>Take Advantage of Practice Data</strong>: When the bot gives sample data, treat it like an actual exercise. Go through the steps of running the tests, even if it’s a mental exercise, and explain your reasoning aloud to reinforce your learning.</li> -->
-
-            <li>✅ <strong>Review Each Step Before Moving On</strong>: After each topic or example, take a moment to review what you’ve learned and make sure you feel comfortable before moving to the next question or example.</li>
-
-            <!-- <li>🔄 <strong>End Conversations with a Recap</strong>: Summarize what you’ve learned or clarify any remaining doubts. Ask the bot if there’s anything it recommends focusing on before your exam.</li> -->
 
             <li>⏹️ <strong>Type ‘STOP’ to End</strong>: If you need a break, type STOP, and the conversation will end. You can come back anytime to continue practicing!</li>
 
-            <!-- <li>🔄 <strong>Experiment with Different Scenarios</strong>: If you have multiple research ideas or different study designs, try describing each to see how the recommended tests and variables might change.</li> -->
 
         </ul>
 
@@ -190,13 +180,6 @@
             <!-- Reflection insights will be dynamically added here -->
         </div>
 
-        <!-- <h3>Peer Conversations</h3>
-        <hr>
-        <br>
-        <li>Load Conversation 1</li>
-        <li>Load Conversation 2</li>
-        <li>Load Conversation 3</li>
-        <li>Load Conversation 4</li> -->
     </div>
 
     <!-- Main Content Area -->
@@ -359,12 +342,11 @@
 
         function getAIresponse(transcription) {
             const maxCharacterLimit = 5000;
-            let totalCharacterLength = chatHistory.reduce((acc, msg) => acc + msg.content.length, 0);
+            let totalCharacterLength = chatHistory.slice(1).reduce((acc, msg) => acc + msg.content.length, 0);
         
             while (totalCharacterLength > maxCharacterLimit) {
                 chatHistory.splice(1, 1); 
                 totalCharacterLength = chatHistory.reduce((acc, msg) => acc + msg.content.length, 0);
-                generateReflectionInsights(chatHistory);
             }
 
             $.ajax({
