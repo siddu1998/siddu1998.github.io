@@ -345,6 +345,7 @@
             let totalCharacterLength = chatHistory.slice(1).reduce((acc, msg) => acc + msg.content.length, 0);
         
             while (totalCharacterLength > maxCharacterLimit) {
+                generateReflectionInsights()
                 chatHistory.splice(1, 1); 
                 totalCharacterLength = chatHistory.reduce((acc, msg) => acc + msg.content.length, 0);
             }

@@ -225,28 +225,37 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         let chatHistory = [];
-
-        $(document).ready(function() {
+        $(document).ready(function () {
             var uniqueID = 'id_' + Math.random().toString(36).substr(2, 9);
             localStorage.setItem('sessionID', uniqueID);
-
-            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/getOAI/', function(data) {
+    
+            // Fetch API key and GPT options
+            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/getOAI/', function (data) {
                 localStorage.setItem('openaiKey', data.key);
                 console.log('Key set');
             });
-
-            // Fetch and populate the dropdown with custom GPTs
-            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function(gpts) {
-                gpts.forEach(function(gpt) {
+    
+            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function (gpts) {
+                gpts.forEach(function (gpt) {
                     $('#gptSelection').append(new Option(gpt.name, gpt.id));
                 });
             });
-
-            $('#gptSelection').on('change', function() {
+    
+            // Disable inputs until a valid ID is entered
+            $('#gptSelection, #messageInput, #sendMessage, #download-btn').prop('disabled', true);
+    
+            // Enable inputs after valid ID is entered
+            $('#studentId').on('input', function () {
+                const studentId = $(this).val().trim();
+                const isValidId = studentId.length > 0; // Replace with your custom validation logic if needed
+                $('#gptSelection, #messageInput, #sendMessage, #download-btn').prop('disabled', !isValidId);
+            });
+    
+            $('#gptSelection').on('change', function () {
                 const selectedGptId = $(this).val();
                 if (!selectedGptId) return;
-
-                $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function(gpts) {
+    
+                $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function (gpts) {
                     const selectedGpt = gpts.find(g => g.id == selectedGptId);
                     if (selectedGpt) {
                         localStorage.setItem('selectedGPT', selectedGpt.name);
@@ -255,203 +264,159 @@
                     }
                 });
             });
-
-            // Enable the download button after content is added
-            $('#messageInput').on('input', function() {
-                $('#sendMessage').prop('disabled', !$(this).val().trim());
-            });
-        });
-
-        function generateIntroductoryMessage(instructions) {
-            $.ajax({
-                type: 'POST',
-                url: 'https://api.openai.com/v1/chat/completions',
-                data: JSON.stringify({
-                    model: "gpt-4o",
-                    messages: [{ role: 'system', content: instructions + ": For the above instructions generate an introductory message, welcoming the student and setting the context of this session, keep it short and neat." }]
-                }),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
-                },
-                success: function(aiResponse) {
-                    let introMessage = aiResponse.choices[0].message.content.trim();
-                    appendMessage('ai-message', introMessage);
-                    chatHistory.push({ role: 'system', content: introMessage });
-                }
-            });
-        }
-
-        $('#sendMessage').on('click', function() {
-            var message = $('#messageInput').val().trim();
-            if (message) {
-                chatHistory.push({ role: 'user', content: message });
-                appendMessage('user-message', message);
-                $('#messageInput').val('');
-                getAIresponse(message);
-            }
-        });
-
-        $('#messageInput').on('keypress', function(e) {
-            if (e.which == 13) {
-                $('#sendMessage').click();
-            }
-        });
-
-        function appendMessage(className, message) {
-    const messageDiv = document.createElement('div');
-    messageDiv.className = className;
-
-    // Parse Markdown for AI messages and plain text for user messages
-    if (className === 'ai-message') {
-        messageDiv.innerHTML = marked.parse(message);
-        
-        // Render math expressions using KaTeX
-        renderMathInElement(messageDiv, {
-            delimiters: [
-                { left: "$$", right: "$$", display: true },
-                { left: "$", right: "$", display: false }
-            ]
-        });
-    } else {
-        messageDiv.textContent = message;
-    }
-
-    // Append the message and scroll to bottom
-    document.getElementById('transcription').appendChild(messageDiv);
-    scrollToBottom();
     
-    // Store message to the database
-    storeData(message, className);
-}
-
-
-        function storeData(content, sentBy) {
-            const studentId = $('#studentId').val();
-            const data = {
-                session_id: localStorage.getItem('sessionID'),
-                student_id: studentId,
-                sent_by: sentBy,
-                content: content,
-                gpt_used: localStorage.getItem('selectedGPT')
-            };
-
-            $.ajax({
-                type: 'POST',
-                url: 'https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/message/',
-                contentType: 'application/json',
-                data: JSON.stringify(data),
-                success: function(response) {
-                    console.log('Message stored:', response);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error storing message:', error);
+            // Send Message
+            $('#sendMessage').on('click', function () {
+                var message = $('#messageInput').val().trim();
+                if (message) {
+                    chatHistory.push({ role: 'user', content: message });
+                    appendMessage('user-message', message);
+                    $('#messageInput').val('');
+                    getAIresponse(message);
                 }
             });
-        }
-
-        function getAIresponse(transcription) {
-            const maxCharacterLimit = 6000;
-            let totalCharacterLength = chatHistory.slice(1).reduce((acc, msg) => acc + msg.content.length, 0);
-            
-            while (totalCharacterLength > maxCharacterLimit) {
-                chatHistory.splice(1, 1); 
-                totalCharacterLength = chatHistory.slice(1).reduce((acc, msg) => acc + msg.content.length, 0);
+    
+            $('#messageInput').on('keypress', function (e) {
+                if (e.which == 13) {
+                    $('#sendMessage').click();
+                }
+            });
+    
+            function generateIntroductoryMessage(instructions) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://api.openai.com/v1/chat/completions',
+                    data: JSON.stringify({
+                        model: "gpt-4o",
+                        messages: [{
+                            role: 'system',
+                            content: instructions + ": For the above instructions generate an introductory message, welcoming the student and setting the context of this session, keep it short and neat."
+                        }]
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
+                    },
+                    success: function (aiResponse) {
+                        let introMessage = aiResponse.choices[0].message.content.trim();
+                        appendMessage('ai-message', introMessage);
+                        chatHistory.push({ role: 'system', content: introMessage });
+                    }
+                });
             }
-
-            $.ajax({
-                type: 'POST',
-                url: 'https://api.openai.com/v1/chat/completions',
-                data: JSON.stringify({
-                    model: "gpt-4o",
-                    messages: chatHistory
-                }),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
-                },
-                success: function(aiResponse) {
-                    let responseText = aiResponse.choices[0].message.content.trim();
-                    appendMessage('ai-message', responseText);
-                    chatHistory.push({ role: 'assistant', content: responseText });
-                   // generateDynamicResponses(); // Generate dynamic responses after message
-                }
-            });
-        }
-
-        // Function to generate dynamic responses that sound like the user
-        function generateDynamicResponses() {
-            console.log(chatHistory)
-            $.ajax({
-                type: 'POST',
-                url: 'https://api.openai.com/v1/chat/completions',
-                data: JSON.stringify({
-                    model: "gpt-4-turbo",
-                    messages: chatHistory.concat({ role: 'system', content: "Generate short, suggestive responses as if from a user using bot. For general responses, use reactions like ‘Got it,’ ‘That makes sense,’ ‘Can we try another example?’ or ‘I understand so far', 'STOP'. When the bot asks questions that invite answers (e.g., ‘Can you think of __’ or ‘Can you share __’,'How____' ,'What ___', 'Why____','When____', 'Where____', 'Which___'), respond with prompts for clarification or hesitation, such as ‘Not sure,’ ‘Can you explain?’ ‘I think I need help with this,’ or ‘Can you give me a hint?’ Avoid giving direct answers to these questions." }),
-                    temperature: 0.7,
-                    n: 3, // Request 3 responses
-                    max_tokens: 25 // Limit tokens to keep responses short
-                }),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
-                },
-                success: function(aiResponse) {
-                    const dynamicResponses = document.getElementById('dynamic-responses');
-                    dynamicResponses.innerHTML = ''; // Clear previous responses
-
-                    aiResponse.choices.forEach(function(choice, index) {
-                        const responseButton = document.createElement('button');
-                        responseButton.classList.add('response-button');
-                        responseButton.textContent = choice.message.content.trim();
-                        responseButton.onclick = function() {
-                            appendMessage('user-message-ai', responseButton.textContent);
-                            chatHistory.push({ role: 'user', content: responseButton.textContent });
-                            getAIresponse(responseButton.textContent); // Process the selected response
-                        };
-                        dynamicResponses.appendChild(responseButton);
+    
+            function appendMessage(className, message) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = className;
+    
+                // Parse Markdown for AI messages and plain text for user messages
+                if (className === 'ai-message') {
+                    messageDiv.innerHTML = marked.parse(message);
+    
+                    // Render math expressions using KaTeX
+                    renderMathInElement(messageDiv, {
+                        delimiters: [
+                            { left: "$$", right: "$$", display: true },
+                            { left: "$", right: "$", display: false }
+                        ]
                     });
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error generating dynamic responses:', error);
+                } else {
+                    messageDiv.textContent = message;
                 }
+    
+                // Append the message and scroll to bottom
+                document.getElementById('transcription').appendChild(messageDiv);
+                scrollToBottom();
+    
+                // Store message to the database
+                storeData(message, className);
+            }
+    
+            function storeData(content, sentBy) {
+                const studentId = $('#studentId').val();
+                const data = {
+                    session_id: localStorage.getItem('sessionID'),
+                    student_id: studentId,
+                    sent_by: sentBy,
+                    content: content,
+                    gpt_used: localStorage.getItem('selectedGPT')
+                };
+    
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/message/',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function (response) {
+                        console.log('Message stored:', response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error storing message:', error);
+                    }
+                });
+            }
+    
+            function getAIresponse(transcription) {
+                const maxCharacterLimit = 6000;
+                let totalCharacterLength = chatHistory.slice(1).reduce((acc, msg) => acc + msg.content.length, 0);
+    
+                while (totalCharacterLength > maxCharacterLimit) {
+                    chatHistory.splice(1, 1);
+    
+                    totalCharacterLength = chatHistory.slice(1).reduce((acc, msg) => acc + msg.content.length, 0);
+                }
+    
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://api.openai.com/v1/chat/completions',
+                    data: JSON.stringify({
+                        model: "gpt-4o",
+                        messages: chatHistory
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
+                    },
+                    success: function (aiResponse) {
+                        let responseText = aiResponse.choices[0].message.content.trim();
+                        appendMessage('ai-message', responseText);
+                        chatHistory.push({ role: 'assistant', content: responseText });
+                    }
+                });
+            }
+    
+            function scrollToBottom() {
+                const chatWindow = document.getElementById("transcription");
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }
+    
+            // Download Transcript Functionality
+            document.getElementById('download-btn').addEventListener('click', function () {
+                var transcriptionContent = document.getElementById('transcription').innerHTML;
+    
+                var css = `
+                body { font-family: 'Arial', sans-serif; background: #f4f4f4; color: #333; }
+                .user-message { background-color: #c8e6c9; align-self: flex-end; margin-left: auto; word-wrap: break-word; }
+                .ai-message { background-color: #bbdefb; align-self: flex-start; margin-right: auto; word-wrap: break-word; }`;
+    
+                var htmlContentWithCSS = `<html><head><style>${css}</style></head><body>${transcriptionContent}</body></html>`;
+    
+                var blob = new Blob([htmlContentWithCSS], {
+                    type: 'text/html'
+                });
+                var tempLink = document.createElement('a');
+                tempLink.download = 'transcript.html';
+                tempLink.href = window.URL.createObjectURL(blob);
+    
+                // Temporarily add link to the body and trigger the download
+                document.body.appendChild(tempLink);
+                tempLink.click();
+    
+                // Clean up by removing the temporary link
+                document.body.removeChild(tempLink);
             });
-        }
-       
-        function scrollToBottom() {
-            const chatWindow = document.getElementById("transcription");
-            chatWindow.scrollTop = chatWindow.scrollHeight;
-        }
-
-        // Download Transcript Functionality
-        document.getElementById('download-btn').addEventListener('click', function() {
-            var transcriptionContent = document.getElementById('transcription').innerHTML;
-
-            var css = `
-            body { font-family: 'Arial', sans-serif; background: #f4f4f4; color: #333; }
-            .container { width: 90%; margin: 20px auto; max-width: 400px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-            input[type="text"], select, input[type="password"], select { width: 100%; padding: 10px; margin: 8px 0; display: inline-block; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-            video { width: 100%; height: auto; border-radius: 8px; }
-            .user-message { background-color: #c8e6c9; align-self: flex-end; margin-left: auto; word-wrap: break-word; }
-            .ai-message { background-color: #bbdefb; align-self: flex-start; margin-right: auto; word-wrap: break-word; }
-            .autoscroll { scroll-behavior: smooth; }`;
-
-            var htmlContentWithCSS = `<html><head><style>${css}</style></head><body>${transcriptionContent}</body></html>`;
-          
-            var blob = new Blob([htmlContentWithCSS], {
-                type: 'text/html'
-            });
-            var tempLink = document.createElement('a');
-            tempLink.download = 'transcript.html'; // Name of the file to download
-            tempLink.href = window.URL.createObjectURL(blob);
-
-            // Temporarily add link to the body and trigger the download
-            document.body.appendChild(tempLink);
-            tempLink.click();
-
-            // Clean up by removing the temporary link
-            document.body.removeChild(tempLink);
         });
     </script>
+    
 </body>
 </html>
