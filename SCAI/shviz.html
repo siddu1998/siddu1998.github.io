@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversation Loader</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.4/d3.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+            height: 100vh;
+            /* Full viewport height */
+            overflow: hidden;
+            /* Prevent scrolling on the page */
+            font-family: Arial, sans-serif;
+        }
+
+        .left-panel {
+            width: 30%;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #ccc;
+        }
+
+        .panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        .panel-heading {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .dropdown {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .messages-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            padding: 10px;
+            border-radius: 8px;
+            line-height: 1.5;
+        }
+
+        .ai-message {
+            background-color: #f5f814c7;
+            text-align: left;
+        }
+
+        .user-message {
+            background-color: #dbe5d482;
+            text-align: right;
+        }
+
+        .message strong {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .right-panel {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .viz-container {
+            width: 100%;
+            height: 20%;
+            /* Top 20% for the visualization */
+            border-bottom: 1px solid #ccc;
+            overflow-x: auto;
+            /* Enable horizontal scrolling */
+            position: relative;
+        }
+
+        .compare-container {
+    width: 100%;
+    height: calc(80% - 10px); /* Adjust height considering the top section */
+    overflow-y: auto; /* Vertical scrolling for peer conversations */
+    border-top: 1px solid #ccc;
+    position: relative; /* Ensure proper alignment of absolute elements */
+    padding-top: 10px; /* Padding to ensure no overlap with the top visualization */
+}
+
+        .comparison {
+            width: 100%;
+            height: 200px;
+            /* Fixed height for each conversation visualization */
+            border-bottom: 1px solid #ddd;
+            position: relative;
+        }
+
+        .tooltip {
+            position: absolute;
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="left-panel">
+        <!-- Top Panel -->
+        <div class="panel top-panel">
+            <div class="panel-heading">Your Conversation</div>
+            <select class="dropdown" id="user-conversations"></select>
+            <div class="messages-container" id="user-messages"></div>
+        </div>
+
+        <div class="panel bottom-panel">
+            <div class="panel-heading">Peer Conversations</div>
+            <div class="dropdown-container">
+                <select class="dropdown" id="all-conversations" multiple></select>
+            </div>
+            <div class="messages-container" id="all-messages"></div>
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <!-- Node-Edge Visualization -->
+        <div class="viz-container" id="node-edge-viz"></div>
+        <!-- Compare Conversations -->
+        <div class="compare-container" id="compare-viz"></div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.16/marked.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body);"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+$(document).ready(function () {
+
+            // Fetch API key and GPT options
+            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/getOAI/', function (data) {
+                localStorage.setItem('openaiKey', data.key);
+                console.log('Key set');
+            });
+        })
+
+        // Fetch conversation data from the API
+        async function fetchConversations(gptUsed) {
+            const encodedGptName = encodeURIComponent(gptUsed);
+            const url = `https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/messages/?gpt_used=${encodedGptName}`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                return [];
+            }
+        }
+
+        // Helper function to send data to OpenAI API for evaluation
+        async function evaluateMessages(messages) {
+            const apiKey = localStorage.getItem("openaiKey"); // Replace with your OpenAI API key
+            const url = "https://api.openai.com/v1/chat/completions";
+
+            const payload = {
+                model: "gpt-4o-2024-08-06",
+                messages: [
+                    { role: "system", content: "you are given a set of messages a user has interacted as part of a test, given the set of messages determine if the student is right or wrong. Return red if wrong else return gray" },
+                    ...messages.map(msg => ({
+                        role: msg.sent_by === "ai-message" ? "assistant" : "user",
+                        content: msg.content
+                    }))
+                ],
+                response_format: {
+                    type: "json_schema",
+                    json_schema: {
+                        name: "analyzer",
+                        schema: {
+                            type: "object",
+                            properties: {
+                                evaluation: {
+                                    type: "array",
+                                    items: {
+                                        type: "object",
+                                        properties: {
+                                            explanation: { type: "string" },
+                                            color_code: { type: "string" }
+                                        },
+                                        required: ["explanation", "color_code"],
+                                        additionalProperties: false
+                                    }
+                                },
+                            },
+                            required: ["evaluation"],
+                            additionalProperties: false
+                        },
+                        strict: true
+                    }
+                }
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${apiKey}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const result = await response.json();
+                // console.log(result)
+                return result;
+            } catch (error) {
+                console.error("Error in evaluation:", error);
+                return null;
+            }
+        }
+
+        // a set of messages and return evaluation results
+        async function processMessageSet(messages, fullMessages) {
+            const evaluationResponse = await evaluateMessages(messages);
+            if (!evaluationResponse) return null;
+
+            try {
+                // Parse the JSON string in the content field
+                const content = JSON.parse(evaluationResponse.choices[0].message.content);
+
+                // Extract the evaluation array
+                const evaluation = content.evaluation;
+
+                // Find the user-message in this subset and its index in the full message array
+                const userMessage = messages.find(msg => msg.sent_by === "user-message");
+                const userMessageFullIndex = fullMessages.indexOf(userMessage); // Index in the full message array
+
+                // Get the color code
+                const colorCode = evaluation[0]?.color_code || "gray"; // Default to gray if not provided
+
+                console.log(`User Message Full Index: ${userMessageFullIndex}, Color Code: ${colorCode}`);
+
+                return {
+                    userMessageIndex: userMessageFullIndex, // Full index of the user message
+                    color: colorCode === "red" ? "#FF7F7F" : "#808080" // Map red/gray colors
+                };
+            } catch (error) {
+                console.error("Error parsing OpenAI response content:", error);
+                return null;
+            }
+        }
+
+        // Evaluate all messages in sets of three and return evaluation results
+        async function evaluateAllMessages(messages) {
+            const messageSets = [];
+
+            // Extract sets of three messages: AI, User, AI
+            for (let i = 0; i < messages.length - 2; i++) {
+                if (messages[i].sent_by === "ai-message" &&
+                    messages[i + 1].sent_by === "user-message" &&
+                    messages[i + 2].sent_by === "ai-message") {
+                    messageSets.push(messages.slice(i, i + 3));
+                }
+            }
+
+            console.log("Message Sets:", messageSets);
+
+            // Evaluate each set and pass the full message array
+            const evaluations = await Promise.all(
+                messageSets.map(set => processMessageSet(set, messages))
+            );
+
+            console.log("Evaluations:", evaluations);
+
+            return evaluations.filter(result => result !== null); // Filter out null results
+        }
+      
+        function renderComparisons(selectedSessions, data, containerId) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = ''; // Clear previous visualizations
+
+    selectedSessions.forEach((sessionId, index) => {
+        // Filter messages for the selected session
+        const messages = data.filter(d => d.session_id === sessionId);
+
+        // Create a container for this session's visualization
+        const vizDiv = document.createElement('div');
+        vizDiv.className = 'comparison';
+        vizDiv.id = `viz-${sessionId}`;
+        
+        // Position the first session at the top of the container
+        if (index === 0) {
+            vizDiv.style.position = 'relative';
+            vizDiv.style.top = '0';
+            vizDiv.style.left = '0';
+            vizDiv.style.width = '100%';
+            vizDiv.style.borderBottom = '1px solid #ccc';
+        } else {
+            // Position subsequent visualizations below the first
+            vizDiv.style.marginTop = '10px'; 
+        }
+
+        container.appendChild(vizDiv);
+
+        // Render the node-edge visualization for this session
+        renderNodeEdgeViz(messages, [], vizDiv.id);
+    });
+}
+
+        // Render node-edge visualization
+        function renderNodeEdgeViz(messages, evaluations, containerId) {
+            const container = d3.select(`#${containerId}`);
+            container.html(''); // Clear previous visualization
+
+            const width = Math.max(container.node().clientWidth, messages.length * 50); // Ensure sufficient width
+            const height = container.node().clientHeight;
+
+            const svg = container.append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            // Tooltip
+            const tooltip = document.getElementById('tooltip');
+
+            // Sort messages by created_at
+            const sortedMessages = messages.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+
+            // Map messages to nodes
+            const nodes = sortedMessages.map((msg, index) => ({
+                id: index,
+                type: msg.sent_by,
+                content: msg.content,
+                student_id: msg.student_id || null,
+                x: (index + 1) * (width / (sortedMessages.length + 1)),
+                y: height / 2
+            }));
+
+            // Map nodes to links
+            const links = nodes.slice(1).map((node, index) => ({
+                source: nodes[index],
+                target: node
+            }));
+
+            // Create an evaluation map with full indexes
+            const evaluationMap = new Map();
+            evaluations.forEach(({ userMessageIndex, color }) => {
+                if (userMessageIndex !== -1) {
+                    evaluationMap.set(userMessageIndex, color); // Map color to the full user message index
+                }
+            });
+
+            // Render links
+            svg.selectAll('line')
+                .data(links)
+                .enter()
+                .append('line')
+                .attr('x1', d => d.source.x)
+                .attr('y1', d => d.source.y)
+                .attr('x2', d => d.target.x)
+                .attr('y2', d => d.target.y)
+                .attr('stroke', '#ccc')
+                .attr('stroke-width', 2);
+
+            // Render nodes
+            svg.selectAll('circle')
+                .data(nodes)
+                .enter()
+                .append('circle')
+                .attr('cx', d => d.x)
+                .attr('cy', d => d.y)
+                .attr('r', 10)
+                .attr('fill', d => {
+                    const color = evaluationMap.get(d.id); // Use evaluationMap for user-message colors
+                    return color || (d.type === 'ai-message' ? '#f5f814c7' : '#808080'); // Default color logic
+                })
+                .on('mouseover', (event, d) => {
+                    tooltip.style.opacity = 1;
+                    tooltip.style.left = `${event.pageX + 10}px`;
+                    tooltip.style.top = `${event.pageY - 20}px`;
+                    tooltip.textContent = d.content;
+                })
+                .on('mouseout', () => {
+                    tooltip.style.opacity = 0;
+                })
+                .on('click', (event, d) => {
+                    const messageElement = document.querySelector(`#all-messages .message[data-index="${d.id}"]`);
+                    if (messageElement) {
+                        messageElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                });
+
+            // Display the student_id at the start of the visualization
+            const firstStudentId = nodes[0]?.student_id || null;
+
+            svg.append('text')
+                .attr('x', 10) // Position near the left margin
+                .attr('y', height / 2) // Center vertically
+                .text(firstStudentId || 'No ID')
+                .attr('font-size', '14px')
+                .attr('font-weight', 'bold')
+                .attr('fill', firstStudentId ? '#000' : 'red') // Black for IDs, red for "No ID"
+                .attr('text-anchor', 'start'); // Align text to the left
+        }
+
+        // Render messages in a panel
+        async function renderMessages(messages, containerId) {
+            const container = document.getElementById(containerId);
+
+            // Sort messages by created_at
+            const sortedMessages = messages.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+
+            // Populate the messages container
+            container.innerHTML = sortedMessages
+                .map((msg, index) => `
+            <div class="message ${msg.sent_by === 'ai-message' ? 'ai-message' : 'user-message'}" data-index="${index}">
+                <strong>${msg.sent_by}:</strong>
+                ${msg.content}
+            </div>
+        `)
+                .join('');
+
+            // Evaluate messages in sets of three
+            const evaluations = await evaluateAllMessages(sortedMessages);
+
+            console.log('----======------')
+            console.log(evaluations)
+            console.log('----------------')
+            // Update visualization with evaluations
+            renderNodeEdgeViz(sortedMessages, evaluations, 'node-edge-viz');
+        }
+        // Populate dropdowns
+        function populateDropdowns(data) {
+            const userDropdown = document.getElementById('user-conversations');
+            const allDropdown = document.getElementById('all-conversations');
+
+            // Unique session IDs
+            const uniqueSessions = [...new Set(data.map(d => d.session_id))];
+
+            userDropdown.innerHTML = uniqueSessions
+                .map(session => `<option value="${session}">${session}</option>`)
+                .join('');
+
+            allDropdown.innerHTML = uniqueSessions
+                .map(session => `<option value="${session}">${session}</option>`)
+                .join('');
+        }
+
+        // Event listeners
+        function setupListeners(data) {
+            // Top panel listener
+            document.getElementById('user-conversations').addEventListener('change', function () {
+                const selectedSession = this.value;
+                const messages = data.filter(d => d.session_id === selectedSession);
+                renderMessages(messages, 'user-messages');
+            });
+
+            document.getElementById('all-conversations').addEventListener('change', function () {
+                const selectedSessions = Array.from(this.selectedOptions).map(opt => opt.value);
+                const messages = selectedSessions.flatMap(sessionId =>
+                    data.filter(d => d.session_id === sessionId)
+                );
+
+                // Render messages in the bottom panel without affecting the dropdown
+                renderComparisons(selectedSessions, messages, 'compare-viz');
+                renderMessages(messages, 'all-messages');
+
+            });
+        }
+
+        // Initialize the app
+        async function init() {
+            const gptUsed = 'Stats Quest 🔍'; // Replace this with the actual GPT identifier
+            const data = await fetchConversations(gptUsed);
+
+            populateDropdowns(data);
+            setupListeners(data);
+        }
+
+        init();
+    </script>
+
+
+</body>
+
+</html>

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    
+
+
     <title>StudyHelper</title>
     <style>
         * {
@@ -25,8 +26,10 @@
             background-color: #f4f4f4;
             padding: 20px;
             border-right: 1px solid #ccc;
-            height: 100vh; /* Full viewport height */
-            overflow-y: auto; /* Enable vertical scrolling */
+            height: 100vh;
+            /* Full viewport height */
+            overflow-y: auto;
+            /* Enable vertical scrolling */
         }
 
         .main-content {
@@ -117,6 +120,7 @@
             margin-bottom: 10px;
             word-wrap: break-word;
         }
+
         .user-message-ai {
             background-color: #dbe5d482;
             padding: 10px;
@@ -137,14 +141,15 @@
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
 </head>
+
 <body>
     <!-- Side Navigation Bar -->
     <div class="sidebar">
         <h1>StudyHelper</h1>
-  
+
         <br>
         <br>
-        
+
         <h3>Instructions</h3>
         <hr>
         <ul>
@@ -153,8 +158,8 @@
             <li>For best performance, if you want to use a new AI tool, refresh the page.</li>
             <li>Each time you finish using a AI tool, download the transcript for your reference.</li>
         </ul>
-     
-        
+
+
         <h3>How to Interact with an AI Bot</h3>
         <hr>
         <ul>
@@ -176,7 +181,8 @@
 
             <!-- <li>🔄 <strong>End Conversations with a Recap</strong>: Summarize what you’ve learned or clarify any remaining doubts. Ask the bot if there’s anything it recommends focusing on before your exam.</li> -->
 
-            <li>⏹️ <strong>Type ‘STOP’ to End</strong>: If you need a break, type STOP, and the conversation will end. You can come back anytime to continue practicing!</li>
+            <li>⏹️ <strong>Type ‘STOP’ to End</strong>: If you need a break, type STOP, and the conversation will end.
+                You can come back anytime to continue practicing!</li>
 
             <!-- <li>🔄 <strong>Experiment with Different Scenarios</strong>: If you have multiple research ideas or different study designs, try describing each to see how the recommended tests and variables might change.</li> -->
 
@@ -221,40 +227,41 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.16/marked.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body);"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         let chatHistory = [];
         $(document).ready(function () {
             var uniqueID = 'id_' + Math.random().toString(36).substr(2, 9);
             localStorage.setItem('sessionID', uniqueID);
-    
+
             // Fetch API key and GPT options
             $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/getOAI/', function (data) {
                 localStorage.setItem('openaiKey', data.key);
                 console.log('Key set');
             });
-    
+
             $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function (gpts) {
                 gpts.forEach(function (gpt) {
                     $('#gptSelection').append(new Option(gpt.name, gpt.id));
                 });
             });
-    
+
             // Disable inputs until a valid ID is entered
             $('#gptSelection, #messageInput, #sendMessage, #download-btn').prop('disabled', true);
-    
+
             // Enable inputs after valid ID is entered
             $('#studentId').on('input', function () {
                 const studentId = $(this).val().trim();
                 const isValidId = studentId.length > 0; // Replace with your custom validation logic if needed
                 $('#gptSelection, #messageInput, #sendMessage, #download-btn').prop('disabled', !isValidId);
             });
-    
+
             $('#gptSelection').on('change', function () {
                 const selectedGptId = $(this).val();
                 if (!selectedGptId) return;
-    
+
                 $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function (gpts) {
                     const selectedGpt = gpts.find(g => g.id == selectedGptId);
                     if (selectedGpt) {
@@ -264,7 +271,7 @@
                     }
                 });
             });
-    
+
             // Send Message
             $('#sendMessage').on('click', function () {
                 var message = $('#messageInput').val().trim();
@@ -275,13 +282,13 @@
                     getAIresponse(message);
                 }
             });
-    
+
             $('#messageInput').on('keypress', function (e) {
                 if (e.which == 13) {
                     $('#sendMessage').click();
                 }
             });
-    
+
             function generateIntroductoryMessage(instructions) {
                 $.ajax({
                     type: 'POST',
@@ -304,15 +311,15 @@
                     }
                 });
             }
-    
+
             function appendMessage(className, message) {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = className;
-    
+
                 // Parse Markdown for AI messages and plain text for user messages
                 if (className === 'ai-message') {
                     messageDiv.innerHTML = marked.parse(message);
-    
+
                     // Render math expressions using KaTeX
                     renderMathInElement(messageDiv, {
                         delimiters: [
@@ -323,15 +330,15 @@
                 } else {
                     messageDiv.textContent = message;
                 }
-    
+
                 // Append the message and scroll to bottom
                 document.getElementById('transcription').appendChild(messageDiv);
                 scrollToBottom();
-    
+
                 // Store message to the database
                 storeData(message, className);
             }
-    
+
             function storeData(content, sentBy) {
                 const studentId = $('#studentId').val();
                 const data = {
@@ -341,7 +348,7 @@
                     content: content,
                     gpt_used: localStorage.getItem('selectedGPT')
                 };
-    
+
                 $.ajax({
                     type: 'POST',
                     url: 'https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/message/',
@@ -355,17 +362,17 @@
                     }
                 });
             }
-    
+
             function getAIresponse(transcription) {
                 const maxCharacterLimit = 6000;
                 let totalCharacterLength = chatHistory.slice(1).reduce((acc, msg) => acc + msg.content.length, 0);
-    
+
                 while (totalCharacterLength > maxCharacterLimit) {
                     chatHistory.splice(1, 1);
-    
+
                     totalCharacterLength = chatHistory.slice(1).reduce((acc, msg) => acc + msg.content.length, 0);
                 }
-    
+
                 $.ajax({
                     type: 'POST',
                     url: 'https://api.openai.com/v1/chat/completions',
@@ -384,39 +391,40 @@
                     }
                 });
             }
-    
+
             function scrollToBottom() {
                 const chatWindow = document.getElementById("transcription");
                 chatWindow.scrollTop = chatWindow.scrollHeight;
             }
-    
+
             // Download Transcript Functionality
             document.getElementById('download-btn').addEventListener('click', function () {
                 var transcriptionContent = document.getElementById('transcription').innerHTML;
-    
+
                 var css = `
                 body { font-family: 'Arial', sans-serif; background: #f4f4f4; color: #333; }
                 .user-message { background-color: #c8e6c9; align-self: flex-end; margin-left: auto; word-wrap: break-word; }
                 .ai-message { background-color: #bbdefb; align-self: flex-start; margin-right: auto; word-wrap: break-word; }`;
-    
+
                 var htmlContentWithCSS = `<html><head><style>${css}</style></head><body>${transcriptionContent}</body></html>`;
-    
+
                 var blob = new Blob([htmlContentWithCSS], {
                     type: 'text/html'
                 });
                 var tempLink = document.createElement('a');
                 tempLink.download = 'transcript.html';
                 tempLink.href = window.URL.createObjectURL(blob);
-    
+
                 // Temporarily add link to the body and trigger the download
                 document.body.appendChild(tempLink);
                 tempLink.click();
-    
+
                 // Clean up by removing the temporary link
                 document.body.removeChild(tempLink);
             });
         });
     </script>
-    
+
 </body>
+
 </html>
