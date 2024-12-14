@@ -1,138 +1,144 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>R Learning with AI Assistant</title>
 </head>
 <style>
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: Arial, sans-serif;
-}
-/* Navbar Styles */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #2E3A59;
-}
+    body,
+    html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: Arial, sans-serif;
+    }
 
-.navbar .brand {
-    color: #FFF;
-    font-size: 1.5em;
-    font-weight: bold;
-}
+    /* Navbar Styles */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #2E3A59;
+    }
 
-.navbar ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-}
+    .navbar .brand {
+        color: #FFF;
+        font-size: 1.5em;
+        font-weight: bold;
+    }
 
-.navbar li a {
-    text-decoration: none;
-    color: #FFF;
-    transition: color 0.2s;
-}
+    .navbar ul {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+    }
 
-.navbar li a:hover {
-    color: #FFD700;
-}
-#container {
-  display: flex;
-  height: 100%;
-}
+    .navbar li a {
+        text-decoration: none;
+        color: #FFF;
+        transition: color 0.2s;
+    }
 
-#chat-box {
-  width: 40%;
-  display: flex;
-  flex-direction: column;
-  background-color: #f0f0f0;
-  padding: 10px;
-  box-sizing: border-box;
-}
+    .navbar li a:hover {
+        color: #FFD700;
+    }
 
+    #container {
+        display: flex;
+        height: 100%;
+    }
 
-#r-interpreter {
-padding-top: 10px;
-  width: 60%;
-}
-
-#messages {
-  flex-grow: 1;
-  overflow-y: auto;
-  margin-bottom: 10px;
-}
-
-.message {
-  max-width: 70%;
-  margin-bottom: 5px;
-  padding: 8px;
-  border-radius: 10px;
-  color: black;
-}
-
-.message code {
-  background-color: #f6ffd7;
-  border-radius: 4px;
-  padding: 2px 4px;
-  font-family: 'Courier New', Courier, monospace;
-}
-
-.message pre {
-  background-color: #ffffcb;
-  padding: 10px;
-  border-radius: 4px;
-  overflow-x: auto;
-}
+    #chat-box {
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+        background-color: #f0f0f0;
+        padding: 10px;
+        box-sizing: border-box;
+    }
 
 
-.user {
-  background-color: #baf4bb; /* Green */
-  margin-left: auto;
-  text-align: right;
-}
+    #r-interpreter {
+        padding-top: 10px;
+        width: 60%;
+    }
 
-.ai {
-  background-color: #f1f1d6; /* Light grey */
-  text-align: left;
-}
+    #messages {
+        flex-grow: 1;
+        overflow-y: auto;
+        margin-bottom: 10px;
+    }
 
-input[type="text"] {
-  width: calc(100% - 90px);
-  padding: 10px;
-  margin-right: 10px;
-  border: none;
-  border-radius: 5px;
-  box-sizing: border-box;
-}
+    .message {
+        max-width: 70%;
+        margin-bottom: 5px;
+        padding: 8px;
+        border-radius: 10px;
+        color: black;
+    }
 
-button {
-  width: 60px;
-  background-color: #4CAF50; /* Green */
-  color: white;
-  border: none;
-  padding: 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-}
+    .message code {
+        background-color: #f6ffd7;
+        border-radius: 4px;
+        padding: 2px 4px;
+        font-family: 'Courier New', Courier, monospace;
+    }
 
-button:hover {
-  background-color: #45a049;
-}
+    .message pre {
+        background-color: #ffffcb;
+        padding: 10px;
+        border-radius: 4px;
+        overflow-x: auto;
+    }
 
-input:focus, button:focus {
-  outline: none;
-}
 
-  
-  </style>
+    .user {
+        background-color: #baf4bb;
+        /* Green */
+        margin-left: auto;
+        text-align: right;
+    }
+
+    .ai {
+        background-color: #f1f1d6;
+        /* Light grey */
+        text-align: left;
+    }
+
+    input[type="text"] {
+        width: calc(100% - 90px);
+        padding: 10px;
+        margin-right: 10px;
+        border: none;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    button {
+        width: 60px;
+        background-color: #4CAF50;
+        /* Green */
+        color: white;
+        border: none;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+
+    input:focus,
+    button:focus {
+        outline: none;
+    }
+</style>
 
 <body>
     <nav class="navbar">
@@ -152,7 +158,7 @@ input:focus, button:focus {
                 <input type="text" id="user-input" placeholder="Type your message...">
                 <button onclick="sendMessage()">Send</button>
             </div>
-            
+
         </div>
         <div id="r-interpreter">
             <iframe width='100%' height='100%' src='https://rdrr.io/snippets/embed/' frameborder='0'></iframe>
@@ -162,115 +168,116 @@ input:focus, button:focus {
 
 
 
-<script>
-    let openAIKey;
-let messageHistory = []; // Array to store the last four messages
+    <script>
+        let openAIKey;
+        let messageHistory = []; // Array to store the last four messages
 
-document.addEventListener("DOMContentLoaded", function() {
-    openAIKey = prompt("Please enter your OpenAI API key:");
-    if (openAIKey) {
-        initializeAIConversation();
-    }
-    document.getElementById('user-input').addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') {
-            sendMessage();
+        document.addEventListener("DOMContentLoaded", function () {
+            openAIKey = prompt("Please enter your OpenAI API key:");
+            if (openAIKey) {
+                initializeAIConversation();
+            }
+            document.getElementById('user-input').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        });
+
+        function initializeAIConversation() {
+            const initialMessage = {
+                role: "system",
+                content: "You are an instructor who is teaching a student R programming language for Research. Give the student a sample datasets or situations, and scaffold them into learning how to load data, perform simple statistical tests. Use only the default datasets, so they do not need to upload, or make new datasets. Discuss what is the dependent variable, independent variable, various tests they can perform (t-tests, corelation, regression etc) and plotting. Give simple tasks, challenges, code for them to execute. As an instructor give them fun situations (with the default datasets). Give them only one task at a time and slowly build from easy to tough concepts.Start by greeting the student. All your responses should give tasks, but not ask the student what they want to learn."
+            };
+
+            messageHistory.push(initialMessage);
+            getAIResponse(""); // Call with empty user message to trigger only the initial AI response
         }
-    });
-});
-
-function initializeAIConversation() {
-    const initialMessage = {
-        role: "system",
-        content: "You are an instructor who is teaching a student R programming language for Research. Give the student a sample datasets or situations, and scaffold them into learning how to load data, perform simple statistical tests. Use only the default datasets, so they do not need to upload, or make new datasets. Discuss what is the dependent variable, independent variable, various tests they can perform (t-tests, corelation, regression etc) and plotting. Give simple tasks, challenges, code for them to execute. As an instructor give them fun situations (with the default datasets). Give them only one task at a time and slowly build from easy to tough concepts.Start by greeting the student. All your responses should give tasks, but not ask the student what they want to learn."
-    };
-
-    messageHistory.push(initialMessage);
-    getAIResponse(""); // Call with empty user message to trigger only the initial AI response
-}
 
 
-function sendMessage() {
-    const userInputField = document.getElementById('user-input');
-    const userMessage = userInputField.value.trim();
-    userInputField.value = '';
+        function sendMessage() {
+            const userInputField = document.getElementById('user-input');
+            const userMessage = userInputField.value.trim();
+            userInputField.value = '';
 
-    if (userMessage) {
-        displayMessage("You: " + userMessage, 'user');
-        updateMessageHistory({ role: "user", content: userMessage });
-        getAIResponse(userMessage);
-    }
-}
-
-function getAIResponse(userMessage) {
-    // Only add user messages that are not empty (i.e., actual user input)
-    if (userMessage) {
-        updateMessageHistory({ role: "user", content: userMessage });
-    }
-
-    const data = {
-        model: "gpt-4",
-        messages: messageHistory
-    };
-
-    fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + openAIKey
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(data => {
-        const aiMessage = data.choices[0].message.content.trim();
-        console.log(aiMessage)
-        if (aiMessage) { // Prevent displaying empty messages
-            displayMessage("🦖 AI: " + aiMessage, 'ai');
-            updateMessageHistory({ role: "assistant", content: aiMessage });
+            if (userMessage) {
+                displayMessage("You: " + userMessage, 'user');
+                updateMessageHistory({ role: "user", content: userMessage });
+                getAIResponse(userMessage);
+            }
         }
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-}
 
-function updateMessageHistory(newMessage) {
-    // Add new message to the history
-    messageHistory.push(newMessage);
+        function getAIResponse(userMessage) {
+            // Only add user messages that are not empty (i.e., actual user input)
+            if (userMessage) {
+                updateMessageHistory({ role: "user", content: userMessage });
+            }
 
-    // Ensure the first message (context message) always remains in history
-    if (messageHistory.length > 5) {
-        // Keep the initial context message and the last four messages
-        messageHistory = [messageHistory[0], ...messageHistory.slice(-4)];
-    }
-}
+            const data = {
+                model: "gpt-4",
+                messages: messageHistory
+            };
+
+            fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + openAIKey
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const aiMessage = data.choices[0].message.content.trim();
+                    console.log(aiMessage)
+                    if (aiMessage) { // Prevent displaying empty messages
+                        displayMessage("🦖 AI: " + aiMessage, 'ai');
+                        updateMessageHistory({ role: "assistant", content: aiMessage });
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function updateMessageHistory(newMessage) {
+            // Add new message to the history
+            messageHistory.push(newMessage);
+
+            // Ensure the first message (context message) always remains in history
+            if (messageHistory.length > 5) {
+                // Keep the initial context message and the last four messages
+                messageHistory = [messageHistory[0], ...messageHistory.slice(-4)];
+            }
+        }
 
 
-// function displayMessage(message, sender) {
-//     const messagesContainer = document.getElementById('messages');
-//     const messageElement = document.createElement('div');
-//     messageElement.className = 'message ' + sender;
-//     // Parse Markdown content
-//     messageElement.innerHTML = marked(message);
-//     messagesContainer.appendChild(messageElement);
-//     messagesContainer.scrollTop = messagesContainer.scrollHeight;
-// }
+        // function displayMessage(message, sender) {
+        //     const messagesContainer = document.getElementById('messages');
+        //     const messageElement = document.createElement('div');
+        //     messageElement.className = 'message ' + sender;
+        //     // Parse Markdown content
+        //     messageElement.innerHTML = marked(message);
+        //     messagesContainer.appendChild(messageElement);
+        //     messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        // }
 
-function displayMessage(message, sender) {
-    const converter = new showdown.Converter();
-    const html = converter.makeHtml(message);
+        function displayMessage(message, sender) {
+            const converter = new showdown.Converter();
+            const html = converter.makeHtml(message);
 
-    const messagesContainer = document.getElementById('messages');
-    const messageElement = document.createElement('div');
-    messageElement.className = 'message ' + sender;
-    messageElement.innerHTML = html;
-    messagesContainer.appendChild(messageElement);
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-}
+            const messagesContainer = document.getElementById('messages');
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message ' + sender;
+            messageElement.innerHTML = html;
+            messagesContainer.appendChild(messageElement);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
 
-</script>
+    </script>
 
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
 </body>
+
 </html>

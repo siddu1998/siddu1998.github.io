@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    
+
+
     <title>StudyHelper</title>
     <style>
         * {
@@ -25,8 +26,10 @@
             background-color: #f4f4f4;
             padding: 20px;
             border-right: 1px solid #ccc;
-            height: 100vh; /* Full viewport height */
-            overflow-y: auto; /* Enable vertical scrolling */
+            height: 100vh;
+            /* Full viewport height */
+            overflow-y: auto;
+            /* Enable vertical scrolling */
         }
 
         .main-content {
@@ -117,6 +120,7 @@
             margin-bottom: 10px;
             word-wrap: break-word;
         }
+
         .user-message-ai {
             background-color: #dbe5d482;
             padding: 10px;
@@ -137,14 +141,15 @@
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
 </head>
+
 <body>
     <!-- Side Navigation Bar -->
     <div class="sidebar">
         <h1>StudyHelper</h1>
-  
+
         <br>
         <br>
-        
+
         <h3>Instructions</h3>
         <hr>
         <ul>
@@ -153,8 +158,8 @@
             <li>For best performance, if you want to use a new AI tool, refresh the page.</li>
             <li>Each time you finish using a AI tool, download the transcript for your reference.</li>
         </ul>
-     
-        
+
+
         <h3>How to Interact with an AI Bot</h3>
         <hr>
         <ul>
@@ -167,7 +172,8 @@
             <li>✅ <strong>Review Each Step Before Moving On</strong></li>
 
 
-            <li>⏹️ <strong>Type ‘STOP’ to End</strong>: If you need a break, type STOP, and the conversation will end. You can come back anytime to continue practicing!</li>
+            <li>⏹️ <strong>Type ‘STOP’ to End</strong>: If you need a break, type STOP, and the conversation will end.
+                You can come back anytime to continue practicing!</li>
 
 
         </ul>
@@ -211,32 +217,33 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.16/marked.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body);"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         let chatHistory = [];
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             var uniqueID = 'id_' + Math.random().toString(36).substr(2, 9);
             localStorage.setItem('sessionID', uniqueID);
 
-            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/getOAI/', function(data) {
+            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/getOAI/', function (data) {
                 localStorage.setItem('openaiKey', data.key);
                 console.log('Key set');
             });
 
             // Fetch and populate the dropdown with custom GPTs
-            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function(gpts) {
-                gpts.forEach(function(gpt) {
+            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function (gpts) {
+                gpts.forEach(function (gpt) {
                     $('#gptSelection').append(new Option(gpt.name, gpt.id));
                 });
             });
 
-            $('#gptSelection').on('change', function() {
+            $('#gptSelection').on('change', function () {
                 const selectedGptId = $(this).val();
                 if (!selectedGptId) return;
 
-                $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function(gpts) {
+                $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function (gpts) {
                     const selectedGpt = gpts.find(g => g.id == selectedGptId);
                     if (selectedGpt) {
                         localStorage.setItem('selectedGPT', selectedGpt.name);
@@ -247,7 +254,7 @@
             });
 
             // Enable the download button after content is added
-            $('#messageInput').on('input', function() {
+            $('#messageInput').on('input', function () {
                 $('#sendMessage').prop('disabled', !$(this).val().trim());
             });
         });
@@ -264,7 +271,7 @@
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
                 },
-                success: function(aiResponse) {
+                success: function (aiResponse) {
                     let introMessage = aiResponse.choices[0].message.content.trim();
                     appendMessage('ai-message', introMessage);
                     chatHistory.push({ role: 'system', content: introMessage });
@@ -272,7 +279,7 @@
             });
         }
 
-        $('#sendMessage').on('click', function() {
+        $('#sendMessage').on('click', function () {
             var message = $('#messageInput').val().trim();
             if (message) {
                 chatHistory.push({ role: 'user', content: message });
@@ -282,38 +289,38 @@
             }
         });
 
-        $('#messageInput').on('keypress', function(e) {
+        $('#messageInput').on('keypress', function (e) {
             if (e.which == 13) {
                 $('#sendMessage').click();
             }
         });
 
         function appendMessage(className, message) {
-    const messageDiv = document.createElement('div');
-    messageDiv.className = className;
+            const messageDiv = document.createElement('div');
+            messageDiv.className = className;
 
-    // Parse Markdown for AI messages and plain text for user messages
-    if (className === 'ai-message') {
-        messageDiv.innerHTML = marked.parse(message);
-        
-        // Render math expressions using KaTeX
-        renderMathInElement(messageDiv, {
-            delimiters: [
-                { left: "$$", right: "$$", display: true },
-                { left: "$", right: "$", display: false }
-            ]
-        });
-    } else {
-        messageDiv.textContent = message;
-    }
+            // Parse Markdown for AI messages and plain text for user messages
+            if (className === 'ai-message') {
+                messageDiv.innerHTML = marked.parse(message);
 
-    // Append the message and scroll to bottom
-    document.getElementById('transcription').appendChild(messageDiv);
-    scrollToBottom();
-    
-    // Store message to the database
-    storeData(message, className);
-}
+                // Render math expressions using KaTeX
+                renderMathInElement(messageDiv, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false }
+                    ]
+                });
+            } else {
+                messageDiv.textContent = message;
+            }
+
+            // Append the message and scroll to bottom
+            document.getElementById('transcription').appendChild(messageDiv);
+            scrollToBottom();
+
+            // Store message to the database
+            storeData(message, className);
+        }
 
 
         function storeData(content, sentBy) {
@@ -331,10 +338,10 @@
                 url: 'https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/message/',
                 contentType: 'application/json',
                 data: JSON.stringify(data),
-                success: function(response) {
+                success: function (response) {
                     console.log('Message stored:', response);
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error('Error storing message:', error);
                 }
             });
@@ -343,10 +350,10 @@
         function getAIresponse(transcription) {
             const maxCharacterLimit = 5000;
             let totalCharacterLength = chatHistory.slice(1).reduce((acc, msg) => acc + msg.content.length, 0);
-        
+
             while (totalCharacterLength > maxCharacterLimit) {
                 generateReflectionInsights()
-                chatHistory.splice(1, 1); 
+                chatHistory.splice(1, 1);
                 totalCharacterLength = chatHistory.reduce((acc, msg) => acc + msg.content.length, 0);
             }
 
@@ -361,11 +368,11 @@
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
                 },
-                success: function(aiResponse) {
+                success: function (aiResponse) {
                     let responseText = aiResponse.choices[0].message.content.trim();
                     appendMessage('ai-message', responseText);
                     chatHistory.push({ role: 'assistant', content: responseText });
-                   // generateDynamicResponses(); // Generate dynamic responses after message
+                    // generateDynamicResponses(); // Generate dynamic responses after message
                 }
             });
         }
@@ -387,15 +394,15 @@
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
                 },
-                success: function(aiResponse) {
+                success: function (aiResponse) {
                     const dynamicResponses = document.getElementById('dynamic-responses');
                     dynamicResponses.innerHTML = ''; // Clear previous responses
 
-                    aiResponse.choices.forEach(function(choice, index) {
+                    aiResponse.choices.forEach(function (choice, index) {
                         const responseButton = document.createElement('button');
                         responseButton.classList.add('response-button');
                         responseButton.textContent = choice.message.content.trim();
-                        responseButton.onclick = function() {
+                        responseButton.onclick = function () {
                             appendMessage('user-message-ai', responseButton.textContent);
                             chatHistory.push({ role: 'user', content: responseButton.textContent });
                             getAIresponse(responseButton.textContent); // Process the selected response
@@ -403,50 +410,50 @@
                         dynamicResponses.appendChild(responseButton);
                     });
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error('Error generating dynamic responses:', error);
                 }
             });
         }
-       
+
         function scrollToBottom() {
             const chatWindow = document.getElementById("transcription");
             chatWindow.scrollTop = chatWindow.scrollHeight;
         }
 
         function generateReflectionInsights(history) {
-        // Form the request to the GPT API
-        $.ajax({
-            type: 'POST',
-            url: 'https://api.openai.com/v1/chat/completions',
-            data: JSON.stringify({
-                model: "gpt-4-turbo",
-                messages: history.concat({ role: 'system', content: "You are REFLECTOR AI! you help students reflect on their conversations with other AI agents. Based on the above conversation, give one point that student can learn and remember. Help them reflect on their steps and process. Do not just reply to the conversation, instead focus on what are the take-aways for the student." }),
-                max_tokens: 60, // Limit token usage for brief reflection
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
-            },
-            success: function(aiResponse) {
-                const reflectionInsight = aiResponse.choices[0].message.content.trim();
-                displayReflectionInsight(reflectionInsight);
-            }
-        });
-    }
+            // Form the request to the GPT API
+            $.ajax({
+                type: 'POST',
+                url: 'https://api.openai.com/v1/chat/completions',
+                data: JSON.stringify({
+                    model: "gpt-4-turbo",
+                    messages: history.concat({ role: 'system', content: "You are REFLECTOR AI! you help students reflect on their conversations with other AI agents. Based on the above conversation, give one point that student can learn and remember. Help them reflect on their steps and process. Do not just reply to the conversation, instead focus on what are the take-aways for the student." }),
+                    max_tokens: 60, // Limit token usage for brief reflection
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
+                },
+                success: function (aiResponse) {
+                    const reflectionInsight = aiResponse.choices[0].message.content.trim();
+                    displayReflectionInsight(reflectionInsight);
+                }
+            });
+        }
 
         function displayReflectionInsight(insight) {
-        const reflectionTab = document.getElementById("reflection-tab");
-        const insightElement = document.createElement("p");
-        insightElement.textContent = "💡" + insight;
-        reflectionTab.appendChild(insightElement);
-        scrollToBottom(reflectionTab);
-    }
+            const reflectionTab = document.getElementById("reflection-tab");
+            const insightElement = document.createElement("p");
+            insightElement.textContent = "💡" + insight;
+            reflectionTab.appendChild(insightElement);
+            scrollToBottom(reflectionTab);
+        }
 
 
 
         // Download Transcript Functionality
-        document.getElementById('download-btn').addEventListener('click', function() {
+        document.getElementById('download-btn').addEventListener('click', function () {
             var transcriptionContent = document.getElementById('transcription').innerHTML;
 
             var css = `
@@ -459,7 +466,7 @@
             .autoscroll { scroll-behavior: smooth; }`;
 
             var htmlContentWithCSS = `<html><head><style>${css}</style></head><body>${transcriptionContent}</body></html>`;
-          
+
             var blob = new Blob([htmlContentWithCSS], {
                 type: 'text/html'
             });
@@ -476,4 +483,5 @@
         });
     </script>
 </body>
+
 </html>

@@ -1,205 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Feedback Session Messages</title>
-<style>
-    body, html {
-        height: 100%;
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #f0f0f0;
-        color: #333;
-        box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Session Messages</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            color: #333;
+            box-sizing: border-box;
+        }
 
-    * {
-        box-sizing: border-box;
-    }
+        * {
+            box-sizing: border-box;
+        }
 
-    .container {
-        display: flex;
-        height: 100vh; /* Full viewport height */
-        max-height: 100vh;
-        overflow: hidden; /* Prevent overflow outside the viewport */
-    }
+        .container {
+            display: flex;
+            height: 100vh;
+            /* Full viewport height */
+            max-height: 100vh;
+            overflow: hidden;
+            /* Prevent overflow outside the viewport */
+        }
 
-    .sidebar {
-        padding: 20px;
-        width: 20%;
-        background: #fff;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-        overflow-y: auto;
-        min-width: 250px; /* Prevent sidebar from collapsing too much */
-        transition: width 0.3s ease;
-    }
+        .sidebar {
+            padding: 20px;
+            width: 20%;
+            background: #fff;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            min-width: 250px;
+            /* Prevent sidebar from collapsing too much */
+            transition: width 0.3s ease;
+        }
 
-    .main-content {
-        flex-grow: 1;
-        padding: 20px;
-        background-color: #f0f0f0;
-        overflow-y: auto; /* Allow scrolling within the content area */
-        max-height: 100%; /* Fix the height to prevent it from expanding */
-        display: flex;
-        flex-direction: column;
-    }
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #f0f0f0;
+            overflow-y: auto;
+            /* Allow scrolling within the content area */
+            max-height: 100%;
+            /* Fix the height to prevent it from expanding */
+            display: flex;
+            flex-direction: column;
+        }
 
-    #messageDisplay {
-        flex-grow: 1;
-        overflow-y: auto;
-        background-color: #ffffff;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        margin-top: 10px;
-    }
+        #messageDisplay {
+            flex-grow: 1;
+            overflow-y: auto;
+            background-color: #ffffff;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
 
-    .message {
-        margin-bottom: 15px;
-        padding: 10px;
-        background: #ffffff;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-    }
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
 
-    .ai-message { background-color: #e1f5fe; }
-    .student-message { background-color: #fff9c4; }
+        .ai-message {
+            background-color: #e1f5fe;
+        }
 
-    input, select, button {
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        width: calc(100% - 22px); /* Ensure full width within the padding */
-    }
+        .student-message {
+            background-color: #fff9c4;
+        }
 
-    ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
+        input,
+        select,
+        button {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: calc(100% - 22px);
+            /* Ensure full width within the padding */
+        }
 
-    li {
-        padding: 10px;
-        border-bottom: 1px solid #eee;
-        cursor: pointer;
-    }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
 
-    li:hover {
-        background: #f9f9f9;
-    }
-</style>
+        li {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+
+        li:hover {
+            background: #f9f9f9;
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="container">
-    <div class="sidebar">
-        <!-- Filter UI Elements -->
-        <label for="startTime">Start Time:</label>
-        <input type="datetime-local" id="startTime">
+    <div class="container">
+        <div class="sidebar">
+            <!-- Filter UI Elements -->
+            <label for="startTime">Start Time:</label>
+            <input type="datetime-local" id="startTime">
 
-        <label for="endTime">End Time:</label>
-        <input type="datetime-local" id="endTime">
+            <label for="endTime">End Time:</label>
+            <input type="datetime-local" id="endTime">
 
-        <label for="gptUsed">GPT Used:</label>
-        <select id="gptUsed">
-            <option value="">Select GPT Used</option>
-            <!-- Options will be populated dynamically -->
-        </select>
+            <label for="gptUsed">GPT Used:</label>
+            <select id="gptUsed">
+                <option value="">Select GPT Used</option>
+                <!-- Options will be populated dynamically -->
+            </select>
 
-        <button id="applyFilters">Apply Filters</button>
+            <button id="applyFilters">Apply Filters</button>
 
-        <ul id="sessionList"></ul>
-    </div>
-    <div class="main-content">
-        <!-- Locked message area -->
-        <div id="messageDisplay">
-            <!-- Messages will be displayed here -->
+            <ul id="sessionList"></ul>
+        </div>
+        <div class="main-content">
+            <!-- Locked message area -->
+            <div id="messageDisplay">
+                <!-- Messages will be displayed here -->
+            </div>
         </div>
     </div>
-</div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const applyFiltersBtn = document.getElementById('applyFilters');
-    
-        fetch('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/scList/')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                populateGptUsedOptions(data);
-                applyFiltersBtn.onclick = () => applyFilters(data);
-            });
-    
-        function populateGptUsedOptions(data) {
-            const gptUsedSelect = document.getElementById('gptUsed');
-            const gptUseds = new Set();
-            Object.values(data).flat().forEach(message => {
-                gptUseds.add(message.gpt_used);
-            });
-            gptUseds.forEach(gptUsed => {
-                const option = document.createElement('option');
-                option.value = gptUsed;
-                option.textContent = gptUsed;
-                gptUsedSelect.appendChild(option);
-            });
-        }
-    
-        function applyFilters(data) {
-            const startTime = document.getElementById('startTime').value;
-            const endTime = document.getElementById('endTime').value;
-            const gptUsed = document.getElementById('gptUsed').value;
-    
-            const filteredData = {};
-            Object.entries(data).forEach(([sessionId, messages]) => {
-                const filteredMessages = messages.filter(message => {
-                    const messageTime = new Date(message.created_at).getTime();
-                    const start = startTime ? new Date(startTime).getTime() : null;
-                    const end = endTime ? new Date(endTime).getTime() : null;
-                    return (!start || messageTime >= start) && 
-                           (!end || messageTime <= end) &&
-                           (!gptUsed || message.gpt_used === gptUsed);
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const applyFiltersBtn = document.getElementById('applyFilters');
+
+            fetch('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/scList/')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    populateGptUsedOptions(data);
+                    applyFiltersBtn.onclick = () => applyFilters(data);
                 });
-                
-                // Sort the filtered messages by timestamp
-                filteredMessages.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-                
-                if (filteredMessages.length > 0) {
-                    filteredData[sessionId] = filteredMessages;
-                }
-            });
-    
-            displaySessions(filteredData);
-        }
-    
-        function displaySessions(data) {
-            const sessionList = document.getElementById('sessionList');
-            sessionList.innerHTML = ''; // Clear existing sessions
-            Object.entries(data).forEach(([sessionId, messages]) => {
-                const listItem = document.createElement('li');
-                listItem.textContent = `Project: ${messages[0].student_id} (${messages.length} messages) - ${messages[0].gpt_used}`;
-                listItem.onclick = () => displayMessages(sessionId, messages);
-                sessionList.appendChild(listItem);
-            });
-        }
-    
-        function displayMessages(sessionId, messages) {
-            const messageDisplay = document.getElementById('messageDisplay');
-            messageDisplay.innerHTML = ''; // Clear previous messages
-    
-            // Sort messages by timestamp before displaying
-            messages.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-    
-            messages.forEach(message => {
-                const div = document.createElement('div');
-                div.className = `message ${message.sent_by}`;
-                div.innerHTML = `<p><strong>${message.sent_by.replace('_', ' ').toUpperCase()}:</strong> ${message.content}</p>
+
+            function populateGptUsedOptions(data) {
+                const gptUsedSelect = document.getElementById('gptUsed');
+                const gptUseds = new Set();
+                Object.values(data).flat().forEach(message => {
+                    gptUseds.add(message.gpt_used);
+                });
+                gptUseds.forEach(gptUsed => {
+                    const option = document.createElement('option');
+                    option.value = gptUsed;
+                    option.textContent = gptUsed;
+                    gptUsedSelect.appendChild(option);
+                });
+            }
+
+            function applyFilters(data) {
+                const startTime = document.getElementById('startTime').value;
+                const endTime = document.getElementById('endTime').value;
+                const gptUsed = document.getElementById('gptUsed').value;
+
+                const filteredData = {};
+                Object.entries(data).forEach(([sessionId, messages]) => {
+                    const filteredMessages = messages.filter(message => {
+                        const messageTime = new Date(message.created_at).getTime();
+                        const start = startTime ? new Date(startTime).getTime() : null;
+                        const end = endTime ? new Date(endTime).getTime() : null;
+                        return (!start || messageTime >= start) &&
+                            (!end || messageTime <= end) &&
+                            (!gptUsed || message.gpt_used === gptUsed);
+                    });
+
+                    // Sort the filtered messages by timestamp
+                    filteredMessages.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+
+                    if (filteredMessages.length > 0) {
+                        filteredData[sessionId] = filteredMessages;
+                    }
+                });
+
+                displaySessions(filteredData);
+            }
+
+            function displaySessions(data) {
+                const sessionList = document.getElementById('sessionList');
+                sessionList.innerHTML = ''; // Clear existing sessions
+                Object.entries(data).forEach(([sessionId, messages]) => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `Project: ${messages[0].student_id} (${messages.length} messages) - ${messages[0].gpt_used}`;
+                    listItem.onclick = () => displayMessages(sessionId, messages);
+                    sessionList.appendChild(listItem);
+                });
+            }
+
+            function displayMessages(sessionId, messages) {
+                const messageDisplay = document.getElementById('messageDisplay');
+                messageDisplay.innerHTML = ''; // Clear previous messages
+
+                // Sort messages by timestamp before displaying
+                messages.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+
+                messages.forEach(message => {
+                    const div = document.createElement('div');
+                    div.className = `message ${message.sent_by}`;
+                    div.innerHTML = `<p><strong>${message.sent_by.replace('_', ' ').toUpperCase()}:</strong> ${message.content}</p>
                                  <p><small>Sent on: ${message.created_at}</small></p>`;
-                messageDisplay.appendChild(div);
-            });
-        }
-    });
+                    messageDisplay.appendChild(div);
+                });
+            }
+        });
     </script>
-    
+
 </body>
+
 </html>

@@ -1,85 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feedback Collection Platform</title>
     <style>
-        body { font-family: 'Arial', sans-serif; background: #f4f4f4; color: #333; }
-        .container { width: 90%; margin: 20px auto; max-width: 400px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        input[type="text"], select { width: 100%; padding: 10px; margin: 8px 0; display: inline-block; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        input[type="password"], select { width: 100%; padding: 10px; margin: 8px 0; display: inline-block; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        video { width: 100%; height: auto; border-radius: 8px; }
-        .record-btn { width: 100%; background-color: #4CAF50; color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
-        .record-btn.recording { background-color: #ff3b3b; }
-        .transcription { margin-top: 20px; background-color: #e9e9e9; padding: 10px; border-radius: 5px; min-height: 50px; }
-        .info-text { font-size: 0.9em; color: #666; margin-bottom: 5px; }
-        .api-key-input { margin-bottom: 15px; }
-        .user-message {   background-color: #c8e6c9; /* pastel green for interviewee */
-  align-self: flex-end;
-  margin-left: auto;
-  word-wrap: break-word;
-    align-self: flex-end;
-    margin-left: auto; } /* Pastel green for user messages */
-        .ai-message {   background-color: #bbdefb; /* pastel blue for AI */
-  align-self: flex-start;
-  margin-right: auto;
-  word-wrap: break-word;} /* Light pastel blue for AI messages */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f4f4f4;
+            color: #333;
+        }
 
-  .autoscroll {
-  scroll-behavior: smooth;
-}
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            max-width: 400px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .record-btn {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .record-btn.recording {
+            background-color: #ff3b3b;
+        }
+
+        .transcription {
+            margin-top: 20px;
+            background-color: #e9e9e9;
+            padding: 10px;
+            border-radius: 5px;
+            min-height: 50px;
+        }
+
+        .info-text {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .api-key-input {
+            margin-bottom: 15px;
+        }
+
+        .user-message {
+            background-color: #c8e6c9;
+            /* pastel green for interviewee */
+            align-self: flex-end;
+            margin-left: auto;
+            word-wrap: break-word;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        /* Pastel green for user messages */
+        .ai-message {
+            background-color: #bbdefb;
+            /* pastel blue for AI */
+            align-self: flex-start;
+            margin-right: auto;
+            word-wrap: break-word;
+        }
+
+        /* Light pastel blue for AI messages */
+
+        .autoscroll {
+            scroll-behavior: smooth;
+        }
 
 
-#download-btn:hover {
-  background-color: #d5d5d5; /* Slightly darker grey on hover */
-}
+        #download-btn:hover {
+            background-color: #d5d5d5;
+            /* Slightly darker grey on hover */
+        }
 
-.message-input {
-    display: flex;
-    width: 100%;
-    gap: 10px; /* Space between elements */
-}
+        .message-input {
+            display: flex;
+            width: 100%;
+            gap: 10px;
+            /* Space between elements */
+        }
 
-#messageInput {
-    width: 100%;
-  min-height: 100px;
-  padding: 10px;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  resize: none; /* Prevents manual resizing */
-  overflow-y: hidden; /* Hides the scrollbar */
-}
-.overlay {
-    display: none;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 1000;
-}
+        #messageInput {
+            width: 100%;
+            min-height: 100px;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+            /* Prevents manual resizing */
+            overflow-y: hidden;
+            /* Hides the scrollbar */
+        }
 
-.highlighted {
-    position: relative;
-    z-index: 1001;
-    border: 2px solid yellow;
-}
-.tooltip {
-    position: absolute;
-    background-color: white;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    z-index: 1002;
-}
+        .overlay {
+            display: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+        }
 
+        .highlighted {
+            position: relative;
+            z-index: 1001;
+            border: 2px solid yellow;
+        }
 
+        .tooltip {
+            position: absolute;
+            background-color: white;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 1002;
+        }
     </style>
 </head>
+
 <body>
     <div id="overlay" class="overlay"></div>
     <div id="tooltip" class="tooltip" style="display: none;"></div>
@@ -98,8 +182,8 @@
         <video id="background-video" width="100%" height="320" loop>
             <source src="images/womentalking.mp4" type="video/mp4">
             Your browser does not support the video tag.
-          </video>
-          <p>Ensure your Volume is turned on; and you give permission to your microphone.</p>
+        </video>
+        <p>Ensure your Volume is turned on; and you give permission to your microphone.</p>
 
         <!-- <button id="recordButton" class="record-btn">Hold to Record</button> -->
         <button id="startRecord" disabled>Start Recording</button>
@@ -108,224 +192,224 @@
         <br>
         <div id="transcription" style="font-size: large; overflow-y: scroll; height: 100%;"></div>
         <div class="message-input">
-          <textarea type="text" id="messageInput" placeholder="Type your message here..."></textarea>
-          <button id="sendMessage" disabled>Send</button>
-      </div>
-      <button id="download-btn">Download Transcription</button>
+            <textarea type="text" id="messageInput" placeholder="Type your message here..."></textarea>
+            <button id="sendMessage" disabled>Send</button>
+        </div>
+        <button id="download-btn">Download Transcription</button>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
 
 
-let chatHistory = [];
-$(document).ready(function() {
-        var uniqueID = 'id_' + Math.random().toString(36).substr(2, 9);
-        localStorage.setItem('sessionID', uniqueID);
+        let chatHistory = [];
+        $(document).ready(function () {
+            var uniqueID = 'id_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('sessionID', uniqueID);
 
-        startTutorial();
+            startTutorial();
 
-    $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/getOAI/', function(data) {
+            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/getOAI/', function (data) {
                 localStorage.setItem('openaiKey', data.key)
                 console.log('keySet')
-    });
-    // Fetch and populate the dropdown with custom GPTs
-    $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_feedback_gpts/', function(gpts) {
-        $('#gptSelection').append(new Option('', '')); // Initial blank option
-        gpts.forEach(function(gpt) {
-            $('#gptSelection').append(new Option(gpt.name, gpt.id));
-        });
-    });
+            });
+            // Fetch and populate the dropdown with custom GPTs
+            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_feedback_gpts/', function (gpts) {
+                $('#gptSelection').append(new Option('', '')); // Initial blank option
+                gpts.forEach(function (gpt) {
+                    $('#gptSelection').append(new Option(gpt.name, gpt.id));
+                });
+            });
 
-        // Generate and update introductory message when a GPT is selected
-        $('#gptSelection').on('change', function() {
-            const selectedGptId = $(this).val();
-            if (!selectedGptId) return; // Do nothing if the blank option is selected
+            // Generate and update introductory message when a GPT is selected
+            $('#gptSelection').on('change', function () {
+                const selectedGptId = $(this).val();
+                if (!selectedGptId) return; // Do nothing if the blank option is selected
 
-            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_feedback_gpts/', function(gpts) {
-                const selectedGpt = gpts.find(g => g.id == selectedGptId);
-                if (selectedGpt) {
-                    console.log(selectedGpt.instructions)
-                    localStorage.setItem('selectedGPT',selectedGpt.name)
-                    chatHistory.push({ role: 'system', content: selectedGpt.instructions })
-                    
-                    generateIntroductoryMessage(selectedGpt.instructions + ": For the above instructions generate an introductory message, welcoming the student and setting the context of this session, keep it short and neat.");
-                } else {
-                    console.error('Failed to find selected GPT');
-                }
+                $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_feedback_gpts/', function (gpts) {
+                    const selectedGpt = gpts.find(g => g.id == selectedGptId);
+                    if (selectedGpt) {
+                        console.log(selectedGpt.instructions)
+                        localStorage.setItem('selectedGPT', selectedGpt.name)
+                        chatHistory.push({ role: 'system', content: selectedGpt.instructions })
+
+                        generateIntroductoryMessage(selectedGpt.instructions + ": For the above instructions generate an introductory message, welcoming the student and setting the context of this session, keep it short and neat.");
+                    } else {
+                        console.error('Failed to find selected GPT');
+                    }
+                });
             });
         });
-    });
 
-    function generateIntroductoryMessage(instructions) {
-        // Here, we generate a greeting or introductory message based on the instructions
-        $.ajax({
-            type: 'POST',
-            url: 'https://api.openai.com/v1/chat/completions',
-            data: JSON.stringify({
-                model: "gpt-4-turbo-preview",
-                messages: [{role: 'system', content: instructions}]
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
-            },
-            success: function(aiResponse) {
-                let introMessage = aiResponse.choices[0].message.content.trim();
-                appendMessage('ai-message', introMessage);
-                getSpeechFromText(introMessage);
-                // chatHistory = [{ role: 'system', content: introMessage }];
-                chatHistory.push({ role: 'system', content: introMessage })
-                console.log('Introductory message:', introMessage);
-            },
-            error: function(error) {
-                console.error('Error generating introductory message:', error);
+        function generateIntroductoryMessage(instructions) {
+            // Here, we generate a greeting or introductory message based on the instructions
+            $.ajax({
+                type: 'POST',
+                url: 'https://api.openai.com/v1/chat/completions',
+                data: JSON.stringify({
+                    model: "gpt-4-turbo-preview",
+                    messages: [{ role: 'system', content: instructions }]
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
+                },
+                success: function (aiResponse) {
+                    let introMessage = aiResponse.choices[0].message.content.trim();
+                    appendMessage('ai-message', introMessage);
+                    getSpeechFromText(introMessage);
+                    // chatHistory = [{ role: 'system', content: introMessage }];
+                    chatHistory.push({ role: 'system', content: introMessage })
+                    console.log('Introductory message:', introMessage);
+                },
+                error: function (error) {
+                    console.error('Error generating introductory message:', error);
+                }
+            });
+        }
+
+        function storeData(content, sentBy) {
+            // Get student ID from a text box (assuming the text box has an id 'studentId')
+            var studentId = localStorage.getItem('sessionID');
+
+            // Prepare the data to be sent
+            var data = {
+                session_id: localStorage.getItem('sessionID'), // You need to define how to get this
+                student_id: studentId,
+                sent_by: sentBy,
+                content: content,
+                gpt_used: localStorage.getItem('selectedGPT')
+            };
+
+            // Send the data using an AJAX POST request
+            $.ajax({
+                type: 'POST',
+                url: 'https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/feedback_message_api/', // Replace with the correct URL to your Django view
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (response) {
+                    console.log('Success:', response);
+                    // Handle success (e.g., display a success message)
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                    // Handle error (e.g., display an error message)
+                }
+            });
+        }
+
+
+
+        function startTutorial() {
+            const components = [
+                //{ selector: '#studentId', text: 'Enter your Student ID here. Click anywhere on the screen to continue.' },
+                { selector: '#startRecord', text: 'When enabled, press this button to start Recording your response. Speak normally as if you speak on zoom.' },
+                { selector: '#stopRecord', text: 'When enabled, press this button to stop Recording your response.' },
+                { selector: '#messageInput', text: 'If you prefer typing, please type your response here.' },
+                { selector: '#sendMessage', text: 'When enabled, after typing your message click send or press enter to send' },
+                { selector: '#download-btn', text: 'Once you are finished responding, or do not want to respond anymore, click Download to get a sharable HTML file. Share with the concerned.' },
+                { selector: '#gptSelection', text: 'Select your class from this dropdown.' },
+
+            ];
+
+            let currentStep = 0;
+            function positionTooltip(element) {
+                const tooltip = document.getElementById('tooltip');
+                const rect = element.getBoundingClientRect();
+                tooltip.style.top = `${rect.bottom + window.scrollY + 10}px`;
+                tooltip.style.left = `${rect.left + window.scrollX}px`;
             }
-        });
-    }
 
-    function storeData(content, sentBy) {
-        // Get student ID from a text box (assuming the text box has an id 'studentId')
-        var studentId = localStorage.getItem('sessionID');
-
-        // Prepare the data to be sent
-        var data = {
-            session_id: localStorage.getItem('sessionID'), // You need to define how to get this
-            student_id: studentId,
-            sent_by: sentBy,
-            content: content,
-            gpt_used: localStorage.getItem('selectedGPT')
-        };
-
-        // Send the data using an AJAX POST request
-        $.ajax({
-            type: 'POST',
-            url: 'https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/feedback_message_api/', // Replace with the correct URL to your Django view
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function(response) {
-                console.log('Success:', response);
-                // Handle success (e.g., display a success message)
-            },
-            error: function(xhr, status, error) {
-                console.error('Error:', error);
-                // Handle error (e.g., display an error message)
+            function showStep() {
+                document.getElementById('overlay').style.display = 'block';
+                const component = document.querySelector(components[currentStep].selector);
+                const explainerText = components[currentStep].text;
+                component.classList.add('highlighted');
+                const tooltip = document.getElementById('tooltip');
+                tooltip.innerHTML = explainerText;
+                tooltip.style.display = 'block';
+                positionTooltip(component);
             }
-        });
-    }
 
+            function nextStep() {
+                const component = document.querySelector(components[currentStep].selector);
+                component.classList.remove('highlighted');
+                currentStep++;
+                if (currentStep < components.length) {
+                    showStep();
+                } else {
+                    document.getElementById('tooltip').style.display = 'none';
+                    document.getElementById('overlay').style.display = 'none';
+                }
+            }
 
-
-    function startTutorial() {
-    const components = [
-        //{ selector: '#studentId', text: 'Enter your Student ID here. Click anywhere on the screen to continue.' },
-        { selector: '#startRecord', text: 'When enabled, press this button to start Recording your response. Speak normally as if you speak on zoom.' },
-        { selector: '#stopRecord', text: 'When enabled, press this button to stop Recording your response.' },
-        { selector: '#messageInput', text: 'If you prefer typing, please type your response here.' },
-        { selector: '#sendMessage', text: 'When enabled, after typing your message click send or press enter to send' },
-        { selector: '#download-btn', text: 'Once you are finished responding, or do not want to respond anymore, click Download to get a sharable HTML file. Share with the concerned.' },
-        { selector: '#gptSelection', text: 'Select your class from this dropdown.' },
-      
-    ];
-
-    let currentStep = 0;
-    function positionTooltip(element) {
-        const tooltip = document.getElementById('tooltip');
-        const rect = element.getBoundingClientRect();
-        tooltip.style.top = `${rect.bottom + window.scrollY + 10}px`;
-        tooltip.style.left = `${rect.left + window.scrollX}px`;
-    }
-
-    function showStep() {
-        document.getElementById('overlay').style.display = 'block';
-        const component = document.querySelector(components[currentStep].selector);
-        const explainerText = components[currentStep].text;
-        component.classList.add('highlighted');
-        const tooltip = document.getElementById('tooltip');
-        tooltip.innerHTML = explainerText;
-        tooltip.style.display = 'block';
-        positionTooltip(component);
-    }
-
-    function nextStep() {
-        const component = document.querySelector(components[currentStep].selector);
-        component.classList.remove('highlighted');
-        currentStep++;
-        if (currentStep < components.length) {
+            document.getElementById('overlay').onclick = nextStep;
             showStep();
-        } else {
-            document.getElementById('tooltip').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
         }
-    }
-
-    document.getElementById('overlay').onclick = nextStep;
-    showStep();
-}
 
 
 
 
-let audioChunks = [];
+        let audioChunks = [];
 
-const startRecordButton = document.getElementById('startRecord');
-const sendMessageButton = document.getElementById('sendMessage');
-const stopRecordButton = document.getElementById('stopRecord');
-const backgroundVideo = document.getElementById('background-video'); 
+        const startRecordButton = document.getElementById('startRecord');
+        const sendMessageButton = document.getElementById('sendMessage');
+        const stopRecordButton = document.getElementById('stopRecord');
+        const backgroundVideo = document.getElementById('background-video');
 
-const transcription = document.getElementById('transcription');
+        const transcription = document.getElementById('transcription');
 
 
-        
 
-navigator.mediaDevices.getUserMedia({ audio: true })
-    .then(stream => {
-        const mediaRecorder = new MediaRecorder(stream);
-        mediaRecorder.ondataavailable = event => {
-            audioChunks.push(event.data);
-        };
 
-        mediaRecorder.onstop = () => {
-            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-            getTextFromSpeech(audioBlob);
-            audioChunks = []; // Reset the audio chunks after sending
-        };
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(stream => {
+                const mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.ondataavailable = event => {
+                    audioChunks.push(event.data);
+                };
 
-        $('#startRecord').on('click', function() {
-            mediaRecorder.start();
-            $(this).prop('disabled', true);
-            $('#stopRecord').prop('disabled', false);
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    getTextFromSpeech(audioBlob);
+                    audioChunks = []; // Reset the audio chunks after sending
+                };
+
+                $('#startRecord').on('click', function () {
+                    mediaRecorder.start();
+                    $(this).prop('disabled', true);
+                    $('#stopRecord').prop('disabled', false);
+                });
+
+                $('#stopRecord').on('click', function () {
+                    mediaRecorder.stop();
+                    $(this).prop('disabled', true);
+                    $('#startRecord').prop('disabled', false);
+                });
+            })
+            .catch(error => {
+                console.error('Error accessing the microphone:', error);
+            });
+
+        $('#sendMessage').on('click', function () {
+            // Get the message from the input
+            var message = $('#messageInput').val().trim();
+
+            // Check if the message is not empty
+            if (message) {
+                appendMessage('user-message', message)
+                $('#messageInput').val('');
+                getAIresponse(message)
+                chatHistory.push({ role: 'user', content: message });
+
+            }
         });
 
-        $('#stopRecord').on('click', function() {
-            mediaRecorder.stop();
-            $(this).prop('disabled', true);
-            $('#startRecord').prop('disabled', false);
+        // Optional: Send message when 'Enter' is pressed
+        $('#messageInput').on('keypress', function (e) {
+            if (e.which == 13) { // Enter key
+                $('#sendMessage').click();
+            }
         });
-    })
-    .catch(error => {
-        console.error('Error accessing the microphone:', error);
-    });
-
-    $('#sendMessage').on('click', function() {
-        // Get the message from the input
-        var message = $('#messageInput').val().trim();
-
-        // Check if the message is not empty
-        if (message) {
-            appendMessage('user-message',message)
-            $('#messageInput').val('');
-            getAIresponse(message)
-            chatHistory.push({ role: 'user', content: message });
-            
-        }
-    });
-
-    // Optional: Send message when 'Enter' is pressed
-    $('#messageInput').on('keypress', function(e) {
-        if (e.which == 13) { // Enter key
-            $('#sendMessage').click();
-        }
-    });
 
 
 
@@ -348,7 +432,7 @@ navigator.mediaDevices.getUserMedia({ audio: true })
                     var transcriptionResult = data.text || "No transcription available.";
                     // transcription.textContent = transcriptionResult;
                     // Additional functions like sendMessageToStorage and getAIresponse can be implemented here.
-                    appendMessage('user-message',transcriptionResult)
+                    appendMessage('user-message', transcriptionResult)
                     getAIresponse(transcriptionResult)
                     chatHistory.push({ role: 'user', content: transcriptionResult });
                 },
@@ -358,15 +442,15 @@ navigator.mediaDevices.getUserMedia({ audio: true })
                 }
             });
         }
-    
-    
+
+
         function appendMessage(className, message) {
             const messageDiv = document.createElement('div');
             messageDiv.className = className;
             messageDiv.textContent = message;
             transcription.appendChild(messageDiv);
             //storing data to our database
-            storeData(message,className)
+            storeData(message, className)
             console.log('data stored')
         }
 
@@ -380,19 +464,21 @@ navigator.mediaDevices.getUserMedia({ audio: true })
             $.ajax({
                 type: 'POST',
                 url: 'https://api.openai.com/v1/chat/completions',
-                data: JSON.stringify({ model: "gpt-4", 
-                messages: chatHistory }),
+                data: JSON.stringify({
+                    model: "gpt-4",
+                    messages: chatHistory
+                }),
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
                 },
-                success: function(aiResponse) {
+                success: function (aiResponse) {
                     let responseText = aiResponse.choices[0].message.content.trim();
                     appendMessage('ai-message', responseText);
                     chatHistory.push({ role: 'system', content: responseText });
                     getSpeechFromText(responseText);
                 },
-                error: function(error) {
+                error: function (error) {
                     console.error('Error getting AI Response:', error);
                 }
             });
@@ -414,50 +500,51 @@ navigator.mediaDevices.getUserMedia({ audio: true })
                 },
                 body: JSON.stringify(postData)
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.blob();
-            })
-            .then(blob => {
-                var audioUrl = URL.createObjectURL(blob);
-                var audio = new Audio(audioUrl);
-                audio.onplay = function() {
-                    startRecordButton.disabled = true;
-                    sendMessageButton.disabled = true; // Disable record button while AI message is being read out
-                    if (backgroundVideo) backgroundVideo.play();
-                };
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    var audioUrl = URL.createObjectURL(blob);
+                    var audio = new Audio(audioUrl);
+                    audio.onplay = function () {
+                        startRecordButton.disabled = true;
+                        sendMessageButton.disabled = true; // Disable record button while AI message is being read out
+                        if (backgroundVideo) backgroundVideo.play();
+                    };
 
-                audio.onended = function() {
-                    startRecordButton.disabled = false;
-                    sendMessageButton.disabled = false; // Enable record button after AI message is read out
-                    if (backgroundVideo) backgroundVideo.pause();
-                };
-                audio.play();
-            })
-            .catch(error => {
-                console.error('Error with ElevenLabs API:', error);
-            });
+                    audio.onended = function () {
+                        startRecordButton.disabled = false;
+                        sendMessageButton.disabled = false; // Enable record button after AI message is read out
+                        if (backgroundVideo) backgroundVideo.pause();
+                    };
+                    audio.play();
+                })
+                .catch(error => {
+                    console.error('Error with ElevenLabs API:', error);
+                });
         }
-    
-    
-document.getElementById('download-btn').addEventListener('click', function() {
-  var transcriptionContent = document.getElementById('transcription').innerHTML;
-  var blob = new Blob([transcriptionContent], {
-    type: 'text/plain;charset=utf-8'
-  });
-  var tempLink = document.createElement('a');
-  tempLink.download = 'transcription.html'; // Name of the file to download
-  tempLink.href = window.URL.createObjectURL(blob);
 
-  // Temporarily add link to the body and trigger the download
-  document.body.appendChild(tempLink);
-  tempLink.click();
 
-  // Clean up by removing the temporary link
-  document.body.removeChild(tempLink);
-});
+        document.getElementById('download-btn').addEventListener('click', function () {
+            var transcriptionContent = document.getElementById('transcription').innerHTML;
+            var blob = new Blob([transcriptionContent], {
+                type: 'text/plain;charset=utf-8'
+            });
+            var tempLink = document.createElement('a');
+            tempLink.download = 'transcription.html'; // Name of the file to download
+            tempLink.href = window.URL.createObjectURL(blob);
+
+            // Temporarily add link to the body and trigger the download
+            document.body.appendChild(tempLink);
+            tempLink.click();
+
+            // Clean up by removing the temporary link
+            document.body.removeChild(tempLink);
+        });
     </script>
 </body>
+
 </html>
