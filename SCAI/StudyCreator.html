@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyCreator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'system-ui', sans-serif;
+            background: #F7F7F8;
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 30%;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .main-content {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background-color: #000000;
+            padding: 10px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar input[type="text"] {
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .navbar select {
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .chat-window {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: white;
+        }
+
+        .dynamic-responses {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            background-color: #eaeaea;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .response-button {
+            background-color: #000000;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .message-input-area {
+            display: flex;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border-top: 1px solid #ddd;
+            position: sticky;
+            bottom: 0;
+        }
+
+        textarea {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background-color: #F0F0F0;
+            resize: none;
+            min-height: 50px;
+        }
+
+        button {
+            background-color: #000000;
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .user-message {
+            background-color: #dbe5d482;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+            margin-bottom: 10px;
+            word-wrap: break-word;
+        }
+
+        .ai-message {
+            background-color: #F1F1F1;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+            margin-bottom: 10px;
+            word-wrap: break-word;
+        }
+
+        .form-container {
+            padding: 20px;
+            background-color: white; /* Default background color */
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            transition: background-color 0.3s ease; /* Smooth transition */
+        }
+
+        .form-container.light-yellow {
+            background-color: #fff8b3; /* Light yellow background */
+        } 
+        
+        .form-container input, .form-container textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-container button {
+            background-color: #000000;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .prompt-selector {
+            margin: 20px 0;
+            background: #fff;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .prompt-selector select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.16/marked.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body);"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <!-- Side Navigation Bar -->
+    <div class="sidebar">
+        <h1>StudyCreator</h1>
+        <br>
+
+        <h3>Existing Prompts</h3>
+        <div class="prompt-selector">
+            <select id="existingPrompts">
+                <option value="">Select a Prompt</option>
+            </select>
+            <div id="selectedPrompt" style="margin: 10px 0; padding: 10px; background: #f9f9f9; border: 1px solid #ccc; border-radius: 5px; min-height: 50px;">
+                <em>Selected prompt will appear here...</em>
+            </div>
+            <button id="copyPrompt" disabled>Copy Prompt</button>
+        </div>
+
+        <h3>Create a Custom GPT</h3>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <label for="useAiToggle">Use AI to Create Better Prompts:</label>
+            <input type="checkbox" id="useAiToggle">
+        </div>
+        <div class="form-container" id="formContainer">
+            
+        
+            <form id="customGPTForm">
+                <!-- Shared Fields -->
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="created_by">Created By:</label>
+                <input type="text" id="created_by" name="created_by" required>
+                
+                <label for="university">University:</label>
+                <input type="text" id="university" name="university" required>
+                
+                <label for="gpt_type">GPT Type:</label>
+                <input type="text" id="gpt_type" name="gpt_type" required>
+        
+                <!-- Regular Prompt Section -->
+                <div id="regularPromptSection">
+                    <label for="instructions">Instructions:</label>
+                    <textarea id="instructions" name="instructions" required style="overflow: hidden; resize: none;"></textarea>
+                </div>
+        
+                <!-- AI-Powered Prompt Section -->
+                <div id="aiPromptSection" style="display: none;">
+                    <label for="role">Role:</label>
+                    <input type="text" id="role" placeholder="E.g., a statistics tutor">
+        
+                    <label for="topicsToTeach">Topics to Teach:</label>
+                    <textarea id="topicsToTeach" placeholder="E.g., t-tests, ANOVA"></textarea>
+        
+                    <label for="topicsNotToTeach">Topics Not to Teach:</label>
+                    <textarea id="topicsNotToTeach" placeholder="E.g., Pearson coefficient"></textarea>
+        
+                    <label for="botConstraints">Bot Constraints:</label>
+                    <textarea id="botConstraints" placeholder="E.g., Avoid using jargon"></textarea>
+        
+                    <label for="stepByStepInstructions">Step-by-Step Instructions:</label>
+                    <textarea id="stepByStepInstructions" placeholder="E.g., Introduce concepts, provide examples"></textarea>
+        
+                    <label for="tone">Tone:</label>
+                    <input type="text" id="tone" placeholder="E.g., Friendly, supportive">
+        
+                    <label for="exampleInteractions">Example Interactions:</label>
+                    <textarea id="exampleInteractions" placeholder="E.g., Q: What is a t-test?"></textarea>
+        
+                    <label for="otherInstructions">Other Instructions:</label>
+                    <textarea id="otherInstructions" placeholder="Any other details"></textarea>
+        
+                    <label for="botIntroduction">Bot Introduction:</label>
+                    <textarea id="botIntroduction" placeholder="E.g., Hi, I’m here to help you learn statistics!"></textarea>
+        
+                    <button type="button" id="generatePrompt">Generate Prompt</button>
+                    <h4>Generated Prompt:</h4>
+                    <textarea id="generatedPrompt" style="overflow: hidden; resize: none;"></textarea>
+                </div>
+        
+                <button type="submit">Create Custom GPT</button>
+            </form>
+            <p id="result"></p>
+        </div>
+        
+        
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <div class="navbar">
+            <input type="text" id="studentId" placeholder="Enter StudyCrafter ID">
+            <select id="gptSelection">
+                <option value="">Select Activity</option>
+            </select>
+        </div>
+
+        <div id="transcription" class="chat-window"></div>
+
+        <div id="dynamic-responses" class="dynamic-responses"></div>
+
+        <div class="message-input-area">
+            <textarea id="messageInput" placeholder="Type your message here..."></textarea>
+            <button id="sendMessage" disabled>Send</button>
+            <button id="download-btn">Download Transcript</button>
+        </div>
+    </div>
+
+    <script>
+
+//
+document.addEventListener("DOMContentLoaded", function () {
+const instructionsTextarea = document.getElementById("instructions");
+
+// Automatically adjust the height of the textarea based on content
+instructionsTextarea.addEventListener("input", function () {
+    this.style.height = "auto"; // Reset the height
+    this.style.height = this.scrollHeight + "px"; // Set it to the scroll height
+});
+});
+
+    document.addEventListener("DOMContentLoaded", function () {
+    const useAiToggle = document.getElementById("useAiToggle");
+    const regularPromptSection = document.getElementById("regularPromptSection");
+    const aiPromptSection = document.getElementById("aiPromptSection");
+    const instructionsField = document.getElementById("instructions");
+    const generatedPromptField = document.getElementById("generatedPrompt");
+    const generatePromptButton = document.getElementById("generatePrompt");
+
+    const formContainer = document.getElementById("formContainer");
+
+   // Toggle between regular and AI prompt creation
+   useAiToggle.addEventListener("change", function () {
+        document.getElementById("name").value = "";
+        document.getElementById("created_by").value = "";
+        document.getElementById("university").value = "";
+        document.getElementById("gpt_type").value = "";
+        document.getElementById("role").value = "";
+        document.getElementById("topicsToTeach").value = "";
+        document.getElementById("topicsNotToTeach").value = "";
+        document.getElementById("botConstraints").value = "";
+        document.getElementById("stepByStepInstructions").value = "";
+        document.getElementById("tone").value = "";
+        document.getElementById("exampleInteractions").value = "";
+        document.getElementById("otherInstructions").value = "";
+        document.getElementById("botIntroduction").value = "";
+        document.getElementById("generatedPrompt").value="";
+        document.getElementById("instructions").value=""
+
+        if (useAiToggle.checked) {
+            formContainer.classList.add("light-yellow");
+            regularPromptSection.style.display = "none";
+            aiPromptSection.style.display = "block";
+            instructionsField.removeAttribute("required"); // Remove required from the regular field
+            generatedPromptField.setAttribute("required", "true"); // Make the generated prompt required
+        } else {
+            formContainer.classList.remove("light-yellow");
+            regularPromptSection.style.display = "block";
+            aiPromptSection.style.display = "none";
+            instructionsField.setAttribute("required", "true"); // Make the regular field required
+            generatedPromptField.removeAttribute("required"); // Remove required from the generated prompt
+        }
+    });
+
+    // Generate prompt using OpenAI API
+    generatePromptButton.addEventListener("click", async function () {
+        const role = document.getElementById("role").value.trim();
+        const topicsToTeach = document.getElementById("topicsToTeach").value.trim();
+        const topicsNotToTeach = document.getElementById("topicsNotToTeach").value.trim();
+        const botConstraints = document.getElementById("botConstraints").value.trim();
+        const stepByStepInstructions = document.getElementById("stepByStepInstructions").value.trim();
+        const tone = document.getElementById("tone").value.trim();
+        const exampleInteractions = document.getElementById("exampleInteractions").value.trim();
+        const otherInstructions = document.getElementById("otherInstructions").value.trim();
+        const botIntroduction = document.getElementById("botIntroduction").value.trim();
+
+        const promptParts = [
+            `Role: ${role || "N/A"}`,
+            `Topics to Teach: ${topicsToTeach || "N/A"}`,
+            `Topics Not to Teach: ${topicsNotToTeach || "N/A"}`,
+            `Bot Constraints: ${botConstraints || "N/A"}`,
+            `Step-by-Step Instructions: ${stepByStepInstructions || "N/A"}`,
+            `Tone: ${tone || "N/A"}`,
+            `Example Interactions: ${exampleInteractions || "N/A"}`,
+            `Other Instructions: ${otherInstructions || "N/A"}`,
+            `Bot Introduction: ${botIntroduction || "N/A"}`
+        ].join("\n\n");
+
+        try {
+            const response = await fetch("https://api.openai.com/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("openaiKey")
+                },
+                body: JSON.stringify({
+                    model: "gpt-4o",
+                    messages: [
+                        {
+                            role: "system",
+                            content: "Generate a GPT prompt based on the following details:"
+                        },
+                        {
+                            role: "user",
+                            content: promptParts
+                        }
+                    ]
+                })
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                const aiGeneratedPrompt = result.choices[0].message.content.trim();
+                generatedPromptField.value = aiGeneratedPrompt;
+                generatedPromptField.style.height = "auto";
+                generatedPromptField.style.height = generatedPromptField.scrollHeight + "px";
+            } else {
+                const errorText = await response.text();
+                alert("Error generating prompt: " + errorText);
+            }
+        } catch (error) {
+            alert("Error: " + error.message);
+        }
+    });
+
+    // Automatically adjust textarea height for all textareas
+    document.querySelectorAll("textarea").forEach(function (textarea) {
+        textarea.addEventListener("input", function () {
+            this.style.height = "auto";
+            this.style.height = this.scrollHeight + "px";
+        });
+    });
+});
+
+//Custom GPT Creator Logic
+const form = document.getElementById("customGPTForm");
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const name = document.getElementById("name").value.trim();
+        const createdBy = document.getElementById("created_by").value.trim();
+        const university = document.getElementById("university").value.trim();
+        const gptType = document.getElementById("gpt_type").value.trim();
+
+        let instructionsToSend = ""
+        // Use AI-generated or regular instructions
+        if(useAiToggle.checked){
+             instructionsToSend = document.getElementById("generatedPrompt").value.trim()
+        }
+        else{
+             instructionsToSend= document.getElementById("instructions").value.trim()
+        }
+
+        console.log(instructionsToSend)
+
+        const formData = {
+            name,
+            created_by: createdBy,
+            university,
+            gpt_type: gptType,
+            instructions: instructionsToSend
+        };
+
+        try {
+            const response = await fetch("https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/create_new_gpt/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                document.getElementById("result").textContent = "Custom GPT created successfully with ID: " + result.id;
+            } else {
+                const errorText = await response.text();
+                document.getElementById("result").textContent = "Error: " + errorText;
+            }
+        } catch (error) {
+            document.getElementById("result").textContent = "Error: " + error.message;
+        }
+    });
+
+
+
+
+        //StudyHelper Logic
+
+        let chatHistory = [];
+        $(document).ready(function () {
+
+            var uniqueID = 'id_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('sessionID', uniqueID);
+
+            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function (gpts) {
+                gpts.forEach(function (gpt) {
+                    $('#existingPrompts').append(new Option(gpt.name, gpt.instructions));
+                });
+            });
+
+            // Enable copy button when a prompt is selected
+            $('#existingPrompts').on('change', function () {
+                const selectedPrompt = $(this).val();
+                const displayArea = $('#selectedPrompt');
+
+                if (selectedPrompt) {
+                    displayArea.text(selectedPrompt);
+                    $('#copyPrompt').prop('disabled', false);
+                } else {
+                    displayArea.html('<em>Selected prompt will appear here...</em>');
+                    $('#copyPrompt').prop('disabled', true);
+                }
+            });
+
+            // Copy selected prompt to clipboard
+            $('#copyPrompt').on('click', function () {
+                const selectedPrompt = $('#existingPrompts').val();
+                if (selectedPrompt) {
+                    navigator.clipboard.writeText(selectedPrompt).then(() => {
+                        alert('Prompt copied to clipboard!');
+                    }).catch(err => {
+                        console.error('Error copying prompt:', err);
+                    });
+                }
+            });
+
+
+
+
+            // Fetch API key and GPT options
+            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/getOAI/', function (data) {
+                localStorage.setItem('openaiKey', data.key);
+                console.log('Key set');
+            });
+
+            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function (gpts) {
+                gpts.forEach(function (gpt) {
+                    $('#gptSelection').append(new Option(gpt.name, gpt.id));
+                });
+            });
+
+            // Disable inputs until a valid ID is entered
+            $('#gptSelection, #messageInput, #sendMessage, #download-btn').prop('disabled', true);
+
+            // Enable inputs after valid ID is entered
+            $('#studentId').on('input', function () {
+                const studentId = $(this).val().trim();
+                const isValidId = studentId.length > 0; // Replace with your custom validation logic if needed
+                $('#gptSelection, #messageInput, #sendMessage, #download-btn').prop('disabled', !isValidId);
+            });
+
+            $('#gptSelection').on('change', function () {
+                const selectedGptId = $(this).val();
+                if (!selectedGptId) return;
+
+                $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function (gpts) {
+                    const selectedGpt = gpts.find(g => g.id == selectedGptId);
+                    if (selectedGpt) {
+                        localStorage.setItem('selectedGPT', selectedGpt.name);
+                        chatHistory.push({ role: 'system', content: selectedGpt.instructions });
+                        generateIntroductoryMessage(selectedGpt.instructions);
+                    }
+                });
+            });
+
+            // Send Message
+            $('#sendMessage').on('click', function () {
+                var message = $('#messageInput').val().trim();
+                if (message) {
+                    chatHistory.push({ role: 'user', content: message });
+                    appendMessage('user-message', message);
+                    $('#messageInput').val('');
+                    getAIresponse(message);
+                }
+            });
+
+            $('#messageInput').on('keypress', function (e) {
+                if (e.which == 13) {
+                    $('#sendMessage').click();
+                }
+            });
+
+            function generateIntroductoryMessage(instructions) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://api.openai.com/v1/chat/completions',
+                    data: JSON.stringify({
+                        model: "gpt-4o",
+                        messages: [{
+                            role: 'system',
+                            content: instructions + ": For the above instructions generate an introductory message, welcoming the student and setting the context of this session, keep it short and neat."
+                        }]
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
+                    },
+                    success: function (aiResponse) {
+                        let introMessage = aiResponse.choices[0].message.content.trim();
+                        appendMessage('ai-message', introMessage);
+                        chatHistory.push({ role: 'system', content: introMessage });
+                    }
+                });
+            }
+
+            function appendMessage(className, message) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = className;
+
+                // Parse Markdown for AI messages and plain text for user messages
+                if (className === 'ai-message') {
+                    messageDiv.innerHTML = marked.parse(message);
+
+                    // Render math expressions using KaTeX
+                    renderMathInElement(messageDiv, {
+                        delimiters: [
+                            { left: "$$", right: "$$", display: true },
+                            { left: "$", right: "$", display: false }
+                        ]
+                    });
+                } else {
+                    messageDiv.textContent = message;
+                }
+
+                // Append the message and scroll to bottom
+                document.getElementById('transcription').appendChild(messageDiv);
+                scrollToBottom();
+
+                // Store message to the database
+                //storeData(message, className);
+            }
+
+            function storeData(content, sentBy) {
+                const studentId = $('#studentId').val();
+                const data = {
+                    session_id: localStorage.getItem('sessionID'),
+                    student_id: studentId,
+                    sent_by: sentBy,
+                    content: content,
+                    gpt_used: localStorage.getItem('selectedGPT')
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/message/',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function (response) {
+                        console.log('Message stored:', response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error storing message:', error);
+                    }
+                });
+            }
+
+            function getAIresponse(transcription) {
+                const maxCharacterLimit = 6000;
+                let totalCharacterLength = chatHistory.slice(1).reduce((acc, msg) => acc + msg.content.length, 0);
+
+                while (totalCharacterLength > maxCharacterLimit) {
+                    chatHistory.splice(1, 1);
+
+                    totalCharacterLength = chatHistory.slice(1).reduce((acc, msg) => acc + msg.content.length, 0);
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://api.openai.com/v1/chat/completions',
+                    data: JSON.stringify({
+                        model: "gpt-4o",
+                        messages: chatHistory
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
+                    },
+                    success: function (aiResponse) {
+                        let responseText = aiResponse.choices[0].message.content.trim();
+                        appendMessage('ai-message', responseText);
+                        chatHistory.push({ role: 'assistant', content: responseText });
+                    }
+                });
+            }
+
+            function scrollToBottom() {
+                const chatWindow = document.getElementById("transcription");
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }
+
+            // Download Transcript Functionality
+            document.getElementById('download-btn').addEventListener('click', function () {
+                var transcriptionContent = document.getElementById('transcription').innerHTML;
+
+                var css = `
+                body { font-family: 'Arial', sans-serif; background: #f4f4f4; color: #333; }
+                .user-message { background-color: #c8e6c9; align-self: flex-end; margin-left: auto; word-wrap: break-word; }
+                .ai-message { background-color: #bbdefb; align-self: flex-start; margin-right: auto; word-wrap: break-word; }`;
+
+                var htmlContentWithCSS = `<html><head><style>${css}</style></head><body>${transcriptionContent}</body></html>`;
+
+                var blob = new Blob([htmlContentWithCSS], {
+                    type: 'text/html'
+                });
+                var tempLink = document.createElement('a');
+                tempLink.download = 'transcript.html';
+                tempLink.href = window.URL.createObjectURL(blob);
+
+                // Temporarily add link to the body and trigger the download
+                document.body.appendChild(tempLink);
+                tempLink.click();
+
+                // Clean up by removing the temporary link
+                document.body.removeChild(tempLink);
+            });
+        });
+    </script>
+</body>
+
+</html>
