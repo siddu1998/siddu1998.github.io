@@ -478,17 +478,20 @@ const form = document.getElementById("customGPTForm");
 
             // Enable copy button when a prompt is selected
             $('#existingPrompts').on('change', function () {
-                const selectedPrompt = $(this).val();
-                const displayArea = $('#selectedPrompt');
+                const selectedPrompt = $(this).val(); // Get selected data from dropdown
+                const displayArea = $('#selectedPrompt'); // Target display area
 
                 if (selectedPrompt) {
-                    displayArea.text(selectedPrompt);
+                    // Use marked.parse to render paragraphs and lists properly
+                    const parsedContent = marked.parse(selectedPrompt); 
+                    displayArea.html(parsedContent); // Dynamically render as HTML
                     $('#copyPrompt').prop('disabled', false);
                 } else {
                     displayArea.html('<em>Selected prompt will appear here...</em>');
                     $('#copyPrompt').prop('disabled', true);
                 }
             });
+
 
             // Copy selected prompt to clipboard
             $('#copyPrompt').on('click', function () {
