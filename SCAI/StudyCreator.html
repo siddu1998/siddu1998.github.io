@@ -355,7 +355,7 @@ instructionsTextarea.addEventListener("input", function () {
             `Role: ${role || "N/A"}`,
             `Topics to Teach: ${topicsToTeach || "N/A"}`,
             `Topics Not to Teach: ${topicsNotToTeach || "N/A"}`,
-            `Bot Constraints: ${botConstraints || "N/A"}`,
+            `Constraints for the new AI-bot: ${botConstraints || "N/A"}`,
             `Step-by-Step Instructions: ${stepByStepInstructions || "N/A"}`,
             `Tone: ${tone || "N/A"}`,
             `Example Interactions: ${exampleInteractions || "N/A"}`,
@@ -375,7 +375,7 @@ instructionsTextarea.addEventListener("input", function () {
                     messages: [
                         {
                             role: "system",
-                            content: "For the above details, generate a prompt I can feed an AI bot to behave according to the above details. Give me the prompt in such a way that I can copy and paste to my bot:"
+                            content: "For the above details, generate a prompt I can feed an AI bot to behave according to the above constraints and rules. You are allowed to be creative and and elaborate to make sure the prompt behaves accordingly. Keep your responses under 7000 characters."
                         },
                         {
                             role: "user",
