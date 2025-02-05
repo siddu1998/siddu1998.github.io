@@ -459,17 +459,20 @@ const form = document.getElementById("customGPTForm");
             $('#gptSelection').on('change', function () {
                 const selectedGptId = $(this).val();
                 if (!selectedGptId) return;
-                $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function (gpts) {
-                gpts.forEach(function (gpt) {
-                    $('#gptSelection').append(new Option(gpt.name, gpt.id));
-                });
-            });
+
+                // Clear chat history and chat window
+                chatHistory = [];
+                $('#transcription').empty();
 
                 $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function (gpts) {
                     const selectedGpt = gpts.find(g => g.id == selectedGptId);
                     if (selectedGpt) {
                         localStorage.setItem('selectedGPT', selectedGpt.name);
+                        
+                        // Add only the new GPT system message
                         chatHistory.push({ role: 'system', content: selectedGpt.instructions });
+
+                        // Generate a new introductory message for the selected GPT
                         generateIntroductoryMessage(selectedGpt.instructions);
                     }
                 });
@@ -491,7 +494,6 @@ const form = document.getElementById("customGPTForm");
                     $('#sendMessage').click();
                 }
             });
-
             function generateIntroductoryMessage(instructions) {
                 $.ajax({
                     type: 'POST',
@@ -509,7 +511,11 @@ const form = document.getElementById("customGPTForm");
                     },
                     success: function (aiResponse) {
                         let introMessage = aiResponse.choices[0].message.content.trim();
+                        
+                        // Append new introductory message as AI message
                         appendMessage('ai-message', introMessage);
+
+                        // Reset chat history after introductory message
                         chatHistory.push({ role: 'system', content: introMessage });
                     }
                 });
