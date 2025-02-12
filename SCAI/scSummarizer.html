@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>Feedback Session Messages</title>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <label for="startTime">Start Time:</label>
+            <input type="datetime-local" id="startTime">
+
+            <label for="endTime">End Time:</label>
+            <input type="datetime-local" id="endTime">
+
+            <label for="gptUsed">GPT Used:</label>
+            <select id="gptUsed">
+                <option value="">Select GPT Used</option>
+            </select>
+
+            <button id="applyFilters">Apply Filters</button>
+            <ul id="sessionList"></ul>
+        </div>
+        <div class="main-content">
+            <div id="messageDisplay"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const applyFiltersBtn = document.getElementById('applyFilters');
+            const gptUsedSelect = document.getElementById('gptUsed');
+            let openaiKey = '';
+
+            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/getOAI/', function (data) {
+                openaiKey = data.key;
+                console.log('OpenAI Key retrieved');
+            });
+
+            fetch('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/scList/')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    populateGptUsedOptions(data);
+                    applyFiltersBtn.onclick = () => applyFilters(data);
+                    gptUsedSelect.onchange = () => summarizeGPTMessages(data);
+                });
+
+            function populateGptUsedOptions(data) {
+                const gptUseds = new Set();
+                Object.values(data).flat().forEach(message => {
+                    gptUseds.add(message.gpt_used);
+                });
+                gptUseds.forEach(gptUsed => {
+                    const option = document.createElement('option');
+                    option.value = gptUsed;
+                    option.textContent = gptUsed;
+                    gptUsedSelect.appendChild(option);
+                });
+            }
+
+            function summarizeGPTMessages(data) {
+                const selectedGPT = gptUsedSelect.value;
+                if (!selectedGPT) return;
+
+                let messages = [];
+                Object.values(data).flat().forEach(message => {
+                    if (message.gpt_used === selectedGPT) {
+                        messages.push(message.content);
+                    }
+                });
+
+                if (messages.length === 0) {
+                    alert('No messages found for this GPT.');
+                    return;
+                }
+
+                const prompt = `Summarize the following messages:\n${messages.join('\n')}`;
+
+                fetch('https://api.openai.com/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${openaiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: 'gpt-4o',
+                        messages: [{ role: 'system', content: 'You are an UX researcher that summarizes conversations. Provide a detailed summary of the conversations. When sharing insights share quotes from the transcript that highlight the insight. So this provides evidence. Be critical, and also highlight positives.' }, { role: 'user', content: prompt }]
+                    })
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.choices && result.choices.length > 0) {
+                        displaySummary(result.choices[0].message.content);
+                    } else {
+                        alert('Failed to generate summary');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+
+            function displaySummary(summary) {
+                const messageDisplay = document.getElementById('messageDisplay');
+                messageDisplay.innerHTML = `<div class='message ai-message'><p><strong>Summary:</strong> ${summary}</p></div>`;
+            }
+        });
+    </script>
+</body>
+</html>
