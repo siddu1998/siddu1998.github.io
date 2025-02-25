@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Fruit Classifier</title>
+    <script src="https://unpkg.com/brain.js"></script>
+</head>
+<body>
+    <h1>Apple 🍎 vs. Banana 🍌 Classifier</h1>
+
+    <label for="color">Color (0-1):</label>
+    <input type="number" id="color" step="0.01" min="0" max="1" value="0.5">
+    <br>
+
+    <label for="shape">Shape (0-1):</label>
+    <input type="number" id="shape" step="0.01" min="0" max="1" value="0.5">
+    <br>
+
+    <label for="size">Size (0-1):</label>
+    <input type="number" id="size" step="0.01" min="0" max="1" value="0.5">
+    <br><br>
+
+    <button onclick="classifyFruit()">Classify</button>
+    <p id="result" style="font-size: 18px; font-weight: bold;">Enter values and click classify.</p>
+
+    <script>
+        // Create a neural network
+        const net = new brain.NeuralNetwork();
+
+        // Training data: color, shape, size → Apple (1) or Banana (1)
+        net.train([
+            { input: { color: 0.9, shape: 0.9, size: 0.7 }, output: { apple: 1 } },   // Apple 🍎
+            { input: { color: 0.3, shape: 0.3, size: 0.9 }, output: { banana: 1 } }, // Banana 🍌
+            { input: { color: 0.85, shape: 0.8, size: 0.75 }, output: { apple: 1 } }, // Apple 🍎 (variant)
+            { input: { color: 0.2, shape: 0.4, size: 0.85 }, output: { banana: 1 } }, // Banana 🍌 (variant)
+        ]);
+
+        // Function to classify input values
+        function classifyFruit() {
+            const color = parseFloat(document.getElementById("color").value);
+            const shape = parseFloat(document.getElementById("shape").value);
+            const size = parseFloat(document.getElementById("size").value);
+
+            const output = net.run({ color, shape, size });
+
+            const isApple = output.apple > output.banana;
+            const resultText = isApple 
+                ? `🍎 Apple (Confidence: ${output.apple.toFixed(2)})` 
+                : `🍌 Banana (Confidence: ${output.banana.toFixed(2)})`;
+
+            document.getElementById("result").innerText = `Prediction: ${resultText}`;
+        }
+    </script>
+</body>
+</html>
