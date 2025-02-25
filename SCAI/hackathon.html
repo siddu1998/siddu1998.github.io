@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudyCreator</title>
     <style>
+        .upload-icon {
+    cursor: pointer;
+    font-size: 24px;
+    margin-right: 10px;
+}
         * {
             margin: 0;
             padding: 0;
@@ -282,6 +287,9 @@
         <div id="dynamic-responses" class="dynamic-responses"></div>
 
         <div class="message-input-area">
+            <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+            <label for="imageUpload" class="upload-icon">📷</label>
+            
             <textarea id="messageInput" placeholder="Type your message here..."></textarea>
             <button id="sendMessage" disabled>Send</button>
             <button id="download-btn">Download Transcript</button>
@@ -338,6 +346,105 @@ document.getElementById("refreshPrompts").addEventListener("click", function () 
     });
 });
 
+
+
+//Image logic
+document.getElementById("imageUpload").addEventListener("change", async function (event) {
+    const file = event.target.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = async function () {
+            const base64Image = reader.result.split(",")[1]; // Extract base64 content
+            appendMessage("user-message", "📷 [Image Uploaded]");
+            chatHistory.push({ role: 'user', content: "Image Uploded" });
+            // Send image for analysis
+            analyzeImage(base64Image);
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+async function analyzeImage(base64Image) {
+    const openaiApiKey = localStorage.getItem('openaiKey');
+    if (!openaiApiKey) {
+        console.error("OpenAI API Key not found.");
+        return;
+    }
+
+    // Create a data URL for the image
+    const imageDataUrl = `data:image/jpeg;base64,${base64Image}`;
+
+    // Append the uploaded image to the chat interface
+    appendMessage("user-message", null, imageDataUrl); // Show image in chat
+
+    // Add the image upload to chat history
+    chatHistory.push({
+        role: "user",
+        content: [
+            { type: "text", text: "Here is my image." },
+            { type: "image_url", image_url: { "url": imageDataUrl } }
+        ]
+    });
+
+    // Prepare request with full chat history (including previous images and messages)
+    const requestBody = {
+        model: "gpt-4o",
+        messages: chatHistory,
+    };
+
+    try {
+        const response = await fetch("https://api.openai.com/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${openaiApiKey}`,
+            },
+            body: JSON.stringify(requestBody),
+        });
+
+        if (response.ok) {
+            const aiResponse = await response.json();
+            const responseText = aiResponse.choices[0].message.content;
+
+            // Append AI's response to chat
+            appendMessage("ai-message", responseText);
+
+            // Add AI response to chat history
+            chatHistory.push({ role: "assistant", content: responseText });
+
+        } else {
+            console.error("Error processing image:", await response.text());
+        }
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+
+
+function scrollToBottom() {
+                const chatWindow = document.getElementById("transcription");
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }
+
+
+function appendMessage(className, message, imageUrl = null) {
+            const messageDiv = document.createElement("div");
+            messageDiv.className = className;
+
+            if (imageUrl) {
+                const img = document.createElement("img");
+                img.src = imageUrl;
+                img.style.maxWidth = "100%";
+                img.style.borderRadius = "10px";
+                messageDiv.appendChild(img);
+            } else {
+                messageDiv.innerHTML = marked.parse(message);
+            }
+
+            document.getElementById("transcription").appendChild(messageDiv);
+            scrollToBottom();
+        }
 
 
 //Custom GPT Creator Logic
@@ -521,33 +628,6 @@ const form = document.getElementById("customGPTForm");
                 });
             }
 
-            function appendMessage(className, message) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = className;
-
-                // Parse Markdown for AI messages and plain text for user messages
-                if (className === 'ai-message') {
-                    messageDiv.innerHTML = marked.parse(message);
-
-                    // Render math expressions using KaTeX
-                    renderMathInElement(messageDiv, {
-                        delimiters: [
-                            { left: "$$", right: "$$", display: true },
-                            { left: "$", right: "$", display: false }
-                        ]
-                    });
-                } else {
-                    messageDiv.textContent = message;
-                }
-
-                // Append the message and scroll to bottom
-                document.getElementById('transcription').appendChild(messageDiv);
-                scrollToBottom();
-
-                // Store message to the database
-                //storeData(message, className);
-            }
-
             function storeData(content, sentBy) {
                 const studentId = $('#studentId').val();
                 const data = {
@@ -601,10 +681,7 @@ const form = document.getElementById("customGPTForm");
                 });
             }
 
-            function scrollToBottom() {
-                const chatWindow = document.getElementById("transcription");
-                chatWindow.scrollTop = chatWindow.scrollHeight;
-            }
+           
 
             // Download Transcript Functionality
             document.getElementById('download-btn').addEventListener('click', function () {
@@ -632,6 +709,12 @@ const form = document.getElementById("customGPTForm");
                 document.body.removeChild(tempLink);
             });
         });
+    
+    
+    
+    
+    
+    
     </script>
 </body>
 
