@@ -655,7 +655,10 @@ const form = document.getElementById("customGPTForm");
                             chatHistory.push({ role: 'assistant', content: responseText });
                             
                             // Analyze if an image would be helpful for this response
-                            analyzeForImageGeneration(message, responseText);
+                            if($('#studentId').val() == 'Sai'){
+                                analyzeForImageGeneration(message, responseText);
+                            }
+                            
                         }
                     });
                 }
@@ -679,7 +682,7 @@ const form = document.getElementById("customGPTForm");
                     content: `User message: "${userMessage}"
                             AI response: "${aiResponse}"
                             
-                            Would an image enhance this educational interaction? If so, create a detailed image prompt.`
+                            Would an image enhance this educational interaction? If so, create a detailed image prompt. Only agree to generate an image if its an NPC discussion or world setting in the game`
                 }
             ];
             
