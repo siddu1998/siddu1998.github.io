@@ -294,6 +294,8 @@
             <button id="sendMessage" disabled>Send</button>
             <button id="download-btn">Download Transcript</button>
         </div>
+
+        
     </div>
 
     <script>
@@ -443,6 +445,7 @@ function appendMessage(className, message, imageUrl = null) {
             }
 
             document.getElementById("transcription").appendChild(messageDiv);
+            //storeData(message, className);
             scrollToBottom();
         }
 
@@ -493,7 +496,29 @@ const form = document.getElementById("customGPTForm");
     });
 
 
+    function storeData(content, sentBy) {
+                const studentId = $('#studentId').val();
+                const data = {
+                    session_id: localStorage.getItem('sessionID'),
+                    student_id: studentId,
+                    sent_by: sentBy,
+                    content: content,
+                    gpt_used: localStorage.getItem('selectedGPT')
+                };
 
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/message/',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function (response) {
+                        console.log('Message stored:', response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error storing message:', error);
+                    }
+                });
+            }
 
         //StudyHelper Logic
 
@@ -508,37 +533,6 @@ const form = document.getElementById("customGPTForm");
                     $('#existingPrompts').append(new Option(gpt.name, gpt.instructions));
                 });
             });
-
-            // // Enable copy button when a prompt is selected
-            // $('#existingPrompts').on('change', function () {
-            //     const selectedPrompt = $(this).val(); // Get selected data from dropdown
-            //     const displayArea = $('#selectedPrompt'); // Target display area
-
-            //     if (selectedPrompt) {
-            //         // Use marked.parse to render paragraphs and lists properly
-            //         const parsedContent = marked.parse(selectedPrompt); 
-            //         displayArea.html(parsedContent); // Dynamically render as HTML
-            //         $('#copyPrompt').prop('disabled', false);
-            //     } else {
-            //         displayArea.html('<em>Selected prompt will appear here...</em>');
-            //         $('#copyPrompt').prop('disabled', true);
-            //     }
-            // });
-
-
-            // // Copy selected prompt to clipboard
-            // $('#copyPrompt').on('click', function () {
-            //     const selectedPrompt = $('#existingPrompts').val();
-            //     if (selectedPrompt) {
-            //         navigator.clipboard.writeText(selectedPrompt).then(() => {
-            //             alert('Prompt copied to clipboard!');
-            //         }).catch(err => {
-            //             console.error('Error copying prompt:', err);
-            //         });
-            //     }
-            // });
-
-
 
 
             // Fetch API key and GPT options
@@ -628,60 +622,156 @@ const form = document.getElementById("customGPTForm");
                 });
             }
 
-            function storeData(content, sentBy) {
-                const studentId = $('#studentId').val();
-                const data = {
-                    session_id: localStorage.getItem('sessionID'),
-                    student_id: studentId,
-                    sent_by: sentBy,
-                    content: content,
-                    gpt_used: localStorage.getItem('selectedGPT')
-                };
 
-                $.ajax({
-                    type: 'POST',
-                    url: 'https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/message/',
-                    contentType: 'application/json',
-                    data: JSON.stringify(data),
-                    success: function (response) {
-                        console.log('Message stored:', response);
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error storing message:', error);
-                    }
-                });
-            }
 
-            function getAIresponse(transcription) {
+            function getAIresponse(message) {
                 const maxCharacterLimit = 6000;
                 let totalCharacterLength = chatHistory.slice(1).reduce((acc, msg) => acc + msg.content.length, 0);
 
                 while (totalCharacterLength > maxCharacterLimit) {
                     chatHistory.splice(1, 1);
-
                     totalCharacterLength = chatHistory.slice(1).reduce((acc, msg) => acc + msg.content.length, 0);
                 }
 
-                $.ajax({
-                    type: 'POST',
-                    url: 'https://api.openai.com/v1/chat/completions',
-                    data: JSON.stringify({
-                        model: "gpt-4o",
-                        messages: chatHistory
-                    }),
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
-                    },
-                    success: function (aiResponse) {
-                        let responseText = aiResponse.choices[0].message.content.trim();
-                        appendMessage('ai-message', responseText);
-                        chatHistory.push({ role: 'assistant', content: responseText });
-                    }
-                });
-            }
+                    $.ajax({
+                        type: 'POST',
+                        url: 'https://api.openai.com/v1/chat/completions',
+                        data: JSON.stringify({
+                            model: "gpt-4o",
+                            messages: chatHistory
+                        }),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
+                        },
+                        success: function (aiResponse) {
+                            // Get the AI's response text
+                            let responseText = aiResponse.choices[0].message.content.trim();
+                            
+                            // Display the AI's response immediately
+                            appendMessage('ai-message', responseText);
+                            
+                            // Add the response to chat history
+                            chatHistory.push({ role: 'assistant', content: responseText });
+                            
+                            // Analyze if an image would be helpful for this response
+                            analyzeForImageGeneration(message, responseText);
+                        }
+                    });
+                }
 
-           
+        function analyzeForImageGeneration(userMessage, aiResponse) {
+            const openaiApiKey = localStorage.getItem('openaiKey');
+            
+            // Create an analysis prompt to decide if an image would be helpful
+            const analysisPrompt = [
+                {
+                    role: 'system',
+                    content: `You are an educational AI that analyzes conversations to determine if generating an image would enhance learning. 
+                            Respond with a JSON object:
+                            If an image WOULD be helpful: {"generate": true, "prompt": "detailed image prompt here"}
+                            If an image would NOT be helpful: {"generate": false}
+                            Consider diagrams, visual examples, and complex concepts that benefit from visualization.
+                            DO NOT suggest generating images for inappropriate content, sensitive topics, or where text explanation is sufficient.`
+                },
+                {
+                    role: 'user',
+                    content: `User message: "${userMessage}"
+                            AI response: "${aiResponse}"
+                            
+                            Would an image enhance this educational interaction? If so, create a detailed image prompt.`
+                }
+            ];
+            
+            $.ajax({
+                type: 'POST',
+                url: 'https://api.openai.com/v1/chat/completions',
+                data: JSON.stringify({
+                    model: "gpt-4o",
+                    messages: analysisPrompt,
+                    response_format: { type: "json_object" }
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + openaiApiKey
+                },
+                success: function (analysisResponse) {
+                    try {
+                        // Parse the JSON response
+                        const analysis = JSON.parse(analysisResponse.choices[0].message.content);
+                        
+                        // If an image would be helpful, generate it
+                        if (analysis.generate && analysis.prompt) {
+                            generateAndDisplayImage(analysis.prompt);
+                        }
+                    } catch (error) {
+                        console.error("Error parsing analysis response:", error);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error during analysis:", error);
+                }
+            });
+        }
+
+// Function to generate an image and display it in the chat
+    function generateAndDisplayImage(imagePrompt) {
+        const openaiApiKey = localStorage.getItem('openaiKey');
+        
+        // Show a loading message
+        const loadingMessageId = "img-loading-" + Date.now();
+        appendMessage('ai-message', `<div id="${loadingMessageId}">Generating a helpful visual...</div>`);
+        
+        // Call the DALL-E API to generate the image
+        fetch("https://api.openai.com/v1/images/generations", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${openaiApiKey}`,
+            },
+            body: JSON.stringify({
+                model: "dall-e-3",
+                prompt: imagePrompt,
+                n: 1,
+                size: "1024x1024"
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.data && data.data[0] && data.data[0].url) {
+                const imageUrl = data.data[0].url;
+                
+                // Replace the loading message with the image
+                const loadingElement = document.getElementById(loadingMessageId);
+                if (loadingElement) {
+                    loadingElement.innerHTML = `
+                        <div>
+                            <img src="${imageUrl}" alt="Generated visual aid" style="max-width: 100%; border-radius: 10px; margin: 10px 0;">
+                        </div>`;
+                } else {
+                    // If the loading element is no longer there, append a new message with the image
+                    appendMessage('ai-message', `<img src="${imageUrl}" alt="Generated visual aid" style="max-width: 100%; border-radius: 10px; margin: 10px 0;">`);
+                }
+            } else {
+                console.error("Image generation failed:", data);
+                // Remove the loading message if generation failed
+                const loadingElement = document.getElementById(loadingMessageId);
+                if (loadingElement) {
+                    loadingElement.remove();
+                }
+            }
+        })
+        .catch(error => {
+            console.error("Error generating image:", error);
+            // Remove the loading message if there was an error
+            const loadingElement = document.getElementById(loadingMessageId);
+            if (loadingElement) {
+                loadingElement.remove();
+            }
+        });
+    }
+
+
 
             // Download Transcript Functionality
             document.getElementById('download-btn').addEventListener('click', function () {
