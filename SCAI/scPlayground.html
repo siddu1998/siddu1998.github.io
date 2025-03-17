@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyCreator</title>
+    <style>
+
+.evaluation-section {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.primary-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.primary-button:hover {
+    background-color: #45a049;
+}
+
+.primary-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Custom Question Styling */
+.custom-question {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.question-text {
+    flex: 3;
+}
+
+.question-category {
+    flex: 1;
+}
+
+.remove-question {
+    background-color: #ff5252;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 5px 8px;
+}
+
+/* Results Section Styling */
+#evaluationResults {
+    margin-top: 30px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+/* Tab Navigation */
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-bottom: 3px solid transparent;
+}
+
+.tab-button.active {
+    border-bottom: 3px solid #4CAF50;
+    font-weight: bold;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Score Display */
+.score-section {
+    margin-bottom: 20px;
+}
+
+.score-item {
+    margin-bottom: 10px;
+}
+
+.score-bar {
+    height: 10px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.score-fill {
+    height: 100%;
+    background-color: #4CAF50;
+    border-radius: 5px;
+}
+
+/* Questionnaire Display */
+.response-item {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.response-item .question {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.response-item .rating {
+    color: #4CAF50;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+        .upload-icon {
+    cursor: pointer;
+    font-size: 24px;
+    margin-right: 10px;
+}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'system-ui', sans-serif;
+            background: #F7F7F8;
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 30%;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .main-content {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background-color: #000000;
+            padding: 10px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar input[type="text"] {
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .navbar select {
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .chat-window {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: white;
+        }
+
+        .dynamic-responses {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            background-color: #eaeaea;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .response-button {
+            background-color: #000000;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .message-input-area {
+            display: flex;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border-top: 1px solid #ddd;
+            position: sticky;
+            bottom: 0;
+        }
+
+        textarea {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background-color: #F0F0F0;
+            resize: none;
+            min-height: 50px;
+        }
+
+        button {
+            background-color: #000000;
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .user-message {
+            background-color: #dbe5d482;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+            margin-bottom: 10px;
+            word-wrap: break-word;
+        }
+
+        .ai-message {
+            background-color: #F1F1F1;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+            margin-bottom: 10px;
+            word-wrap: break-word;
+        }
+
+        .form-container {
+            padding: 20px;
+            background-color: white; /* Default background color */
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            transition: background-color 0.3s ease; /* Smooth transition */
+        }
+
+        .form-container.light-yellow {
+            background-color: #fff8b3; /* Light yellow background */
+        } 
+        
+        .form-container input, .form-container textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-container button {
+            background-color: #000000;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .prompt-selector {
+            margin: 20px 0;
+            background: #fff;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .prompt-selector select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.16/marked.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body);"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <!-- Side Navigation Bar -->
+    <div class="sidebar">
+        <h1>StudyCreator</h1>
+        <br>
+
+        <h3>Create a Custom GPT</h3>
+    
+        <div class="form-container" id="formContainer">
+            
+        
+            <form id="customGPTForm">
+                <!-- Shared Fields -->
+                <label for="name">Bot Name:</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="created_by">Created By (Email ID):</label>
+                <input type="text" id="created_by" name="created_by" required>
+                
+                <!-- <label for="university">University:</label>
+                <input type="text" id="university" name="university" required>
+                
+                <label for="gpt_type">GPT Type:</label>
+                <input type="text" id="gpt_type" name="gpt_type" required>
+         -->
+                <!-- Regular Prompt Section -->
+                <div id="regularPromptSection">
+                    <label for="instructions">Instructions:</label>
+                    <textarea id="instructions" name="instructions" required style="overflow: hidden; resize: none;"></textarea>
+                </div>
+        
+                <!-- AI-Powered Prompt Section -->
+                <div id="aiPromptSection" style="display: none;">
+                    <label for="role">Role:</label>
+                    <input type="text" id="role" placeholder="E.g., a statistics tutor">
+        
+                    <label for="topicsToTeach">Topics to Teach:</label>
+                    <textarea id="topicsToTeach" placeholder="E.g., t-tests, ANOVA"></textarea>
+        
+                    <label for="topicsNotToTeach">Topics Not to Teach:</label>
+                    <textarea id="topicsNotToTeach" placeholder="E.g., Pearson coefficient"></textarea>
+        
+                    <label for="botConstraints">Bot Constraints:</label>
+                    <textarea id="botConstraints" placeholder="E.g., Avoid using jargon"></textarea>
+        
+                    <label for="stepByStepInstructions">Step-by-Step Instructions:</label>
+                    <textarea id="stepByStepInstructions" placeholder="E.g., Introduce concepts, provide examples"></textarea>
+        
+                    <label for="tone">Tone:</label>
+                    <input type="text" id="tone" placeholder="E.g., Friendly, supportive">
+        
+                    <label for="exampleInteractions">Example Interactions:</label>
+                    <textarea id="exampleInteractions" placeholder="E.g., Q: What is a t-test?"></textarea>
+        
+                    <label for="otherInstructions">Other Instructions:</label>
+                    <textarea id="otherInstructions" placeholder="Any other details"></textarea>
+        
+                    <label for="botIntroduction">Bot Introduction:</label>
+                    <textarea id="botIntroduction" placeholder="E.g., Hi, I’m here to help you learn statistics!"></textarea>
+        
+                    <button type="button" id="generatePrompt">Generate Prompt</button>
+                    <h4>Generated Prompt:</h4>
+                    <textarea id="generatedPrompt" style="overflow: hidden; resize: none;"></textarea>
+                </div>
+        
+                <button type="submit">Create Custom GPT</button>
+            </form>
+            <p id="result"></p>
+
+
+            <!-- Evaluation Section -->
+<div class="evaluation-section">
+    <h3>Evaluate Your Game</h3>
+    
+    <div class="form-group">
+        <label for="simulationCount">Number of Simulations:</label>
+        <input type="number" id="simulationCount" min="1" max="10" value="3">
+    </div>
+    
+    <div class="form-group">
+        <label for="playerPersonality">Player Personality:</label>
+        <select id="playerPersonality">
+            <!-- <option value="default">Default Player</option> -->
+            <option value="explorer">Explorer - Curious & Inquisitive</option>
+            <option value="achiever">Achiever - Goal-Oriented</option>
+            <option value="socializer">Socializer - Interaction Focused</option>
+            <option value="disruptor">Disruptor - Boundary-Testing</option>
+            <option value="custom">Custom Player Personality...</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="questionnaire">Evaluation Questionnaire:</label>
+        <select id="questionnaire">
+            <option value="sdt">Self-Determination Theory (Default)</option>
+            <option value="custom">Custom Questionnaire</option>
+        </select>
+    </div>
+    
+    <div id="customQuestionnaireSection" style="display: none;">
+        <button id="addQuestion">Add Question</button>
+        <div id="customQuestions"></div>
+    </div>
+    
+    <button id="simulatePlay" class="primary-button">Simulate Play</button>
+</div>
+
+<!-- Results Section (Initially Hidden) -->
+<div id="evaluationResults" style="display: none;">
+    <h3>Evaluation Results</h3>
+    
+    <div class="tabs">
+        <button class="tab-button active" data-tab="summary">Summary</button>
+        <button class="tab-button" data-tab="transcripts">Transcripts</button>
+        <button class="tab-button" data-tab="questionnaires">Questionnaire Data</button>
+    </div>
+    
+    <div id="summary" class="tab-content active">
+        <h4>Average Questionnaire Scores</h4>
+        <div id="averageScores"></div>
+        <canvas id="scoreChart" width="400" height="200"></canvas>
+    </div>
+    
+    <div id="transcripts" class="tab-content">
+        <div id="transcriptSelector">
+            <select id="transcriptDropdown">
+                <option value="">Select a Transcript</option>
+            </select>
+        </div>
+        <div id="transcriptViewer">
+            <iframe id="transcriptFrame" style="width: 100%; height: 500px; border: 1px solid #ccc;"></iframe>
+        </div>
+    </div>
+    
+    <div id="questionnaires" class="tab-content">
+        <div id="questionnaireSelector">
+            <select id="questionnaireDropdown">
+                <option value="">Select a Questionnaire Response</option>
+            </select>
+        </div>
+        <div id="questionnaireViewer"></div>
+    </div>
+</div>
+        </div>
+        
+        
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <div class="navbar">
+            <input type="text" id="studentId" placeholder="Enter Your Name/Alias">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <select id="gptSelection">
+                    <option value="">Select Activity</option>
+                </select>
+                <button id="refreshPrompts" style="padding: 6px 10px; border: none; background: white; cursor: pointer; font-size: 16px;">
+                    🔄
+                </button>
+            </div>
+        </div>
+
+        <div id="transcription" class="chat-window"></div>
+
+        <div id="dynamic-responses" class="dynamic-responses"></div>
+
+        <div class="message-input-area">
+            <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+            <label for="imageUpload" class="upload-icon">📷</label>
+            
+            <textarea id="messageInput" placeholder="Type your message here..."></textarea>
+            <button id="sendMessage" disabled>Send</button>
+            <button id="download-btn">Download Transcript</button>
+        </div>
+
+        
+    </div>
+
+    <script>
+
+//
+document.addEventListener("DOMContentLoaded", function () {
+const instructionsTextarea = document.getElementById("instructions");
+
+// Automatically adjust the height of the textarea based on content
+instructionsTextarea.addEventListener("input", function () {
+    this.style.height = "auto"; // Reset the height
+    this.style.height = this.scrollHeight + "px"; // Set it to the scroll height
+});
+});
+
+    document.addEventListener("DOMContentLoaded", function () {
+    //const useAiToggle = document.getElementById("useAiToggle");
+    const regularPromptSection = document.getElementById("regularPromptSection");
+    const aiPromptSection = document.getElementById("aiPromptSection");
+    const instructionsField = document.getElementById("instructions");
+    const generatedPromptField = document.getElementById("generatedPrompt");
+    const generatePromptButton = document.getElementById("generatePrompt");
+
+    const formContainer = document.getElementById("formContainer");
+
+
+    // Automatically adjust textarea height for all textareas
+    document.querySelectorAll("textarea").forEach(function (textarea) {
+        textarea.addEventListener("input", function () {
+            this.style.height = "auto";
+            this.style.height = this.scrollHeight + "px";
+        });
+    });
+});
+
+
+
+//refresh page
+document.getElementById("refreshPrompts").addEventListener("click", function () {
+    const dropdown = document.getElementById("gptSelection");
+    
+    // Clear existing options
+    dropdown.innerHTML = '<option value="">Select Activity</option>';
+
+    // Fetch updated prompt list
+    $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function (gpts) {
+        gpts.forEach(function (gpt) {
+            dropdown.append(new Option(gpt.name, gpt.id));
+        });
+    });
+});
+
+
+
+//Image logic
+document.getElementById("imageUpload").addEventListener("change", async function (event) {
+    const file = event.target.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = async function () {
+            const base64Image = reader.result.split(",")[1]; // Extract base64 content
+            appendMessage("user-message", "📷 [Image Uploaded]");
+            chatHistory.push({ role: 'user', content: "Image Uploded" });
+            // Send image for analysis
+            analyzeImage(base64Image);
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+async function analyzeImage(base64Image) {
+    const openaiApiKey = localStorage.getItem('openaiKey');
+    if (!openaiApiKey) {
+        console.error("OpenAI API Key not found.");
+        return;
+    }
+
+    // Create a data URL for the image
+    const imageDataUrl = `data:image/jpeg;base64,${base64Image}`;
+
+    // Append the uploaded image to the chat interface
+    appendMessage("user-message", null, imageDataUrl); // Show image in chat
+
+    // Add the image upload to chat history
+    chatHistory.push({
+        role: "user",
+        content: [
+            { type: "text", text: "Here is my image. analyze the image in the context of our chat, and pose a question or continue the conversation." },
+            { type: "image_url", image_url: { "url": imageDataUrl } }
+        ]
+    });
+
+    // Prepare request with full chat history (including previous images and messages)
+    const requestBody = {
+        model: "gpt-4o",
+        messages: chatHistory,
+    };
+
+    try {
+        const response = await fetch("https://api.openai.com/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${openaiApiKey}`,
+            },
+            body: JSON.stringify(requestBody),
+        });
+
+        if (response.ok) {
+            const aiResponse = await response.json();
+            const responseText = aiResponse.choices[0].message.content;
+
+            // Append AI's response to chat
+            appendMessage("ai-message", responseText);
+
+            // Add AI response to chat history
+            chatHistory.push({ role: "assistant", content: responseText });
+
+        } else {
+            console.error("Error processing image:", await response.text());
+        }
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+
+
+function scrollToBottom() {
+                const chatWindow = document.getElementById("transcription");
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }
+
+
+function appendMessage(className, message, imageUrl = null) {
+            const messageDiv = document.createElement("div");
+            messageDiv.className = className;
+
+            if (imageUrl) {
+                const img = document.createElement("img");
+                img.src = imageUrl;
+                img.style.maxWidth = "100%";
+                img.style.borderRadius = "10px";
+                messageDiv.appendChild(img);
+            } else {
+                messageDiv.innerHTML = marked.parse(message);
+            }
+
+            document.getElementById("transcription").appendChild(messageDiv);
+            //storeData(message, className);
+            scrollToBottom();
+        }
+
+
+//Custom GPT Creator Logic
+const form = document.getElementById("customGPTForm");
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const name = document.getElementById("name").value.trim();
+        const createdBy = document.getElementById("created_by").value.trim();
+        const university = "UCSC"
+        const gptType = "GPT-4o";
+
+        let instructionsToSend = ""
+        // Use AI-generated or regular instructions
+        instructionsToSend= document.getElementById("instructions").value.trim()
+
+        console.log(instructionsToSend)
+
+        const formData = {
+            name,
+            created_by: createdBy,
+            university,
+            gpt_type: gptType,
+            instructions: instructionsToSend
+        };
+
+        try {
+            const response = await fetch("https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/create_new_gpt/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                document.getElementById("result").textContent = "Custom GPT created successfully with ID: " + result.id;
+            } else {
+                const errorText = await response.text();
+                document.getElementById("result").textContent = "Error: " + errorText;
+            }
+        } catch (error) {
+            document.getElementById("result").textContent = "Error: " + error.message;
+        }
+    });
+
+
+    function storeData(content, sentBy) {
+                const studentId = $('#studentId').val();
+                const data = {
+                    session_id: localStorage.getItem('sessionID'),
+                    student_id: studentId,
+                    sent_by: sentBy,
+                    content: content,
+                    gpt_used: localStorage.getItem('selectedGPT')
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/message/',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function (response) {
+                        console.log('Message stored:', response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error storing message:', error);
+                    }
+                });
+            }
+
+        //StudyHelper Logic
+
+        let chatHistory = [];
+        $(document).ready(function () {
+
+            var uniqueID = 'id_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('sessionID', uniqueID);
+
+            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function (gpts) {
+                gpts.forEach(function (gpt) {
+                    $('#existingPrompts').append(new Option(gpt.name, gpt.instructions));
+                });
+            });
+
+
+            // Fetch API key and GPT options
+            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/getOAI/', function (data) {
+                localStorage.setItem('openaiKey', data.key);
+                console.log('Key set');
+            });
+
+            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function (gpts) {
+                gpts.forEach(function (gpt) {
+                    $('#gptSelection').append(new Option(gpt.name, gpt.id));
+                });
+            });
+
+            // Disable inputs until a valid ID is entered
+            $('#gptSelection, #messageInput, #sendMessage, #download-btn').prop('disabled', true);
+
+            // Enable inputs after valid ID is entered
+            $('#studentId').on('input', function () {
+                const studentId = $(this).val().trim();
+                const isValidId = studentId.length > 0; // Replace with your custom validation logic if needed
+                $('#gptSelection, #messageInput, #sendMessage, #download-btn').prop('disabled', !isValidId);
+            });
+
+            $('#gptSelection').on('change', function () {
+                const selectedGptId = $(this).val();
+                if (!selectedGptId) return;
+
+                // Clear chat history and chat window
+                chatHistory = [];
+                $('#transcription').empty();
+
+                $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/', function (gpts) {
+                    const selectedGpt = gpts.find(g => g.id == selectedGptId);
+                    if (selectedGpt) {
+                        localStorage.setItem('selectedGPT', selectedGpt.name);
+                        
+                        // Add only the new GPT system message
+                        chatHistory.push({ role: 'system', content: selectedGpt.instructions });
+
+                        // Generate a new introductory message for the selected GPT
+                        generateIntroductoryMessage(selectedGpt.instructions);
+                    }
+                });
+            });
+
+            // Send Message
+            $('#sendMessage').on('click', function () {
+                var message = $('#messageInput').val().trim();
+                if (message) {
+                    chatHistory.push({ role: 'user', content: message });
+                    appendMessage('user-message', message);
+                    $('#messageInput').val('');
+                    getAIresponse(message);
+                }
+            });
+
+            $('#messageInput').on('keypress', function (e) {
+                if (e.which == 13) {
+                    $('#sendMessage').click();
+                }
+            });
+            function generateIntroductoryMessage(instructions) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://api.openai.com/v1/chat/completions',
+                    data: JSON.stringify({
+                        model: "gpt-4o",
+                        messages: [{
+                            role: 'system',
+                            content: instructions + ": For the above instructions generate an introductory message, welcoming the student and setting the context of this session, keep it short and neat."
+                        }]
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
+                    },
+                    success: function (aiResponse) {
+                        let introMessage = aiResponse.choices[0].message.content.trim();
+                        
+                        // Append new introductory message as AI message
+                        appendMessage('ai-message', introMessage);
+
+                        // Reset chat history after introductory message
+                        chatHistory.push({ role: 'system', content: introMessage });
+                    }
+                });
+            }
+
+
+
+            function getAIresponse(message) {
+                const maxCharacterLimit = 6000;
+                let totalCharacterLength = chatHistory.slice(1).reduce((acc, msg) => acc + msg.content.length, 0);
+
+                while (totalCharacterLength > maxCharacterLimit) {
+                    chatHistory.splice(1, 1);
+                    totalCharacterLength = chatHistory.slice(1).reduce((acc, msg) => acc + msg.content.length, 0);
+                }
+
+                    $.ajax({
+                        type: 'POST',
+                        url: 'https://api.openai.com/v1/chat/completions',
+                        data: JSON.stringify({
+                            model: "gpt-4o",
+                            messages: chatHistory
+                        }),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
+                        },
+                        success: function (aiResponse) {
+                            // Get the AI's response text
+                            let responseText = aiResponse.choices[0].message.content.trim();
+                            
+                            // Display the AI's response immediately
+                            appendMessage('ai-message', responseText);
+                            
+                            // Add the response to chat history
+                            chatHistory.push({ role: 'assistant', content: responseText });
+                            
+                            // Analyze if an image would be helpful for this response
+                            if($('#studentId').val() == 'Sai'){
+                                analyzeForImageGeneration(message, responseText);
+                            }
+                            
+                        }
+                    });
+                }
+
+        function analyzeForImageGeneration(userMessage, aiResponse) {
+            const openaiApiKey = localStorage.getItem('openaiKey');
+            
+            // Create an analysis prompt to decide if an image would be helpful
+            const analysisPrompt = [
+                {
+                    role: 'system',
+                    content: `You are an educational AI that analyzes conversations to determine if generating an image would enhance learning. 
+                            Respond with a JSON object:
+                            If an image WOULD be helpful: {"generate": true, "prompt": "detailed image prompt here"}
+                            If an image would NOT be helpful: {"generate": false}
+                            Consider diagrams, visual examples, and complex concepts that benefit from visualization.
+                            DO NOT suggest generating images for inappropriate content, sensitive topics, or where text explanation is sufficient.`
+                },
+                {
+                    role: 'user',
+                    content: `User message: "${userMessage}"
+                            AI response: "${aiResponse}"
+                            
+                            Would an image enhance this educational interaction? If so, create a detailed image prompt. Only agree to generate an image if its an NPC discussion or world setting in the game`
+                }
+            ];
+            
+            $.ajax({
+                type: 'POST',
+                url: 'https://api.openai.com/v1/chat/completions',
+                data: JSON.stringify({
+                    model: "gpt-4o",
+                    messages: analysisPrompt,
+                    response_format: { type: "json_object" }
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + openaiApiKey
+                },
+                success: function (analysisResponse) {
+                    try {
+                        // Parse the JSON response
+                        const analysis = JSON.parse(analysisResponse.choices[0].message.content);
+                        
+                        // If an image would be helpful, generate it
+                        if (analysis.generate && analysis.prompt) {
+                            generateAndDisplayImage(analysis.prompt);
+                        }
+                    } catch (error) {
+                        console.error("Error parsing analysis response:", error);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error during analysis:", error);
+                }
+            });
+        }
+
+// Function to generate an image and display it in the chat
+    function generateAndDisplayImage(imagePrompt) {
+        const openaiApiKey = localStorage.getItem('openaiKey');
+        
+        // Show a loading message
+        const loadingMessageId = "img-loading-" + Date.now();
+        appendMessage('ai-message', `<div id="${loadingMessageId}">Generating a helpful visual...</div>`);
+        
+        // Call the DALL-E API to generate the image
+        fetch("https://api.openai.com/v1/images/generations", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${openaiApiKey}`,
+            },
+            body: JSON.stringify({
+                model: "dall-e-3",
+                prompt: imagePrompt,
+                n: 1,
+                size: "1024x1024"
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.data && data.data[0] && data.data[0].url) {
+                const imageUrl = data.data[0].url;
+                
+                // Replace the loading message with the image
+                const loadingElement = document.getElementById(loadingMessageId);
+                if (loadingElement) {
+                    loadingElement.innerHTML = `
+                        <div>
+                            <img src="${imageUrl}" alt="Generated visual aid" style="max-width: 100%; border-radius: 10px; margin: 10px 0;">
+                        </div>`;
+                } else {
+                    // If the loading element is no longer there, append a new message with the image
+                    appendMessage('ai-message', `<img src="${imageUrl}" alt="Generated visual aid" style="max-width: 100%; border-radius: 10px; margin: 10px 0;">`);
+                }
+            } else {
+                console.error("Image generation failed:", data);
+                // Remove the loading message if generation failed
+                const loadingElement = document.getElementById(loadingMessageId);
+                if (loadingElement) {
+                    loadingElement.remove();
+                }
+            }
+        })
+        .catch(error => {
+            console.error("Error generating image:", error);
+            // Remove the loading message if there was an error
+            const loadingElement = document.getElementById(loadingMessageId);
+            if (loadingElement) {
+                loadingElement.remove();
+            }
+        });
+    }
+
+
+
+            // Download Transcript Functionality
+            document.getElementById('download-btn').addEventListener('click', function () {
+                var transcriptionContent = document.getElementById('transcription').innerHTML;
+
+                var css = `
+                body { font-family: 'Arial', sans-serif; background: #f4f4f4; color: #333; }
+                .user-message { background-color: #c8e6c9; align-self: flex-end; margin-left: auto; word-wrap: break-word; }
+                .ai-message { background-color: #bbdefb; align-self: flex-start; margin-right: auto; word-wrap: break-word; }`;
+
+                var htmlContentWithCSS = `<html><head><style>${css}</style></head><body>${transcriptionContent}</body></html>`;
+
+                var blob = new Blob([htmlContentWithCSS], {
+                    type: 'text/html'
+                });
+                var tempLink = document.createElement('a');
+                tempLink.download = 'transcript.html';
+                tempLink.href = window.URL.createObjectURL(blob);
+
+                // Temporarily add link to the body and trigger the download
+                document.body.appendChild(tempLink);
+                tempLink.click();
+
+                // Clean up by removing the temporary link
+                document.body.removeChild(tempLink);
+            });
+        });
+    
+    
+    
+//Evaluation
+const sdtQuestions = [
+    { id: 1, question: "I felt a sense of autonomy while playing this game.", category: "Autonomy" },
+    { id: 2, question: "I had meaningful choices that affected my experience.", category: "Autonomy" },
+    { id: 3, question: "I felt competent at the tasks presented in the game.", category: "Competence" },
+    { id: 4, question: "The difficulty was well-balanced for my abilities.", category: "Competence" },
+    { id: 5, question: "I felt a connection with the characters/story.", category: "Relatedness" },
+    { id: 6, question: "I felt engaged with the game environment.", category: "Relatedness" },
+    { id: 7, question: "I found the experience intrinsically motivating.", category: "Motivation" },
+    { id: 8, question: "I would choose to play this again voluntarily.", category: "Motivation" }
+];
+
+// Player personality prompts
+const personalityPrompts = {
+    // default: "You are a typical player who approaches games with an open mind. You play with moderate interest and engagement, following the game's rules and responding naturally to the content. You are neither overly enthusiastic nor critical.",
+    
+    explorer: "You are an explorer-type player who is curious and inquisitive. Your primary motivation is discovering new things and understanding how the game world works. Ask many questions, try to uncover hidden content, and show genuine interest in learning more about the game's world and mechanics.",
+    
+    achiever: "You are an achiever-type player who is goal-oriented and focused on completion. Look for clear objectives and try to accomplish them efficiently. You value progress, rewards, and mastering the game's systems. You may get frustrated if goals are unclear or seem unattainable.",
+    
+    socializer: "You are a socializer-type player who focuses on interaction and relationships. You're interested in characters, dialogue, and social dynamics within the game. Ask about other characters, engage deeply in conversations, and connect emotionally with the narrative elements of the game.",
+    
+    disruptor: "You are a disruptor-type player who tests boundaries and challenges the game's systems. Try unusual approaches, question the rules, and look for edge cases in the game. You're not necessarily negative, but you're interested in what happens when you don't follow the expected path."
+};
+
+// Handle toggling custom questionnaire section
+document.getElementById('questionnaire').addEventListener('change', function() {
+    const customSection = document.getElementById('customQuestionnaireSection');
+    if (this.value === 'custom') {
+        customSection.style.display = 'block';
+    } else {
+        customSection.style.display = 'none';
+    }
+});
+
+// Add custom question functionality
+document.getElementById('addQuestion').addEventListener('click', function() {
+    const customQuestions = document.getElementById('customQuestions');
+    const questionId = customQuestions.children.length + 1;
+    
+    const questionDiv = document.createElement('div');
+    questionDiv.className = 'custom-question';
+    questionDiv.innerHTML = `
+        <input type="text" placeholder="Question ${questionId}" class="question-text">
+        <input type="text" placeholder="Category" class="question-category">
+        <button class="remove-question">✕</button>
+    `;
+    
+    customQuestions.appendChild(questionDiv);
+    
+    // Add remove functionality
+    questionDiv.querySelector('.remove-question').addEventListener('click', function() {
+        customQuestions.removeChild(questionDiv);
+    });
+});
+
+// Simulate Play button functionality
+document.getElementById('simulatePlay').addEventListener('click', async function() {
+    // Show loading state
+    this.textContent = 'Simulating...';
+    this.disabled = true;
+    
+    const simulationCount = parseInt(document.getElementById('simulationCount').value);
+    const selectedGptId = document.getElementById('gptSelection').value;
+    const personality = document.getElementById('playerPersonality').value;
+    const questionnaireType = document.getElementById('questionnaire').value;
+    
+    // Validate inputs
+    if (!selectedGptId) {
+        alert('Please select a game/GPT to evaluate first');
+        this.textContent = 'Simulate Play';
+        this.disabled = false;
+        return;
+    }
+    
+    // Get the selected GPT instructions
+    const gptInstructions = await fetchGptInstructions(selectedGptId);
+    if (!gptInstructions) {
+        alert('Could not retrieve game instructions');
+        this.textContent = 'Simulate Play';
+        this.disabled = false;
+        return;
+    }
+    
+    // Get questions to use for evaluation
+    let questions = sdtQuestions;
+    if (questionnaireType === 'custom') {
+        questions = getCustomQuestions();
+        if (questions.length === 0) {
+            alert('Please add at least one custom question');
+            this.textContent = 'Simulate Play';
+            this.disabled = false;
+            return;
+        }
+    }
+    
+    // Run simulations
+    const results = await runSimulations(simulationCount, gptInstructions, personality, questions);
+    
+    // Display results
+    displayResults(results);
+    
+    // Reset button
+    this.textContent = 'Simulate Play';
+    this.disabled = false;
+});
+// Get custom questions from the UI
+function getCustomQuestions() {
+    const questions = [];
+    const customQuestionElements = document.querySelectorAll('.custom-question');
+    
+    customQuestionElements.forEach((el, index) => {
+        const questionText = el.querySelector('.question-text').value.trim();
+        const category = el.querySelector('.question-category').value.trim() || 'General';
+        
+        if (questionText) {
+            questions.push({
+                id: index + 1,
+                question: questionText,
+                category: category
+            });
+        }
+    });
+    
+    return questions;
+}
+
+// Fetch GPT instructions by ID
+async function fetchGptInstructions(gptId) {
+    try {
+        const response = await fetch(`https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_custom_gpts/`);
+        const gpts = await response.json();
+        const selectedGpt = gpts.find(g => g.id == gptId);
+        return selectedGpt ? selectedGpt.instructions : null;
+    } catch (error) {
+        console.error('Error fetching GPT instructions:', error);
+        return null;
+    }
+}
+
+// Run the simulations
+async function runSimulations(count, gptInstructions, personalityType, questions) {
+    const results = [];
+    const personalityPrompt = personalityPrompts[personalityType];
+    const openaiApiKey = localStorage.getItem('openaiKey');
+    
+    for (let i = 0; i < count; i++) {
+        // Create a unique session ID for this simulation
+        const simulationId = 'sim_' + Date.now() + '_' + i;
+        
+        // Simulate a conversation between the AI player and the game
+        const conversation = await simulateConversation(gptInstructions, personalityPrompt, openaiApiKey);
+        
+        // Get questionnaire responses from the AI player
+        const questionnaireResponses = await getQuestionnaireResponses(conversation, questions, personalityPrompt, openaiApiKey);
+        
+        results.push({
+            id: simulationId,
+            conversation: conversation,
+            responses: questionnaireResponses
+        });
+    }
+    
+    return results;
+}
+
+// Simulate a conversation between AI player and game
+async function simulateConversation(gameInstructions, playerPersonality, apiKey) {
+    const conversation = [];
+    
+    // First, get an introduction from the game
+    try {
+        // Game's system instructions
+        const gameSystemPrompt = gameInstructions;
+        
+        // Get introduction from the game
+        const introResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+                model: 'gpt-4o',
+                messages: [
+                    { role: 'system', content: gameSystemPrompt },
+                    { role: 'user', content: 'Hello, I\'d like to start playing this game. Please introduce it.' }
+                ]
+            })
+        });
+        
+        const introData = await introResponse.json();
+        const introMessage = introData.choices[0].message.content.trim();
+        
+        // Add intro to conversation history
+        conversation.push({
+            role: 'game',
+            content: introMessage
+        });
+        
+        // Set up player's system prompt
+        const playerSystemPrompt = `${playerPersonality} You are playing an educational game or simulation. Interact naturally based on your player type. The game will respond to your inputs.`;
+        
+        // History to track the actual dialogue
+        let dialogueHistory = [
+            { role: 'assistant', content: introMessage }  // Game's intro
+        ];
+        
+        // Simulate 5-7 turns of conversation
+        const turnsToSimulate = Math.floor(Math.random() * 3) + 5; // 5-7 turns
+        
+        for (let turn = 0; turn < turnsToSimulate; turn++) {
+            // Player's turn - API call with player system prompt
+            const playerResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: 'gpt-4o',
+                    messages: [
+                        { role: 'system', content: playerSystemPrompt },
+                        ...dialogueHistory
+                    ]
+                })
+            });
+            
+            const playerData = await playerResponse.json();
+            const playerMessage = playerData.choices[0].message.content.trim();
+            
+            // Add player message to conversation and dialogue history
+            conversation.push({
+                role: 'player',
+                content: playerMessage
+            });
+            
+            dialogueHistory.push({ role: 'user', content: playerMessage });
+            
+            // Game's turn - API call with game system prompt
+            const gameResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: 'gpt-4o',
+                    messages: [
+                        { role: 'system', content: gameSystemPrompt },
+                        ...dialogueHistory
+                    ]
+                })
+            });
+            
+            const gameData = await gameResponse.json();
+            const gameMessage = gameData.choices[0].message.content.trim();
+            
+            // Add game message to conversation and dialogue history
+            conversation.push({
+                role: 'game',
+                content: gameMessage
+            });
+            
+            dialogueHistory.push({ role: 'assistant', content: gameMessage });
+        }
+        
+        return conversation;
+        
+    } catch (error) {
+        console.error('Error in conversation simulation:', error);
+        return [{ role: 'error', content: 'Error simulating conversation: ' + error.message }];
+    }
+}
+// Get questionnaire responses based on the conversation
+async function getQuestionnaireResponses(conversation, questions, playerPersonality, apiKey) {
+    try {
+        // Format the conversation for review
+        const conversationText = conversation.map(msg => 
+            `${msg.role.toUpperCase()}: ${msg.content}`
+        ).join('\n\n');
+        
+        // Create the prompt for evaluation
+        const evaluationPrompt = `
+            ${playerPersonality}
+            
+            You just played through the following educational game/experience:
+            
+            ${conversationText}
+            
+            Now, please evaluate your experience by rating each statement on a scale of 1-10 
+            (1 = Strongly Disagree, 10 = Strongly Agree). For each question, explain your rating with 1-2 sentences.
+            
+            Respond in JSON format only with this structure:
+            {
+                "responses": [
+                    {
+                        "questionId": 1,
+                        "rating": 7,
+                        "explanation": "Your explanation here"
+                    },
+                    ...
+                ]
+            }
+        `;
+        
+        // Add the questions
+        const questionsPrompt = questions.map(q => 
+            `Question ${q.id} (${q.category}): ${q.question}`
+        ).join('\n');
+        
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+                model: 'gpt-4o',
+                messages: [
+                    { 
+                        role: 'user', 
+                        content: evaluationPrompt + '\n\n' + questionsPrompt
+                    }
+                ],
+                response_format: { type: "json_object" }
+            })
+        });
+        
+        const responseData = await response.json();
+        const contentStr = responseData.choices[0].message.content.trim();
+        return JSON.parse(contentStr).responses;
+        
+    } catch (error) {
+        console.error('Error getting questionnaire responses:', error);
+        return [];
+    }
+}
+
+// Display the results in the UI
+function displayResults(results) {
+    // Show the results section
+    document.getElementById('evaluationResults').style.display = 'block';
+    
+    // Process and display summary data
+    displaySummary(results);
+    
+    // Set up transcript viewer
+    setupTranscriptViewer(results);
+    
+    // Set up questionnaire viewer
+    setupQuestionnaireViewer(results);
+    
+    // Set up tab navigation
+    setupTabs();
+}
+
+// Display summary stats and chart
+function displaySummary(results) {
+    // Calculate average scores by question and category
+    const averageByQuestion = {};
+    const averageByCategory = {};
+    const categoryCounts = {};
+    
+    results.forEach(result => {
+        result.responses.forEach(response => {
+            // By question
+            if (!averageByQuestion[response.questionId]) {
+                averageByQuestion[response.questionId] = {
+                    total: 0,
+                    count: 0,
+                    question: response.question || `Question ${response.questionId}`
+                };
+            }
+            averageByQuestion[response.questionId].total += response.rating;
+            averageByQuestion[response.questionId].count += 1;
+            
+            // By category (if available)
+            const category = response.category || 'Uncategorized';
+            if (!averageByCategory[category]) {
+                averageByCategory[category] = 0;
+                categoryCounts[category] = 0;
+            }
+            averageByCategory[category] += response.rating;
+            categoryCounts[category] += 1;
+        });
+    });
+    
+    // Calculate final averages
+    for (const questionId in averageByQuestion) {
+        averageByQuestion[questionId].average = 
+            (averageByQuestion[questionId].total / averageByQuestion[questionId].count).toFixed(1);
+    }
+    
+    for (const category in averageByCategory) {
+        averageByCategory[category] = (averageByCategory[category] / categoryCounts[category]).toFixed(1);
+    }
+    
+    // Display in summary section
+    const scoresContainer = document.getElementById('averageScores');
+    scoresContainer.innerHTML = '';
+    
+    // Display by category first
+    const categoryDiv = document.createElement('div');
+    categoryDiv.className = 'score-section';
+    categoryDiv.innerHTML = `<h5>By Category</h5>`;
+    
+    for (const category in averageByCategory) {
+        categoryDiv.innerHTML += `
+            <div class="score-item">
+                <span class="category">${category}:</span>
+                <span class="score">${averageByCategory[category]}/10</span>
+                <div class="score-bar">
+                    <div class="score-fill" style="width: ${averageByCategory[category] * 10}%"></div>
+                </div>
+            </div>
+        `;
+    }
+    
+    scoresContainer.appendChild(categoryDiv);
+    
+    // Display by question
+    const questionDiv = document.createElement('div');
+    questionDiv.className = 'score-section';
+    questionDiv.innerHTML = `<h5>By Question</h5>`;
+    
+    for (const questionId in averageByQuestion) {
+        const questionData = averageByQuestion[questionId];
+        questionDiv.innerHTML += `
+            <div class="score-item">
+                <span class="question">${questionData.question}:</span>
+                <span class="score">${questionData.average}/10</span>
+                <div class="score-bar">
+                    <div class="score-fill" style="width: ${questionData.average * 10}%"></div>
+                </div>
+            </div>
+        `;
+    }
+    
+    scoresContainer.appendChild(questionDiv);
+    
+    // Draw chart if Chart.js is available
+    if (typeof Chart !== 'undefined') {
+        const ctx = document.getElementById('scoreChart').getContext('2d');
+        
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(averageByCategory),
+                datasets: [{
+                    label: 'Average Score (1-10)',
+                    data: Object.values(averageByCategory),
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 10
+                    }
+                }
+            }
+        });
+    }
+}
+
+// Set up transcript viewer from simulation results
+function setupTranscriptViewer(results) {
+    const dropdown = document.getElementById('transcriptDropdown');
+    dropdown.innerHTML = '<option value="">Select a Transcript</option>';
+    
+    results.forEach((result, index) => {
+        dropdown.innerHTML += `<option value="${index}">Simulation ${index + 1}</option>`;
+    });
+    
+    dropdown.addEventListener('change', function() {
+        const selectedIndex = this.value;
+        if (selectedIndex === '') return;
+        
+        const conversation = results[selectedIndex].conversation;
+        displayTranscript(conversation);
+    });
+}
+
+// Display a transcript in the iframe
+function displayTranscript(conversation) {
+    const iframe = document.getElementById('transcriptFrame');
+    const doc = iframe.contentDocument || iframe.contentWindow.document;
+    
+    // Create the HTML content
+    let html = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; padding: 20px; }
+                .message { padding: 10px; margin: 10px 0; border-radius: 8px; }
+                .game { background-color: #bbdefb; }
+                .player { background-color: #c8e6c9; text-align: right; }
+                .error { background-color: #ffcdd2; }
+            </style>
+        </head>
+        <body>
+    `;
+    
+    // Add each message
+    conversation.forEach(msg => {
+        html += `<div class="message ${msg.role}">${msg.content}</div>`;
+    });
+    
+    html += `
+        </body>
+        </html>
+    `;
+    
+    // Write to the iframe
+    doc.open();
+    doc.write(html);
+    doc.close();
+}
+
+// Set up questionnaire viewer
+function setupQuestionnaireViewer(results) {
+    const dropdown = document.getElementById('questionnaireDropdown');
+    dropdown.innerHTML = '<option value="">Select a Questionnaire Response</option>';
+    
+    results.forEach((result, index) => {
+        dropdown.innerHTML += `<option value="${index}">Simulation ${index + 1}</option>`;
+    });
+    
+    dropdown.addEventListener('change', function() {
+        const selectedIndex = this.value;
+        if (selectedIndex === '') return;
+        
+        const responses = results[selectedIndex].responses;
+        displayQuestionnaire(responses);
+    });
+}
+
+// Display questionnaire responses
+function displayQuestionnaire(responses) {
+    const viewer = document.getElementById('questionnaireViewer');
+    viewer.innerHTML = '';
+    
+    // Group by category if available
+    const responsesByCategory = {};
+    
+    responses.forEach(response => {
+        const category = response.category || 'Uncategorized';
+        
+        if (!responsesByCategory[category]) {
+            responsesByCategory[category] = [];
+        }
+        
+        responsesByCategory[category].push(response);
+    });
+    
+    // Display by category
+    for (const category in responsesByCategory) {
+        const categoryDiv = document.createElement('div');
+        categoryDiv.className = 'response-category';
+        categoryDiv.innerHTML = `<h4>${category}</h4>`;
+        
+        responsesByCategory[category].forEach(response => {
+            categoryDiv.innerHTML += `
+                <div class="response-item">
+                    <div class="question">${response.question || `Question ${response.questionId}`}</div>
+                    <div class="rating">Rating: ${response.rating}/10</div>
+                    <div class="explanation">${response.explanation}</div>
+                </div>
+            `;
+        });
+        
+        viewer.appendChild(categoryDiv);
+    }
+}
+
+// Set up tab navigation
+function setupTabs() {
+    const tabs = document.querySelectorAll('.tab-button');
+    const contents = document.querySelectorAll('.tab-content');
+    
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            // Remove active class from all tabs and contents
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+            
+            // Add active class to clicked tab
+            this.classList.add('active');
+            
+            // Show corresponding content
+            const contentId = this.getAttribute('data-tab');
+            document.getElementById(contentId).classList.add('active');
+        });
+    });
+}
+
+    
+    
+    </script>
+</body>
+
+</html>
