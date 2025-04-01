@@ -1,111 +1,500 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <title>Feedback Session Messages</title>
+  <meta charset="UTF-8" />
+  <title>Minimal Feedback Dashboard</title>
+
+  <!-- jQuery (for retrieving OpenAI key) -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+
+  <style>
+    :root {
+      --primary: #3c6e71;
+      --secondary: #284b63;
+      --light: #f5f5f5;
+      --dark: #353535;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--light);
+      color: var(--dark);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background-color: var(--secondary);
+      color: white;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .sidebar h2 {
+      margin: 0 0 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      padding-bottom: 10px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: var(--primary);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2a4e50;
+    }
+
+    /* Main Content and Tabs */
+    .main-content {
+      flex: 1;
+      padding: 20px;
+      background-color: var(--light);
+    }
+    .tabs {
+      display: flex;
+      margin-bottom: 10px;
+      border-bottom: 2px solid var(--primary);
+    }
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      background-color: #e0e0e0;
+      margin-right: 5px;
+      border-radius: 4px 4px 0 0;
+    }
+    .tab.active {
+      font-weight: bold;
+      background-color: white;
+      border: 1px solid var(--primary);
+      border-bottom: none;
+    }
+    .tab-content {
+      display: none;
+      background-color: white;
+      border: 1px solid var(--primary);
+      border-radius: 0 4px 4px 4px;
+      padding: 20px;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* Summary & Insights area */
+    pre {
+      white-space: pre-wrap;
+      background: #f9f9f9;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+    /* Conversations area */
+    #conversationList {
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      padding: 10px;
+    }
+    .conversation-item {
+      padding: 8px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+    }
+    .conversation-item:hover {
+      background-color: #f0f0f0;
+    }
+    #conversationDetail {
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      max-height: 300px;
+      overflow-y: auto;
+      padding: 10px;
+    }
+    .message {
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 4px;
+      background-color: #fafafa;
+    }
+    .user-message {
+      border-left: 4px solid var(--secondary);
+    }
+    .ai-message {
+      border-left: 4px solid var(--primary);
+    }
+  </style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="sidebar">
-            <label for="startTime">Start Time:</label>
-            <input type="datetime-local" id="startTime">
+  <div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h2>Feedback Dashboard</h2>
 
-            <label for="endTime">End Time:</label>
-            <input type="datetime-local" id="endTime">
+      <label for="startTime">Start Time</label>
+      <input type="datetime-local" id="startTime" />
 
-            <label for="gptUsed">GPT Used:</label>
-            <select id="gptUsed">
-                <option value="">Select GPT Used</option>
-            </select>
+      <label for="endTime">End Time</label>
+      <input type="datetime-local" id="endTime" />
 
-            <button id="applyFilters">Apply Filters</button>
-            <ul id="sessionList"></ul>
-        </div>
-        <div class="main-content">
-            <div id="messageDisplay"></div>
-        </div>
+      <label for="gptUsed">GPT Used</label>
+      <select id="gptUsed">
+        <option value="">Select GPT Used</option>
+      </select>
+
+      <button id="applyFilters">Apply Filters</button>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const applyFiltersBtn = document.getElementById('applyFilters');
-            const gptUsedSelect = document.getElementById('gptUsed');
-            let openaiKey = '';
+    <!-- Main content with tabs -->
+    <div class="main-content">
+      <div class="tabs">
+        <div class="tab active" data-tab="summaryInsights">Summary & Insights</div>
+        <div class="tab" data-tab="conversations">Conversations</div>
+      </div>
 
-            $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/getOAI/', function (data) {
-                openaiKey = data.key;
-                console.log('OpenAI Key retrieved');
-            });
+      <!-- Tab 1: Summary & Insights -->
+      <div id="summaryInsights" class="tab-content active">
+        <h2>AI Summary</h2>
+        <div id="summarySection">
+          <p>Select a GPT to view the summary...</p>
+        </div>
 
-            fetch('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/scList/')
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    populateGptUsedOptions(data);
-                    applyFiltersBtn.onclick = () => applyFilters(data);
-                    gptUsedSelect.onchange = () => summarizeGPTMessages(data);
-                });
+        <hr style="margin: 20px 0;" />
 
-            function populateGptUsedOptions(data) {
-                const gptUseds = new Set();
-                Object.values(data).flat().forEach(message => {
-                    gptUseds.add(message.gpt_used);
-                });
-                gptUseds.forEach(gptUsed => {
-                    const option = document.createElement('option');
-                    option.value = gptUsed;
-                    option.textContent = gptUsed;
-                    gptUsedSelect.appendChild(option);
-                });
-            }
+        <h2>AI Insights</h2>
+        <div id="insightsSection">
+          <p>Select a GPT to view insights...</p>
+        </div>
+      </div>
 
-            function summarizeGPTMessages(data) {
-                const selectedGPT = gptUsedSelect.value;
-                if (!selectedGPT) return;
+      <!-- Tab 2: Conversations -->
+      <div id="conversations" class="tab-content">
+        <h2>Conversations</h2>
+        <div id="conversationList">
+          <p>No conversations yet...</p>
+        </div>
+        <div id="conversationDetail">
+          <p>Select a conversation to view details...</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-                let messages = [];
-                Object.values(data).flat().forEach(message => {
-                    if (message.gpt_used === selectedGPT) {
-                        messages.push(message.content);
-                    }
-                });
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      let openaiKey = '';
+      let allMessages = [];
+      let currentGPT = '';
 
-                if (messages.length === 0) {
-                    alert('No messages found for this GPT.');
-                    return;
-                }
+      const applyFiltersBtn = document.getElementById('applyFilters');
+      const gptUsedSelect = document.getElementById('gptUsed');
+      const startTimeInput = document.getElementById('startTime');
+      const endTimeInput = document.getElementById('endTime');
+      const summarySection = document.getElementById('summarySection');
+      const insightsSection = document.getElementById('insightsSection');
+      const conversationList = document.getElementById('conversationList');
+      const conversationDetail = document.getElementById('conversationDetail');
 
-                const prompt = `Summarize the following messages:\n${messages.join('\n')}`;
-
-                fetch('https://api.openai.com/v1/chat/completions', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${openaiKey}`
-                    },
-                    body: JSON.stringify({
-                        model: 'gpt-4o',
-                        messages: [{ role: 'system', content: 'You are an UX researcher that summarizes conversations. Provide a detailed summary of the conversations. When sharing insights share quotes from the transcript that highlight the insight. So this provides evidence. Be critical, and also highlight positives.' }, { role: 'user', content: prompt }]
-                    })
-                })
-                .then(response => response.json())
-                .then(result => {
-                    if (result.choices && result.choices.length > 0) {
-                        displaySummary(result.choices[0].message.content);
-                    } else {
-                        alert('Failed to generate summary');
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-            }
-
-            function displaySummary(summary) {
-                const messageDisplay = document.getElementById('messageDisplay');
-                messageDisplay.innerHTML = `<div class='message ai-message'><p><strong>Summary:</strong> ${summary}</p></div>`;
-            }
+      // --------- Tab logic ---------
+      const tabs = document.querySelectorAll('.tab');
+      const tabContents = document.querySelectorAll('.tab-content');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const target = tab.getAttribute('data-tab');
+          // deactivate all tabs
+          tabs.forEach(t => t.classList.remove('active'));
+          tabContents.forEach(tc => tc.classList.remove('active'));
+          // activate current
+          tab.classList.add('active');
+          document.getElementById(target).classList.add('active');
         });
-    </script>
+      });
+
+      // Helper to remove triple-backtick fences if GPT includes them
+      function stripMarkdownCodeFences(gptResponse) {
+        return gptResponse.replace(/```[\s\S]*?```/g, '').trim();
+      }
+
+      // 1. Fetch the OpenAI key
+      $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/getOAI/', function(data) {
+        openaiKey = data.key;
+        console.log('OpenAI Key retrieved:', openaiKey);
+      });
+
+      // 2. Fetch all messages from your backend
+      fetch('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/scList/')
+        .then(resp => resp.json())
+        .then(data => {
+          allMessages = data;
+          console.log('All messages loaded:', allMessages);
+          populateGptUsedOptions(allMessages);
+          applyFiltersBtn.onclick = () => applyFilters(allMessages);
+          gptUsedSelect.onchange = () => {
+            currentGPT = gptUsedSelect.value;
+            if (currentGPT) {
+              processAllData(allMessages);
+            }
+          };
+        })
+        .catch(err => console.error('Error loading messages:', err));
+
+      function populateGptUsedOptions(data) {
+        const usedGPTs = new Set();
+        Object.values(data).flat().forEach(msg => {
+          if (msg.gpt_used) usedGPTs.add(msg.gpt_used);
+        });
+        usedGPTs.forEach(gpt => {
+          const opt = document.createElement('option');
+          opt.value = gpt;
+          opt.textContent = gpt;
+          gptUsedSelect.appendChild(opt);
+        });
+      }
+
+      // 3. Filter data by date and GPT, then process
+      function applyFilters(data) {
+        const startTime = startTimeInput.value;
+        const endTime = endTimeInput.value;
+        const chosenGPT = gptUsedSelect.value;
+
+        if (!chosenGPT) {
+          alert('Please select a GPT!');
+          return;
+        }
+        currentGPT = chosenGPT;
+
+        let filteredData = { ...data };
+
+        if (startTime && endTime) {
+          const startDate = new Date(startTime);
+          const endDate = new Date(endTime);
+
+          Object.keys(filteredData).forEach(sessionId => {
+            filteredData[sessionId] = filteredData[sessionId].filter(msg => {
+              const ts = new Date(msg.timestamp);
+              return ts >= startDate && ts <= endDate;
+            });
+            // remove empty sessions
+            if (filteredData[sessionId].length === 0) {
+              delete filteredData[sessionId];
+            }
+          });
+        }
+
+        processAllData(filteredData);
+      }
+
+      // 4. Process data: Summaries, Insights, and Conversations
+      function processAllData(filteredData) {
+        // Filter messages by GPT
+        const relevantSessions = {};
+        Object.entries(filteredData).forEach(([sessionId, messages]) => {
+          const matched = messages.filter(m => m.gpt_used === currentGPT);
+          if (matched.length > 0) {
+            relevantSessions[sessionId] = matched;
+          }
+        });
+
+        // Summaries
+        summarizeGPTMessages(relevantSessions);
+        // Insights
+        generateInsights(relevantSessions);
+        // Conversations
+        populateConversations(relevantSessions);
+      }
+
+      // 4a. Summaries
+      function summarizeGPTMessages(sessionData) {
+        if (Object.keys(sessionData).length === 0) {
+          summarySection.innerHTML = '<p>No messages found for this GPT.</p>';
+          return;
+        }
+
+        const allTexts = [];
+        Object.values(sessionData).flat().forEach(msg => {
+          allTexts.push(msg.content);
+        });
+
+        const prompt = `
+Summarize the following student feedback messages. Highlight key themes, strengths, and areas for improvement. Write a few paragarphs, highlighting different aspcets of the feedback and provide quotes form the discussions as evidence to points.:
+
+${allTexts.join('\n')}
+        `;
+
+        fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${openaiKey}`
+          },
+          body: JSON.stringify({
+            model: 'gpt-3.5-turbo', // or 'gpt-4'
+            messages: [
+              {
+                role: 'system',
+                content: 'You are an educational insights assistant. Provide a concise summary in Markdown.'
+              },
+              {
+                role: 'user',
+                content: prompt
+              }
+            ]
+          })
+        })
+        .then(async (resp) => {
+          if (!resp.ok) {
+            const errText = await resp.text();
+            console.error('OpenAI Error:', errText);
+            summarySection.innerHTML = `<p>Error: ${resp.status} - ${resp.statusText}</p>`;
+            return null;
+          }
+          return resp.json();
+        })
+        .then(data => {
+          if (!data) return;
+          const text = data.choices?.[0]?.message?.content || '';
+          const cleaned = stripMarkdownCodeFences(text);
+          summarySection.innerHTML = `<pre>${cleaned}</pre>`;
+        })
+        .catch(err => {
+          console.error('Error summarizing:', err);
+          summarySection.innerHTML = `<p>${err}</p>`;
+        });
+      }
+
+      // 4b. Insights
+      function generateInsights(sessionData) {
+        if (Object.keys(sessionData).length === 0) {
+          insightsSection.innerHTML = '<p>No messages found for this GPT.</p>';
+          return;
+        }
+
+        const allTexts = [];
+        Object.values(sessionData).flat().forEach(msg => {
+          allTexts.push(msg.content);
+        });
+
+        const prompt = `
+Provide actionable teaching improvement insights based on these student messages. Present them in Markdown-like format (headings, bullet points, etc.):
+
+${allTexts.join('\n')}
+        `;
+
+        fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${openaiKey}`
+          },
+          body: JSON.stringify({
+            model: 'gpt-3.5-turbo', // or 'gpt-4'
+            messages: [
+              {
+                role: 'system',
+                content: 'You are an expert educational consultant. Provide improvement insights in Markdown format.'
+              },
+              {
+                role: 'user',
+                content: prompt
+              }
+            ]
+          })
+        })
+        .then(async (resp) => {
+          if (!resp.ok) {
+            const errText = await resp.text();
+            console.error('OpenAI Error:', errText);
+            insightsSection.innerHTML = `<p>Error: ${resp.status} - ${resp.statusText}</p>`;
+            return null;
+          }
+          return resp.json();
+        })
+        .then(data => {
+          if (!data) return;
+          const text = data.choices?.[0]?.message?.content || '';
+          const cleaned = stripMarkdownCodeFences(text);
+          insightsSection.innerHTML = `<pre>${cleaned}</pre>`;
+        })
+        .catch(err => {
+          console.error('Error generating insights:', err);
+          insightsSection.innerHTML = `<p>${err}</p>`;
+        });
+      }
+
+      // 4c. Conversations
+      function populateConversations(sessionData) {
+        conversationList.innerHTML = '';
+        conversationDetail.innerHTML = '<p>Select a conversation to view details...</p>';
+
+        const sessionIds = Object.keys(sessionData);
+        if (sessionIds.length === 0) {
+          conversationList.innerHTML = '<p>No conversations for this GPT.</p>';
+          return;
+        }
+
+        sessionIds.forEach(sessionId => {
+          const messages = sessionData[sessionId];
+          const firstMessage = messages[0];
+          const preview = firstMessage.content.length > 50
+            ? firstMessage.content.slice(0, 50) + '...'
+            : firstMessage.content;
+
+          const item = document.createElement('div');
+          item.className = 'conversation-item';
+          item.innerHTML = `
+            <strong>Session ${sessionId}</strong><br/>
+            <small>${preview}</small>
+          `;
+
+          item.addEventListener('click', () => {
+            showConversationDetail(messages);
+          });
+
+          conversationList.appendChild(item);
+        });
+      }
+
+      function showConversationDetail(messages) {
+        conversationDetail.innerHTML = '';
+        messages.forEach(msg => {
+          const msgDiv = document.createElement('div');
+          msgDiv.className = 'message ' + (msg.role === 'user' ? 'user-message' : 'ai-message');
+          msgDiv.innerHTML = `
+            <p><strong>${msg.role === 'user' ? 'Student' : 'AI'}:</strong></p>
+            <p>${msg.content}</p>
+            <small>${new Date(msg.timestamp).toLocaleString()}</small>
+          `;
+          conversationDetail.appendChild(msgDiv);
+        });
+      }
+    });
+  </script>
 </body>
 </html>
