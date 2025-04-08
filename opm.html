@@ -1,511 +1,671 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>OPM Viz</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="Group 116.png">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="./stylesheet.css">
-
-
-
-
-
-<style>
+    <title>OPM Viz - UX Case Study</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="Group 116.png"> <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        /* --- Global Styles & Variables (Copied from previous revamp) --- */
+        :root {
+            --primary-font: "Inter", system-ui, sans-serif;
+            --heading-font: "Inter", system-ui, sans-serif;
     
-
-body {
-            font-family: Arial, sans-serif;
-            background-image: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMiIgZmlsbD0iI2QwZDBkMCIgLz4KPC9zdmc+Cg==");
-            /* padding-top: 100px; */
+            --primary-color: #F39F5A; /* Accent orange */
+            --primary-color-darker: #e08e4a; /* Darker shade */
+            --secondary-color: #f8f9fa; /* Light background */
+            --text-color: #343a40; /* Dark grey for text */
+            --text-color-light: #6c757d; /* Lighter grey for descriptions */
+            --border-color: #dee2e6;
+            --card-bg: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.05); /* Softer shadow */
+            --shadow-hover-color: rgba(0, 0, 0, 0.1);
+    
+            --border-radius-sm: 4px;
+            --border-radius-md: 8px;
+            --border-radius-lg: 12px;
+    
+            --spacing-xs: 0.5rem;  /* 8px */
+            --spacing-sm: 1rem;    /* 16px */
+            --spacing-md: 1.5rem;  /* 24px */
+            --spacing-lg: 2.5rem;  /* 40px */
+            --spacing-xl: 4rem;    /* 64px */
+    
+            --max-width: 1100px; /* Slightly narrower for case study text */
+            --transition-speed: 0.3s;
         }
-        .card-container {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            max-width: 1300px;
-            margin: 0 auto;
+    
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-
-        .card {
-            flex: 1;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin: 15px;
-            border-radius: 10px;
-            overflow: hidden;
+    
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* Adjust based on fixed navbar height */
         }
-
-        .card iframe {
-            width: 100%;
-            border: none;
+    
+        body {
+            font-family: var(--primary-font);
+            color: var(--text-color);
+            background-color: #fff;
+            line-height: 1.7;
+            font-size: 17px; /* Slightly larger base font for readability */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            padding-top: 70px; /* Add padding to prevent content going under fixed navbar */
         }
-
-        .caption {
-            background-color: #f8f8f8;
-            padding: 10px;
+    
+        .container {
+            max-width: var(--max-width);
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: var(--spacing-md);
+            padding-right: var(--spacing-md);
+        }
+    
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--heading-font);
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-color);
+        }
+    
+        h1 { font-size: 2.8rem; color: var(--primary-color-darker); } /* Main Case Study Title */
+        h2 { font-size: 2rem; margin-top: var(--spacing-lg); border-bottom: 2px solid var(--border-color); padding-bottom: var(--spacing-xs); } /* Section Titles */
+        h3 { font-size: 1.5rem; margin-top: var(--spacing-md); font-weight: 700; color: var(--text-color); } /* Sub-Section Titles */
+        h4 { font-size: 1.2rem; font-weight: 700; color: var(--text-color); } /* Overview Box Titles */
+    
+        p {
+            margin-bottom: var(--spacing-md);
+            font-size: 1.1rem; /* Slightly larger paragraph font */
+            max-width: 75ch; /* Optimal line length for reading */
+        }
+        p.meta { /* For date/publication info */
+            font-size: 0.95rem;
+            color: var(--text-color-light);
+            margin-bottom: var(--spacing-xs);
+        }
+    
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-speed) ease;
+        }
+    
+        a:hover, a:focus {
+            color: var(--primary-color-darker);
+            text-decoration: underline;
+            outline: none;
+        }
+    
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: var(--border-radius-md); /* Subtle rounding */
+        }
+    
+        figure {
+            margin: var(--spacing-lg) auto; /* Center figures */
+            max-width: 90%; /* Limit figure width */
             text-align: center;
         }
-
-.navbar {
-    display: flex;
+    
+        figcaption {
+            margin-top: var(--spacing-sm);
+            font-size: 0.9rem;
+            color: var(--text-color-light);
+            font-style: italic;
+        }
+    
+        ul, ol {
+            margin-bottom: var(--spacing-md);
+            padding-left: var(--spacing-md);
+        }
+    
+        li {
+            margin-bottom: var(--spacing-xs);
+            font-size: 1.05rem;
+        }
+    
+        blockquote {
+            border-left: 4px solid var(--primary-color);
+            margin: var(--spacing-md) 0 var(--spacing-md) var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            background-color: var(--secondary-color);
+            border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+            font-style: italic;
+            color: var(--text-color-light);
+            font-size: 1.1rem;
+        }
+         blockquote p {
+             margin-bottom: 0;
+             max-width: none; /* Allow blockquote text to fill width */
+         }
+    
+        hr {
+            border: none;
+            border-top: 1px solid var(--border-color);
+            margin: var(--spacing-lg) 0;
+        }
+    
+        strong, b {
+            font-weight: 700;
+        }
+    
+        /* --- Navbar Styles (Copied from previous revamp) --- */
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: var(--spacing-xs) 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: box-shadow var(--transition-speed) ease;
+        }
+        .navbar.scrolled { box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); }
+        .nav-container {
+            display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: white;
-            padding: 15px 60px;
-            font-size: 1.2em;
-            position: fixed;  /* This makes it stick to the top */
-            top: 0;           /* Position it at the very top */
-            left: 0;          /* Align to the left edge */
-            width: 100%;      /* Take full width of the viewport */
-            z-index: 1000;
-            box-sizing: border-box; 
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);   /* Keep it above other elements */
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
         }
-
-        .navbar a, .dropdown-toggle {
-            color: black;
-            text-decoration: none;
-            margin: 0 15px;
-            padding: 5px 15px;
-            transition: underline 0.3s;
+        .nav-logo { font-weight: 700; font-size: 1.4rem; color: var(--text-color); text-decoration: none; }
+        .nav-logo:hover { color: var(--primary-color); text-decoration: none; }
+        .navbar-nav { display: flex; align-items: center; gap: var(--spacing-sm); }
+        .nav-link { color: var(--text-color-light); text-decoration: none; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--border-radius-sm); font-weight: 500; transition: color var(--transition-speed) ease, background-color var(--transition-speed) ease; }
+        .nav-link:hover, .nav-link:focus, .nav-link.active { color: var(--primary-color); text-decoration: none; background-color: rgba(243, 159, 90, 0.1); }
+        .nav-link-button { background-color: var(--primary-color); color: white; padding: 8px 18px; border-radius: var(--border-radius-md); transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease; }
+        .nav-link-button:hover, .nav-link-button:focus { background-color: var(--primary-color-darker); color: white; transform: translateY(-2px); text-decoration: none; }
+        .menu-toggle { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-color); cursor: pointer; padding: var(--spacing-xs); }
+    
+        /* --- Case Study Specific Styles --- */
+        .case-study-header {
+            padding: var(--spacing-lg) 0 var(--spacing-md) 0;
+            /* background-color: var(--secondary-color); Light bg for header */
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: var(--spacing-xl);
         }
-
-        .navbar a:hover, .dropdown-toggle:hover {
-            text-decoration: underline;
+        .case-study-header h1 {
+            margin-bottom: var(--spacing-sm);
         }
-
-        .navbar-left {
+        .case-study-header .subtitle {
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: var(--text-color-light);
+            max-width: 75ch;
+            margin-bottom: var(--spacing-md);
+        }
+    
+        .overview-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            background-color: var(--secondary-color);
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+        .overview-box {
+            flex: 1 1 200px; /* Flexible boxes, minimum width 200px */
+            padding: var(--spacing-sm);
+        }
+        .overview-box h4 {
+            margin-bottom: var(--spacing-sm);
             display: flex;
             align-items: center;
+            gap: var(--spacing-xs);
+            color: var(--primary-color-darker);
         }
-
-        .navbar-right {
-            display: flex;
-            align-items: center;
+         .overview-box h4 i { /* Icon styling */
+            font-size: 1rem;
+             color: var(--primary-color);
         }
-
-        /* Dropdown styling */
-        .dropdown {
+    
+        .overview-box ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+         .overview-box li {
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+    
+        .video-container {
             position: relative;
-            display: inline-block;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: #000;
+            margin: var(--spacing-lg) auto; /* Center video */
+            border-radius: var(--border-radius-md);
+            box-shadow: 0 4px 15px var(--shadow-color);
         }
-
-        .dropdown-content {
-            display: none;
+        .video-container iframe {
             position: absolute;
-            background-color: whitesmoke;
-            min-width: 190px;
-            z-index: 1;
-            /* border: 1px solid black; */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
         }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            display: block;
+        .video-caption {
+            text-align: center;
+            margin-top: var(--spacing-sm);
+            font-size: 0.9rem;
+            color: var(--text-color-light);
+            font-style: italic;
         }
-
-        .dropdown-content a:hover {
-            background-color: #f5f5f5;
+    
+        .problem-solution-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
         }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
+        .problem-solution-section > div {
+            flex: 1 1 45%; /* Two columns */
+            min-width: 300px; /* Prevent excessive shrinking */
         }
-
-        /* Hamburger menu - hidden by default */
-        .menu-toggle {
-            display: none;
+         .problem-solution-section h3 { /* Use H3 for Problem/Solution titles here */
+             margin-top: 0; /* No extra top margin */
+             border-bottom: 2px solid var(--primary-color);
+             padding-bottom: var(--spacing-xs);
+             display: inline-block;
+         }
+    
+        .insight-image {
+            border: 1px solid var(--border-color);
+            padding: var(--spacing-xs);
+            background-color: #fff;
+             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-
+    
+        /* --- Responsive Design --- */
         @media screen and (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 15px;
+            body {
+                font-size: 16px;
+                padding-top: 60px; /* Adjust for mobile navbar height */
             }
-
-            .navbar-right {
-                display: none; /* Hide menu items by default on small screens */
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .navbar.active .navbar-right {
-                display: flex; /* Display menu items when navbar is active */
-            }
-
-            /* Display hamburger menu only on small screens */
-            .menu-toggle {
-                display: block;
-                cursor: pointer;
-                font-size: 1.5em;
-                color: black;
-            }
-          }
-
-
-
-
-.clear{
-  clear: both;
-}
-
-
-.slide-toggle{
-  display: none;
-}
-
-.slidemenu{
-  font-family: arial, sans-serif;
-  max-width: 80%;
-  margin: 0px auto;
-  overflow: auto;
-  background-color: white;
-}
-
-.slidemenu label{
-  width: 20%;
-  text-align: center;
-  display: block;
-  float: left;
-  color: #333;
-  font-weight: bold;
-  opacity: 0.2;
-
-}
-
-.slidemenu label:hover{
-  cursor: pointer;
-  color: #666;
-}
-
-.slidemenu label span{
-  display: block;
-  padding: 10px;    
-}
-
-.slidemenu label .icon{
-  font-size: 20px;
-  border: solid 2px orange;
-  text-align: center;
-  height: 50px;
-  width: 50px;
-  display: block;
-  margin: 0 auto;
-  line-height: 50px;
-  border-radius: 50%;
-}
-
-/*Bar Style*/
-
-.slider{
-  width: 100%;
-  height: 5px;
-  display: block;
-  background: whitesmoke;
-  margin-top: 10px;
-  border-radius: 5px;
-}
-
-.slider .bar{
-  width: 25%;
-  height: 5px;
-  background: blue;
-  border-radius: 5px;
-}
-
-/*Animations*/
-.slidemenu label, .slider .bar {
-  transition: all 500ms ease-in-out;
-  -webkit-transition: all 500ms ease-in-out;
-  -moz-transition: all 500ms ease-in-out;
-}
-
-/*Toggle*/
-
-.slidemenu .slide-toggle:checked + label{
-  opacity: 1;
-}
-
-
-
-.slidemenu #slide-item-1:checked ~ .slider .bar{ margin-left: 0; }
-.slidemenu #slide-item-2:checked ~ .slider .bar{ margin-left: 20%; }
-.slidemenu #slide-item-3:checked ~ .slider .bar{ margin-left: 40%; }
-.slidemenu #slide-item-4:checked ~ .slider .bar{ margin-left: 60%; }
-.slidemenu #slide-item-5:checked ~ .slider .bar{ margin-left: 80%; }
-
-
-.code-input-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-}
-
-.code-input {
-    padding: 10px 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px 0 0 5px;
-    outline: none;
-    font-size: 16px;
-}
-
-.reveal-button {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 0 5px 5px 0;
-    background-color: #007BFF;
-    color: #ffffff;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-.reveal-button:hover {
-    background-color: #0056b3;
-}
-
-.reveal-button:focus {
-    outline: none;
-}
-
-
-</style>
+            html { scroll-padding-top: 70px; }
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.8rem; }
+            h3 { font-size: 1.4rem; }
+            p { font-size: 1rem; }
+            blockquote { font-size: 1rem; margin-left: 0; }
+    
+            /* Navbar Mobile */
+            .navbar { padding: var(--spacing-xs) 0; }
+            .nav-container { padding: 0 var(--spacing-sm); }
+            .navbar-nav { display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: white; flex-direction: column; align-items: stretch; padding: var(--spacing-sm) 0; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); border-top: 1px solid var(--border-color); }
+            .navbar-nav.active { display: flex; }
+            .nav-link { text-align: center; padding: var(--spacing-sm); border-radius: 0; border-bottom: 1px solid var(--border-color); }
+            .nav-link:last-child { border-bottom: none; }
+            .nav-link-button { margin: var(--spacing-sm); text-align: center; }
+            .menu-toggle { display: block; }
+    
+            /* Case Study Layout Mobile */
+            .container { padding-left: var(--spacing-sm); padding-right: var(--spacing-sm); }
+            .case-study-header { margin-bottom: var(--spacing-lg); padding-top: var(--spacing-md); }
+            .overview-section { flex-direction: column; }
+            .problem-solution-section { flex-direction: column; gap: var(--spacing-md); }
+            figure { max-width: 100%; }
+            .video-container { margin: var(--spacing-md) auto; }
+        }
+    
+    </style>
 </head>
-<body class="w3-content" style="max-width:1200px;">
+<body>
 
-
-  <div class="navbar">
-    <div class="navbar-left">
-        <a href="./index.html">Sai Maram</a>
-        <!-- Hamburger Menu for Mobile -->
-        <span class="menu-toggle" onclick="toggleMenu()">☰</span>
-    </div>
-    <div class="navbar-right">
-        <a href="./index.html#uxr">Case Studies</a>
-        <a href="./index.html#wex">Work Experience</a>
-        <a href="./index.html#res">Research</a>
-        <a href="./about.html">About</a>
-        <!-- <a href="./misc.html">Miscellaneous</a> -->
-    </div>
-</div>
-
-
-
-
-
-
-<!-- First Grid: Logo & About -->
-<div class="w3-row" style="padding-top: 100px;">
-
-    
-<div class="w3-half w3-container">
-  <!-- <h1 class="w3-xxlarge" style="color: orange;">AstraVerse</h1> -->
-  <h3 class="w3-text-grey">UX case Study</h3>
-  <h1 class="w3-jumbo" style="color: #97C1A9;">Visualization Systems for Student Reflection in Serious Games</h1>
-  <p>November 2022 - September 2023</p>
-  <p>ACM CHI 2024</p>
-</div>
-<div class="w3-half w3-container w3-xlarge w3-text-grey">
-  
-    <h3 style="font-style: Montserrat;font-weight: bold;color: black;padding-top: 10%;"> A UX case study to understand and design a Visualization System to prompt reflection and learning in serious games.</h3>
-
-
-
-
-</div>
-
-</div>
-
-<!-- Second Grid: Resent -->
-<!-- <div class="w3-panel w3-text-grey" style="background-color: ghostwhite">
-<h4>MOST RECENT WORK:</h4>
-</div> -->
-
-<hr>
-  <div class="w3-row" style="background-color: white;">
-    <div class="w3-third w3-container">
-    <h3 style="font-weight: bold;color: black;">Team</h3>
-      <ul>
-        <li class="w3-large">2 Researchers</li>
-        <li class="w3-large">2 Faculty Mentors</li>
-        <li class="w3-large">1 Developer</li>
-
-      </ul>
-    
-      </div>
-      <div class="w3-third w3-container">
-        <h3 style="font-weight: bold;color: black;">Role</h3>
-          <li class="w3-large">Project Lead</li> 
-          <li class="w3-large">UX Researcher</li> 
-          <li class="w3-large">Designer</li>   
-          <li class="w3-large">Developer</li> 
+    <header class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="./index.html" class="nav-logo">Sai Maram</a>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="navbar-nav" id="navbar-nav">
+                <a href="./index.html#uxr" class="nav-link">Case Studies</a>
+                <a href="./index.html#wex" class="nav-link">Experience</a>
+                <a href="./index.html#res" class="nav-link">Research</a>
+                <a href="./about.html" class="nav-link">About</a>
+                <a href="cv.pdf" target="_blank" class="nav-link nav-link-button">Resume</a>
+            </nav>
         </div>
-      
-    <div class="w3-third w3-container">
-    <h3 style="font-weight: bold;color: black;">Tools</h3>
-    <li class="w3-large">Figma</li> 
-    <li class="w3-large">Programming</li> 
-    
-    </div>
-  
-  </div>
+    </header>
 
-<hr>
+<main class="container">
 
+    <header class="case-study-header">
 
-<div class="w3-row" style="background-color: white;">
-    <div class="card-container">
-        <!-- Card 1 -->
-        <div class="card">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/sJTFw3Qix5o?si=xUFYlOV8RAiHKTvu" frameborder="0" allowfullscreen></iframe>
-            <div class="caption">The final visualization system explained</div>
-        </div>
+        <h1>Visualization Systems for Student Reflection in Serious Games</h1>
+        <p class="subtitle">Designing and evaluating a system to help students reflect on their gameplay and learn from peers in the educational game called 'Parallel'.</p>
+        <p class="meta">Timeline: August 2021 - May 2023</p>
+        <p class="meta">Publication: ACM CHI 2024</p>
+   
+    </header>
 
-        <!-- Card 2 -->
-        <div class="card">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/MXeTHQlgcT8?si=38yGfgb_BQdqDCre" frameborder="0" allowfullscreen></iframe>
-            <div class="caption">Algorithms and Development Process</div>
-        </div>
-    </div>
-    <div class="w3-half w3-container">
-    <h2 style="font-weight: bold;color: black;">Problem</h2>
-    <p class="w3-xlarge w3-text-black">
-        Educational games have emerged as potent tools for helping students understand complex concepts and are now ubiquitous in global classrooms, amassing vast data. However, there is a notable gap in research concerning the effective visualization of this data to serve two key functions: (a) guiding students in reflecting upon their game-based learning and (b) aiding them in analyzing peer strategies.  </p>
-    </div>
-
-    <div class="w3-half w3-container">
-    <h2 style="font-weight: bold;color: black;">Solution</h2>
-    <p class="w3-xlarge">
-        In this UX study, me and my team engage educators, students, and researchers as essential stakeholders. Taking a Design-Based Research (DBR) approach, We incoporate UXR methods to develop an innovative visualization system that helps players learn through gaining insights from their own and peers' gameplay and strategies.
-     </p>
-     
-
-        <hr>
-    </div>
-</div>
-
-<div class="content">
-    <img src="temporary/images/Frame 10 (2) (1).png">
-    <p style="padding-left: 10%;">Figure 1: UXR pipeline adopted to understand student expectations, build a visualization system and evaluate the visualization system.</p>
-
-</div>
-
-
-<h2 style="font-weight: bold;color: black;padding-top: 10px;">Generative Steps</h2>
-<p class="w3-xlarge w3-text-black"> In the generative step, we aim to understand how instructors prompt reflection and learning in a serious game called 'Parallel'. Through focus groups, we identify how instructors prompt reflection, discussion and learning in class. Then through playtesting and semi-structured interviews, we ascertain what students expect from a visualization system that supports learning and peer reflection. </p>
-
-
-<h3 style="font-weight: bold;color: black;padding-top: 10px;">Instructor Focus Group</h3>
-<p class="w3-xlarge w3-text-black">
-To understand how human instructors facilitate learning in these topics, we conducted workshops with two parallel programming instructors. Instructors were presented them with a recording that showcased four students attempting to solve a level in Parallel. Instructors were then prompted with a series of tasks: Firstly, they were asked to discern the variations observed in the playtraces and the students' respective approaches to the parallel programming challenges. Secondly, they were tasked with ranking these playtraces based on performance, substantiating their rankings with explanations. Lastly, the instructors were asked to pinpoint specific segments in the same playtraces that the student should reflect upon  For these highlighted segments, instructors also provided textual feedback, suggesting ways the student could ameliorate their gameplay in that particular segment. In the end, we opened the floor for them to pose any questions and comments.</p>
-
-<h3 style="font-weight: bold;color: black;padding-top: 10px;">Insights from Instructor Interviews</h3>
-<ul class="w3-xlarge w3-text-black">
-    <li><strong>Breaking Down the Playtrace:</strong> The instructors regularly spoke about playtraces in chunks to explain or deduce what students were doing - <span style="color: gray; font-style: italic;">"Yeah, I think Steps 2 and Step 3, is where the student is trying to figure out the Switch and see what happens."</span></li>
-    
-    <li><strong>Identifying Important Spatial Zones:</strong> While examining student's playtraces, instructors often referred to how students have used different sections of the spatial map in analogous to parallel programming concepts - <span style="color: gray; font-style: italic;">"They seem to be placing the semaphore in this area to prevent this thread from reaching before the other thread"</span></li>
-    
-    <li><strong>Comparing Parts of Playtraces:</strong> Instructors compared and contrasted strategies used by students to solve parallel programming challenges within the game. They discussed how certain players' strategy was more efficient than others - <span style="color: gray; font-style: italic;">"If you compare the two players in the beginning, they seem to be tackling different problems. The first student places a semaphore here to work on the direction box, while the other student"</span></li>
-    
-    <li><strong>Ranking based on Parallel Programming Metrics:</strong> Instructors, when asked to rank play traces, compared playtraces based on (a) How accurately did the player identify critical sections? (b) Reducing the size of critical sections by placing semaphores as close as possible (c) and Identifying opportunities within the play trace to further optimize their playtrace by exploring alternate solutions.</li>
-</ul>
-
-<h3 style="font-weight: bold;color: black;padding-top: 10px;">Student Playtesting and Personas</h3>
-<p class="w3-xlarge w3-text-black">We invited 10 players to play the serious game 'Parallel'. Post the playtesting, we noted verbal cues, and followed up by a semi-strucutred interview to understand where students struggled, were looking for additional help and areas where the felt they did well. We performed thematic analysis on the responses and identified two personas that captured student expectations from a visualization support system that would help them better understand educational concepts embedded in the serious game.</p>
-
-<h3 style="font-weight: bold;color: black;padding-top: 10px;">Insights from Personas</h3>
-<ol class="w3-xlarge w3-text-black">
-    <li>
-        <strong>Improve Solution Efficiency:</strong>
-        <ul>
-            <li>Players aim to enhance the efficiency of their gameplay solutions.</li>
-            <li>Example: Jamie wishes to "locate and select more efficient players" to reflect and improve her gameplay.</li>
-        </ul>
-    </li>
-    <li>
-        <strong>Easy Gameplay Comparison:</strong>
-        <ul>
-            <li>Players desire an effortless way to compare their gameplay with peers from multiple perspectives.</li>
-            <li>Example 1: Jamie seeks a high-level community view to gauge her solution efficiency and identify better-performing players.</li>
-            <li>Example 2: Alex prefers a detailed perspective to explore players' gameplay actions and "examine other potential moves not encountered in her gameplay."</li>
-        </ul>
-    </li>
-    <li>
-        <strong>Suggestions for Gameplay Improvement:</strong>
-        <ul>
-            <li>Players appreciate advice on enhancing their gameplay both during and post-gameplay.</li>
-            <li>Example 1: Alex wishes to view other players' solutions when facing challenges.</li>
-            <li>Example 2: Jamie prefers figuring out solutions independently but is keen on exploring alternative approaches post-gameplay.</li>
-        </ul>
-    </li>
-</ol>
-<div class="content">
-    <img style="width: 100%;" src="temporary/images/Group 107 (4).png">
-    <p style="padding-left: 30%;">Figure 2: The designed and developed Visualization System</p>
-
-</div>
-<h3 style="font-weight: bold;color: black;padding-top: 10px;">Design and Development</h3>
-<p class="w3-xlarge w3-text-black">Based on the insights generated form instructors and student personas, we used the Shniederman Visualization Design framework to design and build the visualization system. In this case study, I will not share details with regards to the development and design but stick to the UXR methods and process used. The visualization system designed and developed is presented in Figure 2. </p>
-</body>
-
-<h3 style="font-weight: bold;color: black;padding-top: 10px;">Evaluative Research</h3>
-<p class="w3-xlarge w3-text-black">
-    To understand if our visualization system prompts reflection and learning, we invited 8 participants to use the visualization system, think out aloud and we then followed it up with semi-structured interviews. From these interviews, we identified various themes (shown in Figure 3) which show how and why the participants used the visualization system and how the system helps in learning and reflection. 
-</p>
-<div class="content">
-    <img style="width: 100%;" src="temporary/images/Group 749 (1).png">
-    <p style="padding-left: 30%;">Figure 3: Various ways students interacted with the visualization system.</p>
-
-</div>
-
-<h3 style="font-weight: bold;color: black;padding-top: 10px;">Conclusion</h3>
-
-<p class="w3-xlarge w3-text-black">Our UX research makes contributions and has implications to various fields. Details as follows:</p>
-    <h4 style="font-weight: bold;color: black;padding-top: 10px;">Implications towards Open Learner Models:</h4>
-    <ul class="w3-xlarge w3-text-black">
-        <li>Open Learner Models (OLMs) are key in representing student learning journeys.</li>
-        <li>Modern classrooms are leaning towards game-centric learning.</li>
-        <li>There's a need to integrate OLMs within video games.</li>
-        <li>Our project is a trailblazer, combining video games and OLMs.</li>
-        <li>We introduce an OPM that takes traditional OLM principles and embeds them in a gaming environment.</li>
-        <li>Aim: Spur game designers and learning experts to create diverse OPMs for enhanced game-based learning experiences.</li>
-    </ul>
-
-
-
-    <h4 style="font-weight: bold;color: black;padding-top: 10px;">Implications towards Player Facing Visualization Systems:</h4>
-    <ul class="w3-xlarge w3-text-black">
-        <li>The growth of video games necessitates player-centric visualization systems promoting reflection and learning.</li>
-        <li>Most systems focus on aesthetics, aggregation, accuracy, readability, and interpretability.</li>
-        <li>Learning and reflection aspects are often sidelined.</li>
-        <li>We're pioneering by designing a visualization system informed by OLMs.</li>
-        <li>Our system stands as a testament to merging game design with learning literature principles.</li>
-        <li>Goal: Promote discussions about leveraging OLM principles in game visualization systems.</li>
-    </ul>
-
-
-    <h4 style="font-weight: bold;color: black;padding-top: 10px;">Implications towards Parallel Research Platform:</h4>
-    <ul class="w3-xlarge w3-text-black">
-        <li>The serious game, Parallel, is a popular tool for several visualization and learning analytics studies.</li>
-        <li>Parallel is recognized and used for teaching parallel programming in classrooms.</li>
-        <li>Our contribution:
+    <section class="overview-section">
+        <div class="overview-box">
+            <h4><i class="fa fa-users" aria-hidden="true"></i> My Role</h4>
             <ul>
-                <li>Introduce a new learner model for classrooms within Parallel.</li>
-                <li>Provide a visualization system that features this learner model.</li>
-                <li>Enhance gameplay reflections and discussions through our visualization system.</li>
+                <li>Project Lead</li>
+                <li>UX Researcher</li>
+                <li>Designer</li>
+                <li>Developer</li>
             </ul>
-        </li>
-    </ul>
+        </div>
+        <div class="overview-box">
+            <h4><i class="fa fa-users" aria-hidden="true"></i> Team</h4>
+            <ul>
+                <li>2 Researchers (including myself)</li>
+                <li>2 Faculty Mentors</li>
+                <li>1 Developer</li>
+            </ul>
+        </div>
+        <div class="overview-box">
+            <h4><i class="fa fa-calendar" aria-hidden="true"></i> Duration</h4>
+            <ul>
+                <li>Nov 2022 - Sep 2023</li>
+            </ul>
+        </div>
+        <div class="overview-box">
+            <h4><i class="fa fa-wrench" aria-hidden="true"></i> Tools</h4>
+            <ul>
+                <li>Figma (Design)</li>
+                <li>Python, JavaScript (Development)</li>
+                <li>Qualitative Analysis Software</li>
+            </ul>
+        </div>
+    </section>
 
-    <script>
+    <hr>
 
-    </script>
+    <section id="problem">
+        <h2>The Challenge: Bridging Gameplay and Learning</h2>
+        <p>Educational games, like 'Parallel' which teaches parallel programming concepts, are powerful learning tools generating vast amounts of player data. However, a significant gap exists: how can this data be effectively visualized to help students reflect on their own learning process and understand the strategies used by their peers? Existing tools often lack features specifically designed to foster this kind of reflective learning.</p>
+        <p>Our core challenge was to design a visualization system that moves beyond simple data presentation to actively guide students in analyzing gameplay, comparing strategies, and ultimately deepening their understanding of complex concepts taught through the game.</p>
+    </section>
 
+    <hr>
+
+    <section id="research">
+        <h2>Understanding the Users: Instructors & Students</h2>
+        <p>To ensure our solution was grounded in real needs, we employed a Design-Based Research (DBR) approach, incorporating UXR methods to understand both instructor goals and student expectations.</p>
+
+        <figure>
+            <img src="temporary/images/Frame 10 (2) (1).png" alt="Diagram showing the UXR pipeline: Understand -> Design -> Evaluate">
+            <figcaption>Figure 1: UXR pipeline adopted for this project.</figcaption>
+        </figure>
+
+        <h3>Instructor Focus Groups: How Experts Facilitate Reflection</h3>
+        <p>We conducted workshops with two parallel programming instructors. They analyzed anonymized student gameplay recordings from 'Parallel', identifying different strategies, ranking performance, and pinpointing moments ripe for student reflection. They also provided the type of feedback they would give.</p>
+        <h4>Key Insights from Instructors:</h4>
+        <ul>
+            <li><strong>Chunking Gameplay:</strong> Instructors analyzed playtraces in segments to understand student actions (e.g., <span style="color: gray; font-style: italic;">"...Steps 2 and Step 3, is where the student is trying to figure out the Switch..."</span>).</li>
+            <li><strong>Spatial Awareness:</strong> They connected gameplay actions in specific game areas to programming concepts (e.g., <span style="color: gray; font-style: italic;">"They seem to be placing the semaphore in this area..."</span>).</li>
+            <li><strong>Comparative Analysis:</strong> Instructors frequently compared different students' strategies to highlight efficiency or alternative approaches.</li>
+            <li><strong>Performance Metrics:</strong> Ranking was based on core parallel programming concepts like identifying critical sections, minimizing their size, and recognizing optimization opportunities.</li>
+        </ul>
+
+        <h3>Student Playtesting & Personas: What Learners Need</h3>
+        <p>We observed 10 students playing 'Parallel' and followed up with semi-structured interviews to understand their struggles, successes, and desires for a support system. Thematic analysis led to two key personas representing student needs.</p>
+        <h4>Key Insights from Student Personas:</h4>
+        <div class="persona-insights">
+            <ol>
+                <li>
+                    <strong>Desire for Efficiency Improvement:</strong>
+                    <ul>
+                        <li>Players want to understand how to make their solutions better and faster.</li>
+                        <li>They need ways to identify and learn from more efficient peer strategies.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Need for Easy Gameplay Comparison:</strong>
+                    <ul>
+                        <li>Players want to compare their approach with others from different viewpoints (high-level overview vs. detailed step-by-step).</li>
+                        <li>This helps them gauge their performance and discover alternative solutions.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Seeking Guidance and Suggestions:</strong>
+                    <ul>
+                        <li>Players appreciate hints or alternative solutions, especially when stuck.</li>
+                        <li>They also value exploring different valid approaches after completing a level to broaden their understanding.</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </section>
+
+    <hr>
+
+    <section id="design">
+        <h2>Designing the Visualization System</h2>
+        <p>Guided by the insights from instructors and students, and utilizing Shneiderman's Visual Information-Seeking Mantra ("Overview first, zoom and filter, then details-on-demand") as a framework, my team and I designed and developed the OPM Viz system. While detailed development specifics are omitted here, the core design principles aimed to directly address the identified user needs.</p>
+
+        <p>Key design goals included:</p>
+        <ul>
+            <li>Providing an **overview** comparing a student's performance against the community (addressing Persona Insight 2).</li>
+            <li>Allowing users to **filter** and select specific peer playtraces for deeper comparison (Insight 1 & 2).</li>
+            <li>Offering a synchronized, **detailed side-by-side view** of playtraces, highlighting key actions and game states (Instructor Insight 1 & 3, Persona Insight 2).</li>
+            <li>Incorporating metrics relevant to parallel programming efficiency (Instructor Insight 4, Persona Insight 1).</li>
+            <li>Suggesting moments for reflection based on common patterns or deviations (Persona Insight 3).</li>
+        </ul>
+
+        <figure>
+            <img src="temporary/images/Group 107 (4).png" alt="Screenshot of the final visualization system interface">
+            <figcaption>Figure 2: The OPM Viz Visualization System Interface.</figcaption>
+        </figure>
+    </section>
+
+     <hr>
+
+    <section id="solution">
+        <h2>The Solution: OPM Viz</h2>
+        <p>OPM Viz is an interactive visualization system designed to integrate seamlessly with the 'Parallel' serious game. It empowers students to reflect on their gameplay, compare strategies with peers, and gain deeper insights into parallel programming concepts.</p>
+
+        <div class="video-grid">
+             <div class="video-card">
+                 <figure>
+                     <div class="video-container">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/sJTFw3Qix5o?si=xUFYlOV8RAiHKTvu" frameborder="0" allowfullscreen title="Explanation of the final visualization system"></iframe>
+                     </div>
+                     <figcaption>Video 1: Explaining the features of the OPM Viz system.</figcaption>
+                 </figure>
+             </div>
+             <div class="video-card">
+                 <figure>
+                    <div class="video-container">
+                         <iframe width="560" height="315" src="https://www.youtube.com/embed/MXeTHQlgcT8?si=38yGfgb_BQdqDCre" frameborder="0" allowfullscreen title="Development process and algorithms"></iframe>
+                     </div>
+                     <figcaption>Video 2: Overview of the development process and algorithms.</figcaption>
+                 </figure>
+             </div>
+         </div>
+
+        <p>The system allows students to:</p>
+        <ul>
+            <li>View their own performance metrics.</li>
+            <li>Compare their solution path against anonymized peers.</li>
+            <li>Filter peers based on performance or specific strategies.</li>
+            <li>Replay their own and selected peers' games side-by-side.</li>
+            <li>Identify key differences and potential areas for improvement.</li>
+        </ul>
+    </section>
+
+    <hr>
+
+    <section id="evaluation">
+        <h2>Evaluation: Does it Foster Reflection?</h2>
+        <p>To assess the effectiveness of OPM Viz, we conducted an evaluative study with 8 student participants. They used the system after playing 'Parallel' while thinking aloud, followed by semi-structured interviews.</p>
+        <p>Our analysis focused on *how* and *why* students used the system and whether it prompted the desired reflection and learning.</p>
+
+        <figure>
+            <img src="temporary/images/Group 749 (1).png" alt="Thematic analysis results showing how students interacted with the visualization system">
+            <figcaption>Figure 3: Thematic map illustrating how students used OPM Viz for reflection and learning.</figcaption>
+        </figure>
+
+        <h4>Key Findings from Evaluation:</h4>
+        <ul>
+            <li><strong>Facilitated Comparison:</strong> Participants actively used the system to compare their strategies with peers, often expressing surprise or gaining new ideas (e.g., "Oh, I didn't realize you could solve it that way!").</li>
+            <li><strong>Identified Inefficiencies:</strong> The visualizations helped students pinpoint specific parts of their gameplay that were less efficient than others'.</li>
+            <li><strong>Sparked Curiosity:</strong> Exploring different solutions through the system encouraged students to think more deeply about the underlying programming concepts.</li>
+            <li><strong>Supported Self-Assessment:</strong> Participants used the comparative data to gauge their own understanding and performance relative to others.</li>
+            <li><strong>Highlighted Trade-offs:</strong> Observing different strategies allowed students to understand the trade-offs between various parallel programming approaches within the game context.</li>
+        </ul>
+        <p>Overall, the evaluation indicated that OPM Viz successfully prompted reflection and supported learning by making gameplay data accessible, comparable, and insightful.</p>
+    </section>
+
+    <hr>
+
+    <section id="impact">
+        <h2>Impact and Contributions</h2>
+        <p>This project demonstrates the potential of integrating player-facing visualization systems, informed by Open Learner Model (OLM) principles, into serious games to enhance learning.</p>
+
+        <h4>Key Contributions:</h4>
+        <ul>
+           <li><strong>Bridging OLMs and Games:</strong> Introduced an Open Player Model (OPM) approach, adapting OLM principles for the dynamic context of serious games.</li>
+           <li><strong>Learning-Focused Visualization:</strong> Designed and validated a player-facing visualization system prioritizing reflection and learning over purely aesthetic or performance-tracking goals.</li>
+           <li><strong>Enhancing 'Parallel':</strong> Provided a novel tool for the established 'Parallel' research platform, enabling new avenues for studying game-based learning and reflection.</li>
+           <li><strong>Published Research:</strong> Shared findings and the system design with the academic community via publication at ACM CHI 2024, contributing to HCI and Learning Sciences fields.</li>
+        </ul>
+        <p>The positive evaluation results and academic recognition underscore the value of this user-centered approach to designing learning support tools within educational games.</p>
+    </section>
+
+    <hr>
+
+     <section id="learnings">
+        <h2>Reflections and Future Directions</h2>
+        <h4>Key Learnings:</h4>
+        <ul>
+            <li><strong>The Power of Comparison:</strong> Directly comparing solutions was a highly motivating factor for student engagement and reflection.</li>
+            <li><strong>Instructor Insights are Crucial:</strong> Understanding how experts analyze and provide feedback was invaluable in designing meaningful visualizations.</li>
+            <li><strong>Balancing Guidance and Discovery:</strong> Finding the right level of information presentation—enough to guide reflection without overwhelming or giving away answers—is a key design challenge.</li>
+        </ul>
+        <h4>Future Directions:</h4>
+        <ul>
+            <li>Exploring adaptive feedback based on student interaction patterns within the visualization.</li>
+            <li>Integrating the visualization system more tightly within the game environment itself.</li>
+            <li>Testing the system in authentic classroom settings over longer periods.</li>
+        </ul>
+    </section>
+    <footer class="footer" style="text-align: center; padding: var(--spacing-lg) var(--spacing-md); margin-top: var(--spacing-xl); background-color: var(--secondary-color); color: var(--text-color-light); font-size: 0.9rem;">
+        <p>&copy; <span id="current-year"></span> Sai Maram. Case Study.</p>
+        <p><a href="./index.html">Back to Portfolio</a></p>
+   </footer>
+
+</main>
+
+<script>document.addEventListener('DOMContentLoaded', () => {
+   const menuToggle = document.getElementById('menu-toggle');
+   const navbarNav = document.getElementById('navbar-nav');
+   const navLinks = document.querySelectorAll('.nav-link'); // Get all nav links
+   const navbar = document.getElementById('navbar');
+
+   // Toggle mobile menu
+   if (menuToggle && navbarNav) {
+       menuToggle.addEventListener('click', () => {
+           navbarNav.classList.toggle('active');
+           // Optional: change hamburger icon to 'X'
+           const icon = menuToggle.querySelector('i');
+           if (navbarNav.classList.contains('active')) {
+               icon.classList.remove('fa-bars');
+               icon.classList.add('fa-times');
+               menuToggle.setAttribute('aria-expanded', 'true');
+           } else {
+               icon.classList.remove('fa-times');
+               icon.classList.add('fa-bars');
+               menuToggle.setAttribute('aria-expanded', 'false');
+           }
+       });
+
+       // Close mobile menu when a link is clicked
+       navLinks.forEach(link => {
+           link.addEventListener('click', () => {
+               if (navbarNav.classList.contains('active')) {
+                   navbarNav.classList.remove('active');
+                   const icon = menuToggle.querySelector('i');
+                   icon.classList.remove('fa-times');
+                   icon.classList.add('fa-bars');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+               }
+           });
+       });
+   }
+
+    // Add shadow to navbar on scroll
+   if (navbar) {
+       window.addEventListener('scroll', () => {
+           if (window.scrollY > 50) { // Add shadow after scrolling 50px
+               navbar.classList.add('scrolled');
+           } else {
+               navbar.classList.remove('scrolled');
+           }
+       });
+   }
+
+   // Update footer year
+   const currentYearSpan = document.getElementById('current-year');
+   if (currentYearSpan) {
+       currentYearSpan.textContent = new Date().getFullYear();
+   }
+
+   // --- Optional: Active Nav Link Highlighting ---
+   // More complex implementation needed based on scroll position
+   // This is a simple example assuming section IDs match nav hrefs
+   const sections = document.querySelectorAll('section[id]'); // Get sections with IDs
+
+   function setActiveLink() {
+       let currentSection = '';
+       const scrollPos = window.scrollY + navbar.offsetHeight + 50; // Offset for navbar height + buffer
+
+       sections.forEach(section => {
+           const sectionTop = section.offsetTop;
+           const sectionHeight = section.offsetHeight;
+           if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+               currentSection = section.getAttribute('id');
+           }
+       });
+
+        // Special case for top of page (hero section often doesn't have ID or is above first section)
+        if (window.scrollY < sections[0].offsetTop - navbar.offsetHeight - 50) {
+            currentSection = 'home'; // Assuming hero/top section implies 'home' link
+        }
+
+
+       navLinks.forEach(link => {
+           link.classList.remove('active');
+           // Check if the link's href matches the current section ID
+           // Handle the '#' in href
+           if (link.getAttribute('href') === `#${currentSection}`) {
+               link.classList.add('active');
+           }
+            // Handle base index.html link for 'home'
+           if (currentSection === 'home' && (link.getAttribute('href') === './index.html' || link.getAttribute('href') === '#home') ) {
+                // No specific 'home' link in the provided nav, so this part might not highlight anything unless a home link is added.
+                // Example: if you add <a href="#home">Home</a>, this would work.
+           }
+       });
+   }
+
+   window.addEventListener('scroll', setActiveLink);
+   setActiveLink(); // Initial check on load
+
+});</script>
+
+</body>
 </html>

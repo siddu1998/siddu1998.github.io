@@ -1,544 +1,580 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>AstraVerse</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="Group 116.png">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Reinventing Facebook's Home - UX Case Study</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="./stylesheet.css">
-
-
-
-
-
-<style>
-
-body {
-            font-family: Arial, sans-serif;
-            background-image: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMiIgZmlsbD0iI2QwZDBkMCIgLz4KPC9zdmc+Cg==");
-            /* padding-top: 100px; */
-        }
-
-.navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: white;
-            padding: 15px 60px;
-            font-size: 1.2em;
-            position: fixed;  /* This makes it stick to the top */
-            top: 0;           /* Position it at the very top */
-            left: 0;          /* Align to the left edge */
-            width: 100%;      /* Take full width of the viewport */
-            z-index: 1000;
-            box-sizing: border-box; 
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);   /* Keep it above other elements */
-        }
-
-        .navbar a, .dropdown-toggle {
-            color: black;
-            text-decoration: none;
-            margin: 0 15px;
-            padding: 5px 15px;
-            transition: underline 0.3s;
-        }
-
-        .navbar a:hover, .dropdown-toggle:hover {
-            text-decoration: underline;
-        }
-
-        .navbar-left {
-            display: flex;
-            align-items: center;
-        }
-
-        .navbar-right {
-            display: flex;
-            align-items: center;
-        }
-
-        /* Dropdown styling */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: whitesmoke;
-            min-width: 190px;
-            z-index: 1;
-            /* border: 1px solid black; */
-        }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #f5f5f5;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        /* Hamburger menu - hidden by default */
-        .menu-toggle {
-            display: none;
-        }
-
-        @media screen and (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 15px;
-            }
-
-            .navbar-right {
-                display: none; /* Hide menu items by default on small screens */
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .navbar.active .navbar-right {
-                display: flex; /* Display menu items when navbar is active */
-            }
-
-            /* Display hamburger menu only on small screens */
-            .menu-toggle {
-                display: block;
-                cursor: pointer;
-                font-size: 1.5em;
-                color: black;
-            }
+    <style>
+      /* --- Global Styles & Variables (Copied from previous revamp) --- */
+      :root {
+          --primary-font: "Inter", system-ui, sans-serif;
+          --heading-font: "Inter", system-ui, sans-serif;
+  
+          --primary-color: #F39F5A; /* Accent orange */
+          --primary-color-darker: #e08e4a; /* Darker shade */
+          --secondary-color: #f8f9fa; /* Light background */
+          --text-color: #343a40; /* Dark grey for text */
+          --text-color-light: #6c757d; /* Lighter grey for descriptions */
+          --border-color: #dee2e6;
+          --card-bg: #ffffff;
+          --shadow-color: rgba(0, 0, 0, 0.05); /* Softer shadow */
+          --shadow-hover-color: rgba(0, 0, 0, 0.1);
+  
+          --border-radius-sm: 4px;
+          --border-radius-md: 8px;
+          --border-radius-lg: 12px;
+  
+          --spacing-xs: 0.5rem;  /* 8px */
+          --spacing-sm: 1rem;    /* 16px */
+          --spacing-md: 1.5rem;  /* 24px */
+          --spacing-lg: 2.5rem;  /* 40px */
+          --spacing-xl: 4rem;    /* 64px */
+  
+          --max-width: 1100px; /* Slightly narrower for case study text */
+          --transition-speed: 0.3s;
+      }
+  
+      *,
+      *::before,
+      *::after {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+      }
+  
+      html {
+          scroll-behavior: smooth;
+          scroll-padding-top: 80px; /* Adjust based on fixed navbar height */
+      }
+  
+      body {
+          font-family: var(--primary-font);
+          color: var(--text-color);
+          background-color: #fff;
+          line-height: 1.7;
+          font-size: 17px; /* Slightly larger base font for readability */
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          padding-top: 70px; /* Add padding to prevent content going under fixed navbar */
+      }
+  
+      .container {
+          max-width: var(--max-width);
+          margin-left: auto;
+          margin-right: auto;
+          padding-left: var(--spacing-md);
+          padding-right: var(--spacing-md);
+      }
+  
+      h1, h2, h3, h4, h5, h6 {
+          font-family: var(--heading-font);
+          font-weight: 700;
+          line-height: 1.3;
+          margin-bottom: var(--spacing-sm);
+          color: var(--text-color);
+      }
+  
+      h1 { font-size: 2.8rem; color: var(--primary-color-darker); } /* Main Case Study Title */
+      h2 { font-size: 2rem; margin-top: var(--spacing-lg); border-bottom: 2px solid var(--border-color); padding-bottom: var(--spacing-xs); } /* Section Titles */
+      h3 { font-size: 1.5rem; margin-top: var(--spacing-md); font-weight: 700; color: var(--text-color); } /* Sub-Section Titles */
+      h4 { font-size: 1.2rem; font-weight: 700; color: var(--text-color); } /* Overview Box Titles */
+  
+      p {
+          margin-bottom: var(--spacing-md);
+          font-size: 1.1rem; /* Slightly larger paragraph font */
+          max-width: 75ch; /* Optimal line length for reading */
+      }
+      p.meta { /* For date/publication info */
+          font-size: 0.95rem;
+          color: var(--text-color-light);
+          margin-bottom: var(--spacing-xs);
+      }
+  
+      a {
+          color: var(--primary-color);
+          text-decoration: none;
+          font-weight: 500;
+          transition: color var(--transition-speed) ease;
+      }
+  
+      a:hover, a:focus {
+          color: var(--primary-color-darker);
+          text-decoration: underline;
+          outline: none;
+      }
+  
+      img {
+          max-width: 100%;
+          height: auto;
+          display: block;
+          border-radius: var(--border-radius-md); /* Subtle rounding */
+      }
+  
+      figure {
+          margin: var(--spacing-lg) auto; /* Center figures */
+          max-width: 90%; /* Limit figure width */
+          text-align: center;
+      }
+  
+      figcaption {
+          margin-top: var(--spacing-sm);
+          font-size: 0.9rem;
+          color: var(--text-color-light);
+          font-style: italic;
+      }
+  
+      ul, ol {
+          margin-bottom: var(--spacing-md);
+          padding-left: var(--spacing-md);
+      }
+  
+      li {
+          margin-bottom: var(--spacing-xs);
+          font-size: 1.05rem;
+      }
+  
+      blockquote {
+          border-left: 4px solid var(--primary-color);
+          margin: var(--spacing-md) 0 var(--spacing-md) var(--spacing-sm);
+          padding: var(--spacing-sm) var(--spacing-md);
+          background-color: var(--secondary-color);
+          border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+          font-style: italic;
+          color: var(--text-color-light);
+          font-size: 1.1rem;
+      }
+       blockquote p {
+           margin-bottom: 0;
+           max-width: none; /* Allow blockquote text to fill width */
+       }
+  
+      hr {
+          border: none;
+          border-top: 1px solid var(--border-color);
+          margin: var(--spacing-lg) 0;
+      }
+  
+      strong, b {
+          font-weight: 700;
+      }
+  
+      /* --- Navbar Styles (Copied from previous revamp) --- */
+      .navbar {
+          background-color: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(10px);
+          border-bottom: 1px solid var(--border-color);
+          padding: var(--spacing-xs) 0;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          z-index: 1000;
+          transition: box-shadow var(--transition-speed) ease;
+      }
+      .navbar.scrolled { box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); }
+      .nav-container {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          max-width: var(--max-width);
+          margin: 0 auto;
+          padding: 0 var(--spacing-md);
+      }
+      .nav-logo { font-weight: 700; font-size: 1.4rem; color: var(--text-color); text-decoration: none; }
+      .nav-logo:hover { color: var(--primary-color); text-decoration: none; }
+      .navbar-nav { display: flex; align-items: center; gap: var(--spacing-sm); }
+      .nav-link { color: var(--text-color-light); text-decoration: none; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--border-radius-sm); font-weight: 500; transition: color var(--transition-speed) ease, background-color var(--transition-speed) ease; }
+      .nav-link:hover, .nav-link:focus, .nav-link.active { color: var(--primary-color); text-decoration: none; background-color: rgba(243, 159, 90, 0.1); }
+      .nav-link-button { background-color: var(--primary-color); color: white; padding: 8px 18px; border-radius: var(--border-radius-md); transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease; }
+      .nav-link-button:hover, .nav-link-button:focus { background-color: var(--primary-color-darker); color: white; transform: translateY(-2px); text-decoration: none; }
+      .menu-toggle { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-color); cursor: pointer; padding: var(--spacing-xs); }
+  
+      /* --- Case Study Specific Styles --- */
+      .case-study-header {
+          padding: var(--spacing-lg) 0 var(--spacing-md) 0;
+          /* background-color: var(--secondary-color); Light bg for header */
+          border-bottom: 1px solid var(--border-color);
+          margin-bottom: var(--spacing-xl);
+      }
+      .case-study-header h1 {
+          margin-bottom: var(--spacing-sm);
+      }
+      .case-study-header .subtitle {
+          font-size: 1.4rem;
+          font-weight: 400;
+          color: var(--text-color-light);
+          max-width: 75ch;
+          margin-bottom: var(--spacing-md);
+      }
+  
+      .overview-section {
+          display: flex;
+          flex-wrap: wrap;
+          gap: var(--spacing-md);
+          background-color: var(--secondary-color);
+          padding: var(--spacing-md);
+          border-radius: var(--border-radius-lg);
+          margin-bottom: var(--spacing-xl);
+      }
+      .overview-box {
+          flex: 1 1 200px; /* Flexible boxes, minimum width 200px */
+          padding: var(--spacing-sm);
+      }
+      .overview-box h4 {
+          margin-bottom: var(--spacing-sm);
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-xs);
+          color: var(--primary-color-darker);
+      }
+       .overview-box h4 i { /* Icon styling */
+          font-size: 1rem;
+           color: var(--primary-color);
+      }
+  
+      .overview-box ul {
+          list-style: none;
+          padding-left: 0;
+          margin-bottom: 0;
+      }
+       .overview-box li {
+          font-size: 1rem;
+          color: var(--text-color);
+      }
+  
+      .video-container {
+          position: relative;
+          padding-bottom: 56.25%; /* 16:9 aspect ratio */
+          height: 0;
+          overflow: hidden;
+          max-width: 100%;
+          background: #000;
+          margin: var(--spacing-lg) auto; /* Center video */
+          border-radius: var(--border-radius-md);
+          box-shadow: 0 4px 15px var(--shadow-color);
+      }
+      .video-container iframe {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border: 0;
+      }
+      .video-caption {
+          text-align: center;
+          margin-top: var(--spacing-sm);
+          font-size: 0.9rem;
+          color: var(--text-color-light);
+          font-style: italic;
+      }
+  
+      .problem-solution-section {
+          display: flex;
+          flex-wrap: wrap;
+          gap: var(--spacing-lg);
+          margin-bottom: var(--spacing-xl);
+      }
+      .problem-solution-section > div {
+          flex: 1 1 45%; /* Two columns */
+          min-width: 300px; /* Prevent excessive shrinking */
+      }
+       .problem-solution-section h3 { /* Use H3 for Problem/Solution titles here */
+           margin-top: 0; /* No extra top margin */
+           border-bottom: 2px solid var(--primary-color);
+           padding-bottom: var(--spacing-xs);
+           display: inline-block;
+       }
+  
+      .insight-image {
+          border: 1px solid var(--border-color);
+          padding: var(--spacing-xs);
+          background-color: #fff;
+           box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      }
+  
+      /* --- Responsive Design --- */
+      @media screen and (max-width: 768px) {
+          body {
+              font-size: 16px;
+              padding-top: 60px; /* Adjust for mobile navbar height */
           }
-
-
-
-
-.clear{
-  clear: both;
-}
-
-
-.slide-toggle{
-  display: none;
-}
-
-.slidemenu{
-  font-family: arial, sans-serif;
-  max-width: 80%;
-  margin: 0px auto;
-  overflow: auto;
-  background-color: white;
-}
-
-.slidemenu label{
-  width: 20%;
-  text-align: center;
-  display: block;
-  float: left;
-  color: #333;
-  font-weight: bold;
-  opacity: 0.2;
-
-}
-
-.slidemenu label:hover{
-  cursor: pointer;
-  color: #666;
-}
-
-.slidemenu label span{
-  display: block;
-  padding: 10px;    
-}
-
-.slidemenu label .icon{
-  font-size: 20px;
-  border: solid 2px orange;
-  text-align: center;
-  height: 50px;
-  width: 50px;
-  display: block;
-  margin: 0 auto;
-  line-height: 50px;
-  border-radius: 50%;
-}
-
-/*Bar Style*/
-
-.slider{
-  width: 100%;
-  height: 5px;
-  display: block;
-  background: whitesmoke;
-  margin-top: 10px;
-  border-radius: 5px;
-}
-
-.slider .bar{
-  width: 25%;
-  height: 5px;
-  background: blue;
-  border-radius: 5px;
-}
-
-/*Animations*/
-.slidemenu label, .slider .bar {
-  transition: all 500ms ease-in-out;
-  -webkit-transition: all 500ms ease-in-out;
-  -moz-transition: all 500ms ease-in-out;
-}
-
-/*Toggle*/
-
-.slidemenu .slide-toggle:checked + label{
-  opacity: 1;
-}
-
-
-
-.slidemenu #slide-item-1:checked ~ .slider .bar{ margin-left: 0; }
-.slidemenu #slide-item-2:checked ~ .slider .bar{ margin-left: 20%; }
-.slidemenu #slide-item-3:checked ~ .slider .bar{ margin-left: 40%; }
-.slidemenu #slide-item-4:checked ~ .slider .bar{ margin-left: 60%; }
-.slidemenu #slide-item-5:checked ~ .slider .bar{ margin-left: 80%; }
-
-
-
-
-</style>
+          html { scroll-padding-top: 70px; }
+          h1 { font-size: 2.2rem; }
+          h2 { font-size: 1.8rem; }
+          h3 { font-size: 1.4rem; }
+          p { font-size: 1rem; }
+          blockquote { font-size: 1rem; margin-left: 0; }
+  
+          /* Navbar Mobile */
+          .navbar { padding: var(--spacing-xs) 0; }
+          .nav-container { padding: 0 var(--spacing-sm); }
+          .navbar-nav { display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: white; flex-direction: column; align-items: stretch; padding: var(--spacing-sm) 0; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); border-top: 1px solid var(--border-color); }
+          .navbar-nav.active { display: flex; }
+          .nav-link { text-align: center; padding: var(--spacing-sm); border-radius: 0; border-bottom: 1px solid var(--border-color); }
+          .nav-link:last-child { border-bottom: none; }
+          .nav-link-button { margin: var(--spacing-sm); text-align: center; }
+          .menu-toggle { display: block; }
+  
+          /* Case Study Layout Mobile */
+          .container { padding-left: var(--spacing-sm); padding-right: var(--spacing-sm); }
+          .case-study-header { margin-bottom: var(--spacing-lg); padding-top: var(--spacing-md); }
+          .overview-section { flex-direction: column; }
+          .problem-solution-section { flex-direction: column; gap: var(--spacing-md); }
+          figure { max-width: 100%; }
+          .video-container { margin: var(--spacing-md) auto; }
+      }
+  
+  </style>
 </head>
-<body class="w3-content" style="max-width:1200px;">
+<body>
 
-
-  <div class="navbar">
-    <div class="navbar-left">
-        <a href="./index.html">
-        Sai Maram
-        </a>
-        <!-- Hamburger Menu for Mobile -->
-        <span class="menu-toggle" onclick="toggleMenu()">☰</span>
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="./index.html" class="nav-logo">Sai Maram</a>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav class="navbar-nav" id="navbar-nav">
+            <a href="./index.html#uxr" class="nav-link">Case Studies</a>
+            <a href="./index.html#wex" class="nav-link">Experience</a>
+            <a href="./index.html#res" class="nav-link">Research</a>
+            <a href="./about.html" class="nav-link">About</a>
+            <a href="cv.pdf" target="_blank" class="nav-link nav-link-button">Resume</a>
+        </nav>
     </div>
-    <div class="navbar-right">
-        <a href="./index.html#uxr">Case Studies</a>
-        <a href="./index.html#wex">Work Experience</a>
-        <a href="./index.html#res">Research</a>
-        <a href="./about.html">About</a>
-        <!-- <a href="./misc.html">Miscellaneous</a> -->
-    </div>
-</div>
+</header>
 
+<main class="container">
 
+    <header class="case-study-header">
+        <p class="meta">UX Research Case Study | Facebook Internship</p>
+        <h1>Reinventing Facebook's Home</h1>
+        <p class="subtitle">A generative UX case study exploring futuristic opportunities for Facebook's home page, focusing on innovative research methodologies developed to understand user needs and preferences, especially among younger demographics.</p>
+        <p class="meta">Timeline: June 2022 - September 2022</p>
+    </header>
 
-<!-- First Grid: Logo & About -->
-<div class="w3-row" style="padding-top: 100px;">
-<div class="w3-half w3-container">
-  <!-- <h1 class="w3-xxlarge" style="color: orange;">AstraVerse</h1> -->
-  <h3 class="w3-text-grey">UX case Study</h3>
-  <h1 class="w3-jumbo" style="color: #1773EB;">Reinventing Facebook's Home</h1>
-  <p>June 2022 - September 2022</p>
-  <!-- <p>ACM FDG 2023, Springer ICEC 2022, ACM CHI 2022</p> -->
-</div>
-<div class="w3-half w3-container w3-xlarge w3-text-grey">
-  
-    <h3 style="font-style: Montserrat;font-weight: bold;color: black;padding-top: 10%;"> 
-        A Generative UX Case Study exploring Opportunities for Facebook's home.</h3>
-
-</div>
-</div>
-
-<!-- Second Grid: Resent -->
-<!-- <div class="w3-panel w3-text-grey" style="background-color: ghostwhite">
-<h4>MOST RECENT WORK:</h4>
-</div> -->
-
-<hr>
-  <div class="w3-row" style="background-color: white;">
-    <div class="w3-third w3-container">
-    <h3 style="font-weight: bold;color: black;">Team</h3>
-      <ul>
-        <li class="w3-large">1 Researcher</li>
-        <li class="w3-large">1 Internship manager</li>
-
-      </ul>
-    
-      </div>
-      <div class="w3-third w3-container">
-        <h3 style="font-weight: bold;color: black;">Role</h3>
-          <li class="w3-large">UX Researcher</li> 
-          <li class="w3-large">Product Design</li>   
-          <li class="w3-large">UX Writing</li> 
+    <section class="overview-section">
+        <div class="overview-box">
+            <h4><i class="fa-solid fa-user-tie"></i> My Role</h4> <ul>
+                <li>UX Researcher</li>
+                <li>Product Design (Conceptual)</li>
+                <li>UX Writing</li>
+            </ul>
         </div>
-      
-    <div class="w3-third w3-container">
-    <h3 style="font-weight: bold;color: black;">Tools</h3>
-    <li class="w3-large">Figma</li> 
-    
-    </div>
-  
-  </div>
+        <div class="overview-box">
+            <h4><i class="fa-solid fa-users"></i> Team</h4> <ul>
+                <li>1 Researcher (Myself)</li>
+                <li>1 Internship Manager</li>
+            </ul>
+        </div>
+        <div class="overview-box">
+            <h4><i class="fa-solid fa-calendar-days"></i> Duration</h4> <ul>
+                <li>3 Months</li>
+                <li>(Jun 2022 - Sep 2022)</li>
+            </ul>
+        </div>
+        <div class="overview-box">
+            <h4><i class="fa-solid fa-wrench"></i> Tools & Methods</h4> <ul>
+                <li>Figma</li>
+                <li>Time Loop Method (Developed)</li>
+                <li>Feeling Cues Method (Developed)</li>
+                <li>Semi-Structured Interviews</li>
+            </ul>
+        </div>
+    </section>
 
-<hr>
+    <hr>
 
-<div class="w3-row" style="background-color: white;">
-    <div class="w3-half w3-container">
-    <h2 style="font-weight: bold;color: black;">Problem</h2>
-    <p class="w3-xlarge w3-text-black">The Facebook home contains various features and services.
-      In this internship project, I explore futuristic Opportunities and designs to appeal for the younger population
-      of Facebook.</p>
-    </div>
+    <section id="problem">
+        <h2>The Challenge: Evolving Facebook Home for the Future</h2>
+        <p>Facebook's home feed serves as a central hub, integrating numerous features and services. To ensure its continued relevance and appeal, especially to younger users whose digital habits are constantly evolving, Facebook needs to explore futuristic opportunities and potentially new design paradigms for this core space.</p>
+        <p>The challenge during my internship was to conduct generative research to uncover these future opportunities, understanding latent user needs and desires that could inform the next evolution of Facebook Home.</p>
+    </section>
 
-    <div class="w3-half w3-container">
-    <h2 style="font-weight: bold;color: black;">Solution</h2>
-    <p class="w3-xlarge">
-    I am bound by NDA and can not share my outcomes and insights for this project. 
-    Instead, I will share innovative research methods I developed and used as a part of this internship.
-     </p>
-        <hr>
-    </div>
-</div>
-<h1 style="color: #1773EB;";>
-  What research methods can be used and executed to 
-  identify futuristic opportunities for Facebook's Home?</h1>
+    <hr>
 
-<hr>
+     <section id="approach">
+        <h2>Approach: Focusing on Methodology Amidst Constraints</h2>
+        <p>Due to the confidential nature of the project and NDA requirements, I cannot share the specific insights, outcomes, or design prototypes generated during this internship.</p>
+        <p>However, a significant part of the project involved developing and utilizing innovative research methods tailored to explore future possibilities. This case study will focus on detailing two such methods created to answer the core research question:</p>
+        <p class="central-question">What research methods can effectively identify futuristic opportunities for Facebook's Home?</p>
+    </section>
 
+    <hr>
 
+    <section id="innovative-methods">
+        <h2>Developing Novel Research Methods</h2>
+        <p>To uncover forward-looking user needs related to context (time) and emotion, I developed and applied the following two methods:</p>
 
+        <h3>Method 1: Time Loop - Understanding Temporal Needs</h3>
+        <h4>Guiding Question: What do users want to see, and when?</h4>
+        <p>Rationale: Intuitive interfaces often align with users' daily rhythms. This method aimed to understand how Facebook Home could better integrate into users' lives by exploring their needs and preferences at different times of the day.</p>
+        <p>Execution: Participants were presented with visual cues representing various times/scenarios throughout a typical day (e.g., waking up, commuting, evening relaxation). For each cue, we discussed how Facebook Home could be most helpful or relevant at that specific moment using prompts like:</p>
+        <blockquote>"It's this time of the day, and you open the Facebook app; what would you ideally like to see first?"</blockquote>
+        <blockquote>"After a busy day, you return home... You open Facebook. What would you hope to find?"</blockquote>
+        <p>Interviews were semi-structured and adapted based on the participant's context (e.g., student vs. working professional).</p>
 
-<div id="empathize" style="display: block;">
- 
+        <figure>
+            <img src="temporary/images/time_loop.png" alt="Illustration showing visual cues for different times of day used in the Time Loop method">
+            <figcaption>Figure 1: Visual cues presented to participants during the Time Loop interviews.</figcaption>
+        </figure>
 
-    <h1 class="w3-xlarge" style="color:#1773EB">What users want to see and when?</h1>
-   
-    <p class="w3-xlarge w3-text-black"> Designing intuitive interfaces and experiences enables users to grasp and establish a rhythm in their product usage. Through this research method, we seek to understand how time can serve as a determining factor in identifying participants' product preferences. </p>
-
-    <h1 class="w3-xlarge" style="color:#1773EB">Introducing Research Method - Time Loop: </h1>
-    <p class="w3-xlarge w3-text-black">The Time Loop method involves placing participants in different scenarios throughout the day and discussing how the product or application can assist them during those times. We displayed visual cues individually, as illustrated in Figure 1, prompting users to discuss how Facebook Home could benefit them at various moments in their day. We posed questions like: <em style="color: #666;">"It's this time of the day, and you open the Facebook app; what would you like to see?"</em> The semi-structured interviews were tailored to participants' occupations, allowing us to adjust certain questions for greater context and relevance. For instance, we asked a university student: <em style="color: #666;">"After a busy day, you return home in the evening and settle on the couch. You open Facebook. What would you hope to find?".</em> </p>
-    <h2 class="w3-xlarge" style="color:green">Pros: </h2>
-    <ul class="w3-xlarge w3-text-black">
-      <li>This approach emphasizes user routines, highlighting how a product can seamlessly integrate into their day-to-day lives. One participant remarked, "<em style="color: #666;">I'd like to see the weather on Facebook Home first thing in the morning.</em>"</li>
-      <li>It facilitates the identification of patterns, generating themes from the diverse experiences and features participants discuss. A participant shares "<em style="color: #666;">I really do not like to seen anything negative, I would love maybe spread some positivity, showing whose birthday it is and an easy way to share birthdays would be really good.</em>"</li>
-      <li>This method strongly centers the user, empowering them to articulate their preferences and desires. For instance college student shares,"<em style="color: #666;">Ahh, while going to bed, it would be nice to see some positive affirmations to wind down, You have stories and reels right now, but sometimes I feel I get overwhelmed.</em>" </li>
-      <li>While time remains a primary factor, this technique also unveils other considerations shaping user experiences based on what they frequently do. For instance, a participant noted, "<em style="color: #666;">I'm not keen on viewing Reels while traveling, especially if my headphones aren't connected and mostly when I travel back from Office</em>"</li>
-  </ul>
-  
-    <h2 class="w3-xlarge" style="color:red">Cons: </h2>
-    <ul class="w3-xlarge w3-text-black">
-      <li>Participants might not be interested in seeing a variety of experiences in a product and might not be vocal. If this happens, try asking them to talk 
-        through their day, and reference activities they perform throughout their day 
-        when probing into how Facebook Home can help them in their activity. </li>
-      <li>For a researcher, it might appear that the participant wants the entire 
-        Facebook app on Facebook Home. Do not stop/interrupt the participant when they are 
-        sharing such ideas. Focus on quantity over quality at this point. Distill and filter ideas as part of your analysis process.</li>
-    </ul>
-    <img style="width: 100%;" src="temporary/images/time_loop.png">
-    <label style="padding:10%;">Figure 1: Illustration of what was presented to the participants while executing Time Loop research method</label>
-    <h1 class="w3-xlarge" style="color:#1773EB">How do you feel and what do you want to see?</h1>
- 
-    <p class="w3-xlarge w3-text-black"> Facebook serves a multitude of purposes beyond merely entertainment and connection. Given its diverse use cases, it's crucial for Facebook to cater to various emotional states. With this approach, we seek to understand how a product can address and support different emotional contexts. 
-    </p>
-    <h1 class="w3-xlarge" style="color:#1773EB">Introducing Research Method - Feeling Cues</h1>
-    <p class="w3-xlarge w3-text-black">
-      Keyword cues is a method in which we present participants with various emotional states and inquire about how a product might facilitate or resonate with the given emotional state or intent. To assist participants in contemplating and discussing potential content for Facebook Home, we provided visual cues, as depicted below. Participants encountered questions like, <em style="color: #666;">"What could we display on Facebook Home that would make you feel or connect with [presented keyword]?"</em>.
-      </p>
-      <h2 class="w3-xlarge" style="color:green">Pros: </h2>
-      <ul class="w3-xlarge w3-text-black">
-        <li>This approach enables us to discern the types of content and formats that resonate with users, guiding them towards specific emotions.</li>
-        <li>From the subjects and interests of participants, we can curate themes that bolster their emotional connection. For instance, some expressed a desire to see content from friends and family on TOH to evoke feelings of love and security. Another sentiment shared was the appreciation of positive mental health quotes on TOH, especially after a taxing workday.</li>
-    </ul>
-    
-    <h2 class="w3-xlarge" style="color:red">Cons: </h2>
-    <ul class="w3-xlarge w3-text-black">
-      <li>When participants provide brief answers about their preferences, it's essential to probe further. For instance, if someone mentions they enjoy "puppy content" because of the happiness it brings, ask them about the specific type they prefer: videos, reels, or stories. Additionally, seek clarity on why such content appeals to them.</li>
-      <li>Since emotions are inherently subjective, formulating overarching themes can prove challenging.</li>
-      <li>Determining the optimal moment to address a certain emotion can be intricate. Rather than using this method to pinpoint when to present specific experiences, employ it to discern the types of experiences users might value.</li>
-  </ul>
-  
-  
-    <img style="width: 100%;" src="temporary/images/keyword_cues.png">
-</div>
-
-
-<!-- <div id="define" style="display: none;">
-    <h1 class="w3-center w3-xxxlarge">Define</h1>
-    <h3 class="w3-xxlarge" style="color: #F89B72;">Insights</h3>
-    <ul>
-        <li class="w3-xlarge w3-text-black">Cultural stakeholders do not encourage copying gods into video games.</li>
-        <li class="w3-xlarge w3-text-black">Cultural stakeholders emphasize that it is important to stick to the scriptures and original narratives.</li>
-        <li class="w3-xlarge w3-text-black">Stakeholders suggest that creative liberty with gods from active religion should not be taken. Instead they suggest sticking to the original narrative and use fictional characters for gameplay.</li>
-    </ul>
-    
-    <h1 class="w3-xlarge" style="color: #F89B72;">Opportunities and Questions</h1>
-    <p class="w3-xlarge w3-text-black">
-        Having discussed with stakeholders we realize that there is a large design space in Hindu mythology that can be leveraged.
-        But this does not come at the cost of copying original gods. Stakeholders suggest that we can take granular elements form
-        Hindu mythology and create new aesthetics and characters. 
-    </p>
-    <ul>
-        <li class="w3-xlarge w3-text-black">How do we identify granular elements from Mythology?</li>
-        <li class="w3-xlarge w3-text-black">How do we present these granular elements to designers?</li>
-        <li class="w3-xlarge w3-text-black">Can we create novel video game characters using these granular elements?</li>
-        <li class="w3-xlarge w3-text-black">Are the characters that are created using these granular elements culturally sensitive?</li>
-    </ul>
-
-</div>
-
-
-
-<div id="ideate" style="display: none;">
-    <h1 class="w3-center w3-xxxlarge">Ideate</h1>
-    <p class="w3-xlarge w3-text-black">As an alternative to god transplantation,
-         We employ <mark>Ethnography</mark>  and <mark>Grounded Theory</mark>  as research methods to develop granular artifacts that support the creation of characters. 
-         We hypothesize that combining artifacts (syntagms) allows the creation of novel and sensitive characters. We take the following research approach:</p>
-    
-    <img src="temporary/images/astraVerse/Group 97.png" style="height: 100%;width: 100%;">
-    <h1 class="w3-xlarge" style="color: #F89B72;">Visit cultural spaces for Visual Ethnography</h1>
-    <img src="temporary/images/astraVerse/Group 98.png" style="width: 100%;height: 100%;">
-    <p class="w3-xlarge w3-text-black">Visiting temples we collected a <mark>total of 
-        429 images</mark>. Of the 429 images, 
-        248 images were images of idols, 
-        63 images consisted of ongoing rituals, and 
-        45 images were miscellaneous objects. </p>
-
-        <img src="temporary/images/astraVerse/Group 99.png" style="height: 100%;width: 100%;"> 
-
-        <h1 class="w3-xlarge" style="color: #F89B72;">Grounded Theory to create a Syntagm and Paradigm based Character Design space</h1>
-    
-    <p class="w3-xlarge w3-text-black">We used grounded theory a research method to create a design space of character creation artifacts. The design space has <mark>141 open codes</mark>, categorized into <mark>22 axial codes</mark>, that finally converging into <mark>4 selective codes.</mark> </p>
-  </div>
-
-
-
-<div id="prototype" style="display: none;">
-    <h1 class="w3-center w3-xxxlarge">Prototype</h1>
-    <h1 class="w3-xlarge" style="color: #F89B72;">Presenting the Syntagm and Paradigm based Character Design space</h1>
-    <p class="w3-xlarge w3-text-black">We showcase granular elements as syntagm and paradigms. The syntagm and paradigm based design space are displayed as cards on a table. The axial codes act as paradigms. The open codes are the syntagms and are distributed across the paradigms. 
-        This distribution allows designers to pick suitable syntagms from the respective paradigms for character creation.  
-        Designers are allowed to select any number of syntagms and arrange them to create characters. </p>
-        <img src="temporary/images/astraVerse/Group 65 (4).png" style="height: 100%;width: 100%;"> 
-
-</div>
-
-
-
-<div id="evaluate" style="display: none;">
-    <h1 class="w3-center w3-xxxlarge">Evaluate</h1>
-    <p class="w3-xlarge w3-text-black">We evaluate the design space on three parameters.<p>
-    <ul> 
-        <li class="w3-xlarge w3-text-black">Does the design space support the creation of video game characters?</li>
-        <li class="w3-xlarge w3-text-black">Are the generated characters novel and unique?</li>
-        <li class="w3-xlarge w3-text-black"> Are the generated characters culturally sensitive? </li>
-    </ul>
-    <p class="w3-xlarge w3-text-black"> We take the following evaluative steps.</p>
-    <img src="temporary/images/astraVerse/Group 100.png" style="width: 100%;height: 100%;">
-    <h1 class="w3-xlarge" style="color: #F89B72;">Participatory Design Workshop</h1>
-    <p class="w3-xlarge w3-text-black">To verify designers could use the design space to create new characters, we conducted a participatory design workshop with game designers as stakeholders. 
-        Game designers were evaluated and were requested to create characters using the design space.
-         Each participant was requested to create 2 characters. </p>
-         <img src="temporary/images/astraVerse/Group 101 (1).png" style="width: 100%;height: 100%;">
-
-    <h1 class="w3-xlarge" style="color: #F89B72;">Quantitative Framework to Evaluate Character Novelty</h1>
-
-    <p class="w3-xlarge w3-text-black">The syntagm and paradigm approach towards the design space allows to represent characters as a vector representation.
-         The frequency of each syntagm in an entry into the vector.
-         This vector acts as an embedding for the character and provides us an opportunity to compare characters using distance metrics. </p>
-         <img src="temporary/images/astraVerse/Group 65 (5).png" style="width: 100%;height: 100%;">
-         <p class="w3-xlarge w3-text-black">We measure character distances from one central and plot them on a radar chart as shown below. 
-            We create two groups of charaters. Group (1) consists of characters copied from the original religious texts and used in games. 
-            Group (2) consists of characters created by the participants from the participatory design study.   </p>
-         
-         <img src="temporary/images/astraVerse/Group 68.png" style="width: 100%;height: 100%;">
-
-        <p class="w3-xlarge w3-text-black">We run Welch's t-test on the distances from a origin character and two groups of characters:</p>
-         <img src="temporary/images/astraVerse/Group 102.png" style="width: 100%;height: 100%;">
-         <p class="w3-xlarge w3-text-black">We generate the following insights:</p>
-         <ul> 
-            <li class="w3-xlarge w3-text-black"><mark>Participant generated characters are novel when measured across the entire design space</mark> (p<0.05). There is <mark>less overlap between the original gods and participant generated characters </mark> (d>0.8) </li>
-            <li class="w3-xlarge w3-text-black"><mark>Participant generated characters are unique in terms of their physical appearance</mark> (p<0.05, d>0.8). This could be a result of the fact that gods are mostly anthropomorphic in nature, while participant generated gods are a mix of both zoomorphic and anthropomorphic. </li>
-            <li class="w3-xlarge w3-text-black"> A number of original gods are presented as royals resulting in high jewelry and other fashion elements. (p>0.05)</li>
-            <li class="w3-xlarge w3-text-black">The anthropomorphic nature of participant characters allows multiple hands and results in them carrying a larger set of weapons (p<0.05,d>0.8). The reverse is true for the game mechanics selective code (p>0.05)</li>
-        </ul>
-        <h1 class="w3-xlarge" style="color: #F89B72;">Sensitivity Evaluation through Stakeholder Interviews</h1>
-        <p class="w3-xlarge w3-text-black">We presented temple priests with characters created by participants and gods copied into video games. They were asked about what aspects of the presented character they found offensive.  Insightful responses are as follows:</p>
-        <img src="temporary/images/astraVerse/Group 104.png" style="width: 100%;height: 100%;">
-        <h1 class="w3-xlarge" style="color: #F89B72;">Insights from Sensitivity Evaluation</h1>
+        <h4>Pros:</h4>
         <ul>
-        <li class="w3-xlarge w3-text-black"><mark>Participant generated characters were received positively by cultural stakeholders.</mark> Cultural stakeholders had a strong voice against using original gods in video games. </li>
-        <li class="w3-xlarge w3-text-black">Cultural stakeholders were able to identify elements borrowed from the specific mythology but <mark>assured that the characters were fictional and were just using elements from mythology.</mark></li>
-        <li class="w3-xlarge w3-text-black">Cultural stakeholders were concerned with narratives around original gods being manipulated through video games, but <mark>shared that creative liberty could be taken on narratives for participant generated character. </mark></li>
-    </ul>
-    </div> -->
+            <li>Emphasizes user routines, revealing opportunities for seamless integration (e.g., <em>"I'd like to see the weather on Facebook Home first thing in the morning."</em>).</li>
+            <li>Facilitates pattern identification across diverse user needs and desired features (e.g., desire for positivity, birthday reminders: <em>"...showing whose birthday it is and an easy way to share birthdays would be really good."</em>).</li>
+            <li>Strongly user-centered, empowering participants to articulate specific desires (e.g., winding down: <em>"...it would be nice to see some positive affirmations to wind down..."</em>).</li>
+            <li>Unveils secondary contextual factors beyond time (e.g., location/activity affecting content preference: <em>"I'm not keen on viewing Reels while traveling..."</em>).</li>
+        </ul>
 
+        <h4>Cons:</h4>
+        <ul>
+            <li>Risk of reticence: If participants aren't vocal, prompting them to walk through their entire day and connecting potential features to specific activities can help.</li>
+            <li>Potential for feature overload: Participants might suggest including too much. Researchers should focus on gathering all ideas initially and prioritize during analysis.</li>
+        </ul>
+
+        <hr style="margin-top: var(--spacing-xl); margin-bottom: var(--spacing-xl);">
+
+        <h3>Method 2: Feeling Cues - Connecting Content to Emotion</h3>
+        <h4>Guiding Question: How do you feel, and what content resonates?</h4>
+        <p>Rationale: Facebook serves diverse emotional needs beyond just entertainment or connection. This method aimed to understand how content on Facebook Home could better align with or support users' various emotional states and intents.</p>
+        <p>Execution: We presented participants with visual cues representing different feelings or emotional states (e.g., connected, informed, relaxed, inspired). For each cue, we explored what kind of content or features on Facebook Home could evoke or support that feeling, asking questions like:</p>
+        <blockquote>"What could we display on Facebook Home that would make you feel or connect with [presented keyword/feeling]?"</blockquote>
+
+         <figure>
+            <img src="temporary/images/keyword_cues.png" alt="Illustration showing visual cues for different emotional states used in the Feeling Cues method">
+            <figcaption>Figure 2: Visual cues representing emotional states used during the Feeling Cues interviews.</figcaption>
+        </figure>
+
+        <h4>Pros:</h4>
+        <ul>
+            <li>Identifies content types and formats that resonate emotionally (e.g., connecting feelings of love/security to seeing content from close friends/family).</li>
+            <li>Helps curate themes based on participant interests that support desired emotional states (e.g., positive mental health quotes being valued after work).</li>
+        </ul>
+
+        <h4>Cons:</h4>
+        <ul>
+            <li>Requires deep probing: Brief answers (e.g., "puppy content for happiness") need follow-up questions about preferred format (video, reel?) and the underlying 'why'.</li>
+            <li>Subjectivity challenges theming: Defining universal themes from subjective emotional responses can be complex.</li>
+            <li>Focus on 'What', not 'When': Better suited for identifying *types* of emotionally resonant experiences rather than pinpointing the exact *timing* for them.</li>
+        </ul>
+    </section>
+
+     <hr>
+
+    <section id="conclusion">
+        <h2>Value of Methodological Innovation</h2>
+        <p>While specific project outcomes remain confidential, the development and application of the "Time Loop" and "Feeling Cues" methods provided valuable frameworks for exploring future-facing user needs in a nuanced way.</p>
+        <p>These methods allowed us to move beyond current usage patterns and delve into how Facebook Home could proactively integrate into users' lives based on temporal context and emotional state, generating rich qualitative data even when exploring abstract future possibilities. They represent adaptable techniques for generative research in product development.</p>
+    </section>
+
+    <footer class="footer" style="text-align: center; padding: var(--spacing-lg) var(--spacing-md); margin-top: var(--spacing-xl); background-color: var(--secondary-color); color: var(--text-color-light); font-size: 0.9rem;">
+      <p>&copy; <span id="current-year"></span> Sai Maram. Case Study.</p>
+      <p><a href="./index.html">Back to Portfolio</a></p>
+ </footer>
+
+</main>
+
+<script>document.addEventListener('DOMContentLoaded', () => {
+ const menuToggle = document.getElementById('menu-toggle');
+ const navbarNav = document.getElementById('navbar-nav');
+ const navLinks = document.querySelectorAll('.nav-link'); // Get all nav links
+ const navbar = document.getElementById('navbar');
+
+ // Toggle mobile menu
+ if (menuToggle && navbarNav) {
+     menuToggle.addEventListener('click', () => {
+         navbarNav.classList.toggle('active');
+         // Optional: change hamburger icon to 'X'
+         const icon = menuToggle.querySelector('i');
+         if (navbarNav.classList.contains('active')) {
+             icon.classList.remove('fa-bars');
+             icon.classList.add('fa-times');
+             menuToggle.setAttribute('aria-expanded', 'true');
+         } else {
+             icon.classList.remove('fa-times');
+             icon.classList.add('fa-bars');
+             menuToggle.setAttribute('aria-expanded', 'false');
+         }
+     });
+
+     // Close mobile menu when a link is clicked
+     navLinks.forEach(link => {
+         link.addEventListener('click', () => {
+             if (navbarNav.classList.contains('active')) {
+                 navbarNav.classList.remove('active');
+                 const icon = menuToggle.querySelector('i');
+                 icon.classList.remove('fa-times');
+                 icon.classList.add('fa-bars');
+                  menuToggle.setAttribute('aria-expanded', 'false');
+             }
+         });
+     });
+ }
+
+  // Add shadow to navbar on scroll
+ if (navbar) {
+     window.addEventListener('scroll', () => {
+         if (window.scrollY > 50) { // Add shadow after scrolling 50px
+             navbar.classList.add('scrolled');
+         } else {
+             navbar.classList.remove('scrolled');
+         }
+     });
+ }
+
+ // Update footer year
+ const currentYearSpan = document.getElementById('current-year');
+ if (currentYearSpan) {
+     currentYearSpan.textContent = new Date().getFullYear();
+ }
+
+ // --- Optional: Active Nav Link Highlighting ---
+ // More complex implementation needed based on scroll position
+ // This is a simple example assuming section IDs match nav hrefs
+ const sections = document.querySelectorAll('section[id]'); // Get sections with IDs
+
+ function setActiveLink() {
+     let currentSection = '';
+     const scrollPos = window.scrollY + navbar.offsetHeight + 50; // Offset for navbar height + buffer
+
+     sections.forEach(section => {
+         const sectionTop = section.offsetTop;
+         const sectionHeight = section.offsetHeight;
+         if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+             currentSection = section.getAttribute('id');
+         }
+     });
+
+      // Special case for top of page (hero section often doesn't have ID or is above first section)
+      if (window.scrollY < sections[0].offsetTop - navbar.offsetHeight - 50) {
+          currentSection = 'home'; // Assuming hero/top section implies 'home' link
+      }
+
+
+     navLinks.forEach(link => {
+         link.classList.remove('active');
+         // Check if the link's href matches the current section ID
+         // Handle the '#' in href
+         if (link.getAttribute('href') === `#${currentSection}`) {
+             link.classList.add('active');
+         }
+          // Handle base index.html link for 'home'
+         if (currentSection === 'home' && (link.getAttribute('href') === './index.html' || link.getAttribute('href') === '#home') ) {
+              // No specific 'home' link in the provided nav, so this part might not highlight anything unless a home link is added.
+              // Example: if you add <a href="#home">Home</a>, this would work.
+         }
+     });
+ }
+
+ window.addEventListener('scroll', setActiveLink);
+ setActiveLink(); // Initial check on load
+
+});</script>
 
 </body>
 </html>
-<script>
-    // Open and close sidebar
-    function openNav() {
-      document.getElementById("mySidebar").style.width = "60%";
-      document.getElementById("mySidebar").style.display = "block";
-    }
-    
-    function closeNav() {
-      document.getElementById("mySidebar").style.display = "none";
-    }
-
-    var empathize_div = document.getElementById("empathize");
-    var define_div = document.getElementById("define");
-    var ideate_div = document.getElementById("ideate");
-    var prototype_div = document.getElementById("prototype");
-    var evaluate_div = document.getElementById("evaluate");
-
-
-    $("#empathize_circle").click(function() {
-        define_div.style.display="none"
-        ideate_div.style.display="none"
-        prototype_div.style.display='none'
-        evaluate_div.style.display='none'
-        empathize_div.style.display = "block"
-    });
-    $("#define_circle").click(function() {
-        ideate_div.style.display="none"
-        prototype_div.style.display='none'
-        evaluate_div.style.display='none'
-        empathize_div.style.display = "none"
-        define_div.style.display="block"
-
-    });
-    $("#ideate_circle").click(function() {
-        prototype_div.style.display='none'
-        evaluate_div.style.display='none'
-        empathize_div.style.display = "none"
-        define_div.style.display="none"
-        ideate_div.style.display="block"
-    });
-
-    $("#prototype_circle").click(function() {
-        ideate_div.style.display="none"
-        evaluate_div.style.display='none'
-        empathize_div.style.display = "none"
-        define_div.style.display="none"
-        prototype_div.style.display='block'
-    });
-
-    $("#evaluate_circle").click(function() {
-        ideate_div.style.display="none"
-        empathize_div.style.display = "none"
-        define_div.style.display="none"
-        prototype_div.style.display='none'
-        evaluate_div.style.display='block'
-    });
-
-
-    </script>

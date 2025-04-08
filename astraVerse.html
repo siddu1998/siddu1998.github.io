@@ -1,553 +1,707 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>AstraVerse</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="Group 116.png">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>AstraVerse - UX Case Study</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="./stylesheet.css">
-
-
-
-
-
-<style>
-
-body {
-            font-family: Arial, sans-serif;
-            background-image: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMiIgZmlsbD0iI2QwZDBkMCIgLz4KPC9zdmc+Cg==");
-            /* padding-top: 100px; */
-        }
-
-.navbar {
-  display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: white;
-            padding: 15px 60px;
-            font-size: 1.2em;
-            position: fixed;  /* This makes it stick to the top */
-            top: 0;           /* Position it at the very top */
-            left: 0;          /* Align to the left edge */
-            width: 100%;      /* Take full width of the viewport */
-            z-index: 1000;
-            box-sizing: border-box; 
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);   /* Keep it above other elements */
-        }
-
-        .navbar a, .dropdown-toggle {
-            color: black;
-            text-decoration: none;
-            margin: 0 15px;
-            padding: 5px 15px;
-            transition: underline 0.3s;
-        }
-
-        .navbar a:hover, .dropdown-toggle:hover {
-            text-decoration: underline;
-        }
-
-        .navbar-left {
-            display: flex;
-            align-items: center;
-        }
-
-        .navbar-right {
-            display: flex;
-            align-items: center;
-        }
-
-        /* Dropdown styling */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: whitesmoke;
-            min-width: 190px;
-            z-index: 1;
-            /* border: 1px solid black; */
-        }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #f5f5f5;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        /* Hamburger menu - hidden by default */
-        .menu-toggle {
-            display: none;
-        }
-
-        @media screen and (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 15px;
-            }
-
-            .navbar-right {
-                display: none; /* Hide menu items by default on small screens */
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .navbar.active .navbar-right {
-                display: flex; /* Display menu items when navbar is active */
-            }
-
-            /* Display hamburger menu only on small screens */
-            .menu-toggle {
-                display: block;
-                cursor: pointer;
-                font-size: 1.5em;
-                color: black;
-            }
+    <style>
+      /* --- Global Styles & Variables (Copied from previous revamp) --- */
+      :root {
+          --primary-font: "Inter", system-ui, sans-serif;
+          --heading-font: "Inter", system-ui, sans-serif;
+  
+          --primary-color: #F39F5A; /* Accent orange */
+          --primary-color-darker: #e08e4a; /* Darker shade */
+          --secondary-color: #f8f9fa; /* Light background */
+          --text-color: #343a40; /* Dark grey for text */
+          --text-color-light: #6c757d; /* Lighter grey for descriptions */
+          --border-color: #dee2e6;
+          --card-bg: #ffffff;
+          --shadow-color: rgba(0, 0, 0, 0.05); /* Softer shadow */
+          --shadow-hover-color: rgba(0, 0, 0, 0.1);
+  
+          --border-radius-sm: 4px;
+          --border-radius-md: 8px;
+          --border-radius-lg: 12px;
+  
+          --spacing-xs: 0.5rem;  /* 8px */
+          --spacing-sm: 1rem;    /* 16px */
+          --spacing-md: 1.5rem;  /* 24px */
+          --spacing-lg: 2.5rem;  /* 40px */
+          --spacing-xl: 4rem;    /* 64px */
+  
+          --max-width: 1100px; /* Slightly narrower for case study text */
+          --transition-speed: 0.3s;
+      }
+  
+      *,
+      *::before,
+      *::after {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+      }
+  
+      html {
+          scroll-behavior: smooth;
+          scroll-padding-top: 80px; /* Adjust based on fixed navbar height */
+      }
+  
+      body {
+          font-family: var(--primary-font);
+          color: var(--text-color);
+          background-color: #fff;
+          line-height: 1.7;
+          font-size: 17px; /* Slightly larger base font for readability */
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          padding-top: 70px; /* Add padding to prevent content going under fixed navbar */
+      }
+  
+      .container {
+          max-width: var(--max-width);
+          margin-left: auto;
+          margin-right: auto;
+          padding-left: var(--spacing-md);
+          padding-right: var(--spacing-md);
+      }
+  
+      h1, h2, h3, h4, h5, h6 {
+          font-family: var(--heading-font);
+          font-weight: 700;
+          line-height: 1.3;
+          margin-bottom: var(--spacing-sm);
+          color: var(--text-color);
+      }
+  
+      h1 { font-size: 2.8rem; color: var(--primary-color-darker); } /* Main Case Study Title */
+      h2 { font-size: 2rem; margin-top: var(--spacing-lg); border-bottom: 2px solid var(--border-color); padding-bottom: var(--spacing-xs); } /* Section Titles */
+      h3 { font-size: 1.5rem; margin-top: var(--spacing-md); font-weight: 700; color: var(--text-color); } /* Sub-Section Titles */
+      h4 { font-size: 1.2rem; font-weight: 700; color: var(--text-color); } /* Overview Box Titles */
+  
+      p {
+          margin-bottom: var(--spacing-md);
+          font-size: 1.1rem; /* Slightly larger paragraph font */
+          max-width: 75ch; /* Optimal line length for reading */
+      }
+      p.meta { /* For date/publication info */
+          font-size: 0.95rem;
+          color: var(--text-color-light);
+          margin-bottom: var(--spacing-xs);
+      }
+  
+      a {
+          color: var(--primary-color);
+          text-decoration: none;
+          font-weight: 500;
+          transition: color var(--transition-speed) ease;
+      }
+  
+      a:hover, a:focus {
+          color: var(--primary-color-darker);
+          text-decoration: underline;
+          outline: none;
+      }
+  
+      img {
+          max-width: 100%;
+          height: auto;
+          display: block;
+          border-radius: var(--border-radius-md); /* Subtle rounding */
+      }
+  
+      figure {
+          margin: var(--spacing-lg) auto; /* Center figures */
+          max-width: 90%; /* Limit figure width */
+          text-align: center;
+      }
+  
+      figcaption {
+          margin-top: var(--spacing-sm);
+          font-size: 0.9rem;
+          color: var(--text-color-light);
+          font-style: italic;
+      }
+  
+      ul, ol {
+          margin-bottom: var(--spacing-md);
+          padding-left: var(--spacing-md);
+      }
+  
+      li {
+          margin-bottom: var(--spacing-xs);
+          font-size: 1.05rem;
+      }
+  
+      blockquote {
+          border-left: 4px solid var(--primary-color);
+          margin: var(--spacing-md) 0 var(--spacing-md) var(--spacing-sm);
+          padding: var(--spacing-sm) var(--spacing-md);
+          background-color: var(--secondary-color);
+          border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+          font-style: italic;
+          color: var(--text-color-light);
+          font-size: 1.1rem;
+      }
+       blockquote p {
+           margin-bottom: 0;
+           max-width: none; /* Allow blockquote text to fill width */
+       }
+  
+      hr {
+          border: none;
+          border-top: 1px solid var(--border-color);
+          margin: var(--spacing-lg) 0;
+      }
+  
+      strong, b {
+          font-weight: 700;
+      }
+  
+      /* --- Navbar Styles (Copied from previous revamp) --- */
+      .navbar {
+          background-color: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(10px);
+          border-bottom: 1px solid var(--border-color);
+          padding: var(--spacing-xs) 0;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          z-index: 1000;
+          transition: box-shadow var(--transition-speed) ease;
+      }
+      .navbar.scrolled { box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); }
+      .nav-container {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          max-width: var(--max-width);
+          margin: 0 auto;
+          padding: 0 var(--spacing-md);
+      }
+      .nav-logo { font-weight: 700; font-size: 1.4rem; color: var(--text-color); text-decoration: none; }
+      .nav-logo:hover { color: var(--primary-color); text-decoration: none; }
+      .navbar-nav { display: flex; align-items: center; gap: var(--spacing-sm); }
+      .nav-link { color: var(--text-color-light); text-decoration: none; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--border-radius-sm); font-weight: 500; transition: color var(--transition-speed) ease, background-color var(--transition-speed) ease; }
+      .nav-link:hover, .nav-link:focus, .nav-link.active { color: var(--primary-color); text-decoration: none; background-color: rgba(243, 159, 90, 0.1); }
+      .nav-link-button { background-color: var(--primary-color); color: white; padding: 8px 18px; border-radius: var(--border-radius-md); transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease; }
+      .nav-link-button:hover, .nav-link-button:focus { background-color: var(--primary-color-darker); color: white; transform: translateY(-2px); text-decoration: none; }
+      .menu-toggle { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-color); cursor: pointer; padding: var(--spacing-xs); }
+  
+      /* --- Case Study Specific Styles --- */
+      .case-study-header {
+          padding: var(--spacing-lg) 0 var(--spacing-md) 0;
+          /* background-color: var(--secondary-color); Light bg for header */
+          border-bottom: 1px solid var(--border-color);
+          margin-bottom: var(--spacing-xl);
+      }
+      .case-study-header h1 {
+          margin-bottom: var(--spacing-sm);
+      }
+      .case-study-header .subtitle {
+          font-size: 1.4rem;
+          font-weight: 400;
+          color: var(--text-color-light);
+          max-width: 75ch;
+          margin-bottom: var(--spacing-md);
+      }
+  
+      .overview-section {
+          display: flex;
+          flex-wrap: wrap;
+          gap: var(--spacing-md);
+          background-color: var(--secondary-color);
+          padding: var(--spacing-md);
+          border-radius: var(--border-radius-lg);
+          margin-bottom: var(--spacing-xl);
+      }
+      .overview-box {
+          flex: 1 1 200px; /* Flexible boxes, minimum width 200px */
+          padding: var(--spacing-sm);
+      }
+      .overview-box h4 {
+          margin-bottom: var(--spacing-sm);
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-xs);
+          color: var(--primary-color-darker);
+      }
+       .overview-box h4 i { /* Icon styling */
+          font-size: 1rem;
+           color: var(--primary-color);
+      }
+  
+      .overview-box ul {
+          list-style: none;
+          padding-left: 0;
+          margin-bottom: 0;
+      }
+       .overview-box li {
+          font-size: 1rem;
+          color: var(--text-color);
+      }
+  
+      .video-container {
+          position: relative;
+          padding-bottom: 56.25%; /* 16:9 aspect ratio */
+          height: 0;
+          overflow: hidden;
+          max-width: 100%;
+          background: #000;
+          margin: var(--spacing-lg) auto; /* Center video */
+          border-radius: var(--border-radius-md);
+          box-shadow: 0 4px 15px var(--shadow-color);
+      }
+      .video-container iframe {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border: 0;
+      }
+      .video-caption {
+          text-align: center;
+          margin-top: var(--spacing-sm);
+          font-size: 0.9rem;
+          color: var(--text-color-light);
+          font-style: italic;
+      }
+  
+      .problem-solution-section {
+          display: flex;
+          flex-wrap: wrap;
+          gap: var(--spacing-lg);
+          margin-bottom: var(--spacing-xl);
+      }
+      .problem-solution-section > div {
+          flex: 1 1 45%; /* Two columns */
+          min-width: 300px; /* Prevent excessive shrinking */
+      }
+       .problem-solution-section h3 { /* Use H3 for Problem/Solution titles here */
+           margin-top: 0; /* No extra top margin */
+           border-bottom: 2px solid var(--primary-color);
+           padding-bottom: var(--spacing-xs);
+           display: inline-block;
+       }
+  
+      .insight-image {
+          border: 1px solid var(--border-color);
+          padding: var(--spacing-xs);
+          background-color: #fff;
+           box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      }
+  
+      /* --- Responsive Design --- */
+      @media screen and (max-width: 768px) {
+          body {
+              font-size: 16px;
+              padding-top: 60px; /* Adjust for mobile navbar height */
           }
-
-
-
-
-.clear{
-  clear: both;
-}
-
-
-.slide-toggle{
-  display: none;
-}
-
-.slidemenu{
-  font-family: arial, sans-serif;
-  max-width: 80%;
-  margin: 0px auto;
-  overflow: auto;
-  background-color: white;
-}
-
-.slidemenu label{
-  width: 20%;
-  text-align: center;
-  display: block;
-  float: left;
-  color: #333;
-  font-weight: bold;
-  opacity: 0.2;
-
-}
-
-.slidemenu label:hover{
-  cursor: pointer;
-  color: #666;
-}
-
-.slidemenu label span{
-  display: block;
-  padding: 10px;    
-}
-
-.slidemenu label .icon{
-  font-size: 20px;
-  border: solid 2px orange;
-  text-align: center;
-  height: 50px;
-  width: 50px;
-  display: block;
-  margin: 0 auto;
-  line-height: 50px;
-  border-radius: 50%;
-}
-
-/*Bar Style*/
-
-.slider{
-  width: 100%;
-  height: 5px;
-  display: block;
-  background: whitesmoke;
-  margin-top: 10px;
-  border-radius: 5px;
-}
-
-.slider .bar{
-  width: 25%;
-  height: 5px;
-  background: orange;
-  border-radius: 5px;
-}
-
-/*Animations*/
-.slidemenu label, .slider .bar {
-  transition: all 500ms ease-in-out;
-  -webkit-transition: all 500ms ease-in-out;
-  -moz-transition: all 500ms ease-in-out;
-}
-
-/*Toggle*/
-
-.slidemenu .slide-toggle:checked + label{
-  opacity: 1;
-}
-
-
-
-.slidemenu #slide-item-1:checked ~ .slider .bar{ margin-left: 0; }
-.slidemenu #slide-item-2:checked ~ .slider .bar{ margin-left: 20%; }
-.slidemenu #slide-item-3:checked ~ .slider .bar{ margin-left: 40%; }
-.slidemenu #slide-item-4:checked ~ .slider .bar{ margin-left: 60%; }
-.slidemenu #slide-item-5:checked ~ .slider .bar{ margin-left: 80%; }
-
-
-
-
-</style>
+          html { scroll-padding-top: 70px; }
+          h1 { font-size: 2.2rem; }
+          h2 { font-size: 1.8rem; }
+          h3 { font-size: 1.4rem; }
+          p { font-size: 1rem; }
+          blockquote { font-size: 1rem; margin-left: 0; }
+  
+          /* Navbar Mobile */
+          .navbar { padding: var(--spacing-xs) 0; }
+          .nav-container { padding: 0 var(--spacing-sm); }
+          .navbar-nav { display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: white; flex-direction: column; align-items: stretch; padding: var(--spacing-sm) 0; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); border-top: 1px solid var(--border-color); }
+          .navbar-nav.active { display: flex; }
+          .nav-link { text-align: center; padding: var(--spacing-sm); border-radius: 0; border-bottom: 1px solid var(--border-color); }
+          .nav-link:last-child { border-bottom: none; }
+          .nav-link-button { margin: var(--spacing-sm); text-align: center; }
+          .menu-toggle { display: block; }
+  
+          /* Case Study Layout Mobile */
+          .container { padding-left: var(--spacing-sm); padding-right: var(--spacing-sm); }
+          .case-study-header { margin-bottom: var(--spacing-lg); padding-top: var(--spacing-md); }
+          .overview-section { flex-direction: column; }
+          .problem-solution-section { flex-direction: column; gap: var(--spacing-md); }
+          figure { max-width: 100%; }
+          .video-container { margin: var(--spacing-md) auto; }
+      }
+  
+  </style>
 </head>
-<body class="w3-content" style="max-width:1200px;">
+<body>
 
-
-  <div class="navbar">
-    <div class="navbar-left">
-        <a href="./index.html">Sai Maram</a>
-        <!-- Hamburger Menu for Mobile -->
-        <span class="menu-toggle" onclick="toggleMenu()">☰</span>
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="./index.html" class="nav-logo">Sai Maram</a>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav class="navbar-nav" id="navbar-nav">
+            <a href="./index.html#uxr" class="nav-link">Case Studies</a>
+            <a href="./index.html#wex" class="nav-link">Experience</a>
+            <a href="./index.html#res" class="nav-link">Research</a>
+            <a href="./about.html" class="nav-link">About</a>
+            <a href="cv.pdf" target="_blank" class="nav-link nav-link-button">Resume</a>
+        </nav>
     </div>
-    <div class="navbar-right">
-      <a href="./index.html#uxr">Case Studies</a>
-      <a href="./index.html#wex">Work Experience</a>
-      <a href="./index.html#res">Research</a>
-      <a href="./about.html">About</a>
-      <!-- <a href="./misc.html">Miscellaneous</a> -->
-  </div>
-</div>
-<!-- First Grid: Logo & About -->
-<div class="w3-row" style="padding-top: 100px;">
-<div class="w3-half w3-container">
-  <!-- <h1 class="w3-xxlarge" style="color: orange;">AstraVerse</h1> -->
-  <h3 class="w3-text-grey">UX case Study</h3>
-  <h1 class="w3-jumbo" style="color: orangered;">AstraVerse</h1>
-  <p>October 2022 - November 2022</p>
-  <!-- <p>ACM FDG 2023, Springer ICEC 2022, ACM CHI 2022</p> -->
-</div>
-<div class="w3-half w3-container w3-xlarge w3-text-grey">
-  
-    <h3 style="font-style: Montserrat;font-weight: bold;color: black;padding-top: 10%;"> A UX Case Study Exploring 
-        How Cultural Spaces can inform 
-        Character Design</h3>
+</header>
 
-</div>
+<main class="container">
 
-<div>
+    <header class="case-study-header">
+        <p class="meta">UX Research & Design System Case Study</p>
+        <h1>AstraVerse</h1>
+        <p class="subtitle">Developing a framework for creating novel and culturally sensitive video game characters inspired by mythology, moving beyond direct appropriation.</p>
+        <p class="meta">Timeline: October 2022 - December 2022</p>
+        <p class="meta">Publication: ACM FDG 2024, ICEC 2023</p>
+    </header>
 
-</div>
-
-<img src="temporary/images/Group 101 (2).png" style="width:100%;padding-bottom: 16px;">
-<small style="padding-left: 40%;padding-top: 16px;">A peek into our participatory design study</small>
-
-</div>
-<hr>
-<div class="w3-row">
-  <div class="w3-third w3-container">
-  <h3 style="font-weight: bold;color: black;">Team</h3>
-    <ul>
-      <li class="w3-large">1 Researcher</li>
-      <li class="w3-large">1 Artist</li>
-      <li class="w3-large">2 Advisors</li>
-    </ul>
-  
-    </div>
-    <div class="w3-third w3-container">
-      <h3 style="font-weight: bold;color: black;">Role</h3>
-        <li class="w3-large">Project Lead</li> 
-        <li class="w3-large">UX Researcher</li> 
-        <li class="w3-large">UX Writing</li> 
-        <li class="w3-large">Data Science</li> 
-        <li class="w3-large">Visualization</li> 
-      </div>
-    
-  <div class="w3-third w3-container">
-  <h3 style="font-weight: bold;color: black;">Tools</h3>
-  <li class="w3-large">Figma</li> 
-  <li class="w3-large">Python</li> 
-
-
-  </div>
-
-</div>
-
-<!-- Second Grid: Resent -->
-<!-- <div class="w3-panel w3-text-grey" style="background-color: ghostwhite">
-<h4>MOST RECENT WORK:</h4>
-</div> -->
-<hr>
-<div class="w3-row">
-    <div class="w3-half w3-container">
-    <h2 style="font-weight: bold;color: black;">Problem</h2>
-    <p class="w3-xlarge w3-text-black">Mythology and culture have been pools of inspiration for character and avatar creation. Game studios have often copied religious and mythological characters in games. This results in two major problems:</p>
-    <ul>
-        <li class="w3-xlarge w3-text-black">A pragmatic upper cap on the number of characters that can be borrowed.</li>
-        <li class="w3-xlarge w3-text-black">Constant backlash by religious communities on using gods from active religions in video games. </li>
-    </ul>
-    <p class="w3-xlarge w3-text-black">We want to study how cultural spaces can inspire the creation of novel and sensitive characters.</p>
-    </div>
-
-    <div class="w3-half w3-container">
-    <h2 style="font-weight: bold;color: black;">Solution</h2>
-    <p class="w3-xlarge w3-text-black">Using a design thinking approach
-       we conduct generative and evaluative research to study how cultural spaces
-        can inform the design of character design in video games, metaverse and other virtual spaces.</p>
-        <hr>
-        <h1 style="color: #F89B72;">Can cultural spaces inform 
-            the design of <mark style="background-color: white;color: orangered;font-weight: bold;">Culturally Sensitive</mark>
-            and <mark style="background-color: white;color: orangered;font-weight: bold;">Novel Characters</mark> in 
-            video games?</h1>
-    </div>
-
-</div>
-<hr>
-
-
-<nav id="navbar" class="slidemenu">
-  
-        <!-- Item 1 -->
-        <input type="radio" name="slideItem" id="slide-item-1" class="slide-toggle" checked/>
-        <label for="slide-item-1"><p id='empathize_circle' class="icon">1</p><span>Empathize</span></label>
-        
-        <!-- Item 2 -->
-        <input type="radio" name="slideItem" id="slide-item-2" class="slide-toggle"/>
-        <label for="slide-item-2"><p id='define_circle' class="icon">2</p><span>Define</span></label>
-        
-        <!-- Item 3 -->
-        <input type="radio" name="slideItem" id="slide-item-3" class="slide-toggle"/>
-        <label for="slide-item-3"><p id='ideate_circle' class="icon">3</p><span>Ideate</span></label>
-        
-        <!-- Item 4 -->
-        <input type="radio" name="slideItem" id="slide-item-4" class="slide-toggle"/>
-        <label for="slide-item-4"><p id='prototype_circle' class="icon">4</p><span>Prototype</span></label>
-
-         <!-- Item 5 -->
-         <input type="radio" name="slideItem" id="slide-item-5" class="slide-toggle" />
-         <label for="slide-item-5"><p id='evaluate_circle' class="icon">5</p><span>Evaluate</span></label>
-        
-        <div class="clear"></div>
-        
-        <!-- Bar -->
-        <div class="slider">
-          <div class="bar"></div>
+    <section class="overview-section">
+        <div class="overview-box">
+            <h4><i class="fa-solid fa-user-gear"></i> My Role</h4> <ul>
+                <li>Project Lead</li>
+                <li>UX Researcher</li>
+                <li>System Designer</li>
+                <li>Data Analyst & Visualizer</li>
+                <li>UX Writer</li>
+            </ul>
         </div>
-        
-</nav>
+        <div class="overview-box">
+            <h4><i class="fa-solid fa-users"></i> Team</h4> <ul>
+                <li>1 Researcher (Myself)</li>
+                <li>1 Artist</li>
+                <li>2 Faculty Advisors</li>
+            </ul>
+        </div>
+        <!-- <div class="overview-box">
+            <h4><i class="fa-solid fa-calendar-days"></i> Duration</h4> <ul>
+                 <li>2 Months</li>
+                 <li>(Oct 2022 - Nov 2022)</li>
+            </ul>
+        </div> -->
+        <div class="overview-box">
+            <h4><i class="fa-solid fa-wrench"></i> Tools & Methods</h4> <ul>
+                <li>Stakeholder Interviews</li>
+                <li>Digital Ethnography</li>
+                <li>Visual Ethnography</li>
+                <li>Grounded Theory</li>
+                <li>Participatory Design</li>
+                <li>Quantitative Analysis (Python)</li>
+                <li>Figma</li>
+            </ul>
+        </div>
+    </section>
 
-<div id="empathize" style="display: block;">
-    <h1 class="w3-center w3-xxxlarge">Empathize</h1>
+    <figure>
+        <img src="temporary/images/Group 101 (2).png" alt="Game designers participating in a design workshop using card-based system">
+        <figcaption>Game designers engaging with the AstraVerse design system during a participatory workshop.</figcaption>
+    </figure>
+
     <hr>
-    <h1 class="w3-center w3-xlarge" style="color:#F89B72">Video Game Characters need to be <mark style="background-color: white;color: orangered;font-weight: bold;">Culturally Sensitive</mark>
-        and <mark style="background-color: white;color: orangered;font-weight: bold;">Novel </mark></h1>
-    <hr>
-    <p class="w3-xlarge">Video game characters play an important role in creating immersion in Video Games. Designers have often borrowed characters form
-        mythologies, religion and culture. They have received a lot of backlash by gamers and cultural stakeholders. In order to empathize with 
-    different stakeholders and understand the crux of the problem, we use research methods such as <mark>Stakeholder Interviews</mark> and <mark>Digital Ethnography.</mark></p>
-    <h3 class="w3-xxlarge" style="color: #F89B72;">Interviews With Cultural Stakeholders</h3>
-    <audio controls preload="none" style="width:480px;">
-        <source src="temporary/images/astraVerse/E El Camino Real 8.m4a" type="audio/mp4" />
-        <p>Your browser does not support HTML5 audio.</p>
-        </audio>
-    <p>(Audio Shared with Permission)</p>
-    <p class="w3-xlarge">Temple priests were shown characters inspired/copied from Hindu Mythology and were asked a series of questions. Insightful responses are shown:</p>
-    <img style="height: 100%;width: 100%;" src="temporary/images/astraVerse/temple_priest.png">
-    
 
-    <h3 class="w3-xxlarge" style="color: #F89B72;">Digital Ethnography on Reddit Threads</h3>
-    <p class="w3-xlarge">To understand the perception of games on seeing gods being used in games, we studied reddit threads revolving around gaming. Insightful reddit responses are shown below:</p>
-    <img style="height: 100%;width: 100%;" src="temporary/images/astraVerse/Group 96.png">
-
-</div>
-
-
-<div id="define" style="display: none;">
-    <h1 class="w3-center w3-xxxlarge">Define</h1>
-    <h3 class="w3-xxlarge" style="color: #F89B72;">Insights</h3>
-    <ul>
-        <li class="w3-xlarge w3-text-black">Cultural stakeholders do not encourage copying gods into video games.</li>
-        <li class="w3-xlarge w3-text-black">Cultural stakeholders emphasize that it is important to stick to the scriptures and original narratives.</li>
-        <li class="w3-xlarge w3-text-black">Stakeholders suggest that creative liberty with gods from active religion should not be taken. Instead they suggest sticking to the original narrative and use fictional characters for gameplay.</li>
-    </ul>
-    
-    <h1 class="w3-xxlarge" style="color: #F89B72;">Opportunities and Questions</h1>
-    <p class="w3-xlarge w3-text-black">
-        Having discussed with stakeholders we realize that there is a large design space in Hindu mythology that can be leveraged.
-        But this does not come at the cost of copying original gods. Stakeholders suggest that we can take granular elements form
-        Hindu mythology and create new aesthetics and characters. 
-    </p>
-    <ul>
-        <li class="w3-xlarge w3-text-black">How do we identify granular elements from Mythology?</li>
-        <li class="w3-xlarge w3-text-black">How do we present these granular elements to designers?</li>
-        <li class="w3-xlarge w3-text-black">Can we create novel video game characters using these granular elements?</li>
-        <li class="w3-xlarge w3-text-black">Are the characters that are created using these granular elements culturally sensitive?</li>
-    </ul>
-
-</div>
-
-
-
-<div id="ideate" style="display: none;">
-    <h1 class="w3-center w3-xxxlarge">Ideate</h1>
-    <p class="w3-xlarge w3-text-black">As an alternative to god transplantation,
-         We employ <mark>Ethnography</mark>  and <mark>Grounded Theory</mark>  as research methods to develop granular artifacts that support the creation of characters. 
-         We hypothesize that combining artifacts (syntagms) allows the creation of novel and sensitive characters. We take the following research approach:</p>
-    
-    <img src="temporary/images/astraVerse/Group 97.png" style="height: 100%;width: 100%;">
-    <h1 class="w3-xxlarge" style="color: #F89B72;">Visit cultural spaces for Visual Ethnography</h1>
-    <img src="temporary/images/astraVerse/Group 98.png" style="width: 100%;height: 100%;">
-    <p class="w3-xlarge w3-text-black">Visiting temples we collected a <mark>total of 
-        429 images</mark>. Of the 429 images, 
-        248 images were images of idols, 
-        63 images consisted of ongoing rituals, and 
-        45 images were miscellaneous objects. </p>
-
-        <img src="temporary/images/astraVerse/Group 99.png" style="height: 100%;width: 100%;"> 
-
-        <h1 class="w3-xlarge" style="color: #F89B72;">Grounded Theory to create a Syntagm and Paradigm based Character Design space</h1>
-    
-    <p class="w3-xlarge w3-text-black">We used grounded theory a research method to create a design space of character creation artifacts. The design space has <mark>141 open codes</mark>, categorized into <mark>22 axial codes</mark>, that finally converging into <mark>4 selective codes.</mark> </p>
-  </div>
-
-
-
-<div id="prototype" style="display: none;">
-    <h1 class="w3-center w3-xxxlarge">Prototype</h1>
-    <h1 class="w3-xxlarge" style="color: #F89B72;">Presenting the Syntagm and Paradigm based Character Design space</h1>
-    <p class="w3-xlarge w3-text-black">We showcase granular elements as syntagm and paradigms. The syntagm and paradigm based design space are displayed as cards on a table. The axial codes act as paradigms. The open codes are the syntagms and are distributed across the paradigms. 
-        This distribution allows designers to pick suitable syntagms from the respective paradigms for character creation.  
-        Designers are allowed to select any number of syntagms and arrange them to create characters. </p>
-        <img src="temporary/images/astraVerse/Group 65 (4).png" style="height: 100%;width: 100%;"> 
-
-</div>
-
-
-
-<div id="evaluate" style="display: none;">
-    <h1 class="w3-center w3-xxxlarge">Evaluate</h1>
-    <p class="w3-xlarge w3-text-black">We evaluate the design space on three parameters.<p>
-    <ul> 
-        <li class="w3-xlarge w3-text-black">Does the design space support the creation of video game characters?</li>
-        <li class="w3-xlarge w3-text-black">Are the generated characters novel and unique?</li>
-        <li class="w3-xlarge w3-text-black"> Are the generated characters culturally sensitive? </li>
-    </ul>
-    <p class="w3-xlarge w3-text-black"> We take the following evaluative steps.</p>
-    <img src="temporary/images/astraVerse/Group 100.png" style="width: 100%;height: 100%;">
-    <h1 class="w3-xxlarge" style="color: #F89B72;">Participatory Design Workshop</h1>
-    <p class="w3-xlarge w3-text-black">To verify designers could use the design space to create new characters, we conducted a participatory design workshop with game designers as stakeholders. 
-        Game designers were evaluated and were requested to create characters using the design space.
-         Each participant was requested to create 2 characters. </p>
-         <img src="temporary/images/astraVerse/Group 101 (1).png" style="width: 100%;height: 100%;">
-
-    <h1 class="w3-xxlarge" style="color: #F89B72;">Quantitative Framework to Evaluate Character Novelty</h1>
-
-    <p class="w3-xlarge w3-text-black">The syntagm and paradigm approach towards the design space allows to represent characters as a vector representation.
-         The frequency of each syntagm in an entry into the vector.
-         This vector acts as an embedding for the character and provides us an opportunity to compare characters using distance metrics. </p>
-         <img src="temporary/images/astraVerse/Group 65 (5).png" style="width: 100%;height: 100%;">
-         <p class="w3-xlarge w3-text-black">We measure character distances from one central and plot them on a radar chart as shown below. 
-            We create two groups of charaters. Group (1) consists of characters copied from the original religious texts and used in games. 
-            Group (2) consists of characters created by the participants from the participatory design study.   </p>
-         
-         <img src="temporary/images/astraVerse/Group 68.png" style="width: 100%;height: 100%;">
-
-        <p class="w3-xlarge w3-text-black">We run Welch's t-test on the distances from a origin character and two groups of characters:</p>
-         <img src="temporary/images/astraVerse/Group 102.png" style="width: 100%;height: 100%;">
-         <p class="w3-xlarge w3-text-black">We generate the following insights:</p>
-         <ul> 
-            <li class="w3-xlarge w3-text-black"><mark>Participant generated characters are novel when measured across the entire design space</mark> (p<0.05). There is <mark>less overlap between the original gods and participant generated characters </mark> (d>0.8) </li>
-            <li class="w3-xlarge w3-text-black"><mark>Participant generated characters are unique in terms of their physical appearance</mark> (p<0.05, d>0.8). This could be a result of the fact that gods are mostly anthropomorphic in nature, while participant generated gods are a mix of both zoomorphic and anthropomorphic. </li>
-            <li class="w3-xlarge w3-text-black"> A number of original gods are presented as royals resulting in high jewelry and other fashion elements. (p>0.05)</li>
-            <li class="w3-xlarge w3-text-black">The anthropomorphic nature of participant characters allows multiple hands and results in them carrying a larger set of weapons (p<0.05,d>0.8). The reverse is true for the game mechanics selective code (p>0.05)</li>
-        </ul>
-        <h1 class="w3-xxlarge" style="color: #F89B72;">Sensitivity Evaluation through Stakeholder Interviews</h1>
-        <p class="w3-xlarge w3-text-black">We presented temple priests with characters created by participants and gods copied into video games. They were asked about what aspects of the presented character they found offensive.  Insightful responses are as follows:</p>
-        <img src="temporary/images/astraVerse/Group 104.png" style="width: 100%;height: 100%;">
-        <h1 class="w3-xxlarge" style="color: #F89B72;">Insights from Sensitivity Evaluation</h1>
+    <section id="problem">
+        <h2>The Challenge: Inspiring Characters Without Appropriation</h2>
+        <p>Mythology and culture are rich sources of inspiration for video game characters. However, the common practice of directly copying religious or mythological figures ("god transplantation") presents significant UX and ethical challenges:</p>
         <ul>
-        <li class="w3-xlarge w3-text-black"><mark>Participant generated characters were received positively by cultural stakeholders.</mark> Cultural stakeholders had a strong voice against using original gods in video games. </li>
-        <li class="w3-xlarge w3-text-black">Cultural stakeholders were able to identify elements borrowed from the specific mythology but <mark>assured that the characters were fictional and were just using elements from mythology.</mark></li>
-        <li class="w3-xlarge w3-text-black">Cultural stakeholders were concerned with narratives around original gods being manipulated through video games, but <mark>shared that creative liberty could be taken on narratives for participant generated character. </mark></li>
-    </ul>
-    </div>
+            <li>It limits the creative potential, capping the number of available characters.</li>
+            <li>It often leads to backlash from cultural communities and players when sacred figures from active religions are misrepresented or trivialized in games.</li>
+        </ul>
+        <p>This creates a dilemma for game designers: how can they draw inspiration from deep cultural narratives respectfully, while also creating characters that feel fresh, engaging, and appropriate for a global audience?</p>
+        <p>Our goal was to move beyond simple appropriation and explore: <strong>How can cultural spaces and elements inform a *process* for designing characters that are both novel and culturally sensitive?</strong></p>
+    </section>
+
+    <hr>
+
+     <section id="approach">
+        <h2>Our Approach: A UX Framework for Cultural Design</h2>
+        <p>We adopted a design thinking framework, combining deep user research (with cultural stakeholders, players, and designers) with systematic analysis and participatory methods. Our aim was not just to create characters, but to develop and validate a *system* or *framework* that empowers designers to generate culturally inspired characters respectfully.</p>
+        <p>The core research question guiding our process was:</p>
+        <p class="core-question">Can cultural spaces inform the design of <mark>Culturally Sensitive</mark> and <mark>Novel Characters</mark> in video games?</p>
+    </section>
+
+    <hr>
+
+    <section id="empathize">
+        <h2>Phase 1: Empathize - Understanding the Stakes</h2>
+        <p>To grasp the complexities, we needed to understand the perspectives of those most affected: cultural guardians and the player community.</p>
+
+        <h3>Interviews With Cultural Stakeholders</h3>
+        <p>We conducted interviews with Hindu temple priests, showing them examples of gods used in existing games. We sought to understand their concerns and perspectives on cultural representation.</p>
+        <figure>
+             <figcaption>Audio Clip: Priest discussing concerns about game narratives (Shared with Permission)</figcaption>
+             <audio controls preload="metadata"> <source src="temporary/images/astraVerse/E El Camino Real 8.m4a" type="audio/mp4" />
+                Your browser does not support the audio element.
+            </audio>
+        </figure>
+         <figure>
+            <img src="temporary/images/astraVerse/temple_priest.png" alt="Quotes from temple priests expressing concerns about misrepresentation and narrative manipulation">
+            <figcaption>Key concerns included misrepresentation, trivialization, and manipulation of sacred narratives.</figcaption>
+        </figure>
+
+        <h3>Digital Ethnography: Player Perceptions</h3>
+        <p>We analyzed discussions on gaming-focused Reddit threads to understand player reactions to the use of religious figures in games. This provided insights into player expectations regarding authenticity, respect, and gameplay integration.</p>
+         <figure>
+            <img src="temporary/images/astraVerse/Group 96.png" alt="Excerpts from Reddit discussions showing player opinions on gods in games">
+            <figcaption>Player sentiments ranged from excitement to strong concerns about disrespectful portrayals.</figcaption>
+        </figure>
+    </section>
+
+    <hr>
+
+     <section id="define">
+        <h2>Phase 2: Define - Framing the Design Challenge</h2>
+        <p>Synthesizing the research from Phase 1 led to key insights that framed our design challenge:</p>
+        <h3>Key Insights:</h3>
+        <ul>
+            <li>Directly copying gods from active religions is highly problematic for cultural stakeholders.</li>
+            <li>Authenticity to scripture and original narratives is paramount when dealing with sacred figures.</li>
+            <li>Stakeholders are open to *fictional* characters *inspired* by mythology, allowing creative liberty with new narratives.</li>
+            <li>There's a vast, untapped potential in using *granular elements* (symbols, aesthetics, concepts) from mythology rather than whole figures.</li>
+        </ul>
+
+        <h3>Opportunities & Design Goals:</h3>
+        <p>The insights pointed towards an opportunity: create a system that helps designers leverage cultural elements constructively. This led to key questions guiding our design process:</p>
+        <ul>
+            <li>How can we systematically identify and catalogue these "granular" cultural/mythological elements?</li>
+            <li>How can these elements be presented to designers in an accessible and inspiring way?</li>
+            <li>Can combining these elements lead to the creation of genuinely novel characters?</li>
+            <li>Crucially, will characters created through such a system be perceived as culturally sensitive by stakeholders?</li>
+        </ul>
+    </section>
+
+    <hr>
+
+    <section id="ideate">
+        <h2>Phase 3: Ideate - Building a Cultural Design System</h2>
+        <p>To move beyond "god transplantation," we needed a structured way to identify and organize inspirational cultural elements. We employed:</p>
+
+        <h3>Visual Ethnography in Cultural Spaces</h3>
+        <p>We visited Hindu temples, documenting architectural details, idol features, ritual objects, and symbolic representations through photography. This grounded our work in authentic cultural aesthetics.</p>
+         <figure>
+            <img src="temporary/images/astraVerse/Group 98.png" alt="Collage of photos taken during visual ethnography at temples">
+            <figcaption>Collecting visual data: 429 images captured, focusing on idols (248), rituals (63), and objects (45).</figcaption>
+        </figure>
+        <h3>Grounded Theory: Developing the "Syntagm & Paradigm" Framework</h3>
+        <p>Using Grounded Theory, we systematically analyzed the visual data and related mythological texts to identify recurring elements (Syntagms) and group them into meaningful categories (Paradigms). This iterative coding process resulted in a structured design space:</p>
+        <ul>
+             <li>141 Syntagms: Granular, remixable elements (e.g., specific ornaments, gestures, symbolic items, color palettes).</li>
+             <li>22 Paradigms: Thematic categories organizing the syntagms (e.g., 'Headwear', 'Handheld Objects', 'Mounts', 'Postures').</li>
+             <li>4 Selective Codes: High-level conceptual pillars guiding character creation (e.g., 'Physical Appearance', 'Fashion', 'Weapons', 'Game Mechanics').</li>
+        </ul>
+         <figure>
+            <img src="temporary/images/astraVerse/Group 97.png" alt="Diagram illustrating the research approach combining ethnography and grounded theory">
+            <figcaption>Our research approach to systematically derive design elements from cultural sources.</figcaption>
+        </figure>
+        <p>This process transformed raw cultural inspiration into a structured, modular system for creative exploration.</p>
+    </section>
+
+    <hr>
+
+    <section id="prototype">
+        <h2>Phase 4: Prototype - The AstraVerse Design Toolkit</h2>
+        <p>The "Syntagm and Paradigm" framework was translated into a tangible design tool: a set of cards representing the identified cultural elements.</p>
+        <h3>How it Works:</h3>
+        <p>Designers use the cards as a toolkit:</p>
+        <ul>
+            <li>Paradigms (categories) help navigate the design space.</li>
+            <li>Designers select Syntagm cards (specific elements) from various Paradigms.</li>
+            <li>By combining selected Syntagm cards, designers can visually and conceptually construct new, unique characters rooted in cultural aesthetics but not directly copying existing figures.</li>
+        </ul>
+         <figure>
+            <img src="temporary/images/astraVerse/Group 65 (4).png" alt="Image of the card-based design system showing paradigm categories and syntagm element cards">
+            <figcaption>The AstraVerse card system: Paradigms structure the choice of granular Syntagm elements for character creation.</figcaption>
+        </figure>
+        <p>This toolkit prototype aimed to provide a flexible yet structured method for culturally inspired character design.</p>
+    </section>
+
+     <hr>
+
+     <section id="evaluate">
+        <h2>Phase 5: Evaluate - Validating the Approach</h2>
+        <p>A design system is only effective if it meets its goals. We conducted a multi-faceted evaluation focusing on three key criteria derived from our initial research questions:</p>
+        <ol>
+            <li>Usability & Effectiveness: Does the system actually help designers create characters?</li>
+            <li>Novelty: Are the characters generated using the system distinct from existing mythological figures?</li>
+            <li>Cultural Sensitivity: Are the generated characters perceived as respectful by cultural stakeholders?</li>
+        </ol>
+         <figure>
+            <img src="temporary/images/astraVerse/Group 100.png" alt="Diagram outlining the three-pronged evaluation strategy">
+            <figcaption>Our evaluation strategy assessing usability, novelty, and sensitivity.</figcaption>
+        </figure>
+
+        <h3>Evaluation 1: Participatory Design Workshop (Usability)</h3>
+        <p>We invited professional game designers to use the AstraVerse card system to create two characters each. Observation and feedback confirmed:</p>
+        <ul>
+            <li>Designers found the system intuitive and engaging.</li>
+            <li>The cards effectively stimulated creativity and facilitated the combination of diverse elements.</li>
+            <li>The system successfully supported the creation of coherent character concepts.</li>
+        </ul>
+        <figure>
+            <img src="temporary/images/astraVerse/Group 101 (1).png" alt="Game designers creating characters using the AstraVerse card system">
+            <figcaption>Designers actively using the toolkit in the participatory workshop.</figcaption>
+        </figure>
+
+        <h3>Evaluation 2: Quantitative Analysis (Novelty)</h3>
+        <p>To objectively measure novelty, we developed a quantitative framework. Each character (both participant-generated and original gods from games) was represented as a vector based on the presence/absence of the 141 Syntagms. We then compared the 'distance' between these vectors.</p>
+         <figure>
+            <img src="temporary/images/astraVerse/Group 65 (5).png" alt="Diagram showing character representation as a vector of syntagms">
+            <figcaption>Representing characters as vectors for quantitative comparison.</figcaption>
+        </figure>
+         <figure>
+            <img src="temporary/images/astraVerse/Group 68.png" alt="Radar chart comparing distances of participant characters vs original gods">
+            <figcaption>Visualizing character novelty: Participant characters occupy distinct spaces compared to original gods.</figcaption>
+        </figure>
+         <figure>
+            <img src="temporary/images/astraVerse/Group 102.png" alt="Table showing statistical test results (Welch's t-test)">
+            <figcaption>Statistical analysis confirming significant differences.</figcaption>
+        </figure>
+        <p><strong>Key Findings (Novelty):</strong></p>
+        <ul class="evaluation-findings">
+             <li><mark>Participant-generated characters are statistically novel</mark> compared to directly copied gods across the entire design space (p<0.05, large effect size d>0.8).</li>
+             <li>They showed <mark>significant novelty in physical appearance</mark>, often blending zoomorphic and anthropomorphic traits, unlike the mostly anthropomorphic gods (p<0.05, d>0.8).</li>
+             <li>Differences were also significant in weapon types, while fashion/jewelry showed less difference (as expected).</li>
+        </ul>
+
+        <h3>Evaluation 3: Stakeholder Interviews (Cultural Sensitivity)</h3>
+        <p>We returned to the temple priests and presented them with both participant-generated characters and examples of directly copied gods used in games. We asked them to evaluate the characters based on cultural appropriateness and potential offensiveness.</p>
+         <figure>
+            <img src="temporary/images/astraVerse/Group 104.png" alt="Quotes from temple priests evaluating the sensitivity of generated characters vs copied gods">
+            <figcaption>Stakeholder feedback on cultural sensitivity.</figcaption>
+        </figure>
+        <p><strong>Key Findings (Sensitivity):</strong></p>
+         <ul class="evaluation-findings">
+            <li><mark>Participant-generated characters were received positively.</mark> Stakeholders reaffirmed strong objections to using original gods directly.</li>
+            <li>They recognized mythological elements in the generated characters but confirmed they were perceived as <mark>fictional creations *inspired by*, not copies *of*, mythology.</mark></li>
+            <li>Crucially, stakeholders felt <mark>creative liberty *could* be taken with narratives for these fictional characters,</mark> unlike for original sacred figures.</li>
+        </ul>
+    </section>
+
+    <hr>
+
+    <section id="conclusion">
+        <h2>Conclusion: A Validated Framework for Respectful Design</h2>
+        <p>The AstraVerse project successfully demonstrated that it's possible to move beyond direct appropriation in culturally inspired character design. Through a rigorous UX research and design process, we developed and validated a system that:</p>
+        <ul>
+            <li>Provides designers with a structured yet flexible tool for creative exploration grounded in cultural aesthetics.</li>
+            <li>Enables the generation of characters perceived as statistically novel compared to existing figures.</li>
+            <li>Produces character concepts deemed culturally sensitive and acceptable by cultural stakeholders.</li>
+        </ul>
+        <p>This framework offers a practical, validated alternative for game studios and designers seeking to draw inspiration from diverse cultures respectfully, fostering creativity while mitigating the risks associated with cultural misrepresentation.</p>
+    </section>
+
+     <section id="learnings">
+        <h2>Personal Learnings & Reflections</h2>
+        <ul>
+            <li><strong>Bridging Research & Design:</strong> Translating rigorous academic methods like Grounded Theory into a practical, usable design tool requires careful consideration of the designer's workflow and creative needs.</li>
+            <li><strong>The Power of Mixed Methods:</strong> Combining qualitative insights (interviews, ethnography) with quantitative validation (statistical analysis) created a much more robust and persuasive case for the solution's effectiveness.</li>
+            <li><strong>Navigating Sensitivity is Key:</strong> Engaging directly and respectfully with cultural stakeholders from the beginning was crucial for defining the problem accurately and ensuring the final output was appropriate.</li>
+            <li><strong>Systemic > Specific:</strong> Focusing on creating a reusable *system* rather than just specific character designs provides broader, more lasting value to potential users (design studios).</li>
+        </ul>
+    </section>
+    <footer class="footer" style="text-align: center; padding: var(--spacing-lg) var(--spacing-md); margin-top: var(--spacing-xl); background-color: var(--secondary-color); color: var(--text-color-light); font-size: 0.9rem;">
+      <p>&copy; <span id="current-year"></span> Sai Maram. Case Study.</p>
+      <p><a href="./index.html">Back to Portfolio</a></p>
+ </footer>
+
+</main>
+
+<script>document.addEventListener('DOMContentLoaded', () => {
+ const menuToggle = document.getElementById('menu-toggle');
+ const navbarNav = document.getElementById('navbar-nav');
+ const navLinks = document.querySelectorAll('.nav-link'); // Get all nav links
+ const navbar = document.getElementById('navbar');
+
+ // Toggle mobile menu
+ if (menuToggle && navbarNav) {
+     menuToggle.addEventListener('click', () => {
+         navbarNav.classList.toggle('active');
+         // Optional: change hamburger icon to 'X'
+         const icon = menuToggle.querySelector('i');
+         if (navbarNav.classList.contains('active')) {
+             icon.classList.remove('fa-bars');
+             icon.classList.add('fa-times');
+             menuToggle.setAttribute('aria-expanded', 'true');
+         } else {
+             icon.classList.remove('fa-times');
+             icon.classList.add('fa-bars');
+             menuToggle.setAttribute('aria-expanded', 'false');
+         }
+     });
+
+     // Close mobile menu when a link is clicked
+     navLinks.forEach(link => {
+         link.addEventListener('click', () => {
+             if (navbarNav.classList.contains('active')) {
+                 navbarNav.classList.remove('active');
+                 const icon = menuToggle.querySelector('i');
+                 icon.classList.remove('fa-times');
+                 icon.classList.add('fa-bars');
+                  menuToggle.setAttribute('aria-expanded', 'false');
+             }
+         });
+     });
+ }
+
+  // Add shadow to navbar on scroll
+ if (navbar) {
+     window.addEventListener('scroll', () => {
+         if (window.scrollY > 50) { // Add shadow after scrolling 50px
+             navbar.classList.add('scrolled');
+         } else {
+             navbar.classList.remove('scrolled');
+         }
+     });
+ }
+
+ // Update footer year
+ const currentYearSpan = document.getElementById('current-year');
+ if (currentYearSpan) {
+     currentYearSpan.textContent = new Date().getFullYear();
+ }
+
+ // --- Optional: Active Nav Link Highlighting ---
+ // More complex implementation needed based on scroll position
+ // This is a simple example assuming section IDs match nav hrefs
+ const sections = document.querySelectorAll('section[id]'); // Get sections with IDs
+
+ function setActiveLink() {
+     let currentSection = '';
+     const scrollPos = window.scrollY + navbar.offsetHeight + 50; // Offset for navbar height + buffer
+
+     sections.forEach(section => {
+         const sectionTop = section.offsetTop;
+         const sectionHeight = section.offsetHeight;
+         if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+             currentSection = section.getAttribute('id');
+         }
+     });
+
+      // Special case for top of page (hero section often doesn't have ID or is above first section)
+      if (window.scrollY < sections[0].offsetTop - navbar.offsetHeight - 50) {
+          currentSection = 'home'; // Assuming hero/top section implies 'home' link
+      }
 
 
+     navLinks.forEach(link => {
+         link.classList.remove('active');
+         // Check if the link's href matches the current section ID
+         // Handle the '#' in href
+         if (link.getAttribute('href') === `#${currentSection}`) {
+             link.classList.add('active');
+         }
+          // Handle base index.html link for 'home'
+         if (currentSection === 'home' && (link.getAttribute('href') === './index.html' || link.getAttribute('href') === '#home') ) {
+              // No specific 'home' link in the provided nav, so this part might not highlight anything unless a home link is added.
+              // Example: if you add <a href="#home">Home</a>, this would work.
+         }
+     });
+ }
+
+ window.addEventListener('scroll', setActiveLink);
+ setActiveLink(); // Initial check on load
+
+});</script>
 </body>
 </html>
-<script>
-    // Open and close sidebar
-    function openNav() {
-      document.getElementById("mySidebar").style.width = "60%";
-      document.getElementById("mySidebar").style.display = "block";
-    }
-    
-    function closeNav() {
-      document.getElementById("mySidebar").style.display = "none";
-    }
-
-    var empathize_div = document.getElementById("empathize");
-    var define_div = document.getElementById("define");
-    var ideate_div = document.getElementById("ideate");
-    var prototype_div = document.getElementById("prototype");
-    var evaluate_div = document.getElementById("evaluate");
-
-
-    $("#empathize_circle").click(function() {
-        define_div.style.display="none"
-        ideate_div.style.display="none"
-        prototype_div.style.display='none'
-        evaluate_div.style.display='none'
-        empathize_div.style.display = "block"
-    });
-    $("#define_circle").click(function() {
-        ideate_div.style.display="none"
-        prototype_div.style.display='none'
-        evaluate_div.style.display='none'
-        empathize_div.style.display = "none"
-        define_div.style.display="block"
-
-    });
-    $("#ideate_circle").click(function() {
-        prototype_div.style.display='none'
-        evaluate_div.style.display='none'
-        empathize_div.style.display = "none"
-        define_div.style.display="none"
-        ideate_div.style.display="block"
-    });
-
-    $("#prototype_circle").click(function() {
-        ideate_div.style.display="none"
-        evaluate_div.style.display='none'
-        empathize_div.style.display = "none"
-        define_div.style.display="none"
-        prototype_div.style.display='block'
-    });
-
-    $("#evaluate_circle").click(function() {
-        ideate_div.style.display="none"
-        empathize_div.style.display = "none"
-        define_div.style.display="none"
-        prototype_div.style.display='none'
-        evaluate_div.style.display='block'
-    });
-
-
-    </script>

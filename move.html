@@ -1,440 +1,620 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>AstraVerse</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="Group 116.png">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Move. - UX Case Study</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="./stylesheet.css">
-
-
-
-
-
-<style>
-
-body {
-            font-family: Arial, sans-serif;
-            background-image: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMiIgZmlsbD0iI2QwZDBkMCIgLz4KPC9zdmc+Cg==");
-            /* padding-top: 100px; */
-        }
-
-.navbar {
-  display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: white;
-            padding: 15px 60px;
-            font-size: 1.2em;
-            position: fixed;  /* This makes it stick to the top */
-            top: 0;           /* Position it at the very top */
-            left: 0;          /* Align to the left edge */
-            width: 100%;      /* Take full width of the viewport */
-            z-index: 1000;
-            box-sizing: border-box; 
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);   /* Keep it above other elements */
-        }
-
-        .navbar a, .dropdown-toggle {
-            color: black;
-            text-decoration: none;
-            margin: 0 15px;
-            padding: 5px 15px;
-            transition: underline 0.3s;
-        }
-
-        .navbar a:hover, .dropdown-toggle:hover {
-            text-decoration: underline;
-        }
-
-        .navbar-left {
-            display: flex;
-            align-items: center;
-        }
-
-        .navbar-right {
-            display: flex;
-            align-items: center;
-        }
-
-        /* Dropdown styling */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: whitesmoke;
-            min-width: 190px;
-            z-index: 1;
-            /* border: 1px solid black; */
-        }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #f5f5f5;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        /* Hamburger menu - hidden by default */
-        .menu-toggle {
-            display: none;
-        }
-
-        @media screen and (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 15px;
-            }
-
-            .navbar-right {
-                display: none; /* Hide menu items by default on small screens */
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .navbar.active .navbar-right {
-                display: flex; /* Display menu items when navbar is active */
-            }
-
-            /* Display hamburger menu only on small screens */
-            .menu-toggle {
-                display: block;
-                cursor: pointer;
-                font-size: 1.5em;
-                color: black;
-            }
+    <style>
+      /* --- Global Styles & Variables (Copied from previous revamp) --- */
+      :root {
+          --primary-font: "Inter", system-ui, sans-serif;
+          --heading-font: "Inter", system-ui, sans-serif;
+  
+          --primary-color: #F39F5A; /* Accent orange */
+          --primary-color-darker: #e08e4a; /* Darker shade */
+          --secondary-color: #f8f9fa; /* Light background */
+          --text-color: #343a40; /* Dark grey for text */
+          --text-color-light: #6c757d; /* Lighter grey for descriptions */
+          --border-color: #dee2e6;
+          --card-bg: #ffffff;
+          --shadow-color: rgba(0, 0, 0, 0.05); /* Softer shadow */
+          --shadow-hover-color: rgba(0, 0, 0, 0.1);
+  
+          --border-radius-sm: 4px;
+          --border-radius-md: 8px;
+          --border-radius-lg: 12px;
+  
+          --spacing-xs: 0.5rem;  /* 8px */
+          --spacing-sm: 1rem;    /* 16px */
+          --spacing-md: 1.5rem;  /* 24px */
+          --spacing-lg: 2.5rem;  /* 40px */
+          --spacing-xl: 4rem;    /* 64px */
+  
+          --max-width: 1100px; /* Slightly narrower for case study text */
+          --transition-speed: 0.3s;
+      }
+  
+      *,
+      *::before,
+      *::after {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+      }
+  
+      html {
+          scroll-behavior: smooth;
+          scroll-padding-top: 80px; /* Adjust based on fixed navbar height */
+      }
+  
+      body {
+          font-family: var(--primary-font);
+          color: var(--text-color);
+          background-color: #fff;
+          line-height: 1.7;
+          font-size: 17px; /* Slightly larger base font for readability */
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          padding-top: 70px; /* Add padding to prevent content going under fixed navbar */
+      }
+  
+      .container {
+          max-width: var(--max-width);
+          margin-left: auto;
+          margin-right: auto;
+          padding-left: var(--spacing-md);
+          padding-right: var(--spacing-md);
+      }
+  
+      h1, h2, h3, h4, h5, h6 {
+          font-family: var(--heading-font);
+          font-weight: 700;
+          line-height: 1.3;
+          margin-bottom: var(--spacing-sm);
+          color: var(--text-color);
+      }
+  
+      h1 { font-size: 2.8rem; color: var(--primary-color-darker); } /* Main Case Study Title */
+      h2 { font-size: 2rem; margin-top: var(--spacing-lg); border-bottom: 2px solid var(--border-color); padding-bottom: var(--spacing-xs); } /* Section Titles */
+      h3 { font-size: 1.5rem; margin-top: var(--spacing-md); font-weight: 700; color: var(--text-color); } /* Sub-Section Titles */
+      h4 { font-size: 1.2rem; font-weight: 700; color: var(--text-color); } /* Overview Box Titles */
+  
+      p {
+          margin-bottom: var(--spacing-md);
+          font-size: 1.1rem; /* Slightly larger paragraph font */
+          max-width: 75ch; /* Optimal line length for reading */
+      }
+      p.meta { /* For date/publication info */
+          font-size: 0.95rem;
+          color: var(--text-color-light);
+          margin-bottom: var(--spacing-xs);
+      }
+  
+      a {
+          color: var(--primary-color);
+          text-decoration: none;
+          font-weight: 500;
+          transition: color var(--transition-speed) ease;
+      }
+  
+      a:hover, a:focus {
+          color: var(--primary-color-darker);
+          text-decoration: underline;
+          outline: none;
+      }
+  
+      img {
+          max-width: 100%;
+          height: auto;
+          display: block;
+          border-radius: var(--border-radius-md); /* Subtle rounding */
+      }
+  
+      figure {
+          margin: var(--spacing-lg) auto; /* Center figures */
+          max-width: 90%; /* Limit figure width */
+          text-align: center;
+      }
+  
+      figcaption {
+          margin-top: var(--spacing-sm);
+          font-size: 0.9rem;
+          color: var(--text-color-light);
+          font-style: italic;
+      }
+  
+      ul, ol {
+          margin-bottom: var(--spacing-md);
+          padding-left: var(--spacing-md);
+      }
+  
+      li {
+          margin-bottom: var(--spacing-xs);
+          font-size: 1.05rem;
+      }
+  
+      blockquote {
+          border-left: 4px solid var(--primary-color);
+          margin: var(--spacing-md) 0 var(--spacing-md) var(--spacing-sm);
+          padding: var(--spacing-sm) var(--spacing-md);
+          background-color: var(--secondary-color);
+          border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+          font-style: italic;
+          color: var(--text-color-light);
+          font-size: 1.1rem;
+      }
+       blockquote p {
+           margin-bottom: 0;
+           max-width: none; /* Allow blockquote text to fill width */
+       }
+  
+      hr {
+          border: none;
+          border-top: 1px solid var(--border-color);
+          margin: var(--spacing-lg) 0;
+      }
+  
+      strong, b {
+          font-weight: 700;
+      }
+  
+      /* --- Navbar Styles (Copied from previous revamp) --- */
+      .navbar {
+          background-color: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(10px);
+          border-bottom: 1px solid var(--border-color);
+          padding: var(--spacing-xs) 0;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          z-index: 1000;
+          transition: box-shadow var(--transition-speed) ease;
+      }
+      .navbar.scrolled { box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); }
+      .nav-container {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          max-width: var(--max-width);
+          margin: 0 auto;
+          padding: 0 var(--spacing-md);
+      }
+      .nav-logo { font-weight: 700; font-size: 1.4rem; color: var(--text-color); text-decoration: none; }
+      .nav-logo:hover { color: var(--primary-color); text-decoration: none; }
+      .navbar-nav { display: flex; align-items: center; gap: var(--spacing-sm); }
+      .nav-link { color: var(--text-color-light); text-decoration: none; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--border-radius-sm); font-weight: 500; transition: color var(--transition-speed) ease, background-color var(--transition-speed) ease; }
+      .nav-link:hover, .nav-link:focus, .nav-link.active { color: var(--primary-color); text-decoration: none; background-color: rgba(243, 159, 90, 0.1); }
+      .nav-link-button { background-color: var(--primary-color); color: white; padding: 8px 18px; border-radius: var(--border-radius-md); transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease; }
+      .nav-link-button:hover, .nav-link-button:focus { background-color: var(--primary-color-darker); color: white; transform: translateY(-2px); text-decoration: none; }
+      .menu-toggle { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-color); cursor: pointer; padding: var(--spacing-xs); }
+  
+      /* --- Case Study Specific Styles --- */
+      .case-study-header {
+          padding: var(--spacing-lg) 0 var(--spacing-md) 0;
+          /* background-color: var(--secondary-color); Light bg for header */
+          border-bottom: 1px solid var(--border-color);
+          margin-bottom: var(--spacing-xl);
+      }
+      .case-study-header h1 {
+          margin-bottom: var(--spacing-sm);
+      }
+      .case-study-header .subtitle {
+          font-size: 1.4rem;
+          font-weight: 400;
+          color: var(--text-color-light);
+          max-width: 75ch;
+          margin-bottom: var(--spacing-md);
+      }
+  
+      .overview-section {
+          display: flex;
+          flex-wrap: wrap;
+          gap: var(--spacing-md);
+          background-color: var(--secondary-color);
+          padding: var(--spacing-md);
+          border-radius: var(--border-radius-lg);
+          margin-bottom: var(--spacing-xl);
+      }
+      .overview-box {
+          flex: 1 1 200px; /* Flexible boxes, minimum width 200px */
+          padding: var(--spacing-sm);
+      }
+      .overview-box h4 {
+          margin-bottom: var(--spacing-sm);
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-xs);
+          color: var(--primary-color-darker);
+      }
+       .overview-box h4 i { /* Icon styling */
+          font-size: 1rem;
+           color: var(--primary-color);
+      }
+  
+      .overview-box ul {
+          list-style: none;
+          padding-left: 0;
+          margin-bottom: 0;
+      }
+       .overview-box li {
+          font-size: 1rem;
+          color: var(--text-color);
+      }
+  
+      .video-container {
+          position: relative;
+          padding-bottom: 56.25%; /* 16:9 aspect ratio */
+          height: 0;
+          overflow: hidden;
+          max-width: 100%;
+          background: #000;
+          margin: var(--spacing-lg) auto; /* Center video */
+          border-radius: var(--border-radius-md);
+          box-shadow: 0 4px 15px var(--shadow-color);
+      }
+      .video-container iframe {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border: 0;
+      }
+      .video-caption {
+          text-align: center;
+          margin-top: var(--spacing-sm);
+          font-size: 0.9rem;
+          color: var(--text-color-light);
+          font-style: italic;
+      }
+  
+      .problem-solution-section {
+          display: flex;
+          flex-wrap: wrap;
+          gap: var(--spacing-lg);
+          margin-bottom: var(--spacing-xl);
+      }
+      .problem-solution-section > div {
+          flex: 1 1 45%; /* Two columns */
+          min-width: 300px; /* Prevent excessive shrinking */
+      }
+       .problem-solution-section h3 { /* Use H3 for Problem/Solution titles here */
+           margin-top: 0; /* No extra top margin */
+           border-bottom: 2px solid var(--primary-color);
+           padding-bottom: var(--spacing-xs);
+           display: inline-block;
+       }
+  
+      .insight-image {
+          border: 1px solid var(--border-color);
+          padding: var(--spacing-xs);
+          background-color: #fff;
+           box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      }
+  
+      /* --- Responsive Design --- */
+      @media screen and (max-width: 768px) {
+          body {
+              font-size: 16px;
+              padding-top: 60px; /* Adjust for mobile navbar height */
           }
-
-
-
-
-.clear{
-  clear: both;
-}
-
-
-.slide-toggle{
-  display: none;
-}
-
-.slidemenu{
-  font-family: arial, sans-serif;
-  max-width: 80%;
-  margin: 0px auto;
-  overflow: auto;
-  background-color: white;
-}
-
-.slidemenu label{
-  width: 20%;
-  text-align: center;
-  display: block;
-  float: left;
-  color: #333;
-  font-weight: bold;
-  opacity: 0.2;
-
-}
-
-.slidemenu label:hover{
-  cursor: pointer;
-  color: #666;
-}
-
-.slidemenu label span{
-  display: block;
-  padding: 10px;    
-}
-
-.slidemenu label .icon{
-  font-size: 20px;
-  border: solid 2px orange;
-  text-align: center;
-  height: 50px;
-  width: 50px;
-  display: block;
-  margin: 0 auto;
-  line-height: 50px;
-  border-radius: 50%;
-}
-
-/*Bar Style*/
-
-.slider{
-  width: 100%;
-  height: 5px;
-  display: block;
-  background: whitesmoke;
-  margin-top: 10px;
-  border-radius: 5px;
-}
-
-.slider .bar{
-  width: 25%;
-  height: 5px;
-  background: orange;
-  border-radius: 5px;
-}
-
-/*Animations*/
-.slidemenu label, .slider .bar {
-  transition: all 500ms ease-in-out;
-  -webkit-transition: all 500ms ease-in-out;
-  -moz-transition: all 500ms ease-in-out;
-}
-
-/*Toggle*/
-
-.slidemenu .slide-toggle:checked + label{
-  opacity: 1;
-}
-
-
-
-.slidemenu #slide-item-1:checked ~ .slider .bar{ margin-left: 0; }
-.slidemenu #slide-item-2:checked ~ .slider .bar{ margin-left: 20%; }
-.slidemenu #slide-item-3:checked ~ .slider .bar{ margin-left: 40%; }
-.slidemenu #slide-item-4:checked ~ .slider .bar{ margin-left: 60%; }
-.slidemenu #slide-item-5:checked ~ .slider .bar{ margin-left: 80%; }
-
-
-
-
-</style>
+          html { scroll-padding-top: 70px; }
+          h1 { font-size: 2.2rem; }
+          h2 { font-size: 1.8rem; }
+          h3 { font-size: 1.4rem; }
+          p { font-size: 1rem; }
+          blockquote { font-size: 1rem; margin-left: 0; }
+  
+          /* Navbar Mobile */
+          .navbar { padding: var(--spacing-xs) 0; }
+          .nav-container { padding: 0 var(--spacing-sm); }
+          .navbar-nav { display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: white; flex-direction: column; align-items: stretch; padding: var(--spacing-sm) 0; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); border-top: 1px solid var(--border-color); }
+          .navbar-nav.active { display: flex; }
+          .nav-link { text-align: center; padding: var(--spacing-sm); border-radius: 0; border-bottom: 1px solid var(--border-color); }
+          .nav-link:last-child { border-bottom: none; }
+          .nav-link-button { margin: var(--spacing-sm); text-align: center; }
+          .menu-toggle { display: block; }
+  
+          /* Case Study Layout Mobile */
+          .container { padding-left: var(--spacing-sm); padding-right: var(--spacing-sm); }
+          .case-study-header { margin-bottom: var(--spacing-lg); padding-top: var(--spacing-md); }
+          .overview-section { flex-direction: column; }
+          .problem-solution-section { flex-direction: column; gap: var(--spacing-md); }
+          figure { max-width: 100%; }
+          .video-container { margin: var(--spacing-md) auto; }
+      }
+  
+  </style>
 </head>
-<body class="w3-content" style="max-width:1200px;">
+<body>
 
-
-  <div class="navbar">
-    <div class="navbar-left">
-        <a href="./index.html">Sai Maram</a>
-        <!-- Hamburger Menu for Mobile -->
-        <span class="menu-toggle" onclick="toggleMenu()">☰</span>
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="./index.html" class="nav-logo">Sai Maram</a>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav class="navbar-nav" id="navbar-nav">
+            <a href="./index.html#uxr" class="nav-link">Case Studies</a>
+            <a href="./index.html#wex" class="nav-link">Experience</a>
+            <a href="./index.html#res" class="nav-link">Research</a>
+            <a href="./about.html" class="nav-link">About</a>
+            <a href="cv.pdf" target="_blank" class="nav-link nav-link-button">Resume</a>
+        </nav>
     </div>
-    <div class="navbar-right">
-      <a href="./index.html#uxr">Case Studies</a>
-      <a href="./index.html#wex">Work Experience</a>
-      <a href="./index.html#res">Research</a>
-      <a href="./about.html">About</a>
-      <!-- <a href="./misc.html">Miscellaneous</a> -->
-  </div>
-</div>
-<!-- First Grid: Logo & About -->
-<div class="w3-row" style=" padding-top: 100px;">
-<div class="w3-half w3-container">
-  <!-- <h1 class="w3-xxlarge" style="color: orange;">AstraVerse</h1> -->
-  <h3 class="w3-text-grey">UX case Study</h3>
-  <h1 class="w3-jumbo" style="color: purple;">Move.</h1>
-  <p>September 2022 - October 2022</p>
-  <!-- <p>ACM FDG 2023, Springer ICEC 2022, ACM CHI 2022</p> -->
-</div>
-<div class="w3-half w3-container w3-xlarge w3-text-grey">
-  
-    <h3 style="font-style: Montserrat;font-weight: bold;color: black;padding-top: 10%;"> 
-        An UX Case study to identify bottlenecks in Robotic Startups</h3>
+</header>
 
-</div>
-</div>
+<main class="container">
 
-<div class="w3-row">
-  <!-- <div class="w3-half w3-container">
-    <img src="withMitra.png" style="width:70%;">
-  </div>
-  <div class="w3-half w3-container w3-xlarge w3-text-grey">
-    
-      <h3 style="font-style: Montserrat;font-weight: bold;color: purple;padding-top: 40%;"> 
-         Me with two of my favorite robots! I worked on</h3>
-  
-  </div> -->
-  </div>
-<hr>
-  <div class="w3-row">
-    <div class="w3-third w3-container">
-    <h3 style="font-weight: bold;color: black;">Team</h3>
-      <ul>
-        <li class="w3-large">1 Researcher</li>
+    <header class="case-study-header">
+        <p class="meta">UX Case Study</p>
+        <h1>Move.</h1>
+        <p class="subtitle">A UX case study identifying communication and workflow bottlenecks within a robotics startup to improve inter-team coordination.</p>
+        <p class="meta">Timeline: September 2022 - October 2022</p>
+        </header>
 
-      </ul>
-    
-      </div>
-      <div class="w3-third w3-container">
-        <h3 style="font-weight: bold;color: black;">Role</h3>
-          <li class="w3-large">Project Lead</li> 
-          <li class="w3-large">UX Researcher</li> 
-          <li class="w3-large">UX Writing</li> 
+    <section class="overview-section">
+        <div class="overview-box">
+            <h4><i class="fa fa-user" aria-hidden="true"></i> My Role</h4>
+            <ul>
+                <li>Project Lead</li>
+                <li>UX Researcher</li>
+                <li>UX Writer</li>
+            </ul>
         </div>
-      
-    <div class="w3-third w3-container">
-    <h3 style="font-weight: bold;color: black;">Tools</h3>
-    <li class="w3-large">Figma</li> 
-    <li class="w3-large">Python</li> 
-    </div>
-  
-  </div>
+        <div class="overview-box">
+            <h4><i class="fa fa-users" aria-hidden="true"></i> Team</h4>
+            <ul>
+                <li>1 Researcher (Myself)</li>
+            </ul>
+        </div>
+        <div class="overview-box">
+            <h4><i class="fa fa-calendar" aria-hidden="true"></i> Duration</h4>
+            <ul>
+                <li>2 Months</li>
+                <li>(Sep 2022 - Oct 2022)</li>
+            </ul>
+        </div>
+        <div class="overview-box">
+            <h4><i class="fa fa-wrench" aria-hidden="true"></i> Tools</h4>
+            <ul>
+                <li>Figma (Prototyping)</li>
+                <li>Python (Data Analysis/Scripting)</li>
+                <li>Ethnographic Observation</li>
+                <li>Interviewing</li>
+                <li>Co-Design Workshops</li>
+            </ul>
+        </div>
+    </section>
 
-<!-- Second Grid: Resent -->
-<!-- <div class="w3-panel w3-text-grey" style="background-color: ghostwhite">
-<h4>MOST RECENT WORK:</h4>
-</div> -->
-<hr>
-<div class="w3-row" >
-    <div class="w3-half w3-container">
-    <h2 style="font-weight: bold;color: black;">Problem</h2>
-    <p class="w3-large w3-text-black">The lifecycle of Robots are complex. To build robots Robots are complex. 
-      Successful robots are build with the coordination of various teams distributed across sales, marketing, software and hardware. 
-      This is complex. Where are the bottlenecks? How can we solve it? </p>
-      <hr>
-    </div>
+    <hr>
 
-    <div class="w3-half w3-container">
-    <h2 style="font-weight: bold;color: black;">Solution</h2>
-    <p class="w3-large">
-    For this project I take the role of a "Researcher as an Engineer" and take part in the daily activities of the startup.
-    Using UX research methods such of Ethnography, User Interviews, and Co-Design, I identify core problems and develop an
-    prototype application covering various corners of the problems.
-     </p>
-     
-        <hr>
-        
-    </div>
-    
-   
+    <section id="problem">
+        <h2>The Challenge: Untangling Robotic Startup Complexity</h2>
+        <p>The lifecycle of building and deploying successful robots is inherently complex, requiring seamless coordination between diverse teams like sales, marketing, software, hardware, and deployment. Miscommunications or misaligned processes between these teams can create significant bottlenecks, hindering progress and efficiency.</p>
+        <p>This project aimed to identify the critical bottlenecks within a robotics startup's workflow. Where does communication break down? How do differing team processes clash? And ultimately, how can these issues be addressed to streamline the robot development lifecycle?</p>
+    </section>
 
-    
-</div>
+    <hr>
+
+     <section id="approach">
+        <h2>My Approach: Researcher as Engineer</h2>
+        <p>To gain deep, authentic insights, I adopted the role of a "Researcher as an Engineer." I immersed myself in the startup's daily activities, leveraging my engineering background to participate directly within the software, hardware, and deployment teams.</p>
+        <p>This ethnographic approach was supplemented by targeted stakeholder interviews (particularly with leadership) and collaborative co-design sessions with employees from various teams. The goal was to uncover core problems from multiple perspectives and collaboratively explore potential solutions.</p>
+    </section>
+
+    <hr>
+
+    <section id="tldr">
+        <h2>TL;DR: Visual Summary</h2>
+        <figure>
+            <img src="Group 21 (5).png" alt="Visual summary highlighting key problems and solutions">
+            <figcaption>High-level overview of the identified bottlenecks and proposed solution directions.</figcaption>
+        </figure>
+        <figure>
+             <img src="Group 154 (1).png" alt="Infographic summarizing the research process and findings">
+             <figcaption>Summary of the research process and key takeaways.</figcaption>
+        </figure>
+    </section>
+
+    <hr>
+
+    <section id="stakeholders">
+        <h2>Identifying Stakeholders</h2>
+         <figure>
+            <img src="flow.png" alt="Diagram showing robot lifecycle and team interactions">
+            <figcaption>Visualizing the complex interactions across the robot lifecycle.</figcaption>
+        </figure>
+        <p>Through initial analysis and conversations, we identified 5 major stakeholder groups influencing the robot lifecycle within the startup:</p>
+        <ul>
+            <li>Sales and Marketing</li>
+            <li>Software Engineering</li>
+            <li>Hardware Engineering</li>
+            <li>Leadership</li>
+            <li>Deployment Team</li>
+        </ul>
+         <p>Understanding the unique perspectives, responsibilities, and pain points of each group was crucial for identifying systemic issues.</p>
+    </section>
+
+    <hr>
+
+    <section id="methodology">
+        <h2>Research Methodology</h2>
+        <p>Given the generative nature of the project (identifying unknown problems), we employed qualitative UX research methods:</p>
+        <ul>
+            <li><strong>Ethnography:</strong> Immersive observation and participation within teams to understand workflows, tools, and informal communication patterns in their natural context.</li>
+            <li><strong>Stakeholder Interviews:</strong> Semi-structured interviews, primarily with leadership, to understand strategic perspectives, perceived challenges, and information needs.</li>
+            <li><strong>Co-Design / Participatory Design:</strong> Collaborative sketching sessions (Quick 4s) with employees to rapidly brainstorm solutions addressing their most pressing pain points.</li>
+        </ul>
+    </section>
+
+    <hr>
+
+    <section id="research-findings">
+        <h2>Research Findings: Uncovering Bottlenecks</h2>
+
+        <h3>Ethnography: Insights from the Trenches</h3>
+        <blockquote>
+            <p>"I have no clue what the sales team promised the client for this robot, and I do not care. I am just going to write basic code and fix it later."</p>
+            <cite>- Software Engineer during ethnographic observation</cite>
+        </blockquote>
+        <p>By working alongside engineers and deployment staff, I observed daily activities and engaged in informal conversations. This revealed several recurring friction points:</p>
+        <ul>
+            <li><strong>Information Silos:</strong> Critical information about client requirements, robot configurations, or software updates often failed to flow effectively between teams (e.g., Sales to Software, Software to Deployment).</li>
+            <li><strong>Lack of Centralized Reference:</strong> Teams lacked a single, reliable source of truth for the status, specifications, and history of each individual robot being built or deployed.</li>
+            <li><strong>Inconsistent Protocols:</strong> Standard Operating Procedures (SOPs) were either not well-documented, not consistently followed, or not known across relevant teams.</li>
+            <li><strong>Domain Expertise Gaps:</strong> Assumptions about technical skills created issues, particularly during deployment where teams encountered unfamiliar software or hardware procedures under client pressure.</li>
+        </ul>
+
+        <h3>Stakeholder Interviews: Leadership Perspective</h3>
+         <blockquote>
+            <p>"Yeah, I will need to talk with the sales team to understand what they are selling... and the software team to see what features they have at this point..."</p>
+             <cite>- Manager describing information gathering process</cite>
+        </blockquote>
+        <p>Interviews with leadership focused on their awareness of team-level issues, their view of robot performance, customer insights, and inter-team communication effectiveness. Key themes included:</p>
+        <ul>
+            <li><strong>Centralized Information Flow Challenges:</strong> Leadership often acted as manual information hubs, highlighting inefficiencies in direct team-to-team communication.</li>
+            <li><strong>Need for Actionable Aggregation:</strong> Difficulty in getting aggregated data on robot performance or SOP adherence hindered strategic decision-making and resource allocation.</li>
+            <li><strong>Limited Insight into SOP Efficacy:</strong> Lack of visibility into whether established procedures were being followed effectively or needed revision.</li>
+        </ul>
+
+        <h3>Co-Design Activities: Employee-Driven Solutions</h3>
+         <blockquote>
+            <p>"I can't send ROS commands, I don't get it... it has to be simple. Something like this..."</p>
+             <cite>- Deployment team member during co-design sketching</cite>
+        </blockquote>
+        <p>Using a rapid sketching technique ("Quick 4s"), we asked employees to draw simple interface screens that would most help their daily work. This exercise quickly surfaced priorities:</p>
+        <figure>
+            <img src="Group 22.png" alt="Sketches from the co-design activity showing desired simple interfaces">
+            <figcaption>Illustrations from the co-design activities highlighting desire for simplicity and clarity.</figcaption>
+        </figure>
+        <p>Interpretations from these sketches included:</p>
+        <ul>
+            <li><strong>Desire for Simplicity:</strong> Employees prioritized minimal interaction complexity, especially for tasks performed under pressure (like deployment).</li>
+            <li><strong>Need for Simplified Technical Interfaces:</strong> Abstracting complex technical commands (like ROS) into user-friendly interfaces was a common theme.</li>
+            <li><strong>Demand for Data Aggregation (Leadership):</strong> Leadership sketches focused on dashboards and summaries for better oversight of robot performance and status.</li>
+            <li><strong>Maximum Information, Minimum Effort:</strong> A universal desire for quick access to relevant information without navigating complex systems.</li>
+        </ul>
+    </section>
+
+    <hr>
+
+    <section id="design-suggestions">
+        <h2>Design Suggestions & Prototypes</h2>
+        <p>While the primary goal was research and bottleneck identification, the insights directly informed potential solutions. Based on the findings, I developed low-fidelity prototypes illustrating concepts for a centralized information hub and simplified task interfaces. These aimed to address the core issues of communication silos, lack of central reference, and overly complex technical interactions.</p>
+        <figure>
+            <img src="Group 34.png" alt="Prototype screens showing concepts for a centralized robot information hub and simplified controls">
+            <figcaption>Conceptual prototypes exploring solutions for improved information access and simplified workflows.</figcaption>
+        </figure>
+        <p>These prototypes served as tangible starting points for the startup to consider for future internal tool development, focusing on improving cross-functional communication and workflow efficiency.</p>
+    </section>
+    <footer class="footer" style="text-align: center; padding: var(--spacing-lg) var(--spacing-md); margin-top: var(--spacing-xl); background-color: var(--secondary-color); color: var(--text-color-light); font-size: 0.9rem;">
+      <p>&copy; <span id="current-year"></span> Sai Maram. Case Study.</p>
+      <p><a href="./index.html">Back to Portfolio</a></p>
+ </footer>
+
+</main>
+
+<script>document.addEventListener('DOMContentLoaded', () => {
+ const menuToggle = document.getElementById('menu-toggle');
+ const navbarNav = document.getElementById('navbar-nav');
+ const navLinks = document.querySelectorAll('.nav-link'); // Get all nav links
+ const navbar = document.getElementById('navbar');
+
+ // Toggle mobile menu
+ if (menuToggle && navbarNav) {
+     menuToggle.addEventListener('click', () => {
+         navbarNav.classList.toggle('active');
+         // Optional: change hamburger icon to 'X'
+         const icon = menuToggle.querySelector('i');
+         if (navbarNav.classList.contains('active')) {
+             icon.classList.remove('fa-bars');
+             icon.classList.add('fa-times');
+             menuToggle.setAttribute('aria-expanded', 'true');
+         } else {
+             icon.classList.remove('fa-times');
+             icon.classList.add('fa-bars');
+             menuToggle.setAttribute('aria-expanded', 'false');
+         }
+     });
+
+     // Close mobile menu when a link is clicked
+     navLinks.forEach(link => {
+         link.addEventListener('click', () => {
+             if (navbarNav.classList.contains('active')) {
+                 navbarNav.classList.remove('active');
+                 const icon = menuToggle.querySelector('i');
+                 icon.classList.remove('fa-times');
+                 icon.classList.add('fa-bars');
+                  menuToggle.setAttribute('aria-expanded', 'false');
+             }
+         });
+     });
+ }
+
+  // Add shadow to navbar on scroll
+ if (navbar) {
+     window.addEventListener('scroll', () => {
+         if (window.scrollY > 50) { // Add shadow after scrolling 50px
+             navbar.classList.add('scrolled');
+         } else {
+             navbar.classList.remove('scrolled');
+         }
+     });
+ }
+
+ // Update footer year
+ const currentYearSpan = document.getElementById('current-year');
+ if (currentYearSpan) {
+     currentYearSpan.textContent = new Date().getFullYear();
+ }
+
+ // --- Optional: Active Nav Link Highlighting ---
+ // More complex implementation needed based on scroll position
+ // This is a simple example assuming section IDs match nav hrefs
+ const sections = document.querySelectorAll('section[id]'); // Get sections with IDs
+
+ function setActiveLink() {
+     let currentSection = '';
+     const scrollPos = window.scrollY + navbar.offsetHeight + 50; // Offset for navbar height + buffer
+
+     sections.forEach(section => {
+         const sectionTop = section.offsetTop;
+         const sectionHeight = section.offsetHeight;
+         if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+             currentSection = section.getAttribute('id');
+         }
+     });
+
+      // Special case for top of page (hero section often doesn't have ID or is above first section)
+      if (window.scrollY < sections[0].offsetTop - navbar.offsetHeight - 50) {
+          currentSection = 'home'; // Assuming hero/top section implies 'home' link
+      }
 
 
-<h2 style="color:purple">TL;DR</h2>
-<img src="Group 21 (5).png" style="width: 100%;padding-bottom: 40px;">
-<div class="portfolio-container">
+     navLinks.forEach(link => {
+         link.classList.remove('active');
+         // Check if the link's href matches the current section ID
+         // Handle the '#' in href
+         if (link.getAttribute('href') === `#${currentSection}`) {
+             link.classList.add('active');
+         }
+          // Handle base index.html link for 'home'
+         if (currentSection === 'home' && (link.getAttribute('href') === './index.html' || link.getAttribute('href') === '#home') ) {
+              // No specific 'home' link in the provided nav, so this part might not highlight anything unless a home link is added.
+              // Example: if you add <a href="#home">Home</a>, this would work.
+         }
+     });
+ }
 
-  <img src="Group 154 (1).png" style="width: 100%; padding-bottom: 10px;">
-  </div>
+ window.addEventListener('scroll', setActiveLink);
+ setActiveLink(); // Initial check on load
 
-  
-<hr>
+});</script>
 
-<h2 style="color:purple"><b>Identifying Stakeholders</b></h2>
-<div class="portfolio-container">
-  <div class="portfolio-container_text">
-    <img style="width: 100%;;height: 80%;" src="flow.png" alt="Robots Software">
-</div> 
-  <div class="portfolio-container_text" style="">    
-      
-  <p class="w3-large" style="margin-bottom: 0px;">
-    We identified 5 major stakeholders that influence the lifecycle of a Robot.
-  </p>
-  <ul class="w3-large" style="margin-top: 0px;">
-    <li>Sales and Marketing</li>
-    <li>Software Engineering</li>
-    <li>Hardware Engineering</li>
-    <li>Leadership</li>
-    <li>Deployment Team</li>
-  </ul>
-      
-  </div>
-  </div>
-
-<hr>
-
-<h2 style="color:purple"><b>Methodology</b></h2>
-<p class="w3-large" style="margin-bottom: 0px;">
-The project is generative in nature, hence we use the following research methods
-</p>
-<ul class="w3-large" style="margin-top: 0px;">
-  <li>Ethnography</li>
-  <li>Stakeholder Interviews</li>
-  <li>Co-Design | Participatory Design</li>
-
-</ul>
-<hr>
-
-<h3 style="color: purple;"><b>Ethnography</b></h3>
-<h2 style="color: rebeccapurple;">"I have no clue what the sales team promised the client for this robot, and I do not care I am just going to write basic code and fix it latter"</h2>
-<p class="w3-large" style="margin-bottom: 0px;">
-As part of the ethnographic step I took the role as a "Researcher as an Engineer". I leveraged my engineering skills
-to seamlessly fit into different teams across the firm. I took part in the daily team activities of both the software, hardware and deployment teams. 
-While working I carried out conversations with the employees to understand where employees had problems.
-
-Some of the problems Identified were:
-</p>
-
-<ul class="w3-large" style="margin-top: 0px;">
-  <li>Lack of information communication between teams</li>
-  <li>Lack of single point reference per robot</li>
-  <li>Lack of agreement and awareness of protocols and standard operating procedures</li>
-  <li>Assumption of domain expertise by teams. For example, deployment of robot involves high end software programs unfamiliar to the deployment team, creating serious bottlenecks.</li>
-</ul>
-<hr>
-<h3 style="color: purple;"><b>Stakeholder Interviews</b></h3>
-<h2 style="color: rebeccapurple;">"Yeah, I will need to talk with the sales team to understand what they are selling to the customers, and the software team to see what features they have at this point"</h2>
-
-<p class="w3-large">To understand the perspective of leadership I conducted stakeholder interviews. I did 1:1 interviews
-  to understand if they are aware of problems, faced by teams and robots. My questions were open ended and aimed to understand
-  leaderships understanding of robot performance, customer insights and how teams are communicating between themselves. 
-  We identified the following:
-</p>
-
-<ul class="w3-large" style="margin-top: 0px;">
-  <li>Centralized information flow</li>
-  <li>Lack of aggregation for actionable insights and resource distribution </li>
-  <li>Lack of insight into what SOPs have been established and the efficacy of the SOPs</li>
-</ul>
-<hr>
-
-<h3 style="color: purple;"><b>Co-Design Activities</b></h3>
-<h2 style="color: rebeccapurple;">"I can not send ROS commands, I do not get it. The deployment is very stressful with the client always on your head, it has to be simple. Something like this..."</h2>
-
-<p class="w3-large">
-  In this research activity we borrow a popular UI technique called Quick 8s (we were working with CEOs and busy employees hence stuck to quick 4s).
-  We present users with 4 blank phone screens and ask them to sketch 4 screens that would help them in their work. 
-  There is no right or wrong screen. Through this activity we were interested to know the most pressing problem and see
-  an employees perspective towards solving the problem. 
-</p>
-
-<img style="width: 100%;padding-bottom: 02%;" src="Group 22.png" >
-
-<small style="padding-left:40%;">Illustrations from the co-design activities</small>
-<p class="w3-large">
-  From the co-design activities we draw the following interpretations:
-</p>
-<ul class="w3-large" style="margin-top: 0px;">
-  <li>Employees want minimal interaction but maximum information gain.</li>
-  <li>Employees want simplified technical solutions.</li>
-  <li>Leadership needs data aggregation, and better insight into robot performance.</li>
-</ul>
-
-<hr>
-
-<h3 style="color: purple;"><b>Design Suggestions</b></h3>
-<p class="w3-large">In this project I was consulted for conducting research and understand bottlenecks in their production pipelines. 
-  Supporting their design process post the insights I generated, I designed some prototypes shown below:
-</p>
-
-  <!-- <img src="Group 34.png"> -->
-
-
-  <div class="portfolio-container">
-<!-- <div style="overflow-x: scroll;">
-  <img src="your-image.jpg" style="white-space: nowrap;">
-</div> -->
-      <img style="width: 100%;height: 100%;" src="Group 34.png" alt="Robots Software">
- 
-    </div>
 </body>
+</html>
