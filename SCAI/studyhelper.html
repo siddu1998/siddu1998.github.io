@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
     <title>StudyHelper</title>
     <style>
         * {
@@ -19,6 +18,21 @@
             background: #F7F7F8;
             display: flex;
             height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Mobile menu button */
+        .menu-toggle {
+            display: none;
+            background: #000;
+            color: white;
+            border: none;
+            padding: 10px;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+            border-radius: 5px;
         }
 
         .sidebar {
@@ -27,15 +41,15 @@
             padding: 20px;
             border-right: 1px solid #ccc;
             height: 100vh;
-            /* Full viewport height */
             overflow-y: auto;
-            /* Enable vertical scrolling */
+            transition: transform 0.3s ease;
         }
 
         .main-content {
             width: 70%;
             display: flex;
             flex-direction: column;
+            height: 100vh;
         }
 
         .navbar {
@@ -45,33 +59,67 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 10px;
+        }
+        
+        @media (min-width: 769px) {
+            .navbar {
+                flex-wrap: nowrap;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-wrap: wrap;
+            }
         }
 
         .navbar input[type="text"] {
             padding: 8px;
             border: none;
             border-radius: 4px;
+            width: 48%;
+            min-width: 120px;
         }
 
         .navbar select {
             padding: 8px;
             border: none;
             border-radius: 4px;
+            width: 48%;
+            min-width: 120px;
         }
 
         .chat-window {
             flex: 1;
             overflow-y: auto;
             padding: 20px;
+            padding-top: 50px; /* Added padding to make room for the notice banner */
             background: white;
+            position: relative;
+        }
+        
+        .anonymity-notice {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #2196F3;
+            color: white;
+            text-align: center;
+            padding: 8px;
+            font-size: 14px;
+            z-index: 10;
         }
 
         .dynamic-responses {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-around;
             padding: 10px;
             background-color: #eaeaea;
             border-bottom: 1px solid #ddd;
+            gap: 5px;
         }
 
         .response-button {
@@ -81,6 +129,8 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin: 2px;
+            flex-grow: 1;
         }
 
         .message-input-area {
@@ -90,6 +140,8 @@
             border-top: 1px solid #ddd;
             position: sticky;
             bottom: 0;
+            flex-wrap: wrap;
+            gap: 5px;
         }
 
         textarea {
@@ -100,16 +152,25 @@
             background-color: #F0F0F0;
             resize: none;
             min-height: 50px;
+            width: 100%;
+        }
+
+        .action-buttons {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            margin-top: 5px;
         }
 
         button {
             background-color: #000000;
             color: white;
-            padding: 14px 20px;
+            padding: 10px 15px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            margin-left: 10px;
+            flex-grow: 1;
+            margin: 0 5px;
         }
 
         .user-message {
@@ -119,6 +180,8 @@
             max-width: 80%;
             margin-bottom: 10px;
             word-wrap: break-word;
+            align-self: flex-end;
+            margin-left: auto;
         }
 
         .user-message-ai {
@@ -137,14 +200,91 @@
             max-width: 80%;
             margin-bottom: 10px;
             word-wrap: break-word;
+            align-self: flex-start;
+        }
+
+        .transcription {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Media queries for responsive design */
+        /* Desktop layout */
+        @media (min-width: 769px) {
+            body {
+                flex-direction: row;
+            }
+            
+            .menu-toggle {
+                display: none;
+            }
+            
+            .sidebar {
+                position: static;
+                transform: none;
+                width: 30%;
+            }
+            
+            .main-content {
+                width: 70%;
+            }
+        }
+        
+        /* Mobile layout */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .sidebar {
+                position: fixed;
+                width: 80%;
+                max-width: 300px;
+                z-index: 100;
+                transform: translateX(-100%);
+                height: 100%;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                width: 100%;
+            }
+
+            .navbar {
+                justify-content: center;
+            }
+
+            .navbar input[type="text"],
+            .navbar select {
+                width: 100%;
+            }
+
+            .message-input-area {
+                flex-direction: column;
+            }
+
+            .user-message, 
+            .ai-message {
+                max-width: 90%;
+            }
         }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
 </head>
 
 <body>
+    <!-- Mobile Menu Button -->
+    <!-- <button class="menu-toggle" id="menuToggle">☰ Menu</button> -->
+
     <!-- Side Navigation Bar -->
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
         <h1>StudyHelper</h1>
 
         <br>
@@ -164,38 +304,12 @@
         <hr>
         <ul>
             <li>📝 <strong>Start with Clear Descriptions</strong></li>
-
-            <!-- <li>💭 <strong>Think Out Loud</strong>: Treat your responses as a chance to explore your thoughts. Even if you're unsure, sharing your reasoning helps the bot prompt you with helpful questions and explanations.</li> -->
-
             <li>❓ <strong>Ask Questions Frequently</strong></li>
-
             <li>📌 <strong>Ask for Examples</strong></li>
-
-            <!-- <li>🤔 <strong>Use ‘I’m Not Sure’ Responses</strong>: If you’re stuck, try using responses like “I’m not sure,” “Can you help me think through this?” or “What would you suggest?” This encourages the bot to guide you with hints rather than direct answers.</li> -->
-
-            <!-- <li>🔎 <strong>Reflect on Feedback</strong>: When the bot provides feedback or sample data, take a moment to review and think about why certain variables or tests are recommended. This will help deepen your understanding of when and why certain statistical methods are used.</li> -->
-
-            <!-- <li>📊 <strong>Take Advantage of Practice Data</strong>: When the bot gives sample data, treat it like an actual exercise. Go through the steps of running the tests, even if it’s a mental exercise, and explain your reasoning aloud to reinforce your learning.</li> -->
-
             <li>✅ <strong>Review Each Step Before Moving On</strong></li>
-
-            <!-- <li>🔄 <strong>End Conversations with a Recap</strong>: Summarize what you’ve learned or clarify any remaining doubts. Ask the bot if there’s anything it recommends focusing on before your exam.</li> -->
-
-            <li>⏹️ <strong>Type ‘STOP’ to End</strong>: If you need a break, type STOP, and the conversation will end.
+            <li>⏹️ <strong>Type 'STOP' to End</strong>: If you need a break, type STOP, and the conversation will end.
                 You can come back anytime to continue practicing!</li>
-
-            <!-- <li>🔄 <strong>Experiment with Different Scenarios</strong>: If you have multiple research ideas or different study designs, try describing each to see how the recommended tests and variables might change.</li> -->
-
         </ul>
-
-        <br>
-        <!-- <h3>Peer Conversations</h3>
-        <hr>
-        <br>
-        <li>Load Conversation 1</li>
-        <li>Load Conversation 2</li>
-        <li>Load Conversation 3</li>
-        <li>Load Conversation 4</li> -->
     </div>
 
     <!-- Main Content Area -->
@@ -210,7 +324,9 @@
         </div>
 
         <!-- Chat Window (AI Responses and Messages) -->
-        <div id="transcription" class="chat-window"></div>
+        <div id="transcription" class="chat-window transcription">
+            <div class="anonymity-notice">The data collected will be anonymous, instructors will have no way to identify who wrote what</div>
+        </div>
 
         <!-- Dynamic Responses Area (Above the input) -->
         <div id="dynamic-responses" class="dynamic-responses">
@@ -220,8 +336,10 @@
         <!-- Message Input Area -->
         <div class="message-input-area">
             <textarea id="messageInput" placeholder="Type your message here..."></textarea>
-            <button id="sendMessage" disabled>Send</button>
-            <button id="download-btn">Download Transcript</button>
+            <div class="action-buttons">
+                <button id="download-btn">Download</button>
+                <button id="sendMessage" disabled>Send</button>
+            </div>
         </div>
     </div>
 
@@ -235,6 +353,20 @@
         $(document).ready(function () {
             var uniqueID = 'id_' + Math.random().toString(36).substr(2, 9);
             localStorage.setItem('sessionID', uniqueID);
+
+            // Toggle sidebar on mobile
+            $('#menuToggle').on('click', function() {
+                $('#sidebar').toggleClass('active');
+            });
+
+            // Close sidebar when clicking outside on mobile
+            $(document).on('click', function(e) {
+                if ($(window).width() <= 768) {
+                    if (!$(e.target).closest('#sidebar').length && !$(e.target).closest('#menuToggle').length) {
+                        $('#sidebar').removeClass('active');
+                    }
+                }
+            });
 
             // Fetch API key and GPT options
             $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/getOAI/', function (data) {
@@ -284,7 +416,8 @@
             });
 
             $('#messageInput').on('keypress', function (e) {
-                if (e.which == 13) {
+                if (e.which == 13 && !e.shiftKey) {
+                    e.preventDefault();
                     $('#sendMessage').click();
                 }
             });
@@ -403,8 +536,8 @@
 
                 var css = `
                 body { font-family: 'Arial', sans-serif; background: #f4f4f4; color: #333; }
-                .user-message { background-color: #c8e6c9; align-self: flex-end; margin-left: auto; word-wrap: break-word; }
-                .ai-message { background-color: #bbdefb; align-self: flex-start; margin-right: auto; word-wrap: break-word; }`;
+                .user-message { background-color: #c8e6c9; padding: 10px; border-radius: 10px; max-width: 80%; margin-bottom: 10px; word-wrap: break-word; margin-left: auto; }
+                .ai-message { background-color: #bbdefb; padding: 10px; border-radius: 10px; max-width: 80%; margin-bottom: 10px; word-wrap: break-word; }`;
 
                 var htmlContentWithCSS = `<html><head><style>${css}</style></head><body>${transcriptionContent}</body></html>`;
 
