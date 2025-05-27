@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Gamified Prompt Taxonomy</title>
+<style>
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#fdfdfd;color:#222;margin:0;padding:2rem;line-height:1.6}
+h1{font-size:2rem;margin-bottom:.5rem}
+h2{display:flex;align-items:center;font-size:1.3rem;margin-top:2rem;margin-bottom:.4rem}
+.icon{width:24px;height:24px;border-radius:4px;margin-right:.5rem;background:linear-gradient(135deg,#4facfe,#00f2fe)}
+.icon.cat-input{background:linear-gradient(135deg,#ff9a9e,#fad0c4)}
+.icon.cat-npc{background:linear-gradient(135deg,#f6d365,#fda085)}
+.icon.cat-prog{background:linear-gradient(135deg,#a18cd1,#fbc2eb)}
+.icon.cat-style{background:linear-gradient(135deg,#84fab0,#8fd3f4)}
+.icon.cat-learn{background:linear-gradient(135deg,#cfd9df,#e2ebf0)}
+section{max-width:920px;margin:auto}
+ul{margin:.3rem 0 .8rem 1.5rem;padding:0}
+li{margin-bottom:1rem}
+code{background:#f4f4f4;padding:.15rem .4rem;border-radius:3px;display:inline-block}
+.instructions{background:#eef9ff;border-left:4px solid #4facfe;padding:1rem;margin-bottom:2rem}
+.desc{font-size:.9rem;color:#444;margin-bottom:.4rem}
+.detail{font-size:.85rem;color:#555;margin-top:.25rem}
+</style>
+</head>
+<body>
+<section>
+<h1>Gamified Prompt Taxonomy</h1>
+<div class="instructions">
+<p>This guide breaks common game mechanics into reusable prompt ingredients. Each element lists examples, <em>how to deploy it</em>, and <em>why it helps</em> so you can choose the right mix for your lesson.</p>
+</div>
+
+<!-- Game Style -->
+<h2><span class="icon cat-style"></span>Game Style</h2>
+<p class="desc">The wrapping that makes learning feel like play.</p>
+<ul>
+<li><strong>Narrative Framing</strong><br>
+<code>"You awaken aboard Space Station X drifting near Mars."</code><br>
+<code>"A rogue AI stalks the data center – you’re its only hope."</code>
+<div class="detail"><strong>How to use:</strong> Open with a vivid situation that connects to your topic.<br>
+<strong>Advantages:</strong> Enhances immersion, aids memory retention via storytelling.</div></li>
+
+<li><strong>Role‑Play</strong><br>
+<code>"You are the Physics Dungeon Master guiding novices."</code><br>
+<code>"Take the role of Tech Ethics Officer in MediaCorp."</code>
+<div class="detail"><strong>How to use:</strong> Assign a persona that logically performs target skills.<br>
+<strong>Advantages:</strong> Boosts engagement and empathy, encourages perspective‑taking.</div></li>
+
+<li><strong>Levels & Ending Conditions</strong><br>
+<code>"Answer 10 questions to complete Level 1."</code><br>
+<code>"Lose if Smog King’s meter hits 100% pollution."</code>
+<div class="detail"><strong>How to use:</strong> Define level thresholds plus win/lose criteria at start.<br>
+<strong>Advantages:</strong> Sets clear expectations, structures pacing, and signals closure.</div></li>
+
+<li><strong>Visual Aesthetics</strong><br>
+<code>"[▓▓░░░░] 40% progress"</code><br>
+<code>"🎮 Statistics Quest: choose 🌳 EcoVille or 🚀 Space X"</code>
+<div class="detail"><strong>How to use:</strong> Render bars, emoji status, or mini‑maps inline.<br>
+<strong>Advantages:</strong> Provides at‑a‑glance status and playful atmosphere without graphics libraries.</div></li>
+
+<li><strong>Game Type</strong><br>
+<code>"Collaborate with two classmates to unlock the vault."</code><br>
+<code>"Multiplayer newsroom: journalists vs advertisers."</code>
+<div class="detail"><strong>How to use:</strong> State whether play is solo, synchronous, or asynchronous group; adjust rules accordingly.<br>
+<strong>Advantages:</strong> Enables peer interaction, social learning, and varied replay styles.</div></li>
+</ul>
+
+<!-- NPC -->
+<h2><span class="icon cat-npc"></span>Non‑Player Characters (NPC)</h2>
+<p class="desc">Virtual characters driving story and feedback.</p>
+<ul>
+<li><strong>NPC Creation</strong><br>
+<code>"Sir Vector, Guardian of Classical Castle, greets you."</code><br>
+<code>"Engineer Blaze reveals smoky secrets of the factory."</code>
+<div class="detail"><strong>How to use:</strong> Introduce an NPC’s name, role, and motivation in one line so learners instantly know their purpose.<br>
+<strong>Advantages:</strong> Gives prompts personality, anchors narrative stakes, and lets you segment content by character.</div></li>
+<li><strong>NPC Interaction</strong><br>
+<code>"Convince Dame Entropy to calibrate the furnace."</code><br>
+<code>"Ask Eco‑Oracle for a weather omen (cost: 5 Eco‑Coins)."</code>
+<div class="detail"><strong>How to use:</strong> Provide verbs (convince, barter, teach) and consequences for success or failure.<br>
+<strong>Advantages:</strong> Encourages dialogue practice, persuasion skills, and conditional branching without extra complexity.</div></li>
+</ul>
+
+<!-- Progression -->
+<h2><span class="icon cat-prog"></span>Progression Systems</h2>
+<p class="desc">Visible signals of effort, risk and reward.</p>
+<ul>
+<li><strong>Points / Score</strong><br>
+<code>"Gain 10 XP for each balanced chemical equation."</code><br>
+<code>"Climate Hero Score tallies at the journey’s end."</code>
+<div class="detail"><strong>How to use:</strong> State point values up front and occasionally echo totals.<br>
+<strong>Advantages:</strong> Quantifies progress, supports mastery‑based grading, and motivates through micro‑rewards.</div></li>
+
+<li><strong>Quests / Bosses</strong><br>
+<code>"Defeat Lord Cosinix by solving the unit‑circle duel."</code><br>
+<code>"Boss: Firewall Sentinel – crack the cipher in 3 tries."</code>
+<div class="detail"><strong>How to use:</strong> Break curriculum into themed quests; end each with a high‑stakes question or scenario.<br>
+<strong>Advantages:</strong> Creates momentum, natural assessment checkpoints, and memorable challenge moments.</div></li>
+
+<li><strong>Badges / Achievements</strong><br>
+<code>"🏅 Eco‑Visionary badge for zero‑waste choices."</code><br>
+<code>"🔬 ‘Data Detective’ unlocked after 5 flawless analyses."</code>
+<div class="detail"><strong>How to use:</strong> Define badge criteria; hand out emoji‑rich titles when met.<br>
+<strong>Advantages:</strong> Provides long‑term goals, social proof, and sharable accomplishments.</div></li>
+
+<li><strong>Health / Lives</strong><br>
+<code>"♥♥♥ — wrong answer costs one heart"</code><br>
+<code>"Logic Meter 80% → falls 10% on each mis‑step"</code>
+<div class="detail"><strong>How to use:</strong> Present current health every few turns; describe penalties for depletion.<br>
+<strong>Advantages:</strong> Adds tension, encourages accuracy, and naturally ends a session when lives hit zero.</div></li>
+
+<li><strong>Inventory / Resources</strong><br>
+<code>"Use 3 Solar Cells to power the rover."</code><br>
+<code>"Portfolio: $5 000 cash, 20 shares of TSLA."</code>
+<div class="detail"><strong>How to use:</strong> List starting items; allow trade‑offs or crafting during play.<br>
+<strong>Advantages:</strong> Fosters planning, teaches resource management, and personalizes playthroughs.</div></li>
+</ul>
+
+
+<!-- Input Modality -->
+<h2><span class="icon cat-input"></span>Input Modality</h2>
+<p class="desc">Ways learners contribute beyond plain chat.</p>
+<ul>
+<li><strong>Image Upload</strong><br>
+<code>"Upload a photo of a food label that claims 'zero sugar'."</code><br>
+<code>"Submit your Python file to patch the ship’s AI."</code><br>
+<code>"Post a selfie cleaning litter to earn 🌱 Eco‑XP."</code>
+<div class="detail"><strong>How to use:</strong> Clearly state the file or photo requirement and explain what will happen after upload (analysis, feedback, reward).<br>
+<strong>Advantages:</strong> Adds authenticity, captures real‑world artifacts, and supports multimodal assessment.</div></li>
+
+<li><strong>Choice‑Based Options</strong><br>
+<code>"📍 Choose: 1️⃣ Disappearing Forests 2️⃣ Sinking City 3️⃣ Burning Skies"</code><br>
+<code>"(A) Open door (B) Ask NPC (C) Inspect device"</code>
+<div class="detail"><strong>How to use:</strong> Offer 2‑4 options max, label them with emojis or numbers, and explain that each path affects story or scoring.<br>
+<strong>Advantages:</strong> Empowers agency, simplifies branching logic, and keeps conversations on‑rails.</div></li>
+
+<li><strong>Randomizer / Dice</strong><br>
+<code>"Type /roll to see if the gate creaks open."</code><br>
+<code>"🎲 Spin: 🍒|🍌|🍊 – Better luck next time!"</code>
+<div class="detail"><strong>How to use:</strong> Ask the learner to trigger the roll; then narrate outcome‑based consequences.<br>
+<strong>Advantages:</strong> Injects suspense, mirrors tabletop games, and models probabilistic thinking.</div></li>
+</ul>
+
+
+
+
+
+
+<!-- Learning -->
+<h2><span class="icon cat-learn"></span>Learning Design</h2>
+<p class="desc">Pedagogical glue that ensures growth, not just fun.</p>
+<ul>
+<li><strong>Learning Objective</strong><br>
+<code>"Goal: master t‑tests and ANOVA before the final boss."</code><br>
+<code>"Mission: secure the data center by patching SQL injection."</code>
+<div class="detail"><strong>How to use:</strong> Declare objectives in story voice so players know what knowledge wins the game.<br>
+<strong>Advantages:</strong> Keeps prompts aligned with curriculum and transparent for assessment.</div></li>
+
+<li><strong>Scaffolding & Difficulty</strong><br>
+<code>"Hint tokens decrease each chapter."</code><br>
+<code>"Five ship systems – each harder than the last."</code>
+<div class="detail"><strong>How to use:</strong> Start with guided practice; gradually remove supports or raise stakes.<br>
+<strong>Advantages:</strong> Maintains achievable challenge, supports novice‑to‑expert progression.</div></li>
+
+<li><strong>Feedback & Hinting</strong><br>
+<code>"Incorrect – try again or type 'hint' for a clue."</code><br>
+<code>"Second wrong? Here’s the explanation and a mini‑review."</code>
+<div class="detail"><strong>How to use:</strong> Offer tiered assistance: first a nudge, then a detailed reveal. Make ‘hint’ a clear command.<br>
+<strong>Advantages:</strong> Reduces frustration, supports just‑in‑time learning, and keeps autonomy in learner hands.</div></li>
+
+<li><strong>Progress Check</strong><br>
+<code>"Quick quiz: 3 MCQs before the reactor restarts."</code><br>
+<code>"Earn a badge only after two consecutive correct runs."</code>
+<div class="detail"><strong>How to use:</strong> Insert short quizzes between levels; clarify consequences (unlock, badge, or replay).<br>
+<strong>Advantages:</strong> Provides formative assessment, reinforces retention, and signals readiness for harder tasks.</div></li>
+
+<li><strong>Metacognitive Reflection</strong><br>
+<code>"Why did you choose chi‑square here?"</code><br>
+<code>"Reflect: what strategy will you change next round?"</code>
+<div class="detail"><strong>How to use:</strong> Pose open questions after milestones; invite journaling or quick summaries.<br>
+<strong>Advantages:</strong> Strengthens self‑regulation, deepens conceptual grasp, and generates qualitative insight for the instructor.</div></li>
+</ul>
+
+<footer style="margin-top:3rem;font-size:.8rem;color:#666">© 2025 Gamified Prompt Taxonomy — CC‑BY 4.0</footer>
+</section>
+</body>
+</html>

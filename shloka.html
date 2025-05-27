@@ -1,265 +1,687 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Case Study: Pray For Green, Play For Green</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
-  <style>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study: Religion and Videogames Discourse</title>
+    <link rel="icon" href="Group 116.png"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--spacing-md) 0;
+    font-size: 1rem;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+}
+
+caption {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--primary-color-darker);
+    text-align: left;
+    padding: var(--spacing-sm) 0;
+}
+
+th, td {
+    text-align: left;
+    padding: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+th {
+    background-color: var(--secondary-color);
+    font-weight: 600;
+    color: var(--text-color-light);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* subtle zebra striping */
+}
+
+@media screen and (max-width: 768px) {
+    table, thead, tbody, th, td, tr {
+        display: block;
+        width: 100%;
+    }
+    th {
+        text-align: left;
+    }
+    td {
+        padding: var(--spacing-xs);
+        border-bottom: 1px solid var(--border-color);
+    }
+}
+
+    /* --- Global Styles & Variables (Copied from previous revamp) --- */
+    :root {
+        --primary-font: "Inter", system-ui, sans-serif;
+        --heading-font: "Inter", system-ui, sans-serif;
+
+        --primary-color: #F39F5A; /* Accent orange */
+        --primary-color-darker: #e08e4a; /* Darker shade */
+        --secondary-color: #f8f9fa; /* Light background */
+        --text-color: #343a40; /* Dark grey for text */
+        --text-color-light: #6c757d; /* Lighter grey for descriptions */
+        --border-color: #dee2e6;
+        --card-bg: #ffffff;
+        --shadow-color: rgba(0, 0, 0, 0.05); /* Softer shadow */
+        --shadow-hover-color: rgba(0, 0, 0, 0.1);
+
+        --border-radius-sm: 4px;
+        --border-radius-md: 8px;
+        --border-radius-lg: 12px;
+
+        --spacing-xs: 0.5rem;  /* 8px */
+        --spacing-sm: 1rem;    /* 16px */
+        --spacing-md: 1.5rem;  /* 24px */
+        --spacing-lg: 2.5rem;  /* 40px */
+        --spacing-xl: 4rem;    /* 64px */
+
+        --max-width: 1100px; /* Slightly narrower for case study text */
+        --transition-speed: 0.3s;
+    }
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 80px; /* Adjust based on fixed navbar height */
+    }
+
     body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #fff;
-      color: #1c1c1c;
-      line-height: 1.6;
+        font-family: var(--primary-font);
+        color: var(--text-color);
+        background-color: #fff;
+        line-height: 1.7;
+        font-size: 17px; /* Slightly larger base font for readability */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        padding-top: 70px; /* Add padding to prevent content going under fixed navbar */
     }
+
     .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 2rem;
+        max-width: var(--max-width);
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: var(--spacing-md);
+        padding-right: var(--spacing-md);
     }
-    header.case-study-header {
-      margin-bottom: 2rem;
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: var(--heading-font);
+        font-weight: 700;
+        line-height: 1.3;
+        margin-bottom: var(--spacing-sm);
+        color: var(--text-color);
     }
-    .meta {
-      font-size: 0.9rem;
-      color: #777;
+
+    h1 { font-size: 2.8rem; color: var(--primary-color-darker); } /* Main Case Study Title */
+    h2 { font-size: 2rem; margin-top: var(--spacing-lg); border-bottom: 2px solid var(--border-color); padding-bottom: var(--spacing-xs); } /* Section Titles */
+    h3 { font-size: 1.5rem; margin-top: var(--spacing-md); font-weight: 700; color: var(--text-color); } /* Sub-Section Titles */
+    h4 { font-size: 1.2rem; font-weight: 700; color: var(--text-color); } /* Overview Box Titles */
+
+    p {
+        margin-bottom: var(--spacing-md);
+        font-size: 1.1rem; /* Slightly larger paragraph font */
+        max-width: 75ch; /* Optimal line length for reading */
     }
-    h1 {
-      font-size: 2.5rem;
-      margin: 0.2rem 0;
+    p.meta { /* For date/publication info */
+        font-size: 0.95rem;
+        color: var(--text-color-light);
+        margin-bottom: var(--spacing-xs);
     }
-    .subtitle {
-      font-size: 1.2rem;
-      color: #444;
-      margin-top: 0.5rem;
+
+    a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color var(--transition-speed) ease;
     }
+
+    a:hover, a:focus {
+        color: var(--primary-color-darker);
+        text-decoration: underline;
+        outline: none;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        border-radius: var(--border-radius-md); /* Subtle rounding */
+    }
+
+    figure {
+        margin: var(--spacing-lg) auto; /* Center figures */
+        max-width: 90%; /* Limit figure width */
+        text-align: center;
+    }
+
+    figcaption {
+        margin-top: var(--spacing-sm);
+        font-size: 0.9rem;
+        color: var(--text-color-light);
+        font-style: italic;
+    }
+
+    ul, ol {
+        margin-bottom: var(--spacing-md);
+        padding-left: var(--spacing-md);
+    }
+
+    li {
+        margin-bottom: var(--spacing-xs);
+        font-size: 1.05rem;
+    }
+
+    blockquote {
+        border-left: 4px solid var(--primary-color);
+        margin: var(--spacing-md) 0 var(--spacing-md) var(--spacing-sm);
+        padding: var(--spacing-sm) var(--spacing-md);
+        background-color: var(--secondary-color);
+        border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+        font-style: italic;
+        color: var(--text-color-light);
+        font-size: 1.1rem;
+    }
+     blockquote p {
+         margin-bottom: 0;
+         max-width: none; /* Allow blockquote text to fill width */
+     }
+
+    hr {
+        border: none;
+        border-top: 1px solid var(--border-color);
+        margin: var(--spacing-lg) 0;
+    }
+
+    strong, b {
+        font-weight: 700;
+    }
+
+    /* --- Navbar Styles (Copied from previous revamp) --- */
+    .navbar {
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border-color);
+        padding: var(--spacing-xs) 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        transition: box-shadow var(--transition-speed) ease;
+    }
+    .navbar.scrolled { box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); }
+    .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 var(--spacing-md);
+    }
+    .nav-logo { font-weight: 700; font-size: 1.4rem; color: var(--text-color); text-decoration: none; }
+    .nav-logo:hover { color: var(--primary-color); text-decoration: none; }
+    .navbar-nav { display: flex; align-items: center; gap: var(--spacing-sm); }
+    .nav-link { color: var(--text-color-light); text-decoration: none; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--border-radius-sm); font-weight: 500; transition: color var(--transition-speed) ease, background-color var(--transition-speed) ease; }
+    .nav-link:hover, .nav-link:focus, .nav-link.active { color: var(--primary-color); text-decoration: none; background-color: rgba(243, 159, 90, 0.1); }
+    .nav-link-button { background-color: var(--primary-color); color: white; padding: 8px 18px; border-radius: var(--border-radius-md); transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease; }
+    .nav-link-button:hover, .nav-link-button:focus { background-color: var(--primary-color-darker); color: white; transform: translateY(-2px); text-decoration: none; }
+    .menu-toggle { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-color); cursor: pointer; padding: var(--spacing-xs); }
+
+    /* --- Case Study Specific Styles --- */
+    .case-study-header {
+        padding: var(--spacing-lg) 0 var(--spacing-md) 0;
+        /* background-color: var(--secondary-color); Light bg for header */
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: var(--spacing-xl);
+    }
+    .case-study-header h1 {
+        margin-bottom: var(--spacing-sm);
+    }
+    .case-study-header .subtitle {
+        font-size: 1.4rem;
+        font-weight: 400;
+        color: var(--text-color-light);
+        max-width: 75ch;
+        margin-bottom: var(--spacing-md);
+    }
+
     .overview-section {
-      display: flex;
-      gap: 2rem;
-      flex-wrap: wrap;
-      margin-bottom: 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--spacing-md);
+        background-color: var(--secondary-color);
+        padding: var(--spacing-md);
+        border-radius: var(--border-radius-lg);
+        margin-bottom: var(--spacing-xl);
     }
     .overview-box {
-      flex: 1;
-      min-width: 240px;
-      background-color: #f4f4f4;
-      padding: 1rem;
-      border-left: 5px solid #2e7d32;
+        flex: 1 1 200px; /* Flexible boxes, minimum width 200px */
+        padding: var(--spacing-sm);
     }
-    figure {
-      margin: 2rem 0;
-      text-align: center;
+    .overview-box h4 {
+        margin-bottom: var(--spacing-sm);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+        color: var(--primary-color-darker);
     }
-    figure img {
-      width: 100%;
-      border-radius: 5px;
+     .overview-box h4 i { /* Icon styling */
+        font-size: 1rem;
+         color: var(--primary-color);
     }
-    figcaption {
-      font-size: 0.9rem;
-      color: #666;
+
+    .overview-box ul {
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 0;
     }
-    section {
-      margin-bottom: 2.5rem;
+     .overview-box li {
+        font-size: 1rem;
+        color: var(--text-color);
     }
-    section h2 {
-      color: #2e7d32;
-      border-left: 5px solid #2e7d32;
-      padding-left: 0.5rem;
+
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        height: 0;
+        overflow: hidden;
+        max-width: 100%;
+        background: #000;
+        margin: var(--spacing-lg) auto; /* Center video */
+        border-radius: var(--border-radius-md);
+        box-shadow: 0 4px 15px var(--shadow-color);
     }
-    .core-question mark {
-      background-color: #ff0;
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
     }
-    ul, ol {
-      padding-left: 1.5rem;
+    .video-caption {
+        text-align: center;
+        margin-top: var(--spacing-sm);
+        font-size: 0.9rem;
+        color: var(--text-color-light);
+        font-style: italic;
     }
-    footer {
-      text-align: center;
-      padding: 2rem 1rem;
-      background-color: #f5f5f5;
-      font-size: 0.9rem;
+
+    .problem-solution-section {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-xl);
     }
-  </style>
+    .problem-solution-section > div {
+        flex: 1 1 45%; /* Two columns */
+        min-width: 300px; /* Prevent excessive shrinking */
+    }
+     .problem-solution-section h3 { /* Use H3 for Problem/Solution titles here */
+         margin-top: 0; /* No extra top margin */
+         border-bottom: 2px solid var(--primary-color);
+         padding-bottom: var(--spacing-xs);
+         display: inline-block;
+     }
+
+    .insight-image {
+        border: 1px solid var(--border-color);
+        padding: var(--spacing-xs);
+        background-color: #fff;
+         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    /* --- Responsive Design --- */
+    @media screen and (max-width: 768px) {
+        body {
+            font-size: 16px;
+            padding-top: 60px; /* Adjust for mobile navbar height */
+        }
+        html { scroll-padding-top: 70px; }
+        h1 { font-size: 2.2rem; }
+        h2 { font-size: 1.8rem; }
+        h3 { font-size: 1.4rem; }
+        p { font-size: 1rem; }
+        blockquote { font-size: 1rem; margin-left: 0; }
+
+        /* Navbar Mobile */
+        .navbar { padding: var(--spacing-xs) 0; }
+        .nav-container { padding: 0 var(--spacing-sm); }
+        .navbar-nav { display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: white; flex-direction: column; align-items: stretch; padding: var(--spacing-sm) 0; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); border-top: 1px solid var(--border-color); }
+        .navbar-nav.active { display: flex; }
+        .nav-link { text-align: center; padding: var(--spacing-sm); border-radius: 0; border-bottom: 1px solid var(--border-color); }
+        .nav-link:last-child { border-bottom: none; }
+        .nav-link-button { margin: var(--spacing-sm); text-align: center; }
+        .menu-toggle { display: block; }
+
+        /* Case Study Layout Mobile */
+        .container { padding-left: var(--spacing-sm); padding-right: var(--spacing-sm); }
+        .case-study-header { margin-bottom: var(--spacing-lg); padding-top: var(--spacing-md); }
+        .overview-section { flex-direction: column; }
+        .problem-solution-section { flex-direction: column; gap: var(--spacing-md); }
+        figure { max-width: 100%; }
+        .video-container { margin: var(--spacing-md) auto; }
+    }
+
+</style>
 </head>
 <body>
+
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="./index.html" class="nav-logo">Sai Maram</a>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav class="navbar-nav" id="navbar-nav">
+            <a href="./index.html#uxr" class="nav-link">Case Studies</a>
+            <a href="./index.html#wex" class="nav-link">Experience</a>
+            <a href="./index.html#res" class="nav-link">Research</a>
+            <a href="./about.html" class="nav-link">About</a>
+            <a href="cv.pdf" target="_blank" class="nav-link nav-link-button">Resume</a>
+        </nav>
+    </div>
+</header>
+
   <main class="container">
+
     <header class="case-study-header">
-      <p class="meta">UX Research & Game Design Case Study</p>
-      <h1>Pray For Green, Play For Green</h1>
-      <p class="subtitle">Integrating Hindu rituals into serious games to deepen climate reflection and foster engagement in faith-based communities.</p>
-      <p class="meta">Timeline: Jan 2024 – Feb 2025</p>
-      <p class="meta">Publication: ACM DIS 2025</p>
+      <p class="meta">UX Case Study</p>
+      <h1>Shloka: Designing a Faith-Based Climate Game</h1>
+      <p class="subtitle">
+        Blending Hindu rituals and narratives with serious game mechanics to foster deeper reflection and engagement around climate change.
+      </p>
+      <p class="meta">Timeline: December 2024 - January 2025</p>
+      <p class="meta">Publication: CHI PLAY 2024, DIS 2025</p>
     </header>
 
     <section class="overview-section">
       <div class="overview-box">
-        <h4><i class="fa-solid fa-user-gear"></i> My Role</h4>
+        <h4><i class="fas fa-user-friends"></i> Team</h4>
         <ul>
-          <li>Lead UX Researcher</li>
-          <li>Game Designer</li>
-          <li>Ethnographer</li>
-          <li>Statistical Analyst</li>
-          <li>Playtest Facilitator</li>
-        </ul>
-      </div>
-      <div class="overview-box">
-        <h4><i class="fa-solid fa-users"></i> Team</h4>
-        <ul>
-          <li>Myself (Lead Researcher)</li>
-          <li>3 Graduate Collaborators</li>
+          <li>2 Researchers</li>
+          <li>1 Designers</li>
+          <li>1 Developer</li>
           <li>1 Faculty Advisor</li>
         </ul>
       </div>
       <div class="overview-box">
-        <h4><i class="fa-solid fa-wrench"></i> Tools & Methods</h4>
+        <h4><i class="fas fa-id-badge"></i> My Role</h4>
         <ul>
-          <li>Visual Ethnography</li>
-          <li>Grounded Theory</li>
-          <li>Co-Design</li>
-          <li>Figma, Unity</li>
-          <li>Whisper (AI), Teachable Machine</li>
-          <li>Surveys & Interviews</li>
+          <li>Lead UX Designer</li>
+          <li>Game Design & Mechanics</li>
+          <li>Conducting Ethnographic Studies</li>
+          <li>Mixed-Methods Study</li>
+        </ul>
+      </div>
+      <div class="overview-box">
+        <h4><i class="fas fa-tools"></i> Tools</h4>
+        <ul>
+          <li>Figma</li>
+          <li>Unity</li>
         </ul>
       </div>
     </section>
 
-    <figure>
-      <img src="your-game-image.png" alt="Players performing rituals in the game Shloka">
-      <figcaption>Players interacting with ritual-based mechanics inside the game Shloka.</figcaption>
-    </figure>
+    <!-- <section class="video-presentation">
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="Shloka Game Presentation" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <p class="video-caption">Demo & Overview of Shloka at DIS 2025</p>
+    </section> -->
 
-    <section id="problem">
-      <h2>The Challenge: Localizing Climate Reflection Through Faith</h2>
-      <p>Despite the rising popularity of climate-themed games, most fail to connect deeply with faith-based communities. We saw an opportunity to harness familiar religious rituals and narratives to make climate action more emotionally and culturally resonant.</p>
+    <hr>
+
+    <section class="problem-solution-section">
+      <div>
+        <h3>The Problem</h3>
+        <p>
+          Climate change education often fails to connect with people's spiritual or cultural identities, leading to disinterest or shallow engagement. While serious games have emerged as tools for awareness, they rarely tap into players’ lived traditions or ethical frameworks. At the same time, religious narratives, from global flood myths to teachings of stewardship, have long addressed humanity’s relationship with nature. This disconnect raised a crucial design question: can games combine spiritual insight and interactive storytelling to deepen reflection on climate change?
+        </p>
+      </div>
+      <div>
+        <h3>The Approach</h3>
+        <p>
+          I led the design of <strong>Shloka</strong>, a serious game that integrates Hindu rituals and narratives into its core gameplay to explore climate responsibility. Using a research-through-design (RtD) methodology, we co-designed with cultural stakeholders, conducted ethnographic fieldwork, and transformed traditional practices—like chanting, mudras, and verse reading—into playable mechanics. We conducted a mixed-methods study to compare Shloka with other climate games, measuring how faith-based narratives influence reflection, engagement, and interest in environmental themes.
+        </p>
+      </div>
     </section>
 
-    
+    <section class="methodology">
+      <h2>Methodology</h2>
+      <p>
+        Our research-through-design process followed a structured, multi-phase approach combining ethnographic inquiry, ritual digitization, iterative prototyping, and mixed-method evaluation. Grounded in cultural sensitivity and the IGDA Climate SIG framework, this process enabled the design of <i>Shloka</i>—a serious game that engages players through religious narratives and embodied climate action.
+      </p>
+    
+      <h3>Step 1: Ethnographic Exploration of Cultural Spaces</h3>
+      <p>
+        We conducted visual ethnographic studies at the Tirumala and Sabarimala temples, collecting over 400 photographs, 43 videos, and extensive field notes. This exploration focused on how temple authorities and devotees engaged with climate-conscious practices. Observations included renewable energy initiatives, waste management systems, and public messaging around environmental responsibility.
+      </p>
+    
+      <figure>
+        <img src="Group844.png" alt="Ethnographic Study Image">
+        <figcaption><em>Upload caption here describing ethnographic context and visual elements.</em></figcaption>
+      </figure>
+    
+      
+    
+      <h3>Step 2: Analysis of Ethnographic Data</h3>
+      <p>
+        Using a Constructivist Grounded Theory approach, we developed open, axial, and selective codes that revealed six primary ways Hindu practices engage with environmental stewardship. These findings informed both the narrative and interaction design of the game.
+      </p>
+    
+      <table>
+        <caption><strong>Identified Religion-Climate Relationships</strong></caption>
+        <tr><th>Theme</th><th>Example Observations</th></tr>
+        <tr><td>Personification of Nature</td><td>Rivers and forests worshipped as deities.</td></tr>
+        <tr><td>Climate-Related Gods</td><td>Gods like Surya (Sun), Vayu (Wind), Indra (Rain).</td></tr>
+        <tr><td>Climate Hazards</td><td>Landslides, rain, and fog hinder pilgrimages.</td></tr>
+        <tr><td>Renewable Initiatives</td><td>Solar and wind energy used at temple sites.</td></tr>
+        <tr><td>Waste Management</td><td>Recycling initiatives and staff-led waste control.</td></tr>
+        <tr><td>Religious Climate Calls</td><td>Plastic-free zones promoted by temple authorities.</td></tr>
+      </table>
+    
+      <h3>Step 3: Digitizing Rituals into Interactive Mechanics</h3>
+      <p>
+        Seven observed Hindu rituals were transformed into interactive gameplay mechanics, creating embodied experiences that connected cultural practices with pro-environmental gameplay.
+      </p>
+    
+      <figure>
+        <img src="Group845.png" alt="Ritual Practices Image">
+        <figcaption><em>Upload caption here explaining the ritual practices captured.</em></figcaption>
+      </figure>
+    
+      <table>
+        <caption><strong>Digitized Rituals and Corresponding Game Interactions</strong></caption>
+        <tr><th>Ritual</th><th>Digital Interaction</th></tr>
+        <tr><td>Chanting</td><td>Voice input using Whisper AI to unlock narrative stages.</td></tr>
+        <tr><td>Breathing</td><td>Microphone breath detection for calm and reflection stages.</td></tr>
+        <tr><td>Mudras (Hand Gestures)</td><td>Computer vision model to recognize specific prayer hand signs.</td></tr>
+        <tr><td>Scripture Reading</td><td>Text-to-speech recitation to progress through wisdom stages.</td></tr>
+        <tr><td>Inscription</td><td>On-screen text input for holy word writing.</td></tr>
+        <tr><td>Musical Instruments</td><td>Sound-based rhythm interactions.</td></tr>
+        <tr><td>Arati (Light Worship)</td><td>Light detection algorithms for ritual completion.</td></tr>
+      </table>
+    
+      <h3>Step 4: Iterative Game Design and Integration of IGDA Framework</h3>
+      
+      <p>With initial explorations digitizing Hindu rituals and identifying their connection to climate change, our next challenge was to design a meaningful gameplay experience that respects religious values while promoting environmental responsibility.
 
-  <figure>
-    <img src="images/tirumala_hill_path.jpg" alt="Tirumala hill path with pilgrims">
-    <figcaption>Forest paths of Tirumala, where rituals like chanting and mudras were observed among pilgrims during the ascent.</figcaption>
-  </figure>
+        We adopted a co-design approach, working closely with religious scholars, cultural stakeholders, and playtesters. In our first iteration, inspired by climate role-playing games, players assumed the roles of Hindu deities and used digitized rituals—like chants and mudras—to restore ecosystems and combat pollution. However, early feedback from scholars raised critical concerns: portraying deities as vulnerable or controllable conflicted with religious beliefs about their omnipotence, and allowing players to control them was seen as disrespectful.</p>
+      <p>
+        Early prototypes allowed players to control Hindu deities battling climate hazards. However, cultural stakeholders expressed concerns over the appropriateness of depicting deities as vulnerable or controllable. One scholar stated, In response, we introduced the child protagonist <strong>Shloka</strong>, who performs rituals and learns from the wisdom of deities rather than embodying them directly.
+      </p>
+      <!-- <blockquote>“Our deities guide and protect; they do not need saving or intervention. The player should be the learner, not the master.”</blockquote> -->
+      <figure>
+        <img src="Group864.png" alt="Ritual Practices Image">
+        <figcaption><em>Evaluating various versions of the game with stakeholders.</em></figcaption>
+      </figure>
+<p>In response, we reframed the narrative around a new protagonist—Shloka, a chosen child guided by divine wisdom to restore the environment. This approach shifted player agency away from controlling deities and toward embodying a human agent of change, preserving both cultural sensitivity and design intent.
 
-  <figure>
-    <img src="images/sabarimala_river_ritual.jpg" alt="River worship ritual at Sabarimala">
-    <figcaption>Devotees at Sabarimala performing water-based rituals in reverence to rivers like the Pampa, reflecting nature’s personification.</figcaption>
-  </figure>
+As we further refined the gameplay, scholars highlighted that combat-focused mechanics conflicted with Hinduism’s non-violent, harmonious worldview. Additionally, playtests revealed that requiring rituals to gain "ammo" disrupted gameplay flow and shifted focus away from the climate change message.
+  
+To address these issues, we repositioned deities as mentors rather than playable characters, guiding Shloka through reflective rituals that inspire climate action. This design choice aligned the experience with the IGDA Climate Special Interest Group’s Four-Stage Framework—Knowledge, Attitude, Efficacy, and Hope—to foster environmental awareness and actionable optimism.
+  
+This iterative process resulted in a respectful and engaging serious game experience. Shloka successfully integrates cultural values, player agency, and educational goals, demonstrating how thoughtful UX research and stakeholder collaboration can navigate complex intersections of belief systems and behavior change.</p>
+      <p>
+        Guided by the IGDA Climate SIG framework, each level in <i>Shloka</i> was structured around the four progressive stages of <strong>Knowledge</strong>, <strong>Attitude</strong>, <strong>Efficacy</strong>, and <strong>Hope</strong>, ensuring that players not only gained awareness but also developed emotional investment and a sense of agency.
+      </p>
+    
+      <table>
+        <caption><strong>Stages Across Levels in Relation to Religion, Climate, and Rituals</strong></caption>
+        <tr>
+          <th>Level</th><th>Knowledge Stage</th><th>Attitude Stage</th><th>Efficacy Stage</th><th>Hope Stage</th>
+        </tr>
+        <tr>
+          <td>1</td><td>Fossil fuel pollution awareness.</td><td>Invokes Hanuman with chanting rituals.</td><td>Grows in size to fix windmills.</td><td>Alternate fuels for temple towns suggested.</td>
+        </tr>
+        <tr>
+          <td>2</td><td>Temple waste pollution.</td><td>Invokes Kali with music rituals.</td><td>Gains multiple arms to segregate waste.</td><td>Proper waste disposal practices advised.</td>
+        </tr>
+        <tr>
+          <td>3</td><td>Oil pollution in Ganges.</td><td>Invokes Varuna via inscription.</td><td>Gains trident to absorb oil.</td><td>Eco-friendly materials for rituals promoted.</td>
+        </tr>
+        <tr>
+          <td>4</td><td>Smog and fog in holy sites.</td><td>Invokes Surya with light/fire rituals.</td><td>Gains sunlight generator to clear pollution.</td><td>Electric vehicles encouraged.</td>
+        </tr>
+        <tr>
+          <td>5</td><td>Ocean garbage pollution.</td><td>Invokes Matsya with mudras.</td><td>Gains power to clean ocean depths.</td><td>Clay idols and natural dyes advocated.</td>
+        </tr>
+        <tr>
+          <td>6</td><td>Toxic fumes over Yamuna.</td><td>Invokes Vayu with breathing meditation.</td><td>Blows away toxic fumes over river.</td><td>Reduced deforestation advised.</td>
+        </tr>
+        <tr>
+          <td>7</td><td>Forest fires across holy hills.</td><td>Invokes Indra by reading holy books.</td><td>Gains power to produce rain and calm fires.</td><td>Fire prevention and forest management solutions shared.</td>
+        </tr>
+      </table>
+    
+      <section class="game-evaluation">
+        <h3>Step 5: Game Evaluation, Playtesting and Benchmarking</h2>
+        <p>
+          To evaluate the effectiveness of <i>Shloka</i>, we conducted a comparative study against a curated corpus of climate change games. Our goal was to assess whether incorporating religious rituals as interaction mechanics improved player engagement, learning outcomes, and interest in climate change action.
+        </p>
+      
+        <h3>Establishing a Baseline Corpus</h3>
+        <p>
+          We first established a baseline corpus of climate change serious games. This involved identifying games with diverse mechanics, ranging from quizzes and simulations to narrative-driven and AR/VR experiences. Games were classified based on their core player interactions, answering the question: <b>"What action does the player perform to progress in the game?"</b>
+        </p>
+        <p>
+          Through extensive searches across app stores, scholarly databases, and serious games repositories, we identified 41 relevant games. From these, we selected nine titles—each representing a distinct interaction type—for direct comparison with <i>Shloka</i>.
+        </p>
+      
+        <h3>Understanding the Baseline</h3>
+        <p>
+          The games were categorized into nine distinct groups, including quiz-based games, simulation models, platformers, interactive narratives, AR/VR experiences, and hyper-casual titles. Each selected game emphasized a different type of player action, allowing us to explore how ritual-based interactions in <i>Shloka</i> compared to conventional mechanics in fostering engagement and interest in climate issues.
+        </p>
+      
+        <h3>Measures</h3>
+        <p>
+          We evaluated gameplay experiences using validated instruments. To assess game engagement, we adopted the <b>GAMEFULQUEST</b> survey, which measures dimensions such as Accomplishment, Challenge, Playfulness, Social Connection, and Immersion. For player satisfaction, we used the <b>Player Experience of Needs Satisfaction (PENS)</b> scale, measuring Competence, Autonomy, and Relatedness.
+        </p>
+        <p>
+          To assess climate-related interest, we administered the <b>Intrinsic Motivation Survey</b> and the <b>Situational Interest Survey</b> after each game. These measures helped determine if playing <i>Shloka</i> fostered deeper interest and motivation toward climate action compared to the baseline games.
+        </p>
+      
+        <h3>Participants</h3>
+        <p>
+          We recruited 24 participants (15 male, 9 female), aged between 20 and 55 years (M = 28.3, SD = 9.9), all practicing Hindus with varying degrees of religiosity. Participants were recruited from university communities, Hindu temples, and cultural gatherings. Incentives included holy food offerings and religious merchandise. All participants completed the surveys, and 14 participated in follow-up interviews.
+        </p>
+      
+        <h3>Procedure</h3>
+        <p>
+          Each participant engaged in a structured three-hour session. Sessions began with an open conversation about climate change, followed by randomized gameplay using the <b>Latin squares method</b> to mitigate order effects. After each game, participants completed the engagement and motivation surveys.
+        </p>
+        <p>
+          To prevent cognitive carryover, participants watched a neutral three-minute video between gameplay sessions. Gameplay sessions were recorded, and semi-structured interviews were conducted afterward, focusing on reflections about climate change, game mechanics, and the role of rituals in gameplay.
+        </p>
+      
+        <h3>Analysis</h3>
+        <p>
+          We used the <b>Friedman test</b> for repeated measures to analyze Likert-scale survey data, followed by post-hoc <b>Wilcoxon signed-rank tests</b> to compare <i>Shloka</i> against each baseline game. Qualitative data from interviews were analyzed using a grounded theory approach, with three researchers collaboratively developing and refining a coding scheme. An inter-coder reliability score of 0.76 was achieved.
+        </p>
+        <p>
+          Our results triangulate both statistical findings and qualitative insights, offering a comprehensive understanding of how religious themes and rituals shaped player experiences and interest in climate change.
+        </p>
+      </section>
+      <blockquote>
+        One participant shared, “Chanting during the game reminded me of temple visits with my grandmother. It felt spiritual, not just like playing a game.”
+      </blockquote>
+    
+      <figure>
+        <img src="images/playtesting-placeholder.jpg" alt="Playtesting Session Image">
+        <figcaption><em>Upload caption here showing participant engagement during playtests.</em></figcaption>
+      </figure>
+    
+      <table>
+        <caption><strong>Evaluation Measures Used</strong></caption>
+        <tr><th>Construct</th><th>Survey Instrument</th></tr>
+        <tr><td>Gameplay Experience</td><td>GAMEFULQUEST, PENS</td></tr>
+        <tr><td>Intrinsic Motivation</td><td>Intrinsic Motivation Inventory (IMI)</td></tr>
+        <tr><td>Climate Change Interest</td><td>Situational Interest Scale</td></tr>
+      </table>
+    
+      <h3>Step 6: Data Analysis</h3>
+      <p>
+        Quantitative survey data were analyzed using Friedman tests for repeated measures, with Wilcoxon signed-rank tests for post-hoc comparisons. Interview transcripts were coded through grounded theory, revealing recurring themes of spiritual engagement, emotional reflection, and heightened climate awareness. This comprehensive analysis validated the effectiveness of integrating religious rituals in serious game design to promote pro-environmental thinking.
+      </p>
+    </section>
+    
+    
+    
+    
 
-  <figure>
-    <img src="images/solar_kitchen_temple.jpg" alt="Temple kitchen with solar panels">
-    <figcaption>Solar-powered kitchens at temple sites embody sustainable religious practices that informed the narrative of Shloka.</figcaption>
-  </figure>
-
-  <p>We collected over 400 photographs and 40+ videos, observed rituals firsthand, and engaged in conversations with temple staff and pilgrims. Using a constructivist grounded theory approach, we coded this data to identify recurring climate-religion themes and extract rituals that could be reimagined as gameplay mechanics.</p>
-
-  <p>From this research, we identified six key themes linking Hinduism to climate change: personification of nature, presence of climate deities, pilgrimage challenges due to weather, renewable efforts by temple authorities, structured waste management, and religious calls for climate action. These insights shaped both the narrative structure and game mechanics of <strong>Shloka</strong>.</p>
-
-  <p class="core-question">Can rituals digitized through AI-driven input methods foster deeper engagement with climate action within a culturally familiar context?</p>
-</section>
-
-    <section id="game">
-  <h2>The Game: Designing <em>Shloka</em></h2>
-  <p>Guided by insights from our ethnographic fieldwork, we designed <strong>Shloka</strong>—a 2D platformer where players take on the role of a child guided by Hindu deities to solve climate challenges. The game draws upon rituals as both symbolic and mechanical elements to activate powers needed to restore sacred natural spaces.</p>
-
-  <h3>Iterative, Participatory Design Process</h3>
-  <p>We employed an iterative co-design methodology throughout the game's development. Our process included:</p>
-  <ul>
-    <li><strong>Consultations with temple priests and Hindu scholars</strong> to ensure religious sensitivity and authenticity in ritual representation.</li>
-    <li><strong>Feedback from climate game designers and educators</strong> to align our structure with the IGDA Climate Game Framework (Knowledge, Attitude, Efficacy, Hope).</li>
-    <li><strong>Participatory prototyping sessions with Hindu players</strong> who shared how rituals like chanting, breathing, and offering prayers could feel authentic yet playful.</li>
-  </ul>
-
-  <p>Across each iteration, we refined both the narrative tone and technical affordances—moving from deity control (rejected in early versions) to player-performed invocations as a respectful middle ground. We also shifted visual metaphors and level art to reflect temple architecture and pilgrimage routes derived from field observations.</p>
-
-  <figure>
-    <img src="images/iteration_whiteboard.jpg" alt="Whiteboard sketches from co-design sessions">
-    <figcaption>Co-design sketches from early playtest feedback showing alternative ways to depict rituals as interaction mechanics.</figcaption>
-  </figure>
-
-  <h3>Gameplay Overview</h3>
-  <p>Each level is structured as a spiritual journey through a sacred site, mapping to real-world climate issues:</p>
-  <ul>
-    <li><strong>Level:</strong> Oil in Ganges — <em>Ritual:</em> Inscriptions — <em>God:</em> Varuna — <em>Power:</em> Trident to absorb oil</li>
-    <li><strong>Level:</strong> Temple Waste — <em>Ritual:</em> Drumming — <em>God:</em> Kali — <em>Power:</em> Multiple arms to sort waste</li>
-    <li><strong>Level:</strong> Hilltop Smog — <em>Ritual:</em> Fire Worship — <em>God:</em> Surya — <em>Power:</em> Light beam that clears smoke</li>
-  </ul>
-
-  <p>Players must perform ritual actions using multimodal inputs: Whisper for chant detection, Teachable Machine for mudras, Unity-integrated breath detection, and audio-based recognition for verse recitation. These are not just input tricks—they symbolically reflect the embodied actions tied to each god’s domain.</p>
-
-  <figure>
-    <img src="images/shloka_gameplay_sequence.jpg" alt="Gameplay sequence showing ritual, power-up, and climate action">
-    <figcaption>Gameplay sequence in <em>Shloka</em>: Ritual performance leads to power activation and environment restoration.</figcaption>
-  </figure>
-
-  <p>Each level ends with a hopeful message from the deity involved, tying gameplay into scripture and ecological advice. This reinforced both spiritual continuity and the framework’s final pillar: hope.</p>
-</section>
-
-
-      <h2>Evaluation: Comparing Ritual Gameplay with Climate Game Corpus</h2>
-  <p>We evaluated <strong>Shloka</strong> using a within-subjects study with 24 Hindu participants who also played 9 other well-known climate games, such as <em>Beecarbonize</em>, <em>Terra Nil</em>, and <em>Mission 1.5</em>. The evaluation combined both quantitative and qualitative approaches to assess engagement, novelty, and cultural resonance.</p>
-
-  <h3>Quantitative Instruments</h3>
-  <ul>
-    <li><strong>PENS:</strong> To assess player autonomy, competence, and relatedness</li>
-    <li><strong>IMI:</strong> For intrinsic motivation and interest</li>
-    <li><strong>GAMEFULQUEST:</strong> To assess novelty, attention demand, and usefulness</li>
-    <li><strong>Situational Interest Scale:</strong> To measure exploration intent</li>
-  </ul>
-
-  <p>Statistical analysis using the Friedman test showed significant differences in player responses across games, with <strong>Shloka</strong> consistently outperforming others in key areas:</p>
-  <ul>
-    <li><strong>Novelty:</strong> p &lt; 0.001, F(9, 210) = 19.45</li>
-    <li><strong>Exploration Intent:</strong> p &lt; 0.001, F(9, 210) = 23.7</li>
-    <li><strong>Usefulness & Attention Demand:</strong> p &lt; 0.001</li>
-  </ul>
-  <p>Wilcoxon post-hoc tests confirmed that <strong>Shloka</strong> was significantly more novel and engaging than the other games in the corpus.</p>
-
-  
-  <p>Through our grounded theory analysis, we identified four major thematic categories that reveal how players reflected on rituals and their connection to climate change. Each theme emerged in two distinct ways depending on the player's level of religiosity and prior gaming experience.</p>
-
-  <h4>1. Rituals as Mechanic vs. Rituals as Meaning</h4>
-  <p>Some players treated rituals like mudras or chanting as input gestures—novel but mechanical. Others saw them as sacred acts that deepened their commitment to climate action. High-religiosity participants described feeling 'watched by god' or spiritually awakened while performing rituals in-game.</p>
-
-  <h4>2. Gods as Guides vs. Gods as Gimmicks</h4>
-  <p>While many players appreciated the deities as cultural guides who empowered them with climate solutions, a few non-religious players initially found them ornamental or performative. However, as the game progressed, even skeptics began to see the gods as metaphorical agents of ecological care.</p>
-
-  <h4>3. Story as Reflection vs. Story as Motivation</h4>
-  <p>For some, the narrative journey through temple towns mirrored their own experiences and prompted reflection. Others were less focused on meaning and more driven by the goal of "fixing the world." In both cases, the story supported either emotional connection or gameplay momentum.</p>
-
-  <h4>4. Climate Change as Personal vs. Climate Change as Playable</h4>
-  <p>Several participants shared that playing <em>Shloka</em> reframed climate change as something close to home and aligned with their values. Others enjoyed the game’s design without engaging deeply with the underlying issues—demonstrating the balance between reflection and entertainment.</p>
-
-  <p>These thematic tensions illustrate that <strong>rituals in games can evoke both spiritual reflection and playful engagement</strong>, depending on the player’s background. This diversity in experience affirms the flexibility of ritual-based mechanics as a design approach.</p>
-
-  <figure>
-    <img src="images/shloka_eval_quote.png" alt="Participant quote about spiritual framing">
-    <figcaption>“My child might know to worship gods, but not rivers. This game bridges that gap.” — Participant</figcaption>
-  </figure>
+    <section class="insights">
+      <h2>Key Insights</h2>
+      <ol>
+        <li><strong>Faith-based rituals foster deeper emotional reflection</strong> — Participants reported stronger personal meaning when interacting with culturally familiar mechanics like chanting or lighting a diya.</li>
+        <li><strong>Increased engagement and retention</strong> — Players spent more time completing levels in <i>Shloka</i> compared to a control group using a standard climate game.</li>
+        <li><strong>Spiritual alignment enhances climate awareness</strong> — Integrating moral teachings around stewardship helped reframe climate change as a spiritual responsibility.</li>
+      </ol>
     </section>
 
-    <section id="insights">
-      <h2>Key Insights & Impact</h2>
-      <ul>
-        <li><strong>Spiritual Frame = Climate Motivation:</strong> Players saw climate action as a sacred duty.</li>
-        <li><strong>Context Matters:</strong> Holy sites and gods made climate issues feel personal and urgent.</li>
-        <li><strong>Ritual as UX:</strong> Performing rituals (chanting, breathing) increased attention and immersion.</li>
-        <li><strong>Community Voice:</strong> Players felt culturally seen and empowered.</li>
-      </ul>
+    <section class="conclusion">
+      <h2>Conclusion & Impact</h2>
+      <p>
+        <i>Shloka</i> demonstrates that religion can be a powerful design material in serious games—especially when addressing global issues like climate change. By connecting spiritual practices to environmental responsibility, the game fosters engagement that feels both culturally resonant and personally motivating. This work opens new directions for designing culturally grounded, faith-inspired learning experiences in HCI and game design.
+      </p>
     </section>
 
-    <section id="reflection">
-      <h2>Personal Reflection</h2>
-      <ul>
-        <li>Embedding rituals required sensitivity and cultural co-design.</li>
-        <li>Rituals are not just thematic—they can be core to game interaction design.</li>
-        <li>Evaluation with real communities surfaced insights beyond surface-level metrics.</li>
-      </ul>
-    </section>
-
-    <footer>
-      <p>&copy; 2025 Sai Siddartha Maram – Case Study.</p>
+    <footer class="footer" style="text-align: center; padding: var(--spacing-lg) var(--spacing-md); margin-top: var(--spacing-xl); background-color: var(--secondary-color); color: var(--text-color-light); font-size: 0.9rem;">
+      <p>&copy; <span id="current-year"></span> Sai Maram. Case Study.</p>
       <p><a href="./index.html">Back to Portfolio</a></p>
     </footer>
+
   </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const currentYearSpan = document.getElementById('current-year');
+      if (currentYearSpan) {
+        currentYearSpan.textContent = new Date().getFullYear();
+      }
+    });
+  </script>
+
 </body>
 </html>
