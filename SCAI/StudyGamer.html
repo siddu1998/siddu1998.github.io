@@ -675,108 +675,159 @@
         });
 
         // Generate gamified prompt
-        document.getElementById('generateGamifiedPrompt').addEventListener('click', async function() {
-            const selectedElements = [];
-            const checkboxes = document.querySelectorAll('#taxonomyContainer input[type="checkbox"]:checked');
-            
-            checkboxes.forEach(cb => {
-                const item = cb.closest('.taxonomy-item');
-                const name = item.querySelector('.taxonomy-item-name').textContent;
-                const desc = item.querySelector('.taxonomy-item-desc').textContent;
-                const example = item.querySelector('.taxonomy-item-example').textContent;
-                
-                selectedElements.push({
-                    name: name,
-                    description: desc,
-                    example: example
-                });
-            });
 
-            const currentInstructions = document.getElementById('instructions').value.trim();
-            
-            // Show loading state
-            this.innerHTML = '<span class="loading"></span> Generating...';
-            this.disabled = true;
-
-            try {
-                const response = await generateGamifiedPrompt(selectedElements, currentInstructions);
-                document.getElementById('instructions').value = response;
-                
-                // Auto-resize the textarea
-                const instructionsTextarea = document.getElementById('instructions');
-                instructionsTextarea.style.height = 'auto';
-                instructionsTextarea.style.height = instructionsTextarea.scrollHeight + 'px';
-                
-                // Show success message
-                showResult('Gamified prompt generated successfully!', 'success');
-                
-            } catch (error) {
-                showResult('Error generating gamified prompt: ' + error.message, 'error');
-            } finally {
-                this.innerHTML = 'Generate Gamified Prompt';
-                this.disabled = false;
-                updateGenerateButton(); // Re-check if it should be disabled
-            }
+document.getElementById('generateGamifiedPrompt').addEventListener('click', async function() {
+    const selectedElements = [];
+    const checkboxes = document.querySelectorAll('#taxonomyContainer input[type="checkbox"]:checked');
+    
+    checkboxes.forEach(cb => {
+        const item = cb.closest('.taxonomy-item');
+        const name = item.querySelector('.taxonomy-item-name').textContent;
+        const desc = item.querySelector('.taxonomy-item-desc').textContent;
+        const example = item.querySelector('.taxonomy-item-example').textContent;
+        
+        selectedElements.push({
+            name: name,
+            description: desc,
+            example: example
         });
+    });
 
+    const currentInstructions = document.getElementById('instructions').value.trim();
+    
+    // Validate that we're not losing important content
+    if (currentInstructions && currentInstructions.length > 50) {
+        const confirmEnhance = confirm('You have existing instructions. The gamification will enhance these instructions while preserving your core content. Continue?');
+        if (!confirmEnhance) return;
+    }
+    
+    // Show loading state
+    this.innerHTML = '<span class="loading"></span> Generating...';
+    this.disabled = true;
+
+    try {
+        const response = await generateGamifiedPrompt(selectedElements, currentInstructions);
+        
+        // Store the original instructions for potential rollback
+        const originalInstructions = document.getElementById('instructions').value;
+        
+        document.getElementById('instructions').value = response;
+        
+        // Auto-resize the textarea
+        const instructionsTextarea = document.getElementById('instructions');
+        instructionsTextarea.style.height = 'auto';
+        instructionsTextarea.style.height = instructionsTextarea.scrollHeight + 'px';
+        
+        // Show success message with option to revert
+        const resultElement = document.getElementById('result');
+        resultElement.innerHTML = 'Gamified prompt generated successfully! <button onclick="revertInstructions(\'' + 
+            originalInstructions.replace(/'/g, "\\'").replace(/\n/g, "\\n") + 
+            '\')" style="margin-left: 10px; padding: 5px 10px; font-size: 12px;">Revert</button>';
+        resultElement.className = 'success';
+        
+    } catch (error) {
+        showResult('Error generating gamified prompt: ' + error.message, 'error');
+    } finally {
+        this.innerHTML = 'Generate Gamified Prompt';
+        this.disabled = false;
+        updateGenerateButton();
+    }
+});
+
+// Add a revert function
+function revertInstructions(originalInstructions) {
+    document.getElementById('instructions').value = originalInstructions;
+    const instructionsTextarea = document.getElementById('instructions');
+    instructionsTextarea.style.height = 'auto';
+    instructionsTextarea.style.height = instructionsTextarea.scrollHeight + 'px';
+    showResult('Reverted to original instructions', 'success');
+}
         // Generate gamified prompt using OpenAI API
-        async function generateGamifiedPrompt(selectedElements, currentInstructions) {
-            const openaiApiKey = localStorage.getItem('openaiKey');
-            if (!openaiApiKey) {
-                throw new Error('OpenAI API Key not found. Please wait for the key to load.');
-            }
+async function generateGamifiedPrompt(selectedElements, currentInstructions) {
+    const openaiApiKey = localStorage.getItem('openaiKey');
+    if (!openaiApiKey) {
+        throw new Error('OpenAI API Key not found. Please wait for the key to load.');
+    }
 
-            const prompt = `You are an expert in gamification and educational design. Create a comprehensive gamified educational prompt that incorporates the following selected gamification elements:
+    // Create a more detailed prompt that emphasizes incorporating existing instructions
+    const prompt = `You are an expert in gamification and educational design. Your task is to create a comprehensive gamified educational prompt that seamlessly blends existing instructions with new gamification elements.
 
-            ${selectedElements.map(el => `
-            **${el.name}**
-            Description: ${el.description}
-            Example: ${el.example}
-            `).join('\n')}
+    ${currentInstructions ? `**EXISTING INSTRUCTIONS TO PRESERVE AND ENHANCE:**
+    ${currentInstructions}
+    
+    IMPORTANT: The above existing instructions contain the core educational approach and any specific narrative elements (characters, settings, themes) that MUST be preserved and enhanced in the gamified version. Do not replace these elements - integrate the gamification features around them.
+    ` : ''}
 
-            ${currentInstructions ? `Current Instructions: ${currentInstructions}\n\n` : ''}
+    **SELECTED GAMIFICATION ELEMENTS TO INTEGRATE:**
+    ${selectedElements.map(el => `
+    • ${el.name}
+    ${el.description}
+    Note: The example provided (${el.example}) is just for reference. Be creative and design unique implementations that fit the educational context.
+    `).join('\n')}
 
-            Please create a detailed, engaging gamified educational prompt that:
-            1. Incorporates ALL the selected gamification elements seamlessly
-            2. Creates an immersive learning experience
-            3. Provides clear instructions for the AI assistant on how to implement these game mechanics
-            4. Includes specific examples of how to use each gamification element
-            5. Maintains educational value while being fun and engaging
-            6. Provides a clear structure for the learning session
+    **REQUIREMENTS FOR THE GAMIFIED PROMPT:**
+    
+    1. **Preserve Core Content**: If existing instructions mention specific characters, narratives, or educational approaches, these MUST be central to the gamified version.
+    
+    2. **Socratic Method Integration**: 
+       - Design mechanics that encourage students to think critically rather than receive direct answers
+       - Use questioning techniques that guide discovery
+       - Create scenarios where wrong answers lead to learning opportunities, not just failure
+       - When players just give answers, ask them for their process and how they reached that answer?
+    3. **Cohesive Game Design**:
+       - All gamification elements should work together as a unified system
+       - Create smooth transitions between different game mechanics
+       - Ensure the narrative flow isn't disrupted by game elements
+    
+    4. **Response Guidelines for the AI**:
+       - Keep AI responses between 150-300 characters to maintain engagement
+       - Focus on asking guiding questions rather than providing answers
+       - Provide constructive feedback that encourages retry and learning
+       - Use the game mechanics to scaffold learning progressively
+    
+    5. **Creative Implementation**:
+       - Don't just copy the provided examples - create unique implementations
+       - Design mechanics that specifically support the subject matter
+       - Make failure fun and educational, not frustrating
+    
+    6. **Engagement Strategies**:
+       - Create moments of surprise and delight
+       - Build tension and release through game mechanics
+       - Use rewards that feel meaningful to the learning journey
+       - Design challenges that adapt to student performance
 
-            The prompt should be comprehensive and ready to use as instructions for an AI tutor. Make it exciting and immersive while maintaining clear educational objectives. Prompt should encourage students to think and improve critical thinking, use socratic line of questioning as part of the game play. The prompt should guide instructions to keep the responses of AI between 150-300 characters, not give answers straight away but focus on developing critical thinking, and provide feedback when students are wrong.`;
+    Please create a detailed, engaging gamified educational prompt that transforms the learning experience into an adventure while maintaining educational rigor. The prompt should feel like a cohesive game where every element serves both fun and learning.`;
 
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${openaiApiKey}`
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${openaiApiKey}`
+        },
+        body: JSON.stringify({
+            model: 'gpt-4o',
+            messages: [
+                {
+                    role: 'system',
+                    content: 'You are an expert educational game designer and prompt engineer. Create engaging, comprehensive gamified educational prompts that seamlessly blend existing educational content with game mechanics. Focus on creating cohesive experiences that use the Socratic method to develop critical thinking.'
                 },
-                body: JSON.stringify({
-                    model: 'gpt-4o',
-                    messages: [
-                        {
-                            role: 'system',
-                            content: 'You are an expert educational game designer and prompt engineer. Create engaging, comprehensive gamified educational prompts.'
-                        },
-                        {
-                            role: 'user',
-                            content: prompt
-                        }
-                    ],
-                    max_tokens: 2000,
-                    temperature: 0.7
-                })
-            });
+                {
+                    role: 'user',
+                    content: prompt
+                }
+            ],
+            max_tokens: 2500,
+            temperature: 0.8  // Slightly higher temperature for more creative responses
+        })
+    });
 
-            if (!response.ok) {
-                throw new Error('Failed to generate gamified prompt');
-            }
+    if (!response.ok) {
+        throw new Error('Failed to generate gamified prompt');
+    }
 
-            const data = await response.json();
-            return data.choices[0].message.content.trim();
-        }
-
+    const data = await response.json();
+    return data.choices[0].message.content.trim();
+}
         // Show result message
         function showResult(message, type) {
             const resultElement = document.getElementById('result');
@@ -904,7 +955,7 @@
             }
 
             document.getElementById("transcription").appendChild(messageDiv);
-             //storeData(message, className);
+             storeData(message, className);
             scrollToBottom();
         }
 
