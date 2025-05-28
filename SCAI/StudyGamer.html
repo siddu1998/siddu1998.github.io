@@ -40,22 +40,28 @@
             border-radius: 4px;
         }
 
-        .sidebar {
-            width: 550px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
-            overflow-y: auto;
-            max-height: 100vh;
-        }
+      
+.sidebar {
+    width: 30%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 24px;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    height: 100vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
 
-        .sidebar h1 {
-            color: #4a5568;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 24px;
-        }
+        
+.sidebar h1 {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
 
         .main-content {
             flex: 1;
@@ -106,7 +112,7 @@
 
         .toggle-section {
             /* background: rgba(102, 126, 234, 0.1); */
-            border: 2px solid #f6ad55;
+            /* border: 2px solid #f6ad55; */
             border-radius: 8px;
             padding: 15px;
             margin-bottom: 20px;
@@ -128,75 +134,87 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(246, 173, 85, 0.4);
         }
-
-        .taxonomy-container {
+.taxonomy-container {
             display: none;
-            margin-top: 15px;
-            max-height: 400px;
-            overflow-y: auto;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 15px;
+            padding: 20px;
+        }
+
+        .taxonomy-container.active {
+            display: block;
         }
 
         .taxonomy-category {
-            margin-bottom: 20px;
-            border-left: 4px solid #f6ad55;
-            padding-left: 15px;
+            margin-bottom: 30px;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         .category-title {
-            font-weight: bold;
-            color: #2d3748;
-            margin-bottom: 10px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 12px 16px;
+            font-weight: 600;
             font-size: 16px;
         }
 
         .taxonomy-item {
-            /* display: flex;
-            align-items: flex-start;
-            margin-bottom: 12px;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 8px;
-            transition: all 0.3s ease; */
-            /* position: relative; */
+            border-bottom: 1px solid #f0f0f0;
+            padding: 16px;
+            transition: background-color 0.2s ease;
+        }
+
+        .taxonomy-item:last-child {
+            border-bottom: none;
         }
 
         .taxonomy-item:hover {
-            background: rgba(255, 255, 255, 0.9);
-            transform: translateX(5px);
+            background-color: #f8f9fa;
+        }
+
+        /* Fixed layout for checkbox and label */
+        .taxonomy-item-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
         }
 
         .taxonomy-item input[type="checkbox"] {
-            margin-right: 10px;
-            transform: scale(1.2);
-        }
-
-        .taxonomy-item-content {
-            flex: 1;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #667eea;
+            flex-shrink: 0;
         }
 
         .taxonomy-item-name {
             font-weight: 600;
-            color: #2d3748;
-            margin-bottom: 5px;
+            font-size: 15px;
+            color: #2c3e50;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .taxonomy-item-content {
+            margin-left: 30px; /* Align with the text after checkbox */
         }
 
         .taxonomy-item-desc {
-            font-size: 12px;
-            color: #4a5568;
-            line-height: 1.4;
+            color: #5a6c7d;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 8px;
         }
 
         .taxonomy-item-example {
-            font-size: 11px;
-             background: rgba(246, 173, 85, 0.1);
-            color: #f97316;
+            background: #f8f9fa;
+            border-left: 3px solid #667eea;
+            padding: 10px 12px;
+            font-size: 13px;
+            color: #495057;
+            border-radius: 0 4px 4px 0;
             font-style: italic;
-            margin-top: 5px;
-            padding: 5px;
-            border-radius: 4px;
         }
 
         .generate-prompt-btn {
@@ -272,25 +290,27 @@
             box-shadow: 0 4px 15px rgba(246, 173, 85, 0.4);
         }
 
-        .user-message {
-            background: linear-gradient(135deg, #f6ad55, #f97316);
-            color: white;
-            padding: 15px;
-            border-radius: 15px 15px 5px 15px;
-            margin: 10px 0;
-            margin-left: 20%;
-            word-wrap: break-word;
-        }
+      .user-message {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    padding: 16px 20px;
+    border-radius: 20px 20px 8px 20px;
+    max-width: 80%;
+    margin: 8px 0 8px auto;
+    word-wrap: break-word;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    animation: slideInRight 0.3s ease;
+}
 
-        .ai-message {
-            background: rgba(255, 255, 255, 0.9);
-            color: #2d3748;
-            padding: 15px;
-            border-radius: 15px 15px 15px 5px;
-            margin: 10px 0;
-            margin-right: 20%;
-            word-wrap: break-word;
-        }
+       .ai-message {
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    padding: 16px 20px;
+    border-radius: 20px 20px 20px 8px;
+    max-width: 80%;
+    margin: 8px auto 8px 0;
+    word-wrap: break-word;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    animation: slideInLeft 0.3s ease;
+}
 
         .upload-icon {
             background: #f6ad55;
@@ -381,172 +401,203 @@
             <h3>Create a Custom GPT</h3>
             
             <!-- Gamified Taxonomy Toggle -->
-            <div class="toggle-section">
-                <button type="button" class="toggle-btn" id="toggleTaxonomy">
-                    🎮 Enable Gamified Elements
-                </button>
+        <div class="toggle-section">
+        <button type="button" class="toggle-btn" id="toggleTaxonomy">
+            🎮 Enable Gamified Elements
+        </button>
+        
+        <div class="taxonomy-container" id="taxonomyContainer">
+            <!-- Input Modality -->
+            <div class="taxonomy-category">
+                <div class="category-title">📝 Input Modality</div>
                 
-                <div class="taxonomy-container" id="taxonomyContainer">
-                    <!-- Input Modality -->
-                    <div class="taxonomy-category">
-                        <div class="category-title">📝 Input Modality</div>
-                        
-                        <div class="taxonomy-item">
-                            <input type="checkbox" id="image-modality" value="image-modality">
-                            <div class="taxonomy-item-content">
-                                <div class="taxonomy-item-name">Image Modality</div>
-                                <div class="taxonomy-item-desc">Integration of varied submission methods beyond text, such as images, drawings, code files, or spreadsheets.</div>
-                                <div class="taxonomy-item-example">Example: Players can submit their code or images as part of the fishing or coding game mechanics.</div>
-                            </div>
-                        </div>
-
-                        <div class="taxonomy-item">
-                            <input type="checkbox" id="choice-based" value="choice-based">
-                            <div class="taxonomy-item-content">
-                                <div class="taxonomy-item-name">Choice Based Input</div>
-                                <div class="taxonomy-item-desc">A structured set of options leading to different outcomes or learning paths.</div>
-                                <div class="taxonomy-item-example">Example: 📍 Choose Your First Destination: 1️⃣ The Disappearing Forests 🌲, 2️⃣ The Sinking City 🌊</div>
-                            </div>
-                        </div>
-
-                        <div class="taxonomy-item">
-                            <input type="checkbox" id="randomizer" value="randomizer">
-                            <div class="taxonomy-item-content">
-                                <div class="taxonomy-item-name">Randomizer</div>
-                                <div class="taxonomy-item-desc">Use of random number generation or chance-based mechanics, akin to dice rolls.</div>
-                                <div class="taxonomy-item-example">Example: Let the user roll the die to decide their next step.</div>
-                            </div>
-                        </div>
+                <div class="taxonomy-item">
+                    <div class="taxonomy-item-header">
+                        <input type="checkbox" id="image-modality" value="image-modality">
+                        <label for="image-modality" class="taxonomy-item-name">Image Modality</label>
                     </div>
-
-                    <!-- NPC -->
-                    <div class="taxonomy-category">
-                        <div class="category-title">🤖 NPC</div>
-                        
-                        <div class="taxonomy-item">
-                            <input type="checkbox" id="npc-creation" value="npc-creation">
-                            <div class="taxonomy-item-content">
-                                <div class="taxonomy-item-name">NPC Creation</div>
-                                <div class="taxonomy-item-desc">Introducing new NPCs which have a role in the progress of the game.</div>
-                                <div class="taxonomy-item-example">Example: Introduce NPCs with a casual tone to guide the user across the game.</div>
-                            </div>
-                        </div>
-
-                        <div class="taxonomy-item">
-                            <input type="checkbox" id="npc-interaction" value="npc-interaction">
-                            <div class="taxonomy-item-content">
-                                <div class="taxonomy-item-name">NPC Interaction</div>
-                                <div class="taxonomy-item-desc">Conversations and interactions with non-player characters designed to guide, inform, or challenge.</div>
-                                <div class="taxonomy-item-example">Example: Engineer Blaze – A factory worker who may be hiding something. Will you interrogate him or gain his trust?</div>
-                            </div>
-                        </div>
+                    <div class="taxonomy-item-content">
+                        <div class="taxonomy-item-desc">Integration of varied submission methods beyond text, such as images, drawings, code files, or spreadsheets.</div>
+                        <div class="taxonomy-item-example">Example: Players can submit their code or images as part of the fishing or coding game mechanics.</div>
                     </div>
+                </div>
 
-                    <!-- Progression Systems -->
-                    <div class="taxonomy-category">
-                        <div class="category-title">📈 Progression Systems</div>
-                        
-                        <div class="taxonomy-item">
-                            <input type="checkbox" id="points-score" value="points-score">
-                            <div class="taxonomy-item-content">
-                                <div class="taxonomy-item-name">Points / Score</div>
-                                <div class="taxonomy-item-desc">Numerical scoring system, including points, XP, coins, or other numeric indicators.</div>
-                                <div class="taxonomy-item-example">Example: At the end of your journey, receive a Climate Hero Score based on your actions.</div>
-                            </div>
-                        </div>
-
-                        <div class="taxonomy-item">
-                            <input type="checkbox" id="quests-challenges" value="quests-challenges">
-                            <div class="taxonomy-item-content">
-                                <div class="taxonomy-item-name">Quests/Challenges/Bosses</div>
-                                <div class="taxonomy-item-desc">Specific tasks or missions with clearly defined goals, often culminating in significant challenges.</div>
-                                <div class="taxonomy-item-example">Example: Your mission? Investigate, interact with NPCs, and uncover the truth behind the climate crisis!</div>
-                            </div>
-                        </div>
-
-                        <div class="taxonomy-item">
-                            <input type="checkbox" id="badges-achievements" value="badges-achievements">
-                            <div class="taxonomy-item-content">
-                                <div class="taxonomy-item-name">Badges/Achievements</div>
-                                <div class="taxonomy-item-desc">Named badges or explicit achievements awarded upon accomplishing milestones.</div>
-                                <div class="taxonomy-item-example">Example: 🏆 Endgame & Achievements: At the end of your journey, receive a Score based on your achievements.</div>
-                            </div>
-                        </div>
-
-                        <div class="taxonomy-item">
-                            <input type="checkbox" id="health-lives" value="health-lives">
-                            <div class="taxonomy-item-content">
-                                <div class="taxonomy-item-name">Health/Lives/Hearts</div>
-                                <div class="taxonomy-item-desc">Visual or numeric indicators representing health, lives, or stamina available.</div>
-                                <div class="taxonomy-item-example">Example: [❤️❤️❤️]</div>
-                            </div>
-                        </div>
-
-                        <div class="taxonomy-item">
-                            <input type="checkbox" id="inventory-management" value="inventory-management">
-                            <div class="taxonomy-item-content">
-                                <div class="taxonomy-item-name">Inventory/Resource Management</div>
-                                <div class="taxonomy-item-desc">Systems allowing learners to manage resources, items, currency, or tools.</div>
-                                <div class="taxonomy-item-example">Example: Throughout your adventure, you may discover Mystery Boxes containing tools & gadgets.</div>
-                            </div>
-                        </div>
+                <div class="taxonomy-item">
+                    <div class="taxonomy-item-header">
+                        <input type="checkbox" id="choice-based" value="choice-based">
+                        <label for="choice-based" class="taxonomy-item-name">Choice Based Input</label>
                     </div>
-
-                    <!-- Game Style -->
-                    <div class="taxonomy-category">
-                        <div class="category-title">🎯 Game Style</div>
-                        
-                        <div class="taxonomy-item">
-                            <input type="checkbox" id="narrative-framing" value="narrative-framing">
-                            <div class="taxonomy-item-content">
-                                <div class="taxonomy-item-name">Narrative Framing</div>
-                                <div class="taxonomy-item-desc">Any fictional or real-world story context used to present and immerse learners.</div>
-                                <div class="taxonomy-item-example">Example: Let the user choose where they want to situate the game.</div>
-                            </div>
-                        </div>
-
-                        <div class="taxonomy-item">
-                            <input type="checkbox" id="roleplay" value="roleplay">
-                            <div class="taxonomy-item-content">
-                                <div class="taxonomy-item-name">Roleplay</div>
-                                <div class="taxonomy-item-desc">Learners assume a specific persona, character, or role distinct from themselves.</div>
-                                <div class="taxonomy-item-example">Example: You are the Physics Dungeon Master</div>
-                            </div>
-                        </div>
-
-                        <div class="taxonomy-item">
-                            <input type="checkbox" id="game-structure" value="game-structure">
-                            <div class="taxonomy-item-content">
-                                <div class="taxonomy-item-name">Game Structure and Ending Conditions</div>
-                                <div class="taxonomy-item-desc">Structuring the game with distinct levels and advancement.</div>
-                                <div class="taxonomy-item-example">Example: Each game session should contain at least 10 questions, generating unique scenarios.</div>
-                            </div>
-                        </div>
-
-                        <div class="taxonomy-item">
-                            <input type="checkbox" id="visual-aesthetics" value="visual-aesthetics">
-                            <div class="taxonomy-item-content">
-                                <div class="taxonomy-item-name">Visual Aesthetics</div>
-                                <div class="taxonomy-item-desc">Use of emojis, ASCII maps, or visual symbols within textual interfaces.</div>
-                                <div class="taxonomy-item-example">Example: 🎮 Welcome to the Statistics Quest! Choose the theme: EcoVille 🌳, Space Station X 🚀</div>
-                            </div>
-                        </div>
-
-                        <div class="taxonomy-item">
-                            <input type="checkbox" id="game-type" value="game-type">
-                            <div class="taxonomy-item-content">
-                                <div class="taxonomy-item-name">Game Type (Single/Multiplayer/ARG)</div>
-                                <div class="taxonomy-item-desc">How the user plays the game, either alone, or with others in a collaborative setting.</div>
-                                <div class="taxonomy-item-example">Example: Ask the user to click and share images corresponding to the situation</div>
-                            </div>
-                        </div>
+                    <div class="taxonomy-item-content">
+                        <div class="taxonomy-item-desc">A structured set of options leading to different outcomes or learning paths.</div>
+                        <div class="taxonomy-item-example">Example: 📍 Choose Your First Destination: 1️⃣ The Disappearing Forests 🌲, 2️⃣ The Sinking City 🌊</div>
                     </div>
+                </div>
 
-                    <button type="button" class="generate-prompt-btn" id="generateGamifiedPrompt" disabled>
-                        Generate Gamified Prompt
-                    </button>
+                <div class="taxonomy-item">
+                    <div class="taxonomy-item-header">
+                        <input type="checkbox" id="randomizer" value="randomizer">
+                        <label for="randomizer" class="taxonomy-item-name">Randomizer</label>
+                    </div>
+                    <div class="taxonomy-item-content">
+                        <div class="taxonomy-item-desc">Use of random number generation or chance-based mechanics, akin to dice rolls.</div>
+                        <div class="taxonomy-item-example">Example: Let the user roll the die to decide their next step.</div>
+                    </div>
                 </div>
             </div>
+
+            <!-- NPC -->
+            <div class="taxonomy-category">
+                <div class="category-title">🤖 NPC</div>
+                
+                <div class="taxonomy-item">
+                    <div class="taxonomy-item-header">
+                        <input type="checkbox" id="npc-creation" value="npc-creation">
+                        <label for="npc-creation" class="taxonomy-item-name">NPC Creation</label>
+                    </div>
+                    <div class="taxonomy-item-content">
+                        <div class="taxonomy-item-desc">Introducing new NPCs which have a role in the progress of the game.</div>
+                        <div class="taxonomy-item-example">Example: Introduce NPCs with a casual tone to guide the user across the game.</div>
+                    </div>
+                </div>
+
+                <div class="taxonomy-item">
+                    <div class="taxonomy-item-header">
+                        <input type="checkbox" id="npc-interaction" value="npc-interaction">
+                        <label for="npc-interaction" class="taxonomy-item-name">NPC Interaction</label>
+                    </div>
+                    <div class="taxonomy-item-content">
+                        <div class="taxonomy-item-desc">Conversations and interactions with non-player characters designed to guide, inform, or challenge.</div>
+                        <div class="taxonomy-item-example">Example: Engineer Blaze – A factory worker who may be hiding something. Will you interrogate him or gain his trust?</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progression Systems -->
+            <div class="taxonomy-category">
+                <div class="category-title">📈 Progression Systems</div>
+                
+                <div class="taxonomy-item">
+                    <div class="taxonomy-item-header">
+                        <input type="checkbox" id="points-score" value="points-score">
+                        <label for="points-score" class="taxonomy-item-name">Points / Score</label>
+                    </div>
+                    <div class="taxonomy-item-content">
+                        <div class="taxonomy-item-desc">Numerical scoring system, including points, XP, coins, or other numeric indicators.</div>
+                        <div class="taxonomy-item-example">Example: At the end of your journey, receive a Climate Hero Score based on your actions.</div>
+                    </div>
+                </div>
+
+                <div class="taxonomy-item">
+                    <div class="taxonomy-item-header">
+                        <input type="checkbox" id="quests-challenges" value="quests-challenges">
+                        <label for="quests-challenges" class="taxonomy-item-name">Quests/Challenges/Bosses</label>
+                    </div>
+                    <div class="taxonomy-item-content">
+                        <div class="taxonomy-item-desc">Specific tasks or missions with clearly defined goals, often culminating in significant challenges.</div>
+                        <div class="taxonomy-item-example">Example: Your mission? Investigate, interact with NPCs, and uncover the truth behind the climate crisis!</div>
+                    </div>
+                </div>
+
+                <div class="taxonomy-item">
+                    <div class="taxonomy-item-header">
+                        <input type="checkbox" id="badges-achievements" value="badges-achievements">
+                        <label for="badges-achievements" class="taxonomy-item-name">Badges/Achievements</label>
+                    </div>
+                    <div class="taxonomy-item-content">
+                        <div class="taxonomy-item-desc">Named badges or explicit achievements awarded upon accomplishing milestones.</div>
+                        <div class="taxonomy-item-example">Example: 🏆 Endgame & Achievements: At the end of your journey, receive a Score based on your achievements.</div>
+                    </div>
+                </div>
+
+                <div class="taxonomy-item">
+                    <div class="taxonomy-item-header">
+                        <input type="checkbox" id="health-lives" value="health-lives">
+                        <label for="health-lives" class="taxonomy-item-name">Health/Lives/Hearts</label>
+                    </div>
+                    <div class="taxonomy-item-content">
+                        <div class="taxonomy-item-desc">Visual or numeric indicators representing health, lives, or stamina available.</div>
+                        <div class="taxonomy-item-example">Example: [❤️❤️❤️]</div>
+                    </div>
+                </div>
+
+                <div class="taxonomy-item">
+                    <div class="taxonomy-item-header">
+                        <input type="checkbox" id="inventory-management" value="inventory-management">
+                        <label for="inventory-management" class="taxonomy-item-name">Inventory/Resource Management</label>
+                    </div>
+                    <div class="taxonomy-item-content">
+                        <div class="taxonomy-item-desc">Systems allowing learners to manage resources, items, currency, or tools.</div>
+                        <div class="taxonomy-item-example">Example: Throughout your adventure, you may discover Mystery Boxes containing tools & gadgets.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Style -->
+            <div class="taxonomy-category">
+                <div class="category-title">🎯 Game Style</div>
+                
+                <div class="taxonomy-item">
+                    <div class="taxonomy-item-header">
+                        <input type="checkbox" id="narrative-framing" value="narrative-framing">
+                        <label for="narrative-framing" class="taxonomy-item-name">Narrative Framing</label>
+                    </div>
+                    <div class="taxonomy-item-content">
+                        <div class="taxonomy-item-desc">Any fictional or real-world story context used to present and immerse learners.</div>
+                        <div class="taxonomy-item-example">Example: Let the user choose where they want to situate the game.</div>
+                    </div>
+                </div>
+
+                <div class="taxonomy-item">
+                    <div class="taxonomy-item-header">
+                        <input type="checkbox" id="roleplay" value="roleplay">
+                        <label for="roleplay" class="taxonomy-item-name">Roleplay</label>
+                    </div>
+                    <div class="taxonomy-item-content">
+                        <div class="taxonomy-item-desc">Learners assume a specific persona, character, or role distinct from themselves.</div>
+                        <div class="taxonomy-item-example">Example: You are the Physics Dungeon Master</div>
+                    </div>
+                </div>
+
+                <div class="taxonomy-item">
+                    <div class="taxonomy-item-header">
+                        <input type="checkbox" id="game-structure" value="game-structure">
+                        <label for="game-structure" class="taxonomy-item-name">Game Structure and Ending Conditions</label>
+                    </div>
+                    <div class="taxonomy-item-content">
+                        <div class="taxonomy-item-desc">Structuring the game with distinct levels and advancement.</div>
+                        <div class="taxonomy-item-example">Example: Each game session should contain at least 10 questions, generating unique scenarios.</div>
+                    </div>
+                </div>
+
+                <div class="taxonomy-item">
+                    <div class="taxonomy-item-header">
+                        <input type="checkbox" id="visual-aesthetics" value="visual-aesthetics">
+                        <label for="visual-aesthetics" class="taxonomy-item-name">Visual Aesthetics</label>
+                    </div>
+                    <div class="taxonomy-item-content">
+                        <div class="taxonomy-item-desc">Use of emojis, ASCII maps, or visual symbols within textual interfaces.</div>
+                        <div class="taxonomy-item-example">Example: 🎮 Welcome to the Statistics Quest! Choose the theme: EcoVille 🌳, Space Station X 🚀</div>
+                    </div>
+                </div>
+
+                <div class="taxonomy-item">
+                    <div class="taxonomy-item-header">
+                        <input type="checkbox" id="game-type" value="game-type">
+                        <label for="game-type" class="taxonomy-item-name">Game Type (Single/Multiplayer/ARG)</label>
+                    </div>
+                    <div class="taxonomy-item-content">
+                        <div class="taxonomy-item-desc">How the user plays the game, either alone, or with others in a collaborative setting.</div>
+                        <div class="taxonomy-item-example">Example: Ask the user to click and share images corresponding to the situation</div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="generate-prompt-btn" id="generateGamifiedPrompt" disabled>
+                Generate Gamified Prompt
+            </button>
+        </div>
+    </div>
+
             
             <form id="customGPTForm">
                 <!-- Shared Fields -->
