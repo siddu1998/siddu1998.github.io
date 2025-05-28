@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyCrafter AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8fafc;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .main-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #1f2937;
+            font-size: 2.5rem;
+            font-weight: 300;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-image {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .card:nth-child(2) .card-image {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .card:nth-child(3) .card-image {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .card:nth-child(4) .card-image {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .card:nth-child(5) .card-image {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .card:nth-child(6) .card-image {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .main-header {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+            
+            body {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="main-header">StudyCrafter AI systems</h1>
+        
+        <div class="cards-grid">
+            <div class="card" onclick="handleCardClick('card1')">
+                <div class="card-image"></div>
+                <div class="card-content">
+                    <h3 class="card-title">StudyCreator</h3>
+                    <p class="card-description">Use AI support to create Chatbots for your class.</p>
+                </div>
+            </div>
+
+            <div class="card" onclick="handleCardClick('card2')">
+                <div class="card-image"></div>
+                <div class="card-content">
+                    <h3 class="card-title">StudyHelper</h3>
+                    <p class="card-description">A Student facing platform where, your students can use and learn from the chatbots you create.</p>
+                </div>
+            </div>
+
+            <div class="card" onclick="handleCardClick('card3')">
+                <div class="card-image"></div>
+                <div class="card-content">
+                    <h3 class="card-title">Gamified Prompts Taxonomy</h3>
+                    <p class="card-description">A Taxonomy sharing how you can integrate playful elements into your gamified chatbots.</p>
+                </div>
+            </div>
+
+            <div class="card" onclick="handleCardClick('card4')">
+                <div class="card-image"></div>
+                <div class="card-content">
+                    <h3 class="card-title">StudyGamer</h3>
+                    <p class="card-description">An Enhanced Version of StudyCreator, with support to integrate Gamified Elements into your chatbots.</p>
+                </div>
+            </div>
+
+            <div class="card" onclick="handleCardClick('card5')">
+                <div class="card-image"></div>
+                <div class="card-content">
+                    <h3 class="card-title">Workshop Playground</h3>
+                    <p class="card-description">All workshops, hackathons can use this AI playground to create and test prompts. </p>
+                </div>
+            </div>
+
+            <!-- <div class="card" onclick="handleCardClick('card6')">
+                <div class="card-image"></div>
+                <div class="card-content">
+                    <h3 class="card-title">Projects/Publications</h3>
+                    <p class="card-description">This is a brief description of the sixth card. The final card completes the grid layout perfectly.</p>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+    <script>
+        function handleCardClick(cardId) {
+            // Replace these URLs with your actual links
+            const cardLinks = {
+                'card1': 'https://siddu1998.github.io/SCAI/StudyCreator.html',
+                'card2': 'https://siddu1998.github.io/SCAI/studyhelper.html', 
+                'card3': 'https://siddu1998.github.io/SCAI/taxonomy.html',
+                'card4': 'https://siddu1998.github.io/SCAI/StudyGamer.html',
+                'card5': 'https://siddu1998.github.io/SCAI/hackathon.html',
+                'card6': 'https://example6.com'
+            };
+            
+            // Open the link in a new tab
+            // window.open(cardLinks[cardId], '_blank');
+            
+            // Or open in the same tab
+            // window.location.href = cardLinks[cardId];
+            
+            console.log(`Card ${cardId} clicked - would navigate to: ${cardLinks[cardId]}`);
+        }
+    </script>
+</body>
+</html>
