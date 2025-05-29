@@ -21,6 +21,49 @@ code{background:#f4f4f4;padding:.15rem .4rem;border-radius:3px;display:inline-bl
 .instructions{background:#eef9ff;border-left:4px solid #4facfe;padding:1rem;margin-bottom:2rem}
 .desc{font-size:.9rem;color:#444;margin-bottom:.4rem}
 .detail{font-size:.85rem;color:#555;margin-top:.25rem}
+/* Phase Design Styles */
+        .phase-box {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .phase-number {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checklist input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+        }
+
 </style>
 </head>
 <body>
@@ -45,9 +88,55 @@ code{background:#f4f4f4;padding:.15rem .4rem;border-radius:3px;display:inline-bl
 
 
 <p>Further if you would like to try and test your own Gamified Prompts, please visit: <a href="https://siddu1998.github.io/SCAI/StudyGamer.html">The Gamified Prompt Playground</a></p>
+<p>To look into the specifics of the taxonomy and details with regards to structures, please visit <a href="https://siddu1998.github.io/SCAI/prompt.html">Taxonomy Analysis</a></p>
+
 </div>
 
 
+<h2><span class="icon cat-gamestyle"></span>Game Elements</h2>
+<p class="desc">How the experience is framed, visualised, and played.</p>
+
+<ul>
+  <!-- 1. Narrative Framing -->
+  <li><strong>Narrative Framing</strong><br>
+    <code>"Choose your realm: Cyber-City Neon 🏙️ or the Ancient Ruins of Atlan 🏛️."</code><br>
+    <code>"A catastrophic data breach has rocked the empire – only <em>you</em>, the shadow hacker, can unmask the culprit."</code>
+    <div class="detail"><strong>How to use:</strong> Give players a vivid setting and immediate stakes (crime, mystery, quest) in the opening line; optionally let them pick the backdrop.<br>
+    <strong>Advantages:</strong> Anchors the learning in a memorable story world, boosts immersion, and provides a thematic scaffold for later tasks.</div>
+  </li>
+
+  <!-- 2. Role-play -->
+  <li><strong>Role-play</strong><br>
+    <code>"You are Dr. Quanta, rogue physicist chasing forbidden particles."</code><br>
+    <code>"Play as Captain Statistica, guardian of the Graph Galaxy 📈✨."</code>
+    <div class="detail"><strong>How to use:</strong> Assign a clear persona (name + title + mission) so learners adopt its viewpoint and language style.<br>
+    <strong>Advantages:</strong> Fosters identity, encourages creative responses, and lets you tailor content to the character’s expertise.</div>
+  </li>
+
+  <!-- 3. Game Structure & Ending Conditions -->
+  <li><strong>Game Structure &amp; Ending Conditions</strong><br>
+    <code>"Complete 10 riddles; each correct answer lights one Beacon of Truth 🕯️."</code><br>
+    <code>"✅ Win: decode all 5 encrypted files  ❌ Lose: timer hits 00:00 and the system locks down."</code>
+    <div class="detail"><strong>How to use:</strong> State the number of levels/questions and spell out explicit win / fail criteria (points, timer, collected items).<br>
+    <strong>Advantages:</strong> Sets clear goals, keeps pacing tight, and signals progress without extra UI.</div>
+  </li>
+
+  <!-- 4. Visual Aesthetics -->
+  <li><strong>Visual Aesthetics (Progress bars, Emojis, ASCII, GenAI Images)</strong><br>
+    <code>"📊 Progress: ███░░ 60% complete"</code><br>
+    <code>"ASCII map 10×10: @ = you, # = wall, F = finish"</code>
+    <div class="detail"><strong>How to use:</strong> Mix emojis, ASCII art, or generated images to signal location, status, or mood inside plain-text chats.<br>
+    <strong>Advantages:</strong> Gives instant visual feedback and spatial cues without complex front-end work.</div>
+  </li>
+
+  <!-- 5. Game Type -->
+  <li><strong>Game Type (Single-player / ARG / Multiplayer)</strong><br>
+    <code>"Collaborative mode: pair with a friend and co-solve hypotheses live."</code><br>
+    <code>"ARG quest: post a real-world photo of recycled art to unlock the next clue."</code>
+    <div class="detail"><strong>How to use:</strong> Specify whether play is solo, synchronous co-op, or augmented reality; include submission mechanics for photos, links, or live chat.<br>
+    <strong>Advantages:</strong> Lets designers match social dynamics to learning goals and makes the activity feel bigger than the chat window.</div>
+  </li>
+</ul>
 
 <!-- NPC -->
 <h2><span class="icon cat-npc"></span>Non‑Player Characters (NPC)</h2>
@@ -134,7 +223,7 @@ code{background:#f4f4f4;padding:.15rem .4rem;border-radius:3px;display:inline-bl
 <h2><span class="icon cat-learn"></span>Learning Design</h2>
 <p class="desc">Pedagogical glue that ensures growth, not just fun.</p>
 <ul>
-<li><strong>Learning Objective (and Conditions)</strong><br>
+<li><strong>Learning Objective (Implicit and Explicit)</strong><br>
 <code>"Goal: master t‑tests and ANOVA before the final boss."</code><br>
 <code>"Mission: secure the data center by patching SQL injection."</code>
 <div class="detail"><strong>How to use:</strong> Declare objectives in story voice so players know what knowledge wins the game.<br>
@@ -164,6 +253,76 @@ code{background:#f4f4f4;padding:.15rem .4rem;border-radius:3px;display:inline-bl
 <div class="detail"><strong>How to use:</strong> Pose open questions after milestones; invite journaling or quick summaries.<br>
 <strong>Advantages:</strong> Strengthens self‑regulation, deepens conceptual grasp, and generates qualitative insight for the instructor.</div></li>
 </ul>
+
+
+<h2>Practical Implementation Guide</h2>
+
+        <h3>Phased Design Approach</h3>
+
+        <div class="phase-box">
+            <div class="phase-header">
+                <div class="phase-number">1</div>
+                <h4>Foundation Setting</h4>
+            </div>
+            <p>Define the core purpose and context of the experience.</p>
+            <ul class="checklist">
+                <li><input type="checkbox"> Define Learning Objectives (Explicit & Implicit)</li>
+                <!-- <li><input type="checkbox"> Establish Game Type</li> -->
+                <li><input type="checkbox"> Establish Content Boundaries</li>
+
+                <li><input type="checkbox"> Identify Target Player Role/Persona</li>
+                <li><input type="checkbox"> Create Initial Narrative Framing/Story Shell</li>
+                
+            </ul>
+        </div>
+
+        <div class="phase-box">
+            <div class="phase-header">
+                <div class="phase-number">2</div>
+                <h4>Core Learning Loop Design</h4>
+            </div>
+            <p>Detail how learners will engage with content and receive feedback.</p>
+            <ul class="checklist">
+                <li><input type="checkbox"> Design Challenges/Obstacle Types/Quests</li>
+                <li><input type="checkbox"> Create Practice Opportunities</li>
+                <li><input type="checkbox"> Develop Feedback and Hinting Styles</li>
+                <li><input type="checkbox"> Design Scaffolding Strategy</li>
+            </ul>
+        </div>
+
+        
+
+        <div class="phase-box">
+            <div class="phase-header">
+                <div class="phase-number">3</div>
+                <h4>Engagement and Progression</h4>
+            </div>
+            <p>Focus on motivation and sense of journey.</p>
+            <ul class="checklist">
+                <li><input type="checkbox"> Design NPC Presence & Interaction Styles</li>
+                <li><input type="checkbox"> Choose Input Modality</li>
+                <li><input type="checkbox"> Create Progression Mechanics</li>
+                <li><input type="checkbox"> Develop Reward System</li>
+                <li><input type="checkbox"> Plan Visual Elements</li>
+            </ul>
+        </div>
+
+        <div class="phase-box">
+            <div class="phase-header">
+                <div class="phase-number">4</div>
+                <h4>Meta-Considerations</h4>
+            </div>
+            <p>Address higher-level learning goals and refinement.</p>
+            <ul class="checklist">
+              
+                <li><input type="checkbox"> Add Metacognition/Reflection Prompts</li>
+                <li><input type="checkbox"> Ensure Choice & Consequence Depth</li>
+                <li><input type="checkbox"> Consider Resource Management</li>
+                <li><input type="checkbox"> Optimize Game Pacing/Flow Control</li>
+            </ul>
+        </div>
+
+       
 
 <footer style="margin-top:3rem;font-size:.8rem;color:#666">© 2025 Gamified Prompt Taxonomy — CC‑BY 4.0</footer>
 </section>
