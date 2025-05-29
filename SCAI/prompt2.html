@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamified Prompt Taxonomy Explorer</title>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-font: 'Inter', system-ui, sans-serif;
+            --bg: #f9fafb;
+            --sidebar-bg: #ffffff;
+            --accent: #007bff;
+            --tag-bg: #e7f1ff;
+            --tag-text: #0056c7;
+        }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: var(--primary-font); background: var(--bg); color: #111827; }
+        .layout { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
+        .sidebar { background: var(--sidebar-bg); border-right: 1px solid #e5e7eb; padding: 1.5rem; overflow-y: auto; }
+        .sidebar h2 { margin-top: 0; font-size: 1.25rem; color: var(--accent); }
+        .sidebar .section-title { margin: 1.25rem 0 0.5rem; font-weight: 600; }
+        .filter-list { list-style: none; padding: 0; margin: 0; max-height: 55vh; overflow-y: auto; }
+        .filter-list li { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem; font-size: 0.9rem; }
+        .reset-btn { margin-top: 1rem; width: 100%; padding: 0.5rem 1rem; background: #ff7f11; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; }
+        .reset-btn:hover { opacity: 0.9; }
+
+        .main { padding: 1.5rem; overflow: hidden; display: flex; flex-direction: column; gap: 1.5rem; }
+        #distributionWrapper { background: #fff; padding: 1rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+
+        .content-grid { display: grid; grid-template-columns: 350px 1fr; gap: 1.5rem; height: 100%; overflow: hidden; }
+        #promptTableWrapper { background: #fff; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+        #promptTable { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        #promptTable thead { background: #f3f4f6; }
+        #promptTable th, #promptTable td { padding: 0.6rem 0.8rem; border-bottom: 1px solid #e5e7eb; }
+        #promptTable tr:hover { background: #f9f9fb; cursor: pointer; }
+        .details { overflow-y: auto; background: #fff; border-radius: 8px; padding: 1rem 1.25rem; }
+        .details h3 { margin-top: 0; }
+        .tag { display: inline-block; background: var(--tag-bg); color: var(--tag-text); padding: 0.25rem 0.6rem; font-size: 0.75rem; border-radius: 9999px; margin: 0.15rem; font-weight: 600; }
+        .structure-box { background: #f3f4f6; padding: 0.75rem; border-radius: 6px; font-family: 'JetBrains Mono', monospace; white-space: pre-wrap; font-size: 0.8rem; }
+        .search-input { width: 100%; padding: 0.4rem 0.6rem; border: 1px solid #d1d5db; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <aside class="sidebar">
+            <h2>Controls & Filters</h2>
+            <label class="section-title" for="searchBox">Search by Prompt Identifier</label>
+            <input id="searchBox" type="text" class="search-input" placeholder="Enter keywords…">
+
+            <p class="section-title">Filter by Elements</p>
+            <ul id="elementFilters" class="filter-list"></ul>
+            <button id="resetBtn" class="reset-btn">Reset All Filters</button>
+        </aside>
+
+        <main class="main">
+            <div id="distributionWrapper">
+                <canvas id="distributionChart" height="120"></canvas>
+            </div>
+
+            <div class="content-grid">
+                <div id="promptTableWrapper">
+                    <table id="promptTable">
+                        <thead><tr><th>Prompt Identifier</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <div class="details" id="promptDetails">
+                    <p>Select a prompt to view its details…</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+    // Embedded data (converted from CSV)
+    const DATA = [{"Prompt Start":"Bot Configuration Prompt You are a friendly and fun statistics practice bot designed as an interactive ","Element Structure":"Roleplay -> Learning Objective -> NPC Interaction -> Feedback and Hinting","Interaction Description":"Roleplay leads to Learning Objective: \"You are a friendly and fun statistics practice bot...\" etc."},{"Prompt Start":"🌍 Climate Quest: The Guardians of Earth (An","Element Structure":"Quests/Challenges -> NPC Interaction -> Narrative Framing -> Choice Based input","Interaction Description":"Quests/Challenges leads to NPC Interaction: \"🌍 Earth is in peril...\""},{"Prompt Start":"You are **LitQuestBot**, an interactive, gamif...","Element Structure":"Roleplay -> Quests/Challenges -> NPC Interaction -> Progression Systems - Badges/Achievements","Interaction Description":"Roleplay leads to Quests/Challenges: \"You are LitQuestBot...\""},{"Prompt Start":"THE ULTIMATE PHYSICS DUNGEON-CRAWL Role & Styl...","Element Structure":"Roleplay -> Health/Lives -> Visual Aesthetics -> Progression Systems - Inventory/Resource Management","Interaction Description":"Roleplay leads to Health/Lives: \"You are the “Physics Dungeon Master\"...\""},{"Prompt Start":"ULTIMATE TEXT-BASED MAZE DUNGEON PROMPT (WITH ...","Element Structure":"Roleplay -> NPC Creation -> Visual Aesthetics -> Progression Systems - Points / Score","Interaction Description":"Roleplay leads to NPC Creation: \"You are the “Maze Master”...\""}];
+
+    let prompts=[];
+    let allElements=new Set();
+    const activeFilters=new Set();
+    let distributionChart;
+
+    document.addEventListener('DOMContentLoaded',initialise);
+
+    function initialise(){
+        prompts=DATA.map(function(row){
+            const elems=row['Element Structure'].split('->').map(function(e){return e.trim();}).filter(Boolean);
+            elems.forEach(function(e){allElements.add(e);});
+            row.elements=elems;
+            return row;
+        });
+        buildFilterUI();
+        renderDistribution();
+        renderPromptTable();
+    }
+
+    function buildFilterUI(){
+        const container=document.getElementById('elementFilters');
+        const frag=document.createDocumentFragment();
+        Array.from(allElements).sort().forEach(function(el){
+            const li=document.createElement('li');
+            const safe=cssSafe(el);
+            li.innerHTML='<input type="checkbox" value="'+el+'" id="chk-'+safe+'"> <label for="chk-'+safe+'">'+el+'</label>';
+            frag.appendChild(li);
+        });
+        container.appendChild(frag);
+
+        container.addEventListener('change',function(e){
+            const val=e.target.value;
+            if(e.target.checked) activeFilters.add(val); else activeFilters.delete(val);
+            renderPromptTable();
+        });
+
+        document.getElementById('searchBox').addEventListener('input',renderPromptTable);
+        document.getElementById('resetBtn').addEventListener('click',function(){
+            activeFilters.clear();
+            container.querySelectorAll('input[type=\"checkbox\"]').forEach(function(cb){cb.checked=false;});
+            document.getElementById('searchBox').value='';
+            renderPromptTable();
+        });
+    }
+
+    function renderPromptTable(){
+        const q=document.getElementById('searchBox').value.toLowerCase();
+        const tbody=document.querySelector('#promptTable tbody');
+        tbody.innerHTML='';
+
+        const matches=prompts.filter(function(p){
+            const textOk=!q||p['Prompt Start'].toLowerCase().includes(q);
+            const filterOk=Array.from(activeFilters).every(function(f){return p.elements.includes(f);});
+            return textOk&&filterOk;
+        });
+
+        matches.forEach(function(p){
+            const tr=document.createElement('tr');
+            tr.innerHTML='<td>'+p['Prompt Start']+'</td>';
+            tr.addEventListener('click',function(){showPromptDetails(p);});
+            tbody.appendChild(tr);
+        });
+    }
+
+    function showPromptDetails(p){
+        const box=document.getElementById('promptDetails');
+        box.innerHTML='';
+        const h3=document.createElement('h3');
+        h3.textContent=p['Prompt Start'];
+        box.appendChild(h3);
+
+        const tagWrap=document.createElement('div');
+        p.elements.forEach(function(el){
+            const span=document.createElement('span');
+            span.className='tag';
+            span.textContent=el;
+            tagWrap.appendChild(span);
+        });
+        box.appendChild(tagWrap);
+
+        const strTitle=document.createElement('h4');
+        strTitle.textContent='Element Interaction Structures:';
+        box.appendChild(strTitle);
+        const pre=document.createElement('div');
+        pre.className='structure-box';
+        pre.textContent=p['Element Structure'];
+        box.appendChild(pre);
+
+        const descTitle=document.createElement('h4');
+        descTitle.textContent='Description of Element Interactions & Evidence:';
+        box.appendChild(descTitle);
+        const para=document.createElement('p');
+        para.style.whiteSpace='pre-wrap';
+        para.textContent=p['Interaction Description'];
+        box.appendChild(para);
+    }
+
+    function renderDistribution(){
+        const counts={};
+        prompts.forEach(function(p){p.elements.forEach(function(e){counts[e]=(counts[e]||0)+1;});});
+        const labels=Object.keys(counts).sort();
+        const data=labels.map(function(l){return counts[l];});
+        const ctx=document.getElementById('distributionChart');
+        distributionChart=new Chart(ctx,{type:'bar',data:{labels:labels,datasets:[{label:'Prompt Count',data:data}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{autoSkip:false,maxRotation:90,minRotation:60}},y:{beginAtZero:true}}}});
+    }
+
+    function cssSafe(str){return str.replace(/[^a-z0-9_\-]/gi,'_');}
+    </script>
+</body>
+</html>
