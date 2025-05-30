@@ -5,12 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shloka - Culturally-Responsive Climate Education | UX Case Study</title>
     <style>
+        :root{ --black: #000000;
+        --gray-900: #111111;
+        --gray-800: #1a1a1a;
+        --gray-700: #333333;
+        --gray-600: #4d4d4d;
+        --gray-500: #666666;
+        --gray-400: #808080;
+        --gray-300: #999999;
+        --gray-200: #cccccc;
+        --gray-100: #e6e6e6;
+        --gray-50: #f5f5f5;
+        --white: #ffffff;}
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            
         }
-        
+       
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: #ffffff;
@@ -19,20 +32,21 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-        
+       
         /* Container */
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 0 24px;
         }
-        
+   
+       
         .wide-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 24px;
         }
-        
+       
         /* CSS Variables */
         :root {
             --primary-color: #F39F5A;
@@ -47,8 +61,11 @@
             --border-radius-md: 8px;
             --transition-speed: 0.2s;
             --max-width: 1200px;
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.08);
+            --bg-light: #f8f8f8;
+            --text-color-lighter: #999;
         }
-        
+       
         /* --- Navbar Styles --- */
         .navbar {
             background-color: rgba(255, 255, 255, 0.95);
@@ -62,11 +79,11 @@
             z-index: 1000;
             transition: box-shadow var(--transition-speed) ease;
         }
-        
+       
         .navbar.scrolled { 
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); 
         }
-        
+       
         .nav-container {
             display: flex;
             justify-content: space-between;
@@ -75,25 +92,25 @@
             margin: 0 auto;
             padding: 0 var(--spacing-md);
         }
-        
+       
         .nav-logo { 
             font-weight: 700; 
             font-size: 1.4rem; 
             color: var(--text-color); 
             text-decoration: none; 
         }
-        
+       
         .nav-logo:hover { 
             color: var(--primary-color); 
             text-decoration: none; 
         }
-        
+       
         .navbar-nav { 
             display: flex; 
             align-items: center; 
             gap: var(--spacing-sm); 
         }
-        
+       
         .nav-link { 
             color: var(--text-color-light); 
             text-decoration: none; 
@@ -102,31 +119,32 @@
             font-weight: 500; 
             transition: color var(--transition-speed) ease, background-color var(--transition-speed) ease; 
         }
-        
+       
+     
+
         .nav-link:hover, 
         .nav-link:focus, 
         .nav-link.active { 
-            color: var(--primary-color); 
-            text-decoration: none; 
-            background-color: rgba(243, 159, 90, 0.1); 
+            color: var(--gray-900);
+            background-color: var(--gray-50);
         }
-        
+       
         .nav-link-button { 
-            background-color: var(--primary-color); 
+            background-color: black; 
             color: white; 
             padding: 8px 18px; 
             border-radius: var(--border-radius-md); 
             transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease; 
         }
-        
+       
         .nav-link-button:hover, 
         .nav-link-button:focus { 
-            background-color: var(--primary-color-darker); 
+            background-color: black; 
             color: white; 
             transform: translateY(-2px); 
             text-decoration: none; 
         }
-        
+       
         .menu-toggle { 
             display: none; 
             background: none; 
@@ -136,14 +154,14 @@
             cursor: pointer; 
             padding: var(--spacing-xs); 
         }
-        
+       
         /* Hero Section */
         .hero {
             margin-top: 80px;
             padding: 80px 0;
             text-align: center;
         }
-        
+       
         .hero h1 {
             font-size: 56px;
             font-weight: 700;
@@ -151,7 +169,7 @@
             margin-bottom: 24px;
             letter-spacing: -0.03em;
         }
-        
+       
         .hero .subtitle {
             font-size: 20px;
             color: #666;
@@ -159,7 +177,7 @@
             max-width: 600px;
             margin: 0 auto 40px;
         }
-        
+       
         .hero-meta {
             display: flex;
             gap: 40px;
@@ -167,13 +185,13 @@
             font-size: 16px;
             color: #999;
         }
-        
+       
         .hero-meta span {
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        
+       
         /* Hero Image */
         .hero-image {
             width: 100%;
@@ -189,28 +207,63 @@
             color: #999;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
         }
-        
+        .hero-image-container {
+            width: 100%;
+            max-width: var(--max-width);
+            margin: 80px auto 0; /* Adjusted margin-top to match hero section */
+            background: var(--bg-light);
+            border-radius: 16px; /* Adjusted border-radius to match hero-image */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: var(--text-color-lighter);
+            box-shadow: var(--shadow-lg); /* Use larger shadow for hero image */
+            overflow: hidden;   
+        }
+
+        .hero-image-container figure {
+            margin: 0;
+            width: 100%;
+        }
+
+        .hero-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 16px;   /* Adjusted border-radius to match hero-image */
+        }
+
+        .hero-image-container figcaption {
+            font-size: 0.875rem;
+            color: var(--text-color-light);
+            margin-top: var(--spacing-xs);
+            padding-bottom: var(--spacing-md);
+            text-align: center;
+        }
+       
+       
         /* Section Styles */
         section {
             padding: 80px 0;
         }
-        
+       
         .section-header {
             margin-bottom: 48px;
         }
-        
+       
         .section-header h2 {
             font-size: 36px;
             font-weight: 700;
             margin-bottom: 16px;
             letter-spacing: -0.02em;
         }
-        
+       
         .section-header p {
             font-size: 18px;
             color: #666;
         }
-        
+       
         /* Typography */
         h3 {
             font-size: 24px;
@@ -219,40 +272,40 @@
             margin-top: 40px;
             letter-spacing: -0.01em;
         }
-        
+       
         h4 {
             font-size: 18px;
             font-weight: 600;
             margin-bottom: 12px;
             margin-top: 32px;
         }
-        
+       
         p {
             margin-bottom: 20px;
             color: #444;
             font-size: 16px;
             line-height: 1.8;
         }
-        
+       
         strong {
             color: #1a1a1a;
             font-weight: 600;
         }
-        
+       
         /* Overview Section */
         .overview {
             background: #f8f9fa;
             padding: 60px 0;
             margin-bottom: 40px;
         }
-        
+       
         .overview-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 48px;
             margin-top: 40px;
         }
-        
+       
         .overview-item h3 {
             font-size: 16px;
             font-weight: 600;
@@ -261,13 +314,13 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
-        
+       
         .overview-item p {
             font-size: 16px;
             color: #444;
             margin: 0;
         }
-        
+       
         /* Image Placeholders */
         .image-placeholder {
             width: 100%;
@@ -280,19 +333,19 @@
             color: #999;
             font-size: 16px;
         }
-        
+       
         .image-full {
             height: 500px;
         }
-        
+       
         .image-medium {
             height: 400px;
         }
-        
+       
         .image-small {
             height: 300px;
         }
-        
+       
         /* Grid Layouts */
         .two-column {
             display: grid;
@@ -300,14 +353,42 @@
             gap: 40px;
             margin: 40px 0;
         }
-        
+       
         .three-column {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 32px;
             margin: 40px 0;
         }
-        
+
+        /* Adjusted for the specific image layout */
+        .image-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Single column for images by default */
+            gap: 24px;
+            margin: 40px 0;
+        }
+
+        .image-grid .styled-figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center the image and caption */
+            text-align: center;
+        }
+
+        .image-grid img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .image-grid figcaption {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #666;
+        }
+       
         /* Cards */
         .card {
             background: #f8f9fa;
@@ -315,13 +396,13 @@
             border-radius: 12px;
             margin-bottom: 24px;
         }
-        
+       
         .card h4 {
             margin-top: 0;
             font-size: 20px;
             margin-bottom: 16px;
         }
-        
+       
         /* Insights */
         .insight-card {
             background: #fff;
@@ -331,11 +412,11 @@
             margin-bottom: 24px;
             transition: box-shadow 0.2s ease;
         }
-        
+       
         .insight-card:hover {
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
         }
-        
+       
         .insight-number {
             display: inline-block;
             width: 32px;
@@ -348,7 +429,7 @@
             font-weight: 600;
             margin-bottom: 16px;
         }
-        
+       
         /* Quotes */
         .quote {
             border-left: 4px solid #1a1a1a;
@@ -357,7 +438,7 @@
             font-style: italic;
             color: #666;
         }
-        
+       
         .quote-author {
             display: block;
             margin-top: 12px;
@@ -365,7 +446,7 @@
             font-size: 14px;
             color: #999;
         }
-        
+       
         /* Statistics */
         .stats-grid {
             display: grid;
@@ -374,13 +455,13 @@
             margin: 40px 0;
             text-align: center;
         }
-        
+       
         .stat-item {
             padding: 32px;
             background: #f8f9fa;
             border-radius: 12px;
         }
-        
+       
         .stat-number {
             font-size: 48px;
             font-weight: 700;
@@ -388,7 +469,7 @@
             display: block;
             letter-spacing: -0.02em;
         }
-        
+       
         .stat-label {
             font-size: 14px;
             color: #666;
@@ -396,19 +477,61 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
-        
+
+        /* Results Cards (Non-percentage) */
+        .results-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 32px; /* Adjusted gap to be consistent */
+            margin: 40px 0; /* Consistent margin */
+        }
+
+        .results-card {
+            background: #fff;
+            border: 2px solid #1a1a1a;
+            padding: 32px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .results-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .results-card h4 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        .results-card ul {
+            text-align: left;
+            margin: 0;
+            padding: 0;
+            list-style: none; /* Remove default list style */
+        }
+
+        .results-card li {
+            margin-bottom: 8px;
+            color: #444;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+       
         /* Process Timeline */
         .process-timeline {
             margin: 60px 0;
         }
-        
+       
         .timeline-item {
             display: flex;
             gap: 40px;
             margin-bottom: 60px;
             align-items: flex-start;
         }
-        
+       
         .timeline-number {
             flex-shrink: 0;
             width: 80px;
@@ -422,15 +545,20 @@
             font-size: 32px;
             font-weight: 700;
         }
-        
+       
         .timeline-content {
             flex: 1;
         }
-        
+       
         .timeline-content h3 {
             margin-top: 8px;
         }
-        
+        img {
+            max-width: 100%;
+            height: auto; /* Maintain aspect ratio */
+            display: block; /* Removes extra space below image */
+        }
+       
         /* Findings */
         .finding-card {
             background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
@@ -439,7 +567,7 @@
             border-radius: 12px;
             margin-bottom: 24px;
         }
-        
+       
         .finding-label {
             font-size: 14px;
             font-weight: 600;
@@ -448,18 +576,18 @@
             letter-spacing: 0.05em;
             margin-bottom: 8px;
         }
-        
+       
         /* Lists */
         ul, ol {
             margin-left: 24px;
             margin-bottom: 20px;
         }
-        
+       
         li {
             margin-bottom: 12px;
             color: #444;
         }
-        
+       
         /* Field Notes */
         .field-note {
             background: #fffbf0;
@@ -469,7 +597,7 @@
             font-size: 15px;
             color: #666;
         }
-        
+       
         .field-note-label {
             font-weight: 600;
             color: #f0ad4e;
@@ -478,7 +606,7 @@
             letter-spacing: 0.05em;
             margin-bottom: 8px;
         }
-        
+       
         /* Results */
         .result-card {
             background: #fff;
@@ -488,11 +616,11 @@
             text-align: center;
             transition: transform 0.2s ease;
         }
-        
+       
         .result-card:hover {
             transform: translateY(-4px);
         }
-        
+       
         .result-percentage {
             font-size: 56px;
             font-weight: 700;
@@ -500,19 +628,19 @@
             display: block;
             letter-spacing: -0.02em;
         }
-        
+       
         /* Footer */
         footer {
             padding: 60px 0;
             border-top: 1px solid #e0e0e0;
             text-align: center;
         }
-        
+       
         footer p {
             color: #999;
             font-size: 14px;
         }
-        
+       
         /* Responsive Navbar */
         @media (max-width: 768px) {
             .navbar-nav {
@@ -527,45 +655,46 @@
                 padding: var(--spacing-sm) 0;
                 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             }
-            
+           
             .navbar-nav.active {
                 display: flex;
             }
-            
+           
             .menu-toggle {
                 display: block;
             }
-            
+           
             .nav-link {
                 width: 100%;
                 text-align: center;
                 padding: var(--spacing-sm);
             }
-            
+           
             .hero h1 {
                 font-size: 36px;
             }
-            
+           
             .hero .subtitle {
                 font-size: 18px;
             }
-            
+           
             .section-header h2 {
                 font-size: 28px;
             }
-            
+           
             .timeline-item {
                 flex-direction: column;
                 gap: 24px;
             }
-            
+           
             .timeline-number {
                 width: 60px;
                 height: 60px;
                 font-size: 24px;
             }
-            
-            .stats-grid {
+           
+            .stats-grid,
+            .results-cards-grid { /* Apply to both stat and results grid for consistency */
                 grid-template-columns: 1fr;
             }
         }
@@ -598,25 +727,46 @@
                 <span>🏆 Published: ACM DIS 2024</span>
             </div>
         </div>
-        <div class="hero-image">
-            [Hero Image: Game Screenshots Montage]
+        <div class="hero-image-container">
+            <figure>
+                <img src="Group789.png" alt="Game designers participating in a design workshop using card-based system">
+                <figcaption>Game designers engaging with the AstraVerse design system during a participatory workshop.</figcaption>
+            </figure>
         </div>
     </section>
 
-    <section class="overview">
-        <div class="container">
+      <section class="overview">
+        <div class="wide-container">
             <div class="overview-grid">
                 <div class="overview-item">
-                    <h3>My Role</h3>
-                    <p>Lead UX Researcher<br>Game Designer<br>Ethnographic Researcher</p>
+                    <h4><i class="fa-solid fa-user-gear"></i> My Role</h4>
+                    <ul>
+                        <li>Project Lead</li>
+                        <li>UX Researcher</li>
+                        <li>System Designer</li>
+                        <li>Data Analyst & Visualizer</li>
+                        <li>UX Writer</li>
+                    </ul>
                 </div>
                 <div class="overview-item">
-                    <h3>Methods</h3>
-                    <p>Ethnographic Fieldwork<br>Co-Design Workshops<br>Comparative User Testing</p>
+                    <h4><i class="fa-solid fa-users"></i> Team</h4>
+                    <ul>
+                        <li>1 Researcher (Myself)</li>
+                        <li>1 Artist</li>
+                        <li>2 Faculty Advisors</li>
+                        <li>(Co-authors on paper: J. Pfau, J.B. Dodechani, M. Seif El-Nasr)</li>
+                    </ul>
                 </div>
                 <div class="overview-item">
-                    <h3>Impact</h3>
-                    <p>87% Higher Engagement<br>Published Research<br>Design Framework</p>
+                    <h4><i class="fa-solid fa-wrench"></i> Tools & Methods</h4>
+                    <ul>
+                        <li>Stakeholder Interviews</li>
+                        <li>Visual & Digital Ethnography</li>
+                        <li>Grounded Theory</li>
+                        <li>Participatory Design</li>
+                        <li>Quantitative Analysis (Python)</li>
+                        <li>Figma</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -626,7 +776,7 @@
         <div class="section-header">
             <h2>🌍 The Challenge: When Climate Games Miss the Mark</h2>
         </div>
-        
+       
         <p>Picture this: You're a practicing Hindu who visits temples regularly, celebrates religious festivals, and feels a deep spiritual connection to nature. You want to learn about climate change and take action, but every environmental game you encounter feels... foreign. The characters don't look like you, the solutions don't fit your lifestyle, and the messaging feels disconnected from the values that actually drive your daily decisions.</p>
 
         <p>This disconnect isn't just frustrating—it's a massive missed opportunity. With over 1.2 billion Hindus worldwide, many living in regions severely impacted by climate change, we're failing to engage a huge population in one of the most critical conversations of our time.</p>
@@ -695,8 +845,11 @@
         <h3>The Journey to Sacred Sites</h3>
         <p>Rather than relying on secondary sources or laboratory studies, I knew I needed to understand the lived reality of Hindu environmental relationships. This led me to conduct ethnographic fieldwork at two of India's most significant pilgrimage sites: <strong>Tirumala</strong> and <strong>Sabarimala</strong>.</p>
 
-        <div class="image-placeholder image-medium">
-            [Field Research Photos: Temple Sites and Climate Impacts]
+        <div class="image-grid">
+            <figure class="styled-figure">
+                <img src="Group844.png" alt="Collage of photos taken during visual ethnography at temples" class="insight-image">
+                <figcaption>Climate Elements, and Climate Efforts being noted at different religious sites.</figcaption>
+            </figure>
         </div>
 
         <div class="card">
@@ -710,7 +863,7 @@
         </div>
 
         <h3>Immersive Research Methodology</h3>
-        
+       
         <div class="process-timeline">
             <div class="timeline-item">
                 <div class="timeline-number">1</div>
@@ -719,7 +872,7 @@
                     <p>412 photographs, 43 videos documenting rituals, environmental practices, and climate impacts</p>
                 </div>
             </div>
-            
+           
             <div class="timeline-item">
                 <div class="timeline-number">2</div>
                 <div class="timeline-content">
@@ -727,7 +880,7 @@
                     <p>I participated in pilgrimages, rituals, and community practices as a practicing Hindu</p>
                 </div>
             </div>
-            
+           
             <div class="timeline-item">
                 <div class="timeline-number">3</div>
                 <div class="timeline-content">
@@ -735,7 +888,7 @@
                     <p>In areas where photography was restricted, I documented observations through detailed sketches</p>
                 </div>
             </div>
-            
+           
             <div class="timeline-item">
                 <div class="timeline-number">4</div>
                 <div class="timeline-content">
@@ -760,7 +913,7 @@
             <div class="finding-label">Discovery 1</div>
             <h4>Nature as Living Deities</h4>
             <p>I observed consistent <strong>personification of natural elements</strong>—not just as symbols, but as active spiritual beings requiring respect and care. Rivers weren't just water sources; they were goddesses. Mountains weren't just landscapes; they were divine manifestations requiring protection.</p>
-            
+           
             <div class="field-note">
                 <div class="field-note-label">Field Note Example</div>
                 "At dawn, I watched hundreds of pilgrims perform Surya Namaskaram (sun salutation) facing the rising sun, treating it not as a celestial object but as Lord Surya—a deity worthy of reverence. This wasn't metaphorical; these were genuine acts of devotion to natural phenomena."
@@ -776,7 +929,7 @@
                 <li><strong>Polluted Sacred Rivers</strong>: The Ganges' pollution wasn't just an environmental issue but a desecration of the divine feminine</li>
                 <li><strong>Extreme Weather</strong>: Unpredictable weather patterns disrupted religious festivals tied to seasonal cycles</li>
             </ul>
-            
+           
             <div class="field-note">
                 <div class="field-note-label">Field Note Example</div>
                 "During my visit, unexpected heavy rains forced temple authorities to close pilgrimage routes. I watched families who had traveled hundreds of miles break down in tears—not just from disappointment, but from genuine spiritual distress at being unable to complete their religious obligations."
@@ -826,8 +979,11 @@
             <p><strong>Key Learning</strong>: <strong>Representation isn't just about inclusion—it's about theological accuracy and cultural respect.</strong></p>
         </div>
 
-        <div class="image-placeholder image-medium">
-            [Design Iteration Process: From God-Player to Shloka Character]
+        <div class="image-grid">
+            <figure class="styled-figure">
+                <img src="Group864.png" alt="Collage of photos taken during visual ethnography at temples" class="insight-image">
+                <figcaption>Discussing with stakeholders, and iterative process taken during the development of Shloka.</figcaption>
+            </figure>
         </div>
 
         <h3>Design Iteration: From Control to Collaboration</h3>
@@ -889,8 +1045,11 @@
         <h3>Framework Development: The IGDA Climate Integration</h3>
         <p>To ensure educational effectiveness, I adapted the <strong>IGDA Climate Special Interest Group's framework</strong> for climate game design, creating a structure that honored both learning science and Hindu philosophical traditions:</p>
 
-        <div class="image-placeholder image-medium">
-            [Framework Diagram: Four-Stage Learning Journey]
+        <div class="image-grid">
+            <figure class="styled-figure">
+                <img src="Group 848 (2).png" alt="Collage of photos taken during visual ethnography at temples" class="insight-image">
+                <figcaption>Different stages in a level in the game Shloka. Each level indicating a specific objective to teach climate change.</figcaption>
+            </figure>
         </div>
 
         <div class="process-timeline">
@@ -898,114 +1057,46 @@
                 <div class="timeline-number">1</div>
                 <div class="timeline-content">
                     <h3>Knowledge (Gyan)</h3>
-                    <p><strong>Purpose</strong>: Establish understanding of climate issues affecting sacred spaces</p>
-                    <p><strong>Hindu Integration</strong>: Presented by Goddess Saraswati (deity of knowledge)</p>
-                    <p><strong>Example</strong>: Learning how industrial pollution affects the Ganges River</p>
+                    <ul>
+                        <li><strong>Purpose</strong>: Establish understanding of climate issues affecting sacred spaces</li>
+                        <li><strong>Hindu Integration</strong>: Presented by Goddess Saraswati (deity of knowledge)</li>
+                        <li><strong>Example</strong>: Learning how industrial pollution affects the Ganges River</li>
+                    </ul>
                 </div>
             </div>
-            
+           
             <div class="timeline-item">
                 <div class="timeline-number">2</div>
                 <div class="timeline-content">
                     <h3>Attitude (Bhava)</h3>
-                    <p><strong>Purpose</strong>: Develop emotional connection between faith and environmental responsibility</p>
-                    <p><strong>Hindu Integration</strong>: Perform rituals to connect with relevant climate deities</p>
-                    <p><strong>Example</strong>: Chanting mantras to invoke Varuna (water deity) before addressing river pollution</p>
+                    <ul>
+                        <li><strong>Purpose</strong>: Develop emotional connection between faith and environmental responsibility</li>
+                        <li><strong>Hindu Integration</strong>: Perform rituals to connect with relevant climate deities</li>
+                        <li><strong>Example</strong>: Chanting mantras to invoke Varuna (water deity) before addressing river pollution</li>
+                    </ul>
                 </div>
             </div>
-            
+           
             <div class="timeline-item">
                 <div class="timeline-number">3</div>
                 <div class="timeline-content">
                     <h3>Efficacy (Shakti)</h3>
-                    <p><strong>Purpose</strong>: Empower players with tools to address climate challenges</p>
-                    <p><strong>Hindu Integration</strong>: Receive divine powers through completed rituals</p>
-                    <p><strong>Example</strong>: Using Varuna's trident to purify polluted water in the game</p>
+                    <ul>
+                        <li><strong>Purpose</strong>: Empower players with tools to address climate challenges</li>
+                        <li><strong>Hindu Integration</strong>: Receive divine powers through completed rituals</li>
+                        <li><strong>Example</strong>: Using Varuna's trident to purify polluted water in the game</li>
+                    </ul>
                 </div>
             </div>
-            
+           
             <div class="timeline-item">
                 <div class="timeline-number">4</div>
                 <div class="timeline-content">
                     <h3>Hope (Asha)</h3>
-                    <p><strong>Purpose</strong>: Provide actionable guidance for real-world climate action</p>
-                    <p><strong>Hindu Integration</strong>: Receive wisdom from climate deities about sustainable practices</p>
-                    <p><strong>Example</strong>: Varuna advising use of eco-friendly materials for river worship</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="solution" class="container">
-        <div class="section-header">
-            <h2>🎮 The Solution: Shloka Game Design Deep Dive</h2>
-        </div>
-
-        <h3>Core Gameplay Experience</h3>
-        <p><strong>Shloka</strong> is a 2D adventure game where players navigate through seven levels, each addressing a specific climate challenge affecting Hindu sacred sites. The game combines traditional adventure mechanics with authentic ritual interactions.</p>
-
-        <div class="image-placeholder image-full">
-            [Game Screenshots: Showing Different Levels and Ritual Interactions]
-        </div>
-
-        <h3>Level Architecture Example: "Sacred Waters Under Threat"</h3>
-        
-        <div class="card">
-            <h4>Setting</h4>
-            <p>The banks of the polluted Ganges River</p>
-            <h4>Climate Challenge</h4>
-            <p>Oil pollution from floating oil lamps (diyas) during religious ceremonies</p>
-        </div>
-
-        <div class="process-timeline">
-            <div class="timeline-item">
-                <div class="timeline-number">1</div>
-                <div class="timeline-content">
-                    <h3>Stage 1 - Knowledge</h3>
                     <ul>
-                        <li><strong>Narrative Setup</strong>: Players witness devotees placing oil lamps in the river, unaware of environmental impact</li>
-                        <li><strong>Educational Content</strong>: Learn about water pollution effects on aquatic ecosystems and downstream communities</li>
-                        <li><strong>Cultural Context</strong>: Understand the religious significance of Ganga Aarti (river worship ceremony)</li>
-                        <li><strong>Emotional Hook</strong>: See how pollution affects other devotees' spiritual experiences</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-number">2</div>
-                <div class="timeline-content">
-                    <h3>Stage 2 - Attitude</h3>
-                    <ul>
-                        <li><strong>Ritual Requirement</strong>: Inscribe "Varuna" (water deity's name) using touch/stylus controls</li>
-                        <li><strong>Spiritual Connection</strong>: Learn about Varuna's role as protector of waters</li>
-                        <li><strong>Visual Feedback</strong>: Watch sacred words glow and summon the deity's presence</li>
-                        <li><strong>Audio Design</strong>: Traditional temple sounds and water flowing create immersive atmosphere</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-number">3</div>
-                <div class="timeline-content">
-                    <h3>Stage 3 - Efficacy</h3>
-                    <ul>
-                        <li><strong>Divine Power Granted</strong>: Receive Varuna's magical trident</li>
-                        <li><strong>Gameplay Mechanic</strong>: Use trident to absorb oil pollution from river surface</li>
-                        <li><strong>Challenge Design</strong>: Navigate water currents while cleaning efficiently</li>
-                        <li><strong>Success Metrics</strong>: Restore water clarity to enable other devotees' worship</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-number">4</div>
-                <div class="timeline-content">
-                    <h3>Stage 4 - Hope</h3>
-                    <ul>
-                        <li><strong>Divine Guidance</strong>: Varuna appears to share wisdom about sustainable worship practices</li>
-                        <li><strong>Actionable Advice</strong>: "Use clay lamps with natural oils, collect after ceremony"</li>
-                        <li><strong>Community Impact</strong>: Show other devotees adopting eco-friendly practices</li>
-                        <li><strong>Real-World Connection</strong>: Link to actual temple initiatives promoting sustainable worship</li>
+                        <li><strong>Purpose</strong>: Provide actionable guidance for real-world climate action</li>
+                        <li><strong>Hindu Integration</strong>: Receive wisdom from climate deities about sustainable practices</li>
+                        <li><strong>Example</strong>: Varuna advising use of eco-friendly materials for river worship</li>
                     </ul>
                 </div>
             </div>
@@ -1100,11 +1191,11 @@
         <p>To validate Shloka's effectiveness, I designed a comprehensive comparative study against existing climate games. This wasn't just about proving our game was better—it was about understanding <strong>what specific elements of cultural integration drive engagement</strong>.</p>
 
         <h3>Building the Comparison Corpus</h3>
-        
+       
         <div class="card">
             <h4>Research Question</h4>
             <p>What types of climate game mechanics currently exist, and how do they compare to ritual-based interactions?</p>
-            
+           
             <h4>Methodology</h4>
             <ul>
                 <li><strong>Systematic Search</strong>: Searched Google Play, Apple Store, academic databases, Games for Change</li>
@@ -1136,14 +1227,14 @@
         <div class="card">
             <h4>Target Population</h4>
             <p>Practicing Hindus aged 20-55 with varied religiosity levels</p>
-            
+           
             <h4>Recruitment Challenges</h4>
             <ul>
                 <li><strong>Religious Sensitivity</strong>: Many hesitant to participate in "experimental" religious content</li>
                 <li><strong>Cultural Skepticism</strong>: Concerns about academic appropriation of sacred practices</li>
                 <li><strong>Time Commitment</strong>: 3-hour study sessions requiring significant investment</li>
             </ul>
-            
+           
             <h4>Trust-Building Strategies</h4>
             <ul>
                 <li><strong>Community Partnerships</strong>: Recruited through temple groups and religious organizations</li>
@@ -1154,20 +1245,20 @@
         </div>
 
         <div class="stats-grid">
-            <div class="stat-item">
+            <!-- <div class="stat-item">
                 <span class="stat-number">24</span>
                 <span class="stat-label">Participants</span>
-            </div>
+            </div> -->
             <div class="stat-item">
                 <span class="stat-number">15/9</span>
-                <span class="stat-label">Male/Female</span>
+                <span class="stat-label">Participants (M/F)</span>
             </div>
             <div class="stat-item">
                 <span class="stat-number">28.3</span>
                 <span class="stat-label">Average Age</span>
             </div>
             <div class="stat-item">
-                <span class="stat-number">3hrs</span>
+                <span class="stat-number">2hrs</span>
                 <span class="stat-label">Per Session</span>
             </div>
         </div>
@@ -1186,14 +1277,14 @@
                 <p><strong>Key Dimensions</strong>: Accomplishment, Challenge, Playfulness, Guidance, Competition, Social Connection, Immersion</p>
                 <p><strong>Cultural Relevance</strong>: Social connection dimension particularly important for community-oriented cultures</p>
             </div>
-            
+           
             <div class="insight-card">
                 <h4>Player Experience of Need Satisfaction (PENS)</h4>
                 <p><strong>Why This Tool</strong>: Based on Self-Determination Theory, measures fundamental psychological needs</p>
                 <p><strong>Key Dimensions</strong>: Competence, Autonomy, Relatedness</p>
                 <p><strong>Cultural Relevance</strong>: Relatedness dimension captures cultural connection aspects</p>
             </div>
-            
+           
             <div class="insight-card">
                 <h4>Intrinsic Motivation Inventory</h4>
                 <p><strong>Why This Tool</strong>: Measures genuine interest vs. external compliance</p>
@@ -1212,7 +1303,7 @@
                     <p>Climate attitudes and gaming background</p>
                 </div>
             </div>
-            
+           
             <div class="timeline-item">
                 <div class="timeline-number">2</div>
                 <div class="timeline-content">
@@ -1220,7 +1311,7 @@
                     <p>10 games in randomized order using Latin Square design</p>
                 </div>
             </div>
-            
+           
             <div class="timeline-item">
                 <div class="timeline-number">3</div>
                 <div class="timeline-content">
@@ -1228,7 +1319,7 @@
                     <p>Immediate reactions and ratings</p>
                 </div>
             </div>
-            
+           
             <div class="timeline-item">
                 <div class="timeline-number">4</div>
                 <div class="timeline-content">
@@ -1236,7 +1327,7 @@
                     <p>Standardized video to clear mental palate</p>
                 </div>
             </div>
-            
+           
             <div class="timeline-item">
                 <div class="timeline-number">5</div>
                 <div class="timeline-content">
@@ -1253,7 +1344,7 @@
                 <li><strong>Order Effects Control</strong>: Prevented early games from having advantage</li>
                 <li><strong>Fatigue Management</strong>: Balanced cognitive load across session</li>
             </ul>
-            
+           
             <h4>Bias Mitigation</h4>
             <ul>
                 <li><strong>Researcher Blinding</strong>: Different team members conducted surveys vs. interviews</li>
@@ -1273,7 +1364,7 @@
                 <li><strong>Effect Size</strong>: Calculated Cohen's r for practical significance assessment</li>
                 <li><strong>Correction</strong>: Bonferroni adjustment for multiple comparisons</li>
             </ul>
-            
+           
             <h4>Sample Size Justification</h4>
             <ul>
                 <li><strong>Power Analysis</strong>: G*Power calculation for repeated measures ANOVA</li>
@@ -1291,48 +1382,44 @@
         <h3>Quantitative Breakthrough Results</h3>
         <p>The statistical results exceeded even optimistic expectations. Across every major dimension measured, Shloka significantly outperformed traditional climate games:</p>
 
-        <div class="stats-grid">
-            <div class="result-card">
-                <span class="result-percentage">87%</span>
-                <span class="stat-label">Higher Immersion</span>
+        <!-- <div class="results-cards-grid">
+            <div class="results-card">
+                <h4>Higher Immersion</h4>
+                <ul>
+                    <li>Friedman Test: χ²(9, N=24) = 19.78, p < 0.001</li>
+                    <li>Effect Sizes vs. Other Games: r = 0.80 to 0.87 (large effects)</li>
+                    <li>Key Finding: Players felt "transported to another place" and "emotionally impacted by game events"</li>
+                </ul>
+                <p><em>What This Means</em>: Cultural integration didn't just make the game more relatable—it created genuine immersive experiences that traditional climate games struggled to achieve.</p>
             </div>
-            <div class="result-card">
-                <span class="result-percentage">84%</span>
-                <span class="stat-label">Better Guidance</span>
+            <div class="results-card">
+                <h4>Better Guidance</h4>
+                <ul>
+                    <li>Friedman Test: χ²(9, N=24) = 27.98, p < 0.001</li>
+                    <li>Effect Sizes vs. Other Games: r = 0.76 to 0.87 (large effects)</li>
+                    <li>Key Finding: Deity mentors provided more effective guidance than traditional tutorial systems</li>
+                </ul>
             </div>
-            <div class="result-card">
-                <span class="result-percentage">82%</span>
-                <span class="stat-label">Social Connection</span>
+            <div class="results-card">
+                <h4>Social Connection</h4>
+                <ul>
+                    <li>Friedman Test: χ²(9, N=24) = 30.78, p < 0.001</li>
+                    <li>Effect Sizes vs. Other Games: r = 0.73 to 0.87 (large effects)</li>
+                    <li>Key Finding: Players felt "socially involved" and "connected to others" despite single-player gameplay</li>
+                </ul>
+                <p><em>What This Means</em>: Religious elements created sense of community connection that transcended individual gameplay experience.</p>
             </div>
-            <div class="result-card">
-                <span class="result-percentage">78%</span>
-                <span class="stat-label">Greater Novelty</span>
+            <div class="results-card">
+                <h4>Greater Novelty</h4>
+                <ul>
+                    <li>Friedman Test: χ²(9, N=24) = 19.45, p < 0.001</li>
+                    <li>Effect Sizes vs. Other Games: r = 0.78 to 0.87 (large effects)</li>
+                    <li>Key Finding: Players found ritual interactions "fresh" and "new-fashioned"</li>
+                </ul>
             </div>
-        </div>
+        </div> -->
 
-        <h3>Engagement & Immersion Results</h3>
-
-        <div class="card">
-            <h4>Immersion Scale (9 items, 7-point Likert)</h4>
-            <ul>
-                <li><strong>Friedman Test</strong>: χ²(9, N=24) = 19.78, p < 0.001</li>
-                <li><strong>Effect Sizes vs. Other Games</strong>: r = 0.80 to 0.87 (large effects)</li>
-                <li><strong>Key Finding</strong>: Players felt "transported to another place" and "emotionally impacted by game events"</li>
-            </ul>
-            <p><em>What This Means</em>: Cultural integration didn't just make the game more relatable—it created genuine immersive experiences that traditional climate games struggled to achieve.</p>
-        </div>
-
-        <div class="card">
-            <h4>Social Connection Scale (9 items, 7-point Likert)</h4>
-            <ul>
-                <li><strong>Friedman Test</strong>: χ²(9, N=24) = 30.78, p < 0.001</li>
-                <li><strong>Effect Sizes vs. Other Games</strong>: r = 0.73 to 0.87 (large effects)</li>
-                <li><strong>Key Finding</strong>: Players felt "socially involved" and "connected to others" despite single-player gameplay</li>
-            </ul>
-            <p><em>What This Means</em>: Religious elements created sense of community connection that transcended individual gameplay experience.</p>
-        </div>
-
-        <h3>Learning & Motivation Results</h3>
+        <h4>Learning & Motivation Results</h4>
 
         <div class="two-column">
             <div class="card">
@@ -1356,7 +1443,7 @@
 
         <p><em>What This Means</em>: Cultural integration created authentic interest in climate topics rather than dutiful compliance with educational content.</p>
 
-        <h3>User Experience Results</h3>
+        <h4>User Experience Results</h4>
 
         <div class="two-column">
             <div class="card">
@@ -1385,14 +1472,14 @@
             <div class="finding-label">Theme 1</div>
             <h4>Climate Ethics Through Religious Lens</h4>
             <p><strong>The Insight</strong>: Players reframed environmental responsibility from civic duty to sacred obligation.</p>
-            
+           
             <div class="quote">
                 "What I can see is a reminder for myself or maybe any player to treat the climate as holy. For example, since I was a kid, if we ever touched a book or paper with our feet, our parents told us to seek forgiveness, because a book represents Goddess Saraswati and is holy. It's something similar here. Ganesha in the game is right, the Ganges is holy and devotees, the government, should treat it that way."
                 <span class="quote-author">— Participant 2</span>
             </div>
-            
+           
             <p><strong>Deeper Analysis</strong>: This participant connected childhood moral education to environmental ethics—a cognitive bridging that traditional climate games never achieve. The game didn't teach new values; it activated existing moral frameworks.</p>
-            
+           
             <p><strong>Design Implication</strong>: <strong>Cultural resonance works by connecting new behaviors to established moral systems, not by creating entirely new value structures.</strong></p>
         </div>
 
@@ -1400,19 +1487,19 @@
             <div class="finding-label">Theme 2</div>
             <h4>Relating to Climate Consequences</h4>
             <p><strong>The Insight</strong>: Localized climate scenarios affecting familiar sacred places created emotional urgency that abstract global impacts couldn't match.</p>
-            
+           
             <div class="quote">
                 "I watched a few documentaries on climate change; most of them just talk about the Arctic Circle melting, polar bears, glaciers. Which is fine, and I am sad. Even the other games, like one where it shows water level here in Chittorgarh, it's nice to see that, oh, the fort here will be underwater at the end of climate change. But still, other games like the coral bleaching one also show a reef, which I don't think I will ever visit. However, Shloka shows places I know, I have visited, and it's sad to know not 100 years but actually now these holy places are being destroyed."
                 <span class="quote-author">— Participant 1</span>
             </div>
-            
+           
             <p><strong>Deeper Analysis</strong>: The participant distinguished between three levels of climate impact:</p>
             <ol>
                 <li><strong>Distant/Abstract</strong> (Arctic ice, polar bears) - intellectually sad but not personally urgent</li>
                 <li><strong>Nationally Relevant</strong> (Indian forts flooding) - more relatable but still distant</li>
                 <li><strong>Personally Sacred</strong> (temples they've visited) - emotionally urgent and personally meaningful</li>
             </ol>
-            
+           
             <p><strong>Design Implication</strong>: <strong>Emotional engagement requires personal relevance, and for many people, religious spaces carry deeper personal significance than secular locations.</strong></p>
         </div>
 
@@ -1420,14 +1507,14 @@
             <div class="finding-label">Theme 3</div>
             <h4>Motivation Through Granular Climate Actions</h4>
             <p><strong>The Insight</strong>: Culturally-specific, achievable actions felt more motivating than generic environmental advice.</p>
-            
+           
             <div class="quote">
                 "It is November right now, and see how hot it is, so the whole 'do not use the AC' does not apply to me. [...] And 'do not cut trees' is useless advice, because why would I pick an axe and chop trees? These are just textbook suggestions. But disposing of fireworks carefully after Diwali, or not spilling oil in the river when I put my diya—these are things I can work on. These are workable stuff."
                 <span class="quote-author">— Participant 2</span>
             </div>
-            
+           
             <p><strong>Deeper Analysis</strong>: The participant revealed how traditional climate advice fails because it assumes behavioral contexts that don't match their lived reality. In contrast, religiously-contextual advice connected to actual behaviors they perform regularly.</p>
-            
+           
             <p><strong>Design Implication</strong>: <strong>Actionable guidance must connect to users' existing behavioral patterns, not impose entirely new lifestyle requirements.</strong></p>
         </div>
 
@@ -1435,14 +1522,14 @@
             <div class="finding-label">Theme 4</div>
             <h4>Immersive Ritual Experience</h4>
             <p><strong>The Insight</strong>: Physical ritual performance created embodied engagement that passive gameplay couldn't match.</p>
-            
+           
             <div class="quote">
                 "In other games, the outcome is pretty expected, like I scan and I know how much I am going to drown, or I choose a wrong answer I know it's game over. It's the being on your toes part which these games lack; however, in Shloka my back was straight I know what I am specifically doing, like ritual which makes it more immersive, and engaging."
                 <span class="quote-author">— Participant 14</span>
             </div>
-            
+           
             <p><strong>Deeper Analysis</strong>: This participant identified a crucial difference between <strong>cognitive engagement</strong> (thinking about choices) and <strong>embodied engagement</strong> (physical participation). Ritual performance required focused attention and physical presence that created deeper immersion.</p>
-            
+           
             <p><strong>Design Implication</strong>: <strong>Embodied interactions can create more engaging experiences than purely cognitive tasks, especially when the embodied actions carry cultural meaning.</strong></p>
         </div>
 
@@ -1450,14 +1537,14 @@
             <div class="finding-label">Theme 5</div>
             <h4>Community Representation</h4>
             <p><strong>The Insight</strong>: Authentic cultural representation created sense of belonging and recognition that motivated continued engagement.</p>
-            
+           
             <div class="quote">
                 "I think compared to other games, it (Shloka) has the right blend of narrative and things to do. The culture aspect to it makes it more connecting, which almost feels like being seen as a community, in an interactive way. But also at the same time, kind of driving a complex problem like climate change home."
                 <span class="quote-author">— Participant 14</span>
             </div>
-            
+           
             <p><strong>Deeper Analysis</strong>: The participant described feeling "seen as a community"—suggesting that representation goes beyond individual identity to collective recognition. This created motivation not just for personal learning but for community advocacy.</p>
-            
+           
             <p><strong>Design Implication</strong>: <strong>Authentic cultural representation can create community connection even in individual experiences, which may motivate broader social engagement.</strong></p>
         </div>
     </section>
@@ -1474,13 +1561,13 @@
             <div class="insight-number">1</div>
             <h4>Cultural Authenticity Over Cultural Aesthetics</h4>
             <p><strong>The Principle</strong>: Surface-level cultural elements (colors, symbols, music) don't create engagement—authentic cultural practices and values do.</p>
-            
+           
             <p><strong>Evidence from Study</strong>:</p>
             <ul>
                 <li>Games with Indian visual themes but Western interaction patterns showed no engagement improvement</li>
                 <li>Shloka's authentic ritual interactions created 87% higher immersion than culturally-themed but mechanically-generic games</li>
             </ul>
-            
+           
             <p><strong>Application Guide</strong>:</p>
             <ul>
                 <li><strong>Do</strong>: Research actual cultural practices and embed them meaningfully in interactions</li>
@@ -1493,13 +1580,13 @@
             <div class="insight-number">2</div>
             <h4>Values-Based Motivation Over Feature-Based Persuasion</h4>
             <p><strong>The Principle</strong>: Connect new behaviors to existing moral frameworks rather than creating new value systems.</p>
-            
+           
             <p><strong>Evidence from Study</strong>:</p>
             <ul>
                 <li>Participants reframed climate action as religious duty using existing concepts (dharma, seva, devotion)</li>
                 <li>Traditional games trying to teach new environmental values showed minimal motivation increase</li>
             </ul>
-            
+           
             <p><strong>Application Guide</strong>:</p>
             <ul>
                 <li><strong>Do</strong>: Identify users' existing moral frameworks and connect desired behaviors to them</li>
@@ -1512,13 +1599,13 @@
             <div class="insight-number">3</div>
             <h4>Localized Relevance Over Universal Impact</h4>
             <p><strong>The Principle</strong>: Personal/local consequences motivate more than global/abstract impacts.</p>
-            
+           
             <p><strong>Evidence from Study</strong>:</p>
             <ul>
                 <li>Participants showed higher emotional engagement with threats to familiar temples than global climate statistics</li>
                 <li>"Relatedness" scores 82% higher for localized vs. global climate scenarios</li>
             </ul>
-            
+           
             <p><strong>Application Guide</strong>:</p>
             <ul>
                 <li><strong>Do</strong>: Connect global issues to personally meaningful local contexts</li>
@@ -1531,13 +1618,13 @@
             <div class="insight-number">4</div>
             <h4>Embodied Interaction Over Cognitive Processing</h4>
             <p><strong>The Principle</strong>: Physical/ritual interactions create deeper engagement than purely mental tasks.</p>
-            
+           
             <p><strong>Evidence from Study</strong>:</p>
             <ul>
                 <li>Ritual performance created "dual achievement" - cultural accomplishment + learning goal</li>
                 <li>Physical interactions scored 85% higher on accomplishment than click-based interactions</li>
             </ul>
-            
+           
             <p><strong>Application Guide</strong>:</p>
             <ul>
                 <li><strong>Do</strong>: Design interactions that engage multiple senses and require physical participation</li>
@@ -1550,13 +1637,13 @@
             <div class="insight-number">5</div>
             <h4>Mentorship-Based Guidance Over System-Based Instruction</h4>
             <p><strong>The Principle</strong>: Guidance from culturally-respected figures feels more supportive than system tutorials.</p>
-            
+           
             <p><strong>Evidence from Study</strong>:</p>
             <ul>
                 <li>Deity mentors scored 84% higher on "guidance" than traditional tutorial systems</li>
                 <li>Participants described feeling "helped" rather than "instructed"</li>
             </ul>
-            
+           
             <p><strong>Application Guide</strong>:</p>
             <ul>
                 <li><strong>Do</strong>: Identify culturally-respected guidance figures and embed their voice/presence</li>
@@ -1565,65 +1652,7 @@
             </ul>
         </div>
 
-        <h3>Strategic Business Implications</h3>
-
-        <div class="card">
-            <h4>Market Opportunity Validation</h4>
-            <p><strong>Scale of Opportunity</strong>:</p>
-            <ul>
-                <li><strong>Hindu Population</strong>: 1.2 billion globally, with high smartphone adoption in key regions</li>
-                <li><strong>Climate Vulnerability</strong>: Many Hindu-majority regions face severe climate impacts</li>
-                <li><strong>Educational Gap</strong>: Existing climate education doesn't connect with cultural values</li>
-                <li><strong>Engagement Advantage</strong>: 87% improvement in engagement metrics suggests strong product-market fit potential</li>
-            </ul>
-            
-            <p><strong>Expansion Framework</strong>:</p>
-            <ul>
-                <li><strong>Multi-Faith Adaptation</strong>: Research methodology replicable for Islam (1.8B), Buddhism (500M), Christianity (2.4B)</li>
-                <li><strong>Secular Applications</strong>: Cultural integration principles apply to other identity dimensions (ethnicity, nationality, profession)</li>
-                <li><strong>Educational Partnerships</strong>: Religious organizations seeking climate engagement tools</li>
-            </ul>
-        </div>
-
-        <h3>Product Development Roadmap</h3>
-
-        <div class="process-timeline">
-            <div class="timeline-item">
-                <div class="timeline-number">0-6</div>
-                <div class="timeline-content">
-                    <h3>Immediate Applications (months)</h3>
-                    <ul>
-                        <li><strong>Climate Game Portfolio</strong>: Develop games for other religious traditions using established framework</li>
-                        <li><strong>Educational Licensing</strong>: Partner with faith-based schools and organizations</li>
-                        <li><strong>Research Publication</strong>: Academic validation increases credibility and adoption</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-number">6-18</div>
-                <div class="timeline-content">
-                    <h3>Medium-term Scaling (months)</h3>
-                    <ul>
-                        <li><strong>Platform Development</strong>: Create tools enabling communities to customize cultural content</li>
-                        <li><strong>Corporate Training</strong>: Apply cultural responsiveness principles to workplace climate education</li>
-                        <li><strong>Policy Applications</strong>: Inform government climate communication strategies</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-number">18+</div>
-                <div class="timeline-content">
-                    <h3>Long-term Vision (months)</h3>
-                    <ul>
-                        <li><strong>Cultural AI Systems</strong>: Develop algorithms that adapt content to users' cultural contexts</li>
-                        <li><strong>Global Climate Network</strong>: Connect culturally-specific climate actions across communities worldwide</li>
-                        <li><strong>Behavioral Change Platform</strong>: Apply insights to other prosocial behavior domains</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+       
     </section>
 
     <section id="impact" class="container">
@@ -1641,7 +1670,7 @@
                     <li>2 Workshop Papers on Cultural Game Design</li>
                 </ul>
             </div>
-            
+           
             <div class="card">
                 <h4>Recognition</h4>
                 <ul>
@@ -1673,7 +1702,7 @@
                     <li>Statistical analysis (R, SPSS)</li>
                 </ul>
             </div>
-            
+           
             <div class="insight-card">
                 <h4>Design Skills</h4>
                 <ul>
@@ -1683,7 +1712,7 @@
                     <li>Narrative design for education</li>
                 </ul>
             </div>
-            
+           
             <div class="insight-card">
                 <h4>Technical Skills</h4>
                 <ul>
@@ -1695,30 +1724,8 @@
             </div>
         </div>
 
-        <h3>Key Learnings & Reflections</h3>
-        
-        <div class="card">
-            <h4>On Cultural Design</h4>
-            <p>This project fundamentally changed how I approach design for diverse audiences. I learned that true cultural responsiveness goes beyond translation or visual theming—it requires deep understanding of values, practices, and meaning-making systems. The most powerful designs don't impose new frameworks but activate existing ones.</p>
-        </div>
+      
 
-        <div class="card">
-            <h4>On Research Ethics</h4>
-            <p>Working with religious communities taught me the importance of collaborative rather than extractive research. The best insights came not from observing at a distance but from genuine partnership and mutual respect. This experience shapes how I approach all stakeholder research.</p>
-        </div>
-
-        <div class="card">
-            <h4>On Impact Design</h4>
-            <p>Climate change is a global challenge requiring local solutions. This project showed me that effective behavior change design must meet people where they are—in their values, their practices, and their communities. Universal solutions often fail because they ignore the particular contexts that give meaning to human action.</p>
-        </div>
-
-        <h3>Future Directions</h3>
-        <p>Shloka represents just the beginning of culturally-responsive climate education. The framework and principles developed through this research have applications far beyond Hindu communities or even religious contexts. As we face increasingly complex global challenges, the need for culturally-intelligent design solutions will only grow.</p>
-
-        <div class="quote">
-            "The future of UX isn't just user-centered—it's culture-centered. When we design with deep cultural understanding, we don't just create better products. We create possibilities for meaningful change that resonates with who people really are."
-            <span class="quote-author">— Personal reflection on the project</span>
-        </div>
     </section>
 
     <footer>
@@ -1751,15 +1758,15 @@
                 navbar.classList.remove('scrolled');
             }
         });
-        
+       
         // Mobile menu toggle
         const menuToggle = document.querySelector('.menu-toggle');
         const navbarNav = document.querySelector('.navbar-nav');
-        
+       
         menuToggle.addEventListener('click', () => {
             navbarNav.classList.toggle('active');
         });
-        
+       
         // Close mobile menu when clicking outside
         document.addEventListener('click', (e) => {
             if (!menuToggle.contains(e.target) && !navbarNav.contains(e.target)) {
