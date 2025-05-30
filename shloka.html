@@ -5,7 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shloka - Culturally-Responsive Climate Education | UX Case Study</title>
     <style>
-        :root{ --black: #000000;
+        :root {
+        /* Typography */
+        --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        --font-mono: "SF Mono", Monaco, "Inconsolata", "Fira Code", "Fira Mono", "Roboto Mono", Courier New, Courier, monospace;
+
+        /* Colors - Based on AstraVerse original, adjusted to Shloka's feel */
+        --primary-color: #FF6B35; /* AstraVerse Accent Orange */
+        --primary-color-light: #FFF4F0;
+        --primary-color-darker: #E05A2A; /* Darker version of primary */
+
+         --black: #000000;
         --gray-900: #111111;
         --gray-800: #1a1a1a;
         --gray-700: #333333;
@@ -16,7 +26,56 @@
         --gray-200: #cccccc;
         --gray-100: #e6e6e6;
         --gray-50: #f5f5f5;
-        --white: #ffffff;}
+        --white: #ffffff;
+
+        --secondary-color: #0066CC; /* AstraVerse Accent Blue */
+        --secondary-color-light: #E6F2FF; /* Light version of secondary */
+        
+        --accent-green: #00C896;
+        --accent-green-light: #E6FFF9;
+        --accent-purple: #6B46C1;
+        --accent-purple-light: #F3F0FF;
+
+        --text-color: #1a1a1a; /* Dark text */
+        --text-color-dark: #333333; /* General paragraph text */
+        --text-color-light: #666; /* Lighter text for meta/subtitles */
+        --text-color-lighter: #999; /* Even lighter text */
+        --border-color: #e0e0e0; /* Light border */
+        --bg-light: #f8f9fa; /* Light background for sections/cards */
+        --bg-white: #ffffff; /* White background */
+
+        /* Spacing - Comprehensive set, values adjusted to Shloka's density */
+        --spacing-xs: 0.5rem;   /* 8px */
+        --spacing-sm: 1rem;     /* 16px */
+        --spacing-md: 1.5rem;   /* 24px */
+        --spacing-lg: 2rem;     /* 32px */
+        --spacing-xl: 3rem;     /* 48px */
+        --spacing-2xl: 4rem;    /* 64px */
+        --spacing-3xl: 5rem;    /* 80px */
+
+       
+
+        /* Border Radius - Adjusted to Shloka's slightly smaller radii */
+        --border-radius-sm: 4px;
+        --border-radius-md: 8px;
+        --border-radius-lg: 12px; /* For larger elements like hero image */
+        --border-radius-xl: 16px; /* For main sections/containers */
+
+        /* Shadows - Consistent with Shloka */
+        --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+        --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.08); /* Used for hero image */
+
+        /* Layout */
+        --max-width: 1200px; /* Wide container max-width */
+        --content-max-width: 800px; /* Main content max-width */
+        --nav-height: 64px;
+
+        /* Transitions - Consistent with AstraVerse original */
+        --transition-fast: 150ms ease;
+        --transition-base: 250ms ease;
+        --transition-slow: 350ms ease;
+    }
         * {
             margin: 0;
             padding: 0;
@@ -67,31 +126,37 @@
         }
        
         /* --- Navbar Styles --- */
-        .navbar {
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-            padding: var(--spacing-xs) 0;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            transition: box-shadow var(--transition-speed) ease;
-        }
+       
+    .navbar {
+        background: rgba(255, 255, 255, 0.8); /* Dark background */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255,255,255,0.1); /* Light border for contrast */
+        padding: var(--spacing-xs) 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        transition: box-shadow var(--transition-base) ease;
+        height: var(--nav-height);
+        display: flex;
+        align-items: center;
+    }
        
         .navbar.scrolled { 
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); 
         }
        
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: var(--max-width);
-            margin: 0 auto;
-            padding: 0 var(--spacing-md);
-        }
+      .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 var(--spacing-md);
+        width: 100%;
+    }
        
         .nav-logo { 
             font-weight: 700; 
@@ -136,7 +201,18 @@
             border-radius: var(--border-radius-md); 
             transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease; 
         }
-       
+
+       .nav-cta {
+    margin-left: var(--space-sm);
+    padding: 0.5rem 1.5rem;
+    background-color: var(--gray-900);
+    color: var(--white);
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all var(--transition-base);
+}
+
+
         .nav-link-button:hover, 
         .nav-link-button:focus { 
             background-color: black; 
@@ -158,7 +234,7 @@
         /* Hero Section */
         .hero {
             margin-top: 80px;
-            padding: 80px 0;
+            padding: 80px 0 40px;
             text-align: center;
         }
        
@@ -640,6 +716,231 @@
             color: #999;
             font-size: 14px;
         }
+
+        /* TL;DR Section Styles */
+        .tldr-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            position: relative;
+            padding: 80px 0;
+            margin-bottom: 0;
+            overflow: hidden;
+        }
+
+        .tldr-section::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(26, 26, 26, 0.03) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(30px, -30px) rotate(180deg); }
+        }
+
+        .tldr-header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tldr-header h2 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+            color: #1a1a1a;
+        }
+
+        .tldr-header p {
+            font-size: 20px;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .tldr-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tldr-card {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
+            padding: 32px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tldr-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #1a1a1a 0%, #333333 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tldr-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+            border-color: rgba(0, 0, 0, 0.12);
+        }
+
+        .tldr-card:hover::before {
+            opacity: 1;
+        }
+
+        .tldr-card h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            margin-top: 0;
+            color: #1a1a1a;
+        }
+
+        .tldr-card p {
+            color: #444;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .tldr-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tldr-card li {
+            color: #666;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .tldr-card li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        .key-insights {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
+            padding: 48px;
+            margin-bottom: 60px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+            position: relative;
+            z-index: 1;
+        }
+
+        .key-insights h3 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            text-align: center;
+            color: #1a1a1a;
+        }
+
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .insight-item {
+            background: rgba(248, 249, 250, 0.7);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        .insight-item:hover {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .insight-item h4 {
+            color: #1a1a1a;
+            font-size: 20px;
+            margin-bottom: 12px;
+            margin-top: 0;
+            font-weight: 600;
+        }
+
+        .insight-item p {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .cta-banner {
+            text-align: center;
+            padding: 48px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-banner h3 {
+            font-size: 28px;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+
+        .cta-banner p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 24px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 32px;
+            background: #1a1a1a;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            background: #333333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
        
         /* Responsive Navbar */
         @media (max-width: 768px) {
@@ -694,29 +995,50 @@
             }
            
             .stats-grid,
-            .results-cards-grid { /* Apply to both stat and results grid for consistency */
+            .results-cards-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .tldr-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .insight-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tldr-header h2 {
+                font-size: 32px;
+            }
+
+            .key-insights {
+                padding: 32px 24px;
             }
         }
     </style>
 </head>
 <body>
    
-  <header class="navbar" id="navbar">
-    <div class="nav-container">
-        <a href="./index.html" class="nav-logo">Sai Maram</a>
-        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
-            <i class="fas fa-bars"></i>
-        </button>
-        <nav class="navbar-nav" id="navbar-nav">
-            <a href="./index.html#uxr" class="nav-link">Case Studies</a>
-            <a href="./index.html#wex" class="nav-link">Experience</a>
-            <a href="./index.html#res" class="nav-link">Research</a>
-            <a href="./about.html" class="nav-link">About</a>
-            <a href="cv.pdf" target="_blank" class="nav-link nav-link-button">Resume</a>
-        </nav>
-    </div>
-</header>
+  
+   <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Sai Maram</a>
+            
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="nav-links" id="nav-links">
+                <a href="index.html#projects" class="nav-link">Projects</a>
+                <a href="index.html#experience" class="nav-link">Experience</a>
+                <a href="index.html/#research" class="nav-link">Research</a>
+                <a href="./about.html" class="nav-link">About</a>
+                <a href="cv.pdf" target="_blank" class="nav-link nav-cta">Resume</a>
+
+            </div>
+        </div>
+    </nav>
+
     <section class="hero">
         <div class="container">
             <h1>Shloka: When Faith Meets Climate Action</h1>
@@ -732,6 +1054,90 @@
                 <img src="Group789.png" alt="Game designers participating in a design workshop using card-based system">
                 <figcaption>Game designers engaging with the AstraVerse design system during a participatory workshop.</figcaption>
             </figure>
+        </div>
+    </section>
+
+    <!-- NEW TL;DR SECTION -->
+    <section class="tldr-section">
+        <div class="wide-container">
+            <div class="tldr-header">
+                <h2>TL;DR: Why This Case Study Matters</h2>
+                <p>Cultural authenticity drives 87% higher engagement than generic design</p>
+            </div>
+
+            <div class="tldr-grid">
+                <div class="tldr-card">
+                    <h3>🎯 The Problem</h3>
+                    <p>1.2 billion Hindus worldwide face climate impacts, yet zero climate education games speak their cultural language.</p>
+                    <ul>
+                        <li>Generic "save the polar bears" messaging doesn't resonate</li>
+                        <li>Western-centric solutions ignore cultural contexts</li>
+                        <li>Religious values that could motivate action remain untapped</li>
+                    </ul>
+                </div>
+
+                <div class="tldr-card">
+                    <h3>🔬 My Approach</h3>
+                    <p>10-month ethnographic study + participatory design with Hindu communities</p>
+                    <ul>
+                        <li>Fieldwork at 2 major pilgrimage sites (50k+ daily visitors)</li>
+                        <li>412 photos, 43 videos documenting climate-religion intersection</li>
+                        <li>Co-design with religious scholars to ensure authenticity</li>
+                    </ul>
+                </div>
+
+                <div class="tldr-card">
+                    <h3>💡 The Solution</h3>
+                    <p>Shloka - First climate game integrating authentic Hindu rituals with environmental education</p>
+                    <ul>
+                        <li>Real ritual interactions (mudras, mantras, breathing)</li>
+                        <li>Deities as mentors teaching climate science</li>
+                        <li>Localized climate impacts on sacred spaces</li>
+                    </ul>
+                </div>
+
+                <div class="tldr-card">
+                    <h3>📊 Key Results</h3>
+                    <p>Comparative study with 24 participants testing 10 climate games</p>
+                    <ul>
+                        <li>87% higher immersion than traditional games</li>
+                        <li>84% better guidance scores</li>
+                        <li>Players reframed climate action as "sacred duty"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="key-insights">
+                <h3>🔑 5 Design Principles for Culturally-Responsive UX</h3>
+                <div class="insight-grid">
+                    <div class="insight-item">
+                        <h4>1. Authenticity > Aesthetics</h4>
+                        <p>Surface-level cultural themes fail. Embed actual cultural practices into core interactions.</p>
+                    </div>
+                    <div class="insight-item">
+                        <h4>2. Values > Features</h4>
+                        <p>Connect new behaviors to existing moral frameworks rather than creating new value systems.</p>
+                    </div>
+                    <div class="insight-item">
+                        <h4>3. Local > Global</h4>
+                        <p>Personal consequences motivate more than abstract global impacts.</p>
+                    </div>
+                    <div class="insight-item">
+                        <h4>4. Embodied > Cognitive</h4>
+                        <p>Physical ritual interactions create deeper engagement than mental tasks.</p>
+                    </div>
+                    <div class="insight-item">
+                        <h4>5. Mentorship > Instruction</h4>
+                        <p>Culturally-respected figures provide better guidance than system tutorials.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="cta-banner">
+                <h3>Want the Full Story?</h3>
+                <p>Dive deep into the ethnographic fieldwork, technical implementation, and research methodology</p>
+                <a href="#challenge" class="cta-button">Read Complete Case Study</a>
+            </div> -->
         </div>
     </section>
 
@@ -752,9 +1158,10 @@
                     <h4><i class="fa-solid fa-users"></i> Team</h4>
                     <ul>
                         <li>1 Researcher (Myself)</li>
-                        <li>1 Artist</li>
+                        <li>1 Designer (Myself)</li>
+                        <li>1 Developer</li>
                         <li>2 Faculty Advisors</li>
-                        <li>(Co-authors on paper: J. Pfau, J.B. Dodechani, M. Seif El-Nasr)</li>
+                       
                     </ul>
                 </div>
                 <div class="overview-item">
@@ -1245,10 +1652,6 @@
         </div>
 
         <div class="stats-grid">
-            <!-- <div class="stat-item">
-                <span class="stat-number">24</span>
-                <span class="stat-label">Participants</span>
-            </div> -->
             <div class="stat-item">
                 <span class="stat-number">15/9</span>
                 <span class="stat-label">Participants (M/F)</span>
@@ -1381,43 +1784,6 @@
 
         <h3>Quantitative Breakthrough Results</h3>
         <p>The statistical results exceeded even optimistic expectations. Across every major dimension measured, Shloka significantly outperformed traditional climate games:</p>
-
-        <!-- <div class="results-cards-grid">
-            <div class="results-card">
-                <h4>Higher Immersion</h4>
-                <ul>
-                    <li>Friedman Test: χ²(9, N=24) = 19.78, p < 0.001</li>
-                    <li>Effect Sizes vs. Other Games: r = 0.80 to 0.87 (large effects)</li>
-                    <li>Key Finding: Players felt "transported to another place" and "emotionally impacted by game events"</li>
-                </ul>
-                <p><em>What This Means</em>: Cultural integration didn't just make the game more relatable—it created genuine immersive experiences that traditional climate games struggled to achieve.</p>
-            </div>
-            <div class="results-card">
-                <h4>Better Guidance</h4>
-                <ul>
-                    <li>Friedman Test: χ²(9, N=24) = 27.98, p < 0.001</li>
-                    <li>Effect Sizes vs. Other Games: r = 0.76 to 0.87 (large effects)</li>
-                    <li>Key Finding: Deity mentors provided more effective guidance than traditional tutorial systems</li>
-                </ul>
-            </div>
-            <div class="results-card">
-                <h4>Social Connection</h4>
-                <ul>
-                    <li>Friedman Test: χ²(9, N=24) = 30.78, p < 0.001</li>
-                    <li>Effect Sizes vs. Other Games: r = 0.73 to 0.87 (large effects)</li>
-                    <li>Key Finding: Players felt "socially involved" and "connected to others" despite single-player gameplay</li>
-                </ul>
-                <p><em>What This Means</em>: Religious elements created sense of community connection that transcended individual gameplay experience.</p>
-            </div>
-            <div class="results-card">
-                <h4>Greater Novelty</h4>
-                <ul>
-                    <li>Friedman Test: χ²(9, N=24) = 19.45, p < 0.001</li>
-                    <li>Effect Sizes vs. Other Games: r = 0.78 to 0.87 (large effects)</li>
-                    <li>Key Finding: Players found ritual interactions "fresh" and "new-fashioned"</li>
-                </ul>
-            </div>
-        </div> -->
 
         <h4>Learning & Motivation Results</h4>
 

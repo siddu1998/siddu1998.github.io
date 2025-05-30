@@ -1,430 +1,902 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>OPM Viz - UX Case Study</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="Group 116.png"> <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        /* --- Global Styles & Variables (Copied from previous revamp) --- */
-        :root {
-            --primary-font: "Inter", system-ui, sans-serif;
-            --heading-font: "Inter", system-ui, sans-serif;
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OPM Viz - UX Case Study</title>
+    <link rel="icon" href="Group 116.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    /* --- Global Styles & Variables (Adapted from AstraVerse) --- */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    :root {
+        /* Typography */
+        --font-family: 'Inter', -apple-system, BlinkMacMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        --font-mono: "SF Mono", Monaco, "Inconsolata", "Fira Code", "Fira Mono", "Roboto Mono", Courier New, Courier, monospace;
+
+        /* Colors - Adapted for Shloka's orange accent, but with AstraVerse's neutral base */
+        --primary-color: #F39F5A; /* Shloka's Accent Orange */
+        --primary-color-light: #FFF8F0; /* Lighter version for backgrounds */
+        --primary-color-darker: #e08e4a; /* Darker version of primary */
+
+        --black: #000000;
+        --gray-900: #111111;
+        --gray-800: #1a1a1a;
+        --gray-700: #333333;
+        --gray-600: #4d4d4d;
+        --gray-500: #666666;
+        --gray-400: #808080;
+        --gray-300: #999999;
+        --gray-200: #cccccc;
+        --gray-100: #e6e6e6;
+        --gray-50: #f5f5f5;
+        --white: #ffffff;
+
+        --secondary-color: #0066CC; /* Original AstraVerse blue, kept for consistency if needed */
+        --secondary-color-light: #E6F2FF; /* Light version of secondary */
+        
+        --accent-green: #00C896;
+        --accent-green-light: #E6FFF9;
+        --accent-purple: #6B46C1;
+        --accent-purple-light: #F3F0FF;
+
+        --text-color: #1a1a1a; /* Dark text */
+        --text-color-dark: #333333; /* General paragraph text */
+        --text-color-light: #666; /* Lighter text for meta/subtitles */
+        --text-color-lighter: #999; /* Even lighter text */
+        --border-color: #e0e0e0; /* Light border */
+        --bg-light: #f8f9fa; /* Light background for sections/cards */
+        --bg-white: #ffffff; /* White background */
+
+        /* Spacing - AstraVerse values */
+        --spacing-xs: 0.5rem;   /* 8px */
+        --spacing-sm: 1rem;     /* 16px */
+        --spacing-md: 1.5rem;   /* 24px */
+        --spacing-lg: 2rem;     /* 32px */
+        --spacing-xl: 3rem;     /* 48px */
+        --spacing-2xl: 4rem;    /* 64px */
+        --spacing-3xl: 5rem;    /* 80px */
+
+        /* Border Radius - AstraVerse values */
+        --border-radius-sm: 4px;
+        --border-radius-md: 8px;
+        --border-radius-lg: 12px; /* For larger elements like hero image */
+        --border-radius-xl: 16px; /* For main sections/containers */
+
+        /* Shadows - AstraVerse values */
+        --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+        --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.08); /* Used for hero image */
+
+        /* Layout */
+        --max-width: 1200px; /* Wide container max-width */
+        --content-max-width: 800px; /* Main content max-width */
+        --nav-height: 64px;
+
+        /* Transitions */
+        --transition-fast: 150ms ease;
+        --transition-base: 250ms ease;
+        --transition-slow: 350ms ease;
+    }
+
+    html {
+        font-size: 16px;
+        scroll-behavior: smooth;
+        scroll-padding-top: calc(var(--nav-height) + var(--spacing-md));
+    }
+
+    body {
+        font-family: var(--font-family);
+        font-size: 1rem;
+        line-height: 1.6;
+        color: var(--text-color);
+        background-color: var(--bg-white);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* --- Typography --- */
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        margin-bottom: var(--spacing-md);
+        color: var(--text-color);
+    }
+
+    h1 { 
+        font-size: 3.5rem; 
+        font-weight: 700; 
+        margin-bottom: var(--spacing-md); 
+    }
+    h2 { 
+        font-size: 2.5rem; 
+        font-weight: 600; 
+        margin-bottom: var(--spacing-md); 
+    }
+    h3 { 
+        font-size: 1.5rem; 
+        margin-top: var(--spacing-lg); /* Slightly more space above subheaders */
+    }
+    h4 { 
+        font-size: 1.25rem; 
+        margin-top: var(--spacing-md); 
+    }
+    h5 { font-size: 1rem; }
+
+    p {
+        margin-bottom: var(--spacing-md);
+        color: var(--text-color-dark);
+    }
+
+    a {
+        color: var(--primary-color); /* Adjusted to Shloka's primary-color */
+        text-decoration: none;
+        transition: color var(--transition-base);
+    }
+
+    a:hover {
+        color: var(--primary-color-darker); /* Adjusted to Shloka's primary-color-darker */
+    }
+
+    strong {
+        font-weight: 600;
+        color: var(--text-color);
+    }
+
+    ul, ol {
+        margin-left: var(--spacing-lg);
+        margin-bottom: var(--spacing-md);
+        color: var(--text-color-dark);
+    }
+
+    li {
+        margin-bottom: var(--spacing-xs);
+        color: var(--text-color-dark);
+    }
+
+    hr {
+        border: none;
+        border-top: 1px solid var(--border-color);
+        margin: var(--spacing-2xl) 0;
+    }
+
+    /* --- Container --- */
+    .container {
+        max-width: var(--content-max-width);
+        margin: 0 auto;
+        padding: 0 var(--spacing-md);
+    }
+
+    .wide-container {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 var(--spacing-md);
+    }
+
+    /* --- Navbar Styles (from AstraVerse) --- */
+    .navbar {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        padding: var(--spacing-xs) 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        transition: box-shadow var(--transition-base) ease;
+        height: var(--nav-height);
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar.scrolled {
+        box-shadow: var(--shadow-sm);
+    }
+
+    .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 var(--spacing-md);
+        width: 100%;
+    }
+ 
+    .nav-logo {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--gray-900);
+        letter-spacing: -0.02em;
+    }
+
+    .nav-logo:hover {
+        text-decoration: none;
+        color: var(--primary-color);
+    }
+
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 1rem;;
+    }
+
+    .nav-link {
+        color: var(--gray-600);
+        text-decoration: none;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--border-radius-sm);
+        font-weight: 500;
+        transition: color var(--transition-base) ease, background-color var(--transition-base) ease;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+        color: var(--gray-900);
+        background-color: var(--gray-50);
+    }
+
+    .nav-cta {
+        margin-left: var(--space-sm);
+        padding: 0.5rem 1.5rem;
+        background-color: var(--gray-900);
+        color: var(--white);
+        border-radius: 6px;
+        font-weight: 500;
+        transition: all var(--transition-base);
+    }
+
+    .nav-cta:hover {
+        background-color: var(--gray-50);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .nav-cta:focus {
+        background-color: var(--gray-800);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.8rem;
+        color: var(--gray-900); /* Adjusted to match text color, not white */
+        cursor: pointer;
+        padding: var(--spacing-xs);
+    }
+
+    /* --- Hero Section (Adapted from AstraVerse) --- */
+    .hero {
+        margin-top: var(--nav-height); 
+        padding: var(--spacing-3xl) 0 var(--spacing-xl); 
+        text-align: center;
+    }
+
+    .hero .meta { 
+        font-size: 0.95rem;
+        color: var(--text-color-lighter);
+        margin-bottom: var(--spacing-sm);
+        display: block; 
+    }
+
+    .hero h1 {
+        font-size: 3.5rem; 
+        font-weight: 700;
+        line-height: 1.1;
+        margin-bottom: var(--spacing-md);
+        letter-spacing: -0.03em;
+    }
+
+    .hero .subtitle {
+        font-size: 1.25rem;
+        color: var(--text-color-light);
+        font-weight: 400;
+        max-width: 600px;
+        margin: 0 auto var(--spacing-lg);
+    }
+
+    .hero-meta {
+        display: flex;
+        gap: var(--spacing-xl);
+        justify-content: center;
+        font-size: 0.95rem;
+        color: var(--text-color-lighter);
+    }
+
+    .hero-meta p { 
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 0; 
+    }
+
+    /* --- Section Styles (Adapted from AstraVerse) --- */
+    section {
+        padding: var(--spacing-2xl) 0;
+    }
+
+    .section-header {
+        margin-bottom: var(--spacing-xl);
+        text-align: left; 
+    }
+
+    .section-header h2 {
+        font-size: 2.5rem; 
+        font-weight: 700;
+        margin-bottom: var(--spacing-md);
+        letter-spacing: -0.02em;
+        display: flex; 
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+
+    .section-subheader { 
+        font-size: 1.5rem; 
+        font-weight: 600;
+        margin-top: var(--spacing-xl);
+        margin-bottom: var(--spacing-md);
+    }
+
+    /* --- Overview Section (Adapted from AstraVerse) --- */
+    .overview {
+        background: var(--bg-light);
+        padding: var(--spacing-xl) 0;
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .overview-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+        gap: var(--spacing-lg);
+        margin-top: var(--spacing-lg);
+    }
+
+    .overview-item h4 { 
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: var(--spacing-xs);
+        color: var(--text-color-lighter);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .overview-item ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .overview-item li {
+        font-size: 0.95rem;
+        color: var(--text-color-dark);
+        margin-bottom: var(--spacing-xs);
+    }
     
-            --primary-color: #F39F5A; /* Accent orange */
-            --primary-color-darker: #e08e4a; /* Darker shade */
-            --secondary-color: #f8f9fa; /* Light background */
-            --text-color: #343a40; /* Dark grey for text */
-            --text-color-light: #6c757d; /* Lighter grey for descriptions */
-            --border-color: #dee2e6;
-            --card-bg: #ffffff;
-            --shadow-color: rgba(0, 0, 0, 0.05); /* Softer shadow */
-            --shadow-hover-color: rgba(0, 0, 0, 0.1);
-    
-            --border-radius-sm: 4px;
-            --border-radius-md: 8px;
-            --border-radius-lg: 12px;
-    
-            --spacing-xs: 0.5rem;  /* 8px */
-            --spacing-sm: 1rem;    /* 16px */
-            --spacing-md: 1.5rem;  /* 24px */
-            --spacing-lg: 2.5rem;  /* 40px */
-            --spacing-xl: 4rem;    /* 64px */
-    
-            --max-width: 1100px; /* Slightly narrower for case study text */
-            --transition-speed: 0.3s;
-        }
-    
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-    
+    .overview-item li:last-child {
+        margin-bottom: 0;
+    }
+
+    /* --- Cards (Adapted from AstraVerse) --- */
+    .card {
+        background: var(--bg-light);
+        padding: var(--spacing-lg);
+        border-radius: var(--border-radius-md);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .card h4 {
+        margin-top: 0;
+        font-size: 1.25rem; 
+        margin-bottom: var(--spacing-md);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* --- TL;DR Section Specific Styles (Adapted from AstraVerse with screenshot inspiration) --- */
+    .tldr-section {
+        padding: var(--spacing-2xl) 0;
+        text-align: center;
+    }
+
+    .tldr-section .section-header {
+        text-align: center; 
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .tldr-section .section-header h2 {
+        font-size: 2.2rem; 
+        font-weight: 700;
+        margin-bottom: var(--spacing-sm);
+        letter-spacing: -0.02em;
+        justify-content: center; 
+    }
+
+    .tldr-subtitle {
+        font-size: 1.15rem;
+        color: var(--text-color-light);
+        max-width: 700px;
+        margin: 0 auto var(--spacing-xl);
+    }
+
+    .tldr-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: var(--spacing-lg);
+        margin-top: var(--spacing-xl);
+    }
+
+    .tldr-card {
+        background: var(--bg-white);
+        border: 1px solid var(--border-color);
+        padding: var(--spacing-lg);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+        text-align: left;
+    }
+
+    .tldr-card h4 {
+        font-size: 1.1rem; 
+        font-weight: 600;
+        margin-bottom: var(--spacing-sm);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem; 
+        color: var(--gray-800);
+    }
+
+    .tldr-card ul {
+        list-style: none; 
+        padding: 0;
+        margin: 0;
+    }
+
+    .tldr-card li {
+        font-size: 0.95rem;
+        color: var(--text-color-dark);
+        margin-bottom: var(--spacing-xs);
+        position: relative;
+        padding-left: var(--spacing-md); 
+    }
+
+    .tldr-card li:last-child {
+        margin-bottom: 0;
+    }
+
+    .tldr-card li::before {
+        content: '→'; 
+        position: absolute;
+        left: 0;
+        color: var(--primary-color); /* Primary color for the arrow */
+        font-weight: 600;
+    }
+
+    .tldr-card .key-outcome-list li::before {
+        content: '\2022'; /* Regular bullet for key outcomes */
+        color: var(--accent-green); /* Green for key outcomes */
+        font-size: 1.2em; 
+        top: 0; 
+    }
+
+    /* Specific colors for TL;DR icons based on screenshot */
+    .tldr-card h4 .fa-circle-exclamation { color: #E74C3C; /* Red for Problem */ }
+    .tldr-card h4 .fa-flask { color: #3498DB; /* Blue for Approach */ }
+    .tldr-card h4 .fa-lightbulb { color: #F39C12; /* Orange for Solution */ }
+    .tldr-card h4 .fa-chart-line { color: #27AE60; /* Green for Key Results */ }
+
+
+    /* --- Video Section --- */
+    .video-section {
+        padding: var(--spacing-xl) 0;
+        text-align: center;
+    }
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+        height: 0;
+        overflow: hidden;
+        max-width: 800px; /* Limit video width */
+        margin: var(--spacing-md) auto;
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+    }
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+    .video-caption {
+        font-size: 0.875rem;
+        color: var(--text-color-light);
+        margin-top: var(--spacing-xs);
+    }
+
+    /* --- Problem/Approach Section (Two-Column Layout) --- */
+    .two-column-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: var(--spacing-lg);
+        margin-top: var(--spacing-lg);
+        margin-bottom: var(--spacing-xl);
+    }
+    .two-column-section h3 {
+        margin-top: 0;
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: var(--spacing-xs);
+        display: inline-block; /* Makes border only as wide as text */
+        margin-bottom: var(--spacing-md);
+    }
+
+    /* --- Insights & Findings (Adapted from AstraVerse) --- */
+    .styled-figure {
+        margin: var(--spacing-lg) 0;
+        text-align: center;
+    }
+
+    .styled-figure img {
+        max-width: 100%;
+        height: auto;
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+        display: block;
+        margin: 0 auto;
+    }
+
+    .styled-figure figcaption {
+        font-size: 0.875rem;
+        color: var(--text-color-light);
+        margin-top: var(--spacing-xs);
+    }
+
+    .insight-image { 
+        width: 100%;
+        height: auto;
+        display: block;
+        margin: var(--spacing-lg) auto;
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .quote {
+        border-left: 4px solid var(--primary-color); /* Primary color for quotes */
+        padding-left: var(--spacing-md);
+        margin: var(--spacing-lg) 0;
+        font-style: italic;
+        color: var(--text-color-dark);
+        background-color: var(--primary-color-light); /* Light background for quotes */
+        border-radius: var(--border-radius-sm);
+        padding-top: var(--spacing-sm);
+        padding-bottom: var(--spacing-sm);
+    }
+
+    .quote-author {
+        display: block;
+        margin-top: var(--spacing-xs);
+        font-style: normal;
+        font-size: 0.875rem;
+        color: var(--text-color-light);
+    }
+
+    /* Video cards for "The Solution" section */
+    .video-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: var(--spacing-lg);
+        margin-top: var(--spacing-lg);
+        margin-bottom: var(--spacing-xl);
+    }
+
+    .video-card {
+        background: var(--bg-light);
+        padding: var(--spacing-sm);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* Pushes figcaption to bottom */
+    }
+
+    .video-card figure {
+        margin: 0; /* Override default figure margin */
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .video-card .video-container {
+        flex-grow: 1; /* Allow video container to take available space */
+        margin: 0 0 var(--spacing-sm) 0; /* Space below video, no margin on sides/top */
+        box-shadow: none; /* Remove extra shadow */
+        border-radius: var(--border-radius-sm); /* Slightly less rounded for embed */
+    }
+
+    /* Specific style for instructor quote spans */
+    .quote-inline {
+        color: var(--primary-color-darker);
+        font-weight: 500;
+        font-style: italic;
+    }
+
+
+    /* --- Footer (Adapted from AstraVerse) --- */
+    .footer {
+        padding: var(--spacing-2xl) 0;
+        border-top: 1px solid var(--border-color);
+        text-align: center;
+        color: var(--text-color-lighter);
+        font-size: 0.875rem;
+    }
+
+    .footer p {
+        margin-bottom: var(--spacing-xs);
+        color: var(--text-color-lighter); 
+    }
+
+    .footer p:last-child {
+        margin-bottom: 0;
+    }
+
+    .footer a {
+        color: var(--primary-color);
+    }
+
+    .footer a:hover {
+        color: var(--primary-color-darker);
+    }
+
+
+    /* --- Responsive (Adapted from AstraVerse) --- */
+    @media (max-width: 768px) {
         html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 80px; /* Adjust based on fixed navbar height */
+            font-size: 15px;
         }
-    
-        body {
-            font-family: var(--primary-font);
-            color: var(--text-color);
-            background-color: #fff;
-            line-height: 1.7;
-            font-size: 17px; /* Slightly larger base font for readability */
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            padding-top: 70px; /* Add padding to prevent content going under fixed navbar */
-        }
-    
+
+        h1 { font-size: 2.5rem; }
+        h2 { font-size: 2rem; }
+        h3 { font-size: 1.25rem; }
+
         .container {
-            max-width: var(--max-width);
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: var(--spacing-md);
-            padding-right: var(--spacing-md);
+            padding: 0 var(--spacing-lg);
         }
-    
-        h1, h2, h3, h4, h5, h6 {
-            font-family: var(--heading-font);
-            font-weight: 700;
-            line-height: 1.3;
-            margin-bottom: var(--spacing-sm);
-            color: var(--text-color);
-        }
-    
-        h1 { font-size: 2.8rem; color: var(--primary-color-darker); } /* Main Case Study Title */
-        h2 { font-size: 2rem; margin-top: var(--spacing-lg); border-bottom: 2px solid var(--border-color); padding-bottom: var(--spacing-xs); } /* Section Titles */
-        h3 { font-size: 1.5rem; margin-top: var(--spacing-md); font-weight: 700; color: var(--text-color); } /* Sub-Section Titles */
-        h4 { font-size: 1.2rem; font-weight: 700; color: var(--text-color); } /* Overview Box Titles */
-    
-        p {
-            margin-bottom: var(--spacing-md);
-            font-size: 1.1rem; /* Slightly larger paragraph font */
-            max-width: 75ch; /* Optimal line length for reading */
-        }
-        p.meta { /* For date/publication info */
-            font-size: 0.95rem;
-            color: var(--text-color-light);
-            margin-bottom: var(--spacing-xs);
-        }
-    
-        a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color var(--transition-speed) ease;
-        }
-    
-        a:hover, a:focus {
-            color: var(--primary-color-darker);
-            text-decoration: underline;
-            outline: none;
-        }
-    
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            border-radius: var(--border-radius-md); /* Subtle rounding */
-        }
-    
-        figure {
-            margin: var(--spacing-lg) auto; /* Center figures */
-            max-width: 90%; /* Limit figure width */
-            text-align: center;
-        }
-    
-        figcaption {
-            margin-top: var(--spacing-sm);
-            font-size: 0.9rem;
-            color: var(--text-color-light);
-            font-style: italic;
-        }
-    
-        ul, ol {
-            margin-bottom: var(--spacing-md);
-            padding-left: var(--spacing-md);
-        }
-    
-        li {
-            margin-bottom: var(--spacing-xs);
-            font-size: 1.05rem;
-        }
-    
-        blockquote {
-            border-left: 4px solid var(--primary-color);
-            margin: var(--spacing-md) 0 var(--spacing-md) var(--spacing-sm);
-            padding: var(--spacing-sm) var(--spacing-md);
-            background-color: var(--secondary-color);
-            border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
-            font-style: italic;
-            color: var(--text-color-light);
-            font-size: 1.1rem;
-        }
-         blockquote p {
-             margin-bottom: 0;
-             max-width: none; /* Allow blockquote text to fill width */
-         }
-    
-        hr {
-            border: none;
-            border-top: 1px solid var(--border-color);
-            margin: var(--spacing-lg) 0;
-        }
-    
-        strong, b {
-            font-weight: 700;
-        }
-    
-        /* --- Navbar Styles (Copied from previous revamp) --- */
-        .navbar {
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-            padding: var(--spacing-xs) 0;
+
+        .nav-links { 
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            transition: box-shadow var(--transition-speed) ease;
-        }
-        .navbar.scrolled { box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); }
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: var(--max-width);
-            margin: 0 auto;
-            padding: 0 var(--spacing-md);
-        }
-        .nav-logo { font-weight: 700; font-size: 1.4rem; color: var(--text-color); text-decoration: none; }
-        .nav-logo:hover { color: var(--primary-color); text-decoration: none; }
-        .navbar-nav { display: flex; align-items: center; gap: var(--spacing-sm); }
-        .nav-link { color: var(--text-color-light); text-decoration: none; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--border-radius-sm); font-weight: 500; transition: color var(--transition-speed) ease, background-color var(--transition-speed) ease; }
-        .nav-link:hover, .nav-link:focus, .nav-link.active { color: var(--primary-color); text-decoration: none; background-color: rgba(243, 159, 90, 0.1); }
-        .nav-link-button { background-color: var(--primary-color); color: white; padding: 8px 18px; border-radius: var(--border-radius-md); transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease; }
-        .nav-link-button:hover, .nav-link-button:focus { background-color: var(--primary-color-darker); color: white; transform: translateY(-2px); text-decoration: none; }
-        .menu-toggle { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-color); cursor: pointer; padding: var(--spacing-xs); }
-    
-        /* --- Case Study Specific Styles --- */
-        .case-study-header {
-            padding: var(--spacing-lg) 0 var(--spacing-md) 0;
-            /* background-color: var(--secondary-color); Light bg for header */
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: var(--spacing-xl);
-        }
-        .case-study-header h1 {
-            margin-bottom: var(--spacing-sm);
-        }
-        .case-study-header .subtitle {
-            font-size: 1.4rem;
-            font-weight: 400;
-            color: var(--text-color-light);
-            max-width: 75ch;
-            margin-bottom: var(--spacing-md);
-        }
-    
-        .overview-section {
-            display: flex;
-            flex-wrap: wrap;
+            top: var(--nav-height);
+            right: -100%;
+            width: 280px;
+            height: calc(100vh - var(--nav-height));
+            background: var(--bg-white); /* Changed to white for mobile menu background */
+            border-left: 1px solid var(--border-color); /* Light border */
+            flex-direction: column;
+            padding: var(--spacing-xl);
             gap: var(--spacing-md);
-            background-color: var(--secondary-color);
-            padding: var(--spacing-md);
-            border-radius: var(--border-radius-lg);
-            margin-bottom: var(--spacing-xl);
+            transition: right var(--transition-base);
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15); /* Softer shadow for mobile menu */
         }
-        .overview-box {
-            flex: 1 1 200px; /* Flexible boxes, minimum width 200px */
-            padding: var(--spacing-sm);
+
+        .nav-links.active {
+            right: 0;
         }
-        .overview-box h4 {
-            margin-bottom: var(--spacing-sm);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-xs);
-            color: var(--primary-color-darker);
+
+        .menu-toggle {
+            display: block;
         }
-         .overview-box h4 i { /* Icon styling */
-            font-size: 1rem;
-             color: var(--primary-color);
-        }
-    
-        .overview-box ul {
-            list-style: none;
-            padding-left: 0;
-            margin-bottom: 0;
-        }
-         .overview-box li {
-            font-size: 1rem;
-            color: var(--text-color);
-        }
-    
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            height: 0;
-            overflow: hidden;
-            max-width: 100%;
-            background: #000;
-            margin: var(--spacing-lg) auto; /* Center video */
-            border-radius: var(--border-radius-md);
-            box-shadow: 0 4px 15px var(--shadow-color);
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
+
+        .nav-cta {
+            margin-left: 0;
             width: 100%;
-            height: 100%;
-            border: 0;
-        }
-        .video-caption {
             text-align: center;
-            margin-top: var(--spacing-sm);
-            font-size: 0.9rem;
-            color: var(--text-color-light);
-            font-style: italic;
         }
-    
-        .problem-solution-section {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--spacing-lg);
-            margin-bottom: var(--spacing-xl);
+
+        .hero h1 {
+            font-size: 2.5rem;
         }
-        .problem-solution-section > div {
-            flex: 1 1 45%; /* Two columns */
-            min-width: 300px; /* Prevent excessive shrinking */
+
+        .hero .subtitle {
+            font-size: 1rem;
         }
-         .problem-solution-section h3 { /* Use H3 for Problem/Solution titles here */
-             margin-top: 0; /* No extra top margin */
-             border-bottom: 2px solid var(--primary-color);
-             padding-bottom: var(--spacing-xs);
-             display: inline-block;
-         }
-    
-        .insight-image {
-            border: 1px solid var(--border-color);
-            padding: var(--spacing-xs);
-            background-color: #fff;
-             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+
+        .hero-meta {
+            flex-direction: column;
+            gap: var(--spacing-xs);
         }
-    
-        /* --- Responsive Design --- */
-        @media screen and (max-width: 768px) {
-            body {
-                font-size: 16px;
-                padding-top: 60px; /* Adjust for mobile navbar height */
-            }
-            html { scroll-padding-top: 70px; }
-            h1 { font-size: 2.2rem; }
-            h2 { font-size: 1.8rem; }
-            h3 { font-size: 1.4rem; }
-            p { font-size: 1rem; }
-            blockquote { font-size: 1rem; margin-left: 0; }
-    
-            /* Navbar Mobile */
-            .navbar { padding: var(--spacing-xs) 0; }
-            .nav-container { padding: 0 var(--spacing-sm); }
-            .navbar-nav { display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: white; flex-direction: column; align-items: stretch; padding: var(--spacing-sm) 0; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); border-top: 1px solid var(--border-color); }
-            .navbar-nav.active { display: flex; }
-            .nav-link { text-align: center; padding: var(--spacing-sm); border-radius: 0; border-bottom: 1px solid var(--border-color); }
-            .nav-link:last-child { border-bottom: none; }
-            .nav-link-button { margin: var(--spacing-sm); text-align: center; }
-            .menu-toggle { display: block; }
-    
-            /* Case Study Layout Mobile */
-            .container { padding-left: var(--spacing-sm); padding-right: var(--spacing-sm); }
-            .case-study-header { margin-bottom: var(--spacing-lg); padding-top: var(--spacing-md); }
-            .overview-section { flex-direction: column; }
-            .problem-solution-section { flex-direction: column; gap: var(--spacing-md); }
-            figure { max-width: 100%; }
-            .video-container { margin: var(--spacing-md) auto; }
+
+        .overview-grid, .tldr-grid, .two-column-section, .video-grid { /* Apply to tldr-grid, two-column and video-grid as well */
+            grid-template-columns: 1fr;
         }
-    
-    </style>
+
+        .section-header h2 {
+            font-size: 2rem;
+        }
+
+        .tldr-section .section-header h2 {
+            font-size: 1.8rem;
+        }
+
+        .tldr-subtitle {
+            font-size: 1rem;
+        }
+    }
+</style>
 </head>
 <body>
-
-    <header class="navbar" id="navbar">
+   
+   <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="./index.html" class="nav-logo">Sai Maram</a>
-            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+            <a href="index.html" class="nav-logo">Sai Maram</a>
+            
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
                 <i class="fas fa-bars"></i>
             </button>
-            <nav class="navbar-nav" id="navbar-nav">
-                <a href="./index.html#uxr" class="nav-link">Case Studies</a>
-                <a href="./index.html#wex" class="nav-link">Experience</a>
-                <a href="./index.html#res" class="nav-link">Research</a>
+            
+            <div class="nav-links" id="nav-links">
+                <a href="index.html#projects" class="nav-link">Projects</a>
+                <a href="index.html#experience" class="nav-link">Experience</a>
+                <a href="index.html#research" class="nav-link">Research</a>
                 <a href="./about.html" class="nav-link">About</a>
-                <a href="cv.pdf" target="_blank" class="nav-link nav-link-button">Resume</a>
-            </nav>
-        </div>
-    </header>
+                <a href="cv.pdf" target="_blank" class="nav-link nav-cta">Resume</a>
 
-<main class="container">
-
-    <header class="case-study-header">
-
-        <h1>Visualization Systems for Student Reflection in Serious Games</h1>
-        <p class="subtitle">Designing and evaluating a system to help students reflect on their gameplay and learn from peers in the educational game called 'Parallel'.</p>
-        <p class="meta">Timeline: August 2021 - May 2023</p>
-        <p class="meta">Publication: ACM CHI 2024</p>
-   
-    </header>
-
-    <section class="overview-section">
-        <div class="overview-box">
-            <h4><i class="fa fa-users" aria-hidden="true"></i> My Role</h4>
-            <ul>
-                <li>Project Lead</li>
-                <li>UX Researcher</li>
-                <li>Designer</li>
-                <li>Developer</li>
-            </ul>
+            </div>
         </div>
-        <div class="overview-box">
-            <h4><i class="fa fa-users" aria-hidden="true"></i> Team</h4>
-            <ul>
-                <li>2 Researchers (including myself)</li>
-                <li>2 Faculty Mentors</li>
-                <li>1 Developer</li>
-            </ul>
-        </div>
-        <div class="overview-box">
-            <h4><i class="fa fa-calendar" aria-hidden="true"></i> Duration</h4>
-            <ul>
-                <li>Nov 2022 - Sep 2023</li>
-            </ul>
-        </div>
-        <div class="overview-box">
-            <h4><i class="fa fa-wrench" aria-hidden="true"></i> Tools</h4>
-            <ul>
-                <li>Figma (Design)</li>
-                <li>Python, JavaScript (Development)</li>
-                <li>Qualitative Analysis Software</li>
-            </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <p class="meta">UX Case Study</p>
+            <h1>Visualization Systems for Student Reflection in Serious Games</h1>
+            <p class="subtitle">Designing and evaluating a system to help students reflect on their gameplay and learn from peers in the educational game called 'Parallel'.</p>
+            <div class="hero-meta">
+                <p class="meta"><i class="fa-solid fa-calendar-days"></i> Timeline: August 2021 - May 2023</p>
+                <p class="meta"><i class="fa-solid fa-book-open"></i> Publication: ACM CHI 2024</p>
+            </div>
         </div>
     </section>
 
-    <hr>
+    <section id="executive-summary" class="tldr-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>TL;DR: Why This Study Matters</h2>
+            </div>
+            <p class="tldr-subtitle">How a visualization system empowered students to learn from their gameplay and peers in educational games.</p>
+            
+            <div class="tldr-grid">
+                <div class="tldr-card">
+                    <h4><i class="fa-solid fa-circle-exclamation"></i> The Problem</h4>
+                    <ul>
+                        <li>Educational games generate data, but it's hard for students to use for reflection.</li>
+                        <li>Existing tools lack features for self-analysis and peer comparison.</li>
+                        <li>Gap in bridging raw gameplay data with deep learning.</li>
+                    </ul>
+                </div>
+                <div class="tldr-card">
+                    <h4><i class="fa-solid fa-flask"></i> My Approach</h4>
+                    <ul>
+                        <li>Design-Based Research (DBR) + UXR methods.</li>
+                        <li>Instructor focus groups & student playtesting.</li>
+                        <li>Thematic analysis to identify core user needs.</li>
+                        <li>Design & Development (Figma, Python/JS).</li>
+                    </ul>
+                </div>
+                <div class="tldr-card">
+                    <h4><i class="fa-solid fa-lightbulb"></i> The Solution</h4>
+                    <ul>
+                        <li>OPM Viz: An interactive visualization system for the 'Parallel' game.</li>
+                        <li>Enables students to compare their gameplay with anonymized peers.</li>
+                        <li>Provides metrics, synchronized replays, and reflection prompts.</li>
+                    </ul>
+                </div>
+                <div class="tldr-card">
+                    <h4><i class="fa-solid fa-chart-line"></i> Key Results</h4>
+                    <ul class="key-outcome-list">
+                        <li>Facilitated student comparison & identification of inefficiencies.</li>
+                        <li>Sparked curiosity and supported self-assessment.</li>
+                        <li>Successful integration of Open Learner Model (OLM) principles into games.</li>
+                        <li>Published at ACM CHI 2024, contributing to learning sciences.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container"> <hr> </div>
+    <section class="overview">
+        <div class="wide-container">
+            <div class="overview-grid">
+                <div class="overview-item">
+                    <h4><i class="fa-solid fa-user-gear"></i> My Role</h4>
+                    <ul>
+                        <li>Project Lead</li>
+                        <li>UX Researcher</li>
+                        <li>Designer</li>
+                        <li>Developer</li>
+                    </ul>
+                </div>
+                <div class="overview-item">
+                    <h4><i class="fa-solid fa-users"></i> Team</h4>
+                    <ul>
+                        <li>2 Researchers (including myself)</li>
+                        <li>2 Faculty Mentors</li>
+                        <li>1 Developer</li>
+                    </ul>
+                </div>
+                <div class="overview-item">
+                    <h4><i class="fa-solid fa-calendar-days"></i> Duration</h4>
+                    <ul>
+                        <li>August 2021 - May 2023</li>
+                    </ul>
+                </div>
+                <div class="overview-item">
+                    <h4><i class="fa-solid fa-wrench"></i> Tools & Methods</h4>
+                    <ul>
+                        <li>Figma (Design)</li>
+                        <li>Python, JavaScript (Development)</li>
+                        <li>Qualitative Analysis Software</li>
+                        <li>Design-Based Research</li>
+                        <li>Focus Groups, Interviews, Playtesting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <section id="problem">
-        <h2>The Challenge: Bridging Gameplay and Learning</h2>
+    <div class="container"> <hr> </div>
+
+    <section id="problem-statement" class="container">
+        <div class="section-header">
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> The Challenge: Bridging Gameplay and Learning</h2>
+        </div>
         <p>Educational games, like 'Parallel' which teaches parallel programming concepts, are powerful learning tools generating vast amounts of player data. However, a significant gap exists: how can this data be effectively visualized to help students reflect on their own learning process and understand the strategies used by their peers? Existing tools often lack features specifically designed to foster this kind of reflective learning.</p>
         <p>Our core challenge was to design a visualization system that moves beyond simple data presentation to actively guide students in analyzing gameplay, comparing strategies, and ultimately deepening their understanding of complex concepts taught through the game.</p>
     </section>
 
-    <hr>
+    <div class="container"><hr></div>
 
-    <section id="research">
-        <h2>Understanding the Users: Instructors & Students</h2>
+    <section id="research" class="container">
+        <div class="section-header">
+            <h2><i class="fa-solid fa-users-rays"></i> Understanding the Users: Instructors & Students</h2>
+        </div>
         <p>To ensure our solution was grounded in real needs, we employed a Design-Based Research (DBR) approach, incorporating UXR methods to understand both instructor goals and student expectations.</p>
 
-        <figure>
-            <img src="temporary/images/Frame 10 (2) (1).png" alt="Diagram showing the UXR pipeline: Understand -> Design -> Evaluate">
+        <figure class="styled-figure">
+            <img src="temporary/images/Frame 10 (2) (1).png" alt="Diagram showing the UXR pipeline: Understand -> Design -> Evaluate" class="insight-image">
             <figcaption>Figure 1: UXR pipeline adopted for this project.</figcaption>
         </figure>
 
-        <h3>Instructor Focus Groups: How Experts Facilitate Reflection</h3>
+        <h3 class="section-subheader">Instructor Focus Groups: How Experts Facilitate Reflection</h3>
         <p>We conducted workshops with two parallel programming instructors. They analyzed anonymized student gameplay recordings from 'Parallel', identifying different strategies, ranking performance, and pinpointing moments ripe for student reflection. They also provided the type of feedback they would give.</p>
         <h4>Key Insights from Instructors:</h4>
         <ul>
-            <li><strong>Chunking Gameplay:</strong> Instructors analyzed playtraces in segments to understand student actions (e.g., <span style="color: gray; font-style: italic;">"...Steps 2 and Step 3, is where the student is trying to figure out the Switch..."</span>).</li>
-            <li><strong>Spatial Awareness:</strong> They connected gameplay actions in specific game areas to programming concepts (e.g., <span style="color: gray; font-style: italic;">"They seem to be placing the semaphore in this area..."</span>).</li>
+            <li><strong>Chunking Gameplay:</strong> Instructors analyzed playtraces in segments to understand student actions (e.g., <span class="quote-inline">"...Steps 2 and Step 3, is where the student is trying to figure out the Switch..."</span>).</li>
+            <li><strong>Spatial Awareness:</strong> They connected gameplay actions in specific game areas to programming concepts (e.g., <span class="quote-inline">"They seem to be placing the semaphore in this area..."</span>).</li>
             <li><strong>Comparative Analysis:</strong> Instructors frequently compared different students' strategies to highlight efficiency or alternative approaches.</li>
             <li><strong>Performance Metrics:</strong> Ranking was based on core parallel programming concepts like identifying critical sections, minimizing their size, and recognizing optimization opportunities.</li>
         </ul>
 
-        <h3>Student Playtesting & Personas: What Learners Need</h3>
+        <h3 class="section-subheader">Student Playtesting & Personas: What Learners Need</h3>
         <p>We observed 10 students playing 'Parallel' and followed up with semi-structured interviews to understand their struggles, successes, and desires for a support system. Thematic analysis led to two key personas representing student needs.</p>
         <h4>Key Insights from Student Personas:</h4>
-        <div class="persona-insights">
+        <div class="card">
             <ol>
                 <li>
                     <strong>Desire for Efficiency Improvement:</strong>
@@ -451,10 +923,12 @@
         </div>
     </section>
 
-    <hr>
+    <div class="container"><hr></div>
 
-    <section id="design">
-        <h2>Designing the Visualization System</h2>
+    <section id="design" class="container">
+        <div class="section-header">
+            <h2><i class="fa-solid fa-brush"></i> Designing the Visualization System</h2>
+        </div>
         <p>Guided by the insights from instructors and students, and utilizing Shneiderman's Visual Information-Seeking Mantra ("Overview first, zoom and filter, then details-on-demand") as a framework, my team and I designed and developed the OPM Viz system. While detailed development specifics are omitted here, the core design principles aimed to directly address the identified user needs.</p>
 
         <p>Key design goals included:</p>
@@ -466,23 +940,25 @@
             <li>Suggesting moments for reflection based on common patterns or deviations (Persona Insight 3).</li>
         </ul>
 
-        <figure>
-            <img src="temporary/images/Group 107 (4).png" alt="Screenshot of the final visualization system interface">
+        <figure class="styled-figure">
+            <img src="temporary/images/Group 107 (4).png" alt="Screenshot of the final visualization system interface" class="insight-image">
             <figcaption>Figure 2: The OPM Viz Visualization System Interface.</figcaption>
         </figure>
     </section>
 
-     <hr>
+    <div class="container"><hr></div>
 
-    <section id="solution">
-        <h2>The Solution: OPM Viz</h2>
+    <section id="solution" class="container">
+        <div class="section-header">
+            <h2><i class="fa-solid fa-puzzle-piece"></i> The Solution: OPM Viz</h2>
+        </div>
         <p>OPM Viz is an interactive visualization system designed to integrate seamlessly with the 'Parallel' serious game. It empowers students to reflect on their gameplay, compare strategies with peers, and gain deeper insights into parallel programming concepts.</p>
 
         <div class="video-grid">
              <div class="video-card">
                  <figure>
                      <div class="video-container">
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/sJTFw3Qix5o?si=xUFYlOV8RAiHKTvu" frameborder="0" allowfullscreen title="Explanation of the final visualization system"></iframe>
+                        <iframe src="https://www.youtube.com/embed/sJTFw3Qix5o?si=xUFYlOV8RAiHKTvu" frameborder="0" allowfullscreen title="Explanation of the final visualization system"></iframe>
                      </div>
                      <figcaption>Video 1: Explaining the features of the OPM Viz system.</figcaption>
                  </figure>
@@ -490,7 +966,7 @@
              <div class="video-card">
                  <figure>
                     <div class="video-container">
-                         <iframe width="560" height="315" src="https://www.youtube.com/embed/MXeTHQlgcT8?si=38yGfgb_BQdqDCre" frameborder="0" allowfullscreen title="Development process and algorithms"></iframe>
+                         <iframe src="https://www.youtube.com/embed/MXeTHQlgcT8?si=38yGfgb_BQdqDCre" frameborder="0" allowfullscreen title="Development process and algorithms"></iframe>
                      </div>
                      <figcaption>Video 2: Overview of the development process and algorithms.</figcaption>
                  </figure>
@@ -507,165 +983,175 @@
         </ul>
     </section>
 
-    <hr>
+    <div class="container"><hr></div>
 
-    <section id="evaluation">
-        <h2>Evaluation: Does it Foster Reflection?</h2>
+    <section id="evaluation" class="container">
+        <div class="section-header">
+            <h2><i class="fa-solid fa-chart-line"></i> Evaluation: Does it Foster Reflection?</h2>
+        </div>
         <p>To assess the effectiveness of OPM Viz, we conducted an evaluative study with 8 student participants. They used the system after playing 'Parallel' while thinking aloud, followed by semi-structured interviews.</p>
         <p>Our analysis focused on *how* and *why* students used the system and whether it prompted the desired reflection and learning.</p>
 
-        <figure>
-            <img src="temporary/images/Group 749 (1).png" alt="Thematic analysis results showing how students interacted with the visualization system">
+        <figure class="styled-figure">
+            <img src="temporary/images/Group 749 (1).png" alt="Thematic analysis results showing how students interacted with the visualization system" class="insight-image">
             <figcaption>Figure 3: Thematic map illustrating how students used OPM Viz for reflection and learning.</figcaption>
         </figure>
 
-        <h4>Key Findings from Evaluation:</h4>
-        <ul>
-            <li><strong>Facilitated Comparison:</strong> Participants actively used the system to compare their strategies with peers, often expressing surprise or gaining new ideas (e.g., "Oh, I didn't realize you could solve it that way!").</li>
-            <li><strong>Identified Inefficiencies:</strong> The visualizations helped students pinpoint specific parts of their gameplay that were less efficient than others'.</li>
-            <li><strong>Sparked Curiosity:</strong> Exploring different solutions through the system encouraged students to think more deeply about the underlying programming concepts.</li>
-            <li><strong>Supported Self-Assessment:</strong> Participants used the comparative data to gauge their own understanding and performance relative to others.</li>
-            <li><strong>Highlighted Trade-offs:</strong> Observing different strategies allowed students to understand the trade-offs between various parallel programming approaches within the game context.</li>
-        </ul>
+        <div class="card">
+            <h4>Key Findings from Evaluation:</h4>
+            <ul>
+                <li><strong>Facilitated Comparison:</strong> Participants actively used the system to compare their strategies with peers, often expressing surprise or gaining new ideas (e.g., "Oh, I didn't realize you could solve it that way!").</li>
+                <li><strong>Identified Inefficiencies:</strong> The visualizations helped students pinpoint specific parts of their gameplay that were less efficient than others'.</li>
+                <li><strong>Sparked Curiosity:</strong> Exploring different solutions through the system encouraged students to think more deeply about the underlying programming concepts.</li>
+                <li><strong>Supported Self-Assessment:</strong> Participants used the comparative data to gauge their own understanding and performance relative to others.</li>
+                <li><strong>Highlighted Trade-offs:</strong> Observing different strategies allowed students to understand the trade-offs between various parallel programming approaches within the game context.</li>
+            </ul>
+        </div>
         <p>Overall, the evaluation indicated that OPM Viz successfully prompted reflection and supported learning by making gameplay data accessible, comparable, and insightful.</p>
     </section>
 
-    <hr>
+    <div class="container"><hr></div>
 
-    <section id="impact">
-        <h2>Impact and Contributions</h2>
+    <section id="impact" class="container">
+        <div class="section-header">
+            <h2><i class="fa-solid fa-hand-holding-heart"></i> Impact and Contributions</h2>
+        </div>
         <p>This project demonstrates the potential of integrating player-facing visualization systems, informed by Open Learner Model (OLM) principles, into serious games to enhance learning.</p>
 
-        <h4>Key Contributions:</h4>
-        <ul>
-           <li><strong>Bridging OLMs and Games:</strong> Introduced an Open Player Model (OPM) approach, adapting OLM principles for the dynamic context of serious games.</li>
-           <li><strong>Learning-Focused Visualization:</strong> Designed and validated a player-facing visualization system prioritizing reflection and learning over purely aesthetic or performance-tracking goals.</li>
-           <li><strong>Enhancing 'Parallel':</strong> Provided a novel tool for the established 'Parallel' research platform, enabling new avenues for studying game-based learning and reflection.</li>
-           <li><strong>Published Research:</strong> Shared findings and the system design with the academic community via publication at ACM CHI 2024, contributing to HCI and Learning Sciences fields.</li>
-        </ul>
+        <div class="card">
+            <h4>Key Contributions:</h4>
+            <ul>
+               <li><strong>Bridging OLMs and Games:</strong> Introduced an Open Player Model (OPM) approach, adapting OLM principles for the dynamic context of serious games.</li>
+               <li><strong>Learning-Focused Visualization:</strong> Designed and validated a player-facing visualization system prioritizing reflection and learning over purely aesthetic or performance-tracking goals.</li>
+               <li><strong>Enhancing 'Parallel':</strong> Provided a novel tool for the established 'Parallel' research platform, enabling new avenues for studying game-based learning and reflection.</li>
+               <li><strong>Published Research:</strong> Shared findings and the system design with the academic community via publication at ACM CHI 2024, contributing to HCI and Learning Sciences fields.</li>
+            </ul>
+        </div>
         <p>The positive evaluation results and academic recognition underscore the value of this user-centered approach to designing learning support tools within educational games.</p>
     </section>
 
-    <hr>
+    <div class="container"><hr></div>
 
-     <section id="learnings">
-        <h2>Reflections and Future Directions</h2>
-        <h4>Key Learnings:</h4>
-        <ul>
-            <li><strong>The Power of Comparison:</strong> Directly comparing solutions was a highly motivating factor for student engagement and reflection.</li>
-            <li><strong>Instructor Insights are Crucial:</strong> Understanding how experts analyze and provide feedback was invaluable in designing meaningful visualizations.</li>
-            <li><strong>Balancing Guidance and Discovery:</strong> Finding the right level of information presentation—enough to guide reflection without overwhelming or giving away answers—is a key design challenge.</li>
-        </ul>
-        <h4>Future Directions:</h4>
-        <ul>
-            <li>Exploring adaptive feedback based on student interaction patterns within the visualization.</li>
-            <li>Integrating the visualization system more tightly within the game environment itself.</li>
-            <li>Testing the system in authentic classroom settings over longer periods.</li>
-        </ul>
+    <section id="learnings" class="container">
+        <div class="section-header">
+            <h2><i class="fa-solid fa-brain"></i> Reflections and Future Directions</h2>
+        </div>
+        <div class="card">
+            <h4>Key Learnings:</h4>
+            <ul>
+                <li><strong>The Power of Comparison:</strong> Directly comparing solutions was a highly motivating factor for student engagement and reflection.</li>
+                <li><strong>Instructor Insights are Crucial:</strong> Understanding how experts analyze and provide feedback was invaluable in designing meaningful visualizations.</li>
+                <li><strong>Balancing Guidance and Discovery:</strong> Finding the right level of information presentation—enough to guide reflection without overwhelming or giving away answers—is a key design challenge.</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h4>Future Directions:</h4>
+            <ul>
+                <li>Exploring adaptive feedback based on student interaction patterns within the visualization.</li>
+                <li>Integrating the visualization system more tightly within the game environment itself.</li>
+                <li>Testing the system in authentic classroom settings over longer periods.</li>
+            </ul>
+        </div>
     </section>
-    <footer class="footer" style="text-align: center; padding: var(--spacing-lg) var(--spacing-md); margin-top: var(--spacing-xl); background-color: var(--secondary-color); color: var(--text-color-light); font-size: 0.9rem;">
-        <p>&copy; <span id="current-year"></span> Sai Maram. Case Study.</p>
+
+    <footer class="footer">
+        <p>© <span id="current-year"></span> Sai Maram. Case Study.</p>
         <p><a href="./index.html">Back to Portfolio</a></p>
    </footer>
 
-</main>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+ const menuToggle = document.getElementById('menu-toggle');
+ const navLinksContainer = document.getElementById('nav-links'); 
+ const navLinks = document.querySelectorAll('.nav-link'); 
+ const navbar = document.getElementById('navbar');
 
-<script>document.addEventListener('DOMContentLoaded', () => {
-   const menuToggle = document.getElementById('menu-toggle');
-   const navbarNav = document.getElementById('navbar-nav');
-   const navLinks = document.querySelectorAll('.nav-link'); // Get all nav links
-   const navbar = document.getElementById('navbar');
+ // Toggle mobile menu
+ if (menuToggle && navLinksContainer) {
+     menuToggle.addEventListener('click', () => {
+         navLinksContainer.classList.toggle('active');
+         const icon = menuToggle.querySelector('i');
+         if (navLinksContainer.classList.contains('active')) {
+             icon.classList.remove('fa-bars');
+             icon.classList.add('fa-times');
+             menuToggle.setAttribute('aria-expanded', 'true');
+         } else {
+             icon.classList.remove('fa-times');
+             icon.classList.add('fa-bars');
+             menuToggle.setAttribute('aria-expanded', 'false');
+         }
+     });
 
-   // Toggle mobile menu
-   if (menuToggle && navbarNav) {
-       menuToggle.addEventListener('click', () => {
-           navbarNav.classList.toggle('active');
-           // Optional: change hamburger icon to 'X'
-           const icon = menuToggle.querySelector('i');
-           if (navbarNav.classList.contains('active')) {
-               icon.classList.remove('fa-bars');
-               icon.classList.add('fa-times');
-               menuToggle.setAttribute('aria-expanded', 'true');
-           } else {
-               icon.classList.remove('fa-times');
-               icon.classList.add('fa-bars');
-               menuToggle.setAttribute('aria-expanded', 'false');
-           }
-       });
+     navLinks.forEach(link => {
+         link.addEventListener('click', () => {
+             if (navLinksContainer.classList.contains('active')) { 
+                 const href = link.getAttribute('href');
+                 if (href && (href.startsWith('#') || href.startsWith('./#') || href.startsWith(window.location.pathname + '#'))) {
+                    // Internal anchor link, allow default behavior to scroll, then close menu.
+                 }
+                 // For all link clicks when menu is open, close the menu.
+                 navLinksContainer.classList.remove('active');
+                 const icon = menuToggle.querySelector('i');
+                 icon.classList.remove('fa-times');
+                 icon.classList.add('fa-bars');
+                 menuToggle.setAttribute('aria-expanded', 'false');
+             }
+         });
+     });
+ }
 
-       // Close mobile menu when a link is clicked
-       navLinks.forEach(link => {
-           link.addEventListener('click', () => {
-               if (navbarNav.classList.contains('active')) {
-                   navbarNav.classList.remove('active');
-                   const icon = menuToggle.querySelector('i');
-                   icon.classList.remove('fa-times');
-                   icon.classList.add('fa-bars');
-                    menuToggle.setAttribute('aria-expanded', 'false');
-               }
-           });
-       });
-   }
+  // Add shadow to navbar on scroll
+ if (navbar) {
+     window.addEventListener('scroll', () => {
+         if (window.scrollY > 50) { 
+             navbar.classList.add('scrolled');
+         } else {
+             navbar.classList.remove('scrolled');
+         }
+     });
+ }
 
-    // Add shadow to navbar on scroll
-   if (navbar) {
-       window.addEventListener('scroll', () => {
-           if (window.scrollY > 50) { // Add shadow after scrolling 50px
-               navbar.classList.add('scrolled');
-           } else {
-               navbar.classList.remove('scrolled');
-           }
-       });
-   }
+ // Update footer year
+ const currentYearSpan = document.getElementById('current-year');
+ if (currentYearSpan) {
+     currentYearSpan.textContent = new Date().getFullYear();
+ }
 
-   // Update footer year
-   const currentYearSpan = document.getElementById('current-year');
-   if (currentYearSpan) {
-       currentYearSpan.textContent = new Date().getFullYear();
-   }
+ // Active Nav Link Highlighting 
+ const sections = document.querySelectorAll('section[id]'); 
 
-   // --- Optional: Active Nav Link Highlighting ---
-   // More complex implementation needed based on scroll position
-   // This is a simple example assuming section IDs match nav hrefs
-   const sections = document.querySelectorAll('section[id]'); // Get sections with IDs
+ function setActiveLink() {
+     let currentSectionId = '';
+     if (!navbar || sections.length === 0) return;
 
-   function setActiveLink() {
-       let currentSection = '';
-       const scrollPos = window.scrollY + navbar.offsetHeight + 50; // Offset for navbar height + buffer
+     const scrollPos = window.scrollY + navbar.offsetHeight + Math.max(100, window.innerHeight * 0.3);
 
-       sections.forEach(section => {
-           const sectionTop = section.offsetTop;
-           const sectionHeight = section.offsetHeight;
-           if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-               currentSection = section.getAttribute('id');
-           }
-       });
+     sections.forEach(section => {
+         const sectionTop = section.offsetTop;
+         const sectionHeight = section.offsetHeight;
+         if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+             currentSectionId = section.getAttribute('id');
+         }
+     });
+    
+     navLinks.forEach(link => {
+         link.classList.remove('active');
+         const linkHref = link.getAttribute('href');
+         
+         if (linkHref) {
+            const linkAnchor = linkHref.split('#')[1];
+            if (linkAnchor && linkAnchor === currentSectionId) {
+                 link.classList.add('active');
+            }
+         }
+     });
+ }
 
-        // Special case for top of page (hero section often doesn't have ID or is above first section)
-        if (window.scrollY < sections[0].offsetTop - navbar.offsetHeight - 50) {
-            currentSection = 'home'; // Assuming hero/top section implies 'home' link
-        }
+ window.addEventListener('scroll', setActiveLink);
+ window.addEventListener('resize', setActiveLink); 
+ setActiveLink(); 
 
-
-       navLinks.forEach(link => {
-           link.classList.remove('active');
-           // Check if the link's href matches the current section ID
-           // Handle the '#' in href
-           if (link.getAttribute('href') === `#${currentSection}`) {
-               link.classList.add('active');
-           }
-            // Handle base index.html link for 'home'
-           if (currentSection === 'home' && (link.getAttribute('href') === './index.html' || link.getAttribute('href') === '#home') ) {
-                // No specific 'home' link in the provided nav, so this part might not highlight anything unless a home link is added.
-                // Example: if you add <a href="#home">Home</a>, this would work.
-           }
-       });
-   }
-
-   window.addEventListener('scroll', setActiveLink);
-   setActiveLink(); // Initial check on load
-
-});</script>
-
+});
+</script>
 </body>
 </html>

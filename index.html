@@ -10,6 +10,7 @@
     <link rel="icon" type="image/png" href="Group 522.png">
     <title>Sai Maram - UX Research Portfolio</title>
 <style>
+    
     /* --- Global Styles & Variables --- */
 :root {
     /* Typography */
@@ -49,6 +50,8 @@
     --space-xl: 2rem;
     --space-2xl: 3rem;
     --space-3xl: 4rem;
+    --spacing-md: 1.5rem;
+    --spacing-sm: 1 rem;
 
     /* Border Radius */
     --radius-sm: 6px;
@@ -64,7 +67,7 @@
     --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.16);
 
     /* Layout */
-    --max-width: 1100px;
+    --max-width: 1200px;
     --nav-height: 64px;
 
     /* Transitions */
@@ -138,53 +141,67 @@ strong {
 }
 
 /* Navigation */
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: var(--nav-height);
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--gray-100);
-    z-index: 1000;
-    transition: all var(--transition-base);
-}
+    /* --- Navbar Styles (Custom for dark theme) --- */
+    .navbar {
+        background: rgba(255, 255, 255, 0.8); /* Dark background */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255,255,255,0.1); /* Light border for contrast */
+        padding: var(--spacing-xs) 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        transition: box-shadow var(--transition-base) ease;
+        height: var(--nav-height);
+        display: flex;
+        align-items: center;
+    }
 
-.navbar.scrolled {
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: var(--shadow-sm);
-}
+    .navbar.scrolled {
+        box-shadow: var(--shadow-sm); /* Using defined shadow variable */
+    }
 
-.nav-container {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
+    .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 var(--spacing-md);
+        width: 100%;
+    }
 
-.nav-logo {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--gray-900);
-    letter-spacing: -0.02em;
-}
+ 
+    .nav-logo {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--gray-900);
+        letter-spacing: -0.02em;
+    }
 
-.nav-links {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-}
+    .nav-logo:hover {
+      
+        text-decoration: none;
+        color: var(--primary-color);
+        /* background-color: var(--gray-50); */
+    }
 
-.nav-link {
-    padding: var(--space-sm) var(--space-md);
-    color: var(--gray-600);
-    font-size: 0.95rem;
-    font-weight: 500;
-    border-radius: var(--radius-sm);
-    transition: all var(--transition-base);
-}
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .nav-link {
+        color: var(--gray-600); /* Lighter gray text for links */
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        font-weight: 500;
+        transition: color var(--transition-base) ease, background-color var(--transition-base) ease;
+    }
 
 .nav-link:hover,
 .nav-link.active {
@@ -194,29 +211,37 @@ strong {
 
 .nav-cta {
     margin-left: var(--space-sm);
-    padding: var(--space-sm) var(--space-lg);
+    padding: 0.5rem 1.5rem;
     background-color: var(--gray-900);
     color: var(--white);
-    border-radius: var(--radius-sm);
+    border-radius: 6px;
     font-weight: 500;
     transition: all var(--transition-base);
 }
 
 .nav-cta:hover {
-    background-color: var(--gray-800);
+    background-color: var(--gray-50);
     transform: translateY(-1px);
     box-shadow: var(--shadow-sm);
 }
 
-.menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    color: var(--gray-700);
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: var(--space-sm);
-}
+ 
+    .nav-cta:focus {
+        background-color: var(--gray-800);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+    }
+
+    .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.8rem;
+        color: var(--bg-white); /* White icon */
+        cursor: pointer;
+        padding: var(--spacing-xs);
+    }
+
 
 /* Hero Section */
 .hero {
@@ -798,8 +823,8 @@ strong {
 
 <body>
     <nav class="navbar" id="navbar">
-        <div class="container nav-container">
-            <a href="#" class="nav-logo">Sai Maram</a>
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Sai Maram</a>
             
             <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
                 <i class="fas fa-bars"></i>
@@ -811,6 +836,7 @@ strong {
                 <a href="#research" class="nav-link">Research</a>
                 <a href="./about.html" class="nav-link">About</a>
                 <a href="cv.pdf" target="_blank" class="nav-link nav-cta">Resume</a>
+
             </div>
         </div>
     </nav>
@@ -836,16 +862,21 @@ strong {
                                 <div class="stat-label">User Studies</div>
                             </div>
                             <div class="stat">
-                                <div class="stat-number">15+</div>
-                                <div class="stat-label">HCI Publications</div>
+                                <div class="stat-number">20+</div>
+                                <div class="stat-label">HCI/AI Publications</div>
                             </div>
+                            
                             <div class="stat">
                                 <div class="stat-number">3</div>
                                 <div class="stat-label">Fortune 50 <br>Internships</div>
                             </div>
-                              <div class="stat">
+                              <!-- <div class="stat">
                                 <div class="stat-number">1</div>
                                 <div class="stat-label">Startup</div>
+                            </div> -->
+                            <div class="stat">
+                                <div class="stat-number">1</div>
+                                <div class="stat-label">Patent</div>
                             </div>
                         </div>
                         
@@ -1102,7 +1133,7 @@ strong {
             <div class="container">
                 <div class="section-header">
                     <h2 class="section-title">Publications</h2>
-                    <p class="section-subtitle">Research contributions to HCI, games, and user experience</p>
+                    <p class="section-subtitle">First Author Research contributions to HCI, games, and user experience</p>
                 </div>
                 
                 <div class="research-table-wrapper">
@@ -1115,6 +1146,13 @@ strong {
                             </tr>
                         </thead>
                         <tbody>
+                            <tr>
+                                <td>
+                                    <a href="#" class="paper-title">"Pray For Green, Play For Green": Integrating Religion into Climate Change Serious Games</a>
+                                </td>
+                                <td><span class="conference-badge">ACM DIS</span></td>
+                                <td>2025</td>
+                            </tr>
                             <tr>
                                 <td>
                                     <a href="#" class="paper-title">A Topic Modeling Approach Towards Understanding the Discourse between Religion and Videogames on Reddit</a>

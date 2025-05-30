@@ -3,180 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shloka</title>
-    <link rel="icon" href="Group 116.png"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Digital Discourse on Religion and Videogames | UX Case Study</title>
+    <link rel="icon" href="Group 116.png"> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 
 <style>
-    /* --- Global Styles & Variables (Copied from previous revamp) --- */
-    :root {
-        --primary-font: "Inter", system-ui, sans-serif;
-        --heading-font: "Inter", system-ui, sans-serif;
-
-        --primary-color: #F39F5A; /* Accent orange */
-        --primary-color-darker: #e08e4a; /* Darker shade */
-        --secondary-color: #f8f9fa; /* Light background */
-        --text-color: #343a40; /* Dark grey for text */
-        --text-color-light: #6c757d; /* Lighter grey for descriptions */
-        --border-color: #dee2e6;
-        --card-bg: #ffffff;
-        --shadow-color: rgba(0, 0, 0, 0.05); /* Softer shadow */
-        --shadow-hover-color: rgba(0, 0, 0, 0.1);
-
-        --border-radius-sm: 4px;
-        --border-radius-md: 8px;
-        --border-radius-lg: 12px;
-
-        --spacing-xs: 0.5rem;  /* 8px */
-        --spacing-sm: 1rem;    /* 16px */
-        --spacing-md: 1.5rem;  /* 24px */
-        --spacing-lg: 2.5rem;  /* 40px */
-        --spacing-xl: 4rem;    /* 64px */
-
-        --max-width: 1100px; /* Slightly narrower for case study text */
-        --transition-speed: 0.3s;
-    }
-
-    *,
-    *::before,
-    *::after {
-        box-sizing: border-box;
+    /* --- Global Styles & Variables (Adapted from AstraVerse) --- */
+    * {
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
+    }
+
+    :root {
+        /* Typography */
+        --font-family: 'Inter', -apple-system, BlinkMacMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        --font-mono: "SF Mono", Monaco, "Inconsolata", "Fira Code", "Fira Mono", "Roboto Mono", Courier New, Courier, monospace;
+
+        /* Colors - Adapted for Shloka's orange accent, but with AstraVerse's neutral base */
+        --primary-color: #F39F5A; /* Shloka's Accent Orange */
+        --primary-color-light: #FFF8F0; /* Lighter version for backgrounds */
+        --primary-color-darker: #e08e4a; /* Darker version of primary */
+
+        --black: #000000;
+        --gray-900: #111111;
+        --gray-800: #1a1a1a;
+        --gray-700: #333333;
+        --gray-600: #4d4d4d;
+        --gray-500: #666666;
+        --gray-400: #808080;
+        --gray-300: #999999;
+        --gray-200: #cccccc;
+        --gray-100: #e6e6e6;
+        --gray-50: #f5f5f5;
+        --white: #ffffff;
+
+        --secondary-color: #0066CC; /* Original AstraVerse blue, kept for consistency if needed */
+        --secondary-color-light: #E6F2FF; /* Light version of secondary */
+        
+        --accent-green: #00C896;
+        --accent-green-light: #E6FFF9;
+        --accent-purple: #6B46C1;
+        --accent-purple-light: #F3F0FF;
+
+        --text-color: #1a1a1a; /* Dark text */
+        --text-color-dark: #333333; /* General paragraph text */
+        --text-color-light: #666; /* Lighter text for meta/subtitles */
+        --text-color-lighter: #999; /* Even lighter text */
+        --border-color: #e0e0e0; /* Light border */
+        --bg-light: #f8f9fa; /* Light background for sections/cards */
+        --bg-white: #ffffff; /* White background */
+
+        /* Spacing - AstraVerse values */
+        --spacing-xs: 0.5rem;   /* 8px */
+        --spacing-sm: 1rem;     /* 16px */
+        --spacing-md: 1.5rem;   /* 24px */
+        --spacing-lg: 2rem;     /* 32px */
+        --spacing-xl: 3rem;     /* 48px */
+        --spacing-2xl: 4rem;    /* 64px */
+        --spacing-3xl: 5rem;    /* 80px */
+
+        /* Border Radius - AstraVerse values */
+        --border-radius-sm: 4px;
+        --border-radius-md: 8px;
+        --border-radius-lg: 12px; /* For larger elements like hero image */
+        --border-radius-xl: 16px; /* For main sections/containers */
+
+        /* Shadows - AstraVerse values */
+        --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+        --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.08); /* Used for hero image */
+
+        /* Layout */
+        --max-width: 1200px; /* Wide container max-width */
+        --content-max-width: 800px; /* Main content max-width */
+        --nav-height: 64px;
+
+        /* Transitions */
+        --transition-fast: 150ms ease;
+        --transition-base: 250ms ease;
+        --transition-slow: 350ms ease;
     }
 
     html {
+        font-size: 16px;
         scroll-behavior: smooth;
-        scroll-padding-top: 80px; /* Adjust based on fixed navbar height */
+        scroll-padding-top: calc(var(--nav-height) + var(--spacing-md));
     }
 
     body {
-        font-family: var(--primary-font);
+        font-family: var(--font-family);
+        font-size: 1rem;
+        line-height: 1.6;
         color: var(--text-color);
-        background-color: #fff;
-        line-height: 1.7;
-        font-size: 17px; /* Slightly larger base font for readability */
+        background-color: var(--bg-white);
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        padding-top: 70px; /* Add padding to prevent content going under fixed navbar */
     }
 
-    .container {
-        max-width: var(--max-width);
-        margin-left: auto;
-        margin-right: auto;
-        padding-left: var(--spacing-md);
-        padding-right: var(--spacing-md);
-    }
-
+    /* --- Typography --- */
     h1, h2, h3, h4, h5, h6 {
-        font-family: var(--heading-font);
-        font-weight: 700;
-        line-height: 1.3;
-        margin-bottom: var(--spacing-sm);
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        margin-bottom: var(--spacing-md);
         color: var(--text-color);
     }
 
-    h1 { font-size: 2.8rem; color: var(--primary-color-darker); } /* Main Case Study Title */
-    h2 { font-size: 2rem; margin-top: var(--spacing-lg); border-bottom: 2px solid var(--border-color); padding-bottom: var(--spacing-xs); } /* Section Titles */
-    h3 { font-size: 1.5rem; margin-top: var(--spacing-md); font-weight: 700; color: var(--text-color); } /* Sub-Section Titles */
-    h4 { font-size: 1.2rem; font-weight: 700; color: var(--text-color); } /* Overview Box Titles */
+    h1 { 
+        font-size: 3.5rem; 
+        font-weight: 700; 
+        margin-bottom: var(--spacing-md); 
+    }
+    h2 { 
+        font-size: 2.5rem; 
+        font-weight: 600; 
+        margin-bottom: var(--spacing-md); 
+    }
+    h3 { 
+        font-size: 1.5rem; 
+        margin-top: var(--spacing-lg); /* Slightly more space above subheaders */
+    }
+    h4 { 
+        font-size: 1.25rem; 
+        margin-top: var(--spacing-md); 
+    }
+    h5 { font-size: 1rem; }
 
     p {
         margin-bottom: var(--spacing-md);
-        font-size: 1.1rem; /* Slightly larger paragraph font */
-        max-width: 75ch; /* Optimal line length for reading */
-    }
-    p.meta { /* For date/publication info */
-        font-size: 0.95rem;
-        color: var(--text-color-light);
-        margin-bottom: var(--spacing-xs);
+        color: var(--text-color-dark);
     }
 
     a {
-        color: var(--primary-color);
+        color: var(--primary-color); /* Adjusted to Shloka's primary-color */
         text-decoration: none;
-        font-weight: 500;
-        transition: color var(--transition-speed) ease;
+        transition: color var(--transition-base);
     }
 
-    a:hover, a:focus {
-        color: var(--primary-color-darker);
-        text-decoration: underline;
-        outline: none;
+    a:hover {
+        color: var(--primary-color-darker); /* Adjusted to Shloka's primary-color-darker */
     }
 
-    img {
-        max-width: 100%;
-        height: auto;
-        display: block;
-        border-radius: var(--border-radius-md); /* Subtle rounding */
-    }
-
-    figure {
-        margin: var(--spacing-lg) auto; /* Center figures */
-        max-width: 90%; /* Limit figure width */
-        text-align: center;
-    }
-
-    figcaption {
-        margin-top: var(--spacing-sm);
-        font-size: 0.9rem;
-        color: var(--text-color-light);
-        font-style: italic;
+    strong {
+        font-weight: 600;
+        color: var(--text-color);
     }
 
     ul, ol {
+        margin-left: var(--spacing-lg);
         margin-bottom: var(--spacing-md);
-        padding-left: var(--spacing-md);
+        color: var(--text-color-dark);
     }
 
     li {
         margin-bottom: var(--spacing-xs);
-        font-size: 1.05rem;
+        color: var(--text-color-dark);
     }
-
-    blockquote {
-        border-left: 4px solid var(--primary-color);
-        margin: var(--spacing-md) 0 var(--spacing-md) var(--spacing-sm);
-        padding: var(--spacing-sm) var(--spacing-md);
-        background-color: var(--secondary-color);
-        border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
-        font-style: italic;
-        color: var(--text-color-light);
-        font-size: 1.1rem;
-    }
-     blockquote p {
-         margin-bottom: 0;
-         max-width: none; /* Allow blockquote text to fill width */
-     }
 
     hr {
         border: none;
         border-top: 1px solid var(--border-color);
-        margin: var(--spacing-lg) 0;
+        margin: var(--spacing-2xl) 0;
     }
 
-    strong, b {
-        font-weight: 700;
+    /* --- Container --- */
+    .container {
+        max-width: var(--content-max-width);
+        margin: 0 auto;
+        padding: 0 var(--spacing-md);
     }
 
-    /* --- Navbar Styles (Copied from previous revamp) --- */
+    .wide-container {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 var(--spacing-md);
+    }
+
+    /* --- Navbar Styles (from AstraVerse) --- */
     .navbar {
-        background-color: rgba(255, 255, 255, 0.95);
+        background: rgba(255, 255, 255, 0.8);
         backdrop-filter: blur(10px);
-        border-bottom: 1px solid var(--border-color);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255,255,255,0.1);
         padding: var(--spacing-xs) 0;
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         z-index: 1000;
-        transition: box-shadow var(--transition-speed) ease;
+        transition: box-shadow var(--transition-base) ease;
+        height: var(--nav-height);
+        display: flex;
+        align-items: center;
     }
-    .navbar.scrolled { box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); }
+
+    .navbar.scrolled {
+        box-shadow: var(--shadow-sm);
+    }
+
     .nav-container {
         display: flex;
         justify-content: space-between;
@@ -184,79 +214,311 @@
         max-width: var(--max-width);
         margin: 0 auto;
         padding: 0 var(--spacing-md);
+        width: 100%;
     }
-    .nav-logo { font-weight: 700; font-size: 1.4rem; color: var(--text-color); text-decoration: none; }
-    .nav-logo:hover { color: var(--primary-color); text-decoration: none; }
-    .navbar-nav { display: flex; align-items: center; gap: var(--spacing-sm); }
-    .nav-link { color: var(--text-color-light); text-decoration: none; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--border-radius-sm); font-weight: 500; transition: color var(--transition-speed) ease, background-color var(--transition-speed) ease; }
-    .nav-link:hover, .nav-link:focus, .nav-link.active { color: var(--primary-color); text-decoration: none; background-color: rgba(243, 159, 90, 0.1); }
-    .nav-link-button { background-color: var(--primary-color); color: white; padding: 8px 18px; border-radius: var(--border-radius-md); transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease; }
-    .nav-link-button:hover, .nav-link-button:focus { background-color: var(--primary-color-darker); color: white; transform: translateY(-2px); text-decoration: none; }
-    .menu-toggle { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-color); cursor: pointer; padding: var(--spacing-xs); }
+ 
+    .nav-logo {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--gray-900);
+        letter-spacing: -0.02em;
+    }
 
-    /* --- Case Study Specific Styles --- */
-    .case-study-header {
-        padding: var(--spacing-lg) 0 var(--spacing-md) 0;
-        /* background-color: var(--secondary-color); Light bg for header */
-        border-bottom: 1px solid var(--border-color);
-        margin-bottom: var(--spacing-xl);
+    .nav-logo:hover {
+        text-decoration: none;
+        color: var(--primary-color);
     }
-    .case-study-header h1 {
+
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 1rem;;
+    }
+
+    .nav-link {
+        color: var(--gray-600);
+        text-decoration: none;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--border-radius-sm);
+        font-weight: 500;
+        transition: color var(--transition-base) ease, background-color var(--transition-base) ease;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+        color: var(--gray-900);
+        background-color: var(--gray-50);
+    }
+
+    .nav-cta {
+        margin-left: var(--space-sm);
+        padding: 0.5rem 1.5rem;
+        background-color: var(--gray-900);
+        color: var(--white);
+        border-radius: 6px;
+        font-weight: 500;
+        transition: all var(--transition-base);
+    }
+
+    .nav-cta:hover {
+        background-color: var(--gray-50);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .nav-cta:focus {
+        background-color: var(--gray-800);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.8rem;
+        color: var(--gray-900); /* Adjusted to match text color, not white */
+        cursor: pointer;
+        padding: var(--spacing-xs);
+    }
+
+    /* --- Hero Section (Adapted from AstraVerse) --- */
+    .hero {
+        margin-top: var(--nav-height); 
+        padding: var(--spacing-3xl) 0 var(--spacing-xl); 
+        text-align: center;
+    }
+
+    .hero .meta { 
+        font-size: 0.95rem;
+        color: var(--text-color-lighter);
         margin-bottom: var(--spacing-sm);
+        display: block; 
     }
-    .case-study-header .subtitle {
-        font-size: 1.4rem;
-        font-weight: 400;
+
+    .hero h1 {
+        font-size: 3.5rem; 
+        font-weight: 700;
+        line-height: 1.1;
+        margin-bottom: var(--spacing-md);
+        letter-spacing: -0.03em;
+    }
+
+    .hero .subtitle {
+        font-size: 1.25rem;
         color: var(--text-color-light);
-        max-width: 75ch;
+        font-weight: 400;
+        max-width: 600px;
+        margin: 0 auto var(--spacing-lg);
+    }
+
+    .hero-meta {
+        display: flex;
+        gap: var(--spacing-xl);
+        justify-content: center;
+        font-size: 0.95rem;
+        color: var(--text-color-lighter);
+    }
+
+    .hero-meta p { 
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 0; 
+    }
+
+    /* --- Section Styles (Adapted from AstraVerse) --- */
+    section {
+        padding: var(--spacing-2xl) 0;
+    }
+
+    .section-header {
+        margin-bottom: var(--spacing-xl);
+        text-align: left; 
+    }
+
+    .section-header h2 {
+        font-size: 2.5rem; 
+        font-weight: 700;
+        margin-bottom: var(--spacing-md);
+        letter-spacing: -0.02em;
+        display: flex; 
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+
+    .section-subheader { 
+        font-size: 1.5rem; 
+        font-weight: 600;
+        margin-top: var(--spacing-xl);
         margin-bottom: var(--spacing-md);
     }
 
-    .overview-section {
+    /* --- Overview Section (Adapted from AstraVerse) --- */
+    .overview {
+        background: var(--bg-light);
+        padding: var(--spacing-xl) 0;
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .overview-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+        gap: var(--spacing-lg);
+        margin-top: var(--spacing-lg);
+    }
+
+    .overview-item h4 { 
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: var(--spacing-xs);
+        color: var(--text-color-lighter);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
         display: flex;
-        flex-wrap: wrap;
-        gap: var(--spacing-md);
-        background-color: var(--secondary-color);
-        padding: var(--spacing-md);
-        border-radius: var(--border-radius-lg);
-        margin-bottom: var(--spacing-xl);
+        align-items: center;
+        gap: 8px;
     }
-    .overview-box {
-        flex: 1 1 200px; /* Flexible boxes, minimum width 200px */
-        padding: var(--spacing-sm);
+
+    .overview-item ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
     }
-    .overview-box h4 {
+
+    .overview-item li {
+        font-size: 0.95rem;
+        color: var(--text-color-dark);
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .overview-item li:last-child {
+        margin-bottom: 0;
+    }
+
+    /* --- Cards (Adapted from AstraVerse) --- */
+    .card {
+        background: var(--bg-light);
+        padding: var(--spacing-lg);
+        border-radius: var(--border-radius-md);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .card h4 {
+        margin-top: 0;
+        font-size: 1.25rem; 
+        margin-bottom: var(--spacing-md);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* --- TL;DR Section Specific Styles (Adapted from AstraVerse with screenshot inspiration) --- */
+    .tldr-section {
+        padding: var(--spacing-2xl) 0;
+        text-align: center;
+    }
+
+    .tldr-section .section-header {
+        text-align: center; 
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .tldr-section .section-header h2 {
+        font-size: 2.2rem; 
+        font-weight: 700;
+        margin-bottom: var(--spacing-sm);
+        letter-spacing: -0.02em;
+        justify-content: center; 
+    }
+
+    .tldr-subtitle {
+        font-size: 1.15rem;
+        color: var(--text-color-light);
+        max-width: 700px;
+        margin: 0 auto var(--spacing-xl);
+    }
+
+    .tldr-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: var(--spacing-lg);
+        margin-top: var(--spacing-xl);
+    }
+
+    .tldr-card {
+        background: var(--bg-white);
+        border: 1px solid var(--border-color);
+        padding: var(--spacing-lg);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+        text-align: left;
+    }
+
+    .tldr-card h4 {
+        font-size: 1.1rem; 
+        font-weight: 600;
         margin-bottom: var(--spacing-sm);
         display: flex;
         align-items: center;
-        gap: var(--spacing-xs);
-        color: var(--primary-color-darker);
-    }
-     .overview-box h4 i { /* Icon styling */
-        font-size: 1rem;
-         color: var(--primary-color);
+        gap: 0.5rem; 
+        color: var(--gray-800);
     }
 
-    .overview-box ul {
-        list-style: none;
-        padding-left: 0;
+    .tldr-card ul {
+        list-style: none; 
+        padding: 0;
+        margin: 0;
+    }
+
+    .tldr-card li {
+        font-size: 0.95rem;
+        color: var(--text-color-dark);
+        margin-bottom: var(--spacing-xs);
+        position: relative;
+        padding-left: var(--spacing-md); 
+    }
+
+    .tldr-card li:last-child {
         margin-bottom: 0;
     }
-     .overview-box li {
-        font-size: 1rem;
-        color: var(--text-color);
+
+    .tldr-card li::before {
+        content: '→'; 
+        position: absolute;
+        left: 0;
+        color: var(--primary-color); /* Primary color for the arrow */
+        font-weight: 600;
     }
 
+    .tldr-card .key-outcome-list li::before {
+        content: '\2022'; /* Regular bullet for key outcomes */
+        color: var(--accent-green); /* Green for key outcomes */
+        font-size: 1.2em; 
+        top: 0; 
+    }
+
+    /* Specific colors for TL;DR icons based on screenshot */
+    .tldr-card h4 .fa-circle-exclamation { color: #E74C3C; /* Red for Problem */ }
+    .tldr-card h4 .fa-flask { color: #3498DB; /* Blue for Approach */ }
+    .tldr-card h4 .fa-lightbulb { color: #F39C12; /* Orange for Solution */ }
+    .tldr-card h4 .fa-chart-line { color: #27AE60; /* Green for Key Results */ }
+
+
+    /* --- Video Section --- */
+    .video-section {
+        padding: var(--spacing-xl) 0;
+        text-align: center;
+    }
     .video-container {
         position: relative;
-        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
         height: 0;
         overflow: hidden;
-        max-width: 100%;
-        background: #000;
-        margin: var(--spacing-lg) auto; /* Center video */
+        max-width: 800px; /* Limit video width */
+        margin: var(--spacing-md) auto;
         border-radius: var(--border-radius-md);
-        box-shadow: 0 4px 15px var(--shadow-color);
+        box-shadow: var(--shadow-sm);
     }
     .video-container iframe {
         position: absolute;
@@ -267,368 +529,579 @@
         border: 0;
     }
     .video-caption {
-        text-align: center;
-        margin-top: var(--spacing-sm);
-        font-size: 0.9rem;
+        font-size: 0.875rem;
         color: var(--text-color-light);
-        font-style: italic;
+        margin-top: var(--spacing-xs);
     }
 
-    .problem-solution-section {
-        display: flex;
-        flex-wrap: wrap;
+    /* --- Problem/Approach Section (Two-Column Layout) --- */
+    .two-column-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: var(--spacing-lg);
+        margin-top: var(--spacing-lg);
         margin-bottom: var(--spacing-xl);
     }
-    .problem-solution-section > div {
-        flex: 1 1 45%; /* Two columns */
-        min-width: 300px; /* Prevent excessive shrinking */
-    }
-     .problem-solution-section h3 { /* Use H3 for Problem/Solution titles here */
-         margin-top: 0; /* No extra top margin */
-         border-bottom: 2px solid var(--primary-color);
-         padding-bottom: var(--spacing-xs);
-         display: inline-block;
-     }
-
-    .insight-image {
-        border: 1px solid var(--border-color);
-        padding: var(--spacing-xs);
-        background-color: #fff;
-         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    .two-column-section h3 {
+        margin-top: 0;
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: var(--spacing-xs);
+        display: inline-block; /* Makes border only as wide as text */
+        margin-bottom: var(--spacing-md);
     }
 
-    /* --- Responsive Design --- */
-    @media screen and (max-width: 768px) {
-        body {
-            font-size: 16px;
-            padding-top: 60px; /* Adjust for mobile navbar height */
+    /* --- Insights & Findings (Adapted from AstraVerse) --- */
+    .styled-figure {
+        margin: var(--spacing-lg) 0;
+        text-align: center;
+    }
+
+    .styled-figure img {
+        max-width: 100%;
+        height: auto;
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+        display: block;
+        margin: 0 auto;
+    }
+
+    .styled-figure figcaption {
+        font-size: 0.875rem;
+        color: var(--text-color-light);
+        margin-top: var(--spacing-xs);
+    }
+
+    .insight-image { 
+        width: 100%;
+        height: auto;
+        display: block;
+        margin: var(--spacing-lg) auto;
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .quote {
+        border-left: 4px solid var(--primary-color); /* Primary color for quotes */
+        padding-left: var(--spacing-md);
+        margin: var(--spacing-lg) 0;
+        font-style: italic;
+        color: var(--text-color-dark);
+        background-color: var(--primary-color-light); /* Light background for quotes */
+        border-radius: var(--border-radius-sm);
+        padding-top: var(--spacing-sm);
+        padding-bottom: var(--spacing-sm);
+    }
+
+    .quote-author {
+        display: block;
+        margin-top: var(--spacing-xs);
+        font-style: normal;
+        font-size: 0.875rem;
+        color: var(--text-color-light);
+    }
+
+    /* --- Footer (Adapted from AstraVerse) --- */
+    .footer {
+        padding: var(--spacing-2xl) 0;
+        border-top: 1px solid var(--border-color);
+        text-align: center;
+        color: var(--text-color-lighter);
+        font-size: 0.875rem;
+    }
+
+    .footer p {
+        margin-bottom: var(--spacing-xs);
+        color: var(--text-color-lighter); 
+    }
+
+    .footer p:last-child {
+        margin-bottom: 0;
+    }
+
+    .footer a {
+        color: var(--primary-color);
+    }
+
+    .footer a:hover {
+        color: var(--primary-color-darker);
+    }
+
+
+    /* --- Responsive (Adapted from AstraVerse) --- */
+    @media (max-width: 768px) {
+        html {
+            font-size: 15px;
         }
-        html { scroll-padding-top: 70px; }
-        h1 { font-size: 2.2rem; }
-        h2 { font-size: 1.8rem; }
-        h3 { font-size: 1.4rem; }
-        p { font-size: 1rem; }
-        blockquote { font-size: 1rem; margin-left: 0; }
 
-        /* Navbar Mobile */
-        .navbar { padding: var(--spacing-xs) 0; }
-        .nav-container { padding: 0 var(--spacing-sm); }
-        .navbar-nav { display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: white; flex-direction: column; align-items: stretch; padding: var(--spacing-sm) 0; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); border-top: 1px solid var(--border-color); }
-        .navbar-nav.active { display: flex; }
-        .nav-link { text-align: center; padding: var(--spacing-sm); border-radius: 0; border-bottom: 1px solid var(--border-color); }
-        .nav-link:last-child { border-bottom: none; }
-        .nav-link-button { margin: var(--spacing-sm); text-align: center; }
-        .menu-toggle { display: block; }
+        h1 { font-size: 2.5rem; }
+        h2 { font-size: 2rem; }
+        h3 { font-size: 1.25rem; }
 
-        /* Case Study Layout Mobile */
-        .container { padding-left: var(--spacing-sm); padding-right: var(--spacing-sm); }
-        .case-study-header { margin-bottom: var(--spacing-lg); padding-top: var(--spacing-md); }
-        .overview-section { flex-direction: column; }
-        .problem-solution-section { flex-direction: column; gap: var(--spacing-md); }
-        figure { max-width: 100%; }
-        .video-container { margin: var(--spacing-md) auto; }
+        .container {
+            padding: 0 var(--spacing-lg);
+        }
+
+        .nav-links { 
+            position: fixed;
+            top: var(--nav-height);
+            right: -100%;
+            width: 280px;
+            height: calc(100vh - var(--nav-height));
+            background: var(--bg-white); /* Changed to white for mobile menu background */
+            border-left: 1px solid var(--border-color); /* Light border */
+            flex-direction: column;
+            padding: var(--spacing-xl);
+            gap: var(--spacing-md);
+            transition: right var(--transition-base);
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15); /* Softer shadow for mobile menu */
+        }
+
+        .nav-links.active {
+            right: 0;
+        }
+
+        .menu-toggle {
+            display: block;
+        }
+
+        .nav-cta {
+            margin-left: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+        }
+
+        .hero .subtitle {
+            font-size: 1rem;
+        }
+
+        .hero-meta {
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+
+        .overview-grid, .tldr-grid, .two-column-section { /* Apply to tldr-grid and two-column-section as well */
+            grid-template-columns: 1fr;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+        }
+
+        .tldr-section .section-header h2 {
+            font-size: 1.8rem;
+        }
+
+        .tldr-subtitle {
+            font-size: 1rem;
+        }
     }
-
 </style>
 </head>
 <body>
-
-    <header class="navbar" id="navbar">
+   
+   <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="./index.html" class="nav-logo">Sai Maram</a>
-            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+            <a href="index.html" class="nav-logo">Sai Maram</a>
+            
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
                 <i class="fas fa-bars"></i>
             </button>
-            <nav class="navbar-nav" id="navbar-nav">
-                <a href="./index.html#uxr" class="nav-link">Case Studies</a>
-                <a href="./index.html#wex" class="nav-link">Experience</a>
-                <a href="./index.html#res" class="nav-link">Research</a>
+            
+            <div class="nav-links" id="nav-links">
+                <a href="index.html#projects" class="nav-link">Projects</a>
+                <a href="index.html#experience" class="nav-link">Experience</a>
+                <a href="index.html#research" class="nav-link">Research</a>
                 <a href="./about.html" class="nav-link">About</a>
-                <a href="cv.pdf" target="_blank" class="nav-link nav-link-button">Resume</a>
-            </nav>
+                <a href="cv.pdf" target="_blank" class="nav-link nav-cta">Resume</a>
+
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <main class="container">
-
-        <header class="case-study-header">
+    <section class="hero">
+        <div class="container">
             <p class="meta">UX Case Study</p>
             <h1>Understanding the Digital Discourse on Religion and Videogames</h1>
             <p class="subtitle">
                 Exploring stakeholder perceptions and community discussions surrounding the integration of religious themes, artifacts, and narratives within videogames using topic modeling and qualitative analysis.
             </p>
-            <p class="meta">Timeline: November 2023 - January 2024</p>
-            <p class="meta">Publication: ACM CHI PLAY 2024</p>
-        </header>
+            <div class="hero-meta">
+                <p class="meta"><i class="fa-solid fa-calendar-days"></i> Timeline: November 2023 - January 2024</p>
+                <p class="meta"><i class="fa-solid fa-book-open"></i> Publication: ACM CHI PLAY 2024</p>
+            </div>
+        </div>
+    </section>
 
-        <section class="overview-section">
-            <div class="overview-box">
-                <h4><i class="fas fa-user-friends"></i> Team</h4>
-                <ul>
-                    <li>2 Researchers (incl. me)</li>
-                    <li>2 Faculty Mentors</li>
-                </ul>
+    <section id="executive-summary" class="tldr-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>TL;DR: Why This Study Matters</h2>
             </div>
-            <div class="overview-box">
-                <h4><i class="fas fa-id-badge"></i> My Role</h4>
-                <ul>
-                    <li>Project Lead</li>
-                    <li>UX Researcher (Mixed Methods)</li>
-                    <li>Data Collection & Analysis</li>
-                    <li>Programming (Python/PRAW)</li>
-                </ul>
-            </div>
-            <div class="overview-box">
-                <h4><i class="fas fa-tools"></i> Tools</h4>
-                <ul>
-                    <li>Python (PRAW, BERTopic)</li>
-                    <li>Qualitative Coding</li>
-                    <li>Figma (For visualization/diagrams)</li>
-                </ul>
-            </div>
-        </section>
-
-        <section class="video-presentation">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <p class="tldr-subtitle">How understanding player discourse can bridge the gap between religious themes and successful game design.</p>
+            
+            <div class="tldr-grid">
+                <div class="tldr-card">
+                    <h4><i class="fa-solid fa-circle-exclamation"></i> The Problem</h4>
+                    <ul>
+                        <li>Growing religious themes in games lack player perception insights.</li>
+                        <li>Risk of offense/misrepresentation due to cultural insensitivity.</li>
+                        <li>Impacts player engagement & cultural resonance.</li>
+                    </ul>
                 </div>
-            <p class="video-caption">Paper Presentation at CHI PLAY 2024</p>
-        </section>
+                <div class="tldr-card">
+                    <h4><i class="fa-solid fa-flask"></i> My Approach</h4>
+                    <ul>
+                        <li>Mixed-methods: Python (PRAW) for data scraping from Reddit.</li>
+                        <li>Advanced Topic Modeling (BERTopic) for themes.</li>
+                        <li>Human-in-the-loop qualitative analysis for validation.</li>
+                    </ul>
+                </div>
+                <div class="tldr-card">
+                    <h4><i class="fa-solid fa-lightbulb"></i> The Solution</h4>
+                    <ul>
+                        <li>Uncovered 3 primary themes of religion in gaming discourse.</li>
+                        <li>Provides actionable insights for sensitive game design.</li>
+                        <li>Facilitates respectful integration of cultural narratives.</li>
+                    </ul>
+                </div>
+                <div class="tldr-card">
+                    <h4><i class="fa-solid fa-chart-line"></i> Key Results</h4>
+                    <ul class="key-outcome-list">
+                        <li>Identified "Blasphemous Elements & Misrepresentation" as a core concern.</li>
+                        <li>Recognized "Religion as a Design Space" for rich content.</li>
+                        <li>Highlighted "Videogames for Religious Education & Community."</li>
+                        <li>Actionable guidance for designers on cultural sensitivity.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container"> <hr> </div>
+    <section class="overview">
+        <div class="wide-container">
+            <div class="overview-grid">
+                <div class="overview-item">
+                    <h4><i class="fa-solid fa-user-gear"></i> My Role</h4>
+                    <ul>
+                        <li>Project Lead</li>
+                        <li>UX Researcher (Mixed Methods)</li>
+                        <li>Data Collection & Analysis</li>
+                        <li>Programming (Python/PRAW)</li>
+                    </ul>
+                </div>
+                <div class="overview-item">
+                    <h4><i class="fa-solid fa-users"></i> Team</h4>
+                    <ul>
+                        <li>2 Researchers (incl. me)</li>
+                        <li>2 Faculty Mentors</li>
+                    </ul>
+                </div>
+                <div class="overview-item">
+                    <h4><i class="fa-solid fa-wrench"></i> Tools & Methods</h4>
+                    <ul>
+                        <li>Python (PRAW, BERTopic)</li>
+                        <li>Qualitative Coding</li>
+                        <li>Figma (For visualization/diagrams)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <hr>
+    <div class="container"> <hr> </div>
 
-        <section class="problem-solution-section">
+    <section id="video-presentation" class="video-section container">
+        <div class="section-header">
+            <h2><i class="fa-solid fa-play-circle"></i> Paper Presentation</h2>
+        </div>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <p class="video-caption">Paper Presentation at CHI PLAY 2024</p>
+    </section>
+
+    <div class="container"><hr></div>
+    
+    <section id="challenge-approach" class="container">
+        <div class="section-header">
+            <h2><i class="fa-solid fa-puzzle-piece"></i> The Challenge & My Approach</h2>
+        </div>
+        <div class="two-column-section">
             <div>
-                <h3>The Problem</h3>
+                <h3>The Challenge</h3>
                 <p>
                     There is a growing presence of religious themes in videogames, but little is understood about how players perceive, discuss, and interact with these themes. This lack of insight creates a gap in understanding how religion influences gaming experiences and how games can meaningfully incorporate religious narratives without causing offense or misrepresentation, ultimately impacting player engagement and cultural resonance.
                 </p>
             </div>
             <div>
-                <h3>The Approach</h3>
+                <h3>My Approach</h3>
                 <p>
                     This UX research study explored the intersection of religion and videogames by analyzing online discussions within Reddit gaming and religious communities. Using a mixed-methods approach combining Python scripting for data scraping (PRAW), advanced topic modeling (BERTopic), and qualitative analysis, I uncovered key themes and narratives emerging from player discourse. This provides actionable insights into perceptions, paving the way for designing more culturally resonant gaming experiences.
                 </p>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="methodology">
-            <h2>Methodology</h2>
-            <p>
-                To uncover the nuances at the intersection of religion and videogames, a structured three-step methodology was adopted, focusing on rigor and minimizing bias.
-            </p>
-            <figure>
-                <img src="Group 162.png" alt="UXR Pipeline for Religion and Videogames Study"> <figcaption>Figure 1: UXR pipeline adopted to understand stakeholder perceptions of religion in videogames.</figcaption>
-            </figure>
+    <div class="container"><hr></div>
 
-            <h3>1. Data Retrieval and Cleaning</h3>
-            <p>
-                Data was retrieved using Python’s PRAW library to scrape posts and comments from relevant religious (e.g., r/Christianity, r/Islam) and gaming subreddits (e.g., r/pokemon, r/Smite). Keywords like "Christian," "Hindu," "Islam," etc., targeted contextually relevant discussions. The dataset was meticulously refined by removing noise (e.g., bot comments, irrelevant single-word replies) and focusing on discussions around specific games mentioned in relation to religion, ensuring data integrity and reducing potential algorithmic bias.
-            </p>
+    <section id="methodology" class="container">
+        <div class="section-header">
+            <h2><i class="fa-solid fa-microscope"></i> Methodology</h2>
+        </div>
+        <p>
+            To uncover the nuances at the intersection of religion and videogames, a structured three-step methodology was adopted, focusing on rigor and minimizing bias.
+        </p>
+        <figure class="styled-figure">
+            <img src="Group 162.png" alt="UXR Pipeline for Religion and Videogames Study" class="insight-image"> 
+            <figcaption>Figure 1: UXR pipeline adopted to understand stakeholder perceptions of religion in videogames.</figcaption>
+        </figure>
 
-            <h3>2. Topic Modeling with BERTopic</h3>
-            <p>
-                BERTopic, a state-of-the-art topic modeling tool leveraging sentence embeddings (Sentence-BERT), was employed to generate context-aware topic clusters from the cleaned text data. This approach allowed for the automatic identification of meaningful themes and the exclusion of outlier comments, significantly enhancing accuracy compared to traditional methods.
-            </p>
-            <figure>
-                <img src="Group 774.png" alt="BERTopic output example for Islamic subreddit analysis" style="width: 80%;"> <figcaption>Figure 2: Example BERTopic output for the r/islam subreddit. Researchers assigned labels (topics) to the generated clusters. Outlined boxes indicate post topics; colored boxes indicate comment topics.</figcaption>
-            </figure>
+        <h3 class="section-subheader">1. Data Retrieval and Cleaning</h3>
+        <p>
+            Data was retrieved using Python’s PRAW library to scrape posts and comments from relevant religious (e.g., r/Christianity, r/Islam) and gaming subreddits (e.g., r/pokemon, r/Smite). Keywords like "Christian," "Hindu," "Islam," etc., targeted contextually relevant discussions. The dataset was meticulously refined by removing noise (e.g., bot comments, irrelevant single-word replies) and focusing on discussions around specific games mentioned in relation to religion, ensuring data integrity and reducing potential algorithmic bias.
+        </p>
 
-             <h3>3. Qualitative Analysis & Researcher Validation</h3>
-            <p>
-                To ensure human oversight and contextual understanding, a human-in-the-loop methodology was applied. Researchers collaboratively reviewed, interpreted, and labeled the topics generated by BERTopic. Unrelated or nonsensical clusters were systematically excluded, and overarching themes were identified through iterative qualitative coding and discussion. This robust process balanced computational efficiency with deep human interpretation.
-            </p>
-        </section>
+        <h3 class="section-subheader">2. Topic Modeling with BERTopic</h3>
+        <p>
+            BERTopic, a state-of-the-art topic modeling tool leveraging sentence embeddings (Sentence-BERT), was employed to generate context-aware topic clusters from the cleaned text data. This approach allowed for the automatic identification of meaningful themes and the exclusion of outlier comments, significantly enhancing accuracy compared to traditional methods.
+        </p>
+        <figure class="styled-figure">
+            <img src="Group 774.png" alt="BERTopic output example for Islamic subreddit analysis" class="insight-image" style="width: 80%;"> 
+            <figcaption>Figure 2: Example BERTopic output for the r/islam subreddit. Researchers assigned labels (topics) to the generated clusters. Outlined boxes indicate post topics; colored boxes indicate comment topics.</figcaption>
+        </figure>
 
-        <section class="insights">
-            <h2>Key Insights</h2>
-            <p>The analysis surfaced 22 distinct sub-themes within online discussions, which were categorized into three primary themes revealing the complex relationship between religious players and videogames:</p>
-            <ol>
-                <li>Videogames perceived as Blasphemous or Sinful.</li>
-                <li>Religion serving as a rich Design Space for game elements.</li>
-                <li>Videogames acting as platforms for Religious Education and Community Building.</li>
-            </ol>
+        <h3 class="section-subheader">3. Qualitative Analysis & Researcher Validation</h3>
+        <p>
+            To ensure human oversight and contextual understanding, a human-in-the-loop methodology was applied. Researchers collaboratively reviewed, interpreted, and labeled the topics generated by BERTopic. Unrelated or nonsensical clusters were systematically excluded, and overarching themes were identified through iterative qualitative coding and discussion. This robust process balanced computational efficiency with deep human interpretation.
+        </p>
+    </section>
 
-             <figure>
-                <img src="Group 521.png" alt="Examples of Religious Depictions and Controversial Themes in Games" class="insight-image"> <figcaption>Figure 3: (Row 1) Depictions of Hindu and Babylonian deities in Smite. (Row 2) Themes like alcohol, gambling, or nudity in GTA V, considered sinful by some religious practitioners.</figcaption>
-            </figure>
+    <div class="container"><hr></div>
 
-            <h3>Insight 1: Blasphemous Elements & Misrepresentation</h3>
-            <p>A significant portion of discussions centered on players feeling that certain game elements misrepresented or disrespected their religious beliefs. Concerns included inaccurate portrayals of deities, the trivialization of sacred figures, and gameplay mechanics conflicting with religious values.</p>
-            <figure>
-                <img src="Group 869.png" alt="Diagram showing ways games can be perceived as blasphemous" style="width: 80%;"> <figcaption>Figure 4: Common ways videogames were perceived as blasphemous by religious stakeholders.</figcaption>
-            </figure>
-            <blockquote>
-                <p>“Kali has been deprived of all her original reference material. Instead, the character we see in Smite is a totally tranquil...blue woman with four arms.”</p>
-            </blockquote>
-             <blockquote>
-                <p>“Seeing my God murdered by other gods...is upsetting. I find it unsettling to consider Ganesha engaging in warfare.”</p>
-            </blockquote>
-            <p>The act of controlling gods or engaging in virtual activities deemed sinful (like interacting with spirits, idols, or excessive violence) were major points of contention, highlighting the need for developer sensitivity.</p>
-             <blockquote>
-                 <p>“It’s a major factor in why Jesus hasn’t been incorporated into Smite...Numerous Christian figures could be incorporated...but it’s highly controversial.”</p>
-             </blockquote>
+    <section id="insights" class="container">
+        <div class="section-header">
+            <h2><i class="fa-solid fa-lightbulb"></i> Key Insights</h2>
+        </div>
+        <p>The analysis surfaced 22 distinct sub-themes within online discussions, which were categorized into three primary themes revealing the complex relationship between religious players and videogames:</p>
+        <ol>
+            <li>Videogames perceived as Blasphemous or Sinful.</li>
+            <li>Religion serving as a rich Design Space for game elements.</li>
+            <li>Videogames acting as platforms for Religious Education and Community Building.</li>
+        </ol>
 
-            <h3>Insight 2: Religion as a Design Space</h3>
-            <p>Conversely, many players view religion as a vast source of inspiration for game design, including characters, narratives, settings, and aesthetics. Online communities actively brainstormed ideas for incorporating religious stories, figures, and locations into games.</p>
-            <figure>
-                <img src="Group 800design (1).png" alt="Diagram showing aspects of religion used as design space" style="width: 80%;"> <figcaption>Figure 5: Various aspects of religion identified as inspiration for videogame design elements.</figcaption>
-            </figure>
-            <blockquote>
-                <p>“The Mahabharata provides numerous characters and stories for developing games; what are some stories you think would be good levels in the game?”</p>
-            </blockquote>
-            <blockquote>
-                <p>“Introducing a Christian character for Smite: The Archangel Gabriel...Gabriel radiates a glow that speeds up his and his nearby allies’ HP and MP regeneration.”</p>
-            </blockquote>
-             <blockquote>
-                 <p>“The Worship District Expansion introduces seven new worship beliefs/buildings...such as the Hindu Mandir.”</p>
-             </blockquote>
-             <p>This highlights player enthusiasm for culturally rich content and the potential for games to explore diverse mythologies and histories respectfully.</p>
+         <figure class="styled-figure">
+            <img src="Group 521.png" alt="Examples of Religious Depictions and Controversial Themes in Games" class="insight-image"> 
+            <figcaption>Figure 3: (Row 1) Depictions of Hindu and Babylonian deities in Smite. (Row 2) Themes like alcohol, gambling, or nudity in GTA V, considered sinful by some religious practitioners.</figcaption>
+        </figure>
 
-            <h3>Insight 3: Videogames for Religious Education & Community</h3>
-            <p>Communities actively leverage videogames as tools for religious education and fostering connection. Players suggest and even develop games aimed at teaching religious concepts or history.</p>
-             <figure>
-                <img src="Group 801commmunities (1).png" alt="Diagram showing how games contribute to social settings" style="width: 80%;"> <figcaption>Figure 6: Understanding how games with religious elements contribute to education and community building.</figcaption>
-            </figure>
-            <blockquote>
-                <p>“What questions should I include in an Android quiz game on Hinduism I am building?”</p>
-            </blockquote>
-            <blockquote>
-                <p>“God inspires me to create Christian videogames...Please lead me to God’s Word and in the appropriate direction!”</p>
-            </blockquote>
-            <p>Furthermore, religious communities utilize games to create inclusive online spaces, organize events around festivals (like Ramadan or Diwali), and maintain curated lists of "halal" or religiously appropriate games. Dedicated Discord servers for religious gamers further extend these communities.</p>
-             <blockquote>
-                 <p>“Top 10 halal and valuable videogames.”</p>
-             </blockquote>
-             <blockquote>
-                 <p>“Join our Muslim Gamers Discord community...for an inclusive environment for all gamers, Muslim or otherwise.”</p>
-            </blockquote>
-            <p>This demonstrates the potential for games to transcend entertainment, serving as valuable platforms for cultural celebration, learning, and social connection.</p>
-        </section>
+        <h3 class="section-subheader">Insight 1: Blasphemous Elements & Misrepresentation</h3>
+        <p>A significant portion of discussions centered on players feeling that certain game elements misrepresented or disrespected their religious beliefs. Concerns included inaccurate portrayals of deities, the trivialization of sacred figures, and gameplay mechanics conflicting with religious values.</p>
+        <figure class="styled-figure">
+            <img src="Group 869.png" alt="Diagram showing ways games can be perceived as blasphemous" class="insight-image" style="width: 80%;"> 
+            <figcaption>Figure 4: Common ways videogames were perceived as blasphemous by religious stakeholders.</figcaption>
+        </figure>
+        <div class="quote">
+            <p>“Kali has been deprived of all her original reference material. Instead, the character we see in Smite is a totally tranquil...blue woman with four arms.”</p>
+        </div>
+         <div class="quote">
+            <p>“Seeing my God murdered by other gods...is upsetting. I find it unsettling to consider Ganesha engaging in warfare.”</p>
+        </div>
+        <p>The act of controlling gods or engaging in virtual activities deemed sinful (like interacting with spirits, idols, or excessive violence) were major points of contention, highlighting the need for developer sensitivity.</p>
+         <div class="quote">
+             <p>“It’s a major factor in why Jesus hasn’t been incorporated into Smite...Numerous Christian figures could be incorporated...but it’s highly controversial.”</p>
+         </div>
 
-        <section class="conclusion">
-            <h2>Conclusion & Implications</h2>
-            <p>
-                This research illuminated the intricate, often paradoxical, relationship between religion and videogames. While religious themes offer rich creative potential and foster community engagement, their implementation requires significant cultural sensitivity and nuanced understanding to avoid misrepresentation and alienation.
-            </p>
-            <p>
-                The findings underscore that videogames act as powerful cultural artifacts reflecting and shaping perceptions of religion. For UX professionals and game designers, this research highlights critical considerations:
-            </p>
-            <ul>
-                <li><strong>Prioritize Cultural Sensitivity:</strong> Deeply research and respectfully represent religious elements. Avoid trivialization or stereotypes.</li>
-                <li><strong>Engage with Communities:</strong> Foster dialogue with players and relevant religious communities during development (co-creation).</li>
-                <li><strong>Acknowledge Player Perceptions:</strong> Understand that players bring diverse perspectives; what is acceptable to one group may be offensive to another.</li>
-                <li><strong>Leverage Educational Potential:</strong> Explore opportunities for games to facilitate learning and positive community interaction around cultural and religious themes.</li>
+        <h3 class="section-subheader">Insight 2: Religion as a Design Space</h3>
+        <p>Conversely, many players view religion as a vast source of inspiration for game design, including characters, narratives, settings, and aesthetics. Online communities actively brainstormed ideas for incorporating religious stories, figures, and locations into games.</p>
+        <figure class="styled-figure">
+            <img src="Group 800design (1).png" alt="Diagram showing aspects of religion used as design space" class="insight-image" style="width: 80%;"> 
+            <figcaption>Figure 5: Various aspects of religion identified as inspiration for videogame design elements.</figcaption>
+        </figure>
+        <div class="quote">
+            <p>“The Mahabharata provides numerous characters and stories for developing games; what are some stories you think would be good levels in the game?”</p>
+        </div>
+        <div class="quote">
+            <p>“Introducing a Christian character for Smite: The Archangel Gabriel...Gabriel radiates a glow that speeds up his and his nearby allies’ HP and MP regeneration.”</p>
+        </div>
+         <div class="quote">
+             <p>“The Worship District Expansion introduces seven new worship beliefs/buildings...such as the Hindu Mandir.”</p>
+         </div>
+         <p>This highlights player enthusiasm for culturally rich content and the potential for games to explore diverse mythologies and histories respectfully.</p>
+
+        <h3 class="section-subheader">Insight 3: Videogames for Religious Education & Community</h3>
+        <p>Communities actively leverage videogames as tools for religious education and fostering connection. Players suggest and even develop games aimed at teaching religious concepts or history.</p>
+         <figure class="styled-figure">
+            <img src="Group 801commmunities (1).png" alt="Diagram showing how games contribute to social settings" class="insight-image" style="width: 80%;"> 
+            <figcaption>Figure 6: Understanding how games with religious elements contribute to education and community building.</figcaption>
+        </figure>
+        <div class="quote">
+            <p>“What questions should I include in an Android quiz game on Hinduism I am building?”</p>
+        </div>
+        <div class="quote">
+            <p>“God inspires me to create Christian videogames...Please lead me to God’s Word and in the appropriate direction!”</p>
+        </div>
+        <p>Furthermore, religious communities utilize games to create inclusive online spaces, organize events around festivals (like Ramadan or Diwali), and maintain curated lists of "halal" or religiously appropriate games. Dedicated Discord servers for religious gamers further extend these communities.</p>
+         <div class="quote">
+             <p>“Top 10 halal and valuable videogames.”</p>
+         </div>
+         <div class="quote">
+             <p>“Join our Muslim Gamers Discord community...for an inclusive environment for all gamers, Muslim or otherwise.”</p>
+        </div>
+        <p>This demonstrates the potential for games to transcend entertainment, serving as valuable platforms for cultural celebration, learning, and social connection.</p>
+    </section>
+
+    <div class="container"><hr></div>
+
+    <section id="conclusion" class="container">
+        <div class="section-header">
+            <h2><i class="fa-regular fa-circle-check"></i> Conclusion & Implications</h2>
+        </div>
+        <p>
+            This research illuminated the intricate, often paradoxical, relationship between religion and videogames. While religious themes offer rich creative potential and foster community engagement, their implementation requires significant cultural sensitivity and nuanced understanding to avoid misrepresentation and alienation.
+        </p>
+        <p>
+            The findings underscore that videogames act as powerful cultural artifacts reflecting and shaping perceptions of religion. For UX professionals and game designers, this research highlights critical considerations:
+        </p>
+        <ul>
+            <li><strong>Prioritize Cultural Sensitivity:</strong> Deeply research and respectfully represent religious elements. Avoid trivialization or stereotypes.</li>
+            <li><strong>Engage with Communities:</strong> Foster dialogue with players and relevant religious communities during development (co-creation).</li>
+            <li><strong>Acknowledge Player Perceptions:</strong> Understand that players bring diverse perspectives; what is acceptable to one group may be offensive to another.</li>
+            <li><strong>Leverage Educational Potential:</strong> Explore opportunities for games to facilitate learning and positive community interaction around cultural and religious themes.</li>
+        </ul>
+        <p>
+            Ultimately, creating truly resonant and inclusive gaming experiences involving religion necessitates a thoughtful balance between creative expression, player expectation, and profound respect for diverse beliefs and practices.
+        </p>
+    </section>
+
+    <!-- <div class="container"><hr></div> -->
+
+    <!-- <section id="learnings" class="container">
+        <div class="section-header">
+            <h2><i class="fa-solid fa-brain"></i> Personal Learnings & Future Work</h2>
+        </div>
+         <div class="card">
+             <h4>Key Learnings</h4>
+             <ul>
+                <li><strong>Unveiling Nuance:</strong> The study revealed a complex, often contradictory, relationship between religion and gaming, moving beyond simple "good" or "bad" portrayals.</li>
+                <li><strong>Power of Mixed Methods:</strong> Combining quantitative topic modeling with qualitative interpretation was crucial for robust and contextually rich insights.</li>
+                <li><strong>Importance of Discourse:</strong> Analyzing online community discussions provides invaluable, unsolicited feedback on user perceptions and cultural sensitivities.</li>
+                <li><strong>Ethical Implications in Tech:</strong> This research highlighted the direct ethical responsibilities of designers and developers when incorporating sensitive cultural content.</li>
             </ul>
-            <p>
-                Ultimately, creating truly resonant and inclusive gaming experiences involving religion necessitates a thoughtful balance between creative expression, player expectation, and profound respect for diverse beliefs and practices.
-            </p>
-        </section>
+        </div>
+        <div class="card">
+            <h4>Limitations and Future Work</h4>
+            <ul>
+                <li><strong>Platform Bias:</strong> Relying solely on Reddit might limit generalizability to other platforms or non-online players.</li>
+                <li><strong>Algorithmic Nuance:</strong> While BERTopic is advanced, some semantic nuances in religious discourse might still be missed by algorithms.</li>
+                <li><strong>Broader Cultural Scope:</strong> Future work could expand to other religious traditions or cultural contexts beyond those heavily discussed.</li>
+                <li><strong>Developer Interviews:</strong> Complementing player discourse with direct interviews with game developers could provide a holistic view.</li>
+                <li><strong>Intervention Design:</strong> Explore how these insights can be translated into actionable design guidelines or tools for developers.</li>
+            </ul>
+        </div>
+    </section> -->
 
-        <footer class="footer" style="text-align: center; padding: var(--spacing-lg) var(--spacing-md); margin-top: var(--spacing-xl); background-color: var(--secondary-color); color: var(--text-color-light); font-size: 0.9rem;">
-             <p>&copy; <span id="current-year"></span> Sai Maram. Case Study.</p>
-             <p><a href="./index.html">Back to Portfolio</a></p>
-        </footer>
+    <footer class="footer">
+      <p>&copy; <span id="current-year"></span> Sai Maram. Case Study.</p>
+      <p><a href="./index.html">Back to Portfolio</a></p>
+    </footer>
 
-    </main>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+ const menuToggle = document.getElementById('menu-toggle');
+ const navLinksContainer = document.getElementById('nav-links'); 
+ const navLinks = document.querySelectorAll('.nav-link'); 
+ const navbar = document.getElementById('navbar');
 
-    <script>document.addEventListener('DOMContentLoaded', () => {
-        const menuToggle = document.getElementById('menu-toggle');
-        const navbarNav = document.getElementById('navbar-nav');
-        const navLinks = document.querySelectorAll('.nav-link'); // Get all nav links
-        const navbar = document.getElementById('navbar');
-    
-        // Toggle mobile menu
-        if (menuToggle && navbarNav) {
-            menuToggle.addEventListener('click', () => {
-                navbarNav.classList.toggle('active');
-                // Optional: change hamburger icon to 'X'
-                const icon = menuToggle.querySelector('i');
-                if (navbarNav.classList.contains('active')) {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times');
-                    menuToggle.setAttribute('aria-expanded', 'true');
-                } else {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                    menuToggle.setAttribute('aria-expanded', 'false');
-                }
-            });
-    
-            // Close mobile menu when a link is clicked
-            navLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    if (navbarNav.classList.contains('active')) {
-                        navbarNav.classList.remove('active');
-                        const icon = menuToggle.querySelector('i');
-                        icon.classList.remove('fa-times');
-                        icon.classList.add('fa-bars');
-                         menuToggle.setAttribute('aria-expanded', 'false');
-                    }
-                });
-            });
-        }
-    
-         // Add shadow to navbar on scroll
-        if (navbar) {
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) { // Add shadow after scrolling 50px
-                    navbar.classList.add('scrolled');
-                } else {
-                    navbar.classList.remove('scrolled');
-                }
-            });
-        }
-    
-        // Update footer year
-        const currentYearSpan = document.getElementById('current-year');
-        if (currentYearSpan) {
-            currentYearSpan.textContent = new Date().getFullYear();
-        }
-    
-        // --- Optional: Active Nav Link Highlighting ---
-        // More complex implementation needed based on scroll position
-        // This is a simple example assuming section IDs match nav hrefs
-        const sections = document.querySelectorAll('section[id]'); // Get sections with IDs
-    
-        function setActiveLink() {
-            let currentSection = '';
-            const scrollPos = window.scrollY + navbar.offsetHeight + 50; // Offset for navbar height + buffer
-    
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.offsetHeight;
-                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-                    currentSection = section.getAttribute('id');
-                }
-            });
-    
-             // Special case for top of page (hero section often doesn't have ID or is above first section)
-             if (window.scrollY < sections[0].offsetTop - navbar.offsetHeight - 50) {
-                 currentSection = 'home'; // Assuming hero/top section implies 'home' link
+ // Toggle mobile menu
+ if (menuToggle && navLinksContainer) {
+     menuToggle.addEventListener('click', () => {
+         navLinksContainer.classList.toggle('active');
+         const icon = menuToggle.querySelector('i');
+         if (navLinksContainer.classList.contains('active')) {
+             icon.classList.remove('fa-bars');
+             icon.classList.add('fa-times');
+             menuToggle.setAttribute('aria-expanded', 'true');
+         } else {
+             icon.classList.remove('fa-times');
+             icon.classList.add('fa-bars');
+             menuToggle.setAttribute('aria-expanded', 'false');
+         }
+     });
+
+     navLinks.forEach(link => {
+         link.addEventListener('click', () => {
+             if (navLinksContainer.classList.contains('active')) { 
+                 const href = link.getAttribute('href');
+                 if (href && (href.startsWith('#') || href.startsWith('./#') || href.startsWith(window.location.pathname + '#'))) {
+                    // Internal anchor link, allow default behavior to scroll, then close menu.
+                 }
+                 // For all link clicks when menu is open, close the menu.
+                 navLinksContainer.classList.remove('active');
+                 const icon = menuToggle.querySelector('i');
+                 icon.classList.remove('fa-times');
+                 icon.classList.add('fa-bars');
+                 menuToggle.setAttribute('aria-expanded', 'false');
              }
-    
-    
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                // Check if the link's href matches the current section ID
-                // Handle the '#' in href
-                if (link.getAttribute('href') === `#${currentSection}`) {
-                    link.classList.add('active');
-                }
-                 // Handle base index.html link for 'home'
-                if (currentSection === 'home' && (link.getAttribute('href') === './index.html' || link.getAttribute('href') === '#home') ) {
-                     // No specific 'home' link in the provided nav, so this part might not highlight anything unless a home link is added.
-                     // Example: if you add <a href="#home">Home</a>, this would work.
-                }
-            });
-        }
-    
-        window.addEventListener('scroll', setActiveLink);
-        setActiveLink(); // Initial check on load
-    
-    });</script>
+         });
+     });
+ }
 
+  // Add shadow to navbar on scroll
+ if (navbar) {
+     window.addEventListener('scroll', () => {
+         if (window.scrollY > 50) { 
+             navbar.classList.add('scrolled');
+         } else {
+             navbar.classList.remove('scrolled');
+         }
+     });
+ }
+
+ // Update footer year
+ const currentYearSpan = document.getElementById('current-year');
+ if (currentYearSpan) {
+     currentYearSpan.textContent = new Date().getFullYear();
+ }
+
+ // Active Nav Link Highlighting 
+ const sections = document.querySelectorAll('section[id]'); 
+
+ function setActiveLink() {
+     let currentSectionId = '';
+     if (!navbar || sections.length === 0) return;
+
+     const scrollPos = window.scrollY + navbar.offsetHeight + Math.max(100, window.innerHeight * 0.3);
+
+     sections.forEach(section => {
+         const sectionTop = section.offsetTop;
+         const sectionHeight = section.offsetHeight;
+         if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+             currentSectionId = section.getAttribute('id');
+         }
+     });
+    
+     navLinks.forEach(link => {
+         link.classList.remove('active');
+         const linkHref = link.getAttribute('href');
+         
+         if (linkHref) {
+            const linkAnchor = linkHref.split('#')[1];
+            if (linkAnchor && linkAnchor === currentSectionId) {
+                 link.classList.add('active');
+            }
+         }
+     });
+ }
+
+ window.addEventListener('scroll', setActiveLink);
+ window.addEventListener('resize', setActiveLink); 
+ setActiveLink(); 
+
+});
+</script>
 </body>
 </html>

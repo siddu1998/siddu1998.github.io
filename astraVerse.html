@@ -233,7 +233,7 @@
     .nav-links {
         display: flex;
         align-items: center;
-        gap: var(--spacing-sm);
+        gap: 1rem;;
     }
 
     .nav-link {
@@ -262,7 +262,7 @@
 }
 
 .nav-cta:hover {
-    background-color: var(--gray-800);
+    background-color: var(--gray-50);
     transform: translateY(-1px);
     box-shadow: var(--shadow-sm);
 }
@@ -603,6 +603,97 @@
         color: var(--primary-color);
     }
 
+    /* --- TL;DR Section Specific Styles (Inspired by screenshot) --- */
+    .tldr-section {
+        padding: var(--spacing-2xl) 0;
+        text-align: center; /* Center main heading and subtitle */
+    }
+
+    .tldr-section .section-header {
+        text-align: center; /* Override default left-align */
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .tldr-section .section-header h2 {
+        font-size: 2.2rem; /* Slightly smaller for TL;DR main heading */
+        font-weight: 700;
+        margin-bottom: var(--spacing-sm);
+        letter-spacing: -0.02em;
+        justify-content: center; /* Center icon and text */
+    }
+
+    .tldr-subtitle {
+        font-size: 1.15rem;
+        color: var(--text-color-light);
+        max-width: 700px;
+        margin: 0 auto var(--spacing-xl);
+    }
+
+    .tldr-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: var(--spacing-lg);
+        margin-top: var(--spacing-xl); /* Space below the main heading/subtitle */
+    }
+
+    .tldr-card {
+        background: var(--bg-white);
+        border: 1px solid var(--border-color);
+        padding: var(--spacing-lg);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+        text-align: left;
+    }
+
+    .tldr-card h4 {
+        font-size: 1.1rem; /* Slightly smaller H4 for cards */
+        font-weight: 600;
+        margin-bottom: var(--spacing-sm);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem; /* Gap between icon and text */
+        color: var(--gray-800);
+    }
+
+    .tldr-card ul {
+        list-style: none; /* Remove default bullet points */
+        padding: 0;
+        margin: 0;
+    }
+
+    .tldr-card li {
+        font-size: 0.95rem;
+        color: var(--text-color-dark);
+        margin-bottom: var(--spacing-xs);
+        position: relative;
+        padding-left: var(--spacing-md); /* Space for custom bullet */
+    }
+
+    .tldr-card li:last-child {
+        margin-bottom: 0;
+    }
+
+    .tldr-card li::before {
+        content: '→'; /* Custom arrow bullet */
+        position: absolute;
+        left: 0;
+        color: var(--primary-color); /* Primary color for the arrow */
+        font-weight: 600;
+    }
+
+    .tldr-card .key-outcome-list li::before {
+        content: '\2022'; /* Regular bullet for key outcomes */
+        color: var(--accent-green); /* Green for key outcomes */
+        font-size: 1.2em; /* Make bullet slightly larger */
+        top: 0; /* Align bullet with text */
+    }
+
+    /* Specific colors for TL;DR icons based on screenshot */
+    .tldr-card h4 .fa-exclamation-circle { color: #E74C3C; /* Red for Problem */ }
+    .tldr-card h4 .fa-compass { color: #3498DB; /* Blue for Approach */ }
+    .tldr-card h4 .fa-lightbulb { color: #F39C12; /* Orange for Solution */ }
+    .tldr-card h4 .fa-chart-line { color: #27AE60; /* Green for Key Results */ }
+
 
     /* --- Responsive (Adapted from Shloka & original AstraVerse) --- */
     @media (max-width: 768px) {
@@ -660,12 +751,20 @@
             gap: var(--spacing-xs);
         }
 
-        .overview-grid {
+        .overview-grid, .tldr-grid { /* Apply to tldr-grid as well */
             grid-template-columns: 1fr;
         }
 
         .section-header h2 {
             font-size: 2rem;
+        }
+
+        .tldr-section .section-header h2 {
+            font-size: 1.8rem;
+        }
+
+        .tldr-subtitle {
+            font-size: 1rem;
         }
     }
 </style>
@@ -693,7 +792,6 @@
 
     <section class="hero">
         <div class="container">
-            <!-- <p class="meta">UX Research & Design System Case Study</p> -->
             <h1>AstraVerse</h1>
             <p class="subtitle">Developing a framework for creating novel and culturally sensitive video game characters inspired by mythology, moving beyond direct appropriation.</p>
             <div class="hero-meta">
@@ -709,6 +807,49 @@
         </div>
     </section>
 
+    <section id="executive-summary" class="tldr-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>TL;DR: Why This Case Study Matters</h2>
+            </div>
+            <p class="tldr-subtitle">How a UX framework enabled ethical, novel character design and addressed a critical industry challenge.</p>
+            
+            <div class="tldr-grid">
+                <div class="tldr-card">
+                    <h4><i class="fa-solid fa-exclamation-circle"></i> The Problem</h4>
+                    <ul>
+                        <li>Video games often directly 'transplant' mythological figures.</li>
+                        <li>This limits creativity and leads to cultural backlash/misrepresentation.</li>
+                        <li>Designers face "block" finding fresh, respectful inspiration.</li>
+                    </ul>
+                </div>
+                <div class="tldr-card">
+                    <h4><i class="fa-solid fa-compass"></i> My Approach</h4>
+                    <ul>
+                        <li><strong>Generative:</strong> Visual & Digital Ethnography (Hindu temples, Reddit) + Grounded Theory to create a "Syntagm & Paradigm" system.</li>
+                        <li><strong>Evaluative:</strong> Participatory Design (designers), Quantitative Novelty Assessment (vector analysis), Cultural Sensitivity Interviews (experts).</li>
+                    </ul>
+                </div>
+                <div class="tldr-card">
+                    <h4><i class="fa-solid fa-lightbulb"></i> The Solution</h4>
+                    <ul>
+                        <li>AstraVerse: A card-based design toolkit derived from cultural elements.</li>
+                        <li>Enables creation of new characters *inspired by*, not *copied from*, mythology.</li>
+                        <li>Provides structured yet flexible ideation for designers.</li>
+                    </ul>
+                </div>
+                <div class="tldr-card">
+                    <h4><i class="fa-solid fa-chart-line"></i> Key Results</h4>
+                    <ul class="key-outcome-list">
+                        <li><strong>Novelty:</strong> Characters created were statistically novel (p&lt;0.05, Cohen's d=1.57) compared to transplanted gods.</li>
+                        <li><strong>Sensitivity:</strong> Cultural experts found generated characters acceptable, allowing creative liberty without offense.</li>
+                        <li><strong>Usability:</strong> Designers found the system intuitive and effective for generating creative concepts.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container"> <hr> </div>
     <section class="overview">
         <div class="wide-container">
             <div class="overview-grid">
@@ -752,7 +893,7 @@
         <div class="section-header">
             <h2><i class="fa-solid fa-exclamation-triangle"></i> The Challenge: Inspiring Characters Without Appropriation</h2>
         </div>
-        <p>Mythology and culture are rich sources of inspiration for video game characters. However, the common practice of directly copying religious or mythological figures—often termed "god transplantation"—presents significant UX and ethical challenges. This approach not only limits creative potential by capping the number of available characters but also frequently leads to backlash from cultural communities when sacred figures from active religions are misrepresented or trivialized in games.</p>
+        <p>Mythology and culture are rich sources of inspiration for video game characters. However, the common practice of directly copying religious or mythological figures—often termed "god transplantation"—presents significant **UX and ethical challenges**. This approach not only limits creative potential by capping the number of available characters but also frequently leads to backlash from cultural communities when sacred figures from active religions are misrepresented or trivialized in games.</p>
         <p>This creates a dilemma for game designers: how can they draw inspiration from deep cultural narratives respectfully, while also creating characters that feel fresh, engaging, and appropriate for a global audience? Furthermore, "Designer's block" is a prevalent phenomenon due to the constant need for new game content.</p>
         <p>Our goal was to move beyond simple appropriation and explore: <strong>How can cultural spaces and elements inform a *process* for designing characters that are both novel and culturally sensitive?</strong></p>
     </section>
@@ -910,10 +1051,10 @@
                 <img src="temporary/images/astraVerse/Group 101 (1).png" alt="Game designers creating characters using the AstraVerse card system" class="insight-image">
                 <figcaption>Designers actively using the toolkit in the participatory workshop.</figcaption>
             </figure>
-            <figure class="styled-figure">
+            <!-- <figure class="styled-figure">
                 <img src="temporary/images/astraVerse/Group 101 (2).png" alt="Final characters created by participants and artist" class="insight-image">
                 <figcaption>Final characters designed by participants and artist.</figcaption>
-            </figure>
+            </figure> -->
         </div>
 
 
@@ -925,6 +1066,16 @@
                 <img src="temporary/images/astraVerse/Group 65 (5).png" alt="Diagram showing character representation as a vector of syntagms" class="insight-image">
                 <figcaption>Representing characters as vectors for quantitative comparison.</figcaption>
             </figure>
+            <!-- <figure class="styled-figure">
+                <img src="temporary/images/astraVerse/Group 68.png" alt="Radar chart comparing distances of participant characters vs original gods" class="insight-image">
+                <figcaption>Visualizing character novelty: Participant characters (Group 2) are distinct from original gods (Group 1).</figcaption>
+            </figure> -->
+         </div>
+          <div class="two-column">
+            <!-- <figure class="styled-figure">
+                <img src="temporary/images/astraVerse/Group 65 (5).png" alt="Diagram showing character representation as a vector of syntagms" class="insight-image">
+                <figcaption>Representing characters as vectors for quantitative comparison.</figcaption>
+            </figure> -->
             <figure class="styled-figure">
                 <img src="temporary/images/astraVerse/Group 68.png" alt="Radar chart comparing distances of participant characters vs original gods" class="insight-image">
                 <figcaption>Visualizing character novelty: Participant characters (Group 2) are distinct from original gods (Group 1).</figcaption>
@@ -965,7 +1116,17 @@
                 <li>Crucially, stakeholders felt <mark>creative liberty *could* be taken with narratives for these fictional characters,</mark> unlike for original sacred figures.</li>
             </ul>
         </div>
-    </section>
+
+        <h3 class="section-subheader">Key Outcomes & Impact</h3>
+        <div class="card">
+            <h4><i class="fa-solid fa-clipboard-list"></i> Summary of Impact:</h4>
+            <ul class="key-outcome-list">
+                <li><strong>Culturally Sensitive Creations:</strong> Generated characters were perceived by cultural experts as unique, fictional beings *inspired by* mythology rather than direct, potentially offensive copies. This allowed for creative narratives without cultural backlash.</li>
+                <li><strong>Measurable Novelty:</strong> Statistical analysis confirmed that characters created with AstraVerse are significantly more novel (distinct) than traditional "god transplantation" methods, particularly in physical features and weapon design.</li>
+                <li><strong>Empowered Designers:</strong> Game designers found the card-based toolkit intuitive and effective, stimulating creativity and providing a structured pathway to overcome ideation challenges.</li>
+            </ul>
+        </div>
+        </section>
 
     <div class="container"><hr></div>
 

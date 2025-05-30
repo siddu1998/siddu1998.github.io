@@ -1,432 +1,923 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Move. - UX Case Study</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Move. - UX Case Study</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <style>
-      /* --- Global Styles & Variables (Copied from previous revamp) --- */
-      :root {
-          --primary-font: "Inter", system-ui, sans-serif;
-          --heading-font: "Inter", system-ui, sans-serif;
-  
-          --primary-color: #F39F5A; /* Accent orange */
-          --primary-color-darker: #e08e4a; /* Darker shade */
-          --secondary-color: #f8f9fa; /* Light background */
-          --text-color: #343a40; /* Dark grey for text */
-          --text-color-light: #6c757d; /* Lighter grey for descriptions */
-          --border-color: #dee2e6;
-          --card-bg: #ffffff;
-          --shadow-color: rgba(0, 0, 0, 0.05); /* Softer shadow */
-          --shadow-hover-color: rgba(0, 0, 0, 0.1);
-  
-          --border-radius-sm: 4px;
-          --border-radius-md: 8px;
-          --border-radius-lg: 12px;
-  
-          --spacing-xs: 0.5rem;  /* 8px */
-          --spacing-sm: 1rem;    /* 16px */
-          --spacing-md: 1.5rem;  /* 24px */
-          --spacing-lg: 2.5rem;  /* 40px */
-          --spacing-xl: 4rem;    /* 64px */
-  
-          --max-width: 1100px; /* Slightly narrower for case study text */
-          --transition-speed: 0.3s;
-      }
-  
-      *,
-      *::before,
-      *::after {
-          box-sizing: border-box;
-          margin: 0;
-          padding: 0;
-      }
-  
-      html {
-          scroll-behavior: smooth;
-          scroll-padding-top: 80px; /* Adjust based on fixed navbar height */
-      }
-  
-      body {
-          font-family: var(--primary-font);
-          color: var(--text-color);
-          background-color: #fff;
-          line-height: 1.7;
-          font-size: 17px; /* Slightly larger base font for readability */
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-          padding-top: 70px; /* Add padding to prevent content going under fixed navbar */
-      }
-  
-      .container {
-          max-width: var(--max-width);
-          margin-left: auto;
-          margin-right: auto;
-          padding-left: var(--spacing-md);
-          padding-right: var(--spacing-md);
-      }
-  
-      h1, h2, h3, h4, h5, h6 {
-          font-family: var(--heading-font);
-          font-weight: 700;
-          line-height: 1.3;
-          margin-bottom: var(--spacing-sm);
-          color: var(--text-color);
-      }
-  
-      h1 { font-size: 2.8rem; color: var(--primary-color-darker); } /* Main Case Study Title */
-      h2 { font-size: 2rem; margin-top: var(--spacing-lg); border-bottom: 2px solid var(--border-color); padding-bottom: var(--spacing-xs); } /* Section Titles */
-      h3 { font-size: 1.5rem; margin-top: var(--spacing-md); font-weight: 700; color: var(--text-color); } /* Sub-Section Titles */
-      h4 { font-size: 1.2rem; font-weight: 700; color: var(--text-color); } /* Overview Box Titles */
-  
-      p {
-          margin-bottom: var(--spacing-md);
-          font-size: 1.1rem; /* Slightly larger paragraph font */
-          max-width: 75ch; /* Optimal line length for reading */
-      }
-      p.meta { /* For date/publication info */
-          font-size: 0.95rem;
-          color: var(--text-color-light);
-          margin-bottom: var(--spacing-xs);
-      }
-  
-      a {
-          color: var(--primary-color);
-          text-decoration: none;
-          font-weight: 500;
-          transition: color var(--transition-speed) ease;
-      }
-  
-      a:hover, a:focus {
-          color: var(--primary-color-darker);
-          text-decoration: underline;
-          outline: none;
-      }
-  
-      img {
-          max-width: 100%;
-          height: auto;
-          display: block;
-          border-radius: var(--border-radius-md); /* Subtle rounding */
-      }
-  
-      figure {
-          margin: var(--spacing-lg) auto; /* Center figures */
-          max-width: 90%; /* Limit figure width */
-          text-align: center;
-      }
-  
-      figcaption {
-          margin-top: var(--spacing-sm);
-          font-size: 0.9rem;
-          color: var(--text-color-light);
-          font-style: italic;
-      }
-  
-      ul, ol {
-          margin-bottom: var(--spacing-md);
-          padding-left: var(--spacing-md);
-      }
-  
-      li {
-          margin-bottom: var(--spacing-xs);
-          font-size: 1.05rem;
-      }
-  
-      blockquote {
-          border-left: 4px solid var(--primary-color);
-          margin: var(--spacing-md) 0 var(--spacing-md) var(--spacing-sm);
-          padding: var(--spacing-sm) var(--spacing-md);
-          background-color: var(--secondary-color);
-          border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
-          font-style: italic;
-          color: var(--text-color-light);
-          font-size: 1.1rem;
-      }
-       blockquote p {
-           margin-bottom: 0;
-           max-width: none; /* Allow blockquote text to fill width */
-       }
-  
-      hr {
-          border: none;
-          border-top: 1px solid var(--border-color);
-          margin: var(--spacing-lg) 0;
-      }
-  
-      strong, b {
-          font-weight: 700;
-      }
-  
-      /* --- Navbar Styles (Copied from previous revamp) --- */
-      .navbar {
-          background-color: rgba(255, 255, 255, 0.95);
-          backdrop-filter: blur(10px);
-          border-bottom: 1px solid var(--border-color);
-          padding: var(--spacing-xs) 0;
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          z-index: 1000;
-          transition: box-shadow var(--transition-speed) ease;
-      }
-      .navbar.scrolled { box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); }
-      .nav-container {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          max-width: var(--max-width);
-          margin: 0 auto;
-          padding: 0 var(--spacing-md);
-      }
-      .nav-logo { font-weight: 700; font-size: 1.4rem; color: var(--text-color); text-decoration: none; }
-      .nav-logo:hover { color: var(--primary-color); text-decoration: none; }
-      .navbar-nav { display: flex; align-items: center; gap: var(--spacing-sm); }
-      .nav-link { color: var(--text-color-light); text-decoration: none; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--border-radius-sm); font-weight: 500; transition: color var(--transition-speed) ease, background-color var(--transition-speed) ease; }
-      .nav-link:hover, .nav-link:focus, .nav-link.active { color: var(--primary-color); text-decoration: none; background-color: rgba(243, 159, 90, 0.1); }
-      .nav-link-button { background-color: var(--primary-color); color: white; padding: 8px 18px; border-radius: var(--border-radius-md); transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease; }
-      .nav-link-button:hover, .nav-link-button:focus { background-color: var(--primary-color-darker); color: white; transform: translateY(-2px); text-decoration: none; }
-      .menu-toggle { display: none; background: none; border: none; font-size: 1.8rem; color: var(--text-color); cursor: pointer; padding: var(--spacing-xs); }
-  
-      /* --- Case Study Specific Styles --- */
-      .case-study-header {
-          padding: var(--spacing-lg) 0 var(--spacing-md) 0;
-          /* background-color: var(--secondary-color); Light bg for header */
-          border-bottom: 1px solid var(--border-color);
-          margin-bottom: var(--spacing-xl);
-      }
-      .case-study-header h1 {
-          margin-bottom: var(--spacing-sm);
-      }
-      .case-study-header .subtitle {
-          font-size: 1.4rem;
-          font-weight: 400;
-          color: var(--text-color-light);
-          max-width: 75ch;
-          margin-bottom: var(--spacing-md);
-      }
-  
-      .overview-section {
-          display: flex;
-          flex-wrap: wrap;
-          gap: var(--spacing-md);
-          background-color: var(--secondary-color);
-          padding: var(--spacing-md);
-          border-radius: var(--border-radius-lg);
-          margin-bottom: var(--spacing-xl);
-      }
-      .overview-box {
-          flex: 1 1 200px; /* Flexible boxes, minimum width 200px */
-          padding: var(--spacing-sm);
-      }
-      .overview-box h4 {
-          margin-bottom: var(--spacing-sm);
-          display: flex;
-          align-items: center;
-          gap: var(--spacing-xs);
-          color: var(--primary-color-darker);
-      }
-       .overview-box h4 i { /* Icon styling */
-          font-size: 1rem;
-           color: var(--primary-color);
-      }
-  
-      .overview-box ul {
-          list-style: none;
-          padding-left: 0;
-          margin-bottom: 0;
-      }
-       .overview-box li {
-          font-size: 1rem;
-          color: var(--text-color);
-      }
-  
-      .video-container {
-          position: relative;
-          padding-bottom: 56.25%; /* 16:9 aspect ratio */
-          height: 0;
-          overflow: hidden;
-          max-width: 100%;
-          background: #000;
-          margin: var(--spacing-lg) auto; /* Center video */
-          border-radius: var(--border-radius-md);
-          box-shadow: 0 4px 15px var(--shadow-color);
-      }
-      .video-container iframe {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          border: 0;
-      }
-      .video-caption {
-          text-align: center;
-          margin-top: var(--spacing-sm);
-          font-size: 0.9rem;
-          color: var(--text-color-light);
-          font-style: italic;
-      }
-  
-      .problem-solution-section {
-          display: flex;
-          flex-wrap: wrap;
-          gap: var(--spacing-lg);
-          margin-bottom: var(--spacing-xl);
-      }
-      .problem-solution-section > div {
-          flex: 1 1 45%; /* Two columns */
-          min-width: 300px; /* Prevent excessive shrinking */
-      }
-       .problem-solution-section h3 { /* Use H3 for Problem/Solution titles here */
-           margin-top: 0; /* No extra top margin */
-           border-bottom: 2px solid var(--primary-color);
-           padding-bottom: var(--spacing-xs);
-           display: inline-block;
-       }
-  
-      .insight-image {
-          border: 1px solid var(--border-color);
-          padding: var(--spacing-xs);
-          background-color: #fff;
-           box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      }
-  
-      /* --- Responsive Design --- */
-      @media screen and (max-width: 768px) {
-          body {
-              font-size: 16px;
-              padding-top: 60px; /* Adjust for mobile navbar height */
-          }
-          html { scroll-padding-top: 70px; }
-          h1 { font-size: 2.2rem; }
-          h2 { font-size: 1.8rem; }
-          h3 { font-size: 1.4rem; }
-          p { font-size: 1rem; }
-          blockquote { font-size: 1rem; margin-left: 0; }
-  
-          /* Navbar Mobile */
-          .navbar { padding: var(--spacing-xs) 0; }
-          .nav-container { padding: 0 var(--spacing-sm); }
-          .navbar-nav { display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: white; flex-direction: column; align-items: stretch; padding: var(--spacing-sm) 0; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); border-top: 1px solid var(--border-color); }
-          .navbar-nav.active { display: flex; }
-          .nav-link { text-align: center; padding: var(--spacing-sm); border-radius: 0; border-bottom: 1px solid var(--border-color); }
-          .nav-link:last-child { border-bottom: none; }
-          .nav-link-button { margin: var(--spacing-sm); text-align: center; }
-          .menu-toggle { display: block; }
-  
-          /* Case Study Layout Mobile */
-          .container { padding-left: var(--spacing-sm); padding-right: var(--spacing-sm); }
-          .case-study-header { margin-bottom: var(--spacing-lg); padding-top: var(--spacing-md); }
-          .overview-section { flex-direction: column; }
-          .problem-solution-section { flex-direction: column; gap: var(--spacing-md); }
-          figure { max-width: 100%; }
-          .video-container { margin: var(--spacing-md) auto; }
-      }
-  
-  </style>
+  <style>
+    /* --- Global Styles & Variables (Borrowed and adapted from Shloka) --- */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    :root {
+        /* Typography */
+        --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        --font-mono: "SF Mono", Monaco, "Inconsolata", "Fira Code", "Fira Mono", "Roboto Mono", Courier New, Courier, monospace;
+
+        /* Colors - Based on AstraVerse original, adjusted to Shloka's feel */
+        --primary-color: #FF6B35; /* AstraVerse Accent Orange */
+        --primary-color-light: #FFF4F0;
+        --primary-color-darker: #E05A2A; /* Darker version of primary */
+
+         --black: #000000;
+        --gray-900: #111111;
+        --gray-800: #1a1a1a;
+        --gray-700: #333333;
+        --gray-600: #4d4d4d;
+        --gray-500: #666666;
+        --gray-400: #808080;
+        --gray-300: #999999;
+        --gray-200: #cccccc;
+        --gray-100: #e6e6e6;
+        --gray-50: #f5f5f5;
+        --white: #ffffff;
+
+        --secondary-color: #0066CC; /* AstraVerse Accent Blue */
+        --secondary-color-light: #E6F2FF; /* Light version of secondary */
+        
+        --accent-green: #00C896;
+        --accent-green-light: #E6FFF9;
+        --accent-purple: #6B46C1;
+        --accent-purple-light: #F3F0FF;
+
+        --text-color: #1a1a1a; /* Dark text */
+        --text-color-dark: #333333; /* General paragraph text */
+        --text-color-light: #666; /* Lighter text for meta/subtitles */
+        --text-color-lighter: #999; /* Even lighter text */
+        --border-color: #e0e0e0; /* Light border */
+        --bg-light: #f8f9fa; /* Light background for sections/cards */
+        --bg-white: #ffffff; /* White background */
+
+        /* Spacing - Comprehensive set, values adjusted to Shloka's density */
+        --spacing-xs: 0.5rem;   /* 8px */
+        --spacing-sm: 1rem;     /* 16px */
+        --spacing-md: 1.5rem;   /* 24px */
+        --spacing-lg: 2rem;     /* 32px */
+        --spacing-xl: 3rem;     /* 48px */
+        --spacing-2xl: 4rem;    /* 64px */
+        --spacing-3xl: 5rem;    /* 80px */
+
+       
+
+        /* Border Radius - Adjusted to Shloka's slightly smaller radii */
+        --border-radius-sm: 4px;
+        --border-radius-md: 8px;
+        --border-radius-lg: 12px; /* For larger elements like hero image */
+        --border-radius-xl: 16px; /* For main sections/containers */
+
+        /* Shadows - Consistent with Shloka */
+        --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+        --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.08); /* Used for hero image */
+
+        /* Layout */
+        --max-width: 1200px; /* Wide container max-width */
+        --content-max-width: 800px; /* Main content max-width */
+        --nav-height: 64px;
+
+        /* Transitions - Consistent with AstraVerse original */
+        --transition-fast: 150ms ease;
+        --transition-base: 250ms ease;
+        --transition-slow: 350ms ease;
+    }
+
+    html {
+        font-size: 16px;
+        scroll-behavior: smooth;
+        /* Adjust scroll-padding-top to account for fixed navbar height */
+        scroll-padding-top: calc(var(--nav-height) + var(--spacing-md));
+    }
+
+    body {
+        font-family: var(--font-family);
+        font-size: 1rem;
+        line-height: 1.6;
+        color: var(--text-color);
+        background-color: var(--bg-white);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* --- Typography --- */
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        margin-bottom: var(--spacing-md);
+        color: var(--text-color);
+    }
+
+    h1 { 
+        font-size: 3.5rem; 
+        font-weight: 700; 
+        margin-bottom: var(--spacing-md); 
+    }
+    h2 { 
+        font-size: 2.5rem; 
+        font-weight: 600; 
+        margin-bottom: var(--spacing-md); 
+    }
+    h3 { 
+        font-size: 1.5rem; 
+        margin-top: var(--spacing-lg); /* Slightly more space above subheaders */
+    }
+    h4 { 
+        font-size: 1.25rem; 
+        margin-top: var(--spacing-md); 
+    }
+    h5 { font-size: 1rem; }
+
+    p {
+        margin-bottom: var(--spacing-md);
+        color: var(--text-color-dark);
+    }
+
+    a {
+        color: var(--secondary-color);
+        text-decoration: none;
+        transition: color var(--transition-base);
+    }
+
+    a:hover {
+        color: var(--primary-color);
+    }
+
+    strong {
+        font-weight: 600;
+        color: var(--text-color);
+    }
+
+    ul, ol {
+        margin-left: var(--spacing-lg);
+        margin-bottom: var(--spacing-md);
+        color: var(--text-color-dark);
+    }
+
+    li {
+        margin-bottom: var(--spacing-xs);
+        color: var(--text-color-dark);
+    }
+
+    hr {
+        border: none;
+        border-top: 1px solid var(--border-color);
+        margin: var(--spacing-2xl) 0;
+    }
+
+    /* --- Container --- */
+    .container {
+        max-width: var(--content-max-width);
+        margin: 0 auto;
+        padding: 0 var(--spacing-md);
+    }
+
+    .wide-container {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 var(--spacing-md);
+    }
+
+    /* --- Navbar Styles (Custom for dark theme) --- */
+    .navbar {
+        background: rgba(255, 255, 255, 0.8); /* Dark background */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255,255,255,0.1); /* Light border for contrast */
+        padding: var(--spacing-xs) 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        transition: box-shadow var(--transition-base) ease;
+        height: var(--nav-height);
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar.scrolled {
+        box-shadow: var(--shadow-sm); /* Using defined shadow variable */
+    }
+
+    .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 var(--spacing-md);
+        width: 100%;
+    }
+
+ 
+    .nav-logo {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--gray-900);
+        letter-spacing: -0.02em;
+    }
+
+    .nav-logo:hover {
+      
+        text-decoration: none;
+        color: var(--primary-color);
+        /* background-color: var(--gray-50); */
+    }
+
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 1rem;;
+    }
+
+    .nav-link {
+        color: var(--gray-600); /* Lighter gray text for links */
+        text-decoration: none;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--border-radius-sm);
+        font-weight: 500;
+        transition: color var(--transition-base) ease, background-color var(--transition-base) ease;
+    }
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--gray-900);
+    background-color: var(--gray-50);
+}
+
+.nav-cta {
+    margin-left: var(--space-sm);
+    padding: 0.5rem 1.5rem;
+    background-color: var(--gray-900);
+    color: var(--white);
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all var(--transition-base);
+}
+
+.nav-cta:hover {
+    background-color: var(--gray-50);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+ 
+    .nav-cta:focus {
+        background-color: var(--gray-800);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+    }
+
+    .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.8rem;
+        color: var(--bg-white); /* White icon */
+        cursor: pointer;
+        padding: var(--spacing-xs);
+    }
+
+    /* --- Hero Section (Adapted from Shloka) --- */
+    .hero {
+        margin-top: var(--nav-height); 
+        padding: var(--spacing-3xl) 0 var(--spacing-xl); 
+        text-align: center;
+    }
+
+    .hero .meta { /* Style for the "UX Research & Design System Case Study" line */
+        font-size: 0.95rem;
+        color: var(--text-color-lighter);
+        margin-bottom: var(--spacing-sm);
+        display: block; /* Ensure it takes full width */
+    }
+
+    .hero h1 {
+        font-size: 3.5rem; 
+        font-weight: 700;
+        line-height: 1.1;
+        margin-bottom: var(--spacing-md);
+        letter-spacing: -0.03em;
+    }
+
+    .hero .subtitle {
+        font-size: 1.25rem;
+        color: var(--text-color-light);
+        font-weight: 400;
+        max-width: 600px;
+        margin: 0 auto var(--spacing-lg);
+    }
+
+    .hero-meta {
+        display: flex;
+        gap: var(--spacing-xl); /* Larger gap for meta info */
+        justify-content: center;
+        font-size: 0.95rem;
+        color: var(--text-color-lighter);
+    }
+
+    .hero-meta p { 
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 0; 
+    }
+
+    .hero-image-container {
+        width: 100%;
+        max-width: var(--max-width);
+        margin: var(--spacing-2xl) auto 0;
+        background: var(--bg-light);
+        border-radius: var(--border-radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        color: var(--text-color-lighter);
+        box-shadow: var(--shadow-lg); /* Use larger shadow for hero image */
+        overflow: hidden; 
+    }
+
+    .hero-image-container figure {
+        margin: 0;
+        width: 100%;
+    }
+
+    .hero-image-container img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: var(--border-radius-lg); 
+    }
+
+    .hero-image-container figcaption {
+        font-size: 0.875rem;
+        color: var(--text-color-light);
+        margin-top: var(--spacing-xs);
+        padding-bottom: var(--spacing-md);
+        text-align: center;
+    }
+
+    /* --- Section Styles (Adapted from Shloka) --- */
+    section {
+        padding: var(--spacing-2xl) 0;
+    }
+
+    .section-header {
+        margin-bottom: var(--spacing-xl);
+        text-align: left; 
+    }
+
+    .section-header h2 {
+        font-size: 2.5rem; 
+        font-weight: 700;
+        margin-bottom: var(--spacing-md);
+        letter-spacing: -0.02em;
+        display: flex; /* Allow icon alignment */
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+
+    .section-subheader { /* Used for H3s that act as sub-sections */
+        font-size: 1.5rem; 
+        font-weight: 600;
+        margin-top: var(--spacing-xl);
+        margin-bottom: var(--spacing-md);
+    }
+
+    /* --- Overview Section (Adapted from Shloka) --- */
+    .overview {
+        background: var(--bg-light);
+        padding: var(--spacing-xl) 0;
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .overview-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+        gap: var(--spacing-lg);
+        margin-top: var(--spacing-lg);
+    }
+
+    .overview-item h4 { 
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: var(--spacing-xs);
+        color: var(--text-color-lighter);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .overview-item ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .overview-item li {
+        font-size: 0.95rem;
+        color: var(--text-color-dark);
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .overview-item li:last-child {
+        margin-bottom: 0;
+    }
+
+    /* --- Grid Layouts --- */
+    .two-column {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: var(--spacing-lg);
+        margin: var(--spacing-lg) 0;
+    }
+
+    /* --- Cards (Adapted from Shloka) --- */
+    .card {
+        background: var(--bg-light);
+        padding: var(--spacing-lg);
+        border-radius: var(--border-radius-md);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .card h4 {
+        margin-top: 0;
+        font-size: 1.25rem; 
+        margin-bottom: var(--spacing-md);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* --- Insights & Findings (Adapted from Shloka) --- */
+    .finding-card {
+        background: linear-gradient(135deg, var(--bg-light) 0%, var(--bg-white) 100%);
+        border: 1px solid var(--border-color);
+        padding: var(--spacing-lg);
+        border-radius: var(--border-radius-md);
+        margin-bottom: var(--spacing-md);
+        transition: box-shadow var(--transition-base) ease;
+    }
+
+    .finding-card:hover {
+        box-shadow: var(--shadow-sm); 
+    }
+
+    .finding-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--text-color-lighter);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: var(--spacing-xs);
+    }
+
+    .evaluation-findings-card {
+        background: var(--primary-color-light);
+        border: 1px solid var(--primary-color);
+        padding: var(--spacing-lg);
+        border-radius: var(--border-radius-md);
+        margin-top: var(--spacing-lg);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .evaluation-findings-card .finding-label {
+        color: var(--primary-color);
+    }
+
+    /* --- Quotes (Adapted from Shloka) --- */
+    .quote {
+        border-left: 4px solid var(--text-color);
+        padding-left: var(--spacing-md);
+        margin: var(--spacing-lg) 0;
+        font-style: italic;
+        color: var(--text-color-light);
+    }
+
+    .quote-author {
+        display: block;
+        margin-top: var(--spacing-xs);
+        font-style: normal;
+        font-size: 0.875rem;
+        color: var(--text-color-lighter);
+    }
+
+    /* --- Images (Adapted from Shloka) --- */
+    .styled-figure {
+        margin: var(--spacing-lg) 0;
+        text-align: center;
+    }
+
+    .styled-figure img {
+        max-width: 100%;
+        height: auto;
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+        display: block;
+        margin: 0 auto;
+    }
+
+    .styled-figure figcaption {
+        font-size: 0.875rem;
+        color: var(--text-color-light);
+        margin-top: var(--spacing-xs);
+    }
+
+    .insight-image { /* Generic class for images within sections */
+        width: 100%;
+        height: auto;
+        display: block;
+        margin: var(--spacing-lg) auto;
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+    }
+
+    /* --- Special elements --- */
+    .core-question {
+        text-align:center;
+        font-size: 1.125rem;
+        margin-top: var(--spacing-md);
+        padding: var(--spacing-sm) var(--spacing-md);
+        background-color: var(--secondary-color-light); 
+        border-left: 4px solid var(--secondary-color); 
+        border-radius: var(--border-radius-sm);
+        color: var(--text-color-dark);
+    }
+    
+    .core-question mark {
+        background-color: transparent; 
+        color: var(--primary-color); 
+        font-weight: 600;
+    }
+
+    .audio-container {
+        margin: var(--spacing-lg) 0;
+        text-align: center;
+    }
+
+    .audio-caption {
+        font-size: 0.875rem;
+        color: var(--text-color-light);
+        margin-bottom: var(--spacing-xs);
+    }
+
+    audio {
+        width: 100%;
+        max-width: 600px;
+        margin-top: var(--spacing-xs);
+        border-radius: var(--border-radius-sm);
+    }
+
+    /* --- Footer (Adapted from Shloka) --- */
+    .footer {
+        padding: var(--spacing-2xl) 0;
+        border-top: 1px solid var(--border-color);
+        text-align: center;
+        color: var(--text-color-lighter);
+        font-size: 0.875rem;
+    }
+
+    .footer p {
+        margin-bottom: var(--spacing-xs);
+        color: var(--text-color-lighter); 
+    }
+
+    .footer p:last-child {
+        margin-bottom: 0;
+    }
+
+    .footer a {
+        color: var(--secondary-color);
+    }
+
+    .footer a:hover {
+        color: var(--primary-color);
+    }
+
+    /* --- TL;DR Section Specific Styles (Inspired by screenshot) --- */
+    .tldr-section {
+        padding: var(--spacing-2xl) 0;
+        text-align: center; /* Center main heading and subtitle */
+    }
+
+    .tldr-section .section-header {
+        text-align: center; /* Override default left-align */
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .tldr-section .section-header h2 {
+        font-size: 2.2rem; /* Slightly smaller for TL;DR main heading */
+        font-weight: 700;
+        margin-bottom: var(--spacing-sm);
+        letter-spacing: -0.02em;
+        justify-content: center; /* Center icon and text */
+    }
+
+    .tldr-subtitle {
+        font-size: 1.15rem;
+        color: var(--text-color-light);
+        max-width: 700px;
+        margin: 0 auto var(--spacing-xl);
+    }
+
+    .tldr-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: var(--spacing-lg);
+        margin-top: var(--spacing-xl); /* Space below the main heading/subtitle */
+    }
+
+    .tldr-card {
+        background: var(--bg-white);
+        border: 1px solid var(--border-color);
+        padding: var(--spacing-lg);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+        text-align: left;
+    }
+
+    .tldr-card h4 {
+        font-size: 1.1rem; /* Slightly smaller H4 for cards */
+        font-weight: 600;
+        margin-bottom: var(--spacing-sm);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem; /* Gap between icon and text */
+        color: var(--gray-800);
+    }
+
+    .tldr-card ul {
+        list-style: none; /* Remove default bullet points */
+        padding: 0;
+        margin: 0;
+    }
+
+    .tldr-card li {
+        font-size: 0.95rem;
+        color: var(--text-color-dark);
+        margin-bottom: var(--spacing-xs);
+        position: relative;
+        padding-left: var(--spacing-md); /* Space for custom bullet */
+    }
+
+    .tldr-card li:last-child {
+        margin-bottom: 0;
+    }
+
+    .tldr-card li::before {
+        content: '→'; /* Custom arrow bullet */
+        position: absolute;
+        left: 0;
+        color: var(--primary-color); /* Primary color for the arrow */
+        font-weight: 600;
+    }
+
+    .tldr-card .key-outcome-list li::before {
+        content: '\2022'; /* Regular bullet for key outcomes */
+        color: var(--accent-green); /* Green for key outcomes */
+        font-size: 1.2em; /* Make bullet slightly larger */
+        top: 0; /* Align bullet with text */
+    }
+
+    /* Specific colors for TL;DR icons based on screenshot */
+    .tldr-card h4 .fa-exclamation-circle { color: #E74C3C; /* Red for Problem */ }
+    .tldr-card h4 .fa-compass { color: #3498DB; /* Blue for Approach */ }
+    .tldr-card h4 .fa-lightbulb { color: #F39C12; /* Orange for Solution */ }
+    .tldr-card h4 .fa-chart-line { color: #27AE60; /* Green for Key Results */ }
+
+
+    /* --- Responsive (Adapted from Shloka & original AstraVerse) --- */
+    @media (max-width: 768px) {
+        html {
+            font-size: 15px;
+        }
+
+        h1 { font-size: 2.5rem; }
+        h2 { font-size: 2rem; }
+        h3 { font-size: 1.25rem; }
+
+        .container {
+            padding: 0 var(--spacing-lg);
+        }
+
+        .nav-links { 
+            position: fixed;
+            top: var(--nav-height);
+            right: -100%;
+            width: 280px;
+            height: calc(100vh - var(--nav-height));
+            background: #1a1a1a; /* Dark background for mobile menu */
+            border-left: 1px solid rgba(255,255,255,0.1); /* Light border */
+            flex-direction: column;
+            padding: var(--spacing-xl);
+            gap: var(--spacing-md);
+            transition: right var(--transition-base);
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3); /* Darker shadow for mobile menu */
+        }
+
+        .nav-links.active {
+            right: 0;
+        }
+
+        .menu-toggle {
+            display: block;
+        }
+
+        .nav-cta {
+            margin-left: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+        }
+
+        .hero .subtitle {
+            font-size: 1rem;
+        }
+
+        .hero-meta {
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+
+        .overview-grid, .tldr-grid { /* Apply to tldr-grid as well */
+            grid-template-columns: 1fr;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+        }
+
+        .tldr-section .section-header h2 {
+            font-size: 1.8rem;
+        }
+
+        .tldr-subtitle {
+            font-size: 1rem;
+        }
+    }
+</style>
 </head>
 <body>
 
-  <header class="navbar" id="navbar">
-    <div class="nav-container">
-        <a href="./index.html" class="nav-logo">Sai Maram</a>
-        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
-            <i class="fas fa-bars"></i>
-        </button>
-        <nav class="navbar-nav" id="navbar-nav">
-            <a href="./index.html#uxr" class="nav-link">Case Studies</a>
-            <a href="./index.html#wex" class="nav-link">Experience</a>
-            <a href="./index.html#res" class="nav-link">Research</a>
-            <a href="./about.html" class="nav-link">About</a>
-            <a href="cv.pdf" target="_blank" class="nav-link nav-link-button">Resume</a>
-        </nav>
-    </div>
-</header>
+   <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Sai Maram</a>
+            
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="nav-links" id="nav-links">
+                <a href="index.html#projects" class="nav-link">Projects</a>
+                <a href="index.html#experience" class="nav-link">Experience</a>
+                <a href="index.html/#research" class="nav-link">Research</a>
+                <a href="./about.html" class="nav-link">About</a>
+                <a href="cv.pdf" target="_blank" class="nav-link nav-cta">Resume</a>
 
-<main class="container">
+            </div>
+        </div>
+    </nav>
 
-    <header class="case-study-header">
-        <p class="meta">UX Case Study</p>
-        <h1>Move.</h1>
-        <p class="subtitle">A UX case study identifying communication and workflow bottlenecks within a robotics startup to improve inter-team coordination.</p>
-        <p class="meta">Timeline: September 2022 - October 2022</p>
-        </header>
+    <section class="hero">
+        <div class="container">
+            <h1>Move.</h1>
+            <p class="subtitle">A UX case study identifying communication and workflow bottlenecks within a robotics startup to improve inter-team coordination.</p>
+            <div class="hero-meta">
+                <p class="meta"><i class="fa-solid fa-calendar-days"></i> Timeline: September 2022 - October 2022</p>
+                <p class="meta"><i class="fa-solid fa-flask"></i> Project Type: Independent Research</p>
+            </div>
+        </div>
+        </section>
 
-    <section class="overview-section">
-        <div class="overview-box">
-            <h4><i class="fa fa-user" aria-hidden="true"></i> My Role</h4>
-            <ul>
-                <li>Project Lead</li>
-                <li>UX Researcher</li>
-                <li>UX Writer</li>
-            </ul>
-        </div>
-        <div class="overview-box">
-            <h4><i class="fa fa-users" aria-hidden="true"></i> Team</h4>
-            <ul>
-                <li>1 Researcher (Myself)</li>
-            </ul>
-        </div>
-        <div class="overview-box">
-            <h4><i class="fa fa-calendar" aria-hidden="true"></i> Duration</h4>
-            <ul>
-                <li>2 Months</li>
-                <li>(Sep 2022 - Oct 2022)</li>
-            </ul>
-        </div>
-        <div class="overview-box">
-            <h4><i class="fa fa-wrench" aria-hidden="true"></i> Tools</h4>
-            <ul>
-                <li>Figma (Prototyping)</li>
-                <li>Python (Data Analysis/Scripting)</li>
-                <li>Ethnographic Observation</li>
-                <li>Interviewing</li>
-                <li>Co-Design Workshops</li>
-            </ul>
+    <section class="overview">
+        <div class="wide-container">
+            <div class="overview-grid">
+                <div class="overview-item">
+                    <h4><i class="fa-solid fa-user-gear"></i> My Role</h4>
+                    <ul>
+                        <li>Project Lead</li>
+                        <li>UX Researcher</li>
+                        <li>UX Writer</li>
+                    </ul>
+                </div>
+                <div class="overview-item">
+                    <h4><i class="fa-solid fa-users"></i> Team</h4>
+                    <ul>
+                        <li>1 Researcher (Myself)</li>
+                    </ul>
+                </div>
+                <div class="overview-item">
+                    <h4><i class="fa-solid fa-calendar-days"></i> Duration</h4>
+                    <ul>
+                        <li>2 Months</li>
+                        <li>(Sep 2022 - Oct 2022)</li>
+                    </ul>
+                </div>
+                <div class="overview-item">
+                    <h4><i class="fa-solid fa-wrench"></i> Tools & Methods</h4>
+                    <ul>
+                        <li>Figma (Prototyping)</li>
+                        <li>Python (Data Analysis/Scripting)</li>
+                        <li>Ethnographic Observation</li>
+                        <li>Interviewing</li>
+                        <li>Co-Design Workshops</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </section>
 
-    <hr>
+    <div class="container"> <hr> </div>
 
-    <section id="problem">
-        <h2>The Challenge: Untangling Robotic Startup Complexity</h2>
+    <section id="problem" class="container">
+        <div class="section-header">
+            <h2><i class="fa-solid fa-exclamation-triangle"></i> The Challenge: Untangling Robotic Startup Complexity</h2>
+        </div>
         <p>The lifecycle of building and deploying successful robots is inherently complex, requiring seamless coordination between diverse teams like sales, marketing, software, hardware, and deployment. Miscommunications or misaligned processes between these teams can create significant bottlenecks, hindering progress and efficiency.</p>
         <p>This project aimed to identify the critical bottlenecks within a robotics startup's workflow. Where does communication break down? How do differing team processes clash? And ultimately, how can these issues be addressed to streamline the robot development lifecycle?</p>
     </section>
 
-    <hr>
+    <div class="container"><hr></div>
 
-     <section id="approach">
-        <h2>My Approach: Researcher as Engineer</h2>
+     <section id="approach" class="container">
+        <div class="section-header">
+            <h2><i class="fa-solid fa-compass"></i> My Approach: Researcher as Engineer</h2>
+        </div>
         <p>To gain deep, authentic insights, I adopted the role of a "Researcher as an Engineer." I immersed myself in the startup's daily activities, leveraging my engineering background to participate directly within the software, hardware, and deployment teams.</p>
         <p>This ethnographic approach was supplemented by targeted stakeholder interviews (particularly with leadership) and collaborative co-design sessions with employees from various teams. The goal was to uncover core problems from multiple perspectives and collaboratively explore potential solutions.</p>
     </section>
+    
+    <div class="container"><hr></div>
 
-    <hr>
+    <section id="tldr" class="tldr-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fa-solid fa-chart-line"></i> TL;DR: Visual Summary</h2>
+            </div>
+            <p class="tldr-subtitle">High-level overview of the identified bottlenecks and proposed solution directions.</p>
+            
+            <div class="tldr-grid">
+                <div class="tldr-card">
+                    <h4><i class="fa-solid fa-exclamation-circle"></i> Problem Highlight 1</h4>
+                    <ul>
+                        <li>Information Silos: Critical information failed to flow effectively.</li>
+                        <li>Lack of Centralized Reference: No single source of truth for robot status/specs.</li>
+                    </ul>
+                </div>
+                <div class="tldr-card">
+                    <h4><i class="fa-solid fa-exclamation-circle"></i> Problem Highlight 2</h4>
+                    <ul>
+                        <li>Inconsistent Protocols: SOPs not well-documented or consistently followed.</li>
+                        <li>Domain Expertise Gaps: Teams encountered unfamiliar procedures under pressure.</li>
+                    </ul>
+                </div>
+                <div class="tldr-card">
+                    <h4><i class="fa-solid fa-lightbulb"></i> Solution Direction 1</h4>
+                    <ul>
+                        <li>Centralized Information Hub: A single platform for all robot-related data.</li>
+                        <li>Simplified Technical Interfaces: Abstract complex commands into user-friendly UIs.</li>
+                    </ul>
+                </div>
+                <div class="tldr-card">
+                    <h4><i class="fa-solid fa-lightbulb"></i> Solution Direction 2</h4>
+                    <ul>
+                        <li>Improved Communication Channels: Facilitate direct team-to-team information exchange.</li>
+                        <li>Enhanced Training/Documentation: Ensure consistent adherence to SOPs and knowledge transfer.</li>
+                    </ul>
+                </div>
+            </div>
 
-    <section id="tldr">
-        <h2>TL;DR: Visual Summary</h2>
-        <figure>
-            <img src="Group 21 (5).png" alt="Visual summary highlighting key problems and solutions">
-            <figcaption>High-level overview of the identified bottlenecks and proposed solution directions.</figcaption>
-        </figure>
-        <figure>
-             <img src="Group 154 (1).png" alt="Infographic summarizing the research process and findings">
-             <figcaption>Summary of the research process and key takeaways.</figcaption>
-        </figure>
+            <figure class="styled-figure">
+                <img src="Group 21 (5).png" alt="Visual summary highlighting key problems and solutions" class="insight-image">
+                <figcaption>Visual summary highlighting key problems and solution concepts.</figcaption>
+            </figure>
+            <figure class="styled-figure">
+                 <img src="Group 154 (1).png" alt="Infographic summarizing the research process and findings" class="insight-image">
+                 <figcaption>Summary of the research process and key takeaways.</figcaption>
+            </figure>
+        </div>
     </section>
 
-    <hr>
+    <div class="container"><hr></div>
 
-    <section id="stakeholders">
-        <h2>Identifying Stakeholders</h2>
-         <figure>
-            <img src="flow.png" alt="Diagram showing robot lifecycle and team interactions">
+    <section id="stakeholders" class="container">
+        <div class="section-header">
+            <h2><i class="fa-solid fa-users-rays"></i> Identifying Stakeholders</h2>
+        </div>
+        <figure class="styled-figure">
+            <img src="flow.png" alt="Diagram showing robot lifecycle and team interactions" class="insight-image">
             <figcaption>Visualizing the complex interactions across the robot lifecycle.</figcaption>
         </figure>
         <p>Through initial analysis and conversations, we identified 5 major stakeholder groups influencing the robot lifecycle within the startup:</p>
@@ -437,13 +928,15 @@
             <li>Leadership</li>
             <li>Deployment Team</li>
         </ul>
-         <p>Understanding the unique perspectives, responsibilities, and pain points of each group was crucial for identifying systemic issues.</p>
+        <p>Understanding the unique perspectives, responsibilities, and pain points of each group was crucial for identifying systemic issues.</p>
     </section>
 
-    <hr>
+    <div class="container"><hr></div>
 
-    <section id="methodology">
-        <h2>Research Methodology</h2>
+    <section id="methodology" class="container">
+        <div class="section-header">
+            <h2><i class="fa-solid fa-sitemap"></i> Research Methodology</h2>
+        </div>
         <p>Given the generative nature of the project (identifying unknown problems), we employed qualitative UX research methods:</p>
         <ul>
             <li><strong>Ethnography:</strong> Immersive observation and participation within teams to understand workflows, tools, and informal communication patterns in their natural context.</li>
@@ -452,16 +945,18 @@
         </ul>
     </section>
 
-    <hr>
+    <div class="container"><hr></div>
 
-    <section id="research-findings">
-        <h2>Research Findings: Uncovering Bottlenecks</h2>
+    <section id="research-findings" class="container">
+        <div class="section-header">
+            <h2><i class="fa-solid fa-magnifying-glass-chart"></i> Research Findings: Uncovering Bottlenecks</h2>
+        </div>
 
-        <h3>Ethnography: Insights from the Trenches</h3>
-        <blockquote>
+        <h3 class="section-subheader">Ethnography: Insights from the Trenches</h3>
+        <div class="quote">
             <p>"I have no clue what the sales team promised the client for this robot, and I do not care. I am just going to write basic code and fix it later."</p>
-            <cite>- Software Engineer during ethnographic observation</cite>
-        </blockquote>
+            <span class="quote-author">— Software Engineer during ethnographic observation</span>
+        </div>
         <p>By working alongside engineers and deployment staff, I observed daily activities and engaged in informal conversations. This revealed several recurring friction points:</p>
         <ul>
             <li><strong>Information Silos:</strong> Critical information about client requirements, robot configurations, or software updates often failed to flow effectively between teams (e.g., Sales to Software, Software to Deployment).</li>
@@ -470,11 +965,11 @@
             <li><strong>Domain Expertise Gaps:</strong> Assumptions about technical skills created issues, particularly during deployment where teams encountered unfamiliar software or hardware procedures under client pressure.</li>
         </ul>
 
-        <h3>Stakeholder Interviews: Leadership Perspective</h3>
-         <blockquote>
+        <h3 class="section-subheader">Stakeholder Interviews: Leadership Perspective</h3>
+        <div class="quote">
             <p>"Yeah, I will need to talk with the sales team to understand what they are selling... and the software team to see what features they have at this point..."</p>
-             <cite>- Manager describing information gathering process</cite>
-        </blockquote>
+             <span class="quote-author">— Manager describing information gathering process</span>
+        </div>
         <p>Interviews with leadership focused on their awareness of team-level issues, their view of robot performance, customer insights, and inter-team communication effectiveness. Key themes included:</p>
         <ul>
             <li><strong>Centralized Information Flow Challenges:</strong> Leadership often acted as manual information hubs, highlighting inefficiencies in direct team-to-team communication.</li>
@@ -482,14 +977,14 @@
             <li><strong>Limited Insight into SOP Efficacy:</strong> Lack of visibility into whether established procedures were being followed effectively or needed revision.</li>
         </ul>
 
-        <h3>Co-Design Activities: Employee-Driven Solutions</h3>
-         <blockquote>
+        <h3 class="section-subheader">Co-Design Activities: Employee-Driven Solutions</h3>
+        <div class="quote">
             <p>"I can't send ROS commands, I don't get it... it has to be simple. Something like this..."</p>
-             <cite>- Deployment team member during co-design sketching</cite>
-        </blockquote>
+             <span class="quote-author">— Deployment team member during co-design sketching</span>
+        </div>
         <p>Using a rapid sketching technique ("Quick 4s"), we asked employees to draw simple interface screens that would most help their daily work. This exercise quickly surfaced priorities:</p>
-        <figure>
-            <img src="Group 22.png" alt="Sketches from the co-design activity showing desired simple interfaces">
+        <figure class="styled-figure">
+            <img src="Group 22.png" alt="Sketches from the co-design activity showing desired simple interfaces" class="insight-image">
             <figcaption>Illustrations from the co-design activities highlighting desire for simplicity and clarity.</figcaption>
         </figure>
         <p>Interpretations from these sketches included:</p>
@@ -501,37 +996,38 @@
         </ul>
     </section>
 
-    <hr>
+    <div class="container"><hr></div>
 
-    <section id="design-suggestions">
-        <h2>Design Suggestions & Prototypes</h2>
+    <section id="design-suggestions" class="container">
+        <div class="section-header">
+            <h2><i class="fa-solid fa-cubes"></i> Design Suggestions & Prototypes</h2>
+        </div>
         <p>While the primary goal was research and bottleneck identification, the insights directly informed potential solutions. Based on the findings, I developed low-fidelity prototypes illustrating concepts for a centralized information hub and simplified task interfaces. These aimed to address the core issues of communication silos, lack of central reference, and overly complex technical interactions.</p>
-        <figure>
-            <img src="Group 34.png" alt="Prototype screens showing concepts for a centralized robot information hub and simplified controls">
+        <figure class="styled-figure">
+            <img src="Group 34.png" alt="Prototype screens showing concepts for a centralized robot information hub and simplified controls" class="insight-image">
             <figcaption>Conceptual prototypes exploring solutions for improved information access and simplified workflows.</figcaption>
         </figure>
         <p>These prototypes served as tangible starting points for the startup to consider for future internal tool development, focusing on improving cross-functional communication and workflow efficiency.</p>
     </section>
-    <footer class="footer" style="text-align: center; padding: var(--spacing-lg) var(--spacing-md); margin-top: var(--spacing-xl); background-color: var(--secondary-color); color: var(--text-color-light); font-size: 0.9rem;">
+
+    <footer class="footer">
       <p>&copy; <span id="current-year"></span> Sai Maram. Case Study.</p>
       <p><a href="./index.html">Back to Portfolio</a></p>
- </footer>
+    </footer>
 
-</main>
-
-<script>document.addEventListener('DOMContentLoaded', () => {
+<script>
+document.addEventListener('DOMContentLoaded', () => {
  const menuToggle = document.getElementById('menu-toggle');
- const navbarNav = document.getElementById('navbar-nav');
- const navLinks = document.querySelectorAll('.nav-link'); // Get all nav links
+ const navLinksContainer = document.getElementById('nav-links'); 
+ const navLinks = document.querySelectorAll('.nav-link'); 
  const navbar = document.getElementById('navbar');
 
  // Toggle mobile menu
- if (menuToggle && navbarNav) {
+ if (menuToggle && navLinksContainer) {
      menuToggle.addEventListener('click', () => {
-         navbarNav.classList.toggle('active');
-         // Optional: change hamburger icon to 'X'
+         navLinksContainer.classList.toggle('active');
          const icon = menuToggle.querySelector('i');
-         if (navbarNav.classList.contains('active')) {
+         if (navLinksContainer.classList.contains('active')) {
              icon.classList.remove('fa-bars');
              icon.classList.add('fa-times');
              menuToggle.setAttribute('aria-expanded', 'true');
@@ -542,15 +1038,19 @@
          }
      });
 
-     // Close mobile menu when a link is clicked
      navLinks.forEach(link => {
          link.addEventListener('click', () => {
-             if (navbarNav.classList.contains('active')) {
-                 navbarNav.classList.remove('active');
+             if (navLinksContainer.classList.contains('active')) { 
+                 const href = link.getAttribute('href');
+                 if (href && (href.startsWith('#') || href.startsWith('./#') || href.startsWith(window.location.pathname + '#'))) {
+                    // Internal anchor link, allow default behavior to scroll, then close menu.
+                 }
+                 // For all link clicks when menu is open, close the menu.
+                 navLinksContainer.classList.remove('active');
                  const icon = menuToggle.querySelector('i');
                  icon.classList.remove('fa-times');
                  icon.classList.add('fa-bars');
-                  menuToggle.setAttribute('aria-expanded', 'false');
+                 menuToggle.setAttribute('aria-expanded', 'false');
              }
          });
      });
@@ -559,7 +1059,7 @@
   // Add shadow to navbar on scroll
  if (navbar) {
      window.addEventListener('scroll', () => {
-         if (window.scrollY > 50) { // Add shadow after scrolling 50px
+         if (window.scrollY > 50) { 
              navbar.classList.add('scrolled');
          } else {
              navbar.classList.remove('scrolled');
@@ -573,48 +1073,41 @@
      currentYearSpan.textContent = new Date().getFullYear();
  }
 
- // --- Optional: Active Nav Link Highlighting ---
- // More complex implementation needed based on scroll position
- // This is a simple example assuming section IDs match nav hrefs
- const sections = document.querySelectorAll('section[id]'); // Get sections with IDs
+ // Active Nav Link Highlighting 
+ const sections = document.querySelectorAll('section[id]'); 
 
  function setActiveLink() {
-     let currentSection = '';
-     const scrollPos = window.scrollY + navbar.offsetHeight + 50; // Offset for navbar height + buffer
+     let currentSectionId = '';
+     if (!navbar || sections.length === 0) return;
+
+     const scrollPos = window.scrollY + navbar.offsetHeight + Math.max(100, window.innerHeight * 0.3);
 
      sections.forEach(section => {
          const sectionTop = section.offsetTop;
          const sectionHeight = section.offsetHeight;
          if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-             currentSection = section.getAttribute('id');
+             currentSectionId = section.getAttribute('id');
          }
      });
-
-      // Special case for top of page (hero section often doesn't have ID or is above first section)
-      if (window.scrollY < sections[0].offsetTop - navbar.offsetHeight - 50) {
-          currentSection = 'home'; // Assuming hero/top section implies 'home' link
-      }
-
-
+    
      navLinks.forEach(link => {
          link.classList.remove('active');
-         // Check if the link's href matches the current section ID
-         // Handle the '#' in href
-         if (link.getAttribute('href') === `#${currentSection}`) {
-             link.classList.add('active');
-         }
-          // Handle base index.html link for 'home'
-         if (currentSection === 'home' && (link.getAttribute('href') === './index.html' || link.getAttribute('href') === '#home') ) {
-              // No specific 'home' link in the provided nav, so this part might not highlight anything unless a home link is added.
-              // Example: if you add <a href="#home">Home</a>, this would work.
+         const linkHref = link.getAttribute('href');
+         
+         if (linkHref) {
+            const linkAnchor = linkHref.split('#')[1];
+            if (linkAnchor && linkAnchor === currentSectionId) {
+                 link.classList.add('active');
+            }
          }
      });
  }
 
  window.addEventListener('scroll', setActiveLink);
- setActiveLink(); // Initial check on load
+ window.addEventListener('resize', setActiveLink); 
+ setActiveLink(); 
 
-});</script>
-
+});
+</script>
 </body>
 </html>
