@@ -8,712 +8,396 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
     <link rel="icon" type="image" href="Group 522.png">
-    <title>Sai Siddartha Maram's Portfolio</title>
-    <style>
-        /* --- Global Styles & Variables --- */
+    <title>About - Sai Siddartha Maram's Portfolio</title>
+<style>
+    /* --- Global Styles & Variables --- */
+:root {
+    /* Typography */
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    --font-mono: "SF Mono", Monaco, "Inconsolata", "Fira Code", "Fira Mono", "Roboto Mono", Courier New, Courier, monospace;
+
+    /* Colors - Minimal Palette */
+    --black: #000000;
+    --gray-900: #111111;
+    --gray-800: #1a1a1a;
+    --gray-700: #333333;
+    --gray-600: #4d4d4d;
+    --gray-500: #666666;
+    --gray-400: #808080;
+    --gray-300: #999999;
+    --gray-200: #cccccc;
+    --gray-100: #e6e6e6;
+    --gray-50: #f5f5f5;
+    --white: #ffffff;
+
+    /* Accent Colors */
+    --accent-orange: #FF6B35;
+    --accent-orange-light: #FFF4F0;
+    --accent-blue: #0066CC;
+    --accent-blue-light: #E6F2FF;
+    --accent-green: #00C896;
+    --accent-green-light: #E6FFF9;
+    --accent-purple: #6B46C1;
+    --accent-purple-light: #F3F0FF;
+
+    /* Spacing */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+    /* Border Radius */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+
+    /* Shadows */
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.16);
+
+    /* Layout */
+    --max-width: 1100px;
+    --nav-height: 64px;
+
+    /* Transitions */
+    --transition-fast: 150ms ease;
+    --transition-base: 250ms ease;
+    --transition-slow: 350ms ease;
+}
+
+/* Reset & Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--nav-height) + var(--space-xl));
+}
+
+body {
+    font-family: var(--font-family);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--gray-900);
+    background-color: var(--white);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-md);
+}
+
+h1 { font-size: 3.5rem; font-weight: 700; }
+h2 { font-size: 2.5rem; font-weight: 600; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1rem; }
+
+p {
+    margin-bottom: var(--space-md);
+    color: var(--gray-700);
+}
+
+a {
+    color: var(--accent-blue);
+    text-decoration: none;
+    transition: color var(--transition-base);
+}
+
+a:hover {
+    color: var(--accent-orange);
+}
+
+strong {
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+/* Container */
+.container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--space-xl);
+}
+
+/* Navigation */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--nav-height);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--gray-100);
+    z-index: 1000;
+    transition: all var(--transition-base);
+}
+
+.navbar.scrolled {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: var(--shadow-sm);
+}
+
+.nav-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-logo {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    letter-spacing: -0.02em;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.nav-link {
+    padding: var(--space-sm) var(--space-md);
+    color: var(--gray-600);
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-base);
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--gray-900);
+    background-color: var(--gray-50);
+}
+
+.nav-cta {
+    margin-left: var(--space-sm);
+    padding: var(--space-sm) var(--space-lg);
+    background-color: var(--gray-900);
+    color: var(--white);
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    transition: all var(--transition-base);
+}
+
+.nav-cta:hover {
+    background-color: var(--gray-800);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--gray-700);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: var(--space-sm);
+}
+
+/* About Section Styles */
+.about-hero {
+    padding-top: calc(var(--nav-height) + var(--space-3xl));
+    /* padding-bottom: var(--space-3xl); */
+    text-align: center;
+}
+
+.about-content {
+    padding: var(--space-2xl) 0;
+}
+
+.about-text {
+    max-width: 800px;
+    margin: 0 auto var(--space-3xl);
+}
+
+.about-text p {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    margin-bottom: var(--space-xl);
+}
+
+.about-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin: var(--space-2xl) 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
     :root {
-        --primary-font: "Inter", system-ui, sans-serif;
-        --heading-font: "Inter", system-ui, sans-serif; /* Using Inter for headings too for consistency */
-    
-        --primary-color: #F39F5A; /* Accent orange */
-        --secondary-color: #f8f9fa; /* Light background */
-        --text-color: #343a40; /* Dark grey for text */
-        --text-color-light: #6c757d; /* Lighter grey for descriptions */
-        --border-color: #dee2e6;
-        --card-bg: #ffffff;
-        --shadow-color: rgba(0, 0, 0, 0.08);
-        --shadow-hover-color: rgba(0, 0, 0, 0.12);
-    
-        --border-radius-sm: 4px;
-        --border-radius-md: 8px;
-        --border-radius-lg: 12px;
-    
-        --spacing-xs: 0.5rem;  /* 8px */
-        --spacing-sm: 1rem;    /* 16px */
-        --spacing-md: 1.5rem;  /* 24px */
-        --spacing-lg: 2.5rem;  /* 40px */
-        --spacing-xl: 4rem;    /* 64px */
-    
-        --max-width: 1200px;
-        --transition-speed: 0.3s;
+        font-size: 15px;
     }
-    
-    *,
-    *::before,
-    *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
+
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 2rem; }
+    h3 { font-size: 1.25rem; }
+
+    .container {
+        padding: 0 var(--space-lg);
     }
-    
-    html {
-        scroll-behavior: smooth;
-        scroll-padding-top: 80px; /* Adjust based on fixed navbar height */
-    }
-    
-    body {
-        font-family: var(--primary-font);
-        color: var(--text-color);
-        background-color: #fff; /* Clean white background */
-        line-height: 1.7;
-        font-size: 16px; /* Base font size */
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
-    
-    h1, h2, h3, h4, h5, h6 {
-        font-family: var(--heading-font);
-        font-weight: 700;
-        line-height: 1.3;
-        margin-bottom: var(--spacing-sm);
-        color: var(--text-color); /* Ensure headings inherit base text color */
-    }
-    
-    h1 { font-size: 2.8rem; /* ~45px */ }
-    h2 { font-size: 2rem;   /* ~32px */ }
-    h3 { font-size: 1.5rem; /* ~24px */ } /* Used for card titles, experience company */
-    h4 { font-size: 1.25rem;/* ~20px */ }
-    
-    p {
-        margin-bottom: var(--spacing-sm);
-    }
-    
-    a {
-        color: var(--primary-color);
-        text-decoration: none;
-        transition: color var(--transition-speed) ease;
-    }
-    
-    a:hover, a:focus {
-        color: #e08e4a; /* Darker shade of primary */
-        text-decoration: underline;
-        outline: none; /* Remove default focus outline if adding custom */
-    }
-    
-    img {
-        max-width: 100%;
-        height: auto;
+
+    .menu-toggle {
         display: block;
     }
-    
-    ul {
-        list-style-position: outside;
-        padding-left: var(--spacing-md); /* Indent list items */
-        margin-bottom: var(--spacing-sm);
-    }
-    
-    li {
-        margin-bottom: var(--spacing-xs);
-    }
-    
-    strong, b {
-        font-weight: 700;
-    }
-    
-    /* --- Utility Classes --- */
-    .container {
-        max-width: var(--max-width);
-        margin-left: auto;
-        margin-right: auto;
-        padding-left: var(--spacing-md);
-        padding-right: var(--spacing-md);
-    }
-    
-    /* --- Navbar --- */
-    .navbar {
-        background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white */
-        backdrop-filter: blur(10px); /* Frosted glass effect */
-        border-bottom: 1px solid var(--border-color);
-        padding: var(--spacing-xs) 0; /* Reduced padding */
+
+    .nav-links {
         position: fixed;
-        top: 0;
-        left: 0;
+        top: var(--nav-height);
+        right: -100%;
+        width: 280px;
+        height: calc(100vh - var(--nav-height));
+        background: var(--white);
+        border-left: 1px solid var(--gray-100);
+        flex-direction: column;
+        padding: var(--space-xl);
+        gap: var(--space-md);
+        transition: right var(--transition-base);
+        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-cta {
+        margin-left: 0;
         width: 100%;
-        z-index: 1000;
-        transition: box-shadow var(--transition-speed) ease;
-    }
-    
-    .navbar.scrolled { /* Add this class with JS on scroll */
-         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    }
-    
-    .nav-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        max-width: var(--max-width);
-        margin: 0 auto;
-        padding: 0 var(--spacing-md);
-    }
-    
-    .nav-logo {
-        font-weight: 700;
-        font-size: 1.4rem;
-        color: var(--text-color);
-        text-decoration: none;
-    }
-    .nav-logo:hover {
-         color: var(--primary-color);
-         text-decoration: none;
-    }
-    
-    .navbar-nav {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-sm);
-    }
-    
-    .nav-link {
-        color: var(--text-color-light);
-        text-decoration: none;
-        padding: var(--spacing-xs) var(--spacing-sm);
-        border-radius: var(--border-radius-sm);
-        font-weight: 500;
-        transition: color var(--transition-speed) ease, background-color var(--transition-speed) ease;
-    }
-    
-    .nav-link:hover,
-    .nav-link:focus,
-    .nav-link.active { /* Add 'active' class dynamically */
-        color: var(--primary-color);
-        text-decoration: none;
-        background-color: rgba(243, 159, 90, 0.1); /* Subtle background on hover/active */
-    }
-    
-    .nav-link-button {
-        background-color: var(--primary-color);
-        color: white;
-        padding: 8px 18px; /* Slightly larger padding */
-        border-radius: var(--border-radius-md);
-        transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
-    }
-    
-    .nav-link-button:hover,
-    .nav-link-button:focus {
-        background-color: #e08e4a;
-        color: white;
-        transform: translateY(-2px); /* Slight lift effect */
-        text-decoration: none;
-    }
-    
-    .menu-toggle {
-        display: none; /* Hidden by default */
-        background: none;
-        border: none;
-        font-size: 1.8rem;
-        color: var(--text-color);
-        cursor: pointer;
-        padding: var(--spacing-xs);
-    }
-    
-    /* --- Main Content --- */
-    .main-content {
-        padding-top: 100px; /* Account for fixed navbar height + extra space */
-    }
-    
-    .hero-section {
-        position: relative;
-        /* Add padding-bottom if needed to ensure indicator doesn't overlap content on some screen sizes */
-        padding-bottom: 60px; /* Adjust value as needed */
-        min-height: 100vh; /* Make hero at least screen height */
-        display: flex; /* Helps vertically center content if needed */
-        align-items: center; /* Vertically center hero-content */
-    }
-    .scroll-indicator {
-        position: absolute;
-        bottom: 20px; /* Adjust distance from bottom */
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 10; /* Ensure it's above other hero content if necessary */
-        text-decoration: none; /* Remove underline from link */
-        /* Optional: Add size to the container if needed */
-        /* width: 40px; */
-        /* height: 40px; */
-        /* display: flex; */
-        /* justify-content: center; */
-        /* align-items: center; */
-    }
-    
-    .scroll-indicator i {
-        font-size: 1.8em; /* Adjust icon size */
-        color: #333; /* Adjust color - make sure it contrasts */
-        opacity: 0.7; /* Make it slightly subtle */
-        transition: color 0.3s ease, opacity 0.3s ease; /* Smooth transition for hover */
-    
-        /* Add the animation */
-        animation: bounce 2s infinite;
-    }
-    
-    /* Add hover effect */
-    .scroll-indicator:hover i {
-        color: #000; /* Darken on hover */
-        opacity: 1;
-        animation-play-state: paused; /* Optional: Pause animation on hover */
-    }
-    /* Define the bounce animation */
-    @keyframes bounce {
-        0%, 20%, 50%, 80%, 100% {
-            transform: translateY(0);
-        }
-        40% {
-            transform: translateY(-10px); /* How high it bounces */
-        }
-        60% {
-            transform: translateY(-5px);
-        }
-    }
-    
-    
-    /* Ensure hero-content takes up appropriate space */
-    .hero-content {
-        display: flex;
-        /* Your existing flex/grid styles for hero-content */
-        align-items: center;
-        width: 100%; /* Ensure it spans the section */
-        /* Add max-width and margin: auto if you center content */
-        max-width: 1200px; /* Example max width */
-        margin: 0 auto; /* Center content container */
-        padding: 0 20px; /* Side padding */
-        box-sizing: border-box;
-    }
-    .hero-content .text-container {
-        flex: 1 1 55%; /* Takes up slightly more space */
-        min-width: 300px; /* Prevent excessive shrinking */
-    }
-    
-    .hero-content .image-container {
-        flex: 1 1 35%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        max-width: 400px; /* Limit image size */
-        margin: 0 auto; /* Center if it wraps */
-    }
-    
-    .hero-content .image-container img {
-        border-radius: var(--border-radius-lg); /* Optional: round image corners */
-        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    }
-    
-    
-    .hero-section h1 {
-        font-size: 3.2rem; /* Larger hero heading */
-        margin-bottom: var(--spacing-xs);
-    }
-    
-    .wave { /* Simple wave animation */
-        display: inline-block;
-        animation: wave-animation 2.5s infinite;
-        transform-origin: 70% 70%;
-    }
-    
-    @keyframes wave-animation {
-        0% { transform: rotate( 0.0deg) }
-       10% { transform: rotate(14.0deg) }
-       20% { transform: rotate(-8.0deg) }
-       30% { transform: rotate(14.0deg) }
-       40% { transform: rotate(-4.0deg) }
-       50% { transform: rotate(10.0deg) }
-       60% { transform: rotate( 0.0deg) }
-      100% { transform: rotate( 0.0deg) }
-    }
-    
-    .subtitle {
-        font-size: 1.3rem;
-        font-weight: 500;
-        color: var(--text-color-light);
-        margin-bottom: var(--spacing-md);
-    }
-    
-    .description {
-        font-size: 1.1rem;
-        line-height: 1.8;
-        margin-bottom: var(--spacing-md);
-    }
-    .description .chef-emoji,
-    .description .star-emoji {
-        font-size: 1.3em; /* Make emojis slightly larger */
-    }
-    
-    .social-icons {
-        margin-top: var(--spacing-md);
-        display: flex;
-        gap: var(--spacing-md);
-    }
-    
-    .social-icons a {
-        color: var(--text-color-light);
-        font-size: 1.8rem;
-        transition: color var(--transition-speed) ease, transform var(--transition-speed) ease;
-        text-decoration: none;
-    }
-    
-    .social-icons a:hover,
-    .social-icons a:focus {
-        color: var(--primary-color);
-        transform: translateY(-3px);
-        text-decoration: none;
-    }
-    
-    /* --- Section Styles --- */
-    .portfolio-section,
-    .experience-section,
-    .research-section {
-        padding: var(--spacing-xl) var(--spacing-md);
-        max-width: var(--max-width);
-        margin: 0 auto;
-    }
-    
-    /* Alternating Backgrounds for sections */
-    .experience-section {
-        background-color: var(--secondary-color);
-    }
-    
-    .section-heading-container {
         text-align: center;
-        margin-bottom: var(--spacing-lg);
     }
-    
-    .section-heading-container h2 {
-        display: inline-block;
-        position: relative;
-        margin-bottom: var(--spacing-md); /* Space below heading */
-    }
-    
-    /* Underline effect for section headings */
-    .section-heading-container h2::after {
-        content: '';
-        position: absolute;
-        bottom: -10px; /* Position below the text */
-        left: 50%;
-        transform: translateX(-50%);
-        width: 60px; /* Width of the underline */
-        height: 4px; /* Thickness of the underline */
-        background-color: var(--primary-color);
-        border-radius: 2px;
-    }
-    
-    
-    /* --- Grid for Cards --- */
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
-        gap: var(--spacing-lg);
-    }
-    
-    /* --- Card Styles --- */
-    .card {
-        background: var(--card-bg);
-        border-radius: var(--border-radius-lg); /* Softer edges */
-        box-shadow: 0 4px 15px var(--shadow-color);
-        transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
-        overflow: hidden; /* Ensure image respects border radius */
-        display: flex;
-        flex-direction: column; /* Stack image and content */
-    }
-    
-    .card:hover {
-        transform: translateY(-5px); /* Lift effect */
-        box-shadow: 0 8px 25px var(--shadow-hover-color);
-    }
-    
-    .card-image {
-        width: 100%;
-        height: 220px; /* Slightly taller image */
-        background-size: cover;
-        background-position: center;
-        border-bottom: 1px solid var(--border-color); /* Subtle separator */
-    }
-    
-    .card-content {
-        padding: var(--spacing-md);
-        flex-grow: 1; /* Allow content to fill space */
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .card-title {
-        font-weight: 700; /* Bold title */
-        font-size: 1.3rem; /* Slightly larger card title */
-        margin-bottom: var(--spacing-xs);
-        color: var(--text-color);
-    }
-    
-    .card-description {
-        font-size: 0.95rem;
-        color: var(--text-color-light);
-        margin-bottom: var(--spacing-md);
-        flex-grow: 1; /* Push link/tag to the bottom */
-    }
-    
-    .read-more, .status-tag {
-        display: inline-block; /* Align properly */
-        font-weight: 500;
-        font-size: 0.9rem;
-        margin-top: auto; /* Stick to bottom */
-        text-decoration: none;
-        align-self: flex-start; /* Align left */
-        padding: var(--spacing-xs) var(--spacing-sm);
-        border-radius: var(--border-radius-md);
-    }
-    
-    .read-more {
-        color: var(--primary-color);
-        transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
-    }
-    .read-more i { /* Style arrow icon */
-        margin-left: var(--spacing-xs);
-        transition: transform var(--transition-speed) ease;
-    }
-    
-    .read-more:hover,
-    .read-more:focus {
-        background-color: rgba(243, 159, 90, 0.1);
-        color: #e08e4a; /* Darker orange */
-        text-decoration: none;
-    }
-    .read-more:hover i,
-    .read-more:focus i {
-        transform: translateX(4px); /* Move arrow slightly on hover */
-    }
-    
-    .status-tag.coming-soon {
-        background-color: #e9ecef; /* Light grey background */
-        color: var(--text-color-light);
-        cursor: default;
-    }
-    
-    /* --- Work Experience Section --- */
-    .experience-list {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-lg);
-    }
-    
-    .experience-item {
-        display: flex;
-        gap: var(--spacing-md);
-        padding: var(--spacing-md);
-        background-color: #fff; /* White background for contrast */
-        border-radius: var(--border-radius-md);
-        border: 1px solid var(--border-color);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-    
-    .experience-logo {
-        flex-shrink: 0; /* Prevent logo from shrinking */
-        width: 60px; /* Fixed width for logos */
-        height: 60px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #f8f9fa; /* Light background for logo container */
-        border-radius: 50%; /* Circular logos */
-        overflow: hidden;
-    }
-    
-    .experience-logo img {
-        max-width: 70%; /* Adjust logo size within circle */
-        max-height: 70%;
-        object-fit: contain;
-    }
-    
-    .experience-details {
-        flex-grow: 1;
-    }
-    
-    .experience-details h3 {
-        font-size: 1.3rem;
-        margin-bottom: 2px; /* Reduce space between company and title */
-    }
-    
-    .experience-title {
+
+    .about-text p {
         font-size: 1rem;
-        font-weight: 500;
-        color: var(--text-color-light);
-        margin-bottom: var(--spacing-sm);
     }
-    
-    .experience-details ul {
-        margin-top: var(--spacing-sm);
-        padding-left: var(--spacing-md); /* Ensure list indentation */
-        font-size: 0.95rem;
-    }
-    .experience-details li::marker { /* Style list bullets */
-        color: var(--primary-color);
-    }
-    
-    /* --- Academic Research Section --- */
-    .research-table-container {
-        overflow-x: auto; /* Allow horizontal scrolling on small screens */
-        border: 1px solid var(--border-color);
-        border-radius: var(--border-radius-md);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-    
-    .research-table {
-        width: 100%;
-        border-collapse: collapse; /* Remove space between borders */
-        font-size: 0.9rem;
-    }
-    
-    .research-table th,
-    .research-table td {
-        padding: var(--spacing-sm) var(--spacing-md); /* Consistent padding */
-        text-align: left;
-        border-bottom: 1px solid var(--border-color);
-        vertical-align: top; /* Align content to top */
-    }
-    .research-table td:nth-child(1) { width: 45%; } /* Title column wider */
-    .research-table td:nth-child(2) { width: 20%; } /* Conference column */
-    .research-table td:nth-child(3) { width: 35%; } /* Authors column */
-    
-    
-    .research-table thead th {
-        background-color: var(--secondary-color); /* Light header background */
-        font-weight: 700; /* Bold headers */
-        color: var(--text-color);
-        white-space: nowrap; /* Prevent header text wrapping */
-    }
-    
-    .research-table tbody tr:last-child td {
-        border-bottom: none; /* Remove border from last row */
-    }
-    
-    .research-table tbody tr:hover {
-        background-color: #fcf8f3; /* Very light orange tint on hover */
-    }
-    
-    .research-table a {
-        font-weight: 500;
-        /* Link color already set globally */
-    }
-    .research-table a:hover {
-        text-decoration: underline;
-    }
-    
-    .research-table b { /* Highlight Sai's name */
-        color: #333;
-    }
-    
-    /* --- Footer --- */
-    .footer {
-        text-align: center;
-        padding: var(--spacing-lg) var(--spacing-md);
-        margin-top: var(--spacing-xl);
-        background-color: var(--text-color); /* Dark footer */
-        color: rgba(255, 255, 255, 0.7); /* Light text */
-        font-size: 0.9rem;
-    }
-    
-    .footer p {
-        margin: 0;
-    }
-    
-    /* --- Responsive Design --- */
-    @media screen and (max-width: 992px) {
-        h1 { font-size: 2.5rem; }
-        h2 { font-size: 1.8rem; }
-        h3 { font-size: 1.3rem; }
-    
-        .hero-content {
-            gap: var(--spacing-md);
-        }
-    }
-    
-    /* Responsive adjustments if needed */
-    @media screen and (max-width: 768px) {
-        .hero-section {
-            padding-bottom: 80px; /* Increase padding on mobile if needed */
-             min-height: auto; /* Allow height to adjust on mobile */
-             padding-top: 100px; /* Add padding if navbar overlaps */
-        }
-        .scroll-indicator i {
-            font-size: 1.5em; /* Slightly smaller icon on mobile */
-        }
-         .hero-content {
-             flex-direction: column; /* Stack text and image */
-             text-align: center; /* Center text */
-         }
-         .text-container {
-             order: 2; /* Text below image */
-              width: 100%; /* Full width */
-         }
-         .image-container {
-             order: 1; /* Image above text */
-              width: 60%; /* Adjust image size */
-              margin-bottom: 20px;
-              max-width: 300px; /* Max image size */
-         }
-         .image-container img {
-              width: 100%;
-         }
-         .social-icons {
-              justify-content: center; /* Center icons */
-         }
-    }
-    </style>
+}
+</style>
 </head>
 
-
-
-<main class="container">
-    <header class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="./index.html" class="nav-logo">Sai Maram</a>
-            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+<body>
+   <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="nav-logo">Sai Maram</a>
+            
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
                 <i class="fas fa-bars"></i>
             </button>
-            <nav class="navbar-nav" id="navbar-nav">
-                <a href="./index.html#uxr" class="nav-link">Case Studies</a>
-                <a href="./index.html#wex" class="nav-link">Experience</a>
-                <a href="./index.html#res" class="nav-link">Research</a>
+            
+            <div class="nav-links" id="nav-links">
+                <a href="index.html#projects" class="nav-link">Projects</a>
+                <a href="index.html#experience" class="nav-link">Experience</a>
+                <a href="index.html/#research" class="nav-link">Research</a>
                 <a href="./about.html" class="nav-link">About</a>
-                <a href="cv.pdf" target="_blank" class="nav-link nav-link-button">Resume</a>
-            </nav>
-        </div>
-    </header>
+                <a href="cv.pdf" target="_blank" class="nav-link nav-cta">Resume</a>
 
- 
-    <div class="content-container" style="padding-top:100px;">
-  
-      
-            <div class="heading-container" style="color: #333;">
-               <h1> Welcome to my little corner  👋 </h1>
             </div>
-            <div class="description-container">
-                <p class="w3-xlarge w3-text-black">
-                    Thanks for sticking around to learn a bit about me! I’m Sai Siddartha Maram—but feel free to call me Sai, Sid, Siddu, or Maram. I was born on May 11, 1998, which happened to be Buddha’s Birthday. Inspired by the coincidence, my father named me "Siddartha," the birth name of the Buddha.                </p>
-                <p class="w3-xlarge w3-text-black">
-                    My educational journey has taken me through several cities—Chennai, Zurich, and Hyderabad—each adding something unique to my perspective. Eventually, I found myself at Thapar University in Patiala, where I completed my undergraduate degree. Eager to keep exploring and learning, I made my way to California, where I’m currently pursuing my PhD.                </p>
-                <p class="w3-xlarge w3-text-black">
-                    Along the way, I picked up a handful of languages: I speak English, Hindi, Telugu, and Tamil, can read Kannada, and even understand a bit of German.
-                </p>
-                <p class="w3-xlarge w3-text-black">
-                    When I’m not deep in academic or UX work, you’ll probably find me watching movies or OTT shows, playing my ukulele, crafting something with my hands, or café-hopping. Growing up in a Telugu household gave me a deep love for Telugu cinema—but I also enjoy films in Tamil, Hindi, Kannada, and Malayalam. Watching movies isn’t just a hobby for me—it’s a lens through which I view my research. I pay close attention to direction, dialogue, and narrative structure, and often bring those storytelling techniques into my own work.                </p>
-                <img src="Group 786.png" style="width: 100%;">
-                <p class="w3-xlarge w3-text-black">
-                    My curiosity for UX design also sparked a love for crafts and art. With a little help from YouTube, I taught myself to play the ukulele and began experimenting with painting and sculpting—still very much a beginner, but enjoying every bit of it. You can check out some of my early creations above!
+        </div>
+    </nav>
+
+
+    <main class="container">
+        <section class="about-hero">
+            <h1>Welcome to my little corner <span class="wave">👋</span></h1>
+        </section>
+
+        <section class="about-content">
+            <div class="about-text">
+                <p>
+                    Thanks for sticking around to learn a bit about me! I'm Sai Siddartha Maram—but feel free to call me Sai, Sid, Siddu, or Maram. I was born on May 11, 1998, which happened to be Buddha's Birthday. Inspired by the coincidence, my father named me "Siddartha," the birth name of the Buddha.
                 </p>
                 
-    
-          
-         
+                <p>
+                    My educational journey has taken me through several cities—Chennai, Zurich, and Hyderabad—each adding something unique to my perspective. Eventually, I found myself at Thapar University in Patiala, where I completed my undergraduate degree. Eager to keep exploring and learning, I made my way to California, where I'm currently pursuing my PhD.
+                </p>
+                
+                <p>
+                    Along the way, I picked up a handful of languages: I speak English, Hindi, Telugu, and Tamil, can read Kannada, and even understand a bit of German.
+                </p>
+                
+                <p>
+                    When I'm not deep in academic or UX work, you'll probably find me watching movies or OTT shows, playing my ukulele, crafting something with my hands, or café-hopping. Growing up in a Telugu household gave me a deep love for Telugu cinema—but I also enjoy films in Tamil, Hindi, Kannada, and Malayalam. Watching movies isn't just a hobby for me—it's a lens through which I view my research. I pay close attention to direction, dialogue, and narrative structure, and often bring those storytelling techniques into my own work.
+                </p>
+                
+                <img src="Group 786.png" alt="Sai's creative works and hobbies" class="about-image">
+                
+                <p>
+                    My curiosity for UX design also sparked a love for crafts and art. With a little help from YouTube, I taught myself to play the ukulele and began experimenting with painting and sculpting—still very much a beginner, but enjoying every bit of it. You can check out some of my early creations above!
+                </p>
+            </div>
+        </section>
+    </main>
 
-           
-            
-        </div>
-       
-    
-    
-    
-    
-    </div>
-    
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
 
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                const isExpanded = navLinks.classList.contains('active');
+                menuToggle.setAttribute('aria-expanded', isExpanded);
+                
+                // Change icon
+                const icon = menuToggle.querySelector('i');
+                if (icon) {
+                    icon.className = isExpanded ? 'fas fa-times' : 'fas fa-bars';
+                }
+            });
 
-</main>
+            // Close menu when clicking on a link
+            navLinks.addEventListener('click', (e) => {
+                if (e.target.classList.contains('nav-link')) {
+                    navLinks.classList.remove('active');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                    const icon = menuToggle.querySelector('i');
+                    if (icon) {
+                        icon.className = 'fas fa-bars';
+                    }
+                }
+            });
+        }
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        
+        function handleScroll() {
+            if (window.scrollY > 10) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll);
+
+        // Wave animation
+        const wave = document.querySelector('.wave');
+        if (wave) {
+            wave.style.animationDelay = '0.5s';
+        }
+    </script>
+</body>
 </html>
-
-
-

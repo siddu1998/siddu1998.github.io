@@ -5,1057 +5,1281 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
     <link rel="icon" type="image/png" href="Group 522.png">
-    <title>Sai's Portfolio</title>
+    <title>Sai Maram - UX Research Portfolio</title>
 <style>
     /* --- Global Styles & Variables --- */
 :root {
-    --primary-font: "Inter", system-ui, sans-serif;
-    --heading-font: "Inter", system-ui, sans-serif; /* Using Inter for headings too for consistency */
+    /* Typography */
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    --font-mono: "SF Mono", Monaco, "Inconsolata", "Fira Code", "Fira Mono", "Roboto Mono", Courier New, Courier, monospace;
 
-    --primary-color: #F39F5A; /* Accent orange */
-    --secondary-color: #f8f9fa; /* Light background */
-    --text-color: #343a40; /* Dark grey for text */
-    --text-color-light: #6c757d; /* Lighter grey for descriptions */
-    --border-color: #dee2e6;
-    --card-bg: #ffffff;
-    --shadow-color: rgba(0, 0, 0, 0.08);
-    --shadow-hover-color: rgba(0, 0, 0, 0.12);
+    /* Colors - Minimal Palette */
+    --black: #000000;
+    --gray-900: #111111;
+    --gray-800: #1a1a1a;
+    --gray-700: #333333;
+    --gray-600: #4d4d4d;
+    --gray-500: #666666;
+    --gray-400: #808080;
+    --gray-300: #999999;
+    --gray-200: #cccccc;
+    --gray-100: #e6e6e6;
+    --gray-50: #f5f5f5;
+    --white: #ffffff;
 
-    --border-radius-sm: 4px;
-    --border-radius-md: 8px;
-    --border-radius-lg: 12px;
+    /* Accent Colors */
+    --accent-orange: #FF6B35;
+    --accent-orange-light: #FFF4F0;
+    --accent-blue: #0066CC;
+    --accent-blue-light: #E6F2FF;
+    --accent-green: #00C896;
+    --accent-green-light: #E6FFF9;
+    --accent-purple: #6B46C1;
+    --accent-purple-light: #F3F0FF;
 
-    --spacing-xs: 0.5rem;  /* 8px */
-    --spacing-sm: 1rem;    /* 16px */
-    --spacing-md: 1.5rem;  /* 24px */
-    --spacing-lg: 2.5rem;  /* 40px */
-    --spacing-xl: 4rem;    /* 64px */
+    /* Spacing */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
 
-    --max-width: 1200px;
-    --transition-speed: 0.3s;
+    /* Border Radius */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+
+    /* Shadows */
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.16);
+
+    /* Layout */
+    --max-width: 1100px;
+    --nav-height: 64px;
+
+    /* Transitions */
+    --transition-fast: 150ms ease;
+    --transition-base: 250ms ease;
+    --transition-slow: 350ms ease;
 }
 
-*,
-*::before,
-*::after {
+/* Reset & Base Styles */
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
 html {
+    font-size: 16px;
     scroll-behavior: smooth;
-    scroll-padding-top: 80px; /* Adjust based on fixed navbar height */
+    scroll-padding-top: calc(var(--nav-height) + var(--space-xl));
 }
 
 body {
-    font-family: var(--primary-font);
-    color: var(--text-color);
-    background-color: #fff; /* Clean white background */
-    line-height: 1.7;
-    font-size: 16px; /* Base font size */
+    font-family: var(--font-family);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--gray-900);
+    background-color: var(--white);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* Typography */
 h1, h2, h3, h4, h5, h6 {
-    font-family: var(--heading-font);
-    font-weight: 700;
-    line-height: 1.3;
-    margin-bottom: var(--spacing-sm);
-    color: var(--text-color); /* Ensure headings inherit base text color */
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-md);
 }
 
-h1 { font-size: 2.8rem; /* ~45px */ }
-h2 { font-size: 2rem;   /* ~32px */ }
-h3 { font-size: 1.5rem; /* ~24px */ } /* Used for card titles, experience company */
-h4 { font-size: 1.25rem;/* ~20px */ }
+h1 { font-size: 3.5rem; font-weight: 700; }
+h2 { font-size: 2.5rem; font-weight: 600; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1rem; }
 
 p {
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: var(--space-md);
+    color: var(--gray-700);
 }
 
 a {
-    color: var(--primary-color);
+    color: var(--accent-blue);
     text-decoration: none;
-    transition: color var(--transition-speed) ease;
+    transition: color var(--transition-base);
 }
 
-a:hover, a:focus {
-    color: #e08e4a; /* Darker shade of primary */
-    text-decoration: underline;
-    outline: none; /* Remove default focus outline if adding custom */
+a:hover {
+    color: var(--gray-100);
 }
 
-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
+strong {
+    font-weight: 600;
+    color: var(--gray-900);
 }
 
-ul {
-    list-style-position: outside;
-    padding-left: var(--spacing-md); /* Indent list items */
-    margin-bottom: var(--spacing-sm);
-}
-
-li {
-    margin-bottom: var(--spacing-xs);
-}
-
-strong, b {
-    font-weight: 700;
-}
-
-/* --- Utility Classes --- */
+/* Container */
 .container {
     max-width: var(--max-width);
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: var(--spacing-md);
-    padding-right: var(--spacing-md);
+    margin: 0 auto;
+    padding: 0 var(--space-xl);
 }
 
-/* --- Navbar --- */
+/* Navigation */
 .navbar {
-    background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white */
-    backdrop-filter: blur(10px); /* Frosted glass effect */
-    border-bottom: 1px solid var(--border-color);
-    padding: var(--spacing-xs) 0; /* Reduced padding */
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    right: 0;
+    height: var(--nav-height);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--gray-100);
     z-index: 1000;
-    transition: box-shadow var(--transition-speed) ease;
+    transition: all var(--transition-base);
 }
 
-.navbar.scrolled { /* Add this class with JS on scroll */
-     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+.navbar.scrolled {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: var(--shadow-sm);
 }
 
 .nav-container {
+    height: 100%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 0 var(--spacing-md);
+    justify-content: space-between;
 }
 
 .nav-logo {
-    font-weight: 700;
-    font-size: 1.4rem;
-    color: var(--text-color);
-    text-decoration: none;
-}
-.nav-logo:hover {
-     color: var(--primary-color);
-     text-decoration: none;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    letter-spacing: -0.02em;
 }
 
-.navbar-nav {
+.nav-links {
     display: flex;
     align-items: center;
-    gap: var(--spacing-sm);
+    gap: var(--space-sm);
 }
 
 .nav-link {
-    color: var(--text-color-light);
-    text-decoration: none;
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: var(--border-radius-sm);
+    padding: var(--space-sm) var(--space-md);
+    color: var(--gray-600);
+    font-size: 0.95rem;
     font-weight: 500;
-    transition: color var(--transition-speed) ease, background-color var(--transition-speed) ease;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-base);
 }
 
 .nav-link:hover,
-.nav-link:focus,
-.nav-link.active { /* Add 'active' class dynamically */
-    color: var(--primary-color);
-    text-decoration: none;
-    background-color: rgba(243, 159, 90, 0.1); /* Subtle background on hover/active */
+.nav-link.active {
+    color: var(--gray-900);
+    background-color: var(--gray-50);
 }
 
-.nav-link-button {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 8px 18px; /* Slightly larger padding */
-    border-radius: var(--border-radius-md);
-    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+.nav-cta {
+    margin-left: var(--space-sm);
+    padding: var(--space-sm) var(--space-lg);
+    background-color: var(--gray-900);
+    color: var(--white);
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    transition: all var(--transition-base);
 }
 
-.nav-link-button:hover,
-.nav-link-button:focus {
-    background-color: #e08e4a;
-    color: white;
-    transform: translateY(-2px); /* Slight lift effect */
-    text-decoration: none;
+.nav-cta:hover {
+    background-color: var(--gray-800);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
 }
 
 .menu-toggle {
-    display: none; /* Hidden by default */
+    display: none;
     background: none;
     border: none;
-    font-size: 1.8rem;
-    color: var(--text-color);
+    color: var(--gray-700);
+    font-size: 1.5rem;
     cursor: pointer;
-    padding: var(--spacing-xs);
+    padding: var(--space-sm);
 }
 
-/* --- Main Content --- */
-.main-content {
-    padding-top: 100px; /* Account for fixed navbar height + extra space */
+/* Hero Section */
+.hero {
+    padding-top: calc(var(--nav-height) + var(--space-3xl));
+    padding-bottom: var(--space-3xl);
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
 }
 
-.hero-section {
-    position: relative;
-    /* Add padding-bottom if needed to ensure indicator doesn't overlap content on some screen sizes */
-    padding-bottom: 60px; /* Adjust value as needed */
-    min-height: 100vh; /* Make hero at least screen height */
-    display: flex; /* Helps vertically center content if needed */
-    align-items: center; /* Vertically center hero-content */
-}
-.scroll-indicator {
-    position: absolute;
-    bottom: 20px; /* Adjust distance from bottom */
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10; /* Ensure it's above other hero content if necessary */
-    text-decoration: none; /* Remove underline from link */
-    /* Optional: Add size to the container if needed */
-    /* width: 40px; */
-    /* height: 40px; */
-    /* display: flex; */
-    /* justify-content: center; */
-    /* align-items: center; */
-}
-
-.scroll-indicator i {
-    font-size: 1.8em; /* Adjust icon size */
-    color: #333; /* Adjust color - make sure it contrasts */
-    opacity: 0.7; /* Make it slightly subtle */
-    transition: color 0.3s ease, opacity 0.3s ease; /* Smooth transition for hover */
-
-    /* Add the animation */
-    animation: bounce 2s infinite;
-}
-
-/* Add hover effect */
-.scroll-indicator:hover i {
-    color: #000; /* Darken on hover */
-    opacity: 1;
-    animation-play-state: paused; /* Optional: Pause animation on hover */
-}
-/* Define the bounce animation */
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-    }
-    40% {
-        transform: translateY(-10px); /* How high it bounces */
-    }
-    60% {
-        transform: translateY(-5px);
-    }
-}
-
-
-/* Ensure hero-content takes up appropriate space */
 .hero-content {
-    display: flex;
-    /* Your existing flex/grid styles for hero-content */
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-3xl);
     align-items: center;
-    width: 100%; /* Ensure it spans the section */
-    /* Add max-width and margin: auto if you center content */
-    max-width: 1200px; /* Example max width */
-    margin: 0 auto; /* Center content container */
-    padding: 0 20px; /* Side padding */
-    box-sizing: border-box;
-}
-.hero-content .text-container {
-    flex: 1 1 55%; /* Takes up slightly more space */
-    min-width: 300px; /* Prevent excessive shrinking */
 }
 
-.hero-content .image-container {
-    flex: 1 1 35%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 400px; /* Limit image size */
-    margin: 0 auto; /* Center if it wraps */
+.hero-text h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: var(--space-lg);
 }
 
-.hero-content .image-container img {
-    border-radius: var(--border-radius-lg); /* Optional: round image corners */
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-}
-
-
-.hero-section h1 {
-    font-size: 3.2rem; /* Larger hero heading */
-    margin-bottom: var(--spacing-xs);
-}
-
-.wave { /* Simple wave animation */
+.wave {
     display: inline-block;
-    animation: wave-animation 2.5s infinite;
+    animation: wave 2.5s ease-in-out infinite;
     transform-origin: 70% 70%;
+    font-size: 0.9em;
 }
 
-@keyframes wave-animation {
-    0% { transform: rotate( 0.0deg) }
-   10% { transform: rotate(14.0deg) }
-   20% { transform: rotate(-8.0deg) }
-   30% { transform: rotate(14.0deg) }
-   40% { transform: rotate(-4.0deg) }
-   50% { transform: rotate(10.0deg) }
-   60% { transform: rotate( 0.0deg) }
-  100% { transform: rotate( 0.0deg) }
+@keyframes wave {
+    0%, 60%, 100% { transform: rotate(0deg); }
+    10%, 30% { transform: rotate(14deg); }
+    20% { transform: rotate(-8deg); }
+    40% { transform: rotate(-4deg); }
+    50% { transform: rotate(10deg); }
 }
 
-.subtitle {
-    font-size: 1.3rem;
-    font-weight: 500;
-    color: var(--text-color-light);
-    margin-bottom: var(--spacing-md);
+.hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--gray-600);
+    margin-bottom: var(--space-xl);
 }
 
-.description {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    margin-bottom: var(--spacing-md);
-}
-.description .chef-emoji,
-.description .star-emoji {
-    font-size: 1.3em; /* Make emojis slightly larger */
+.hero-description {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--gray-600);
+    margin-bottom: var(--space-xl);
+    max-width: 600px;
 }
 
-.social-icons {
-    margin-top: var(--spacing-md);
+.hero-stats {
     display: flex;
-    gap: var(--spacing-md);
+    gap: var(--space-2xl);
+    margin-bottom: var(--space-xl);
 }
 
-.social-icons a {
-    color: var(--text-color-light);
-    font-size: 1.8rem;
-    transition: color var(--transition-speed) ease, transform var(--transition-speed) ease;
-    text-decoration: none;
+.stat {
+    text-align: center;
 }
 
-.social-icons a:hover,
-.social-icons a:focus {
-    color: var(--primary-color);
-    transform: translateY(-3px);
-    text-decoration: none;
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    line-height: 1;
 }
 
-/* --- Section Styles --- */
-.portfolio-section,
-.experience-section,
-.research-section {
-    padding: var(--spacing-xl) var(--spacing-md);
-    max-width: var(--max-width);
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.hero-actions {
+    display: flex;
+    gap: var(--space-md);
+    align-items: center;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-xl);
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all var(--transition-base);
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary {
+    background-color: var(--gray-900);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background-color: var(--gray-800);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+    background-color: var(--gray-50);
+    color: var(--gray-700);
+}
+
+.btn-secondary:hover {
+    background-color: var(--gray-100);
+    color: var(--gray-900);
+}
+
+.social-links {
+    display: flex;
+    gap: var(--space-sm);
+    margin-left: var(--space-xl);
+}
+
+.social-link {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    background-color: var(--gray-50);
+    color: var(--gray-600);
+    transition: all var(--transition-base);
+}
+
+.social-link:hover {
+    background-color: var(--gray-900);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+.hero-image {
+    position: relative;
+    width: 280px;
+    height: 280px;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+}
+
+.hero-image::before {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    background: linear-gradient(135deg, var(--accent-orange-light), var(--accent-blue-light));
+    border-radius: var(--radius-xl);
+    z-index: -1;
+    opacity: 0.5;
+}
+
+/* Section */
+.section {
+    padding: var(--space-3xl) 0;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: var(--space-md);
+}
+
+.section-subtitle {
+    font-size: 1.125rem;
+    color: var(--gray-600);
+    max-width: 600px;
     margin: 0 auto;
 }
 
-/* Alternating Backgrounds for sections */
-.experience-section {
-    background-color: var(--secondary-color);
-}
-
-.section-heading-container {
-    text-align: center;
-    margin-bottom: var(--spacing-lg);
-}
-
-.section-heading-container h2 {
-    display: inline-block;
-    position: relative;
-    margin-bottom: var(--spacing-md); /* Space below heading */
-}
-
-/* Underline effect for section headings */
-.section-heading-container h2::after {
-    content: '';
-    position: absolute;
-    bottom: -10px; /* Position below the text */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px; /* Width of the underline */
-    height: 4px; /* Thickness of the underline */
-    background-color: var(--primary-color);
-    border-radius: 2px;
-}
-
-
-/* --- Grid for Cards --- */
-.grid {
+/* Project Grid */
+.projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
-    gap: var(--spacing-lg);
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
 }
 
-/* --- Card Styles --- */
-.card {
-    background: var(--card-bg);
-    border-radius: var(--border-radius-lg); /* Softer edges */
-    box-shadow: 0 4px 15px var(--shadow-color);
-    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
-    overflow: hidden; /* Ensure image respects border radius */
-    display: flex;
-    flex-direction: column; /* Stack image and content */
+@media (max-width: 1024px) {
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
-.card:hover {
-    transform: translateY(-5px); /* Lift effect */
-    box-shadow: 0 8px 25px var(--shadow-hover-color);
+@media (max-width: 768px) {
+    @media (max-width: 768px) {
+        .projects-grid {
+            grid-template-columns: 1fr;
+            gap: var(--space-lg);
+        }
+    }
 }
 
-.card-image {
+.project-card {
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all var(--transition-base);
+    cursor: pointer;
+}
+
+.project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--gray-200);
+}
+
+.project-image {
     width: 100%;
-    height: 220px; /* Slightly taller image */
-    background-size: cover;
-    background-position: center;
-    border-bottom: 1px solid var(--border-color); /* Subtle separator */
-}
-
-.card-content {
-    padding: var(--spacing-md);
-    flex-grow: 1; /* Allow content to fill space */
-    display: flex;
-    flex-direction: column;
-}
-
-.card-title {
-    font-weight: 700; /* Bold title */
-    font-size: 1.3rem; /* Slightly larger card title */
-    margin-bottom: var(--spacing-xs);
-    color: var(--text-color);
-}
-
-.card-description {
-    font-size: 0.95rem;
-    color: var(--text-color-light);
-    margin-bottom: var(--spacing-md);
-    flex-grow: 1; /* Push link/tag to the bottom */
-}
-
-.read-more, .status-tag {
-    display: inline-block; /* Align properly */
-    font-weight: 500;
-    font-size: 0.9rem;
-    margin-top: auto; /* Stick to bottom */
-    text-decoration: none;
-    align-self: flex-start; /* Align left */
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: var(--border-radius-md);
-}
-
-.read-more {
-    color: var(--primary-color);
-    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
-}
-.read-more i { /* Style arrow icon */
-    margin-left: var(--spacing-xs);
-    transition: transform var(--transition-speed) ease;
-}
-
-.read-more:hover,
-.read-more:focus {
-    background-color: rgba(243, 159, 90, 0.1);
-    color: #e08e4a; /* Darker orange */
-    text-decoration: none;
-}
-.read-more:hover i,
-.read-more:focus i {
-    transform: translateX(4px); /* Move arrow slightly on hover */
-}
-
-.status-tag.coming-soon {
-    background-color: #e9ecef; /* Light grey background */
-    color: var(--text-color-light);
-    cursor: default;
-}
-
-/* --- Work Experience Section --- */
-.experience-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-lg);
-}
-
-.experience-item {
-    display: flex;
-    gap: var(--spacing-md);
-    padding: var(--spacing-md);
-    background-color: #fff; /* White background for contrast */
-    border-radius: var(--border-radius-md);
-    border: 1px solid var(--border-color);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-.experience-logo {
-    flex-shrink: 0; /* Prevent logo from shrinking */
-    width: 60px; /* Fixed width for logos */
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f8f9fa; /* Light background for logo container */
-    border-radius: 50%; /* Circular logos */
+    height: 200px;
+    position: relative;
     overflow: hidden;
 }
 
-.experience-logo img {
-    max-width: 70%; /* Adjust logo size within circle */
+/* Gradient backgrounds for project images */
+.gradient-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.gradient-2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+.gradient-3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+.gradient-4 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+.gradient-5 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+.gradient-6 { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+
+.project-content {
+    padding: var(--space-xl);
+}
+
+.project-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+    color: var(--gray-900);
+}
+
+.project-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--gray-600);
+    margin-bottom: var(--space-lg);
+}
+
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+}
+
+.tag {
+    padding: var(--space-xs) var(--space-md);
+    background-color: var(--gray-50);
+    color: var(--gray-700);
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.tag.tag-method {
+    background-color: var(--accent-blue-light);
+    color: var(--accent-blue);
+}
+
+.tag.tag-tool {
+    background-color: var(--accent-green-light);
+    color: var(--accent-green);
+}
+
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--gray-900);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all var(--transition-base);
+}
+
+.project-link:hover {
+    color: var(--accent-orange);
+    gap: var(--space-sm);
+}
+
+.project-link.coming-soon {
+    color: var(--gray-400);
+    cursor: default;
+}
+
+.project-link.coming-soon:hover {
+    color: var(--gray-400);
+    gap: var(--space-xs);
+}
+
+/* Experience Section */
+.experience-section {
+    background-color: var(--gray-50);
+}
+
+.experience-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.experience-item {
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    display: flex;
+    gap: var(--space-xl);
+    transition: all var(--transition-base);
+}
+
+.experience-item:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--gray-200);
+}
+
+.company-logo {
+    width: 60px;
+    height: 60px;
+    background-color: var(--gray-50);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.company-logo img {
+    max-width: 70%;
     max-height: 70%;
     object-fit: contain;
 }
 
 .experience-details {
-    flex-grow: 1;
+    flex: 1;
 }
 
-.experience-details h3 {
-    font-size: 1.3rem;
-    margin-bottom: 2px; /* Reduce space between company and title */
+.company-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xs);
 }
 
-.experience-title {
-    font-size: 1rem;
+.role-info {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+    color: var(--gray-600);
+}
+
+.role-title {
     font-weight: 500;
-    color: var(--text-color-light);
-    margin-bottom: var(--spacing-sm);
 }
 
-.experience-details ul {
-    margin-top: var(--spacing-sm);
-    padding-left: var(--spacing-md); /* Ensure list indentation */
-    font-size: 0.95rem;
-}
-.experience-details li::marker { /* Style list bullets */
-    color: var(--primary-color);
+.role-date {
+    font-size: 0.875rem;
+    color: var(--gray-500);
 }
 
-/* --- Academic Research Section --- */
-.research-table-container {
-    overflow-x: auto; /* Allow horizontal scrolling on small screens */
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-md);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+.aevements {
+    list-style: none;
+}
+
+.aevements li {
+    position: relative;
+    padding-left: var(--space-lg);
+    margin-bottom: var(--space-sm);
+    color: var(--gray-600);
+    line-height: 1.6;
+}
+
+.aevements li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent-orange);
+    font-weight: 600;
+}
+
+/* Research Section */
+.research-table-wrapper {
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
 }
 
 .research-table {
     width: 100%;
-    border-collapse: collapse; /* Remove space between borders */
-    font-size: 0.9rem;
+    border-collapse: collapse;
 }
 
 .research-table th,
 .research-table td {
-    padding: var(--spacing-sm) var(--spacing-md); /* Consistent padding */
+    padding: var(--space-md) var(--space-lg);
     text-align: left;
-    border-bottom: 1px solid var(--border-color);
-    vertical-align: top; /* Align content to top */
-}
-.research-table td:nth-child(1) { width: 45%; } /* Title column wider */
-.research-table td:nth-child(2) { width: 20%; } /* Conference column */
-.research-table td:nth-child(3) { width: 35%; } /* Authors column */
-
-
-.research-table thead th {
-    background-color: var(--secondary-color); /* Light header background */
-    font-weight: 700; /* Bold headers */
-    color: var(--text-color);
-    white-space: nowrap; /* Prevent header text wrapping */
+    border-bottom: 1px solid var(--gray-100);
 }
 
-.research-table tbody tr:last-child td {
-    border-bottom: none; /* Remove border from last row */
+.research-table th {
+    background-color: var(--gray-50);
+    font-weight: 600;
+    color: var(--gray-700);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.research-table td {
+    color: var(--gray-700);
 }
 
 .research-table tbody tr:hover {
-    background-color: #fcf8f3; /* Very light orange tint on hover */
+    background-color: var(--gray-50);
 }
 
-.research-table a {
+.research-table tbody tr:last-ld td {
+    border-bottom: none;
+}
+
+.paper-title {
     font-weight: 500;
-    /* Link color already set globally */
-}
-.research-table a:hover {
-    text-decoration: underline;
+    color: var(--gray-900);
 }
 
-.research-table b { /* Highlight Sai's name */
-    color: #333;
+.paper-title:hover {
+    color: var(--accent-blue);
 }
 
-/* --- Footer --- */
+.conference-badge {
+    display: inline-block;
+    padding: var(--space-xs) var(--space-sm);
+    background-color: var(--accent-purple-light);
+    color: var(--accent-purple);
+    border-radius: var(--radius-sm);
+    font-size: 0.8125rem;
+    font-weight: 600;
+}
+
+/* Footer */
 .footer {
+    padding: var(--space-2xl) 0;
     text-align: center;
-    padding: var(--spacing-lg) var(--spacing-md);
-    margin-top: var(--spacing-xl);
-    background-color: var(--text-color); /* Dark footer */
-    color: rgba(255, 255, 255, 0.7); /* Light text */
-    font-size: 0.9rem;
+    border-top: 1px solid var(--gray-100);
 }
 
-.footer p {
-    margin: 0;
+.footer-content {
+    color: var(--gray-500);
+    font-size: 0.875rem;
 }
 
-/* --- Responsive Design --- */
-@media screen and (max-width: 992px) {
+/* Responsive */
+@media (max-width: 768px) {
+    :root {
+        font-size: 15px;
+    }
+
     h1 { font-size: 2.5rem; }
-    h2 { font-size: 1.8rem; }
-    h3 { font-size: 1.3rem; }
+    h2 { font-size: 2rem; }
+    h3 { font-size: 1.25rem; }
+
+    .container {
+        padding: 0 var(--space-lg);
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: var(--nav-height);
+        right: -100%;
+        width: 280px;
+        height: calc(100vh - var(--nav-height));
+        background: var(--white);
+        border-left: 1px solid var(--gray-100);
+        flex-direction: column;
+        padding: var(--space-xl);
+        gap: var(--space-md);
+        transition: right var(--transition-base);
+        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-cta {
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .hero {
+        padding-top: calc(var(--nav-height) + var(--space-2xl));
+    }
+
+    .hero-text h1 {
+        font-size: 3rem;
+    }
 
     .hero-content {
-        gap: var(--spacing-md);
+        grid-template-columns: 1fr;
+        text-align: center;
     }
-}
 
-/* Responsive adjustments if needed */
-@media screen and (max-width: 768px) {
-    .hero-section {
-        padding-bottom: 80px; /* Increase padding on mobile if needed */
-         min-height: auto; /* Allow height to adjust on mobile */
-         padding-top: 100px; /* Add padding if navbar overlaps */
+    .hero-image {
+        margin: 0 auto var(--space-2xl);
     }
-    .scroll-indicator i {
-        font-size: 1.5em; /* Slightly smaller icon on mobile */
+
+    .hero-stats {
+        justify-content: center;
     }
-     .hero-content {
-         flex-direction: column; /* Stack text and image */
-         text-align: center; /* Center text */
-     }
-     .text-container {
-         order: 2; /* Text below image */
-          width: 100%; /* Full width */
-     }
-     .image-container {
-         order: 1; /* Image above text */
-          width: 60%; /* Adjust image size */
-          margin-bottom: 20px;
-          max-width: 300px; /* Max image size */
-     }
-     .image-container img {
-          width: 100%;
-     }
-     .social-icons {
-          justify-content: center; /* Center icons */
-     }
+
+    .hero-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .social-links {
+        margin-left: 0;
+        margin-top: var(--space-lg);
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+
+    .experience-item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .company-logo {
+        margin: 0 auto;
+    }
+
+    .aevements li {
+        text-align: left;
+    }
+
+    .research-table {
+        font-size: 0.875rem;
+    }
+
+    .research-table th,
+    .research-table td {
+        padding: var(--space-sm) var(--space-md);
+    }
 }
 </style>
 </head>
 
 <body>
-    <header class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="./index.html" class="nav-logo">Sai Maram</a>
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="#" class="nav-logo">Sai Maram</a>
+            
             <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
                 <i class="fas fa-bars"></i>
             </button>
-            <nav class="navbar-nav" id="navbar-nav">
-                <a href="#uxr" class="nav-link">Case Studies</a>
-                <a href="#wex" class="nav-link">Experience</a>
-                <a href="#res" class="nav-link">Research</a>
+            
+            <div class="nav-links" id="nav-links">
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#experience" class="nav-link">Experience</a>
+                <a href="#research" class="nav-link">Research</a>
                 <a href="./about.html" class="nav-link">About</a>
-                <a href="cv.pdf" target="_blank" class="nav-link nav-link-button">Resume</a>
-            </nav>
+                <a href="cv.pdf" target="_blank" class="nav-link nav-cta">Resume</a>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <main class="main-content">
-        <section class="hero-section" id="home">
-            <div class="hero-content">
-                <div class="text-container">
-                    <h1>Hello, I'm Sai <span class="wave">👋</span></h1>
-                    <p class="subtitle">UX Researcher | Designer | Developer | PhD Candidate</p>
-                    <p class="description">
-                        Let's bake some amazing customer experiences! I am a 4th Year PhD Candidate at UCSC and a <span class="chef-emoji">🧑‍🍳</span> MasterChef UX Researcher. I serve Michelin <span class="star-emoji">🌟</span> insights using my seasoned blend of Qualitative and Quantitative research skills. My previous UX collaborations include <b style="color: #709d3d;">Xbox (Microsoft)</b>, <b style="color: #1877F2;">Facebook (Meta)</b>, <b style="color: #800000;">Invento Robotics</b>, and academic institutions such as <b style="color:#B8860B;">GaTech</b>, <b style="color: #6c757d;">IISc</b>, <b style="color: #8A3B8F;">NYU</b>, and <b style="color: #c88c52;">Drexel</b>. My work has been published in reputed conferences like CHI, CHI PLAY, CSCW, and FDG.
-                    </p>
-                    <div class="social-icons">
-                        <a href="https://twitter.com/SiddarthaMaram" target="_blank" aria-label="Twitter Profile"><i class="fab fa-twitter"></i></a>
-                        <a href="https://scholar.google.com/citations?user=0eShD5EAAAAJ&hl=en" target="_blank" aria-label="Google Scholar Profile"><i class="fas fa-graduation-cap"></i></a>
-                        <a href="https://www.linkedin.com/in/sai-siddartha-maram/" target="_blank" aria-label="LinkedIn Profile"><i class="fab fa-linkedin-in"></i></a>
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-image">
+                        <img src="IMG_4004.JPG" alt="Sai Maram">
                     </div>
-                </div>
-                <div class="image-container">
-                    <img src="IMG_4004.JPG" alt="Illustration of Sai Maram">
-                </div>
-            </div>
-        
-            <!-- <a href="#next-section" class="scroll-indicator" aria-label="Scroll down">
-                <i class="fas fa-chevron-down"></i>
-                </a> -->
-            </section>
-        
-        <section id="next-section" class="your-next-section-class">
-            </section>
-
-        <section class="portfolio-section" id="uxr">
-            <div class="section-heading-container">
-                <h2>UXR Case Studies</h2>
-            </div>
-            <div class="grid">
-                <div class="card">
-                    <div class="card-image" style="background-image: url('temporary/images/Firefly\ young\ Indian\ girl\ kid\ with\ traditional\ clothes\ brown\ skin\ village\ 98018.jpg');"></div>
-                    <div class="card-content">
-                        <h3 class="card-title">Shloka - Culture for Climate Action</h3>
-                        <p class="card-description">An ethnographic and co-design study to design a video game for climate action, inspired by cultural elements and stories.</p>
-                        <span class="status-tag coming-soon">Coming Soon 🚧</span>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-image" style="background-image: url('temporary/images/ff.jpg');"></div>
-                    <div class="card-content">
-                        <h3 class="card-title">Religious Inclusivity in Videogames</h3>
-                        <p class="card-description">Using digital ethnography and statistical methods to analyze Reddit threads on religious stakeholders and gamers' opinions regarding videogames.</p>
-                        <a href="religionVideogames.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-                 <div class="card">
-                    <div class="card-image" style="background-image: url('temporary/images/Firefly\ Students\ Playing\ educational\ Games\ 37570.jpg');"></div>
-                    <div class="card-content">
-                        <h3 class="card-title">Visualization Systems for Player Reflection</h3>
-                        <p class="card-description">A Design-Based Research Approach (interviews, playtesting, co-design) to develop a visualization system encouraging reflection and learning in Serious Games.</p>
-                        <a href="opm.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-image" style="background-image: url('temporary/images/Firefly\ Hindu\ Monkey\ god\ fierce\ looking\ 98018.jpg');"></div>
-                    <div class="card-content">
-                        <h3 class="card-title">AstraVerse</h3>
-                        <p class="card-description">Through co-design and visual ethnography, presenting a design space inspired by religion for creating new video game characters.</p>
-                        <a href="./astraVerse.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-image" style="background-image: url('temporary/images/Firefly\ people\ Chatting\ on\ phone\ screens\ 59051.jpg');"></div>
-                    <div class="card-content">
-                        <h3 class="card-title">The Future of Facebook Home (Meta)</h3>
-                        <p class="card-description">Generative research during my Meta internship to develop ideas for the future of Facebook Home.</p>
-                         <a href="./meta_internship.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-image" style="background-image: url('temporary/images/Firefly A cute robot 98018.jpg');"></div>
-                    <div class="card-content">
-                        <h3 class="card-title">Move (Invento Robotics)</h3>
-                        <p class="card-description">My first internship experience, taking on multiple roles (developer to UXR) to streamline robot production at Invento Robotics.</p>
-                         <a href="./move.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-                <!-- <div class="card">
-                    <div class="card-image" style="background-image: url('temporary/images/Firefly\ purple\ color\ shirt\ 98018.jpg');"></div>
-                    <div class="card-content">
-                        <h3 class="card-title">Abric</h3>
-                        <p class="card-description">Exploring pain points in online fashion stores and proposing an innovative, gamified interface for fashion shopping.</p>
-                         <a href="./abric.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div> -->
-                 </div>
-        </section>
-
-        <section class="experience-section" id="wex">
-            <div class="section-heading-container">
-                <h2>Work Experience</h2>
-            </div>
-            <div class="experience-list">
-                <div class="experience-item">
-                    <div class="experience-logo">
-                        <img src="Xbox_one_logo.svg.png" alt="Xbox Logo">
-                    </div>
-                    <div class="experience-details">
-                        <h3>Microsoft (Xbox), Redmond, USA</h3>
-                        <p class="experience-title">UX Research Intern | June 2024 - September 2024</p>
-                        <ul>
-                            <li>Conducted <strong>13 usability studies</strong> on parental controls in videogames.</li>
-                            <li>Initiated strategy for merging Microsoft's <strong>6 parental control end-points</strong> into a single streamlined app.</li>
-                            <li>Established a <strong>taxonomy of mental models</strong> around parental controls for future design.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="experience-item">
-                     <div class="experience-logo">
-                         <img src="temporary/1659133639191.jpeg" alt="GUII Lab Logo">
-                    </div>
-                     <div class="experience-details">
-                        <h3>GUII Lab, UCSC</h3>
-                        <p class="experience-title">Research Intern | September 2021 - Present</p>
-                        <ul>
-                           <li>Conducted <strong>10 User Interviews</strong> establishing a design framework for cultural elements in videogames (Published at <strong>CSCW'23, CHI'22, etc.</strong>).</li>
-                           <li>Conducted <strong>3 large surveys, 10 player interviews,</strong> and used <strong>Statistical Methods</strong> for player taxonomy development.</li>
-                           <li>Conducted <strong>2 diary studies & 2 Game Playtests</strong> studying videogames and stress (Published at <strong>FDG'23, CHI Play'22, etc.</strong>).</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="experience-item">
-                     <div class="experience-logo">
-                        <img src="temporary/logo-Meta.png" alt="Meta Logo">
-                    </div>
-                     <div class="experience-details">
-                        <h3>Meta, Menlo Park, USA</h3>
-                        <p class="experience-title">UX Research Intern | June 2022 - September 2022</p>
-                        <ul>
-                            <li>Conducted <strong>Generative Research</strong> for Facebook's Top of Home.</li>
-                            <li>Led <strong>12 User Interviews</strong> discovering <strong>4 major user expectations</strong>.</li>
-                            <li>Executed <strong>18 Co-Design sessions</strong> validating design assumptions.</li>
-                            <li><strong>Prototyped 21 new experiences</strong> identified from Co-Design sessions.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="experience-item">
-                     <div class="experience-logo">
-                         <img src="temporary/invento_trans.png" alt="Invento Robotics Logo">
-                    </div>
-                     <div class="experience-details">
-                        <h3>Invento Robotics, Bangalore, India</h3>
-                        <p class="experience-title">R&D Engineer | June 2020 - March 2021; May 2018 - June 2018</p>
-                        <ul>
-                           <li>Executed <strong>17 user interviews</strong> identifying <strong>6 critical bottlenecks</strong> in the robot lifecycle.</li>
-                           <li>Conducted <strong>card sorting</strong> for robotic fleet management portal IA.</li>
-                           <li>UX insights reduced robot deployment time by <strong>12 hours</strong> & increased fleet health by <strong>34%</strong>.</li>
-                        </ul>
+                    
+                    <div class="hero-text">
+                        <h1>Hi, I'm Sai <span class="wave">👋</span></h1>
+                        <p class="hero-subtitle">UX Researcher crafting insights that drive product innovation</p>
+                        <p class="hero-description">
+                            I'm a PhD candidate at UC Santa Cruz specializing in mixed-methods research. I transform complex user behaviors into actionable insights through qualitative and quantitative research methods.
+                        </p>
+                        
+                        <div class="hero-stats">
+                            <div class="stat">
+                                <div class="stat-number">30+</div>
+                                <div class="stat-label">User Studies</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">15+</div>
+                                <div class="stat-label">Publications</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">3</div>
+                                <div class="stat-label">Big Tech <br>Internships</div>
+                            </div>
+                              <div class="stat">
+                                <div class="stat-number">1</div>
+                                <div class="stat-label">Startup</div>
+                            </div>
+                        </div>
+                        
+                        <div class="hero-actions">
+                            <a href="#projects" class="btn btn-primary">
+                                View Projects
+                                <i class="fas fa-arrow-down"></i>
+                            </a>
+                            <a href="cv.pdf" target="_blank" class="btn btn-secondary">
+                                Download Resume
+                            </a>
+                            
+                            <div class="social-links">
+                                <a href="https://linkedin.com/in/sai-siddartha-maram/" target="_blank" class="social-link" aria-label="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="https://twitter.com/SiddarthaMaram" target="_blank" class="social-link" aria-label="Twitter">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="https://scholar.google.com/citations?user=0eShD5EAAAAJ&hl=en" target="_blank" class="social-link" aria-label="Google Scholar">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="research-section" id="res">
-             <div class="section-heading-container">
-                <h2>Academic Research Papers</h2>
+        <section class="section" id="projects">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Featured Projects</h2>
+                    <p class="section-subtitle">Exploring the intersection of culture, technology, and human behavior through comprehensive UX research</p>
+                </div>
+                
+                <div class="projects-grid">
+                    <article class="project-card">
+                        <div class="project-image gradient-1"></div>
+                        <div class="project-content">
+                            <h3 class="project-title">Shloka - Culture for Climate Action</h3>
+                            <p class="project-description">
+                                Ethnographic study exploring how cultural narratives can drive climate action through gamification.
+                            </p>
+                            <div class="project-tags">
+                                <span class="tag tag-method">Ethnography</span>
+                                <span class="tag tag-method">Co-design</span>
+                                <span class="tag tag-method">Thematic Analysis</span>
+                                <span class="tag tag-tool">Figma</span>
+                                <span class="tag tag-tool">Unity</span>
+                                <span class="tag tag-tool">LLMs</span>
+                                <span class="tag tag-tool">Python</span>
+                                
+                            </div>
+                            <a href="shloka.html" class="project-link">
+                                View Case Study
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="project-image gradient-2"></div>
+                        <div class="project-content">
+                            <h3 class="project-title">Religious Inclusivity in Games</h3>
+                            <p class="project-description">
+                                Digital ethnography analyzing 10,000+ Reddit posts to understand religious representation in gaming.
+                            </p>
+                            <div class="project-tags">
+                                <span class="tag tag-method">Digital Ethnography</span>
+                                <span class="tag tag-method">Topic Modeling</span>
+                                <span class="tag tag-method">Statistical Analysis</span>
+                                <span class="tag tag-tool">Python</span>
+                                <!-- <span class="tag tag-tool">LDA</span>
+                                <span class="tag tag-tool">LLMs</span>
+                                <span class="tag tag-tool">BERTopic</span> -->
+                            </div>
+                            <a href="religionVideogames.html" class="project-link">
+                                View Case Study
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="project-image gradient-3"></div>
+                        <div class="project-content">
+                            <h3 class="project-title">Game Play Reflection Systems</h3>
+                            <p class="project-description">
+                                Design-based research developing visualization systems to enhance learning in educational games.
+                            </p>
+                            <div class="project-tags">
+                                <span class="tag tag-method">User Interviews</span>
+                                <!-- <span class="tag tag-method">Thematic Analysis</span> -->
+                                <span class="tag tag-method">Usability Studies</span>
+                                <!-- <span class="tag tag-method">A/B Testing</span> -->
+                                <span class="tag tag-tool">Figma</span>
+                                <span class="tag tag-tool">JavaScript</span>
+                            </div>
+                            <a href="opm.html" class="project-link">
+                                View Case Study
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="project-image gradient-4"></div>
+                        <div class="project-content">
+                            <h3 class="project-title">AstraVerse Character Design</h3>
+                            <p class="project-description">
+                                Visual ethnography and co-design study creating culturally-sensitive game character frameworks.
+                            </p>
+                            <div class="project-tags">
+                                <span class="tag tag-method">Visual Ethnography</span>
+                                <span class="tag tag-method">Co-design</span>
+                                <span class="tag tag-method">Grounded Theory</span>
+                                <span class="tag tag-tool">Figma</span>
+                            </div>
+                            <a href="./astraVerse.html" class="project-link">
+                                View Case Study
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="project-image gradient-5"></div>
+                        <div class="project-content">
+                            <h3 class="project-title">Facebook Home Redesign</h3>
+                            <p class="project-description">
+                                Generative research at Meta identifying user needs and prototyping 21 new experiences.
+                            </p>
+                            <div class="project-tags">
+                                <span class="tag tag-method">Generative Research</span>
+                                <span class="tag tag-method">User Interviews</span>
+                                <span class="tag tag-method">Prototyping</span>
+                                <span class="tag tag-tool">Figma</span>
+                            </div>
+                            <a href="./meta_internship.html" class="project-link">
+                                View Case Study
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="project-image gradient-6"></div>
+                        <div class="project-content">
+                            <h3 class="project-title">Robotic Fleet Management</h3>
+                            <p class="project-description">
+                                End-to-end UX research streamlining robot deployment, reducing setup time by 12 hours.
+                            </p>
+                            <div class="project-tags">
+                                <span class="tag tag-method">Contextual Inquiry</span>
+                                <span class="tag tag-method">Card Sorting</span>
+                                <span class="tag tag-method">Journey Mapping</span>
+                                <span class="tag tag-tool">Figma</span>
+                            </div>
+                            <a href="./move.html" class="project-link">
+                                View Case Study
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+                </div>
             </div>
-             <div class="research-table-container">
-                 <table class="research-table">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Conference</th>
-                            <th>Authors</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                         <tr>
-                            <td><a href="#">A Topic Modeling Approach Towards Understanding the Discourse between Religion and Videogames on Reddit</a></td>
-                            <td>ACM CHI PLAY 2024</td>
-                            <td><b>Sai Siddartha Maram</b>, Johannes Pfau, Mansi Kasar, Magy Seif El-Nasr</td>
-                        </tr>
-                         <tr>
-                             <td><a href="#">Shloka: Developing Climate Change interventions through a lens of Religion and Videogames</a></td>
-                            <td>ACM CHI PLAY 2024</td>
-                            <td><b>Sai Siddartha Maram</b>, Yash Malegaonkar, Mário Escarce Junior, Magy Seif El-Nasr</td>
-                        </tr>
-                        <tr>
-                            <td><a href="#">"Ah! I see'' - Facilitating Process Reflection in Gameplay through a Novel Spatio-Temporal Visualization System</a></td>
-                            <td>ACM CHI 2024</td>
-                            <td><b>Sai Siddartha Maram</b>, Erica Kleinman, Jennifer Villareale, Jichen Zhu, Magy Seif El-Nasr</td>
-                        </tr>
-                        <tr>
-                            <td><a href="#">Open Player Modeling - Using AI to help Reflection and Learning in Serious Games</a></td>
-                             <td>ACM SAC 2024</td>
-                            <td><b>Sai Siddartha Maram</b>, Jennifer Villareale, Jichen Zhu, Magy Seif El-Nasr</td>
-                        </tr>
-                        <tr>
-                            <td><a href="#">An Instructor's Lens into the Role of AI in Teaching Experimental Research via Gamification</a></td>
-                             <td>ACM SAC 2024</td>
-                            <td><b>Sai Siddartha Maram</b>, Anna Amato, Giovanni M Troiano, Steven C Sutherland, Camillia Matuk, Edward Melcer, Elin Carstensdottir, Casper Harteveld, Magy Seif El-Nasr</td>
-                        </tr>
-                         <tr>
-                             <td><a href="#">Designing Religious Games for Climate Action</a></td>
-                            <td>CSCW 2023</td>
-                            <td><b>Sai Siddartha Maram</b>, Yash Malegaonkar, Magy Seif El-Nasr</td>
-                        </tr>
-                        <tr>
-                            <td><a href='https://ieeexplore.ieee.org/abstract/document/10333224' target="_blank" rel="noopener noreferrer">Mining Player Behavior Patterns from Domain-Based Spatial Abstraction in Games</a></td>
-                            <td>IEEE CoG 2023</td>
-                             <td><b>Sai Siddartha Maram</b>, Johannes Pfau, Jennifer Villareale, Zhaoqing Teng, Jichen Zhu, Magy Seif El-Nasr</td>
-                        </tr>
-                         <tr>
-                             <td><a href='https://ieeexplore.ieee.org/abstract/document/10333145' target="_blank" rel="noopener noreferrer">Parallel OPM A Visualization System for Analyzing Peers Board States for Gameplay Reflection</a></td>
-                             <td>IEEE CoG 2023</td>
-                            <td><b>Sai Siddartha Maram</b>, Jennifer Villareale, Boyd Fox, Jichen Zhu, Magy Seif El-Nasr</td>
-                        </tr>
-                         <tr>
-                            <td><a href='https://dl.acm.org/doi/10.1145/3582437.3582445' target="_blank" rel="noopener noreferrer">A Visual Ethnographic Study at Cultural Spaces to Identify Character Creation Opportunities</a></td>
-                            <td>FDG 2023</td>
-                            <td><b>Sai Siddartha Maram</b>, Johannes Pfau, Jai Dodechani, Magy Seif El-Nasr</td>
-                        </tr>
-                        <tr>
-                            <td><a href='https://www.springerprofessional.de/astraverse-establishing-a-culturally-sensitive-framework-for-int/23634780' target="_blank" rel="noopener noreferrer">AstraVerse: Establishing a Culturally Sensitive Framework for Integrating Elements from Mythological Backgrounds</a></td>
-                            <td>IFIP-ICEC 2022</td>
-                            <td><b>Sai Siddartha Maram</b>, Johannes Pfau, Reza Habibi, Magy Seif El-Nasr</td>
-                         </tr>
-                        <tr>
-                             <td><a href='https://dl.acm.org/doi/abs/10.1145/3582437.3582451' target="_blank" rel="noopener noreferrer">Integrating the Player's Perspective in AI-Based Game Design: Designing Player-AI Interaction in AI-Based Games</a></td>
-                            <td>FDG 2023</td>
-                             <td>Jennifer Villareale, <b>Sai Siddartha Maram</b> and Jichen Zhu</td>
-                        </tr>
-                         <tr>
-                            <td><a href='https://dl.acm.org/doi/abs/10.1145/3582437.3582474' target="_blank" rel="noopener noreferrer">Under Pressure: A Multi-Modal Analysis of Induced Stressors in Games for Resilience</a></td>
-                             <td>FDG 2023</td>
-                            <td>Reza Habibi, Johannes Pfau, <b>Sai Siddartha Maram </b>, Jiahong Li, Bjarke Larsen, Jason Xu, Atieh Kashani, Shweta Sisodiya, Jonattan Holmes, Zhaoqing Teng, Elin Carstensdottir and Magy Seif El-Nasr</td>
-                        </tr>
-                        <tr>
-                             <td><a href='https://dl.acm.org/doi/abs/10.1145/3505270.3558340' target="_blank" rel="noopener noreferrer">Player Segmentation with INSPECT: Revealing Systematic Behavior Differences within MMORPG and Educational Game Case Studies</a></td>
-                             <td>CHI PLAY 2022</td>
-                            <td>Zhaoqing Teng, Johannes Pfau, <b>Sai Siddartha Maram</b>, Magy Seif El-Nasr</td>
-                        </tr>
-                         <tr>
-                             <td><a href='HCIxB _ AstraVerse_ Gaming Beyond Mortal Borders (1).pdf' target="_blank">Gaming Beyond Mortal Boarders</a></td>
-                             <td>ACM CHI 2022 (Workshop)</td>
-                             <td><b>Sai Siddartha Maram</b>, Magy Seif El-Nasr</td>
-                         </tr>
-                        <tr>
-                            <td><a href="#">Gender, Cultures, and Communication</a></td>
-                             <td>ACM CHI 2022 (Workshop)</td>
-                             <td>Shweta Sisodiya, <b>Sai Siddartha Maram</b>, Magy Seif El-Nasr, Elin Carstensdottir</td>
-                         </tr>
-                         <tr>
-                            <td><a href='https://link.springer.com/chapter/10.1007/978-3-031-05637-6_38' target="_blank" rel="noopener noreferrer">A Data-driven Design of AR Alternate Reality Games to Measure Resilience</a></td>
-                             <td>HCII 2022 (Best Paper)</td>
-                             <td>Rëza Habibi, <b>Sai Siddartha Maram</b>, Johannes Pfau, Jessica Wei, Shweta Sisodiya, Atieh Kashani, Elin Carstensdottir, Magy Seif El-Nasr</td>
-                        </tr>
-                         <tr>
-                             <td><a href='https://wimlworkshop.org/icml2021/program/#:~:text=CricNet%20%3A%20Segment%20and,Singh%20Indraprastha%20University)' target="_blank" rel="noopener noreferrer">CricNet : Segment and Classify Cricket Events</a></td>
-                            <td> ICML (Un-Workshop)</td>
-                             <td><b>Sai Siddartha Maram</b>, Shambhavi Mishra</td>
-                         </tr>
-                         <tr>
-                            <td>
-                                <a href='https://ieeexplore.ieee.org/abstract/document/9347962' target="_blank" rel="noopener noreferrer">Images to Signals, Signals to Highlights</a>
-                               
-                             </td>
-                             <td> IEEE GLOBECOM 2020</td>
-                            <td><b>Sai Siddartha Maram</b>, Neeraj Kumar, Joel J. P. C. Rodrigues, Sudeep Tanwar, Arjav Jain </td>
-                         </tr>
-                         <tr>
-                            <td>
-                                <a href='https://dl.acm.org/doi/abs/10.1145/3422844.3423050' target="_blank" rel="noopener noreferrer">Asking Graphs "How Did I Play?" Generating Graphs through Images Via Signals</a>
-                               
-                            </td>
-                             <td>ACM Multimedia (Workshop 2020)</td>
-                             <td><b>Sai Siddartha Maram</b>, Arjav Jain </td>
-                         </tr>
-                         <tr>
-                            <td><a href='https://ieeexplore.ieee.org/document/8883008' target="_blank" rel="noopener noreferrer">Neural network and ROS based threat detection and patrolling assistance</a></td>
-                             <td>IEEE ICACCP 2019 (Best Paper)</td>
-                             <td><b>Sai Siddartha Maram</b>, Tanuj Vishnoi, Sachin Pandey </td>
-                        </tr>
-                    </tbody>
-                </table>
+        </section>
+
+        <section class="section experience-section" id="experience">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Experience</h2>
+                    <p class="section-subtitle">Building user-centered products at leading tech companies and research labs</p>
+                </div>
+                
+                <div class="experience-list">
+                    <div class="experience-item">
+                        <div class="company-logo">
+                            <img src="Xbox_one_logo.svg.png" alt="Xbox">
+                        </div>
+                        <div class="experience-details">
+                            <h3 class="company-name">Microsoft (Xbox)</h3>
+                            <div class="role-info">
+                                <span class="role-title">UX Research Intern</span>
+                                <span class="role-date">Jun 2024 - Sep 2024</span>
+                            </div>
+                            <ul class="aevements">
+                                <li>Conducted 13 usability studies on parental controls, identifying key pain points in family gaming experiences</li>
+                                <li>Developed strategy to unify 6 disparate parental control endpoints into a single streamlined application</li>
+                                <li>Created taxonomy of mental models that influenced Xbox's family safety roadmap</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="company-logo">
+                            <img src="temporary/1659133639191.jpeg" alt="GUII Lab">
+                        </div>
+                        <div class="experience-details">
+                            <h3 class="company-name">GUII Lab, UC Santa Cruz</h3>
+                            <div class="role-info">
+                                <span class="role-title">Graduate Research Assistant</span>
+                                <span class="role-date">Sep 2021 - Present</span>
+                            </div>
+                            <ul class="aevements">
+                                <li>Led 10+ user studies establishing design frameworks for cultural elements in games (, CSCW)</li>
+                                <li>Conducted mixed-methods research with 500+ participants using surveys, interviews, and statistical analysis</li>
+                                <li>Published 15+ papers in top-tier conferences on game UX and player behavior</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="company-logo">
+                            <img src="temporary/logo-Meta.png" alt="Meta">
+                        </div>
+                        <div class="experience-details">
+                            <h3 class="company-name">Meta</h3>
+                            <div class="role-info">
+                                <span class="role-title">UX Research Intern</span>
+                                <span class="role-date">Jun 2022 - Sep 2022</span>
+                            </div>
+                            <ul class="aevements">
+                                <li>Conducted generative research for Facebook Home, interviewing 12 users to uncover 4 major expectations</li>
+                                <li>Facilitated 18 co-design sessions validating design hypotheses with diverse user groups</li>
+                                <li>Prototyped 21 new experiences that shaped Facebook's home feed strategy</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="company-logo">
+                            <img src="temporary/invento_trans.png" alt="Invento">
+                        </div>
+                        <div class="experience-details">
+                            <h3 class="company-name">Invento Robotics</h3>
+                            <div class="role-info">
+                                <span class="role-title">R&D Engineer</span>
+                                <span class="role-date">Jun 2020 - Mar 2021</span>
+                            </div>
+                            <ul class="aevements">
+                                <li>Executed 17 contextual inquiries identifying 6 critical bottlenecks in robot deployment workflow</li>
+                                <li>Redesigned fleet management portal through card sorting and IA optimization</li>
+                                <li>Reduced deployment time by 12 hours and increased fleet health by 34%</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="research">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Publications</h2>
+                    <p class="section-subtitle">Research contributions to HCI, games, and user experience</p>
+                </div>
+                
+                <div class="research-table-wrapper">
+                    <table class="research-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Venue</th>
+                                <th>Year</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <a href="#" class="paper-title">A Topic Modeling Approach Towards Understanding the Discourse between Religion and Videogames on Reddit</a>
+                                </td>
+                                <td><span class="conference-badge">ACM CHI PLAY</span></td>
+                                <td>2024</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="#" class="paper-title">Shloka: Developing Climate Change interventions through a lens of Religion and Videogames</a>
+                                </td>
+                                <td><span class="conference-badge">ACM CHI PLAY</span></td>
+                                <td>2024</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="#" class="paper-title">"Ah! I see" - Facilitating Process Reflection in Gameplay through a Novel Spatio-Temporal Visualization System</a>
+                                </td>
+                                <td><span class="conference-badge">ACM CHI</span></td>
+                                <td>2024</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="#" class="paper-title">Open Player Modeling - Using AI to help Reflection and Learning in Serious Games</a>
+                                </td>
+                                <td><span class="conference-badge">ACM SAC</span></td>
+                                <td>2024</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="#" class="paper-title">Designing Religious Games for Climate Action</a>
+                                </td>
+                                <td><span class="conference-badge">ACM CSCW</span></td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="https://ieeexplore.ieee.org/abstract/document/10333224" target="_blank" class="paper-title">Mining Player Behavior Patterns from Domain-Based Spatial Abstraction in Games</a>
+                                </td>
+                                <td><span class="conference-badge">IEEE CoG</span></td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="https://dl.acm.org/doi/10.1145/3582437.3582445" target="_blank" class="paper-title">A Visual Ethnographic Study at Cultural Spaces to Identify Character Creation Opportunities</a>
+                                </td>
+                                <td><span class="conference-badge">ACM FDG</span></td>
+                                <td>2023</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="https://www.springerprofessional.de/astraverse-establishing-a-culturally-sensitive-framework-for-int/23634780" target="_blank" class="paper-title">AstraVerse: Establishing a Culturally Sensitive Framework for Integrating Elements from Mythological Backgrounds</a>
+                                </td>
+                                <td><span class="conference-badge">IFIP-ICEC</span></td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="https://dl.acm.org/doi/abs/10.1145/3505270.3558340" target="_blank" class="paper-title">Player Segmentation with INSPECT: Revealing Systematic Behavior Differences</a>
+                                </td>
+                                <td><span class="conference-badge">ACM CHI</span></td>
+                                <td>2022</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="https://link.springer.com/chapter/10.1007/978-3-031-05637-6_38" target="_blank" class="paper-title">A Data-driven Design of AR Alternate Reality Games to Measure Resilience</a>
+                                </td>
+                                <td><span class="conference-badge">ACM HCII</span></td>
+                                <td>2022</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
     </main>
 
     <footer class="footer">
-         <p>&copy; <span id="current-year"></span> Sai Maram. All rights reserved.</p>
-         </footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; <span id="year"></span> Sai Maram. Crafted with care in Santa Cruz, CA.</p>
+            </div>
+        </div>
+    </footer>
 
-    <script>document.addEventListener('DOMContentLoaded', () => {
+    <script>
+        // Set current year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile menu toggle
         const menuToggle = document.getElementById('menu-toggle');
-        const navbarNav = document.getElementById('navbar-nav');
-        const navLinks = document.querySelectorAll('.nav-link'); // Get all nav links
-        const navbar = document.getElementById('navbar');
-    
-        // Toggle mobile menu
-        if (menuToggle && navbarNav) {
-            menuToggle.addEventListener('click', () => {
-                navbarNav.classList.toggle('active');
-                // Optional: change hamburger icon to 'X'
+        const navLinks = document.getElementById('nav-links');
+        
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = menuToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
                 const icon = menuToggle.querySelector('i');
-                if (navbarNav.classList.contains('active')) {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times');
-                    menuToggle.setAttribute('aria-expanded', 'true');
-                } else {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                    menuToggle.setAttribute('aria-expanded', 'false');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            });
+        });
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        let lastScroll = 0;
+        
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
             });
-    
-            // Close mobile menu when a link is clicked
-            navLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    if (navbarNav.classList.contains('active')) {
-                        navbarNav.classList.remove('active');
-                        const icon = menuToggle.querySelector('i');
-                        icon.classList.remove('fa-times');
-                        icon.classList.add('fa-bars');
-                         menuToggle.setAttribute('aria-expanded', 'false');
-                    }
-                });
-            });
-        }
-    
-         // Add shadow to navbar on scroll
-        if (navbar) {
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) { // Add shadow after scrolling 50px
-                    navbar.classList.add('scrolled');
-                } else {
-                    navbar.classList.remove('scrolled');
-                }
-            });
-        }
-    
-        // Update footer year
-        const currentYearSpan = document.getElementById('current-year');
-        if (currentYearSpan) {
-            currentYearSpan.textContent = new Date().getFullYear();
-        }
-    
-        // --- Optional: Active Nav Link Highlighting ---
-        // More complex implementation needed based on scroll position
-        // This is a simple example assuming section IDs match nav hrefs
-        const sections = document.querySelectorAll('section[id]'); // Get sections with IDs
-    
-        function setActiveLink() {
-            let currentSection = '';
-            const scrollPos = window.scrollY + navbar.offsetHeight + 50; // Offset for navbar height + buffer
-    
+        });
+
+        // Active section highlighting
+        const sections = document.querySelectorAll('section[id]');
+        const navItems = document.querySelectorAll('.nav-link');
+        
+        function highlightNavigation() {
+            const scrollPosition = window.scrollY + 100;
+            
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
                 const sectionHeight = section.offsetHeight;
-                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-                    currentSection = section.getAttribute('id');
-                }
-            });
-    
-             // Special case for top of page (hero section often doesn't have ID or is above first section)
-             if (window.scrollY < sections[0].offsetTop - navbar.offsetHeight - 50) {
-                 currentSection = 'home'; // Assuming hero/top section implies 'home' link
-             }
-    
-    
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                // Check if the link's href matches the current section ID
-                // Handle the '#' in href
-                if (link.getAttribute('href') === `#${currentSection}`) {
-                    link.classList.add('active');
-                }
-                 // Handle base index.html link for 'home'
-                if (currentSection === 'home' && (link.getAttribute('href') === './index.html' || link.getAttribute('href') === '#home') ) {
-                     // No specific 'home' link in the provided nav, so this part might not highlight anything unless a home link is added.
-                     // Example: if you add <a href="#home">Home</a>, this would work.
+                const sectionId = section.getAttribute('id');
+                
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    navItems.forEach(item => {
+                        item.classList.remove('active');
+                        if (item.getAttribute('href') === `#${sectionId}`) {
+                            item.classList.add('active');
+                        }
+                    });
                 }
             });
         }
-    
-        window.addEventListener('scroll', setActiveLink);
-        setActiveLink(); // Initial check on load
-    
-    });</script>
+        
+        window.addEventListener('scroll', highlightNavigation);
+        highlightNavigation(); // Initial check
+    </script>
 </body>
 
 </html>
