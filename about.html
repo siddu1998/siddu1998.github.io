@@ -4,15 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <script src="https://unpkg.com/typed@2.1.0/dist/typed.umd.js"></script>
     <link rel="icon" type="image" href="Group 522.png"> <title>About - Sai Siddartha Maram's Portfolio</title>
 <style>
     /* --- Global Styles & Variables --- */
 :root {
     /* Typography */
-        --font-family: -apple-system, BlinkMacMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         --font-mono: "SF Mono", Monaco, "Inconsolata", "Fira Code", "Fira Mono", "Roboto Mono", Courier New, Courier, monospace;
 
     /* Colors - Minimal Palette */
@@ -61,8 +59,9 @@
     --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.16);
 
     /* Layout */
-    --max-width: 1100px;
-    --nav-height: 64px;
+    --max-width: 1100px; /* Max width for inner content if desired, though here it's full viewport */
+    --padding-sides: 4rem; /* Padding from left/right edges */
+    --padding-top-bottom: 2rem; /* Padding from top/bottom edges */
 
     /* Transitions */
     --transition-fast: 150ms ease;
@@ -79,8 +78,6 @@
 
 html {
     font-size: 16px;
-    scroll-behavior: smooth;
-    scroll-padding-top: calc(var(--nav-height) + var(--space-xl));
 }
 
 body {
@@ -91,6 +88,11 @@ body {
     background-color: var(--white);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    height: 100vh; /* Full viewport height */
+    overflow: hidden; /* Prevent scrolling */
+    display: grid; /* Use grid for main layout */
+    grid-template-columns: 40% 60%; /* 40% for image, 60% for text */
+    grid-template-rows: 1fr; /* Single row */
 }
 
 /* Typography */
@@ -127,307 +129,157 @@ strong {
     color: var(--gray-900);
 }
 
-/* Container */
-.container {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 0 var(--space-xl);
+/* Main Content Area */
+.main-content-grid {
+    display: contents; /* Allows child elements to be placed directly in body's grid */
 }
 
-/* Navigation */
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: var(--nav-height);
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--gray-100);
-    z-index: 1000;
-    transition: all var(--transition-base);
-}
-
-.navbar.scrolled {
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: var(--shadow-sm);
-}
-
-.nav-container {
-    height: 100%;
+.about-image-column {
+    grid-column: 1; /* First column */
     display: flex;
     align-items: center;
-    justify-content: space-between;
-}
-
-.nav-logo {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--gray-900);
-    letter-spacing: -0.02em;
-}
-
-.nav-links {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-}
-
-.nav-link {
-    padding: var(--space-sm) var(--space-md);
-    color: var(--gray-600);
-    font-size: 0.95rem;
-    font-weight: 500;
-    border-radius: var(--radius-sm);
-    transition: all var(--transition-base);
-}
-
-.nav-link:hover,
-.nav-link.active {
-    color: var(--gray-900);
-    background-color: var(--gray-50);
-}
-
-.nav-cta {
-    margin-left: var(--space-sm);
-    padding: var(--space-sm) var(--space-lg);
-    background-color: var(--gray-900);
-    color: var(--white);
-    border-radius: var(--radius-sm);
-    font-weight: 500;
-    transition: all var(--transition-base);
-}
-
-.nav-cta:hover {
-    background-color: var(--gray-50);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-sm);
-}
-
-.menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    color: var(--gray-700);
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: var(--space-sm);
-}
-
-/* About Section Styles */
-.about-section {
-    padding-top: calc(var(--nav-height) + var(--space-3xl));
-    padding-bottom: var(--space-3xl);
-    display: flex;
-    align-items: center; /* Align items vertically in the middle */
-    gap: var(--space-3xl); /* Space between text and image */
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
-}
-
-.about-text-content {
-    flex: 2; /* Allows text to take more space */
-    min-width: 300px; /* Minimum width before wrapping */
-}
-
-.about-image-container {
-    flex: 1; /* Allows image to take remaining space */
-    display: flex;
-    justify-content: center; /* Center image horizontally */
-    min-width: 250px; /* Minimum width before wrapping */
+    justify-content: center;
+    background-color: var(--gray-50); /* A subtle background for the image column */
+    /* padding: var(--padding-top-bottom) var(--padding-sides); Padding for content within the column */
 }
 
 .about-image {
     max-width: 100%;
-    /* height: auto; */
-    border-radius: var(--radius-md); /* Slightly less rounded than example for a softer look */
+    max-height: 100%; /* Important for fitting within fixed height */
+    object-fit: contain; /* Ensures the whole image is visible within its space */
+    border-radius: var(--radius-md);
     /* box-shadow: var(--shadow-md); */
-    object-fit: cover; /* Ensures image covers the area without distortion */
-    aspect-ratio: 4 / 3; /* Set aspect ratio for a typical landscape image */
-    /* min-width: 250px; Ensure image isn't too small */
+    /* For a truly landscape image, an aspect-ratio like 16 / 9 would be ideal.
+       However, with object-fit: contain, the image's original ratio will be preserved.
+       If your image is very wide or very tall, it will just fill the available space. */
 }
 
-.about-text-content p {
-    font-size: 1.125rem;
-    line-height: 1.7;
-    margin-bottom: var(--space-lg); /* Increased margin for better readability */
+.about-text-column {
+    grid-column: 2; /* Second column */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    padding: var(--padding-top-bottom) var(--padding-sides);
+    overflow: hidden; /* Hide overflow if text is too long, though we aim for no scroll */
 }
 
-.about-text-content h1 {
-    font-size: 3rem; /* Adjusted for better fit in the column */
+.about-text-column h1 {
+    font-size: 3.2rem; /* Adjusted for column width */
     margin-bottom: var(--space-xl);
+}
+
+.about-text-column p {
+    font-size: 1.1rem; /* Slightly smaller font for more content to fit */
+    line-height: 1.6;
+    margin-bottom: var(--space-lg);
 }
 
 .about-email {
     color: var(--accent-blue);
     font-weight: 500;
+    margin-top: var(--space-lg); /* Space above email */
 }
 
-/* Responsive */
-@media (max-width: 992px) { /* Adjust breakpoint for larger tablets */
-    .about-section {
-        flex-direction: column; /* Stack columns on smaller screens */
-        text-align: center;
-        gap: var(--space-xl);
+
+/* Responsive Adjustments for smaller screens */
+@media (max-width: 992px) { /* Tablets and smaller laptops */
+    body {
+        grid-template-columns: 1fr; /* Stack columns */
+        grid-template-rows: 40vh 60vh; /* Image takes 40% height, text 60% */
+        overflow-y: auto; /* Allow scrolling if content overflows on smaller screens */
+        height: auto; /* Allow body to expand */
     }
 
-    .about-text-content,
-    .about-image-container {
-        flex: none; /* Remove flex grow/shrink */
-        width: 100%; /* Take full width */
+    .about-image-column {
+        grid-column: 1;
+        grid-row: 1; /* Image on top */
+        padding: var(--space-xl);
     }
 
     .about-image {
-        max-width: 400px; /* Limit image size when stacked, slightly larger for landscape */
-        margin: 0 auto; /* Center image */
-        aspect-ratio: 16 / 9; /* Maintain landscape ratio on mobile */
+        max-width: 80%; /* Constrain image width when stacked */
+        max-height: 100%;
+        object-fit: contain;
     }
 
-    .about-text-content h1 {
+    .about-text-column {
+        grid-column: 1;
+        grid-row: 2; /* Text on bottom */
+        padding: var(--space-xl);
+        text-align: center; /* Center text when stacked */
+        justify-content: flex-start; /* Align text to top within its column */
+    }
+
+    .about-text-column h1 {
         font-size: 2.5rem;
+        margin-bottom: var(--space-lg);
+    }
+
+    .about-text-column p {
+        font-size: 1rem;
+        margin-bottom: var(--space-md);
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px) { /* Smaller tablets and phones */
     :root {
         font-size: 15px;
     }
 
-    h1 { font-size: 2.5rem; }
-    h2 { font-size: 2rem; }
-    h3 { font-size: 1.25rem; }
-
-    .container {
-        padding: 0 var(--space-lg);
+    body {
+        grid-template-rows: 35vh 65vh; /* Adjust height split for smaller screens */
     }
 
-    .menu-toggle {
-        display: block;
+    .about-text-column h1 {
+        font-size: 2rem;
     }
 
-    .nav-links {
-        position: fixed;
-        top: var(--nav-height);
-        right: -100%;
-        width: 280px;
-        height: calc(100vh - var(--nav-height));
-        background: var(--white);
-        border-left: 1px solid var(--gray-100);
-        flex-direction: column;
-        padding: var(--space-xl);
-        gap: var(--space-md);
-        transition: right var(--transition-base);
-        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+    .about-text-column p {
+        font-size: 0.95rem;
     }
-
-    .nav-links.active {
-        right: 0;
-    }
-
-    .nav-cta {
-        margin-left: 0;
-        width: 100%;
-        text-align: center;
-    }
-
-    .about-text-content p {
-        font-size: 1rem;
+    
+    .about-image-column, .about-text-column {
+        padding: var(--space-lg);
     }
 }
+
+@media (max-width: 480px) { /* Mobile phones */
+    body {
+        grid-template-rows: 30vh 70vh; /* More height for text */
+    }
+    .about-text-column h1 {
+        font-size: 1.8rem;
+    }
+}
+
 </style>
 </head>
 
 <body>
-   <nav class="navbar" id="navbar">
-        <div class="container nav-container">
-            <a href="index.html" class="nav-logo">Sai Maram</a>
-            
-            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
-                <i class="fas fa-bars"></i>
-            </button>
-            
-            <div class="nav-links" id="nav-links">
-                <a href="index.html#projects" class="nav-link">Projects</a>
-                <a href="index.html#experience" class="nav-link">Experience</a>
-                <a href="index.html/#research" class="nav-link">Research</a>
-                <a href="./about.html" class="nav-link active">About</a>
-                <a href="cv.pdf" target="_blank" class="nav-link nav-cta">Resume</a>
-
-            </div>
+    <div class="main-content-grid">
+        <div class="about-image-column">
+            <img src="IMG_7021 (1).jpg" alt="Sai Siddartha Maram" class="about-image">
         </div>
-    </nav>
-
-
-    <main class="container">
-        <section class="about-section">
-            <div class="about-text-content">
-                <h1>Crafting intuitive experiences, solving complex problems.</h1>
-                
-                <p>
-                    My journey in technology began with a deep-seated curiosity for understanding and improving how people interact with systems. Growing up, I was fortunate to be immersed in diverse environments that cultivated a strong sense of community and reinforced the value of human-centered solutions. This perspective has always driven my passion for problem-solving.
-                </p>
-                
-                <p>
-                    I started engaging with technological challenges at a young age, initially by optimizing everyday digital experiences. This quickly evolved into a focus on larger-scale problems, such as streamlining student services infrastructure during my undergraduate studies at Thapar University and exploring innovative approaches to communication technologies. My professional experience includes designing and developing robust solutions, demonstrating my ability to translate complex needs into practical, user-centric products.
-                </p>
-                
-                <p>
-                    Having completed my Master's in Human-Computer Interaction, I am now dedicated to leveraging my interdisciplinary background and empathetic perspective to create meaningful connections through design and technology. Currently pursuing my PhD, I continue to explore the frontiers of [Your Specific Research Area, e.g., AI in UX, Human-Computer Interaction, etc.], always with the goal of improving the human experience.
-                </p>
-                
-                <p>
-                    To learn more or get in touch, please email me at <a href="mailto:your.email@example.com" class="about-email">your.email@example.com</a>.
-                </p>
-            </div>
-            <div class="about-image-container">
-                <img src="IMG_7021 (1) Background Removed.png" alt="Sai Siddartha Maram" class="about-image">
-            </div>
-        </section>
-    </main>
-
-    <script>
-        // Mobile menu toggle
-        const menuToggle = document.getElementById('menu-toggle');
-        const navLinks = document.getElementById('nav-links');
-
-        if (menuToggle && navLinks) {
-            menuToggle.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-                const isExpanded = navLinks.classList.contains('active');
-                menuToggle.setAttribute('aria-expanded', isExpanded);
-                
-                // Change icon
-                const icon = menuToggle.querySelector('i');
-                if (icon) {
-                    icon.className = isExpanded ? 'fas fa-times' : 'fas fa-bars';
-                }
-            });
-
-            // Close menu when clicking on a link
-            navLinks.addEventListener('click', (e) => {
-                if (e.target.classList.contains('nav-link')) {
-                    navLinks.classList.remove('active');
-                    menuToggle.setAttribute('aria-expanded', 'false');
-                    const icon = menuToggle.querySelector('i');
-                    if (icon) {
-                        icon.className = 'fas fa-bars';
-                    }
-                }
-            });
-        }
-
-        // Navbar scroll effect
-        const navbar = document.getElementById('navbar');
         
-        function handleScroll() {
-            if (window.scrollY > 10) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        }
-
-        window.addEventListener('scroll', handleScroll);
-    </script>
+        <div class="about-text-column">
+            <h1>Crafting intuitive experiences, solving complex problems.</h1>
+            
+            <p>
+                My journey began with a deep curiosity for enhancing human-system interactions. Immersed in diverse environments, I cultivated a strong sense of community and the importance of human-centered solutions. This perspective consistently drives my passion for impactful problem-solving.
+            </p>
+            
+            <p>
+                My technical journey started with optimizing digital experiences, evolving into tackling large-scale challenges like streamlining student services infrastructure and exploring communication technologies. My professional roles involve designing and developing robust solutions, showcasing my ability to translate complex needs into practical, user-centric products.
+            </p>
+            
+            <p>
+                Having earned my Master's in Human-Computer Interaction, I now leverage my interdisciplinary background and empathetic insights to forge meaningful connections through design and technology. As a PhD candidate, I continue to push the boundaries in [Your Specific Research Area], committed to improving the human experience.
+            </p>
+            
+            <p>
+                To connect or learn more, please email me at <a href="mailto:your.email@example.com" class="about-email">your.email@example.com</a>.
+            </p>
+        </div>
+    </div>
 </body>
 </html>
