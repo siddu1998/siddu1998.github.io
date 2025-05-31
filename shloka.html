@@ -3,113 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <title>Shloka - Culturally-Responsive Climate Education | UX Case Study</title>
     <style>
         :root {
-        /* Typography */
-        --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        --font-mono: "SF Mono", Monaco, "Inconsolata", "Fira Code", "Fira Mono", "Roboto Mono", Courier New, Courier, monospace;
+            /* Typography */
+            --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --font-mono: "SF Mono", Monaco, "Inconsolata", "Fira Code", "Fira Mono", "Roboto Mono", Courier New, Courier, monospace;
 
-        /* Colors - Based on AstraVerse original, adjusted to Shloka's feel */
-        --primary-color: #FF6B35; /* AstraVerse Accent Orange */
-        --primary-color-light: #FFF4F0;
-        --primary-color-darker: #E05A2A; /* Darker version of primary */
+            /* Colors - Unified Palette */
+            --black: #000000;
+            --gray-900: #111111;
+            --gray-800: #1a1a1a;
+            --gray-700: #333333;
+            --gray-600: #4d4d4d;
+            --gray-500: #666666;
+            --gray-400: #808080;
+            --gray-300: #999999;
+            --gray-200: #cccccc;
+            --gray-100: #e6e6e6;
+            --gray-50: #f5f5f5;
+            --white: #ffffff;
 
-         --black: #000000;
-        --gray-900: #111111;
-        --gray-800: #1a1a1a;
-        --gray-700: #333333;
-        --gray-600: #4d4d4d;
-        --gray-500: #666666;
-        --gray-400: #808080;
-        --gray-300: #999999;
-        --gray-200: #cccccc;
-        --gray-100: #e6e6e6;
-        --gray-50: #f5f5f5;
-        --white: #ffffff;
+            /* Accent Colors (Prioritizing the new navbar's naming) */
+            --primary-color: #FF6B35; /* Accent Orange */
+            --primary-color-light: #FFF4F0;
+            --primary-color-darker: #E05A2A; 
+            
+            --secondary-color: #0066CC; /* Accent Blue */
+            --secondary-color-light: #E6F2FF; 
 
-        --secondary-color: #0066CC; /* AstraVerse Accent Blue */
-        --secondary-color-light: #E6F2FF; /* Light version of secondary */
+            --accent-green: #00C896;
+            --accent-green-light: #E6FFF9;
+            --accent-purple: #6B46C1;
+            --accent-purple-light: #F3F0FF;
+
+            --text-color: #1a1a1a; /* Dark text */
+            --text-color-dark: #333333; /* General paragraph text */
+            --text-color-light: #666; /* Lighter text for meta/subtitles */
+            --text-color-lighter: #999; /* Even lighter text */
+            --border-color: #e0e0e0; /* Light border */
+            --bg-light: #f8f9fa; /* Light background for sections/cards */
+            --bg-white: #ffffff; /* White background */
+
+            /* Spacing (Prioritizing the new navbar's naming) */
+            --spacing-xs: 0.5rem;   /* 8px */
+            --spacing-sm: 1rem;     /* 16px */
+            --spacing-md: 1.5rem;   /* 24px */
+            --spacing-lg: 2rem;     /* 32px */
+            --spacing-xl: 3rem;     /* 48px */
+            --spacing-2xl: 4rem;    /* 64px */
+            --spacing-3xl: 5rem;    /* 80px */
+               
+            /* Border Radius (Prioritizing the new navbar's naming) */
+            --border-radius-sm: 4px;
+            --border-radius-md: 8px;
+            --border-radius-lg: 12px;
+            --border-radius-xl: 16px;
+
+            /* Shadows (Prioritizing the new navbar's naming) */
+            --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.08);
+
+            /* Layout */
+            --max-width: 1100px; /* Max width for inner content if desired, though here it's full viewport */
+            --content-max-width: 800px; /* For potential future content-constrained sections */
+            --padding-sides: 4rem; /* Padding from left/right edges */
+            --padding-top-bottom: 2rem; /* Padding from top/bottom edges */
+
+            /* Nav height for offset */
+            --nav-height: 64px;
+
+            /* Transitions */
+            --transition-fast: 150ms ease;
+            --transition-base: 250ms ease;
+            --transition-slow: 350ms ease;
+        }
         
-        --accent-green: #00C896;
-        --accent-green-light: #E6FFF9;
-        --accent-purple: #6B46C1;
-        --accent-purple-light: #F3F0FF;
-
-        --text-color: #1a1a1a; /* Dark text */
-        --text-color-dark: #333333; /* General paragraph text */
-        --text-color-light: #666; /* Lighter text for meta/subtitles */
-        --text-color-lighter: #999; /* Even lighter text */
-        --border-color: #e0e0e0; /* Light border */
-        --bg-light: #f8f9fa; /* Light background for sections/cards */
-        --bg-white: #ffffff; /* White background */
-
-        /* Spacing - Comprehensive set, values adjusted to Shloka's density */
-        --spacing-xs: 0.5rem;   /* 8px */
-        --spacing-sm: 1rem;     /* 16px */
-        --spacing-md: 1.5rem;   /* 24px */
-        --spacing-lg: 2rem;     /* 32px */
-        --spacing-xl: 3rem;     /* 48px */
-        --spacing-2xl: 4rem;    /* 64px */
-        --spacing-3xl: 5rem;    /* 80px */
-
-       
-
-        /* Border Radius - Adjusted to Shloka's slightly smaller radii */
-        --border-radius-sm: 4px;
-        --border-radius-md: 8px;
-        --border-radius-lg: 12px; /* For larger elements like hero image */
-        --border-radius-xl: 16px; /* For main sections/containers */
-
-        /* Shadows - Consistent with Shloka */
-        --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.05);
-        --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
-        --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.08); /* Used for hero image */
-
-        /* Layout */
-        --max-width: 1200px; /* Wide container max-width */
-        --content-max-width: 800px; /* Main content max-width */
-        --nav-height: 64px;
-
-        /* Transitions - Consistent with AstraVerse original */
-        --transition-fast: 150ms ease;
-        --transition-base: 250ms ease;
-        --transition-slow: 350ms ease;
-    }
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             
         }
-       
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: #ffffff;
-            color: #1a1a1a;
+            font-family: var(--font-family);
+            background: var(--bg-white);
+            color: var(--text-color);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            padding-top: var(--nav-height); /* Add padding to body to prevent content from going under fixed navbar */
         }
-       
+        
         /* Container */
         .container {
-            max-width: 800px;
+            max-width: var(--content-max-width);
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 var(--spacing-md);
         }
    
-       
+        
         .wide-container {
-            max-width: 1200px;
+            max-width: var(--max-width);
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 var(--spacing-md);
         }
-       
+        
         /* CSS Variables */
+        /* NOTE: Many of these are now redundant due to the unified :root. Kept for backward compatibility but consider removal if not explicitly used. */
         :root {
-            --primary-color: #F39F5A;
-            --primary-color-darker: #E08A45;
+            --primary-color: #FF6B35;
+            --primary-color-darker: #E05A2A;
             --text-color: #1a1a1a;
             --text-color-light: #666;
             --border-color: #f0f0f0;
@@ -119,125 +126,117 @@
             --border-radius-sm: 4px;
             --border-radius-md: 8px;
             --transition-speed: 0.2s;
-            --max-width: 1200px;
+            --max-width: 1100px; /* Overwriting to keep consistent with the about page */
             --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.08);
             --bg-light: #f8f8f8;
             --text-color-lighter: #999;
         }
-       
-        /* --- Navbar Styles --- */
-       
-    .navbar {
-        background: rgba(255, 255, 255, 0.8); /* Dark background */
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-bottom: 1px solid rgba(255,255,255,0.1); /* Light border for contrast */
-        padding: var(--spacing-xs) 0;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        z-index: 1000;
-        transition: box-shadow var(--transition-base) ease;
-        height: var(--nav-height);
-        display: flex;
-        align-items: center;
-    }
-       
-        .navbar.scrolled { 
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); 
+        
+        /* --- Navbar Styles (FROM FIRST CSS BLOCK - DITTO) --- */
+        .navbar {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: var(--spacing-xs) 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: box-shadow var(--transition-base) ease;
+            height: var(--nav-height);
+            display: flex;
+            align-items: center;
         }
-       
-      .nav-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        max-width: var(--max-width);
-        margin: 0 auto;
-        padding: 0 var(--spacing-md);
-        width: 100%;
-    }
-       
-        .nav-logo { 
-            font-weight: 700; 
-            font-size: 1.4rem; 
-            color: var(--text-color); 
-            text-decoration: none; 
-        }
-       
-        .nav-logo:hover { 
-            color: var(--primary-color); 
-            text-decoration: none; 
-        }
-       
-        .navbar-nav { 
-            display: flex; 
-            align-items: center; 
-            gap: var(--spacing-sm); 
-        }
-       
-        .nav-link { 
-            color: var(--text-color-light); 
-            text-decoration: none; 
-            padding: var(--spacing-xs) var(--spacing-sm); 
-            border-radius: var(--border-radius-sm); 
-            font-weight: 500; 
-            transition: color var(--transition-speed) ease, background-color var(--transition-speed) ease; 
-        }
-       
-     
 
-        .nav-link:hover, 
-        .nav-link:focus, 
-        .nav-link.active { 
+        .navbar.scrolled {
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+            width: 100%;
+        }
+
+        .nav-logo {
+            font-size: 1.25rem; /* Adjusted from 1.4rem to match the about page */
+            font-weight: 600; /* Adjusted from 700 to match the about page */
+            color: var(--gray-900);
+            letter-spacing: -0.02em;
+            text-decoration: none; /* Ensure no underline */
+        }
+
+        .nav-logo:hover {
+            text-decoration: none;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1rem; /* Adjusted from var(--spacing-sm) to match the about page */
+        }
+
+        .nav-link {
+            color: var(--gray-600); /* Adjusted to match the about page */
+            text-decoration: none;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius-sm);
+            font-weight: 500;
+            transition: color var(--transition-base) ease, background-color var(--transition-base) ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
             color: var(--gray-900);
             background-color: var(--gray-50);
         }
-       
-        .nav-link-button { 
-            background-color: black; 
-            color: white; 
-            padding: 8px 18px; 
-            border-radius: var(--border-radius-md); 
-            transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease; 
+
+        .nav-cta {
+            margin-left: var(--spacing-sm); /* Adjusted from var(--space-sm) to match the about page */
+            padding: 0.5rem 1.5rem;
+            background-color: var(--gray-900);
+            color: var(--white);
+            border-radius: 6px; /* Keeping the 6px as it was in original CTA and is common */
+            font-weight: 500;
+            transition: all var(--transition-base);
         }
 
-       .nav-cta {
-    margin-left: var(--space-sm);
-    padding: 0.5rem 1.5rem;
-    background-color: var(--gray-900);
-    color: var(--white);
-    border-radius: 6px;
-    font-weight: 500;
-    transition: all var(--transition-base);
-}
-
-
-        .nav-link-button:hover, 
-        .nav-link-button:focus { 
-            background-color: black; 
-            color: white; 
-            transform: translateY(-2px); 
-            text-decoration: none; 
+        .nav-cta:hover {
+            background-color: var(--gray-50); /* As per the original CTA's hover */
+            color: black; /* To make text visible on light hover */
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
         }
-       
-        .menu-toggle { 
-            display: none; 
-            background: none; 
-            border: none; 
-            font-size: 1.8rem; 
-            color: var(--text-color); 
-            cursor: pointer; 
-            padding: var(--spacing-xs); 
+
+        .nav-cta:focus {
+            background-color: var(--gray-800);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
         }
-       
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: var(--gray-900); /* Adjusted to be visible on white navbar */
+            cursor: pointer;
+            padding: var(--spacing-xs);
+        }
+        
         /* Hero Section */
         .hero {
-            margin-top: 80px;
             padding: 80px 0 40px;
             text-align: center;
         }
-       
+        
         .hero h1 {
             font-size: 56px;
             font-weight: 700;
@@ -245,7 +244,7 @@
             margin-bottom: 24px;
             letter-spacing: -0.03em;
         }
-       
+        
         .hero .subtitle {
             font-size: 20px;
             color: #666;
@@ -253,7 +252,7 @@
             max-width: 600px;
             margin: 0 auto 40px;
         }
-       
+        
         .hero-meta {
             display: flex;
             gap: 40px;
@@ -261,41 +260,27 @@
             font-size: 16px;
             color: #999;
         }
-       
+        
         .hero-meta span {
             display: flex;
             align-items: center;
             gap: 8px;
         }
-       
+        
         /* Hero Image */
-        .hero-image {
-            width: 100%;
-            max-width: 1200px;
-            margin: 80px auto 0;
-            background: #f8f8f8;
-            border-radius: 16px;
-            height: 600px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            color: #999;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-        }
         .hero-image-container {
             width: 100%;
             max-width: var(--max-width);
-            margin: 80px auto 0; /* Adjusted margin-top to match hero section */
+            margin: 80px auto 0;
             background: var(--bg-light);
-            border-radius: 16px; /* Adjusted border-radius to match hero-image */
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1rem;
             color: var(--text-color-lighter);
-            box-shadow: var(--shadow-lg); /* Use larger shadow for hero image */
-            overflow: hidden;   
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;    
         }
 
         .hero-image-container figure {
@@ -307,7 +292,7 @@
             width: 100%;
             height: auto;
             display: block;
-            border-radius: 16px;   /* Adjusted border-radius to match hero-image */
+            border-radius: 16px;    
         }
 
         .hero-image-container figcaption {
@@ -317,29 +302,29 @@
             padding-bottom: var(--spacing-md);
             text-align: center;
         }
-       
-       
+        
+        
         /* Section Styles */
         section {
             padding: 80px 0;
         }
-       
+        
         .section-header {
             margin-bottom: 48px;
         }
-       
+        
         .section-header h2 {
             font-size: 36px;
             font-weight: 700;
             margin-bottom: 16px;
             letter-spacing: -0.02em;
         }
-       
+        
         .section-header p {
             font-size: 18px;
             color: #666;
         }
-       
+        
         /* Typography */
         h3 {
             font-size: 24px;
@@ -348,56 +333,66 @@
             margin-top: 40px;
             letter-spacing: -0.01em;
         }
-       
+        
         h4 {
             font-size: 18px;
             font-weight: 600;
             margin-bottom: 12px;
             margin-top: 32px;
         }
-       
+        
         p {
             margin-bottom: 20px;
             color: #444;
             font-size: 16px;
             line-height: 1.8;
         }
-       
+        
         strong {
             color: #1a1a1a;
             font-weight: 600;
         }
-       
+        
         /* Overview Section */
         .overview {
-            background: #f8f9fa;
+            background: var(--bg-light);
             padding: 60px 0;
             margin-bottom: 40px;
         }
-       
+        
         .overview-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 48px;
             margin-top: 40px;
         }
-       
-        .overview-item h3 {
+        
+        .overview-item h4 { /* Changed from h3 to h4 to match the HTML structure */
             font-size: 16px;
             font-weight: 600;
             margin-bottom: 8px;
             color: #999;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            margin-top: 0; /* Remove default margin-top for h4 in this context */
         }
-       
-        .overview-item p {
-            font-size: 16px;
-            color: #444;
+        .overview-item ul {
+            list-style: none;
+            padding: 0;
             margin: 0;
         }
-       
-        /* Image Placeholders */
+
+        .overview-item li {
+            font-size: 16px;
+            color: #444;
+            margin-bottom: 8px;
+        }
+
+        .overview-item li:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Image Placeholders (if still needed, otherwise remove) */
         .image-placeholder {
             width: 100%;
             background: #f0f0f0;
@@ -409,19 +404,19 @@
             color: #999;
             font-size: 16px;
         }
-       
+        
         .image-full {
             height: 500px;
         }
-       
+        
         .image-medium {
             height: 400px;
         }
-       
+        
         .image-small {
             height: 300px;
         }
-       
+        
         /* Grid Layouts */
         .two-column {
             display: grid;
@@ -429,7 +424,7 @@
             gap: 40px;
             margin: 40px 0;
         }
-       
+        
         .three-column {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -464,65 +459,65 @@
             font-size: 14px;
             color: #666;
         }
-       
+        
         /* Cards */
         .card {
-            background: #f8f9fa;
+            background: var(--bg-light);
             padding: 32px;
             border-radius: 12px;
             margin-bottom: 24px;
         }
-       
+        
         .card h4 {
             margin-top: 0;
             font-size: 20px;
             margin-bottom: 16px;
         }
-       
+        
         /* Insights */
         .insight-card {
-            background: #fff;
-            border: 1px solid #e0e0e0;
+            background: var(--bg-white);
+            border: 1px solid var(--border-color);
             padding: 32px;
             border-radius: 12px;
             margin-bottom: 24px;
-            transition: box-shadow 0.2s ease;
+            transition: box-shadow var(--transition-speed) ease;
         }
-       
+        
         .insight-card:hover {
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            box-shadow: var(--shadow-md);
         }
-       
+        
         .insight-number {
             display: inline-block;
             width: 32px;
             height: 32px;
-            background: #1a1a1a;
-            color: white;
+            background: var(--gray-900);
+            color: var(--white);
             border-radius: 50%;
             text-align: center;
             line-height: 32px;
             font-weight: 600;
             margin-bottom: 16px;
         }
-       
+        
         /* Quotes */
         .quote {
-            border-left: 4px solid #1a1a1a;
+            border-left: 4px solid var(--gray-900);
             padding-left: 24px;
             margin: 40px 0;
             font-style: italic;
-            color: #666;
+            color: var(--gray-600);
         }
-       
+        
         .quote-author {
             display: block;
             margin-top: 12px;
             font-style: normal;
             font-size: 14px;
-            color: #999;
+            color: var(--gray-900);
         }
-       
+        
         /* Statistics */
         .stats-grid {
             display: grid;
@@ -531,44 +526,44 @@
             margin: 40px 0;
             text-align: center;
         }
-       
+        
         .stat-item {
             padding: 32px;
-            background: #f8f9fa;
+            background: var(--bg-light);
             border-radius: 12px;
         }
-       
+        
         .stat-number {
             font-size: 48px;
             font-weight: 700;
-            color: #1a1a1a;
+            color: var(--gray-900);
             display: block;
             letter-spacing: -0.02em;
         }
-       
+        
         .stat-label {
             font-size: 14px;
-            color: #666;
+            color: var(--gray-600);
             margin-top: 8px;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
-        /* Results Cards (Non-percentage) */
+        /* Results Cards (Non-percentage - if needed, otherwise remove) */
         .results-cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 32px; /* Adjusted gap to be consistent */
-            margin: 40px 0; /* Consistent margin */
+            gap: 32px;
+            margin: 40px 0;
         }
 
         .results-card {
-            background: #fff;
-            border: 2px solid #1a1a1a;
+            background: var(--bg-white);
+            border: 2px solid var(--gray-900);
             padding: 32px;
             border-radius: 12px;
             text-align: center;
-            transition: transform 0.2s ease;
+            transition: transform var(--transition-speed) ease;
         }
 
         .results-card:hover {
@@ -578,7 +573,7 @@
         .results-card h4 {
             font-size: 24px;
             font-weight: 700;
-            color: #1a1a1a;
+            color: var(--gray-900);
             margin-bottom: 12px;
         }
 
@@ -586,7 +581,7 @@
             text-align: left;
             margin: 0;
             padding: 0;
-            list-style: none; /* Remove default list style */
+            list-style: none;
         }
 
         .results-card li {
@@ -595,25 +590,25 @@
             font-size: 16px;
             line-height: 1.5;
         }
-       
+        
         /* Process Timeline */
         .process-timeline {
             margin: 60px 0;
         }
-       
+        
         .timeline-item {
             display: flex;
             gap: 40px;
             margin-bottom: 60px;
             align-items: flex-start;
         }
-       
+        
         .timeline-number {
             flex-shrink: 0;
             width: 80px;
             height: 80px;
-            background: #1a1a1a;
-            color: white;
+            background: var(--gray-900);
+            color: var(--white);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -621,11 +616,11 @@
             font-size: 32px;
             font-weight: 700;
         }
-       
+        
         .timeline-content {
             flex: 1;
         }
-       
+        
         .timeline-content h3 {
             margin-top: 8px;
         }
@@ -634,36 +629,36 @@
             height: auto; /* Maintain aspect ratio */
             display: block; /* Removes extra space below image */
         }
-       
+        
         /* Findings */
         .finding-card {
-            background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
-            border: 1px solid #e0e0e0;
+            background: linear-gradient(135deg, var(--bg-light) 0%, var(--bg-white) 100%);
+            border: 1px solid var(--border-color);
             padding: 32px;
             border-radius: 12px;
             margin-bottom: 24px;
         }
-       
+        
         .finding-label {
             font-size: 14px;
             font-weight: 600;
-            color: #999;
+            color: var(--gray-900); /* Changed to gray-900 for consistency */
             text-transform: uppercase;
             letter-spacing: 0.05em;
             margin-bottom: 8px;
         }
-       
+        
         /* Lists */
         ul, ol {
             margin-left: 24px;
             margin-bottom: 20px;
         }
-       
+        
         li {
             margin-bottom: 12px;
             color: #444;
         }
-       
+        
         /* Field Notes */
         .field-note {
             background: #fffbf0;
@@ -673,7 +668,7 @@
             font-size: 15px;
             color: #666;
         }
-       
+        
         .field-note-label {
             font-weight: 600;
             color: #f0ad4e;
@@ -682,44 +677,44 @@
             letter-spacing: 0.05em;
             margin-bottom: 8px;
         }
-       
+        
         /* Results */
         .result-card {
-            background: #fff;
-            border: 2px solid #1a1a1a;
+            background: var(--bg-white);
+            border: 2px solid var(--gray-900);
             padding: 32px;
             border-radius: 12px;
             text-align: center;
-            transition: transform 0.2s ease;
+            transition: transform var(--transition-speed) ease;
         }
-       
+        
         .result-card:hover {
             transform: translateY(-4px);
         }
-       
+        
         .result-percentage {
             font-size: 56px;
             font-weight: 700;
-            color: #1a1a1a;
+            color: var(--gray-900);
             display: block;
             letter-spacing: -0.02em;
         }
-       
+        
         /* Footer */
         footer {
             padding: 60px 0;
-            border-top: 1px solid #e0e0e0;
+            border-top: 1px solid var(--border-color);
             text-align: center;
         }
-       
+        
         footer p {
-            color: #999;
+            color: var(--gray-900); /* Changed to gray-900 for consistency */
             font-size: 14px;
         }
 
         /* TL;DR Section Styles */
         .tldr-section {
-            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            background: linear-gradient(135deg, var(--bg-light) 0%, var(--bg-white) 100%);
             position: relative;
             padding: 80px 0;
             margin-bottom: 0;
@@ -754,12 +749,12 @@
             font-weight: 700;
             margin-bottom: 16px;
             letter-spacing: -0.02em;
-            color: #1a1a1a;
+            color: var(--gray-900);
         }
 
         .tldr-header p {
             font-size: 20px;
-            color: #666;
+            color: var(--gray-600);
             max-width: 600px;
             margin: 0 auto;
         }
@@ -793,7 +788,7 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, #1a1a1a 0%, #333333 100%);
+            background: linear-gradient(90deg, var(--gray-900) 0%, var(--gray-700) 100%);
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -813,7 +808,7 @@
             font-weight: 600;
             margin-bottom: 16px;
             margin-top: 0;
-            color: #1a1a1a;
+            color: var(--gray-900);
         }
 
         .tldr-card p {
@@ -830,7 +825,7 @@
         }
 
         .tldr-card li {
-            color: #666;
+            color: var(--gray-600);
             margin-bottom: 8px;
             padding-left: 20px;
             position: relative;
@@ -840,7 +835,7 @@
             content: "→";
             position: absolute;
             left: 0;
-            color: #1a1a1a;
+            color: var(--gray-900);
             font-weight: 600;
         }
 
@@ -862,7 +857,7 @@
             font-weight: 700;
             margin-bottom: 32px;
             text-align: center;
-            color: #1a1a1a;
+            color: var(--gray-900);
         }
 
         .insight-grid {
@@ -885,7 +880,7 @@
         }
 
         .insight-item h4 {
-            color: #1a1a1a;
+            color: var(--gray-900);
             font-size: 20px;
             margin-bottom: 12px;
             margin-top: 0;
@@ -893,7 +888,7 @@
         }
 
         .insight-item p {
-            color: #666;
+            color: var(--gray-600);
             font-size: 15px;
             line-height: 1.6;
             margin: 0;
@@ -915,19 +910,19 @@
         .cta-banner h3 {
             font-size: 28px;
             margin-bottom: 16px;
-            color: #1a1a1a;
+            color: var(--gray-900);
         }
 
         .cta-banner p {
             font-size: 18px;
-            color: #666;
+            color: var(--gray-600);
             margin-bottom: 24px;
         }
 
         .cta-button {
             display: inline-block;
             padding: 16px 32px;
-            background: #1a1a1a;
+            background: var(--gray-900);
             color: white;
             text-decoration: none;
             border-radius: 8px;
@@ -937,63 +932,91 @@
         }
 
         .cta-button:hover {
-            background: #333333;
+            background: var(--gray-700);
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
         }
-       
+        
         /* Responsive Navbar */
-        @media (max-width: 768px) {
-            .navbar-nav {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background-color: white;
-                border-bottom: 1px solid var(--border-color);
-                flex-direction: column;
-                padding: var(--spacing-sm) 0;
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        @media (max-width: 992px) { /* Adjusted breakpoint to match the about page */
+            .navbar {
+                padding: var(--spacing-xs) 0;
             }
-           
-            .navbar-nav.active {
+
+            .nav-container {
+                padding: 0 var(--spacing-lg);
+            }
+
+            .nav-links {
+                position: fixed;
+                top: var(--nav-height);
+                right: -100%;
+                width: 280px;
+                height: calc(100vh - var(--nav-height));
+                background-color: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                padding: var(--spacing-xl);
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+                transition: right 0.3s ease-in-out;
+            }
+
+            .nav-links.active {
+                right: 0;
                 display: flex;
             }
-           
-            .menu-toggle {
-                display: block;
-            }
-           
+
             .nav-link {
                 width: 100%;
-                text-align: center;
-                padding: var(--spacing-sm);
+                text-align: left;
+                padding: var(--spacing-md);
+                font-size: 1.2rem;
             }
-           
+
+            .nav-cta {
+                margin-top: var(--spacing-lg);
+                padding: 12px 24px;
+                font-size: 1.1rem;
+                width: 100%;
+                text-align: center;
+                margin-left: 0; /* Reset margin for mobile */
+            }
+
+            .menu-toggle {
+                display: block;
+                z-index: 1001;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                font-size: 15px;
+            }
             .hero h1 {
                 font-size: 36px;
             }
-           
+            
             .hero .subtitle {
                 font-size: 18px;
             }
-           
+            
             .section-header h2 {
                 font-size: 28px;
             }
-           
+            
             .timeline-item {
                 flex-direction: column;
                 gap: 24px;
             }
-           
+            
             .timeline-number {
                 width: 60px;
                 height: 60px;
                 font-size: 24px;
             }
-           
+            
             .stats-grid,
             .results-cards-grid {
                 grid-template-columns: 1fr;
@@ -1015,12 +1038,16 @@
                 padding: 32px 24px;
             }
         }
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 0 var(--spacing-md);
+            }
+        }
     </style>
 </head>
 <body>
-   
-  
-   <nav class="navbar" id="navbar">
+    
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">Sai Maram</a>
             
@@ -1032,8 +1059,8 @@
                 <a href="index.html#projects" class="nav-link">Projects</a>
                 <a href="index.html#experience" class="nav-link">Experience</a>
                 <a href="index.html/#research" class="nav-link">Research</a>
-                <a href="./about.html" class="nav-link">About</a>
-                <a href="cv.pdf" target="_blank" class="nav-link nav-cta">Resume</a>
+                <a href="./about.html" class="nav-link">About</a> 
+                <a href="cv.pdf" target="_blank" class="nav-cta">Resume</a> 
 
             </div>
         </div>
@@ -1057,7 +1084,6 @@
         </div>
     </section>
 
-    <!-- NEW TL;DR SECTION -->
     <section class="tldr-section">
         <div class="wide-container">
             <div class="tldr-header">
@@ -1133,15 +1159,10 @@
                 </div>
             </div>
 
-            <!-- <div class="cta-banner">
-                <h3>Want the Full Story?</h3>
-                <p>Dive deep into the ethnographic fieldwork, technical implementation, and research methodology</p>
-                <a href="#challenge" class="cta-button">Read Complete Case Study</a>
-            </div> -->
-        </div>
+            </div>
     </section>
 
-      <section class="overview">
+    <section class="overview">
         <div class="wide-container">
             <div class="overview-grid">
                 <div class="overview-item">
@@ -1161,7 +1182,7 @@
                         <li>1 Designer (Myself)</li>
                         <li>1 Developer</li>
                         <li>2 Faculty Advisors</li>
-                       
+                        
                     </ul>
                 </div>
                 <div class="overview-item">
@@ -1183,7 +1204,7 @@
         <div class="section-header">
             <h2>🌍 The Challenge: When Climate Games Miss the Mark</h2>
         </div>
-       
+        
         <p>Picture this: You're a practicing Hindu who visits temples regularly, celebrates religious festivals, and feels a deep spiritual connection to nature. You want to learn about climate change and take action, but every environmental game you encounter feels... foreign. The characters don't look like you, the solutions don't fit your lifestyle, and the messaging feels disconnected from the values that actually drive your daily decisions.</p>
 
         <p>This disconnect isn't just frustrating—it's a massive missed opportunity. With over 1.2 billion Hindus worldwide, many living in regions severely impacted by climate change, we're failing to engage a huge population in one of the most critical conversations of our time.</p>
@@ -1270,7 +1291,7 @@
         </div>
 
         <h3>Immersive Research Methodology</h3>
-       
+        
         <div class="process-timeline">
             <div class="timeline-item">
                 <div class="timeline-number">1</div>
@@ -1279,7 +1300,7 @@
                     <p>412 photographs, 43 videos documenting rituals, environmental practices, and climate impacts</p>
                 </div>
             </div>
-           
+            
             <div class="timeline-item">
                 <div class="timeline-number">2</div>
                 <div class="timeline-content">
@@ -1287,7 +1308,7 @@
                     <p>I participated in pilgrimages, rituals, and community practices as a practicing Hindu</p>
                 </div>
             </div>
-           
+            
             <div class="timeline-item">
                 <div class="timeline-number">3</div>
                 <div class="timeline-content">
@@ -1295,7 +1316,7 @@
                     <p>In areas where photography was restricted, I documented observations through detailed sketches</p>
                 </div>
             </div>
-           
+            
             <div class="timeline-item">
                 <div class="timeline-number">4</div>
                 <div class="timeline-content">
@@ -1320,7 +1341,7 @@
             <div class="finding-label">Discovery 1</div>
             <h4>Nature as Living Deities</h4>
             <p>I observed consistent <strong>personification of natural elements</strong>—not just as symbols, but as active spiritual beings requiring respect and care. Rivers weren't just water sources; they were goddesses. Mountains weren't just landscapes; they were divine manifestations requiring protection.</p>
-           
+            
             <div class="field-note">
                 <div class="field-note-label">Field Note Example</div>
                 "At dawn, I watched hundreds of pilgrims perform Surya Namaskaram (sun salutation) facing the rising sun, treating it not as a celestial object but as Lord Surya—a deity worthy of reverence. This wasn't metaphorical; these were genuine acts of devotion to natural phenomena."
@@ -1336,7 +1357,7 @@
                 <li><strong>Polluted Sacred Rivers</strong>: The Ganges' pollution wasn't just an environmental issue but a desecration of the divine feminine</li>
                 <li><strong>Extreme Weather</strong>: Unpredictable weather patterns disrupted religious festivals tied to seasonal cycles</li>
             </ul>
-           
+            
             <div class="field-note">
                 <div class="field-note-label">Field Note Example</div>
                 "During my visit, unexpected heavy rains forced temple authorities to close pilgrimage routes. I watched families who had traveled hundreds of miles break down in tears—not just from disappointment, but from genuine spiritual distress at being unable to complete their religious obligations."
@@ -1471,7 +1492,7 @@
                     </ul>
                 </div>
             </div>
-           
+            
             <div class="timeline-item">
                 <div class="timeline-number">2</div>
                 <div class="timeline-content">
@@ -1483,7 +1504,7 @@
                     </ul>
                 </div>
             </div>
-           
+            
             <div class="timeline-item">
                 <div class="timeline-number">3</div>
                 <div class="timeline-content">
@@ -1495,7 +1516,7 @@
                     </ul>
                 </div>
             </div>
-           
+            
             <div class="timeline-item">
                 <div class="timeline-number">4</div>
                 <div class="timeline-content">
@@ -1598,11 +1619,11 @@
         <p>To validate Shloka's effectiveness, I designed a comprehensive comparative study against existing climate games. This wasn't just about proving our game was better—it was about understanding <strong>what specific elements of cultural integration drive engagement</strong>.</p>
 
         <h3>Building the Comparison Corpus</h3>
-       
+        
         <div class="card">
             <h4>Research Question</h4>
             <p>What types of climate game mechanics currently exist, and how do they compare to ritual-based interactions?</p>
-           
+            
             <h4>Methodology</h4>
             <ul>
                 <li><strong>Systematic Search</strong>: Searched Google Play, Apple Store, academic databases, Games for Change</li>
@@ -1634,14 +1655,14 @@
         <div class="card">
             <h4>Target Population</h4>
             <p>Practicing Hindus aged 20-55 with varied religiosity levels</p>
-           
+            
             <h4>Recruitment Challenges</h4>
             <ul>
                 <li><strong>Religious Sensitivity</strong>: Many hesitant to participate in "experimental" religious content</li>
                 <li><strong>Cultural Skepticism</strong>: Concerns about academic appropriation of sacred practices</li>
                 <li><strong>Time Commitment</strong>: 3-hour study sessions requiring significant investment</li>
             </ul>
-           
+            
             <h4>Trust-Building Strategies</h4>
             <ul>
                 <li><strong>Community Partnerships</strong>: Recruited through temple groups and religious organizations</li>
@@ -1680,14 +1701,14 @@
                 <p><strong>Key Dimensions</strong>: Accomplishment, Challenge, Playfulness, Guidance, Competition, Social Connection, Immersion</p>
                 <p><strong>Cultural Relevance</strong>: Social connection dimension particularly important for community-oriented cultures</p>
             </div>
-           
+            
             <div class="insight-card">
                 <h4>Player Experience of Need Satisfaction (PENS)</h4>
                 <p><strong>Why This Tool</strong>: Based on Self-Determination Theory, measures fundamental psychological needs</p>
                 <p><strong>Key Dimensions</strong>: Competence, Autonomy, Relatedness</p>
                 <p><strong>Cultural Relevance</strong>: Relatedness dimension captures cultural connection aspects</p>
             </div>
-           
+            
             <div class="insight-card">
                 <h4>Intrinsic Motivation Inventory</h4>
                 <p><strong>Why This Tool</strong>: Measures genuine interest vs. external compliance</p>
@@ -1706,7 +1727,7 @@
                     <p>Climate attitudes and gaming background</p>
                 </div>
             </div>
-           
+            
             <div class="timeline-item">
                 <div class="timeline-number">2</div>
                 <div class="timeline-content">
@@ -1714,7 +1735,7 @@
                     <p>10 games in randomized order using Latin Square design</p>
                 </div>
             </div>
-           
+            
             <div class="timeline-item">
                 <div class="timeline-number">3</div>
                 <div class="timeline-content">
@@ -1722,7 +1743,7 @@
                     <p>Immediate reactions and ratings</p>
                 </div>
             </div>
-           
+            
             <div class="timeline-item">
                 <div class="timeline-number">4</div>
                 <div class="timeline-content">
@@ -1730,7 +1751,7 @@
                     <p>Standardized video to clear mental palate</p>
                 </div>
             </div>
-           
+            
             <div class="timeline-item">
                 <div class="timeline-number">5</div>
                 <div class="timeline-content">
@@ -1747,7 +1768,7 @@
                 <li><strong>Order Effects Control</strong>: Prevented early games from having advantage</li>
                 <li><strong>Fatigue Management</strong>: Balanced cognitive load across session</li>
             </ul>
-           
+            
             <h4>Bias Mitigation</h4>
             <ul>
                 <li><strong>Researcher Blinding</strong>: Different team members conducted surveys vs. interviews</li>
@@ -1767,7 +1788,7 @@
                 <li><strong>Effect Size</strong>: Calculated Cohen's r for practical significance assessment</li>
                 <li><strong>Correction</strong>: Bonferroni adjustment for multiple comparisons</li>
             </ul>
-           
+            
             <h4>Sample Size Justification</h4>
             <ul>
                 <li><strong>Power Analysis</strong>: G*Power calculation for repeated measures ANOVA</li>
@@ -1838,14 +1859,14 @@
             <div class="finding-label">Theme 1</div>
             <h4>Climate Ethics Through Religious Lens</h4>
             <p><strong>The Insight</strong>: Players reframed environmental responsibility from civic duty to sacred obligation.</p>
-           
+            
             <div class="quote">
                 "What I can see is a reminder for myself or maybe any player to treat the climate as holy. For example, since I was a kid, if we ever touched a book or paper with our feet, our parents told us to seek forgiveness, because a book represents Goddess Saraswati and is holy. It's something similar here. Ganesha in the game is right, the Ganges is holy and devotees, the government, should treat it that way."
                 <span class="quote-author">— Participant 2</span>
             </div>
-           
+            
             <p><strong>Deeper Analysis</strong>: This participant connected childhood moral education to environmental ethics—a cognitive bridging that traditional climate games never achieve. The game didn't teach new values; it activated existing moral frameworks.</p>
-           
+            
             <p><strong>Design Implication</strong>: <strong>Cultural resonance works by connecting new behaviors to established moral systems, not by creating entirely new value structures.</strong></p>
         </div>
 
@@ -1853,19 +1874,19 @@
             <div class="finding-label">Theme 2</div>
             <h4>Relating to Climate Consequences</h4>
             <p><strong>The Insight</strong>: Localized climate scenarios affecting familiar sacred places created emotional urgency that abstract global impacts couldn't match.</p>
-           
+            
             <div class="quote">
                 "I watched a few documentaries on climate change; most of them just talk about the Arctic Circle melting, polar bears, glaciers. Which is fine, and I am sad. Even the other games, like one where it shows water level here in Chittorgarh, it's nice to see that, oh, the fort here will be underwater at the end of climate change. But still, other games like the coral bleaching one also show a reef, which I don't think I will ever visit. However, Shloka shows places I know, I have visited, and it's sad to know not 100 years but actually now these holy places are being destroyed."
                 <span class="quote-author">— Participant 1</span>
             </div>
-           
+            
             <p><strong>Deeper Analysis</strong>: The participant distinguished between three levels of climate impact:</p>
             <ol>
                 <li><strong>Distant/Abstract</strong> (Arctic ice, polar bears) - intellectually sad but not personally urgent</li>
                 <li><strong>Nationally Relevant</strong> (Indian forts flooding) - more relatable but still distant</li>
                 <li><strong>Personally Sacred</strong> (temples they've visited) - emotionally urgent and personally meaningful</li>
             </ol>
-           
+            
             <p><strong>Design Implication</strong>: <strong>Emotional engagement requires personal relevance, and for many people, religious spaces carry deeper personal significance than secular locations.</strong></p>
         </div>
 
@@ -1873,14 +1894,14 @@
             <div class="finding-label">Theme 3</div>
             <h4>Motivation Through Granular Climate Actions</h4>
             <p><strong>The Insight</strong>: Culturally-specific, achievable actions felt more motivating than generic environmental advice.</p>
-           
+            
             <div class="quote">
                 "It is November right now, and see how hot it is, so the whole 'do not use the AC' does not apply to me. [...] And 'do not cut trees' is useless advice, because why would I pick an axe and chop trees? These are just textbook suggestions. But disposing of fireworks carefully after Diwali, or not spilling oil in the river when I put my diya—these are things I can work on. These are workable stuff."
                 <span class="quote-author">— Participant 2</span>
             </div>
-           
+            
             <p><strong>Deeper Analysis</strong>: The participant revealed how traditional climate advice fails because it assumes behavioral contexts that don't match their lived reality. In contrast, religiously-contextual advice connected to actual behaviors they perform regularly.</p>
-           
+            
             <p><strong>Design Implication</strong>: <strong>Actionable guidance must connect to users' existing behavioral patterns, not impose entirely new lifestyle requirements.</strong></p>
         </div>
 
@@ -1888,14 +1909,14 @@
             <div class="finding-label">Theme 4</div>
             <h4>Immersive Ritual Experience</h4>
             <p><strong>The Insight</strong>: Physical ritual performance created embodied engagement that passive gameplay couldn't match.</p>
-           
+            
             <div class="quote">
                 "In other games, the outcome is pretty expected, like I scan and I know how much I am going to drown, or I choose a wrong answer I know it's game over. It's the being on your toes part which these games lack; however, in Shloka my back was straight I know what I am specifically doing, like ritual which makes it more immersive, and engaging."
                 <span class="quote-author">— Participant 14</span>
             </div>
-           
+            
             <p><strong>Deeper Analysis</strong>: This participant identified a crucial difference between <strong>cognitive engagement</strong> (thinking about choices) and <strong>embodied engagement</strong> (physical participation). Ritual performance required focused attention and physical presence that created deeper immersion.</p>
-           
+            
             <p><strong>Design Implication</strong>: <strong>Embodied interactions can create more engaging experiences than purely cognitive tasks, especially when the embodied actions carry cultural meaning.</strong></p>
         </div>
 
@@ -1903,14 +1924,14 @@
             <div class="finding-label">Theme 5</div>
             <h4>Community Representation</h4>
             <p><strong>The Insight</strong>: Authentic cultural representation created sense of belonging and recognition that motivated continued engagement.</p>
-           
+            
             <div class="quote">
                 "I think compared to other games, it (Shloka) has the right blend of narrative and things to do. The culture aspect to it makes it more connecting, which almost feels like being seen as a community, in an interactive way. But also at the same time, kind of driving a complex problem like climate change home."
                 <span class="quote-author">— Participant 14</span>
             </div>
-           
+            
             <p><strong>Deeper Analysis</strong>: The participant described feeling "seen as a community"—suggesting that representation goes beyond individual identity to collective recognition. This created motivation not just for personal learning but for community advocacy.</p>
-           
+            
             <p><strong>Design Implication</strong>: <strong>Authentic cultural representation can create community connection even in individual experiences, which may motivate broader social engagement.</strong></p>
         </div>
     </section>
@@ -1927,13 +1948,13 @@
             <div class="insight-number">1</div>
             <h4>Cultural Authenticity Over Cultural Aesthetics</h4>
             <p><strong>The Principle</strong>: Surface-level cultural elements (colors, symbols, music) don't create engagement—authentic cultural practices and values do.</p>
-           
+            
             <p><strong>Evidence from Study</strong>:</p>
             <ul>
                 <li>Games with Indian visual themes but Western interaction patterns showed no engagement improvement</li>
                 <li>Shloka's authentic ritual interactions created 87% higher immersion than culturally-themed but mechanically-generic games</li>
             </ul>
-           
+            
             <p><strong>Application Guide</strong>:</p>
             <ul>
                 <li><strong>Do</strong>: Research actual cultural practices and embed them meaningfully in interactions</li>
@@ -1946,13 +1967,13 @@
             <div class="insight-number">2</div>
             <h4>Values-Based Motivation Over Feature-Based Persuasion</h4>
             <p><strong>The Principle</strong>: Connect new behaviors to existing moral frameworks rather than creating new value systems.</p>
-           
+            
             <p><strong>Evidence from Study</strong>:</p>
             <ul>
                 <li>Participants reframed climate action as religious duty using existing concepts (dharma, seva, devotion)</li>
                 <li>Traditional games trying to teach new environmental values showed minimal motivation increase</li>
             </ul>
-           
+            
             <p><strong>Application Guide</strong>:</p>
             <ul>
                 <li><strong>Do</strong>: Identify users' existing moral frameworks and connect desired behaviors to them</li>
@@ -1965,13 +1986,13 @@
             <div class="insight-number">3</div>
             <h4>Localized Relevance Over Universal Impact</h4>
             <p><strong>The Principle</strong>: Personal/local consequences motivate more than global/abstract impacts.</p>
-           
+            
             <p><strong>Evidence from Study</strong>:</p>
             <ul>
                 <li>Participants showed higher emotional engagement with threats to familiar temples than global climate statistics</li>
                 <li>"Relatedness" scores 82% higher for localized vs. global climate scenarios</li>
             </ul>
-           
+            
             <p><strong>Application Guide</strong>:</p>
             <ul>
                 <li><strong>Do</strong>: Connect global issues to personally meaningful local contexts</li>
@@ -1984,13 +2005,13 @@
             <div class="insight-number">4</div>
             <h4>Embodied Interaction Over Cognitive Processing</h4>
             <p><strong>The Principle</strong>: Physical/ritual interactions create deeper engagement than purely mental tasks.</p>
-           
+            
             <p><strong>Evidence from Study</strong>:</p>
             <ul>
                 <li>Ritual performance created "dual achievement" - cultural accomplishment + learning goal</li>
                 <li>Physical interactions scored 85% higher on accomplishment than click-based interactions</li>
             </ul>
-           
+            
             <p><strong>Application Guide</strong>:</p>
             <ul>
                 <li><strong>Do</strong>: Design interactions that engage multiple senses and require physical participation</li>
@@ -2003,13 +2024,13 @@
             <div class="insight-number">5</div>
             <h4>Mentorship-Based Guidance Over System-Based Instruction</h4>
             <p><strong>The Principle</strong>: Guidance from culturally-respected figures feels more supportive than system tutorials.</p>
-           
+            
             <p><strong>Evidence from Study</strong>:</p>
             <ul>
                 <li>Deity mentors scored 84% higher on "guidance" than traditional tutorial systems</li>
                 <li>Participants described feeling "helped" rather than "instructed"</li>
             </ul>
-           
+            
             <p><strong>Application Guide</strong>:</p>
             <ul>
                 <li><strong>Do</strong>: Identify culturally-respected guidance figures and embed their voice/presence</li>
@@ -2018,7 +2039,7 @@
             </ul>
         </div>
 
-       
+        
     </section>
 
     <section id="impact" class="container">
@@ -2036,7 +2057,7 @@
                     <li>2 Workshop Papers on Cultural Game Design</li>
                 </ul>
             </div>
-           
+            
             <div class="card">
                 <h4>Recognition</h4>
                 <ul>
@@ -2068,7 +2089,7 @@
                     <li>Statistical analysis (R, SPSS)</li>
                 </ul>
             </div>
-           
+            
             <div class="insight-card">
                 <h4>Design Skills</h4>
                 <ul>
@@ -2078,7 +2099,7 @@
                     <li>Narrative design for education</li>
                 </ul>
             </div>
-           
+            
             <div class="insight-card">
                 <h4>Technical Skills</h4>
                 <ul>
@@ -2101,42 +2122,60 @@
     </footer>
 
     <script>
-        // Smooth scroll for navigation links
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links'); // Corrected ID
+       
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuToggle.setAttribute('aria-expanded', navLinks.classList.contains('active'));
+        });
+       
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links .nav-link, .nav-links .nav-cta').forEach(link => { // Added .nav-cta to selector
+            link.addEventListener('click', () => {
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                navLinks.classList.remove('active');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Smooth scroll for navigation links (if you add internal links in the future)
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+                    // Adjust scroll-top for the fixed navbar height
+                    window.scrollTo({
+                        top: target.offsetTop - (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-height'))),
+                        behavior: 'smooth'
                     });
+                    // Close mobile menu after clicking a link
+                    if (navLinks.classList.contains('active')) {
+                        navLinks.classList.remove('active');
+                        menuToggle.setAttribute('aria-expanded', 'false');
+                    }
                 }
             });
         });
 
-        // Navbar behavior on scroll
+        // Add scrolled class to navbar on scroll
         window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            if (window.pageYOffset > 50) {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 0) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
-            }
-        });
-       
-        // Mobile menu toggle
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navbarNav = document.querySelector('.navbar-nav');
-       
-        menuToggle.addEventListener('click', () => {
-            navbarNav.classList.toggle('active');
-        });
-       
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!menuToggle.contains(e.target) && !navbarNav.contains(e.target)) {
-                navbarNav.classList.remove('active');
             }
         });
     </script>

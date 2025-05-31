@@ -5,15 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <link rel="icon" type="image" href="Group 522.png"> <title>About - Sai Siddartha Maram's Portfolio</title>
+    <link rel="icon" type="image" href="Group 522.png">
+    <title>About - Sai Siddartha Maram's Portfolio</title>
 <style>
-    /* --- Global Styles & Variables --- */
+    /* --- Global Styles & Variables (Unified) --- */
 :root {
     /* Typography */
-        --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        --font-mono: "SF Mono", Monaco, "Inconsolata", "Fira Code", "Fira Mono", "Roboto Mono", Courier New, Courier, monospace;
+    --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: "SF Mono", Monaco, "Inconsolata", "Fira Code", "Fira Mono", "Roboto Mono", Courier New, Courier, monospace;
 
-    /* Colors - Minimal Palette */
+    /* Colors - Unified Palette */
     --black: #000000;
     --gray-900: #111111;
     --gray-800: #1a1a1a;
@@ -27,41 +28,55 @@
     --gray-50: #f5f5f5;
     --white: #ffffff;
 
-    /* Accent Colors */
-    --accent-orange: #FF6B35;
-    --accent-orange-light: #FFF4F0;
-    --accent-blue: #0066CC;
-    --accent-blue-light: #E6F2FF;
+    /* Accent Colors (Prioritizing the new navbar's naming) */
+    --primary-color: #FF6B35; /* Accent Orange */
+    --primary-color-light: #FFF4F0;
+    --primary-color-darker: #E05A2A; 
+    
+    --secondary-color: #0066CC; /* Accent Blue */
+    --secondary-color-light: #E6F2FF; 
+
     --accent-green: #00C896;
     --accent-green-light: #E6FFF9;
     --accent-purple: #6B46C1;
     --accent-purple-light: #F3F0FF;
 
-    /* Spacing */
-    --space-xs: 0.25rem;
-    --space-sm: 0.5rem;
-    --space-md: 1rem;
-    --space-lg: 1.5rem;
-    --space-xl: 2rem;
-    --space-2xl: 3rem;
-    --space-3xl: 4rem;
-    /* Border Radius */
-    --radius-sm: 6px;
-    --radius-md: 10px;
-    --radius-lg: 16px;
-    --radius-xl: 24px;
+    --text-color: #1a1a1a; /* Dark text */
+    --text-color-dark: #333333; /* General paragraph text */
+    --text-color-light: #666; /* Lighter text for meta/subtitles */
+    --text-color-lighter: #999; /* Even lighter text */
+    --border-color: #e0e0e0; /* Light border */
+    --bg-light: #f8f9fa; /* Light background for sections/cards */
+    --bg-white: #ffffff; /* White background */
 
-    /* Shadows */
-    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
-    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.16);
+    /* Spacing (Prioritizing the new navbar's naming) */
+    --spacing-xs: 0.5rem;   /* 8px */
+    --spacing-sm: 1rem;     /* 16px */
+    --spacing-md: 1.5rem;   /* 24px */
+    --spacing-lg: 2rem;     /* 32px */
+    --spacing-xl: 3rem;     /* 48px */
+    --spacing-2xl: 4rem;    /* 64px */
+    --spacing-3xl: 5rem;    /* 80px */
+       
+    /* Border Radius (Prioritizing the new navbar's naming) */
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+    --border-radius-xl: 16px;
+
+    /* Shadows (Prioritizing the new navbar's naming) */
+    --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.08);
 
     /* Layout */
     --max-width: 1100px; /* Max width for inner content if desired, though here it's full viewport */
+    --content-max-width: 800px; /* For potential future content-constrained sections */
     --padding-sides: 4rem; /* Padding from left/right edges */
     --padding-top-bottom: 2rem; /* Padding from top/bottom edges */
+
+    /* Nav height for offset */
+    --nav-height: 64px;
 
     /* Transitions */
     --transition-fast: 150ms ease;
@@ -78,14 +93,16 @@
 
 html {
     font-size: 16px;
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--nav-height) + var(--spacing-md)); /* Adjusted for fixed navbar */
 }
 
 body {
     font-family: var(--font-family);
     font-size: 1rem;
     line-height: 1.6;
-    color: var(--gray-900);
-    background-color: var(--white);
+    color: var(--text-color); /* Using unified text color */
+    background-color: var(--bg-white); /* Using unified background color */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     height: 100vh; /* Full viewport height */
@@ -100,7 +117,8 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
     line-height: 1.2;
     letter-spacing: -0.02em;
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--spacing-md); /* Using unified spacing */
+    color: var(--text-color); /* Using unified text color */
 }
 
 h1 { font-size: 3.5rem; font-weight: 700; }
@@ -110,124 +128,275 @@ h4 { font-size: 1.25rem; }
 h5 { font-size: 1rem; }
 
 p {
-    margin-bottom: var(--space-md);
-    color: var(--gray-700);
+    margin-bottom: var(--spacing-md); /* Using unified spacing */
+    color: var(--text-color-dark); /* Using unified text color */
 }
 
 a {
-    color: var(--accent-blue);
+    color: var(--secondary-color);
     text-decoration: none;
     transition: color var(--transition-base);
 }
 
 a:hover {
-    color: var(--accent-orange);
+    color: var(--primary-color);
 }
 
 strong {
     font-weight: 600;
-    color: var(--gray-900);
+    color: var(--text-color);
 }
 
-/* Main Content Area */
+/* --- Navbar Styles (FROM SECOND CSS BLOCK - DITTO) --- */
+.navbar {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: var(--spacing-xs) 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: box-shadow var(--transition-base) ease;
+    height: var(--nav-height);
+    display: flex;
+    align-items: center;
+}
+
+.navbar.scrolled {
+    box-shadow: var(--shadow-sm);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+    width: 100%;
+}
+
+.nav-logo {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    letter-spacing: -0.02em;
+}
+
+.nav-logo:hover {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-link {
+    color: var(--gray-600);
+    text-decoration: none;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    font-weight: 500;
+    transition: color var(--transition-base) ease, background-color var(--transition-base) ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--gray-900);
+    background-color: var(--gray-50);
+}
+
+.nav-cta {
+    margin-left: var(--spacing-sm);
+    padding: 0.5rem 1.5rem;
+    background-color: var(--gray-900);
+    color: var(--white);
+    border-radius: 6px; /* Keeping the 6px as it was in original CTA and is common */
+    font-weight: 500;
+    transition: all var(--transition-base);
+}
+
+.nav-cta:hover {
+    background-color: var(--gray-50); /* As per the original CTA's hover */
+    color: black; /* To make text visible on light hover */
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.nav-cta:focus {
+    background-color: var(--gray-800);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: var(--gray-900); /* Adjusted to be visible on white navbar */
+    cursor: pointer;
+    padding: var(--spacing-xs);
+}
+
+/* Main Content Area (Adjusted for new navbar height) */
 .main-content-grid {
-    display: contents; /* Allows child elements to be placed directly in body's grid */
+    display: contents;
 }
 
 .about-image-column {
-    grid-column: 1; /* First column */
+    grid-column: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--gray-50); /* A subtle background for the image column */
-    /* padding: var(--padding-top-bottom) var(--padding-sides); Padding for content within the column */
+    /* background-color: var(--gray-50); */
+    padding-top: var(--nav-height); /* Adjusted for new navbar height */
 }
 
 .about-image {
     max-width: 100%;
-    max-height: 100%; /* Important for fitting within fixed height */
-    object-fit: contain; /* Ensures the whole image is visible within its space */
-    border-radius: var(--radius-md);
-    /* box-shadow: var(--shadow-md); */
-    /* For a truly landscape image, an aspect-ratio like 16 / 9 would be ideal.
-       However, with object-fit: contain, the image's original ratio will be preserved.
-       If your image is very wide or very tall, it will just fill the available space. */
+    max-height: calc(100vh - var(--nav-height)); /* Adjusted for new navbar height */
+    object-fit: contain;
+    border-radius: var(--border-radius-md); /* Using unified border radius */
 }
 
 .about-text-column {
-    grid-column: 2; /* Second column */
+    grid-column: 2;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Center content vertically */
+    justify-content: center;
     padding: var(--padding-top-bottom) var(--padding-sides);
-    overflow: hidden; /* Hide overflow if text is too long, though we aim for no scroll */
+    padding-top: calc(var(--padding-top-bottom) + var(--nav-height)); /* Adjusted for new navbar height */
+    overflow-y: auto;
+    height: 100vh;
 }
 
 .about-text-column h1 {
-    font-size: 3.2rem; /* Adjusted for column width */
-    margin-bottom: var(--space-xl);
+    font-size: 3.2rem;
+    margin-bottom: var(--spacing-xl); /* Using unified spacing */
 }
 
 .about-text-column p {
-    font-size: 1.1rem; /* Slightly smaller font for more content to fit */
+    font-size: 1.1rem;
     line-height: 1.6;
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--spacing-lg); /* Using unified spacing */
 }
 
 .about-email {
-    color: var(--accent-blue);
+    color: var(--secondary-color); /* Using unified secondary color */
     font-weight: 500;
-    margin-top: var(--space-lg); /* Space above email */
+    margin-top: var(--spacing-lg); /* Using unified spacing */
 }
 
-
-/* Responsive Adjustments for smaller screens */
-@media (max-width: 992px) { /* Tablets and smaller laptops */
+/* Responsive Adjustments for smaller screens (Adjusted for new navbar) */
+@media (max-width: 992px) {
     body {
-        grid-template-columns: 1fr; /* Stack columns */
-        grid-template-rows: 40vh 60vh; /* Image takes 40% height, text 60% */
-        overflow-y: auto; /* Allow scrolling if content overflows on smaller screens */
-        height: auto; /* Allow body to expand */
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        overflow-y: auto;
+        height: auto;
+        padding-top: var(--nav-height); /* Adjusted for new navbar height */
+    }
+
+    .navbar {
+        padding: var(--spacing-xs) 0;
+    }
+
+    .nav-container {
+        padding: 0 var(--spacing-lg);
+    }
+
+    .nav-links {
+        position: fixed;
+        top: var(--nav-height);
+        right: -100%;
+        width: 280px;
+        height: calc(100vh - var(--nav-height));
+        background-color: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: var(--spacing-xl);
+        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+        transition: right 0.3s ease-in-out;
+    }
+
+    .nav-links.active {
+        right: 0;
+        display: flex;
+    }
+
+    .nav-link {
+        width: 100%;
+        text-align: left;
+        padding: var(--spacing-md);
+        font-size: 1.2rem;
+    }
+
+    .nav-cta {
+        margin-top: var(--spacing-lg);
+        padding: 12px 24px;
+        font-size: 1.1rem;
+        width: 100%;
+        text-align: center;
+    }
+
+    .menu-toggle {
+        display: block;
+        z-index: 1001;
     }
 
     .about-image-column {
         grid-column: 1;
-        grid-row: 1; /* Image on top */
-        padding: var(--space-xl);
+        grid-row: 1;
+        padding: var(--spacing-xl);
+        padding-top: var(--spacing-xl);
+        max-height: 40vh;
+        overflow: hidden;
     }
 
     .about-image {
-        max-width: 80%; /* Constrain image width when stacked */
+        max-width: 80%;
         max-height: 100%;
         object-fit: contain;
     }
 
     .about-text-column {
         grid-column: 1;
-        grid-row: 2; /* Text on bottom */
-        padding: var(--space-xl);
-        text-align: center; /* Center text when stacked */
-        justify-content: flex-start; /* Align text to top within its column */
+        grid-row: 2;
+        padding: var(--spacing-xl);
+        text-align: center;
+        justify-content: flex-start;
+        height: auto;
+        padding-top: var(--spacing-xl);
+        overflow-y: visible;
     }
 
     .about-text-column h1 {
         font-size: 2.5rem;
-        margin-bottom: var(--space-lg);
+        margin-bottom: var(--spacing-lg);
     }
 
     .about-text-column p {
         font-size: 1rem;
-        margin-bottom: var(--space-md);
+        margin-bottom: var(--spacing-md);
     }
 }
 
-@media (max-width: 768px) { /* Smaller tablets and phones */
+@media (max-width: 768px) {
     :root {
         font-size: 15px;
     }
 
-    body {
-        grid-template-rows: 35vh 65vh; /* Adjust height split for smaller screens */
+    .about-image-column {
+        max-height: 35vh;
     }
 
     .about-text-column h1 {
@@ -239,16 +408,20 @@ strong {
     }
     
     .about-image-column, .about-text-column {
-        padding: var(--space-lg);
+        padding: var(--spacing-lg);
     }
 }
 
-@media (max-width: 480px) { /* Mobile phones */
-    body {
-        grid-template-rows: 30vh 70vh; /* More height for text */
+@media (max-width: 480px) {
+    .about-image-column {
+        max-height: 30vh;
     }
     .about-text-column h1 {
         font-size: 1.8rem;
+    }
+
+    .nav-container {
+        padding: 0 var(--spacing-md);
     }
 }
 
@@ -256,6 +429,25 @@ strong {
 </head>
 
 <body>
+      <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Sai Maram</a>
+            
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="nav-links" id="nav-links">
+                <a href="index.html#projects" class="nav-link">Projects</a>
+                <a href="index.html#experience" class="nav-link">Experience</a>
+                <a href="index.html/#research" class="nav-link">Research</a>
+                <a href="./about.html" class="nav-link active">About</a> 
+                <a href="cv.pdf" target="_blank" class="nav-cta">Resume</a> 
+
+            </div>
+        </div>
+    </nav>
+
     <div class="main-content-grid">
         <div class="about-image-column">
             <img src="IMG_7021 (1).jpg" alt="Sai Siddartha Maram" class="about-image">
@@ -265,21 +457,76 @@ strong {
             <h1>Crafting intuitive experiences, solving complex problems.</h1>
             
             <p>
-                My journey began with a deep curiosity for enhancing human-system interactions. Immersed in diverse environments, I cultivated a strong sense of community and the importance of human-centered solutions. This perspective consistently drives my passion for impactful problem-solving.
+                My path into UX research has been shaped by a mix of hands-on work, academic exploration, and a deep interest in how people interact with technology in everyday life. From designing conversational robots at Invento Robotics to studying digital communities during my internship at Meta, I’ve had the chance to work at the crossroads of AI, software, and human behavior. These experiences have taught me to approach problems with care, curiosity, and a focus on real-world impact.
             </p>
             
             <p>
-                My technical journey started with optimizing digital experiences, evolving into tackling large-scale challenges like streamlining student services infrastructure and exploring communication technologies. My professional roles involve designing and developing robust solutions, showcasing my ability to translate complex needs into practical, user-centric products.
+               As a PhD student in Human-Computer Interaction, I explore how design, AI, and community insights can come together to support meaningful learning and reflection. Whether I’m studying how families play games together, helping students engage with educational chatbots, or building tools for collaborative inquiry, my goal is to design systems that feel thoughtful and grounded. I value clarity over complexity, people over features, and learning over perfection.
             </p>
             
             <p>
-                Having earned my Master's in Human-Computer Interaction, I now leverage my interdisciplinary background and empathetic insights to forge meaningful connections through design and technology. As a PhD candidate, I continue to push the boundaries in [Your Specific Research Area], committed to improving the human experience.
-            </p>
-            
-            <p>
-                To connect or learn more, please email me at <a href="mailto:your.email@example.com" class="about-email">your.email@example.com</a>.
+                If you’d like to connect or collaborate, feel free to reach out at <a href="mailto:msaisiddartha1@gmail.com" class="about-email">msaisiddartha1@gmail.com</a>
             </p>
         </div>
     </div>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links'); // Corrected ID
+       
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuToggle.setAttribute('aria-expanded', navLinks.classList.contains('active'));
+        });
+       
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links .nav-link, .nav-links .nav-cta').forEach(link => { // Added .nav-cta to selector
+            link.addEventListener('click', () => {
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                navLinks.classList.remove('active');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Smooth scroll for navigation links (if you add internal links in the future)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    // Adjust scroll-top for the fixed navbar height
+                    window.scrollTo({
+                        top: target.offsetTop - (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-height'))),
+                        behavior: 'smooth'
+                    });
+                    // Close mobile menu after clicking a link
+                    if (navLinks.classList.contains('active')) {
+                        navLinks.classList.remove('active');
+                        menuToggle.setAttribute('aria-expanded', 'false');
+                    }
+                }
+            });
+        });
+
+        // Add scrolled class to navbar on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 0) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
 </body>
 </html>
