@@ -6,9 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
-    <link rel="icon" type="image" href="Group 522.png">
-    <title>About - Sai Siddartha Maram's Portfolio</title>
+    <script src="https://unpkg.com/typed@2.1.0/dist/typed.umd.js"></script>
+    <link rel="icon" type="image" href="Group 522.png"> <title>About - Sai Siddartha Maram's Portfolio</title>
 <style>
     /* --- Global Styles & Variables --- */
 :root {
@@ -217,36 +216,78 @@ strong {
 }
 
 /* About Section Styles */
-.about-hero {
+.about-section {
     padding-top: calc(var(--nav-height) + var(--space-3xl));
-    /* padding-bottom: var(--space-3xl); */
-    text-align: center;
+    padding-bottom: var(--space-3xl);
+    display: flex;
+    align-items: center; /* Align items vertically in the middle */
+    gap: var(--space-3xl); /* Space between text and image */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
 }
 
-.about-content {
-    padding: var(--space-2xl) 0;
+.about-text-content {
+    flex: 2; /* Allows text to take more space */
+    min-width: 300px; /* Minimum width before wrapping */
 }
 
-.about-text {
-    max-width: 800px;
-    margin: 0 auto var(--space-3xl);
-}
-
-.about-text p {
-    font-size: 1.125rem;
-    line-height: 1.7;
-    margin-bottom: var(--space-xl);
+.about-image-container {
+    flex: 1; /* Allows image to take remaining space */
+    display: flex;
+    justify-content: center; /* Center image horizontally */
+    min-width: 250px; /* Minimum width before wrapping */
 }
 
 .about-image {
     max-width: 100%;
-    height: auto;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
-    margin: var(--space-2xl) 0;
+    /* height: auto; */
+    border-radius: var(--radius-md); /* Slightly less rounded than example for a softer look */
+    /* box-shadow: var(--shadow-md); */
+    object-fit: cover; /* Ensures image covers the area without distortion */
+    aspect-ratio: 4 / 3; /* Set aspect ratio for a typical landscape image */
+    /* min-width: 250px; Ensure image isn't too small */
+}
+
+.about-text-content p {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    margin-bottom: var(--space-lg); /* Increased margin for better readability */
+}
+
+.about-text-content h1 {
+    font-size: 3rem; /* Adjusted for better fit in the column */
+    margin-bottom: var(--space-xl);
+}
+
+.about-email {
+    color: var(--accent-blue);
+    font-weight: 500;
 }
 
 /* Responsive */
+@media (max-width: 992px) { /* Adjust breakpoint for larger tablets */
+    .about-section {
+        flex-direction: column; /* Stack columns on smaller screens */
+        text-align: center;
+        gap: var(--space-xl);
+    }
+
+    .about-text-content,
+    .about-image-container {
+        flex: none; /* Remove flex grow/shrink */
+        width: 100%; /* Take full width */
+    }
+
+    .about-image {
+        max-width: 400px; /* Limit image size when stacked, slightly larger for landscape */
+        margin: 0 auto; /* Center image */
+        aspect-ratio: 16 / 9; /* Maintain landscape ratio on mobile */
+    }
+
+    .about-text-content h1 {
+        font-size: 2.5rem;
+    }
+}
+
 @media (max-width: 768px) {
     :root {
         font-size: 15px;
@@ -289,7 +330,7 @@ strong {
         text-align: center;
     }
 
-    .about-text p {
+    .about-text-content p {
         font-size: 1rem;
     }
 }
@@ -309,7 +350,7 @@ strong {
                 <a href="index.html#projects" class="nav-link">Projects</a>
                 <a href="index.html#experience" class="nav-link">Experience</a>
                 <a href="index.html/#research" class="nav-link">Research</a>
-                <a href="./about.html" class="nav-link">About</a>
+                <a href="./about.html" class="nav-link active">About</a>
                 <a href="cv.pdf" target="_blank" class="nav-link nav-cta">Resume</a>
 
             </div>
@@ -318,33 +359,28 @@ strong {
 
 
     <main class="container">
-        <section class="about-hero">
-            <h1>Welcome to my little corner <span class="wave">👋</span></h1>
-        </section>
-
-        <section class="about-content">
-            <div class="about-text">
+        <section class="about-section">
+            <div class="about-text-content">
+                <h1>Crafting intuitive experiences, solving complex problems.</h1>
+                
                 <p>
-                    Thanks for sticking around to learn a bit about me! I'm Sai Siddartha Maram—but feel free to call me Sai, Sid, Siddu, or Maram. I was born on May 11, 1998, which happened to be Buddha's Birthday. Inspired by the coincidence, my father named me "Siddartha," the birth name of the Buddha.
+                    My journey in technology began with a deep-seated curiosity for understanding and improving how people interact with systems. Growing up, I was fortunate to be immersed in diverse environments that cultivated a strong sense of community and reinforced the value of human-centered solutions. This perspective has always driven my passion for problem-solving.
                 </p>
                 
                 <p>
-                    My educational journey has taken me through several cities—Chennai, Zurich, and Hyderabad—each adding something unique to my perspective. Eventually, I found myself at Thapar University in Patiala, where I completed my undergraduate degree. Eager to keep exploring and learning, I made my way to California, where I'm currently pursuing my PhD.
+                    I started engaging with technological challenges at a young age, initially by optimizing everyday digital experiences. This quickly evolved into a focus on larger-scale problems, such as streamlining student services infrastructure during my undergraduate studies at Thapar University and exploring innovative approaches to communication technologies. My professional experience includes designing and developing robust solutions, demonstrating my ability to translate complex needs into practical, user-centric products.
                 </p>
                 
                 <p>
-                    Along the way, I picked up a handful of languages: I speak English, Hindi, Telugu, and Tamil, can read Kannada, and even understand a bit of German.
+                    Having completed my Master's in Human-Computer Interaction, I am now dedicated to leveraging my interdisciplinary background and empathetic perspective to create meaningful connections through design and technology. Currently pursuing my PhD, I continue to explore the frontiers of [Your Specific Research Area, e.g., AI in UX, Human-Computer Interaction, etc.], always with the goal of improving the human experience.
                 </p>
                 
                 <p>
-                    When I'm not deep in academic or UX work, you'll probably find me watching movies or OTT shows, playing my ukulele, crafting something with my hands, or café-hopping. Growing up in a Telugu household gave me a deep love for Telugu cinema—but I also enjoy films in Tamil, Hindi, Kannada, and Malayalam. Watching movies isn't just a hobby for me—it's a lens through which I view my research. I pay close attention to direction, dialogue, and narrative structure, and often bring those storytelling techniques into my own work.
+                    To learn more or get in touch, please email me at <a href="mailto:your.email@example.com" class="about-email">your.email@example.com</a>.
                 </p>
-                
-                <img src="Group 786.png" alt="Sai's creative works and hobbies" class="about-image">
-                
-                <p>
-                    My curiosity for UX design also sparked a love for crafts and art. With a little help from YouTube, I taught myself to play the ukulele and began experimenting with painting and sculpting—still very much a beginner, but enjoying every bit of it. You can check out some of my early creations above!
-                </p>
+            </div>
+            <div class="about-image-container">
+                <img src="IMG_7021 (1) Background Removed.png" alt="Sai Siddartha Maram" class="about-image">
             </div>
         </section>
     </main>
@@ -392,12 +428,6 @@ strong {
         }
 
         window.addEventListener('scroll', handleScroll);
-
-        // Wave animation
-        const wave = document.querySelector('.wave');
-        if (wave) {
-            wave.style.animationDelay = '0.5s';
-        }
     </script>
 </body>
 </html>
