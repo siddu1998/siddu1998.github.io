@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Qualitative Coding Tool</title>
+    <!-- Papa Parse for CSV handling -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #0866ff;
+            --primary-hover: #0653d1;
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --text-color: #1c1e21;
+            --subtle-text: #606770;
+            --border-color: #ddd;
+            --shadow: 0 1px 3px rgba(0,0,0,0.12);
+            /* Define a palette of highlight colors */
+            --highlight-bg-1: rgba(255, 210, 70, 0.5); --highlight-border-1: #FFD246;
+            --highlight-bg-2: rgba(132, 225, 147, 0.5); --highlight-border-2: #84E193;
+            --highlight-bg-3: rgba(131, 195, 255, 0.5); --highlight-border-3: #83C3FF;
+            --highlight-bg-4: rgba(255, 156, 156, 0.5); --highlight-border-4: #FF9C9C;
+            --highlight-bg-5: rgba(200, 162, 255, 0.5); --highlight-border-5: #C8A2FF;
+            --highlight-bg-6: rgba(255, 179, 114, 0.5); --highlight-border-6: #FFB372;
+            --highlight-bg-7: rgba(114, 239, 219, 0.5); --highlight-border-7: #72EFDB;
+            --highlight-bg-8: rgba(245, 183, 238, 0.5); --highlight-border-8: #F5B7EE;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0; padding: 20px; line-height: 1.6;
+        }
+
+        .container { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; max-width: 1400px; margin: auto; }
+        header { grid-column: 1 / -1; margin-bottom: 10px; }
+        h1, h2, h3 { color: var(--text-color); }
+        h1 { font-size: 2em; margin-bottom: 0; }
+        header p { font-size: 1.1em; color: var(--subtle-text); }
+        main { display: flex; flex-direction: column; gap: 20px; }
+        .card { background-color: var(--card-bg); border-radius: 8px; padding: 20px; box-shadow: var(--shadow); }
+        .file-inputs { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+        .file-inputs > div { flex: 1; }
+        .mapping-grid { display: grid; grid-template-columns: auto 1fr; gap: 10px 15px; align-items: center; margin: 20px 0; }
+        label { font-weight: 600; display: block; margin-bottom: 5px; }
+        input[type="file"], select { width: 100%; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px; box-sizing: border-box; background-color: #f6f7f8; }
+        
+        button { background-color: var(--primary-color); color: white; border: none; padding: 10px 15px; border-radius: 6px; font-size: 1em; font-weight: bold; cursor: pointer; transition: background-color 0.2s; }
+        button:hover:not(:disabled) { background-color: var(--primary-hover); }
+        button:disabled { background-color: #a0a0a0; cursor: not-allowed; }
+
+        /* Styles for the main text display area */
+        #text-display-area {
+            background-color: #fcfcfc; border: 1px solid var(--border-color); border-radius: 4px;
+            padding: 15px; height: 350px; overflow-y: auto; line-height: 1.8; font-size: 1.1em; white-space: pre-wrap;
+        }
+        #text-display-area::selection { background-color: #b3d4fc; }
+
+        /* Styles for persistent highlights */
+        .highlighted-text {
+             border-radius: 3px;
+             padding: 2px 0;
+             cursor: pointer;
+        }
+        .highlight-color-1 { background-color: var(--highlight-bg-1); border-bottom: 2px solid var(--highlight-border-1); }
+        .highlight-color-2 { background-color: var(--highlight-bg-2); border-bottom: 2px solid var(--highlight-border-2); }
+        .highlight-color-3 { background-color: var(--highlight-bg-3); border-bottom: 2px solid var(--highlight-border-3); }
+        .highlight-color-4 { background-color: var(--highlight-bg-4); border-bottom: 2px solid var(--highlight-border-4); }
+        .highlight-color-5 { background-color: var(--highlight-bg-5); border-bottom: 2px solid var(--highlight-border-5); }
+        .highlight-color-6 { background-color: var(--highlight-bg-6); border-bottom: 2px solid var(--highlight-border-6); }
+        .highlight-color-7 { background-color: var(--highlight-bg-7); border-bottom: 2px solid var(--highlight-border-7); }
+        .highlight-color-8 { background-color: var(--highlight-bg-8); border-bottom: 2px solid var(--highlight-border-8); }
+        
+
+        #progress-table-container { max-height: 60vh; overflow-y: auto; }
+        #progress-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        #progress-table th, #progress-table td { border: 1px solid var(--border-color); padding: 8px; text-align: left; }
+        #progress-table th { background-color: #f6f7f8; position: sticky; top: 0; }
+        #progress-table td { word-break: break-word; }
+
+        /* Styles for the hierarchical pop-up menu */
+        #context-menu { position: absolute; display: none; background-color: var(--card-bg); border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 1000; padding: 5px 0; min-width: 180px; }
+        #context-menu ul { list-style: none; margin: 0; padding: 0; }
+        #context-menu ul li { position: relative; padding: 8px 15px; cursor: pointer; }
+        #context-menu ul li:hover { background-color: var(--primary-color); color: white; }
+        #context-menu ul li.has-submenu::after { content: '›'; position: absolute; right: 10px; font-size: 1.2em; }
+        #context-menu ul ul { position: absolute; left: 100%; top: -5px; display: none; background-color: var(--card-bg); border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 5px 0; min-width: 180px; color: var(--text-color); }
+        #context-menu ul li:hover > ul { display: block; }
+
+        /* New navigation styles */
+        #prompt-navigation { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        #prompt-display { font-weight: bold; font-size: 1.1em; }
+        
+        .hidden { display: none; }
+        @media (min-width: 768px) { .file-inputs { flex-direction: row; gap: 20px; } }
+        @media (max-width: 900px) {
+            .container { grid-template-columns: 1fr; }
+            header { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📄 Professional Qualitative Coding Tool</h1>
+            <p>Highlight text to code. Click an existing highlight to remove it.</p>
+        </header>
+        <main>
+            <div id="setup-section" class="card">
+                <h2>1. Setup</h2>
+                <div class="file-inputs">
+                    <div><label for="data-file">Upload Data CSV</label><input type="file" id="data-file" accept=".csv"></div>
+                    <div><label for="codebook-file">Upload Codebook CSV</label><input type="file" id="codebook-file" accept=".csv"></div>
+                    <div><label for="progress-file">Optional: Upload Saved Progress</label><input type="file" id="progress-file" accept=".csv"></div>
+                </div>
+                <div id="column-mapping-section" class="hidden">
+                    <h3>Map Your Columns</h3>
+                    <div class="mapping-grid">
+                        <label for="id-col">Unique ID Column:</label><select id="id-col"></select>
+                        <label for="text-col">Text to Code Column:</label><select id="text-col"></select>
+                        <label for="open-code-col">Open Code Column:</label><select id="open-code-col"></select>
+                        <label for="axial-code-col">Axial Code Column:</label><select id="axial-code-col"></select>
+                        <label for="selective-code-col">Selective Code Column:</label><select id="selective-code-col"></select>
+                    </div><button id="start-coding-btn">Start Coding</button>
+                </div>
+            </div>
+            <div id="coding-section" class="card hidden">
+                <h2>2. Code Your Text</h2>
+                <div id="prompt-navigation">
+                    <button id="back-btn" disabled>Back</button>
+                    <div id="prompt-display"></div>
+                    <button id="next-btn" disabled>Next</button>
+                </div>
+                <div id="text-display-area"></div>
+            </div>
+        </main>
+        <aside>
+            <div id="progress-section" class="card">
+                <h2 id="progress-title">All Coding Progress</h2>
+                <button id="save-progress-btn" class="hidden">💾 Save All Progress to CSV</button>
+                <div id="progress-table-container">
+                    <p id="no-codes-msg">No codes have been applied yet.</p>
+                    <table id="progress-table" class="hidden">
+                        <thead><tr><th>ID</th><th>Highlighted Text</th><th>Open Code</th><th>Axial Code</th><th>Selective Code</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </aside>
+    </div>
+    <div id="context-menu"></div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- STATE MANAGEMENT ---
+        let state = {
+            data: [], codebook: {}, codedData: [], columnMapping: {}, hierarchicalCodebook: {},
+            currentPromptIndex: -1,
+            selectiveCodeToColor: new Map(),
+            colorPalette: [1, 2, 3, 4, 5, 6, 7, 8]
+        };
+
+        // --- DOM ELEMENTS ---
+        const elements = {
+            dataFileInput: document.getElementById('data-file'), codebookFileInput: document.getElementById('codebook-file'),
+            progressFileInput: document.getElementById('progress-file'), columnMappingSection: document.getElementById('column-mapping-section'),
+            startCodingBtn: document.getElementById('start-coding-btn'), codingSection: document.getElementById('coding-section'),
+            setupSection: document.getElementById('setup-section'), textDisplayArea: document.getElementById('text-display-area'),
+            progressTableBody: document.querySelector('#progress-table tbody'), progressTable: document.getElementById('progress-table'),
+            saveProgressBtn: document.getElementById('save-progress-btn'), noCodesMsg: document.getElementById('no-codes-msg'),
+            contextMenu: document.getElementById('context-menu'), backBtn: document.getElementById('back-btn'),
+            nextBtn: document.getElementById('next-btn'), promptDisplay: document.getElementById('prompt-display'),
+            progressTitle: document.getElementById('progress-title')
+        };
+
+        // --- FILE HANDLING & SETUP ---
+        const handleFile = (file, callback) => {
+            if (!file) return;
+            Papa.parse(file, { header: true, skipEmptyLines: true, complete: (res) => callback(res.data, res.meta.fields) });
+        };
+        const checkFilesAndShowMapping = () => {
+            if (state.data.length > 0 && state.codebook.raw && state.codebook.raw.length > 0) {
+                elements.columnMappingSection.classList.remove('hidden');
+            }
+        };
+        elements.dataFileInput.addEventListener('change', (e) => handleFile(e.target.files[0], (d, h) => { state.data = d; populateSelect('id-col', h); populateSelect('text-col', h); checkFilesAndShowMapping(); }));
+        elements.codebookFileInput.addEventListener('change', (e) => handleFile(e.target.files[0], (d, h) => { state.codebook.raw = d; populateSelect('open-code-col', h); populateSelect('axial-code-col', h); populateSelect('selective-code-col', h); checkFilesAndShowMapping(); }));
+        
+        elements.progressFileInput.addEventListener('change', (e) => handleFile(e.target.files[0], (d) => {
+            const requiredKeys = ['uuid', 'ID', 'Highlighted Text', 'Open Code', 'Axial Code', 'Selective Code'];
+            state.codedData = d.map(row => {
+                const newRow = {};
+                for (const key of requiredKeys) {
+                    const actualKey = Object.keys(row).find(k => k.toLowerCase().replace(/\s/g, '') === key.toLowerCase().replace(/\s/g, ''));
+                    newRow[key] = actualKey ? row[actualKey] : '';
+                }
+                if (!newRow.uuid) {
+                    newRow.uuid = Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+                }
+                return newRow;
+            });
+            alert(`${state.codedData.length} progress entries loaded.`);
+            updateProgressTable(); 
+            if (state.currentPromptIndex > -1) {
+                renderCurrentPrompt();
+            }
+        }));
+
+        const populateSelect = (id, opts) => {
+            const sel = document.getElementById(id); sel.innerHTML = '';
+            opts.forEach(o => { const opt = document.createElement('option'); opt.value = o; opt.textContent = o; sel.appendChild(opt); });
+        };
+
+        elements.startCodingBtn.addEventListener('click', () => {
+            state.columnMapping = { id: document.getElementById('id-col').value, text: document.getElementById('text-col').value, open: document.getElementById('open-code-col').value, axial: document.getElementById('axial-code-col').value, selective: document.getElementById('selective-code-col').value };
+            state.hierarchicalCodebook = {};
+            state.codebook.raw.forEach(row => {
+                const sel = row[state.columnMapping.selective], axi = row[state.columnMapping.axial], opn = row[state.columnMapping.open];
+                if (!sel || !axi || !opn) return;
+                if (!state.hierarchicalCodebook[sel]) state.hierarchicalCodebook[sel] = {};
+                if (!state.hierarchicalCodebook[sel][axi]) state.hierarchicalCodebook[sel][axi] = [];
+                state.hierarchicalCodebook[sel][axi].push(opn);
+            });
+            elements.setupSection.classList.add('hidden');
+            elements.codingSection.classList.remove('hidden');
+            if (state.data.length > 0) {
+                state.currentPromptIndex = 0;
+                renderCurrentPrompt();
+            }
+        });
+
+        // --- NAVIGATION ---
+        elements.backBtn.addEventListener('click', () => navigate(-1));
+        elements.nextBtn.addEventListener('click', () => navigate(1));
+        const navigate = (direction) => {
+            if (state.currentPromptIndex + direction >= 0 && state.currentPromptIndex + direction < state.data.length) {
+                state.currentPromptIndex += direction;
+                renderCurrentPrompt();
+            }
+        };
+        const updateNavButtons = () => {
+            elements.backBtn.disabled = state.currentPromptIndex <= 0;
+            elements.nextBtn.disabled = state.currentPromptIndex >= state.data.length - 1;
+        };
+
+        // --- RENDERING & DISPLAY ---
+        const renderCurrentPrompt = () => {
+            if (state.currentPromptIndex === -1) return;
+            const currentPrompt = state.data[state.currentPromptIndex];
+            const promptId = currentPrompt[state.columnMapping.id];
+            const originalText = currentPrompt[state.columnMapping.text] || "";
+            
+            elements.promptDisplay.textContent = `Prompt ${state.currentPromptIndex + 1} of ${state.data.length} (ID: ${promptId})`;
+            elements.textDisplayArea.innerHTML = generateHighlightedHTML(promptId, originalText);
+            
+            updateProgressTable(promptId);
+            updateNavButtons();
+        };
+
+        const generateHighlightedHTML = (promptId, originalText) => {
+            const codesForThisPrompt = state.codedData.filter(c => String(c.ID) === String(promptId));
+            if (!codesForThisPrompt.length) return escapeHtml(originalText);
+
+            let segments = [];
+            codesForThisPrompt.forEach(code => {
+                const textToFind = code['Highlighted Text'];
+                if (!textToFind) return;
+                let startIndex = 0;
+                while ((startIndex = originalText.indexOf(textToFind, startIndex)) !== -1) {
+                    const endIndex = startIndex + textToFind.length;
+                    if (!segments.some(s => (startIndex < s.end && endIndex > s.start))) {
+                         segments.push({ start: startIndex, end: endIndex, code: code });
+                    }
+                    startIndex += 1;
+                }
+            });
+
+            segments.sort((a, b) => a.start - b.start);
+
+            let lastIndex = 0;
+            let finalHtml = '';
+            segments.forEach(segment => {
+                finalHtml += escapeHtml(originalText.substring(lastIndex, segment.start));
+                const colorClass = getColorForSelectiveCode(segment.code['Selective Code']);
+                const highlightTitle = `Click to remove. Code: ${segment.code['Selective Code']} > ${segment.code['Axial Code']} > ${segment.code['Open Code']}`;
+                const highlightHTML = `<mark data-uuid="${segment.code.uuid}" title="${highlightTitle}" class="highlighted-text ${colorClass}">${escapeHtml(segment.code['Highlighted Text'])}</mark>`;
+                finalHtml += highlightHTML;
+                lastIndex = segment.end;
+            });
+            finalHtml += escapeHtml(originalText.substring(lastIndex));
+
+            return finalHtml;
+        };
+        
+        const escapeHtml = (unsafe) => {
+            if (typeof unsafe !== 'string') return '';
+            return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+        
+        const getColorForSelectiveCode = (selectiveCode) => {
+            if (!state.selectiveCodeToColor.has(selectiveCode)) {
+                const colorIndex = (state.selectiveCodeToColor.size % state.colorPalette.length);
+                state.selectiveCodeToColor.set(selectiveCode, `highlight-color-${state.colorPalette[colorIndex]}`);
+            }
+            return state.selectiveCodeToColor.get(selectiveCode);
+        };
+
+        // --- CODING & MENU LOGIC ---
+        
+        // **FIXED** Replaced confirm() with direct deletion and more robust event handling.
+        elements.textDisplayArea.addEventListener('click', (e) => {
+            const highlightElement = e.target.closest('.highlighted-text');
+            if (highlightElement) {
+                const uuidToRemove = highlightElement.dataset.uuid;
+                if (!uuidToRemove) return;
+                
+                // No confirmation needed, just remove directly.
+                const indexToRemove = state.codedData.findIndex(code => code.uuid === uuidToRemove);
+                if (indexToRemove > -1) {
+                    state.codedData.splice(indexToRemove, 1);
+                    renderCurrentPrompt();
+                }
+            }
+        });
+
+        elements.textDisplayArea.addEventListener('mouseup', (e) => {
+            const selection = window.getSelection();
+            if (selection.isCollapsed || e.target.closest('.highlighted-text')) return;
+            const selectedText = selection.toString().trim();
+            if (selectedText.length === 0) return;
+            buildAndShowMenu(selection, selectedText);
+        });
+
+        const buildAndShowMenu = (selection, selectedText) => {
+            const menu = elements.contextMenu; menu.innerHTML = '';
+            const topUl = document.createElement('ul');
+            for (const selCode in state.hierarchicalCodebook) {
+                const selLi = document.createElement('li'); selLi.textContent = selCode; selLi.classList.add('has-submenu');
+                const axiUl = document.createElement('ul');
+                for (const axiCode in state.hierarchicalCodebook[selCode]) {
+                    const axiLi = document.createElement('li'); axiLi.textContent = axiCode; axiLi.classList.add('has-submenu');
+                    const opnUl = document.createElement('ul');
+                    state.hierarchicalCodebook[selCode][axiCode].forEach(opnCode => {
+                        const opnLi = document.createElement('li'); opnLi.textContent = opnCode;
+                        opnLi.addEventListener('click', () => {
+                            applyCode(selectedText, opnCode, axiCode, selCode);
+                            hideMenu();
+                        });
+                        opnUl.appendChild(opnLi);
+                    });
+                    axiLi.appendChild(opnUl); axiUl.appendChild(axiLi);
+                }
+                selLi.appendChild(axiUl); topUl.appendChild(selLi);
+            }
+            menu.appendChild(topUl);
+            const range = selection.getRangeAt(0);
+            const rect = range.getBoundingClientRect();
+            menu.style.top = `${rect.bottom + window.scrollY}px`;
+            menu.style.left = `${rect.left + window.scrollX}px`;
+            menu.style.display = 'block';
+        };
+
+        const hideMenu = () => {
+            elements.contextMenu.style.display = 'none';
+            if (window.getSelection) window.getSelection().removeAllRanges();
+        };
+        document.addEventListener('mousedown', (e) => {
+            if (!elements.contextMenu.contains(e.target) && e.target !== elements.textDisplayArea && !elements.textDisplayArea.contains(e.target)) {
+                hideMenu();
+            }
+        });
+
+        const applyCode = (highlightedText, openCode, axialCode, selectiveCode) => {
+            if (!highlightedText) return;
+            const currentPromptId = state.data[state.currentPromptIndex][state.columnMapping.id];
+            const uuid = Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+            state.codedData.push({ 'uuid': uuid, 'ID': currentPromptId, 'Highlighted Text': highlightedText, 'Open Code': openCode, 'Axial Code': axialCode, 'Selective Code': selectiveCode });
+            renderCurrentPrompt();
+        };
+
+        // --- PROGRESS & SAVING ---
+        const updateProgressTable = (filterByPromptId = null) => {
+            let dataToShow = state.codedData;
+            if (filterByPromptId) {
+                elements.progressTitle.textContent = `Codes for this Prompt (ID: ${filterByPromptId})`;
+                dataToShow = state.codedData.filter(c => String(c.ID) === String(filterByPromptId));
+            } else {
+                 elements.progressTitle.textContent = "All Coding Progress";
+            }
+
+            elements.progressTableBody.innerHTML = '';
+            if (state.codedData.length > 0) elements.saveProgressBtn.classList.remove('hidden');
+
+            if (dataToShow.length > 0) {
+                elements.noCodesMsg.classList.add('hidden');
+                elements.progressTable.classList.remove('hidden');
+                dataToShow.forEach(item => {
+                    const row = elements.progressTableBody.insertRow();
+                    row.insertCell(0).textContent = item.ID || '';
+                    row.insertCell(1).textContent = item['Highlighted Text'] || '';
+                    row.insertCell(2).textContent = item['Open Code'] || '';
+                    row.insertCell(3).textContent = item['Axial Code'] || '';
+                    row.insertCell(4).textContent = item['Selective Code'] || '';
+                });
+            } else {
+                elements.noCodesMsg.classList.remove('hidden');
+                elements.progressTable.classList.add('hidden');
+            }
+        };
+
+        elements.saveProgressBtn.addEventListener('click', () => {
+            // Exclude the internal 'uuid' from the final save file for a cleaner output
+            const csvData = state.codedData.map(({ uuid, ...rest }) => rest);
+            const csvString = Papa.unparse(csvData);
+            const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'coding_progress.csv';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    });
+    </script>
+</body>
+</html>
