@@ -81,6 +81,36 @@
         #prompt-navigation { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         #prompt-display { font-weight: bold; font-size: 1.1em; }
         
+        .ai-settings { 
+            background-color: #f6f7f8; 
+            padding: 15px; 
+            border-radius: 6px; 
+            margin-top: 15px;
+            display: none;
+        }
+        .ai-settings.show { display: block; }
+        .ai-settings label { margin-top: 10px; }
+        .ai-settings textarea { 
+            width: 100%; 
+            min-height: 100px; 
+            margin-top: 5px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        
+        .ai-status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #e3f2fd;
+            color: #1976d2;
+            font-size: 0.9em;
+            display: none;
+        }
+        .ai-status.show { display: block; }
+        .ai-status.error { background-color: #ffebee; color: #c62828; }
+        .ai-status.success { background-color: #e8f5e9; color: #2e7d32; }
+        
         .hidden { display: none; }
         .loading-spinner {
             display: inline-block;
@@ -131,13 +161,34 @@
                 <h2>2. Code Your Text</h2>
                 <div id="prompt-navigation">
                     <button id="back-btn" disabled>Back</button>
-                    <button id="ai-coder-btn" disabled>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L4.047 3.339 8 7.293l3.954-3.954L9.049.435zm3.61 3.611L8.708 8l3.954 3.954 2.904-2.905c.58-.58.58-1.519 0-2.098l-2.904-2.905zm-.706 8.642L8 8.708l-3.954 3.954 2.905 2.904c.58.58 1.519.58 2.098 0l2.905-2.904zm-8.642-.706L7.292 8 3.339 4.046.435 6.951c-.58.58-.58 1.519 0 2.098l2.904 2.905z"/></svg>
-                        <span id="ai-coder-btn-text">AI Coder</span>
-                    </button>
+                    <div>
+                        <button id="ai-coder-btn" disabled>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L4.047 3.339 8 7.293l3.954-3.954L9.049.435zm3.61 3.611L8.708 8l3.954 3.954 2.904-2.905c.58-.58.58-1.519 0-2.098l-2.904-2.905zm-.706 8.642L8 8.708l-3.954 3.954 2.905 2.904c.58.58 1.519.58 2.098 0l2.905-2.904zm-8.642-.706L7.292 8 3.339 4.046.435 6.951c-.58.58-.58 1.519 0 2.098l2.904 2.905z"/></svg>
+                            <span id="ai-coder-btn-text">AI Coder</span>
+                        </button>
+                        <button id="ai-settings-toggle" style="margin-left: 5px;">⚙️</button>
+                    </div>
                     <div id="prompt-display"></div>
                     <button id="next-btn" disabled>Next</button>
                 </div>
+                <div class="ai-settings" id="ai-settings">
+                    <h4>AI Coder Settings</h4>
+                    <label for="ai-model">Model:</label>
+                    <select id="ai-model">
+                        <option value="gpt-4o" selected>GPT-4o (Recommended)</option>
+                        <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                        <option value="gpt-3.5-turbo">GPT-3.5 Turbo (Faster, less accurate)</option>
+                    </select>
+                    
+                    <label for="ai-instructions">Additional Instructions for AI:</label>
+                    <textarea id="ai-instructions" placeholder="E.g., 'Focus on emotional expressions', 'Look for technical terms', 'Be conservative with coding'"></textarea>
+                    
+                    <label>
+                        <input type="checkbox" id="ai-fuzzy-match" checked>
+                        Enable fuzzy matching (handles minor text differences)
+                    </label>
+                </div>
+                <div class="ai-status" id="ai-status"></div>
                 <div id="text-display-area"></div>
             </div>
         </main>
@@ -165,7 +216,12 @@
             currentPromptIndex: -1,
             apiKey: '',
             selectiveCodeToColor: new Map(),
-            colorPalette: [1, 2, 3, 4, 5, 6, 7, 8]
+            colorPalette: [1, 2, 3, 4, 5, 6, 7, 8],
+            aiSettings: {
+                model: 'gpt-4o',
+                additionalInstructions: '',
+                fuzzyMatch: true
+            }
         };
 
         // --- DOM ELEMENTS ---
@@ -180,8 +236,31 @@
             contextMenu: document.getElementById('context-menu'), backBtn: document.getElementById('back-btn'),
             nextBtn: document.getElementById('next-btn'), promptDisplay: document.getElementById('prompt-display'),
             progressTitle: document.getElementById('progress-title'), aiCoderBtn: document.getElementById('ai-coder-btn'),
-            aiCoderBtnText: document.getElementById('ai-coder-btn-text')
+            aiCoderBtnText: document.getElementById('ai-coder-btn-text'),
+            aiSettingsToggle: document.getElementById('ai-settings-toggle'),
+            aiSettings: document.getElementById('ai-settings'),
+            aiModel: document.getElementById('ai-model'),
+            aiInstructions: document.getElementById('ai-instructions'),
+            aiFuzzyMatch: document.getElementById('ai-fuzzy-match'),
+            aiStatus: document.getElementById('ai-status')
         };
+
+        // --- AI Settings Toggle ---
+        elements.aiSettingsToggle.addEventListener('click', () => {
+            elements.aiSettings.classList.toggle('show');
+        });
+
+        elements.aiModel.addEventListener('change', (e) => {
+            state.aiSettings.model = e.target.value;
+        });
+
+        elements.aiInstructions.addEventListener('input', (e) => {
+            state.aiSettings.additionalInstructions = e.target.value;
+        });
+
+        elements.aiFuzzyMatch.addEventListener('change', (e) => {
+            state.aiSettings.fuzzyMatch = e.target.checked;
+        });
 
         // --- FILE HANDLING & SETUP ---
         const handleFile = (file, callback) => {
@@ -391,7 +470,103 @@
             renderCurrentPrompt();
         };
 
-        // --- AI Coder Logic ---
+        // --- ENHANCED AI Coder Logic ---
+        
+        // Utility function for fuzzy string matching
+        function findFuzzyMatches(text, searchString, threshold = 0.85) {
+            const matches = [];
+            const searchLower = searchString.toLowerCase();
+            const searchWords = searchLower.split(/\s+/);
+            
+            // Try to find approximate matches
+            for (let i = 0; i < text.length - searchString.length + 1; i++) {
+                const substring = text.substring(i, i + searchString.length + 20); // Get a bit more context
+                const substringLower = substring.toLowerCase();
+                
+                // Check if all words from search string are present
+                let allWordsFound = true;
+                let lastIndex = 0;
+                for (const word of searchWords) {
+                    const wordIndex = substringLower.indexOf(word, lastIndex);
+                    if (wordIndex === -1) {
+                        allWordsFound = false;
+                        break;
+                    }
+                    lastIndex = wordIndex + word.length;
+                }
+                
+                if (allWordsFound) {
+                    // Find the exact boundaries
+                    const endIndex = lastIndex;
+                    const exactMatch = text.substring(i, i + endIndex);
+                    
+                    // Calculate similarity score
+                    const similarity = calculateSimilarity(searchLower, exactMatch.toLowerCase());
+                    if (similarity >= threshold) {
+                        matches.push({
+                            text: exactMatch.trim(),
+                            index: i,
+                            similarity: similarity
+                        });
+                    }
+                }
+            }
+            
+            // Remove duplicates and return best matches
+            const uniqueMatches = [];
+            const seen = new Set();
+            
+            matches.sort((a, b) => b.similarity - a.similarity);
+            for (const match of matches) {
+                if (!seen.has(match.text)) {
+                    seen.add(match.text);
+                    uniqueMatches.push(match);
+                }
+            }
+            
+            return uniqueMatches;
+        }
+        
+        // Calculate similarity between two strings
+        function calculateSimilarity(str1, str2) {
+            const longer = str1.length > str2.length ? str1 : str2;
+            const shorter = str1.length > str2.length ? str2 : str1;
+            
+            if (longer.length === 0) return 1.0;
+            
+            const editDistance = getEditDistance(longer, shorter);
+            return (longer.length - editDistance) / longer.length;
+        }
+        
+        // Levenshtein distance implementation
+        function getEditDistance(str1, str2) {
+            const matrix = [];
+            
+            for (let i = 0; i <= str2.length; i++) {
+                matrix[i] = [i];
+            }
+            
+            for (let j = 0; j <= str1.length; j++) {
+                matrix[0][j] = j;
+            }
+            
+            for (let i = 1; i <= str2.length; i++) {
+                for (let j = 1; j <= str1.length; j++) {
+                    if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = Math.min(
+                            matrix[i - 1][j - 1] + 1,
+                            matrix[i][j - 1] + 1,
+                            matrix[i - 1][j] + 1
+                        );
+                    }
+                }
+            }
+            
+            return matrix[str2.length][str1.length];
+        }
+
         async function handleAiCoding() {
             if (!state.apiKey) {
                 alert("Please enter your OpenAI API key in the setup section first.");
@@ -400,7 +575,16 @@
 
             const currentPrompt = state.data[state.currentPromptIndex];
             const textToCode = currentPrompt[state.columnMapping.text];
-            const openCodesList = state.codebook.raw.map(row => row[state.columnMapping.open]).filter(Boolean);
+            const promptId = currentPrompt[state.columnMapping.id];
+
+            // Create a detailed codebook for the AI
+            const codebookDetails = state.codebook.raw.map(row => ({
+                openCode: row[state.columnMapping.open],
+                axialCode: row[state.columnMapping.axial],
+                selectiveCode: row[state.columnMapping.selective]
+            }));
+
+            const openCodesList = [...new Set(codebookDetails.map(c => c.openCode))].filter(Boolean);
 
             const tools = [
                 {
@@ -425,9 +609,19 @@
                                                 "type": "string",
                                                 "description": "The open code that applies to the highlighted text.",
                                                 "enum": openCodesList
+                                            },
+                                            "confidence": {
+                                                "type": "number",
+                                                "description": "Confidence score (0-1) for this coding decision.",
+                                                "minimum": 0,
+                                                "maximum": 1
+                                            },
+                                            "reasoning": {
+                                                "type": "string",
+                                                "description": "Brief explanation for why this code was applied."
                                             }
                                         },
-                                        "required": ["highlightedText", "openCode"]
+                                        "required": ["highlightedText", "openCode", "confidence"]
                                     }
                                 }
                             },
@@ -437,10 +631,39 @@
                 }
             ];
             
-            const systemPrompt = "You are an expert qualitative data analysis assistant. Analyze the user's text and identify all segments that correspond to the provided list of open codes. Call the `code_text_segments` function with your findings.\n\nCRITICAL INSTRUCTION: The 'highlightedText' you provide in the output MUST BE an exact, verbatim substring from the source text.\n- Do NOT rephrase, reformat, or change the casing of the text you extract.\n- If the source text segment contains HTML tags (e.g., '<b>', '<i>'), you MUST include them in your extracted 'highlightedText'.\n- Your output must be a perfect copy of a portion of the source text.";
-            const userPrompt = `Text to Analyze:\n"""\n${textToCode}\n"""`;
+            // Build a comprehensive prompt
+            const codebookDescription = openCodesList.map(code => {
+                const examples = codebookDetails.filter(c => c.openCode === code);
+                return `- ${code}: ${examples[0].axialCode} > ${examples[0].selectiveCode}`;
+            }).join('\n');
+            
+            let systemPrompt = `You are an expert qualitative data analysis assistant. Analyze the user's text and identify ALL segments that correspond to the provided list of open codes. Call the \`code_text_segments\` function with your findings.
+
+CRITICAL INSTRUCTIONS:
+1. The 'highlightedText' MUST BE an exact, verbatim substring from the source text.
+2. Do NOT rephrase, reformat, or change the text in any way.
+3. Include all punctuation, spacing, and formatting exactly as it appears.
+4. Be thorough - look for ALL instances where a code might apply.
+5. You can code the same text segment with multiple codes if appropriate.
+6. Include longer, meaningful passages rather than just individual words when the context is important.
+7. Provide confidence scores: 1.0 for clear matches, 0.7-0.9 for probable matches, 0.5-0.7 for possible matches.
+
+Available codes and their hierarchical structure:
+${codebookDescription}`;
+
+            if (state.aiSettings.additionalInstructions) {
+                systemPrompt += `\n\nAdditional instructions: ${state.aiSettings.additionalInstructions}`;
+            }
+
+            const userPrompt = `Please analyze this text and code it according to the codebook provided. Be thorough and extract ALL relevant segments.
+
+Text to Analyze:
+"""
+${textToCode}
+"""`;
             
             toggleAiLoading(true);
+            showAiStatus('Analyzing text with AI...', 'info');
 
             try {
                 const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -450,19 +673,20 @@
                         'Authorization': `Bearer ${state.apiKey}`
                     },
                     body: JSON.stringify({
-                        model: "gpt-4o",
+                        model: state.aiSettings.model,
                         messages: [
                             { role: "system", content: systemPrompt },
                             { role: "user", content: userPrompt }
                         ],
                         tools: tools,
                         tool_choice: {"type": "function", "function": {"name": "code_text_segments"}},
+                        temperature: 0.3, // Lower temperature for more consistent results
                     })
                 });
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(`OpenAI API Error: ${errorData.error.message}`);
+                    throw new Error(`OpenAI API Error: ${errorData.error?.message || 'Unknown error'}`);
                 }
 
                 const result = await response.json();
@@ -473,22 +697,67 @@
                     const aiCodes = aiResult.codes;
 
                     if (aiCodes && aiCodes.length > 0) {
-                        aiCodes.forEach(aiCode => {
-                            const matchedCode = state.codebook.raw.find(row => row[state.columnMapping.open] === aiCode.openCode);
-                            if (matchedCode && textToCode.includes(aiCode.highlightedText)) {
-                                applyCode(aiCode.highlightedText, matchedCode[state.columnMapping.open], matchedCode[state.columnMapping.axial], matchedCode[state.columnMapping.selective]);
+                        let appliedCount = 0;
+                        let skippedCount = 0;
+                        
+                        // Sort by confidence score
+                        aiCodes.sort((a, b) => (b.confidence || 0) - (a.confidence || 0));
+                        
+                        for (const aiCode of aiCodes) {
+                            const matchedCode = codebookDetails.find(c => c.openCode === aiCode.openCode);
+                            
+                            if (matchedCode) {
+                                let applied = false;
+                                
+                                // First try exact match
+                                if (textToCode.includes(aiCode.highlightedText)) {
+                                    applyCode(
+                                        aiCode.highlightedText, 
+                                        matchedCode.openCode, 
+                                        matchedCode.axialCode, 
+                                        matchedCode.selectiveCode
+                                    );
+                                    applied = true;
+                                    appliedCount++;
+                                } else if (state.aiSettings.fuzzyMatch) {
+                                    // Try fuzzy matching
+                                    const fuzzyMatches = findFuzzyMatches(textToCode, aiCode.highlightedText);
+                                    
+                                    if (fuzzyMatches.length > 0) {
+                                        // Apply the best match
+                                        const bestMatch = fuzzyMatches[0];
+                                        applyCode(
+                                            bestMatch.text,
+                                            matchedCode.openCode,
+                                            matchedCode.axialCode,
+                                            matchedCode.selectiveCode
+                                        );
+                                        applied = true;
+                                        appliedCount++;
+                                    }
+                                }
+                                
+                                if (!applied) {
+                                    skippedCount++;
+                                    console.warn(`Could not find exact match for: "${aiCode.highlightedText}"`);
+                                }
                             }
-                        });
+                        }
+                        
+                        showAiStatus(
+                            `AI coding complete! Applied ${appliedCount} codes${skippedCount > 0 ? ` (${skippedCount} skipped due to text mismatch)` : ''}.`,
+                            'success'
+                        );
                     } else {
-                        alert("The AI could not find any relevant text to code for this prompt.");
+                        showAiStatus("The AI could not find any relevant text to code for this prompt.", 'error');
                     }
                 } else {
-                     alert("The AI did not return any codes. You might try again.");
+                    showAiStatus("The AI did not return any codes. Please try again.", 'error');
                 }
 
             } catch (error) {
                 console.error("AI Coder Error:", error);
-                alert("An error occurred while using the AI Coder. Check the console for details. This can happen if the API key is invalid or the AI's response is not as expected.");
+                showAiStatus(`Error: ${error.message}`, 'error');
             } finally {
                 toggleAiLoading(false);
             }
@@ -506,6 +775,20 @@
                 elements.aiCoderBtnText.textContent = 'AI Coder';
                 const spinner = elements.aiCoderBtn.querySelector('.loading-spinner');
                 if (spinner) spinner.remove();
+            }
+        }
+        
+        function showAiStatus(message, type = 'info') {
+            elements.aiStatus.textContent = message;
+            elements.aiStatus.className = 'ai-status show';
+            if (type === 'error') elements.aiStatus.classList.add('error');
+            else if (type === 'success') elements.aiStatus.classList.add('success');
+            
+            // Auto-hide after 5 seconds for success messages
+            if (type === 'success') {
+                setTimeout(() => {
+                    elements.aiStatus.classList.remove('show');
+                }, 5000);
             }
         }
 
