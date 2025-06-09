@@ -70,13 +70,74 @@
         #progress-table th { background-color: #f6f7f8; position: sticky; top: 0; }
         #progress-table td { word-break: break-word; }
 
-        #context-menu { position: absolute; display: none; background-color: var(--card-bg); border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 1000; padding: 5px 0; min-width: 180px; }
-        #context-menu ul { list-style: none; margin: 0; padding: 0; }
-        #context-menu ul li { position: relative; padding: 8px 15px; cursor: pointer; }
-        #context-menu ul li:hover { background-color: var(--primary-color); color: white; }
-        #context-menu ul li.has-submenu::after { content: '›'; position: absolute; right: 10px; font-size: 1.2em; }
-        #context-menu ul ul { position: absolute; left: 100%; top: -5px; display: none; background-color: var(--card-bg); border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 5px 0; min-width: 180px; color: var(--text-color); }
-        #context-menu ul li:hover > ul { display: block; }
+        /* Updated context menu styles for click navigation */
+        #context-menu { 
+            position: absolute; 
+            display: none; 
+            background-color: var(--card-bg); 
+            border-radius: 8px; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
+            z-index: 1000; 
+            padding: 8px 0; 
+            min-width: 220px; 
+            max-width: 300px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .menu-header {
+            padding: 8px 16px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+            font-size: 0.9em;
+            color: var(--subtle-text);
+        }
+        
+        .menu-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        
+        .menu-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .menu-item.has-children::after {
+            content: '›';
+            font-size: 1.2em;
+            color: var(--subtle-text);
+        }
+        
+        .menu-item.back-button {
+            background-color: #f0f2f5;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .menu-item.back-button::before {
+            content: '‹ ';
+            font-size: 1.2em;
+        }
+        
+        .menu-item.apply-code {
+            background-color: #e3f2fd;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .menu-item.apply-code:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
 
         #prompt-navigation { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         #prompt-display { font-weight: bold; font-size: 1.1em; }
@@ -221,6 +282,14 @@
                 model: 'gpt-4o',
                 additionalInstructions: '',
                 fuzzyMatch: true
+            },
+            // Menu navigation state
+            menuState: {
+                currentLevel: 'selective', // 'selective', 'axial', 'open'
+                selectedSelective: null,
+                selectedAxial: null,
+                selectedText: null,
+                selection: null
             }
         };
 
@@ -397,7 +466,7 @@
             return state.selectiveCodeToColor.get(selectiveCode);
         };
 
-        // --- CODING & MENU LOGIC ---
+        // --- ENHANCED CONTEXT MENU SYSTEM (Click-based navigation) ---
         elements.textDisplayArea.addEventListener('click', (e) => {
             const highlightElement = e.target.closest('.highlighted-text');
             if (highlightElement) {
@@ -416,44 +485,161 @@
             if (selection.isCollapsed || e.target.closest('.highlighted-text')) return;
             const selectedText = selection.toString().trim();
             if (selectedText.length === 0) return;
-            buildAndShowMenu(selection, selectedText);
+            
+            // Store selection info
+            state.menuState.selectedText = selectedText;
+            state.menuState.selection = selection;
+            state.menuState.currentLevel = 'selective';
+            state.menuState.selectedSelective = null;
+            state.menuState.selectedAxial = null;
+            
+            buildAndShowMenu();
         });
 
-        const buildAndShowMenu = (selection, selectedText) => {
-            const menu = elements.contextMenu; menu.innerHTML = '';
-            const topUl = document.createElement('ul');
-            for (const selCode in state.hierarchicalCodebook) {
-                const selLi = document.createElement('li'); selLi.textContent = selCode; selLi.classList.add('has-submenu');
-                const axiUl = document.createElement('ul');
-                for (const axiCode in state.hierarchicalCodebook[selCode]) {
-                    const axiLi = document.createElement('li'); axiLi.textContent = axiCode; axiLi.classList.add('has-submenu');
-                    const opnUl = document.createElement('ul');
-                    state.hierarchicalCodebook[selCode][axiCode].forEach(opnCode => {
-                        const opnLi = document.createElement('li'); opnLi.textContent = opnCode;
-                        opnLi.addEventListener('click', () => {
-                            applyCode(selectedText, opnCode, axiCode, selCode);
-                            hideMenu();
-                        });
-                        opnUl.appendChild(opnLi);
-                    });
-                    axiLi.appendChild(opnUl); axiUl.appendChild(axiLi);
-                }
-                selLi.appendChild(axiUl); topUl.appendChild(selLi);
+        const buildAndShowMenu = () => {
+            const menu = elements.contextMenu;
+            menu.innerHTML = '';
+            
+            if (state.menuState.currentLevel === 'selective') {
+                buildSelectiveCodeMenu(menu);
+            } else if (state.menuState.currentLevel === 'axial') {
+                buildAxialCodeMenu(menu);
+            } else if (state.menuState.currentLevel === 'open') {
+                buildOpenCodeMenu(menu);
             }
-            menu.appendChild(topUl);
-            const range = selection.getRangeAt(0);
-            const rect = range.getBoundingClientRect();
-            menu.style.top = `${rect.bottom + window.scrollY}px`;
-            menu.style.left = `${rect.left + window.scrollX}px`;
+            
+            positionMenu();
             menu.style.display = 'block';
+        };
+
+        const buildSelectiveCodeMenu = (menu) => {
+            const header = document.createElement('div');
+            header.className = 'menu-header';
+            header.textContent = 'Select Selective Code';
+            menu.appendChild(header);
+            
+            const selectiveCodes = Object.keys(state.hierarchicalCodebook);
+            selectiveCodes.forEach(selectiveCode => {
+                const item = document.createElement('div');
+                item.className = 'menu-item has-children';
+                item.textContent = selectiveCode;
+                item.addEventListener('click', () => {
+                    state.menuState.selectedSelective = selectiveCode;
+                    state.menuState.currentLevel = 'axial';
+                    buildAndShowMenu();
+                });
+                menu.appendChild(item);
+            });
+        };
+
+        const buildAxialCodeMenu = (menu) => {
+            const header = document.createElement('div');
+            header.className = 'menu-header';
+            header.textContent = `Selective: ${state.menuState.selectedSelective}`;
+            menu.appendChild(header);
+            
+            // Back button
+            const backItem = document.createElement('div');
+            backItem.className = 'menu-item back-button';
+            backItem.textContent = 'Back to Selective Codes';
+            backItem.addEventListener('click', () => {
+                state.menuState.currentLevel = 'selective';
+                state.menuState.selectedSelective = null;
+                buildAndShowMenu();
+            });
+            menu.appendChild(backItem);
+            
+            const axialCodes = Object.keys(state.hierarchicalCodebook[state.menuState.selectedSelective]);
+            axialCodes.forEach(axialCode => {
+                const item = document.createElement('div');
+                item.className = 'menu-item has-children';
+                item.textContent = axialCode;
+                item.addEventListener('click', () => {
+                    state.menuState.selectedAxial = axialCode;
+                    state.menuState.currentLevel = 'open';
+                    buildAndShowMenu();
+                });
+                menu.appendChild(item);
+            });
+        };
+
+        const buildOpenCodeMenu = (menu) => {
+            const header = document.createElement('div');
+            header.className = 'menu-header';
+            header.textContent = `${state.menuState.selectedSelective} > ${state.menuState.selectedAxial}`;
+            menu.appendChild(header);
+            
+            // Back button
+            const backItem = document.createElement('div');
+            backItem.className = 'menu-item back-button';
+            backItem.textContent = 'Back to Axial Codes';
+            backItem.addEventListener('click', () => {
+                state.menuState.currentLevel = 'axial';
+                state.menuState.selectedAxial = null;
+                buildAndShowMenu();
+            });
+            menu.appendChild(backItem);
+            
+            const openCodes = state.hierarchicalCodebook[state.menuState.selectedSelective][state.menuState.selectedAxial];
+            openCodes.forEach(openCode => {
+                const item = document.createElement('div');
+                item.className = 'menu-item apply-code';
+                item.textContent = openCode;
+                item.addEventListener('click', () => {
+                    applyCode(
+                        state.menuState.selectedText,
+                        openCode,
+                        state.menuState.selectedAxial,
+                        state.menuState.selectedSelective
+                    );
+                    hideMenu();
+                });
+                menu.appendChild(item);
+            });
+        };
+
+        const positionMenu = () => {
+            if (!state.menuState.selection) return;
+            
+            const range = state.menuState.selection.getRangeAt(0);
+            const rect = range.getBoundingClientRect();
+            const menu = elements.contextMenu;
+            
+            let top = rect.bottom + window.scrollY + 5;
+            let left = rect.left + window.scrollX;
+            
+            // Adjust if menu would go off screen
+            const menuRect = menu.getBoundingClientRect();
+            if (left + 220 > window.innerWidth) {
+                left = window.innerWidth - 230;
+            }
+            if (top + 200 > window.innerHeight + window.scrollY) {
+                top = rect.top + window.scrollY - 210;
+            }
+            
+            menu.style.top = `${top}px`;
+            menu.style.left = `${left}px`;
         };
 
         const hideMenu = () => {
             elements.contextMenu.style.display = 'none';
             if (window.getSelection) window.getSelection().removeAllRanges();
+            
+            // Reset menu state
+            state.menuState = {
+                currentLevel: 'selective',
+                selectedSelective: null,
+                selectedAxial: null,
+                selectedText: null,
+                selection: null
+            };
         };
+
+        // Hide menu when clicking outside
         document.addEventListener('mousedown', (e) => {
-            if (!elements.contextMenu.contains(e.target) && e.target !== elements.textDisplayArea && !elements.textDisplayArea.contains(e.target)) {
+            if (!elements.contextMenu.contains(e.target) && 
+                e.target !== elements.textDisplayArea && 
+                !elements.textDisplayArea.contains(e.target)) {
                 hideMenu();
             }
         });
