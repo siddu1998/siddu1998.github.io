@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Qualitative Coding Tool</title>
+    <title>Professional Qualitative Coding Tool with AI Learning</title>
     <!-- Papa Parse for CSV handling -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
@@ -172,6 +172,27 @@
         .ai-status.error { background-color: #ffebee; color: #c62828; }
         .ai-status.success { background-color: #e8f5e9; color: #2e7d32; }
         
+        .learning-stats {
+            background-color: #e8f5e9;
+            border: 1px solid #4caf50;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 0.9em;
+            display: none;
+        }
+        .learning-stats.show { display: block; }
+        .learning-stats strong { color: #2e7d32; }
+
+        .examples-section {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-radius: 4px;
+            border-left: 4px solid var(--primary-color);
+            font-size: 0.9em;
+        }
+        
         .hidden { display: none; }
         .loading-spinner {
             display: inline-block;
@@ -192,8 +213,8 @@
 <body>
     <div class="container">
         <header>
-            <h1>📄 Professional Qualitative Coding Tool</h1>
-            <p>Highlight text to code. Click an existing highlight to remove it. Use the AI Coder for a first pass.</p>
+            <h1>🧠 HITL Qualitative Coding Tool</h1>
+            <p>The AI learns from your coding examples to improve automatic coding accuracy. Highlight text to code manually, or let AI learn from your patterns.</p>
         </header>
         <main>
             <div id="setup-section" class="card">
@@ -225,7 +246,7 @@
                     <div>
                         <button id="ai-coder-btn" disabled>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L4.047 3.339 8 7.293l3.954-3.954L9.049.435zm3.61 3.611L8.708 8l3.954 3.954 2.904-2.905c.58-.58.58-1.519 0-2.098l-2.904-2.905zm-.706 8.642L8 8.708l-3.954 3.954 2.905 2.904c.58.58 1.519.58 2.098 0l2.905-2.904zm-8.642-.706L7.292 8 3.339 4.046.435 6.951c-.58.58-.58 1.519 0 2.098l2.904 2.905z"/></svg>
-                            <span id="ai-coder-btn-text">AI Coder</span>
+                            <span id="ai-coder-btn-text">Smart AI Coder</span>
                         </button>
                         <button id="ai-settings-toggle" style="margin-left: 5px;">⚙️</button>
                     </div>
@@ -248,6 +269,19 @@
                         <input type="checkbox" id="ai-fuzzy-match" checked>
                         Enable fuzzy matching (handles minor text differences)
                     </label>
+                    
+                    <label for="max-examples">Max examples to use for learning:</label>
+                    <select id="max-examples">
+                        <option value="5">5 examples per code</option>
+                        <option value="10" selected>10 examples per code</option>
+                        <option value="15">15 examples per code</option>
+                        <option value="20">20 examples per code</option>
+                    </select>
+                    
+                    <div class="learning-stats" id="learning-stats">
+                        <strong>🧠 Learning Status:</strong>
+                        <div id="learning-details"></div>
+                    </div>
                 </div>
                 <div class="ai-status" id="ai-status"></div>
                 <div id="text-display-area"></div>
@@ -281,7 +315,8 @@
             aiSettings: {
                 model: 'gpt-4o',
                 additionalInstructions: '',
-                fuzzyMatch: true
+                fuzzyMatch: true,
+                maxExamples: 10
             },
             // Menu navigation state
             menuState: {
@@ -290,6 +325,13 @@
                 selectedAxial: null,
                 selectedText: null,
                 selection: null
+            },
+            // NEW: Learning system state
+            learningExamples: new Map(), // code -> array of examples
+            learningStats: {
+                totalExamples: 0,
+                codesWithExamples: 0,
+                lastUpdated: null
             }
         };
 
@@ -311,7 +353,10 @@
             aiModel: document.getElementById('ai-model'),
             aiInstructions: document.getElementById('ai-instructions'),
             aiFuzzyMatch: document.getElementById('ai-fuzzy-match'),
-            aiStatus: document.getElementById('ai-status')
+            aiStatus: document.getElementById('ai-status'),
+            maxExamples: document.getElementById('max-examples'),
+            learningStats: document.getElementById('learning-stats'),
+            learningDetails: document.getElementById('learning-details')
         };
 
         // --- AI Settings Toggle ---
@@ -330,6 +375,143 @@
         elements.aiFuzzyMatch.addEventListener('change', (e) => {
             state.aiSettings.fuzzyMatch = e.target.checked;
         });
+
+        elements.maxExamples.addEventListener('change', (e) => {
+            state.aiSettings.maxExamples = parseInt(e.target.value);
+            updateLearningStats();
+        });
+
+        // --- LEARNING SYSTEM FUNCTIONS ---
+        function updateLearningExamples() {
+            // Clear and rebuild learning examples from all coded data
+            state.learningExamples.clear();
+            
+            state.codedData.forEach(codeData => {
+                const openCode = codeData['Open Code'];
+                const highlightedText = codeData['Highlighted Text'];
+                const fullTextId = codeData['ID'];
+                
+                if (openCode && highlightedText) {
+                    if (!state.learningExamples.has(openCode)) {
+                        state.learningExamples.set(openCode, []);
+                    }
+                    
+                    // Find the full text context for this example
+                    const fullTextRow = state.data.find(row => 
+                        String(row[state.columnMapping.id]) === String(fullTextId)
+                    );
+                    const fullText = fullTextRow ? fullTextRow[state.columnMapping.text] : '';
+                    
+                    state.learningExamples.get(openCode).push({
+                        highlightedText: highlightedText,
+                        fullText: fullText,
+                        axialCode: codeData['Axial Code'],
+                        selectiveCode: codeData['Selective Code'],
+                        id: fullTextId
+                    });
+                }
+            });
+            
+            updateLearningStats();
+        }
+        
+        function updateLearningStats() {
+            const totalExamples = Array.from(state.learningExamples.values())
+                .reduce((sum, examples) => sum + examples.length, 0);
+            const codesWithExamples = state.learningExamples.size;
+            
+            state.learningStats = {
+                totalExamples: totalExamples,
+                codesWithExamples: codesWithExamples,
+                lastUpdated: new Date()
+            };
+            
+            if (totalExamples > 0) {
+                elements.learningStats.classList.add('show');
+                elements.learningDetails.innerHTML = `
+                    ${totalExamples} examples across ${codesWithExamples} codes<br>
+                    <small>Last updated: ${state.learningStats.lastUpdated.toLocaleTimeString()}</small>
+                `;
+            } else {
+                elements.learningStats.classList.remove('show');
+            }
+        }
+        
+        function getRelevantExamples(currentText, maxExamples = null) {
+            const examplesToUse = maxExamples || state.aiSettings.maxExamples;
+            const relevantExamples = [];
+            
+            // Get examples for each code, prioritizing by text similarity
+            state.learningExamples.forEach((examples, openCode) => {
+                // Score examples by text similarity to current text
+                const scoredExamples = examples.map(example => ({
+                    ...example,
+                    similarity: calculateTextSimilarity(currentText, example.fullText)
+                }));
+                
+                // Sort by similarity and take top examples
+                scoredExamples.sort((a, b) => b.similarity - a.similarity);
+                const topExamples = scoredExamples.slice(0, Math.min(examplesToUse, examples.length));
+                
+                relevantExamples.push(...topExamples.map(example => ({
+                    openCode: openCode,
+                    ...example
+                })));
+            });
+            
+            // Sort all examples by similarity and return top ones
+            relevantExamples.sort((a, b) => b.similarity - a.similarity);
+            return relevantExamples.slice(0, 50); // Limit total examples to prevent token overflow
+        }
+        
+        function calculateTextSimilarity(text1, text2) {
+            // Simple word-based similarity calculation
+            const words1 = text1.toLowerCase().split(/\s+/);
+            const words2 = text2.toLowerCase().split(/\s+/);
+            
+            const set1 = new Set(words1);
+            const set2 = new Set(words2);
+            
+            const intersection = new Set([...set1].filter(x => set2.has(x)));
+            const union = new Set([...set1, ...set2]);
+            
+            return intersection.size / union.size; // Jaccard similarity
+        }
+        
+        function buildLearningPrompt(currentText) {
+            const relevantExamples = getRelevantExamples(currentText);
+            
+            if (relevantExamples.length === 0) {
+                return "";
+            }
+            
+            let learningSection = "\n\n## LEARNING FROM YOUR PREVIOUS CODING EXAMPLES:\n";
+            learningSection += "The following examples show how you have previously applied codes to similar text. Use these patterns to guide your coding of the current text:\n\n";
+            
+            // Group examples by code
+            const examplesByCode = {};
+            relevantExamples.forEach(example => {
+                if (!examplesByCode[example.openCode]) {
+                    examplesByCode[example.openCode] = [];
+                }
+                examplesByCode[example.openCode].push(example);
+            });
+            
+            Object.entries(examplesByCode).forEach(([openCode, examples]) => {
+                learningSection += `**${openCode}** examples:\n`;
+                examples.slice(0, 3).forEach((example, index) => { // Limit to 3 examples per code
+                    learningSection += `${index + 1}. "${example.highlightedText}"\n`;
+                    if (example.fullText.length < 200) {
+                        learningSection += `   Context: "${example.fullText}"\n`;
+                    }
+                });
+                learningSection += "\n";
+            });
+            
+            learningSection += "Use these examples to understand the patterns and context for applying each code. Look for similar language, themes, and contexts in the current text.\n";
+            
+            return learningSection;
+        }
 
         // --- FILE HANDLING & SETUP ---
         const handleFile = (file, callback) => {
@@ -356,6 +538,7 @@
                 return newRow;
             });
             alert(`${state.codedData.length} progress entries loaded.`);
+            updateLearningExamples(); // Update learning examples when progress is loaded
             updateProgressTable(); 
             if (state.currentPromptIndex > -1) renderCurrentPrompt();
         }));
@@ -385,6 +568,7 @@
                 state.currentPromptIndex = 0;
                 renderCurrentPrompt();
             }
+            updateLearningExamples(); // Initialize learning examples
         });
 
         // --- NAVIGATION & AI ---
@@ -475,6 +659,7 @@
                 const indexToRemove = state.codedData.findIndex(code => code.uuid === uuidToRemove);
                 if (indexToRemove > -1) {
                     state.codedData.splice(indexToRemove, 1);
+                    updateLearningExamples(); // Update learning when codes are removed
                     renderCurrentPrompt();
                 }
             }
@@ -653,10 +838,11 @@
 
             const uuid = Date.now() + '-' + Math.random().toString(36).substr(2, 9);
             state.codedData.push({ 'uuid': uuid, 'ID': currentPromptId, 'Highlighted Text': highlightedText, 'Open Code': openCode, 'Axial Code': axialCode, 'Selective Code': selectiveCode, 'startIndex': startIndex });
+            updateLearningExamples(); // Update learning when new codes are added
             renderCurrentPrompt();
         };
 
-        // --- ENHANCED AI Coder Logic ---
+        // --- ENHANCED AI Coder Logic with Learning ---
         
         // Utility function for fuzzy string matching
         function findFuzzyMatches(text, searchString, threshold = 0.85) {
@@ -817,13 +1003,13 @@
                 }
             ];
             
-            // Build a comprehensive prompt
+            // Build a comprehensive prompt with learning examples
             const codebookDescription = openCodesList.map(code => {
                 const examples = codebookDetails.filter(c => c.openCode === code);
                 return `- ${code}: ${examples[0].axialCode} > ${examples[0].selectiveCode}`;
             }).join('\n');
             
-            let systemPrompt = `You are an expert qualitative data analysis assistant. Analyze the user's text and identify ALL segments that correspond to the provided list of open codes. Call the \`code_text_segments\` function with your findings.
+            let systemPrompt = `You are an expert qualitative data analysis assistant that learns from previous coding examples. Analyze the user's text and identify ALL segments that correspond to the provided list of open codes. Call the \`code_text_segments\` function with your findings.
 
 CRITICAL INSTRUCTIONS:
 1. The 'highlightedText' MUST BE an exact, verbatim substring from the source text.
@@ -833,15 +1019,22 @@ CRITICAL INSTRUCTIONS:
 5. You can code the same text segment with multiple codes if appropriate.
 6. Include longer, meaningful passages rather than just individual words when the context is important.
 7. Provide confidence scores: 1.0 for clear matches, 0.7-0.9 for probable matches, 0.5-0.7 for possible matches.
+8. LEARN from the provided examples to understand the coding patterns and apply them consistently.
 
 Available codes and their hierarchical structure:
 ${codebookDescription}`;
+
+            // Add learning examples if available
+            const learningPrompt = buildLearningPrompt(textToCode);
+            if (learningPrompt) {
+                systemPrompt += learningPrompt;
+            }
 
             if (state.aiSettings.additionalInstructions) {
                 systemPrompt += `\n\nAdditional instructions: ${state.aiSettings.additionalInstructions}`;
             }
 
-            const userPrompt = `Please analyze this text and code it according to the codebook provided. Be thorough and extract ALL relevant segments.
+            const userPrompt = `Please analyze this text and code it according to the codebook provided${learningPrompt ? ' and the learning examples' : ''}. Be thorough and extract ALL relevant segments.
 
 Text to Analyze:
 """
@@ -849,7 +1042,7 @@ ${textToCode}
 """`;
             
             toggleAiLoading(true);
-            showAiStatus('Analyzing text with AI...', 'info');
+            showAiStatus(`Analyzing text with AI${state.learningStats.totalExamples > 0 ? ` (using ${state.learningStats.totalExamples} learning examples)` : ''}...`, 'info');
 
             try {
                 const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -931,7 +1124,7 @@ ${textToCode}
                         }
                         
                         showAiStatus(
-                            `AI coding complete! Applied ${appliedCount} codes${skippedCount > 0 ? ` (${skippedCount} skipped due to text mismatch)` : ''}.`,
+                            `🧠 Smart AI coding complete! Applied ${appliedCount} codes${skippedCount > 0 ? ` (${skippedCount} skipped due to text mismatch)` : ''}. ${state.learningStats.totalExamples > 0 ? `Used ${state.learningStats.totalExamples} learning examples.` : ''}`,
                             'success'
                         );
                     } else {
@@ -952,13 +1145,13 @@ ${textToCode}
         function toggleAiLoading(isLoading) {
             if (isLoading) {
                 elements.aiCoderBtn.disabled = true;
-                elements.aiCoderBtnText.textContent = 'Coding...';
+                elements.aiCoderBtnText.textContent = 'Learning & Coding...';
                 const spinner = document.createElement('span');
                 spinner.className = 'loading-spinner';
                 elements.aiCoderBtn.prepend(spinner);
             } else {
                 elements.aiCoderBtn.disabled = false;
-                elements.aiCoderBtnText.textContent = 'AI Coder';
+                elements.aiCoderBtnText.textContent = 'Smart AI Coder';
                 const spinner = elements.aiCoderBtn.querySelector('.loading-spinner');
                 if (spinner) spinner.remove();
             }
@@ -970,11 +1163,11 @@ ${textToCode}
             if (type === 'error') elements.aiStatus.classList.add('error');
             else if (type === 'success') elements.aiStatus.classList.add('success');
             
-            // Auto-hide after 5 seconds for success messages
+            // Auto-hide after 7 seconds for success messages
             if (type === 'success') {
                 setTimeout(() => {
                     elements.aiStatus.classList.remove('show');
-                }, 5000);
+                }, 7000);
             }
         }
 

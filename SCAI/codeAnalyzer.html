@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qualitative Code Analysis Dashboard</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <style>
+        /* General body styling */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            overflow: hidden; /* Prevent scrolling */
+        }
+
+        /* Styling for the main container */
+        #container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Initial message styling */
+        #initial-message {
+            text-align: center;
+            font-size: 1.2em;
+            color: #888;
+        }
+
+        /* Control panel styling */
+        #controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+        .control-group {
+            margin-bottom: 15px;
+        }
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+        #controls label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        #id-selector, #csv-uploader {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            width: 220px;
+        }
+        .radio-group label {
+            font-weight: normal;
+            display: inline-block;
+            margin-right: 15px;
+        }
+
+        /* SVG graph element styling */
+        .link {
+            stroke: #bbb;
+            stroke-opacity: 0.6;
+            transition: stroke 0.3s ease, stroke-opacity 0.3s ease;
+        }
+        .node circle {
+            stroke: #fff;
+            stroke-width: 2px;
+            transition: fill 0.3s ease, r 0.3s ease;
+        }
+        .node text {
+            pointer-events: none;
+            font-size: 10px;
+            font-weight: bold;
+            fill: #333;
+            text-anchor: middle;
+            paint-order: stroke;
+            stroke: #fff;
+            stroke-width: 3px;
+            stroke-linejoin: round;
+        }
+
+        /* Highlight styling for paths */
+        .link.highlighted {
+            stroke: #ff5722; /* A bright orange for highlight */
+            stroke-opacity: 1.0;
+            stroke-width: 3px;
+        }
+        .node.highlighted circle {
+            fill: #ff9800; /* A matching orange for nodes */
+            r: 9;
+        }
+         .node.path-start circle {
+            fill: #4CAF50; /* Green for start */
+            r: 10;
+        }
+        .node.path-end circle {
+            fill: #F44336; /* Red for end */
+            r: 10;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="controls">
+        <div class="control-group">
+            <label for="csv-uploader">1. Upload CSV File</label>
+            <input type="file" id="csv-uploader" accept=".csv">
+        </div>
+        <div class="control-group">
+            <label>2. Select Code Type</label>
+            <div id="code-type-selector" class="radio-group">
+                <label><input type="radio" name="code-type" value="Open Code"> Open</label>
+                <label><input type="radio" name="code-type" value="Axial Code" checked> Axial</label>
+                <label><input type="radio" name="code-type" value="Selective Code"> Selective</label>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="id-selector">3. Highlight Path for ID</label>
+            <select id="id-selector" disabled></select>
+        </div>
+    </div>
+
+    <div id="container">
+        <div id="initial-message">
+            <h2>Upload a CSV file to begin</h2>
+            <p>Please select a file with ID, Open Code, Axial Code, and Selective Code columns.</p>
+        </div>
+    </div>
+
+    <script>
+        const uploader = document.getElementById('csv-uploader');
+        const selector = d3.select("#id-selector");
+        const codeTypeSelector = d3.select("#code-type-selector");
+        
+        let loadedCsvData = null; // To store the loaded CSV data
+
+        uploader.addEventListener('change', handleFileSelect, false);
+        codeTypeSelector.selectAll("input").on("change", handleCodeTypeChange);
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                loadedCsvData = e.target.result;
+                const selectedCodeType = d3.select('input[name="code-type"]:checked').node().value;
+                renderGraph(loadedCsvData, selectedCodeType);
+            };
+            reader.readAsText(file);
+        }
+        
+        function handleCodeTypeChange() {
+            if (loadedCsvData) {
+                const selectedCodeType = d3.select(this).node().value;
+                renderGraph(loadedCsvData, selectedCodeType);
+            }
+        }
+
+        function renderGraph(csvString, codeType) {
+             // Clear previous visualization and reset dropdown
+            d3.select("#container").html("");
+            selector.html("").property("disabled", true);
+
+
+            // --- D3.js Visualization Code ---
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            // 1. Process the data
+            const data = d3.csvParse(csvString);
+
+            const nodes = new Map();
+            const links = {};
+            const paths = {};
+
+            data.forEach(row => {
+                const code = row[codeType];
+                if (!code || !row['ID']) return; // Skip rows with missing data
+
+                // Add node if it doesn't exist
+                if (!nodes.has(code)) {
+                    nodes.set(code, { id: code, count: 0 });
+                }
+                nodes.get(code).count++;
+
+                // Store paths for each ID
+                if (!paths[row.ID]) {
+                    paths[row.ID] = [];
+                }
+                paths[row.ID].push(code);
+            });
+
+            // Create links from paths
+            for (const id in paths) {
+                const path = paths[id];
+                for (let i = 0; i < path.length - 1; i++) {
+                    const source = path[i];
+                    const target = path[i + 1];
+                    const linkKey = `${source}->${target}`;
+                    if (!links[linkKey]) {
+                        links[linkKey] = { source, target, value: 0 };
+                    }
+                    links[linkKey].value++;
+                }
+            }
+
+            const graphData = {
+                nodes: Array.from(nodes.values()),
+                links: Object.values(links)
+            };
+
+            // 2. Setup the SVG and containers
+            const svg = d3.select("#container").append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .call(d3.zoom().on("zoom", () => {
+                    g.attr("transform", d3.event.transform);
+                }));
+
+            const g = svg.append("g");
+
+            // 3. Setup the simulation
+            const simulation = d3.forceSimulation(graphData.nodes)
+                .force("link", d3.forceLink(graphData.links).id(d => d.id).distance(150))
+                .force("charge", d3.forceManyBody().strength(-300))
+                .force("center", d3.forceCenter(width / 2, height / 2));
+
+            // 4. Draw the elements
+            const link = g.append("g")
+                .selectAll("line")
+                .data(graphData.links)
+                .join("line")
+                .attr("class", "link")
+                .attr("stroke-width", d => Math.sqrt(d.value) * 1.5);
+
+            const node = g.append("g")
+                .selectAll("g")
+                .data(graphData.nodes)
+                .join("g")
+                .attr("class", "node")
+                .call(drag(simulation));
+
+            node.append("circle")
+                .attr("r", d => 5 + Math.sqrt(d.count))
+                .attr("fill", "#1f77b4"); // Default blue color
+
+            node.append("text")
+                .text(d => d.id)
+                .attr("dy", d => -(10 + Math.sqrt(d.count)));
+
+
+            // 5. Simulation Ticker
+            simulation.on("tick", () => {
+                link
+                    .attr("x1", d => d.source.x)
+                    .attr("y1", d => d.source.y)
+                    .attr("x2", d => d.target.x)
+                    .attr("y2", d => d.target.y);
+
+                node.attr("transform", d => `translate(${d.x},${d.y})`);
+            });
+
+            // 6. Interactivity (Drag)
+            function drag(simulation) {
+                function dragstarted(d) {
+                    if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+                    d.fx = d.x;
+                    d.fy = d.y;
+                }
+                function dragged(d) {
+                    d.fx = d3.event.x;
+                    d.fy = d3.event.y;
+                }
+                function dragended(d) {
+                    if (!d3.event.active) simulation.alphaTarget(0);
+                    d.fx = null;
+                    d.fy = null;
+                }
+                return d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended);
+            }
+
+            // 7. Dropdown and Path Highlighting
+            selector.html(""); // Clear previous options
+            selector.property("disabled", false);
+
+            selector.append("option")
+                .attr("value", "all")
+                .text("Show All");
+
+            Object.keys(paths).sort((a,b) => a - b).forEach(id => {
+                selector.append("option")
+                    .attr("value", id)
+                    .text(id);
+            });
+
+            selector.on("change", function() {
+                const selectedId = d3.select(this).property("value");
+                highlightPath(selectedId);
+            });
+
+            function highlightPath(id) {
+                // Reset all styles first
+                link.classed("highlighted", false);
+                node.classed("highlighted", false)
+                    .classed("path-start", false)
+                    .classed("path-end", false);
+
+                node.select("circle").attr("fill", "#1f77b4");
+
+
+                if (id === "all") return;
+
+                const path = paths[id];
+                if (!path) return;
+
+                // Highlight nodes in the path
+                node.filter(d => path.includes(d.id))
+                    .classed("highlighted", true);
+
+                // Special styles for start and end nodes
+                node.filter(d => d.id === path[0]).classed("path-start", true);
+                node.filter(d => d.id === path[path.length - 1]).classed("path-end", true);
+
+
+                // Highlight links in the path
+                for (let i = 0; i < path.length - 1; i++) {
+                    const sourceNode = path[i];
+                    const targetNode = path[i+1];
+                    link.filter(d => d.source.id === sourceNode && d.target.id === targetNode)
+                        .classed("highlighted", true)
+                        .raise(); // Bring highlighted links to the front
+                }
+                 node.filter(d => path.includes(d.id)).raise(); // Bring highlighted nodes to the front
+            }
+        }
+    </script>
+</body>
+</html>
