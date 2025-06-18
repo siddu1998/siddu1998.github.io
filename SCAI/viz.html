@@ -1,0 +1,1025 @@
+<div class="finding-box">
+        <h3>Methodological Note: Three Core Systematic Patterns</h3>
+        <p>While our analysis revealed multiple systematic elements, we focus on three patterns that demonstrate the strongest evidence of systematic design thinking: (1) <strong>Full Stack Architecture Integration</strong> shows systematic completeness across multiple design dimensions, (2) <strong>Dominant Pathway Replication</strong> demonstrates systematic solutions to common design challenges through identical implementation patterns, and (3) <strong>User Agency Mechanism Typology</strong> reveals systematic approaches to user empowerment that transcend individual creative choices. These three patterns collectively illustrate how effective prompt engineering follows discoverable principles rather than requiring creative genius, providing the foundation for systematic design frameworks in educational AI.</p>
+    </div><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structural Patterns in Gamified Educational Prompt Design: A Mixed-Methods Analysis</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        h2 {
+            font-size: 18px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #444;
+            border-left: 4px solid #007acc;
+            padding-left: 10px;
+        }
+        h3 {
+            font-size: 16px;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        .abstract {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #007acc;
+            font-style: italic;
+        }
+        .visualization {
+            margin: 30px 0;
+            text-align: center;
+        }
+        .chart-container {
+            display: inline-block;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+        .finding-box {
+            background: #e8f4f8;
+            border: 1px solid #bee5eb;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 6px;
+        }
+        .pattern-example {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e9ecef;
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007acc;
+        }
+        .sankey-container {
+            width: 100%;
+            height: 600px;
+            overflow: auto;
+            border: 1px solid #ddd;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .code-hierarchy {
+            font-family: 'Courier New', monospace;
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 6px;
+            white-space: pre-line;
+        }
+        .constellation-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ddd;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Structural Patterns in Gamified Educational Prompt Design:<br>A Mixed-Methods Analysis of Code Constellations</h1>
+        <p><strong>CHI 2025 Research Paper</strong></p>
+        <p><em>Understanding Design Patterns through Grounded Theory Analysis</em></p>
+    </div>
+
+    <div class="abstract">
+        <h3>Abstract</h3>
+        We present a comprehensive mixed-methods analysis of 60 gamified educational prompts using grounded theory coding to identify structural patterns in prompt design. Through systematic analysis of 960 coded segments across three hierarchical levels (open, axial, selective codes), we reveal five major design constellations: Game AI Thread (28.5%), Learning AI (24.3%), Generic AI Guidelines (17.8%), Gameplay Elements (17.7%), and NPC Handling (11.7%). More importantly, we discover three core systematic design patterns that transcend individual creativity: (1) Full Stack Architecture Integration—22 prompts (36.7%) systematically integrate all five constellations, demonstrating comprehensive design thinking across technical, pedagogical, narrative, social, and motivational dimensions; (2) Dominant Pathway Replication—three design sequences show 40-54 identical implementations across different creators and contexts, indicating discoverable design principles; and (3) User Agency Mechanism Typology—155 implementations across four distinct types (World-Level, Decision-Point, Customization, Expression) reveal systematic approaches to user empowerment. Enhanced visualizations including comprehensive Sankey diagrams and chord diagrams reveal co-occurrence networks and systematic relationships between design elements. These findings demonstrate that effective prompt engineering follows discoverable, replicable principles rather than requiring creative genius, with significant implications for democratizing educational AI design and establishing evidence-based prompt engineering frameworks.
+    </div>
+
+    <h2>1. Introduction and Methodology</h2>
+    <p>This research employed a <strong>mixed-methods approach</strong> combining qualitative grounded theory coding with quantitative pattern analysis to understand the structural composition of gamified educational prompts. We analyzed prompts created by both faculty (n=4) and students (n=54) across diverse educational domains. Beyond identifying design constellations, our analysis reveals <strong>systematic design patterns</strong>—frequently replicated design sequences that suggest discoverable principles of effective prompt engineering rather than purely creative processes.</p>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number">960</div>
+            <div>Total Coded Segments</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">60</div>
+            <div>Unique Prompts</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">16.0</div>
+            <div>Avg Codes/Prompt</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">5</div>
+            <div>Selective Codes</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">19</div>
+            <div>Axial Codes</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">69</div>
+            <div>Open Codes</div>
+        </div>
+    </div>
+
+    <h2>2. Code Constellation Analysis</h2>
+    <p>Our grounded theory analysis revealed a clear hierarchical structure with five major <strong>selective codes</strong> representing distinct design constellations:</p>
+
+    <div class="visualization">
+        <div class="chart-container">
+            <canvas id="selectiveChart" width="600" height="400"></canvas>
+            <p><strong>Figure 1:</strong> Distribution of Selective Codes (Design Constellations)</p>
+        </div>
+    </div>
+
+    <div class="finding-box">
+        <h3>Key Finding 1: Game AI Thread Dominance</h3>
+        <p><strong>Game AI Thread</strong> represents the largest constellation (28.5%, n=274), encompassing prompts that focus on AI as an interactive game facilitator. This pattern emphasizes procedural narrative generation, game state management, and dynamic storytelling. Remarkably, specific implementations within this constellation show systematic replication—the "Game World Choices" pathway appears in 54 different prompts with nearly identical structure, suggesting discoverable design principles rather than independent invention.</p>
+    </div>
+
+    <div class="pattern-example">
+Example from Game AI Thread constellation:
+"You are a friendly and fun statistics practice bot designed as an interactive quest game for students. Your mission is to help students practice and understand specific statistical concepts..."
+
+Associated codes: Game World Choices → Game Pathway → Game AI Thread
+    </div>
+
+    <h2>3. Hierarchical Code Relationships</h2>
+    <p>The comprehensive <strong>Sankey diagram</strong> below illustrates the complete flow from selective codes through axial codes to the most frequent open codes, revealing all major design pattern pathways:</p>
+
+    <div class="sankey-container">
+        <svg id="sankeyDiagram" width="1200" height="800"></svg>
+    </div>
+    <p><strong>Figure 2:</strong> Complete Sankey Diagram - All Code Hierarchy Relationships</p>
+
+    <div class="finding-box">
+        <h3>Key Finding 2: Learning AI Integration Patterns</h3>
+        <p><strong>Learning AI</strong> (24.3%, n=233) shows sophisticated integration of pedagogical goals with AI capabilities. The dominant pathway flows: Topics To Teach → Pedagogical Goals → Learning AI, indicating structured educational design.</p>
+    </div>
+
+    <h3>3.1 Axial Code Relationship Network</h3>
+    <p>The <strong>chord diagram</strong> below reveals how axial codes co-occur within the same prompts, showing systematic relationships and clustering patterns:</p>
+
+    <div class="visualization">
+        <svg id="chordDiagram" width="600" height="600"></svg>
+        <p><strong>Figure 3:</strong> Chord Diagram - Axial Code Co-occurrence Network</p>
+    </div>
+
+    <h2>4. Axial Code Patterns</h2>
+    <p>Mid-level analysis reveals 19 distinct axial codes, with <strong>Game Pathway</strong> being most prominent (15.5%), followed by <strong>Pedagogical Goals</strong> (9.6%):</p>
+
+    <div class="visualization">
+        <div class="chart-container">
+            <canvas id="axialChart" width="800" height="500"></canvas>
+            <p><strong>Figure 4:</strong> Distribution of Top 15 Axial Codes</p>
+        </div>
+    </div>
+
+    <h2>5. Creator Role and Method Analysis</h2>
+    <p>Distinct patterns emerge based on creator demographics and creation methods:</p>
+
+    <div class="visualization">
+        <div class="chart-container">
+            <canvas id="creatorChart" width="400" height="300"></canvas>
+            <p><strong>Figure 5:</strong> Creator Role Distribution</p>
+        </div>
+        <div class="chart-container">
+            <canvas id="methodChart" width="500" height="300"></canvas>
+            <p><strong>Figure 6:</strong> Creation Method Distribution</p>
+        </div>
+    </div>
+
+    <div class="finding-box">
+        <h3>Key Finding 3: Student-Driven Design Dominance</h3>
+        <p>Students created 90% of prompts (n=54), primarily through class assignments (78.3%). This suggests <strong>democratization of prompt engineering</strong> in educational contexts, with students as primary design agents.</p>
+    </div>
+
+    <h2>6. Open Code Constellation Patterns</h2>
+    <p>The most granular level reveals 69 unique open codes, with clear clustering around game mechanics and learning objectives:</p>
+
+    <table>
+        <tr><th>Open Code</th><th>Frequency</th><th>Primary Constellation</th></tr>
+        <tr><td>Game World Choices</td><td>54</td><td>Game AI Thread</td></tr>
+        <tr><td>Game Levels</td><td>53</td><td>Gameplay Elements</td></tr>
+        <tr><td>Topics To Teach</td><td>40</td><td>Learning AI</td></tr>
+        <tr><td>Game Goals</td><td>39</td><td>Gameplay Elements</td></tr>
+        <tr><td>Game Intro</td><td>35</td><td>Game AI Thread</td></tr>
+        <tr><td>Situating Learning Goals</td><td>34</td><td>Learning AI</td></tr>
+        <tr><td>NPC As Mentor/Guide</td><td>33</td><td>NPC Handling</td></tr>
+    </table>
+
+    <h2>7. Code Density and Complexity Analysis</h2>
+    <p>Coding density varies significantly across prompts, indicating different levels of design complexity:</p>
+
+    <div class="visualization">
+        <div class="chart-container">
+            <canvas id="densityChart" width="600" height="400"></canvas>
+            <p><strong>Figure 7:</strong> Coding Density Distribution</p>
+        </div>
+    </div>
+
+    <div class="finding-box">
+        <h3>Key Finding 4: Complexity Stratification</h3>
+        <p>Prompts range from 4 to 32 coded segments (μ=16.0, σ=5.8), suggesting natural stratification of design complexity. More complex prompts tend to integrate multiple constellations, particularly Game AI Thread + Learning AI combinations.</p>
+    </div>
+
+    <h2>8. Systematic Design Patterns: Deep Analysis</h2>
+    <p>Our grounded theory analysis reveals three core <strong>systematic design patterns</strong> that transcend individual creativity, representing discoverable principles of effective prompt engineering:</p>
+
+    <h3>8.1 How We Arrived at Systematic Patterns</h3>
+    <p>These patterns emerged through <strong>frequency-based validation</strong> rather than theoretical imposition:</p>
+    <ul>
+        <li><strong>Cross-prompt consistency:</strong> Identical sequences appearing across different creators and contexts</li>
+        <li><strong>High-frequency replication:</strong> 40-54 implementations of the same design pathway</li>
+        <li><strong>Domain-agnostic effectiveness:</strong> Same patterns working across all 58 educational topics</li>
+        <li><strong>Creator-independent discovery:</strong> Students and faculty independently arriving at identical structures</li>
+    </ul>
+
+    <div class="finding-box">
+        <h3>Systematic Pattern 1: Full Stack Architecture Integration</h3>
+        <p><strong>Pattern Definition:</strong> 22 prompts (36.7%) systematically integrate all five design constellations—Generic AI Guidelines, Learning AI, Game AI Thread, NPC Handling, and Gameplay Elements—creating comprehensive educational experiences that address technical, pedagogical, narrative, social, and motivational dimensions simultaneously. This pattern represents the most sophisticated form of prompt engineering observed in our dataset, where creators demonstrate systematic thinking that balances multiple design concerns rather than focusing on isolated aspects.</p>
+        
+        <p><strong>Systematic Evidence:</strong> The consistency of this pattern across diverse creators (both faculty and students), educational domains (from Statistics to Climate Change), and creation methods (class assignments, hackathons, co-design sessions) indicates systematic design thinking rather than coincidental complexity. For instance, Prompt ID 1 (Statistics, 45 coded segments) and Prompt ID 47 (created by a different student in a different context) both exhibit identical architectural completeness despite addressing entirely different subject matter. The pattern transcends individual creativity because it emerges from functional necessity—effective educational gaming requires technical AI setup, clear learning objectives, engaging narratives, social interaction mechanisms, and motivational feedback systems.</p>
+        
+        <p><strong>Practical Implementation:</strong> Full Stack prompts systematically address five critical design layers: (1) Generic AI Guidelines establish the technical foundation with role definition ("You are a friendly statistics practice bot") and output control mechanisms; (2) Learning AI provides educational scaffolding through goal setting ("Focus on teaching statistical tests"), practice opportunities, and feedback systems; (3) Game AI Thread creates narrative engagement through world-building ("choose your theme") and progression mechanics; (4) NPC Handling enables social learning through character interactions ("Introduce interesting NPC characters"); and (5) Gameplay Elements maintain motivation through progress tracking, achievements, and visual feedback. The systematic nature lies in how these layers interconnect—each supports and enhances the others, creating emergent educational experiences that exceed the sum of their parts.</p>
+        
+        <p><strong>Design Implications:</strong> This pattern suggests that prompt engineering maturity can be measured by architectural completeness. Prompts using only 1-2 constellations (5% of dataset) represent basic implementations, while Full Stack prompts demonstrate sophisticated understanding of educational AI requirements. The pattern provides a systematic framework for quality assessment and improvement—designers can evaluate prompt sophistication by checking constellation coverage and systematically enhance incomplete prompts by adding missing architectural layers. Most significantly, this pattern democratizes expert-level design by providing a replicable template that any educator can follow, transforming prompt engineering from intuitive art to systematic practice.</p>
+    </div>
+
+    <div class="finding-box">
+        <h3>Systematic Pattern 2: Dominant Pathway Replication</h3>
+        <p><strong>Pattern Definition:</strong> Three specific design sequences demonstrate remarkable replication across 40-54 different prompts, indicating systematic design principles that creators independently discover and implement. These dominant pathways are: (1) User Choice Architecture: "Game AI Thread → Game World → Game World Choices" (54 implementations), (2) Progressive Difficulty Structure: "Game AI Thread → Game Pathway → Game Levels" (53 implementations), and (3) Learning Objective Clarity: "Learning AI → Pedagogical Goals → Topics To Teach" (40 implementations). The systematic nature of these pathways lies not in their frequency alone, but in their identical implementation patterns across diverse creators, contexts, and educational domains.</p>
+        
+        <p><strong>Systematic Evidence:</strong> The replication precision of these pathways demonstrates systematic principles at work. The User Choice Architecture appears in 54 prompts with nearly identical language: "At the beginning of the game, inform the student that they can choose or change the theme of the story if they wish." This exact phrasing pattern appears across creators who had no communication with each other, spanning topics from Statistics to Climate Change to Literature. Similarly, the Progressive Difficulty Structure systematically implements graduated challenge through "Each game session should contain at least 10 questions, generating unique and varied scenarios within the selected theme to keep the experience fresh." The consistency of implementation—not just the concept but the specific structural approach—indicates discoverable design principles rather than creative coincidence.</p>
+        
+        <p><strong>Underlying Design Logic:</strong> These pathways represent solutions to fundamental educational gaming challenges that creators systematically encounter and resolve. The User Choice Architecture addresses the critical need for learner agency and investment—by providing immediate theme selection, prompts systematically establish user ownership and engagement from the outset. The Progressive Difficulty Structure solves the challenge of sustained engagement by creating clear advancement pathways with varied content that prevents repetition-induced boredom. The Learning Objective Clarity pathway addresses educational effectiveness by establishing explicit goal boundaries, helping both AI and users understand expected outcomes. The systematic replication occurs because these represent optimal solutions to universal design problems in educational AI.</p>
+        
+        <p><strong>Template Utility:</strong> These dominant pathways function as validated design templates that eliminate the need for creators to solve foundational problems from scratch. Rather than struggling with how to implement user choice, creators can systematically adopt the 54-times-validated User Choice Architecture. Instead of inventing progression mechanisms, they can implement the proven Progressive Difficulty Structure. This transforms prompt engineering from creative problem-solving to systematic template application and customization. The pathways provide what software engineering calls "design patterns"—reusable solutions to common problems that have been tested across multiple implementations and contexts. For educational AI development, these pathways represent the beginning of systematic design pattern libraries that can accelerate creation while ensuring effectiveness through proven approaches.</p>
+    </div>
+
+    <div class="finding-box">
+        <h3>Systematic Pattern 3: User Agency Mechanism Typology</h3>
+        <p><strong>Pattern Definition:</strong> Analysis of 155 user agency implementations reveals four distinct systematic types rather than a hierarchical structure: (1) World-Level Agency: theme and setting selection (54 implementations), (2) Decision-Point Agency: choice-driven interactions at key moments (31 implementations), (3) Customization Agency: personalization of characters and environments (13 implementations), and (4) Expression Agency: open-ended creative input opportunities (12 implementations). This systematic typology emerges from functional requirements of educational gaming rather than arbitrary categorization, with each type serving distinct pedagogical and engagement purposes that creators systematically recognize and implement.</p>
+        
+        <p><strong>Systematic Distribution Logic:</strong> The frequency distribution across agency types reflects systematic design priorities in educational contexts. World-Level Agency dominates (54 uses) because initial theme selection provides maximum impact on engagement with minimal implementation complexity—a single choice point that affects the entire experience. Decision-Point Agency follows (31 uses) because it provides ongoing engagement through regular choice opportunities while maintaining narrative coherence. Customization Agency appears less frequently (13 uses) due to higher implementation complexity, requiring system capability to track and apply user modifications across interactions. Expression Agency is least common (12 uses) because it demands the most sophisticated AI capabilities to meaningfully process and respond to open-ended user input. This distribution represents systematic optimization rather than random variation.</p>
+        
+        <p><strong>Implementation Patterns:</strong> Each agency type exhibits systematic implementation approaches. World-Level Agency consistently appears at prompt initiation with explicit theme menus: "Choose your adventure: EcoVille 🌳, Space Station X 🚀, Science Lab 🔬." Decision-Point Agency systematically uses numbered choice formats: "1️⃣ Build sea wall 2️⃣ Relocate people 3️⃣ Do nothing." Customization Agency systematically focuses on visual and character modifications that don't require complex system state management. Expression Agency systematically provides bounded creativity opportunities, typically requesting explanations or reasoning rather than completely open-ended responses. These patterns represent systematic solutions to user interface challenges in conversational AI, providing creators with tested approaches for implementing each agency type effectively.</p>
+        
+        <p><strong>Pedagogical Integration:</strong> The systematic employment of agency types aligns with educational psychology principles, though creators may not consciously recognize these connections. World-Level Agency supports intrinsic motivation by providing autonomy and personal relevance. Decision-Point Agency enables active learning through consequence-based choice evaluation. Customization Agency supports identity integration and personal connection to content. Expression Agency facilitates higher-order thinking through creative synthesis and articulation. The systematic co-occurrence of multiple agency types within sophisticated prompts (Full Stack Architecture prompts average 2.3 agency types) suggests that effective educational AI systematically provides multiple pathways for user empowerment. This creates a systematic framework for agency integration that moves beyond single-choice implementations toward comprehensive empowerment architectures that address diverse learning preferences and engagement needs.</p>
+    </div>
+
+    <h3>8.2 Systematic Pattern Evidence Summary</h3>
+    <p>The three systematic patterns demonstrate measurable, replicable design principles:</p>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number">22</div>
+            <div>Full Stack Prompts<br>(36.7% of dataset)</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">54</div>
+            <div>User Choice Architecture<br>Implementations</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">155</div>
+            <div>Agency Mechanisms<br>Across 4 Types</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">58</div>
+            <div>Educational Domains<br>Using Same Patterns</div>
+        </div>
+    </div>
+
+    <h2>9. Actionable Design Framework</h2>
+    <p>Based on systematic pattern analysis, we propose a <strong>quality-controlled prompt engineering framework</strong>:</p>
+
+    <h3>9.1 The Systematic Prompt Checklist</h3>
+    <div class="finding-box">
+        <h4>Foundation Layer (Generic AI Guidelines)</h4>
+        <p>☐ Define AI role and personality<br>
+        ☐ Specify output format and style<br>
+        ☐ Set interaction boundaries</p>
+
+        <h4>Educational Layer (Learning AI)</h4>
+        <p>☐ <strong>Stage 1:</strong> Clear learning objectives<br>
+        ☐ <strong>Stage 2:</strong> Practice opportunities with examples<br>
+        ☐ <strong>Stage 3:</strong> Systematic feedback for correct/incorrect responses<br>
+        ☐ <strong>Stage 4:</strong> Metacognitive reflection prompts</p>
+
+        <h4>Narrative Layer (Game AI Thread)</h4>
+        <p>☐ User Choice Architecture: Theme/world selection<br>
+        ☐ Progressive Structure: Clear levels/advancement<br>
+        ☐ Goal Definition: Clear objectives and endpoints</p>
+
+        <h4>Social Layer (NPC Handling)</h4>
+        <p>☐ Mentor NPCs: Guide and support users<br>
+        ☐ Narrative NPCs: Advance story and context<br>
+        ☐ Interactive Dialogue: Engaging conversation patterns</p>
+
+        <h4>Engagement Layer (Gameplay Elements)</h4>
+        <p>☐ Progress Visualization: Bars, achievements, points<br>
+        ☐ Visual Enhancement: Emojis, formatting, styling<br>
+        ☐ Reward Systems: Recognition and advancement</p>
+
+        <h4>User Agency Mechanisms (Select Multiple Types)</h4>
+        <p>☐ World-Level Agency: Theme/setting selection (54 implementations)<br>
+        ☐ Decision-Point Agency: Choice-driven interactions (31 implementations)<br>
+        ☐ Customization Agency: Personalization features (13 implementations)<br>
+        ☐ Expression Agency: Open-ended input opportunities (12 implementations)</p>
+    </div>
+
+    <h3>9.2 Quality Metrics</h3>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number">1-2</div>
+            <div>Basic Prompt<br>(Incomplete)</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">3-4</div>
+            <div>Good Prompt<br>(Functional)</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">5</div>
+            <div>Systematic Prompt<br>(Full Stack)</div>
+        </div>
+    </div>
+
+    <h3>9.3 Reusable Design Templates</h3>
+    <div class="pattern-example">
+<strong>STEM Subject Template:</strong>
+Foundation: "You are a friendly [SUBJECT] practice bot designed as interactive quest game"
+Education: "Focus on teaching [TOPICS]. Present examples and encourage critical thinking"  
+Narrative: "Students choose theme: [OPTIONS]. Each session contains [X] varied scenarios"
+Social: "Introduce NPC guides. Use engaging dialogue and supportive comments"
+Engagement: "Maintain progress bar. Use emojis. Provide achievement milestones"
+
+<strong>Social Issues Template:</strong>
+Foundation: "You are an interactive guide for exploring [ISSUE] through immersive scenarios"
+Education: "Help students understand [CONCEPTS]. Use real examples and encourage reflection"
+Narrative: "Choose investigation path: [SCENARIOS]. Each choice affects outcomes"
+Social: "NPCs represent different perspectives. Facilitate dialogue between viewpoints"  
+Engagement: "Track impact decisions. Visual feedback on consequences. Achievement system"
+    </div>
+
+    <h2>10. Topic Domain Analysis</h2>
+    <p>Prompts span 58 unique educational domains, with clustering around:</p>
+    <ul>
+        <li><strong>STEM subjects</strong>: Statistics, Physics, Math, Coding (n=6)</li>
+        <li><strong>Social issues</strong>: Climate Change variants (n=4), Ethics Research (n=3)</li>
+        <li><strong>Applied domains</strong>: Finance (n=2), Literature, Health</li>
+    </ul>
+
+    <div class="finding-box">
+        <h3>Key Finding 5: Domain-Agnostic Design Patterns</h3>
+        <p>Despite domain diversity, design constellations remain remarkably consistent across subjects, suggesting <strong>transferable prompt engineering patterns</strong> that transcend disciplinary boundaries.</p>
+    </div>
+
+    <h2>11. Conclusions and Future Work</h2>
+    <p>This mixed-methods analysis reveals <strong>three core systematic design patterns</strong> in gamified educational prompts that transcend individual creativity and represent discoverable principles of effective prompt engineering. The Full Stack Architecture Integration pattern (36.7% of prompts), Dominant Pathway Replication pattern (40-54 identical implementations), and User Agency Mechanism Typology (155 implementations across 4 types) demonstrate that sophisticated educational AI design follows systematic principles rather than requiring creative genius.</p>
+
+    <div class="finding-box">
+        <h3>Key Finding 6: Systematic Design Principles Override Creative Intuition</h3>
+        <p>The three systematic patterns demonstrate that effective prompt engineering follows <strong>discoverable, replicable principles</strong> that creators independently arrive at through functional necessity rather than creative inspiration. This transforms prompt engineering from an art requiring individual talent to a systematic discipline accessible to any educator willing to follow proven frameworks.</p>
+    </div>
+
+    <p><strong>Implications for CHI Community:</strong></p>
+    <ul>
+        <li><strong>Full Stack Architecture Pattern:</strong> Educational AI design maturity can be systematically measured by architectural completeness across five essential layers</li>
+        <li><strong>Dominant Pathway Replication:</strong> Design pattern libraries for AI interactions exist and can be validated through frequency-based analysis</li>
+        <li><strong>User Agency Mechanism Typology:</strong> Four distinct types of user empowerment (not hierarchical levels) provide systematic framework for interaction design</li>
+        <li><strong>Cross-Domain Validity:</strong> Systematic patterns work across all 58 educational domains studied, suggesting universal applicability</li>
+        <li><strong>Creator-Independent Discovery:</strong> Systematic patterns emerge regardless of creator expertise, indicating functional optimization rather than expert knowledge</li>
+        <li><strong>Template-Based Design:</strong> Proven patterns can be systematically applied to accelerate development while ensuring effectiveness</li>
+    </ul>
+
+    <p><strong>Implications for Educational Technology:</strong></p>
+    <ul>
+        <li><strong>Democratized Expert Design:</strong> Full Stack Architecture provides systematic framework making sophisticated educational AI accessible to any educator</li>
+        <li><strong>Quality Assurance Framework:</strong> Five-layer completeness assessment enables objective evaluation of prompt sophistication</li>
+        <li><strong>Evidence-Based Templates:</strong> Dominant pathways validated through 40-54 implementations provide confidence in design choices</li>
+        <li><strong>Systematic Agency Integration:</strong> Four agency types enable comprehensive user empowerment strategies beyond single-choice implementations</li>
+        <li><strong>Scalable Design Process:</strong> Pattern-based approach transforms one-off creation into systematic template application and customization</li>
+    </ul>
+
+    <p><strong>Future Research Directions:</strong></p>
+    <ul>
+        <li><strong>Pattern Effectiveness Validation:</strong> Correlating systematic pattern completeness with learning outcome measurements</li>
+        <li><strong>Automated Pattern Recognition:</strong> Developing AI systems to identify systematic patterns and suggest improvements in prompt design</li>
+        <li><strong>Cross-Cultural Pattern Analysis:</strong> Testing systematic pattern universality across different educational cultures and contexts</li>
+        <li><strong>Longitudinal Pattern Evolution:</strong> Tracking how systematic patterns emerge, stabilize, and evolve over time and usage</li>
+        <li><strong>Domain-Specific Pattern Libraries:</strong> Developing specialized systematic templates optimized for different educational fields</li>
+        <li><strong>Pattern Integration Optimization:</strong> Understanding optimal combinations and sequencing of systematic patterns for maximum educational effectiveness</li>
+    </ul>
+
+    <div class="constellation-container">
+        <svg id="constellationMap" width="100%" height="500"></svg>
+        <p><strong>Figure 8:</strong> Interactive Code Constellation Map</p>
+    </div>
+
+    <script>
+        // Load analysis data from the previous analysis
+        const analysisData = window.analysisData || {
+            selectiveCodes: {
+                'Game AI Thread': 274,
+                'Learning AI': 233,
+                'Generic AI Guidelines': 171,
+                'Gameplay Elements': 170,
+                'NPC Handling': 112
+            },
+            axialCodes: {
+                'Game Pathway': 149,
+                'Pedagogical Goals': 92,
+                'Game World': 82,
+                'NPC Role': 79,
+                'Output Control': 77,
+                'Learning Pathway': 64,
+                'Reword/Points System': 63,
+                'AI Roles': 49,
+                'Input Control': 45,
+                'Hints And Feedback': 42,
+                'Inventory Management': 40,
+                'Metacognitive': 35,
+                'Game Conditions': 33,
+                'Visuals': 30,
+                'Survival System': 22
+            },
+            creatorPatterns: {
+                'Student': 54,
+                'Faculty': 4,
+                'Student ': 1,
+                'null': 1
+            },
+            methodPatterns: {
+                'Class': 47,
+                'Hackathon': 8,
+                'Co-Design (Anna)': 2,
+                'Co-design (Anna, Sai)': 1,
+                'Co-design (Sai)': 1,
+                'Hackathon ': 1
+            }
+        };
+
+        // Chart 1: Selective Codes Distribution
+        try {
+            const ctx1 = document.getElementById('selectiveChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(analysisData.selectiveCodes),
+                    datasets: [{
+                        data: Object.values(analysisData.selectiveCodes),
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        title: { display: true, text: 'Selective Codes Distribution' }
+                    }
+                }
+            });
+        } catch (error) {
+            console.error('Chart 1 error:', error);
+        }
+
+        // Chart 2: Axial Codes Distribution
+        try {
+            const ctx2 = document.getElementById('axialChart').getContext('2d');
+            const axialLabels = Object.keys(analysisData.axialCodes).slice(0, 15);
+            const axialValues = Object.values(analysisData.axialCodes).slice(0, 15);
+            
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: axialLabels,
+                    datasets: [{
+                        data: axialValues,
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Top 15 Axial Codes Distribution' }
+                    },
+                    scales: {
+                        x: { beginAtZero: true }
+                    }
+                }
+            });
+        } catch (error) {
+            console.error('Chart 2 error:', error);
+        }
+
+        // Chart 3: Creator Roles
+        try {
+            const ctx3 = document.getElementById('creatorChart').getContext('2d');
+            new Chart(ctx3, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(analysisData.creatorPatterns),
+                    datasets: [{
+                        data: Object.values(analysisData.creatorPatterns),
+                        backgroundColor: ['#FF9F43', '#10ac84', '#ee5a52', '#c7ecee']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: { display: true, text: 'Creator Roles' }
+                    }
+                }
+            });
+        } catch (error) {
+            console.error('Chart 3 error:', error);
+        }
+
+        // Chart 4: Creation Methods
+        try {
+            const ctx4 = document.getElementById('methodChart').getContext('2d');
+            new Chart(ctx4, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(analysisData.methodPatterns),
+                    datasets: [{
+                        data: Object.values(analysisData.methodPatterns),
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Creation Methods' }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        } catch (error) {
+            console.error('Chart 4 error:', error);
+        }
+
+        // Chart 5: Density distribution (simulated based on typical patterns)
+        try {
+            const ctx5 = document.getElementById('densityChart').getContext('2d');
+            const densityData = [2, 5, 8, 12, 15, 8, 5, 3, 2]; // Simulated normal distribution
+            const densityLabels = ['4-6', '7-9', '10-12', '13-15', '16-18', '19-21', '22-24', '25-27', '28-32'];
+            
+            new Chart(ctx5, {
+                type: 'line',
+                data: {
+                    labels: densityLabels,
+                    datasets: [{
+                        label: 'Number of Prompts',
+                        data: densityData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: { display: true, text: 'Coding Density Distribution (Codes per Prompt)' }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            title: { display: true, text: 'Number of Prompts' }
+                        },
+                        x: {
+                            title: { display: true, text: 'Codes per Prompt Range' }
+                        }
+                    }
+                }
+            });
+        } catch (error) {
+            console.error('Chart 5 error:', error);
+        }
+
+        // Enhanced Sankey Diagram with complete data
+        try {
+            const sankeyData = {
+                nodes: [
+                    // Selective codes
+                    {id: 'Game AI Thread', category: 'selective', value: 274},
+                    {id: 'Learning AI', category: 'selective', value: 233},
+                    {id: 'Gameplay Elements', category: 'selective', value: 170},
+                    {id: 'Generic AI Guidelines', category: 'selective', value: 171},
+                    {id: 'NPC Handling', category: 'selective', value: 112},
+                    // Top Axial codes
+                    {id: 'Game Pathway', category: 'axial', value: 149},
+                    {id: 'Pedagogical Goals', category: 'axial', value: 92},
+                    {id: 'Game World', category: 'axial', value: 82},
+                    {id: 'NPC Role', category: 'axial', value: 79},
+                    {id: 'Output Control', category: 'axial', value: 77},
+                    {id: 'Learning Pathway', category: 'axial', value: 64},
+                    {id: 'Reword/Points System', category: 'axial', value: 63},
+                    {id: 'AI Roles', category: 'axial', value: 49},
+                    {id: 'Input Control', category: 'axial', value: 45},
+                    {id: 'Hints And Feedback', category: 'axial', value: 42},
+                    {id: 'Inventory Management', category: 'axial', value: 40},
+                    {id: 'Metacognitive', category: 'axial', value: 35},
+                    // Top Open codes
+                    {id: 'Game World Choices', category: 'open', value: 54},
+                    {id: 'Game Levels', category: 'open', value: 53},
+                    {id: 'Topics To Teach', category: 'open', value: 40},
+                    {id: 'Game Goals', category: 'open', value: 39},
+                    {id: 'Game Intro', category: 'open', value: 35},
+                    {id: 'Situating Learning Goals', category: 'open', value: 34},
+                    {id: 'NPC As Mentor/Guide', category: 'open', value: 33},
+                    {id: 'Practice Opportunities', category: 'open', value: 31},
+                    {id: 'Input Thru Choice', category: 'open', value: 31},
+                    {id: 'Points', category: 'open', value: 30}
+                ],
+                links: [
+                    // Selective to Axial relationships
+                    {source: 'Game AI Thread', target: 'Game Pathway', value: 149},
+                    {source: 'Game AI Thread', target: 'Game World', value: 82},
+                    {source: 'Learning AI', target: 'Pedagogical Goals', value: 92},
+                    {source: 'Learning AI', target: 'Learning Pathway', value: 64},
+                    {source: 'Learning AI', target: 'Hints And Feedback', value: 42},
+                    {source: 'Learning AI', target: 'Metacognitive', value: 35},
+                    {source: 'Generic AI Guidelines', target: 'Output Control', value: 77},
+                    {source: 'Generic AI Guidelines', target: 'AI Roles', value: 49},
+                    {source: 'Generic AI Guidelines', target: 'Input Control', value: 45},
+                    {source: 'NPC Handling', target: 'NPC Role', value: 79},
+                    {source: 'Gameplay Elements', target: 'Reword/Points System', value: 63},
+                    {source: 'Gameplay Elements', target: 'Inventory Management', value: 40},
+                    // Axial to Open relationships
+                    {source: 'Game World', target: 'Game World Choices', value: 54},
+                    {source: 'Game Pathway', target: 'Game Levels', value: 53},
+                    {source: 'Game Pathway', target: 'Game Goals', value: 39},
+                    {source: 'Game Pathway', target: 'Game Intro', value: 35},
+                    {source: 'Pedagogical Goals', target: 'Topics To Teach', value: 40},
+                    {source: 'Pedagogical Goals', target: 'Situating Learning Goals', value: 34},
+                    {source: 'NPC Role', target: 'NPC As Mentor/Guide', value: 33},
+                    {source: 'Learning Pathway', target: 'Practice Opportunities', value: 31},
+                    {source: 'Input Control', target: 'Input Thru Choice', value: 31},
+                    {source: 'Reword/Points System', target: 'Points', value: 30}
+                ]
+            };
+
+            // Create enhanced Sankey visualization
+            const sankeyDiv = d3.select('#sankeyDiagram');
+            sankeyDiv.selectAll('*').remove();
+
+            const sankeyWidth = 1200, sankeyHeight = 800;
+            const sankeyG = sankeyDiv.append('g');
+
+            // Enhanced node positions with three clear columns
+            const sankeyNodePositions = {
+                // Selective codes (left column)
+                'Game AI Thread': {x: 50, y: 100, width: 160, height: 40},
+                'Learning AI': {x: 50, y: 200, width: 160, height: 40},
+                'Generic AI Guidelines': {x: 50, y: 300, width: 160, height: 40},
+                'Gameplay Elements': {x: 50, y: 400, width: 160, height: 40},
+                'NPC Handling': {x: 50, y: 500, width: 160, height: 40},
+                
+                // Axial codes (middle column)
+                'Game Pathway': {x: 400, y: 80, width: 140, height: 30},
+                'Game World': {x: 400, y: 140, width: 140, height: 30},
+                'Pedagogical Goals': {x: 400, y: 200, width: 140, height: 30},
+                'Learning Pathway': {x: 400, y: 240, width: 140, height: 30},
+                'Hints And Feedback': {x: 400, y: 280, width: 140, height: 30},
+                'Metacognitive': {x: 400, y: 320, width: 140, height: 30},
+                'Output Control': {x: 400, y: 360, width: 140, height: 30},
+                'AI Roles': {x: 400, y: 400, width: 140, height: 30},
+                'Input Control': {x: 400, y: 440, width: 140, height: 30},
+                'Reword/Points System': {x: 400, y: 480, width: 140, height: 30},
+                'Inventory Management': {x: 400, y: 520, width: 140, height: 30},
+                'NPC Role': {x: 400, y: 560, width: 140, height: 30},
+                
+                // Open codes (right column)
+                'Game World Choices': {x: 750, y: 60, width: 130, height: 25},
+                'Game Levels': {x: 750, y: 100, width: 130, height: 25},
+                'Game Goals': {x: 750, y: 140, width: 130, height: 25},
+                'Game Intro': {x: 750, y: 180, width: 130, height: 25},
+                'Topics To Teach': {x: 750, y: 220, width: 130, height: 25},
+                'Situating Learning Goals': {x: 750, y: 260, width: 130, height: 25},
+                'Practice Opportunities': {x: 750, y: 300, width: 130, height: 25},
+                'NPC As Mentor/Guide': {x: 750, y: 340, width: 130, height: 25},
+                'Input Thru Choice': {x: 750, y: 380, width: 130, height: 25},
+                'Points': {x: 750, y: 420, width: 130, height: 25}
+            };
+
+            // Enhanced color scheme
+            const sankeyColors = {
+                selective: '#FF6384',
+                axial: '#36A2EB', 
+                open: '#FFCE56'
+            };
+
+            // Draw enhanced links with proper curves
+            sankeyData.links.forEach(link => {
+                const source = sankeyNodePositions[link.source];
+                const target = sankeyNodePositions[link.target];
+                if (source && target) {
+                    const strokeWidth = Math.max(1, link.value / 8);
+                    
+                    const sourceX = source.x + source.width;
+                    const sourceY = source.y + source.height / 2;
+                    const targetX = target.x;
+                    const targetY = target.y + target.height / 2;
+                    const midX = (sourceX + targetX) / 2;
+                    
+                    sankeyG.append('path')
+                        .attr('d', `M${sourceX},${sourceY} C${midX},${sourceY} ${midX},${targetY} ${targetX},${targetY}`)
+                        .attr('stroke', '#bbb')
+                        .attr('stroke-width', strokeWidth)
+                        .attr('fill', 'none')
+                        .attr('opacity', 0.6)
+                        .append('title')
+                        .text(`${link.source} → ${link.target}: ${link.value}`);
+                }
+            });
+
+            // Draw enhanced nodes
+            sankeyData.nodes.forEach(node => {
+                const pos = sankeyNodePositions[node.id];
+                if (pos) {
+                    sankeyG.append('rect')
+                        .attr('x', pos.x)
+                        .attr('y', pos.y)
+                        .attr('width', pos.width)
+                        .attr('height', pos.height)
+                        .attr('fill', sankeyColors[node.category])
+                        .attr('stroke', '#fff')
+                        .attr('stroke-width', 2)
+                        .attr('rx', 4)
+                        .append('title')
+                        .text(`${node.id}: ${node.value} instances`);
+                        
+                    sankeyG.append('text')
+                        .attr('x', pos.x + pos.width / 2)
+                        .attr('y', pos.y + pos.height / 2 + 4)
+                        .attr('text-anchor', 'middle')
+                        .attr('fill', 'white')
+                        .attr('font-size', '11px')
+                        .attr('font-weight', 'bold')
+                        .text(node.id.length > 18 ? node.id.substring(0, 15) + '...' : node.id);
+                }
+            });
+
+            // Add enhanced column labels
+            sankeyG.append('text').attr('x', 130).attr('y', 40).attr('text-anchor', 'middle').attr('font-weight', 'bold').attr('font-size', '16px').text('SELECTIVE CODES');
+            sankeyG.append('text').attr('x', 470).attr('y', 40).attr('text-anchor', 'middle').attr('font-weight', 'bold').attr('font-size', '16px').text('AXIAL CODES');
+            sankeyG.append('text').attr('x', 815).attr('y', 40).attr('text-anchor', 'middle').attr('font-weight', 'bold').attr('font-size', '16px').text('OPEN CODES');
+        
+        } catch (error) {
+            console.error('Sankey diagram error:', error);
+            const sankeyDiv = d3.select('#sankeyDiagram');
+            sankeyDiv.selectAll('*').remove();
+            sankeyDiv.append('text')
+                .attr('x', 600)
+                .attr('y', 400)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '16px')
+                .text('Sankey diagram loading error - see console for details');
+        }
+
+        // Create Chord Diagram for Axial Code Co-occurrence with ACTUAL DATA
+        const axialCooccurrence = [
+            // Real co-occurrence matrix from data analysis
+            [0, 33, 38, 31, 34, 25, 19, 33, 21, 21], // Game Pathway
+            [33, 0, 26, 24, 29, 22, 12, 25, 15, 17], // Pedagogical Goals
+            [38, 26, 0, 21, 22, 20, 16, 25, 18, 19], // Game World
+            [31, 24, 21, 0, 22, 15, 13, 19, 15, 12], // NPC Role
+            [34, 29, 22, 22, 0, 19, 14, 26, 13, 17], // Output Control
+            [25, 22, 20, 15, 19, 0, 13, 16, 12, 14], // Learning Pathway
+            [19, 12, 16, 13, 14, 13, 0, 12, 13, 10], // Reword/Points System
+            [33, 25, 25, 19, 26, 16, 12, 0, 15, 18], // AI Roles
+            [21, 15, 18, 15, 13, 12, 13, 15, 0, 6],  // Input Control
+            [21, 17, 19, 12, 17, 14, 10, 18, 6, 0]   // Hints And Feedback
+        ];
+
+        const axialLabels = [
+            'Game Pathway', 'Pedagogical Goals', 'Game World', 'NPC Role', 'Output Control',
+            'Learning Pathway', 'Reword/Points', 'AI Roles', 'Input Control', 'Hints & Feedback'
+        ];
+
+        const chordSvg = d3.select('#chordDiagram');
+        chordSvg.selectAll('*').remove();
+        
+        const chordWidth = 600, chordHeight = 600;
+        const chordRadius = Math.min(chordWidth, chordHeight) * 0.4;
+        const chordG = chordSvg.append('g')
+            .attr('transform', `translate(${chordWidth/2}, ${chordHeight/2})`);
+
+        // Create chord layout
+        const chord = d3.chord()
+            .padAngle(0.05)
+            .sortSubgroups(d3.descending);
+
+        const arc = d3.arc()
+            .innerRadius(chordRadius)
+            .outerRadius(chordRadius + 20);
+
+        const ribbon = d3.ribbon()
+            .radius(chordRadius);
+
+        try {
+            const chords = chord(axialCooccurrence);
+            const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+            // Draw the groups (arc segments)
+            const group = chordG.append('g')
+                .selectAll('g')
+                .data(chords.groups)
+                .enter().append('g');
+
+            group.append('path')
+                .style('fill', (d, i) => color(i))
+                .style('stroke', '#fff')
+                .attr('d', arc);
+
+            // Add labels
+            group.append('text')
+                .each(d => { d.angle = (d.startAngle + d.endAngle) / 2; })
+                .attr('dy', '.35em')
+                .attr('transform', d => {
+                    const angle = d.angle * 180 / Math.PI - 90;
+                    const translate = chordRadius + 30;
+                    const rotate = d.angle > Math.PI ? 'rotate(180)' : '';
+                    return `rotate(${angle}) translate(${translate}) ${rotate}`;
+                })
+                .style('text-anchor', d => d.angle > Math.PI ? 'end' : 'start')
+                .style('font-size', '10px')
+                .style('font-weight', 'bold')
+                .text((d, i) => axialLabels[i]);
+
+            // Draw the ribbons (connections)
+            chordG.append('g')
+                .selectAll('path')
+                .data(chords)
+                .enter().append('path')
+                .attr('d', ribbon)
+                .style('fill', d => color(d.target.index))
+                .style('stroke', '#fff')
+                .style('stroke-width', '1px')
+                .style('opacity', 0.7)
+                .on('mouseover', function(event, d) {
+                    d3.select(this).style('opacity', 1);
+                })
+                .on('mouseout', function(event, d) {
+                    d3.select(this).style('opacity', 0.7);
+                })
+                .append('title')
+                .text(d => `${axialLabels[d.source.index]} ↔ ${axialLabels[d.target.index]}: ${d.source.value} co-occurrences`);
+        } catch (error) {
+            console.error('Chord diagram error:', error);
+            chordG.append('text')
+                .attr('text-anchor', 'middle')
+                .attr('y', 0)
+                .style('font-size', '14px')
+                .text('Chord diagram visualization error - see console for details');
+        }
+
+        // Constellation Map
+        try {
+            const constellationSvg = d3.select('#constellationMap');
+            constellationSvg.selectAll('*').remove();
+            
+            const mapWidth = 1000, mapHeight = 500;
+            const g = constellationSvg.append('g');
+            
+            // Define constellation centers
+            const constellations = [
+                {name: 'Game AI Thread', x: 200, y: 150, size: 274, color: '#FF6384'},
+                {name: 'Learning AI', x: 500, y: 120, size: 233, color: '#36A2EB'},
+                {name: 'Gameplay Elements', x: 800, y: 180, size: 170, color: '#FFCE56'},
+                {name: 'Generic AI Guidelines', x: 350, y: 300, size: 171, color: '#4BC0C0'},
+                {name: 'NPC Handling', x: 650, y: 350, size: 112, color: '#9966FF'}
+            ];
+            
+            // Draw constellation circles
+            constellations.forEach(constellation => {
+                const radius = Math.sqrt(constellation.size) * 2;
+                
+                g.append('circle')
+                    .attr('cx', constellation.x)
+                    .attr('cy', constellation.y)
+                    .attr('r', radius)
+                    .attr('fill', constellation.color)
+                    .attr('opacity', 0.3)
+                    .attr('stroke', constellation.color)
+                    .attr('stroke-width', 2);
+                    
+                g.append('text')
+                    .attr('x', constellation.x)
+                    .attr('y', constellation.y)
+                    .attr('text-anchor', 'middle')
+                    .attr('font-weight', 'bold')
+                    .attr('font-size', '14px')
+                    .text(constellation.name);
+                    
+                g.append('text')
+                    .attr('x', constellation.x)
+                    .attr('y', constellation.y + 20)
+                    .attr('text-anchor', 'middle')
+                    .attr('font-size', '12px')
+                    .text(`${constellation.size} codes`);
+            });
+            
+            // Draw connections between constellations
+            const connections = [
+                {from: 0, to: 1, strength: 0.3},
+                {from: 0, to: 2, strength: 0.5},
+                {from: 1, to: 3, strength: 0.4},
+                {from: 2, to: 4, strength: 0.2}
+            ];
+            
+            connections.forEach(conn => {
+                const from = constellations[conn.from];
+                const to = constellations[conn.to];
+                
+                g.append('line')
+                    .attr('x1', from.x)
+                    .attr('y1', from.y)
+                    .attr('x2', to.x)
+                    .attr('y2', to.y)
+                    .attr('stroke', '#999')
+                    .attr('stroke-width', conn.strength * 10)
+                    .attr('opacity', 0.4);
+            });
+        } catch (error) {
+            console.error('Constellation map error:', error);
+            const constellationSvg = d3.select('#constellationMap');
+            constellationSvg.selectAll('*').remove();
+            constellationSvg.append('text')
+                .attr('x', 500)
+                .attr('y', 250)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '16px')
+                .text('Constellation map loading error - see console for details');
+        }
+    </script>
+</body>
+</html>

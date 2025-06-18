@@ -4,244 +4,684 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feedback Collection Platform</title>
+    <title>Student Feedback Platform</title>
     <style>
+        /* --- Import Google Fonts --- */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        /* --- CSS Variables for Consistent Design --- */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --background-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --card-gradient: linear-gradient(145deg, #ffffff 0%, #fafbfc 100%);
+            --text-primary: #2d3748;
+            --text-secondary: #718096;
+            --text-light: #a0aec0;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        /* --- General Reset & Body --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
-            background: #f4f4f4;
-            color: #333;
-        }
-
-        .container {
-            width: 90%;
-            margin: 20px auto;
-            max-width: 400px;
-            background: white;
+            font-family: 'Inter', sans-serif;
+            background: var(--background-gradient);
+            color: var(--text-primary);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            line-height: 1.6;
+            overflow: hidden;
         }
 
-        input[type="text"],
-        select {
+        /* --- Main Container --- */
+        .container {
             width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
+            max-width: 1200px;
+            height: 90vh;
+            background: var(--card-gradient);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* --- Header Redesign --- */
+        .header-controls {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 24px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: relative;
         }
 
-        input[type="password"],
+        .header-controls::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.1) 75%), 
+                        linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.1) 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            opacity: 0.1;
+        }
+        
+        .header-controls h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* --- Custom Select Dropdown --- */
+        .select-wrapper {
+            position: relative;
+        }
+
         select {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
+            appearance: none;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--radius-sm);
+            padding: 12px 40px 12px 16px;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 180px;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+        }
+
+        select option {
+            background: var(--text-primary);
+            color: white;
+        }
+
+        .select-wrapper::after {
+            content: '▼';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.8);
+            pointer-events: none;
+            font-size: 12px;
+        }
+        
+        /* --- Toggle Switch Redesign --- */
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .toggle-switch label {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .switch {
+            position: relative;
+            width: 56px;
+            height: 32px;
+        }
+
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 24px;
+            width: 24px;
+            left: 4px;
+            bottom: 3px;
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 50%;
+        }
+
+        input:checked + .slider { 
+            background: var(--success-gradient);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        input:checked + .slider:before { 
+            transform: translateX(24px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        /* --- Main Content Layout --- */
+        .main-content {
+            display: flex;
+            gap: 0;
+            flex: 1;
+            background: white;
+            overflow: hidden;
+        }
+
+        /* --- Video Panel --- */
+        #video-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 32px;
+            background: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 100%);
+            border-right: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        #video-panel p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin: 16px 0;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: var(--radius-sm);
+            border-left: 4px solid var(--primary-gradient);
+            box-shadow: var(--shadow-sm);
         }
 
         video {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
+            width: 50%;
+            height: 90%;
+            border-radius: var(--radius-md);
+            background: linear-gradient(45deg, #1a202c, #2d3748);
+            box-shadow: var(--shadow-lg);
+            object-fit: cover;
+            transition: all 0.3s ease;
         }
 
-        .record-btn {
-            width: 100%;
-            background-color: #4CAF50;
-            color: white;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
+        video:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
         }
 
-        .record-btn.recording {
-            background-color: #ff3b3b;
+        /* --- Record Buttons --- */
+        .record-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
         }
 
-        .transcription {
-            margin-top: 20px;
-            background-color: #e9e9e9;
-            padding: 10px;
-            border-radius: 5px;
-            min-height: 50px;
+        /* --- Chat Panel --- */
+        #chat-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        /* --- Chat-Only Mode --- */
+        .chat-only #video-panel {
+            display: none;
+        }
+        
+        .chat-only #chat-panel {
+            flex-basis: 100%;
+            border-right: none;
         }
 
-        .info-text {
-            font-size: 0.9em;
-            color: #666;
-            margin-bottom: 5px;
+        /* --- Chat Messages --- */
+        #transcription {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
         }
 
-        .api-key-input {
-            margin-bottom: 15px;
+        #transcription::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #transcription::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 3px;
+        }
+
+        #transcription::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #cbd5e0, #a0aec0);
+            border-radius: 3px;
+        }
+
+        .message {
+            padding: 16px 20px;
+            border-radius: var(--radius-md);
+            max-width: 85%;
+            word-wrap: break-word;
+            position: relative;
+            animation: slideIn 0.3s ease-out;
+            box-shadow: var(--shadow-sm);
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .user-message {
-            background-color: #c8e6c9;
-            /* pastel green for interviewee */
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
             align-self: flex-end;
             margin-left: auto;
-            word-wrap: break-word;
-            align-self: flex-end;
-            margin-left: auto;
+            border-bottom-right-radius: 6px;
         }
 
-        /* Pastel green for user messages */
+        .user-message::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: -8px;
+            width: 0;
+            height: 0;
+            border: 8px solid transparent;
+            border-left-color: #00f2fe;
+            border-bottom: none;
+        }
+
         .ai-message {
-            background-color: #bbdefb;
-            /* pastel blue for AI */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             align-self: flex-start;
-            margin-right: auto;
-            word-wrap: break-word;
+            border-bottom-left-radius: 6px;
         }
 
-        /* Light pastel blue for AI messages */
-
-        .autoscroll {
-            scroll-behavior: smooth;
+        .ai-message::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -8px;
+            width: 0;
+            height: 0;
+            border: 8px solid transparent;
+            border-right-color: #764ba2;
+            border-bottom: none;
         }
 
-
-        #download-btn:hover {
-            background-color: #d5d5d5;
-            /* Slightly darker grey on hover */
-        }
-
-        .message-input {
+        /* --- Input Area --- */
+        .input-area {
             display: flex;
-            width: 100%;
-            gap: 10px;
-            /* Space between elements */
+            padding: 20px 32px;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            border-top: 1px solid var(--border-color);
+            gap: 16px;
+            align-items: flex-end;
+            flex-shrink: 0;
         }
 
         #messageInput {
-            width: 100%;
-            min-height: 100px;
-            padding: 10px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            flex-grow: 1;
+            padding: 16px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
             resize: none;
-            /* Prevents manual resizing */
-            overflow-y: hidden;
-            /* Hides the scrollbar */
+            font-family: inherit;
+            font-size: 15px;
+            background: white;
+            transition: all 0.3s ease;
+            max-height: 120px;
+            min-height: 52px;
         }
 
-        .overlay {
-            display: none;
-            position: fixed;
+        #messageInput:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        #messageInput::placeholder {
+            color: var(--text-light);
+        }
+
+        /* --- Button Styles --- */
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
             width: 100%;
             height: 100%;
-            top: 0;
-            left: 0;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
         }
 
-        .highlighted {
-            position: relative;
-            z-index: 1001;
-            border: 2px solid yellow;
+        button:hover::before {
+            left: 100%;
         }
 
-        .tooltip {
-            position: absolute;
-            background-color: white;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            z-index: 1002;
+        #startRecord {
+            background: var(--success-gradient);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        #startRecord:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        #stopRecord {
+            background: var(--secondary-gradient);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        #stopRecord:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        #sendMessage {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: var(--shadow-md);
+            min-width: 80px;
+        }
+
+        #sendMessage:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            background: linear-gradient(135deg, #e2e8f0, #cbd5e0);
+            color: var(--text-light);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        button:disabled::before {
+            display: none;
+        }
+
+        /* --- Download Button --- */
+        .download-section {
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            flex-shrink: 0;
+        }
+
+        #download-btn {
+            background: linear-gradient(135deg, #38b2ac 0%, #319795 100%);
+            color: white;
+            padding: 14px 28px;
+            font-size: 15px;
+        }
+
+        #download-btn:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                height: 95vh;
+                border-radius: var(--radius-md);
+            }
+            
+            .header-controls {
+                flex-direction: column;
+                gap: 16px;
+                padding: 20px;
+                text-align: center;
+            }
+
+            .header-right {
+                flex-direction: column;
+                gap: 16px;
+            }
+            
+            .main-content {
+                flex-direction: column;
+            }
+            
+            #video-panel {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                flex: 0 0 auto;
+                max-height: 50%;
+            }
+            
+            #chat-panel {
+                flex: 1;
+                min-height: 0;
+            }
+            
+            .input-area {
+                flex-direction: column;
+                gap: 12px;
+                padding: 16px;
+            }
+            
+            .record-buttons {
+                justify-content: center;
+            }
+        }
+
+        /* --- Loading States --- */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: .5;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div id="overlay" class="overlay"></div>
-    <div id="tooltip" class="tooltip" style="display: none;"></div>
-
-    <button onclick="startTutorial()">Start Tutorial</button>
-
-    <div class="container">
-        <h2>Student Feedback</h2>
-        <!-- <input type="text" id="studentId" placeholder="Enter Student ID"> -->
-
-        <select id="gptSelection">
-            <option value="">Select Class</option>
-            <!-- Add class options here -->
-        </select>
-
-        <video id="background-video" width="100%" height="320" loop>
-            <source src="images/womentalking.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <p>Ensure your Volume is turned on; and you give permission to your microphone.</p>
-
-        <!-- <button id="recordButton" class="record-btn">Hold to Record</button> -->
-        <button id="startRecord" disabled>Start Recording</button>
-        <button id="stopRecord" disabled>Stop Recording</button>
-        <!-- <button id="download-btn">Download Transcription</button> -->
-        <br>
-        <div id="transcription" style="font-size: large; overflow-y: scroll; height: 100%;"></div>
-        <div class="message-input">
-            <textarea type="text" id="messageInput" placeholder="Type your message here..."></textarea>
-            <button id="sendMessage" disabled>Send</button>
+    <div class="container" id="mainContainer">
+        <div class="header-controls">
+            <h2>💬 Student Feedback</h2>
+            <div class="header-right">
+                <div class="toggle-switch">
+                    <label for="immersiveModeToggle">Immersive Mode</label>
+                    <label class="switch">
+                        <input type="checkbox" id="immersiveModeToggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="select-wrapper">
+                    <select id="gptSelection">
+                        <option value="">Select Class</option>
+                    </select>
+                </div>
+            </div>
         </div>
-        <button id="download-btn">Download Transcription</button>
+
+        <div class="main-content">
+            <div id="video-panel">
+                <video id="background-video" loop>
+                    <source src="Woman Therapist.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <!-- <p>🎤 Ensure your volume is turned on and grant microphone permission for the best experience.</p> -->
+                <div class="record-buttons">
+                    <button id="startRecord" disabled>🎙️ Start Recording</button>
+                    <button id="stopRecord" disabled>⏹️ Stop Recording</button>
+                </div>
+            </div>
+
+            <div id="chat-panel">
+                <div id="transcription">
+                    <!-- Messages will appear here -->
+                </div>
+                <div class="input-area">
+                    <textarea id="messageInput" placeholder="Share your thoughts about the class..." rows="1"></textarea>
+                    <button id="sendMessage" disabled>Send</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="download-section">
+            <button id="download-btn">📥 Download Transcript</button>
+        </div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-
-
         let chatHistory = [];
         $(document).ready(function () {
+            // Session data stored in memory instead of localStorage
             var uniqueID = 'id_' + Math.random().toString(36).substr(2, 9);
-            localStorage.setItem('sessionID', uniqueID);
-
-            startTutorial();
+            
+            window.sessionData = {
+                sessionID: uniqueID,
+                openaiKey: '',
+                selectedGPT: ''
+            };
 
             $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/getOAI/', function (data) {
-                localStorage.setItem('openaiKey', data.key)
-                console.log('keySet')
+                window.sessionData.openaiKey = data.key;
+                console.log('keySet');
             });
-            // Fetch and populate the dropdown with custom GPTs
+            
             $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_feedback_gpts/', function (gpts) {
-                $('#gptSelection').append(new Option('', '')); // Initial blank option
                 gpts.forEach(function (gpt) {
                     $('#gptSelection').append(new Option(gpt.name, gpt.id));
                 });
             });
 
-            // Generate and update introductory message when a GPT is selected
             $('#gptSelection').on('change', function () {
+                // Clear previous state
+                $('#transcription').empty();
+                chatHistory = [];
+                
                 const selectedGptId = $(this).val();
-                if (!selectedGptId) return; // Do nothing if the blank option is selected
+                if (!selectedGptId) {
+                    $('#startRecord, #sendMessage').prop('disabled', true);
+                    return;
+                }
 
                 $.get('https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/list_feedback_gpts/', function (gpts) {
                     const selectedGpt = gpts.find(g => g.id == selectedGptId);
                     if (selectedGpt) {
-                        console.log(selectedGpt.instructions)
-                        localStorage.setItem('selectedGPT', selectedGpt.name)
-                        chatHistory.push({ role: 'system', content: selectedGpt.instructions })
-
+                        window.sessionData.selectedGPT = selectedGpt.name;
+                        chatHistory.push({ role: 'system', content: selectedGpt.instructions });
                         generateIntroductoryMessage(selectedGpt.instructions + ": For the above instructions generate an introductory message, welcoming the student and setting the context of this session, keep it short and neat.");
-                    } else {
-                        console.error('Failed to find selected GPT');
+                        $('#startRecord, #sendMessage').prop('disabled', false);
                     }
                 });
+            });
+
+            // Immersive Mode Toggle Logic
+            $('#immersiveModeToggle').on('change', function() {
+                if(this.checked) {
+                    $('#mainContainer').removeClass('chat-only');
+                } else {
+                    $('#mainContainer').addClass('chat-only');
+                }
             });
         });
 
         function generateIntroductoryMessage(instructions) {
-            // Here, we generate a greeting or introductory message based on the instructions
             $.ajax({
                 type: 'POST',
                 url: 'https://api.openai.com/v1/chat/completions',
@@ -251,15 +691,13 @@
                 }),
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
+                    'Authorization': 'Bearer ' + window.sessionData.openaiKey
                 },
                 success: function (aiResponse) {
                     let introMessage = aiResponse.choices[0].message.content.trim();
                     appendMessage('ai-message', introMessage);
                     getSpeechFromText(introMessage);
-                    // chatHistory = [{ role: 'system', content: introMessage }];
-                    chatHistory.push({ role: 'system', content: introMessage })
-                    console.log('Introductory message:', introMessage);
+                    chatHistory.push({ role: 'system', content: introMessage });
                 },
                 error: function (error) {
                     console.error('Error generating introductory message:', error);
@@ -268,98 +706,29 @@
         }
 
         function storeData(content, sentBy) {
-            // Get student ID from a text box (assuming the text box has an id 'studentId')
-            var studentId = localStorage.getItem('sessionID');
-
-            // Prepare the data to be sent
             var data = {
-                session_id: localStorage.getItem('sessionID'), // You need to define how to get this
-                student_id: studentId,
+                session_id: window.sessionData.sessionID,
+                student_id: window.sessionData.sessionID,
                 sent_by: sentBy,
                 content: content,
-                gpt_used: localStorage.getItem('selectedGPT')
+                gpt_used: window.sessionData.selectedGPT
             };
-
-            // Send the data using an AJAX POST request
             $.ajax({
                 type: 'POST',
-                url: 'https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/feedback_message_api/', // Replace with the correct URL to your Django view
+                url: 'https://guiidata-b6c968e6ed85.herokuapp.com/datapipeline/api/feedback_message_api/',
                 contentType: 'application/json',
                 data: JSON.stringify(data),
-                success: function (response) {
-                    console.log('Success:', response);
-                    // Handle success (e.g., display a success message)
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error:', error);
-                    // Handle error (e.g., display an error message)
-                }
+                success: function (response) { console.log('Success:', response); },
+                error: function (xhr, status, error) { console.error('Error:', error); }
             });
         }
-
-
-
-        function startTutorial() {
-            const components = [
-                //{ selector: '#studentId', text: 'Enter your Student ID here. Click anywhere on the screen to continue.' },
-                { selector: '#startRecord', text: 'When enabled, press this button to start Recording your response. Speak normally as if you speak on zoom.' },
-                { selector: '#stopRecord', text: 'When enabled, press this button to stop Recording your response.' },
-                { selector: '#messageInput', text: 'If you prefer typing, please type your response here.' },
-                { selector: '#sendMessage', text: 'When enabled, after typing your message click send or press enter to send' },
-                { selector: '#download-btn', text: 'Once you are finished responding, or do not want to respond anymore, click Download to get a sharable HTML file. Share with the concerned.' },
-                { selector: '#gptSelection', text: 'Select your class from this dropdown.' },
-
-            ];
-
-            let currentStep = 0;
-            function positionTooltip(element) {
-                const tooltip = document.getElementById('tooltip');
-                const rect = element.getBoundingClientRect();
-                tooltip.style.top = `${rect.bottom + window.scrollY + 10}px`;
-                tooltip.style.left = `${rect.left + window.scrollX}px`;
-            }
-
-            function showStep() {
-                document.getElementById('overlay').style.display = 'block';
-                const component = document.querySelector(components[currentStep].selector);
-                const explainerText = components[currentStep].text;
-                component.classList.add('highlighted');
-                const tooltip = document.getElementById('tooltip');
-                tooltip.innerHTML = explainerText;
-                tooltip.style.display = 'block';
-                positionTooltip(component);
-            }
-
-            function nextStep() {
-                const component = document.querySelector(components[currentStep].selector);
-                component.classList.remove('highlighted');
-                currentStep++;
-                if (currentStep < components.length) {
-                    showStep();
-                } else {
-                    document.getElementById('tooltip').style.display = 'none';
-                    document.getElementById('overlay').style.display = 'none';
-                }
-            }
-
-            document.getElementById('overlay').onclick = nextStep;
-            showStep();
-        }
-
-
-
-
-        let audioChunks = [];
-
+        
+        // Microphone and recording logic
         const startRecordButton = document.getElementById('startRecord');
         const sendMessageButton = document.getElementById('sendMessage');
         const stopRecordButton = document.getElementById('stopRecord');
         const backgroundVideo = document.getElementById('background-video');
-
-        const transcription = document.getElementById('transcription');
-
-
-
+        const transcriptionDiv = document.getElementById('transcription');
 
         navigator.mediaDevices.getUserMedia({ audio: true })
             .then(stream => {
@@ -371,48 +740,52 @@
                 mediaRecorder.onstop = () => {
                     const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
                     getTextFromSpeech(audioBlob);
-                    audioChunks = []; // Reset the audio chunks after sending
+                    audioChunks = [];
                 };
 
                 $('#startRecord').on('click', function () {
                     mediaRecorder.start();
-                    $(this).prop('disabled', true);
+                    $(this).prop('disabled', true).addClass('pulse');
                     $('#stopRecord').prop('disabled', false);
                 });
 
                 $('#stopRecord').on('click', function () {
                     mediaRecorder.stop();
                     $(this).prop('disabled', true);
-                    $('#startRecord').prop('disabled', false);
+                    $('#startRecord').prop('disabled', false).removeClass('pulse');
                 });
             })
             .catch(error => {
                 console.error('Error accessing the microphone:', error);
+                alert("Microphone access is required for recording. Please allow access and refresh the page.");
             });
 
-        $('#sendMessage').on('click', function () {
-            // Get the message from the input
+        // Text message handling
+        function handleSendMessage() {
             var message = $('#messageInput').val().trim();
-
-            // Check if the message is not empty
             if (message) {
-                appendMessage('user-message', message)
-                $('#messageInput').val('');
-                getAIresponse(message)
+                appendMessage('user-message', message);
+                getAIresponse(message);
                 chatHistory.push({ role: 'user', content: message });
-
+                $('#messageInput').val('').css('height', 'auto');
             }
-        });
+        }
 
-        // Optional: Send message when 'Enter' is pressed
+        $('#sendMessage').on('click', handleSendMessage);
         $('#messageInput').on('keypress', function (e) {
-            if (e.which == 13) { // Enter key
-                $('#sendMessage').click();
+            if (e.which == 13 && !e.shiftKey) {
+                e.preventDefault();
+                handleSendMessage();
             }
         });
+        
+        // Auto-resize textarea
+        $('#messageInput').on('input', function () {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
 
-
-
+        let audioChunks = [];
         function getTextFromSpeech(audioBlob) {
             let formData = new FormData();
             formData.append('file', audioBlob, 'recording.wav');
@@ -424,34 +797,29 @@
                 data: formData,
                 processData: false,
                 contentType: false,
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
-                },
+                headers: { 'Authorization': 'Bearer ' + window.sessionData.openaiKey },
                 success: function (data) {
-                    console.log(data)
                     var transcriptionResult = data.text || "No transcription available.";
-                    // transcription.textContent = transcriptionResult;
-                    // Additional functions like sendMessageToStorage and getAIresponse can be implemented here.
-                    appendMessage('user-message', transcriptionResult)
-                    getAIresponse(transcriptionResult)
+                    appendMessage('user-message', transcriptionResult);
+                    getAIresponse(transcriptionResult);
                     chatHistory.push({ role: 'user', content: transcriptionResult });
                 },
-                error: function (error) {
-                    console.error('Error:', error);
-                    transcription.textContent = "Error processing transcription.";
-                }
+                error: function (error) { console.error('Error:', error); }
             });
         }
-
-
+        
         function appendMessage(className, message) {
             const messageDiv = document.createElement('div');
-            messageDiv.className = className;
+            messageDiv.className = `message ${className}`;
             messageDiv.textContent = message;
-            transcription.appendChild(messageDiv);
-            //storing data to our database
-            storeData(message, className)
-            console.log('data stored')
+            transcriptionDiv.appendChild(messageDiv);
+            storeData(message, className);
+            
+            // Auto-scroll to the bottom with smooth behavior
+            transcriptionDiv.scrollTo({
+                top: transcriptionDiv.scrollHeight,
+                behavior: 'smooth'
+            });
         }
 
         function getAIresponse(transcription) {
@@ -460,6 +828,9 @@
             if (chatHistory.length > 7) {
                 chatHistory = [chatHistory[0], ...chatHistory.slice(-6)];
             }
+
+            // Add loading state
+            $('#sendMessage').addClass('loading');
 
             $.ajax({
                 type: 'POST',
@@ -470,7 +841,7 @@
                 }),
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('openaiKey')
+                    'Authorization': 'Bearer ' + window.sessionData.openaiKey
                 },
                 success: function (aiResponse) {
                     let responseText = aiResponse.choices[0].message.content.trim();
@@ -480,68 +851,155 @@
                 },
                 error: function (error) {
                     console.error('Error getting AI Response:', error);
+                },
+                complete: function() {
+                    $('#sendMessage').removeClass('loading');
                 }
             });
         }
 
         function getSpeechFromText(text) {
-            const postData = {
-                input: text,
-                model: "tts-1",
-                voice: "alloy"
-            };
+            if (!$('#immersiveModeToggle').is(':checked')) {
+                return;
+            }
+
+            const postData = { input: text, model: "tts-1", voice: "alloy" };
 
             fetch('https://api.openai.com/v1/audio/speech', {
                 method: 'POST',
                 headers: {
                     'accept': 'audio/mpeg',
-                    'Authorization': 'Bearer ' + localStorage.getItem('openaiKey'),
+                    'Authorization': 'Bearer ' + window.sessionData.openaiKey,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(postData)
             })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.blob();
-                })
-                .then(blob => {
-                    var audioUrl = URL.createObjectURL(blob);
-                    var audio = new Audio(audioUrl);
-                    audio.onplay = function () {
-                        startRecordButton.disabled = true;
-                        sendMessageButton.disabled = true; // Disable record button while AI message is being read out
-                        if (backgroundVideo) backgroundVideo.play();
-                    };
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.blob();
+            })
+            .then(blob => {
+                var audioUrl = URL.createObjectURL(blob);
+                var audio = new Audio(audioUrl);
+                
+                audio.onplay = function () {
+                    startRecordButton.disabled = true;
+                    sendMessageButton.disabled = true;
+                    if (backgroundVideo) backgroundVideo.play();
+                };
 
-                    audio.onended = function () {
-                        startRecordButton.disabled = false;
-                        sendMessageButton.disabled = false; // Enable record button after AI message is read out
-                        if (backgroundVideo) backgroundVideo.pause();
-                    };
-                    audio.play();
-                })
-                .catch(error => {
-                    console.error('Error with ElevenLabs API:', error);
-                });
+                audio.onended = function () {
+                    startRecordButton.disabled = false;
+                    sendMessageButton.disabled = false;
+                    if (backgroundVideo) backgroundVideo.pause();
+                };
+                audio.play();
+            })
+            .catch(error => { console.error('Error with TTS API:', error); });
         }
 
-
         document.getElementById('download-btn').addEventListener('click', function () {
-            var transcriptionContent = document.getElementById('transcription').innerHTML;
-            var blob = new Blob([transcriptionContent], {
-                type: 'text/plain;charset=utf-8'
-            });
-            var tempLink = document.createElement('a');
-            tempLink.download = 'transcription.html'; // Name of the file to download
-            tempLink.href = window.URL.createObjectURL(blob);
+            const chatContent = document.getElementById('transcription').innerHTML;
+            const selectedClass = window.sessionData.selectedGPT || 'N/A';
+            const sessionId = window.sessionData.sessionID || 'N/A';
+            const timestamp = new Date().toLocaleString();
+            
+            const downloadHtml = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Student Feedback Transcript</title>
+                    <style>
+                        body { 
+                            font-family: 'Inter', sans-serif; 
+                            max-width: 800px; 
+                            margin: 0 auto; 
+                            padding: 40px 20px;
+                            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+                            min-height: 100vh;
+                        }
+                        .container {
+                            background: white;
+                            padding: 40px;
+                            border-radius: 16px;
+                            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.1);
+                        }
+                        .message { 
+                            padding: 12px 18px; 
+                            margin-bottom: 12px; 
+                            border-radius: 12px; 
+                            max-width: 85%;
+                            position: relative;
+                        }
+                        .ai-message { 
+                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                            color: white;
+                            margin-right: auto;
+                        }
+                        .user-message { 
+                            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+                            color: white;
+                            margin-left: auto;
+                            text-align: right;
+                        }
+                        .header { 
+                            padding-bottom: 20px; 
+                            border-bottom: 2px solid #e2e8f0; 
+                            margin-bottom: 30px; 
+                            text-align: center;
+                        }
+                        .header h1 {
+                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;
+                            margin-bottom: 20px;
+                        }
+                        .meta-info {
+                            display: grid;
+                            grid-template-columns: 1fr 1fr;
+                            gap: 20px;
+                            margin-bottom: 20px;
+                        }
+                        .meta-card {
+                            padding: 15px;
+                            background: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 100%);
+                            border-radius: 8px;
+                            border-left: 4px solid #667eea;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="header">
+                            <h1>💬 Student Feedback Transcript</h1>
+                            <div class="meta-info">
+                                <div class="meta-card">
+                                    <strong>Class:</strong> ${selectedClass}
+                                </div>
+                                <div class="meta-card">
+                                    <strong>Session ID:</strong> ${sessionId}
+                                </div>
+                                <div class="meta-card">
+                                    <strong>Date:</strong> ${timestamp}
+                                </div>
+                                <div class="meta-card">
+                                    <strong>Messages:</strong> ${document.querySelectorAll('.message').length}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="conversation">
+                            ${chatContent}
+                        </div>
+                    </div>
+                </body>
+                </html>`;
 
-            // Temporarily add link to the body and trigger the download
+            var blob = new Blob([downloadHtml], { type: 'text/html;charset=utf-8' });
+            var tempLink = document.createElement('a');
+            tempLink.download = `feedback_transcript_${selectedClass.replace(/\s+/g, '_')}_${sessionId}.html`;
+            tempLink.href = window.URL.createObjectURL(blob);
             document.body.appendChild(tempLink);
             tempLink.click();
-
-            // Clean up by removing the temporary link
             document.body.removeChild(tempLink);
         });
     </script>
