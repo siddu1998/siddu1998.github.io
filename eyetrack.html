@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Eye-Tracking Tool with Calibration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/heatmapjs@2.0.2/heatmap.min.js"></script>
+    <style>
+        /* Custom styles for the eye-tracking tool */
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent scrollbars */
+            font-family: 'Inter', sans-serif;
+        }
+        #gaze-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(255, 0, 0, 0.5);
+            border-radius: 50%;
+            transition: all 0.1s ease-out;
+            pointer-events: none;
+            z-index: 10002; /* Must be on top of the iframe and controls */
+            transform: translate(-50%, -50%);
+            display: none; /* Hidden by default */
+        }
+        #webgazerVideoFeed, #webgazerVideoCanvas, #webgazerFaceOverlay, #webgazerFaceFeedbackBox {
+            position: fixed !important;
+            right: 20px !important;
+            left: auto !important; /* Override default left positioning */
+            top: 120px !important; /* Default for when control panel is visible */
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 10003; /* On top of everything */
+        }
+        /* Adjust video position during calibration when control panel is hidden */
+        body.calibrating #webgazerVideoFeed,
+        body.calibrating #webgazerVideoCanvas,
+        body.calibrating #webgazerFaceOverlay,
+        body.calibrating #webgazerFaceFeedbackBox {
+            top: 20px !important;
+        }
+        #webgazerFaceFeedbackBox {
+             border: 5px solid red;
+        }
+        #status-message {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1rem;
+            z-index: 10004;
+        }
+        .heatmap-dot {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-image: radial-gradient(circle, rgba(255, 255, 0, 0.5) 0%, rgba(255, 165, 0, 0.3) 50%, rgba(255, 0, 0, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10001; /* Just below the gaze dot */
+            transform: translate(-50%, -50%);
+        }
+        #main-content {
+            width: 100%;
+            height: 100%;
+            display: none; /* Hidden until ready */
+        }
+        #website-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        #control-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            padding: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        /* Styles for Calibration */
+        #calibration-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(243, 244, 246, 0.95); /* bg-gray-100 with opacity */
+            z-index: 10005;
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+        }
+        .calibration-point {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: #3b82f6; /* bg-blue-600 */
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+        .calibration-point:hover {
+            transform: scale(1.2);
+        }
+        #accuracy-modal {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 10006;
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        /* Final Heatmap Styles */
+        #final-heatmap-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: #f3f4f6; /* bg-gray-100 */
+            z-index: 10007;
+            display: none;
+        }
+        #final-heatmap-container {
+            width: 100%;
+            height: 100%;
+        }
+        #restart-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+    <!-- The dot that follows the user's gaze -->
+    <div id="gaze-dot"></div>
+
+    <!-- Container for the heatmap points -->
+    <div id="heatmap-container"></div>
+
+    <!-- Main content area, hidden until calibration is complete -->
+    <div id="main-content">
+        <div id="control-panel">
+            <form id="url-form" class="flex gap-2">
+                <input type="url" id="url-input" class="flex-grow p-2 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="https://example.com" value="https://en.wikipedia.org/wiki/Main_Page">
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700">Load Website</button>
+            </form>
+            <div class="flex justify-between items-center">
+                 <p class="text-xs text-gray-500 text-left">Note: Some websites may not load due to security restrictions (X-Frame-Options).</p>
+                <div id="session-controls" class="space-x-2">
+                    <button id="toggle-tracking" class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700">Pause Tracking</button>
+                    <button id="recalibrate-btn" class="px-4 py-2 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700">Recalibrate</button>
+                    <button id="end-session-btn" class="px-4 py-2 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700">End Session</button>
+                </div>
+            </div>
+        </div>
+        <iframe id="website-iframe" src="about:blank" title="Website Viewer"></iframe>
+    </div>
+
+    <!-- Status message to guide the user -->
+    <div id="status-message">Initializing... Please allow webcam access.</div>
+
+    <!-- Calibration UI -->
+    <div id="calibration-overlay">
+        <h2 id="calibration-text" class="text-2xl font-bold text-gray-800">Click the blue dots to calibrate.</h2>
+    </div>
+
+    <!-- Accuracy Modal -->
+    <div id="accuracy-modal">
+        <div class="modal-content">
+            <h2 class="text-2xl font-bold mb-4">Calibration Complete!</h2>
+            <p id="accuracy-measure" class="text-lg mb-6">Your accuracy is: 0px</p>
+            <button id="close-modal-btn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Start Tracking</button>
+        </div>
+    </div>
+
+    <!-- Final Heatmap Overlay -->
+    <div id="final-heatmap-overlay">
+        <div id="final-heatmap-container"></div>
+        <button id="restart-btn" class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700">Restart Session</button>
+    </div>
+
+
+    <script>
+        // --- DOM Elements ---
+        const gazeDot = document.getElementById('gaze-dot');
+        const statusMessage = document.getElementById('status-message');
+        const heatmapContainer = document.getElementById('heatmap-container');
+        const toggleButton = document.getElementById('toggle-tracking');
+        const mainContent = document.getElementById('main-content');
+        const recalibrateBtn = document.getElementById('recalibrate-btn');
+        const endSessionBtn = document.getElementById('end-session-btn');
+        const calibrationOverlay = document.getElementById('calibration-overlay');
+        const calibrationText = document.getElementById('calibration-text');
+        const accuracyModal = document.getElementById('accuracy-modal');
+        const accuracyMeasure = document.getElementById('accuracy-measure');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const urlForm = document.getElementById('url-form');
+        const urlInput = document.getElementById('url-input');
+        const websiteIframe = document.getElementById('website-iframe');
+        const finalHeatmapOverlay = document.getElementById('final-heatmap-overlay');
+        const finalHeatmapContainer = document.getElementById('final-heatmap-container');
+        const restartBtn = document.getElementById('restart-btn');
+
+        // --- State Variables ---
+        let isTracking = false;
+        let isCalibrating = false;
+        let gazeDataPoints = [];
+        let heatmapInstance;
+
+        // --- WebGazer Initialization ---
+        async function initializeWebGazer() {
+            try {
+                webgazer.setRegression('ridge')
+                    .setGazeListener(gazeListener)
+                    .saveDataAcrossSessions(true);
+
+                webgazer.showVideoPreview(true).showPredictionPoints(false).applyKalmanFilter(true);
+
+                await webgazer.begin();
+                
+                statusMessage.textContent = 'Ready! Calibration will start in 3 seconds...';
+                setTimeout(() => {
+                    startCalibration();
+                }, 3000);
+
+            } catch (err) {
+                console.error("WebGazer failed to start:", err);
+                statusMessage.textContent = 'Error: Could not start eye tracking. Please ensure your webcam is enabled and permissions are granted.';
+            }
+        }
+
+        // --- Gaze Listener ---
+        const gazeListener = (data, elapsedTime) => {
+            if (data == null || !isTracking || isCalibrating) {
+                return;
+            }
+            gazeDot.style.left = `${data.x}px`;
+            gazeDot.style.top = `${data.y}px`;
+            
+            // For live feedback
+            createHeatmapDot(data.x, data.y);
+
+            // Store point for final heatmap
+            gazeDataPoints.push({
+                x: Math.round(data.x),
+                y: Math.round(data.y),
+                value: 1
+            });
+        };
+
+        // --- Heatmap ---
+        function createHeatmapDot(x, y) {
+            const dot = document.createElement('div');
+            dot.className = 'heatmap-dot';
+            dot.style.left = `${x}px`;
+            dot.style.top = `${y}px`;
+            heatmapContainer.appendChild(dot);
+            setTimeout(() => {
+                dot.style.transition = 'opacity 2s';
+                dot.style.opacity = '0';
+                setTimeout(() => { if(heatmapContainer.contains(dot)) { heatmapContainer.removeChild(dot); } }, 2000);
+            }, 3000);
+        }
+
+        // --- Tracking Controls ---
+        function toggleTracking() {
+            isTracking = !isTracking;
+            if (isTracking) {
+                webgazer.resume();
+                toggleButton.textContent = 'Pause Tracking';
+                statusMessage.textContent = 'Tracking...';
+                gazeDot.style.display = 'block';
+            } else {
+                webgazer.pause();
+                toggleButton.textContent = 'Resume Tracking';
+                statusMessage.textContent = 'Tracking paused.';
+                gazeDot.style.display = 'none';
+            }
+        }
+
+        // --- Calibration Logic ---
+        const calibrationPoints = [
+            { x: '10%', y: '10%' }, { x: '50%', y: '10%' }, { x: '90%', y: '10%' },
+            { x: '10%', y: '50%' }, { x: '50%', y: '50%' }, { x: '90%', y: '50%' },
+            { x: '10%', y: '90%' }, { x: '50%', y: '90%' }, { x: '90%', y: '90%' },
+        ];
+        let calibrationIndex = 0;
+
+        function startCalibration() {
+            document.body.classList.add('calibrating');
+            isCalibrating = true;
+            isTracking = false;
+            gazeDataPoints = []; // Clear data for new session
+            heatmapContainer.innerHTML = ''; // Clear live heatmap dots
+            gazeDot.style.display = 'none';
+            mainContent.style.display = 'none';
+            finalHeatmapOverlay.style.display = 'none';
+            calibrationOverlay.style.display = 'flex';
+            calibrationIndex = 0;
+            webgazer.clearData();
+            showNextCalibrationPoint();
+        }
+
+        function showNextCalibrationPoint() {
+            const existingPoints = calibrationOverlay.querySelectorAll('.calibration-point');
+            existingPoints.forEach(p => p.remove());
+
+            if (calibrationIndex >= calibrationPoints.length) {
+                finishCalibration();
+                return;
+            }
+
+            const pointData = calibrationPoints[calibrationIndex];
+            const point = document.createElement('div');
+            point.className = 'calibration-point';
+            point.style.left = pointData.x;
+            point.style.top = pointData.y;
+            
+            calibrationText.textContent = `Click the blue dot (${calibrationIndex + 1}/${calibrationPoints.length})`;
+
+            point.addEventListener('click', () => {
+                calibrationIndex++;
+                showNextCalibrationPoint();
+            }, { once: true });
+
+            calibrationOverlay.appendChild(point);
+        }
+
+        async function finishCalibration() {
+            isCalibrating = false;
+            calibrationOverlay.style.display = 'none';
+            statusMessage.textContent = 'Calculating accuracy... Please look at the dots without clicking.';
+            
+            const validationPoints = [...calibrationPoints];
+            let distances = [];
+
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            for (let i = 0; i < validationPoints.length; i++) {
+                const pointData = validationPoints[i];
+                const point = document.createElement('div');
+                point.className = 'calibration-point';
+                point.style.left = pointData.x;
+                point.style.top = pointData.y;
+                point.style.backgroundColor = '#16a34a'; // green-600
+                document.body.appendChild(point);
+                
+                statusMessage.textContent = `Look at the green dot... (${i + 1}/${validationPoints.length})`;
+
+                await new Promise(resolve => setTimeout(resolve, 1500));
+
+                const prediction = await webgazer.getCurrentPrediction();
+                if (prediction) {
+                    const pointRect = point.getBoundingClientRect();
+                    const pointX = pointRect.left + pointRect.width / 2;
+                    const pointY = pointRect.top + pointRect.height / 2;
+                    const dx = prediction.x - pointX;
+                    const dy = prediction.y - pointY;
+                    distances.push(Math.sqrt(dx*dx + dy*dy));
+                }
+                point.remove();
+            }
+
+            if (distances.length > 0) {
+                const avgDistance = distances.reduce((a, b) => a + b, 0) / distances.length;
+                accuracyMeasure.textContent = `Average Error: ${avgDistance.toFixed(2)} pixels`;
+            } else {
+                accuracyMeasure.innerHTML = `<strong>Calibration Failed</strong><br><small>Could not get a reading. Please ensure your face is well-lit and centered, then try again.</small>`;
+            }
+            
+            accuracyModal.style.display = 'flex';
+        }
+
+        function closeAccuracyModal() {
+            document.body.classList.remove('calibrating');
+            accuracyModal.style.display = 'none';
+            mainContent.style.display = 'block';
+            statusMessage.textContent = 'Ready to track! Load a website to begin.';
+            isTracking = true;
+            toggleButton.textContent = 'Pause Tracking';
+            gazeDot.style.display = 'block';
+            loadUrlInIframe(urlInput.value);
+        }
+
+        function loadUrlInIframe(url) {
+            if (url) {
+                let fullUrl = url;
+                if (!/^https?:\/\//i.test(url)) {
+                    fullUrl = 'https://' + url;
+                    urlInput.value = fullUrl;
+                }
+                statusMessage.textContent = `Loading: ${fullUrl}`;
+                websiteIframe.src = fullUrl;
+                websiteIframe.onload = () => { statusMessage.textContent = 'Tracking...'; };
+                websiteIframe.onerror = () => { statusMessage.textContent = `Error: Could not load ${fullUrl}. It might be blocking iframes.`; }
+            }
+        }
+
+        function showFinalHeatmap() {
+            isTracking = false;
+            webgazer.pause();
+            mainContent.style.display = 'none';
+            statusMessage.style.display = 'none';
+            
+            // Hide the video feed elements
+            const videoFeed = document.getElementById('webgazerVideoFeed');
+            if (videoFeed) videoFeed.style.display = 'none';
+
+
+            finalHeatmapOverlay.style.display = 'block';
+
+            if (!heatmapInstance) {
+                heatmapInstance = h337.create({
+                    container: finalHeatmapContainer,
+                    radius: 50
+                });
+            }
+
+            const max = gazeDataPoints.reduce((max, point) => Math.max(max, point.value), 0);
+
+            heatmapInstance.setData({
+                max: Math.max(max, 10), // Set a reasonable max value
+                data: gazeDataPoints
+            });
+        }
+
+        // --- Event Listeners ---
+        window.addEventListener('load', initializeWebGazer);
+        toggleButton.addEventListener('click', toggleTracking);
+        recalibrateBtn.addEventListener('click', startCalibration);
+        endSessionBtn.addEventListener('click', showFinalHeatmap);
+        restartBtn.addEventListener('click', () => location.reload());
+        closeModalBtn.addEventListener('click', closeAccuracyModal);
+        urlForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            loadUrlInIframe(urlInput.value);
+        });
+
+        // Clean up
+        window.onbeforeunload = function() {
+            webgazer.end();
+        }
+    </script>
+</body>
+</html>
