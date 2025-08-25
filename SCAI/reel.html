@@ -3,726 +3,475 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reel Generator</title>
+    <title>AI Video Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-            color: #333;
-            line-height: 1.6;
+            font-family: 'Inter', sans-serif;
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
         }
-        h1 {
-            text-align: center;
-            color: #4a6eb5;
-            margin-bottom: 30px;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        input[type="text"], textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: #4a6eb5;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 4px;
-            width: 100%;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #3a5c9a;
-        }
-        button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-        .progress-container {
-            margin-top: 30px;
-            display: none;
-        }
-        .progress-bar {
-            height: 20px;
-            background-color: #f0f0f0;
-            border-radius: 10px;
-            margin-bottom: 10px;
+        .video-clip, .image-clip {
+            position: relative;
             overflow: hidden;
+            border-radius: 0.5rem;
+            background-color: #e0e0e0; /* Placeholder background */
         }
-        .progress {
-            height: 100%;
-            background-color: #4caf50;
-            width: 0%;
-            transition: width 0.3s;
+        .clip-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 0.5rem;
+            font-size: 0.875rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
         }
-        .status {
-            font-style: italic;
-            color: #666;
-        }
-        .results {
-            margin-top: 30px;
-            display: none;
-        }
-        .result-item {
-            margin-bottom: 20px;
-        }
-        .result-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .image-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 15px 0;
-        }
-        .generated-image {
-            width: 150px;
-            height: auto;
-            border-radius: 5px;
-            object-fit: cover;
-        }
-        .api-keys {
-            padding: 15px;
-            background-color: #f9f9f9;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        .api-keys h3 {
-            margin-top: 0;
-        }
-        #videoOutput {
-            width: 100%;
-            margin-top: 15px;
-            border-radius: 5px;
-        }
-        .error {
-            color: #d32f2f;
-            font-weight: bold;
-            padding: 10px;
-            background-color: #ffebee;
-            border-radius: 4px;
-            margin: 10px 0;
-        }
-        .info {
-            padding: 15px;
-            background-color: #e8f4fd;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-        .toggle-section {
-            color: #4a6eb5;
-            cursor: pointer;
-            text-decoration: underline;
-            display: inline-block;
-            margin-bottom: 10px;
+        .video-clip:hover .clip-overlay, .image-clip:hover .clip-overlay {
+            transform: translateY(0);
         }
     </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 </head>
-<body>
-    <div class="container">
-        <h1>Reel Generator</h1>
-        
-        <div class="info">
-            <p><strong>Note:</strong> This web app converts the original Python script to browser-based JavaScript. Due to browser limitations, some features are simulated or work differently:</p>
-            <ul>
-                <li>API keys must be provided (for OpenAI and ElevenLabs)</li>
-                <li>Video generation combines images and audio in the browser</li>
-                <li>For complete functionality, allow pop-ups and give browser permissions when asked</li>
-            </ul>
-        </div>
+<body class="bg-gray-100 text-gray-800">
 
-        <div class="api-keys" id="apiKeySection">
-            <h3>API Keys</h3>
-            <div class="form-group">
-                <label for="openaiKey">OpenAI API Key:</label>
-                <input type="text" id="openaiKey" placeholder="sk-...">
-            </div>
-            <div class="form-group">
-                <label for="elevenlabsKey">ElevenLabs API Key:</label>
-                <input type="text" id="elevenlabsKey" placeholder="Your ElevenLabs API Key">
-            </div>
-        </div>
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-900">AI Video Generator</h1>
+            <p class="text-lg text-gray-600 mt-2">Bring your stories to life with the power of Google's Generative AI</p>
+        </header>
 
-        <div class="form-group">
-            <label for="context">Enter the context for the story:</label>
-            <input type="text" id="context" placeholder="e.g. the importance of sharing">
-        </div>
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Control Panel -->
+            <div class="lg:col-span-1 bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-semibold mb-6">Create Your Video</h2>
 
-        <button id="generateBtn">Generate Reel</button>
+                <div class="space-y-6">
+                    <div>
+                        <label for="apiKey" class="block text-sm font-medium text-gray-700 mb-1">Gemini API Key</label>
+                        <input type="password" id="apiKey" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter your API key">
+                    </div>
 
-        <div class="progress-container" id="progressContainer">
-            <div class="status" id="statusText">Initializing...</div>
-            <div class="progress-bar">
-                <div class="progress" id="progressBar"></div>
-            </div>
-        </div>
+                    <div>
+                        <label for="videoContext" class="block text-sm font-medium text-gray-700 mb-1">Video Context</label>
+                        <textarea id="videoContext" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="e.g., A futuristic city with flying cars and neon lights"></textarea>
+                    </div>
+                    
+                    <div>
+                        <label for="artStyle" class="block text-sm font-medium text-gray-700 mb-1">Art Style</label>
+                        <select id="artStyle" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                            <option>Cinematic</option>
+                            <option>Anime</option>
+                            <option>Photorealistic</option>
+                            <option>Fantasy</option>
+                            <option>Watercolor</option>
+                        </select>
+                    </div>
 
-        <div class="results" id="resultsContainer">
-            <div class="result-item">
-                <div class="result-title">Generated Story:</div>
-                <div id="storyOutput"></div>
-            </div>
+                    <div>
+                        <label for="voice" class="block text-sm font-medium text-gray-700 mb-1">Voice</label>
+                        <select id="voice" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                             <option value="Kore">Kore (Firm)</option>
+                             <option value="Puck">Puck (Upbeat)</option>
+                             <option value="Zephyr">Zephyr (Bright)</option>
+                             <option value="Charon">Charon (Informative)</option>
+                        </select>
+                    </div>
 
-            <div class="result-item">
-                <div class="result-title">Generated Audio:</div>
-                <audio id="audioOutput" controls></audio>
-            </div>
-
-            <div class="result-item">
-                <div class="result-title">Generated Images:</div>
-                <div class="image-container" id="imageContainer"></div>
+                    <button id="generateBtn" class="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+                        Generate Video
+                    </button>
+                </div>
             </div>
 
-            <div class="result-item">
-                <div class="result-title">Final Video:</div>
-                <video id="videoOutput" controls></video>
-                <a id="downloadVideo" style="display: block; margin-top: 10px; text-align: center;">Download Video</a>
+            <!-- Video Player and Editor -->
+            <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-lg">
+                <div id="videoPlayerContainer" class="mb-6 bg-black rounded-lg overflow-hidden">
+                    <div id="videoPlayer" class="aspect-w-16 aspect-h-9 flex items-center justify-center">
+                       <p class="text-white">Your generated video will appear here.</p>
+                    </div>
+                     <div id="audioPlayerContainer"></div>
+                </div>
+
+                <div id="loader" class="hidden loader"></div>
+                <div id="errorMessage" class="hidden text-red-500 text-center p-4 bg-red-100 rounded-md"></div>
+
+                <h3 class="text-xl font-semibold mb-4">Clip Editor</h3>
+                <div id="clipEditor" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <!-- Clips will be dynamically inserted here -->
+                </div>
             </div>
-        </div>
+        </main>
     </div>
 
     <script>
-        // DOM Elements
-        const generateBtn = document.getElementById('generateBtn');
-        const progressContainer = document.getElementById('progressContainer');
-        const progressBar = document.getElementById('progressBar');
-        const statusText = document.getElementById('statusText');
-        const resultsContainer = document.getElementById('resultsContainer');
-        const storyOutput = document.getElementById('storyOutput');
-        const audioOutput = document.getElementById('audioOutput');
-        const videoOutput = document.getElementById('videoOutput');
-        const imageContainer = document.getElementById('imageContainer');
-        const downloadVideo = document.getElementById('downloadVideo');
+        document.addEventListener('DOMContentLoaded', () => {
+            const apiKeyInput = document.getElementById('apiKey');
+            const videoContextInput = document.getElementById('videoContext');
+            const artStyleSelect = document.getElementById('artStyle');
+            const voiceSelect = document.getElementById('voice');
+            const generateBtn = document.getElementById('generateBtn');
+            const videoPlayer = document.getElementById('videoPlayer');
+            const audioPlayerContainer = document.getElementById('audioPlayerContainer');
+            const clipEditor = document.getElementById('clipEditor');
+            const loader = document.getElementById('loader');
+            const errorMessage = document.getElementById('errorMessage');
 
-        // Track state
-        let generatedStory = '';
-        let generatedImages = [];
-        let generatedAudioBlob = null;
+            let clipsData = [];
 
-        // Event Listeners
-        generateBtn.addEventListener('click', handleGenerate);
-
-        async function handleGenerate() {
-            // Get input values
-            const context = document.getElementById('context').value.trim();
-            const openaiKey = document.getElementById('openaiKey').value.trim();
-            const elevenlabsKey = document.getElementById('elevenlabsKey').value.trim();
-
-            // Validate inputs
-            if (!context) {
-                showError('Please enter a context for the story');
-                return;
-            }
-
-            if (!openaiKey) {
-                showError('Please enter your OpenAI API key');
-                return;
-            }
-
-            if (!elevenlabsKey) {
-                showError('Please enter your ElevenLabs API key');
-                return;
-            }
-
-            // Reset UI
-            resetUI();
-            showProgress();
-            updateProgress(0, 'Starting generation process...');
-
-            try {
-                // Step 1: Generate story
-                updateProgress(10, 'Generating story...');
-                generatedStory = await getStoryFromContext(context, openaiKey);
-                storyOutput.textContent = generatedStory;
-                
-                // Step 2: Generate audio
-                updateProgress(30, 'Converting story to speech...');
-                const audioResult = await generateTextToSpeech(generatedStory, elevenlabsKey);
-                audioOutput.src = URL.createObjectURL(audioResult.audioBlob);
-                generatedAudioBlob = audioResult.audioBlob;
-                
-                // Step 3: Generate image prompts
-                updateProgress(40, 'Creating image prompts...');
-                const audioDuration = audioResult.duration;
-                const numImages = Math.max(3, Math.floor(audioDuration / 5));
-                const imagePrompts = await generateImagePrompts(generatedStory, numImages, openaiKey);
-                
-                // Step 4: Generate images
-                updateProgress(50, 'Generating images...');
-                const totalImages = imagePrompts.length;
-                generatedImages = [];
-                
-                for (let i = 0; i < imagePrompts.length; i++) {
-                    updateProgress(50 + (i / totalImages) * 30, `Generating image ${i+1} of ${totalImages}...`);
-                    try {
-                        const imageBlob = await generateImage(imagePrompts[i], openaiKey);
-                        generatedImages.push(imageBlob);
-                        
-                        // Display the image
-                        const imgElement = document.createElement('img');
-                        imgElement.src = URL.createObjectURL(imageBlob);
-                        imgElement.className = 'generated-image';
-                        imageContainer.appendChild(imgElement);
-                    } catch (error) {
-                        console.error(`Error generating image ${i+1}:`, error);
-                        // Continue with other images
-                    }
-                }
-                
-                // Step 5: Create video
-                updateProgress(90, 'Creating final video...');
-                await createVideo(generatedImages, generatedAudioBlob);
-                
-                // Complete
-                updateProgress(100, 'Process completed successfully!');
-                showResults();
-            } catch (error) {
-                console.error('Generation failed:', error);
-                showError(`Generation failed: ${error.message}`);
-                updateProgress(0, 'Process failed.');
-            }
-        }
-
-        async function getStoryFromContext(context, apiKey) {
-            const prompt = `
-            Create a 250-300 word story about a mother telling her daughter, Aadhya, a story about ${context}.
-            The story should be heartwarming, educational, and appropriate for a young audience.
-            Format the story as if the mother is directly telling it to Aadhya.
-            Start with "Aadhya, let me tell you a story about..." and end with a meaningful life lesson. The story should be in Hindi.
-            `;
-
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey}`
-                },
-                body: JSON.stringify({
-                    model: "gpt-4o",
-                    messages: [
-                        {role: "system", content: "You are a helpful assistant that writes heartwarming stories for children in Hindi."},
-                        {role: "user", content: prompt}
-                    ],
-                    max_tokens: 1000
-                })
-            });
-
-            if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.error.message || 'Failed to generate story');
-            }
-
-            const data = await response.json();
-            return data.choices[0].message.content.trim();
-        }
-
-        async function generateTextToSpeech(story, apiKey) {
-            // ElevenLabs API endpoint
-            const url = "https://api.elevenlabs.io/v1/text-to-speech/P7vsEyTOpZ6YUTulin8m";
-            
-            // Headers
-            const headers = {
-                "Accept": "audio/mpeg",
-                "Content-Type": "application/json",
-                "xi-api-key": apiKey
-            };
-            
-            // Payload
-            const payload = {
-                "text": story,
-                "model_id": "eleven_multilingual_v2",
-                "voice_settings": {
-                    "stability": 0.5,
-                    "similarity_boost": 0.5
-                }
-            };
-            
-            // Make the request
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify(payload)
-            });
-            
-            if (!response.ok) {
-                const error = await response.text();
-                throw new Error(`Failed to generate speech: ${error}`);
-            }
-            
-            // Get the audio blob
-            const audioBlob = await response.blob();
-            
-            // Calculate audio duration
-            return new Promise((resolve) => {
-                const audioElement = new Audio();
-                audioElement.src = URL.createObjectURL(audioBlob);
-                
-                audioElement.onloadedmetadata = () => {
-                    resolve({
-                        audioBlob: audioBlob,
-                        duration: audioElement.duration
-                    });
-                };
-                
-                audioElement.onerror = () => {
-                    // Fallback duration if we can't get it
-                    resolve({
-                        audioBlob: audioBlob,
-                        duration: 30 // Default fallback duration
-                    });
-                };
-            });
-        }
-
-        async function generateImagePrompts(story, numImages, apiKey) {
-            const prompt = `
-            Based on the following story, create ${numImages} detailed vertical image prompts in LEGO style that capture key moments.
-            Each prompt should be detailed enough for DALL-E to generate a high-quality image.
-            Format each prompt as: "A vertical image of [detailed description]"
-            Make sure the images flow well together and tell the story visually.
-            Keep the prompts simple and focused on wholesome scenes appropriate for children.
-            Avoid any content that might trigger content filters. The images should strictly be in Lego Style.
-            
-            Story: ${story}
-            `;
-            
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey}`
-                },
-                body: JSON.stringify({
-                    model: "gpt-4o",
-                    messages: [
-                        {role: "system", content: "You are a helpful assistant that creates child-friendly image prompts for stories. The images you generate are Lego styled."},
-                        {role: "user", content: prompt}
-                    ],
-                    max_tokens: 1500
-                })
-            });
-            
-            if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.error.message || 'Failed to generate image prompts');
-            }
-            
-            const data = await response.json();
-            const promptsText = data.choices[0].message.content.trim();
-            
-            // Extract the prompts (assuming they're numbered or listed)
-            let prompts = [];
-            for (const line of promptsText.split('\n')) {
-                if (line.trim() && (line.includes(":") || /^\d+\./.test(line))) {
-                    // Extract the actual prompt part after the numbering/prefix
-                    const parts = line.includes(":") ? line.split(":", 1) : line.split(".", 1);
-                    if (parts.length > 1) {
-                        const promptPart = line.substring(parts[0].length + 1).trim();
-                        if (promptPart) {
-                            prompts.push(promptPart);
-                        }
-                    }
-                }
-            }
-            
-            // If we couldn't parse correctly, try another approach
-            if (prompts.length === 0) {
-                prompts = promptsText.split(/\d+\.\s+/).filter(p => p.trim());
-            }
-            
-            // Add fallback prompts that are very safe
-            const fallbackPrompts = [
-                "A vertical image of a mother and daughter sitting together in a sunny garden with flowers lego style",
-                "A vertical image of a beautiful landscape with mountains and a lake at sunset lego style",
-                "A vertical image of a cozy living room with a mother reading a storybook to her daughter lego style",
-                "A vertical image of a starry night sky over a peaceful forest lego style",
-                "A vertical image of a mother and daughter walking hand in hand on a beach lego style"
+            const instagramHooks = [
+                "You won't believe what happens next...",
+                "The biggest mistake people make when...",
+                "Here's a secret they don't want you to know about...",
+                "I tried the viral trend, and here's what happened...",
+                "Stop scrolling! You need to hear this..."
             ];
-            
-            // Ensure we have the correct number of prompts
-            while (prompts.length < numImages) {
-                prompts.push(fallbackPrompts[Math.floor(Math.random() * fallbackPrompts.length)]);
-            }
-            
-            // Limit to required number
-            return prompts.slice(0, numImages);
-        }
 
-        async function generateImage(prompt, apiKey, maxRetries = 3) {
-            let originalPrompt = prompt;
-            
-            for (let attempt = 0; attempt < maxRetries; attempt++) {
+            generateBtn.addEventListener('click', async () => {
+                const apiKey = apiKeyInput.value.trim();
+                const context = videoContextInput.value.trim();
+
+                if (!apiKey || !context) {
+                    showError("Please provide both an API key and a video context.");
+                    return;
+                }
+
+                showLoader(true);
+                clearError();
+                clipEditor.innerHTML = '';
+                videoPlayer.innerHTML = '<p class="text-white">Generating your video...</p>';
+                audioPlayerContainer.innerHTML = '';
+
                 try {
-                    // Add vertical specification to the prompt
-                    if (!prompt.toLowerCase().includes("vertical")) {
-                        prompt = `A vertical image with portrait orientation (9:16 ratio) of ${prompt}`;
+                    const randomHook = instagramHooks[Math.floor(Math.random() * instagramHooks.length)];
+                    const fullPrompt = `${randomHook} ${context}`;
+
+                    const [audioUrl, generatedClips] = await Promise.all([
+                        generateAndPlaySpeech(fullPrompt, apiKey),
+                        generateClips(fullPrompt, apiKey)
+                    ]);
+                    
+                    clipsData = generatedClips;
+                    displayClipsInEditor(clipsData, apiKey);
+                    playSequence(clipsData);
+
+                    if (audioUrl) {
+                        const audio = new Audio(audioUrl);
+                        audio.play();
                     }
-                    
-                    // Add safety terms to reduce likelihood of content policy violations
-                    if (attempt > 0) {
-                        prompt = `${prompt}. Wholesome, family-friendly, appropriate for children, safe for work.`;
-                    }
-                    
-                    const response = await fetch('https://api.openai.com/v1/images/generations', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${apiKey}`
-                        },
-                        body: JSON.stringify({
-                            model: "dall-e-3",
-                            prompt: prompt,
-                            size: "1024x1792",
-                            quality: "standard",
-                            n: 1
-                        })
-                    });
-                    
-                    if (!response.ok) {
-                        const error = await response.json();
-                        
-                        // Handle content policy violation
-                        if (error.error && error.error.code === "content_policy_violation") {
-                            const fallbacks = [
-                                "A vertical image of a beautiful landscape with mountains and a lake lego style",
-                                "A vertical image of a garden lego style",
-                                "A vertical image of colorful flowers in a field lego style",
-                                "A vertical image of a sunset over mountains lego style"
-                            ];
-                            prompt = fallbacks[Math.min(attempt, fallbacks.length - 1)];
-                            continue;
-                        }
-                        
-                        // Handle rate limit
-                        if (error.error && error.error.code === "rate_limit_exceeded") {
-                            const waitTime = Math.min(Math.pow(2, attempt) * 5, 60) * 1000;
-                            await new Promise(resolve => setTimeout(resolve, waitTime));
-                            continue;
-                        }
-                        
-                        throw new Error(error.error.message || 'Image generation failed');
-                    }
-                    
-                    const data = await response.json();
-                    const imageUrl = data.data[0].url;
-                    
-                    // Download the image
-                    const imageResponse = await fetch(imageUrl);
-                    return await imageResponse.blob();
-                    
+
+
                 } catch (error) {
-                    console.error(`Attempt ${attempt + 1} failed:`, error);
-                    
-                    if (attempt < maxRetries - 1) {
-                        const waitTime = Math.min(Math.pow(2, attempt) * 5, 60) * 1000;
-                        await new Promise(resolve => setTimeout(resolve, waitTime));
-                        
-                        // Fall back to a very safe prompt
-                        prompt = "A vertical image of a beautiful landscape with mountains lego style";
-                    } else {
-                        throw error;
-                    }
+                    console.error("Error generating video:", error);
+                    showError("Failed to generate video. Check the console for details.");
+                } finally {
+                    showLoader(false);
                 }
-            }
-            
-            // If all attempts fail, create a placeholder image
-            return createPlaceholderImage();
-        }
-
-        function createPlaceholderImage() {
-            return new Promise((resolve) => {
-                const canvas = document.createElement('canvas');
-                canvas.width = 1024;
-                canvas.height = 1792;
-                const ctx = canvas.getContext('2d');
-                
-                // Fill with sky blue
-                ctx.fillStyle = 'rgb(135, 206, 235)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                
-                canvas.toBlob(blob => {
-                    resolve(blob);
-                }, 'image/png');
             });
-        }
+            
+            // --- Audio Generation and Processing ---
 
-        async function createVideo(imageBlobsArray, audioBlob) {
-            try {
-                // Create video element for output
-                const videoElement = document.getElementById('videoOutput');
-                
-                // Calculate duration for each image based on audio length
-                const audioElement = new Audio(URL.createObjectURL(audioBlob));
-                
-                await new Promise(resolve => {
-                    audioElement.onloadedmetadata = resolve;
-                    audioElement.onerror = resolve; // Handle errors too
-                });
-                
-                const audioDuration = audioElement.duration || 30; // Fallback if duration can't be determined
-                const imageDuration = audioDuration / imageBlobsArray.length;
-                
-                // Create a MediaRecorder to record the canvas
-                const canvas = document.createElement('canvas');
-                canvas.width = 1080;
-                canvas.height = 1920;
-                const ctx = canvas.getContext('2d');
-                
-                const stream = canvas.captureStream(30); // 30fps
-                const mediaRecorder = new MediaRecorder(stream, {
-                    mimeType: 'video/webm; codecs=vp9',
-                    videoBitsPerSecond: 8000000
-                });
-                
-                const chunks = [];
-                mediaRecorder.ondataavailable = e => chunks.push(e.data);
-                
-                mediaRecorder.onstop = async () => {
-                    // Combine video with audio
-                    const videoBlob = new Blob(chunks, { type: 'video/webm' });
-                    
-                    try {
-                        // We can't easily combine audio and video in the browser,
-                        // so we'll display them separately
-                        videoElement.src = URL.createObjectURL(videoBlob);
-                        
-                        // Set up download link
-                        downloadVideo.href = videoElement.src;
-                        downloadVideo.download = 'generated_reel.webm';
-                        downloadVideo.textContent = 'Download Video (no audio)';
-                        
-                        // Note: In a full implementation, we would use FFmpeg.js or similar
-                        // to combine audio and video. This is simplified for the browser.
-                    } catch (error) {
-                        console.error('Error finalizing video:', error);
-                        showError('Error creating final video: ' + error.message);
-                    }
+            function base64ToArrayBuffer(base64) {
+                const binaryString = window.atob(base64);
+                const len = binaryString.length;
+                const bytes = new Uint8Array(len);
+                for (let i = 0; i < len; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+                return bytes.buffer;
+            }
+
+            function pcmToWav(pcmData, sampleRate) {
+                const numChannels = 1;
+                const bitsPerSample = 16;
+                const blockAlign = numChannels * bitsPerSample / 8;
+                const byteRate = sampleRate * blockAlign;
+                const dataSize = pcmData.length * pcmData.BYTES_PER_ELEMENT;
+                const buffer = new ArrayBuffer(44 + dataSize);
+                const view = new DataView(buffer);
+                writeString(view, 0, 'RIFF');
+                view.setUint32(4, 36 + dataSize, true);
+                writeString(view, 8, 'WAVE');
+                writeString(view, 12, 'fmt ');
+                view.setUint32(16, 16, true);
+                view.setUint16(20, 1, true);
+                view.setUint16(22, numChannels, true);
+                view.setUint32(24, sampleRate, true);
+                view.setUint32(28, byteRate, true);
+                view.setUint16(32, blockAlign, true);
+                view.setUint16(34, bitsPerSample, true);
+                writeString(view, 36, 'data');
+                view.setUint32(40, dataSize, true);
+                new Int16Array(buffer, 44).set(pcmData);
+                return new Blob([view], { type: 'audio/wav' });
+            }
+
+            function writeString(view, offset, string) {
+                for (let i = 0; i < string.length; i++) {
+                    view.setUint8(offset + i, string.charCodeAt(i));
+                }
+            }
+            
+            async function generateAndPlaySpeech(text, apiKey) {
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+                const selectedVoice = voiceSelect.value;
+                const payload = {
+                    "contents": [{"parts":[{"text": `Say cheerfully: ${text}`}]}],
+                    "generationConfig": {
+                        "responseModalities": ["AUDIO"],
+                        "speechConfig": { "voiceConfig": { "prebuiltVoiceConfig": { "voiceName": selectedVoice } } }
+                    },
+                    "model": "gemini-2.5-flash-preview-tts",
                 };
-                
-                // Load all images first
-                const images = await Promise.all(
-                    imageBlobsArray.map(blob => {
-                        return new Promise((resolve) => {
-                            const img = new Image();
-                            img.onload = () => resolve(img);
-                            img.src = URL.createObjectURL(blob);
-                        });
-                    })
-                );
-                
-                // Start recording
-                mediaRecorder.start();
-                
-                // Process each image
-                let currentTime = 0;
-                
-                for (let i = 0; i < images.length; i++) {
-                    const img = images[i];
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) throw new Error(`TTS API request failed with status ${response.status}`);
+                    const result = await response.json();
+                    const audioData = result?.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+                    if (!audioData) throw new Error('No audio data in TTS response.');
+                    const pcmBuffer = base64ToArrayBuffer(audioData);
+                    const pcm16 = new Int16Array(pcmBuffer);
+                    const wavBlob = pcmToWav(pcm16, 24000);
+                    return URL.createObjectURL(wavBlob);
+                } catch (error) {
+                    console.error('Failed to generate speech:', error);
+                    showError('Could not generate audio for the video.');
+                    return null;
+                }
+            }
+
+            // --- Image and Video Generation ---
+            
+            async function generateImageFromApi(prompt, apiKey) {
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-preview-06-06:predict?key=${apiKey}`;
+                const payload = {
+                    "instances": [{ "prompt": prompt }],
+                    "parameters": { "sampleCount": 1 }
+                };
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) {
+                        const errorBody = await response.json();
+                        console.error('Image generation API error:', errorBody);
+                        throw new Error(`API request failed with status ${response.status}`);
+                    }
+                    const result = await response.json();
+                    if (result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
+                        return `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
+                    } else {
+                        throw new Error('Invalid response from image generation API');
+                    }
+                } catch (error) {
+                    console.error('Failed to generate image:', error);
+                    return `https://placehold.co/400x225/ff0000/FFFFFF?text=Image+API+Error`;
+                }
+            }
+
+            async function generateVideoFromApi(prompt, apiKey) {
+                // =========================================================================================
+                // WARNING: THIS IMPLEMENTATION WILL FAIL IN A WEB BROWSER DUE TO CORS RESTRICTIONS.
+                // This code demonstrates the required polling logic for the Veo API, but it can only
+                // be successfully executed from a server-side environment (like Node.js), not client-side JS.
+                // =========================================================================================
+                const BASE_URL = "https://generativelanguage.googleapis.com/v1beta";
+                const startUrl = `${BASE_URL}/models/veo-3.0-generate-preview:predictLongRunning?key=${apiKey}`;
+                const startPayload = { "instances": [{ "prompt": prompt }] };
+
+                try {
+                    // 1. Start the video generation job
+                    console.log("Starting Veo video generation job...");
+                    const initialResponse = await fetch(startUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(startPayload)
+                    });
+
+                    if (!initialResponse.ok) throw new Error(`Veo start request failed: ${initialResponse.status}`);
                     
-                    // Draw image centered on canvas
-                    ctx.fillStyle = 'black';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    
-                    // Calculate position to center the image
-                    const scaleFactor = Math.min(
-                        canvas.width / img.width,
-                        canvas.height / img.height
-                    );
-                    
-                    const newWidth = img.width * scaleFactor;
-                    const newHeight = img.height * scaleFactor;
-                    const x = (canvas.width - newWidth) / 2;
-                    const y = (canvas.height - newHeight) / 2;
-                    
-                    // Draw image
-                    ctx.drawImage(img, x, y, newWidth, newHeight);
-                    
-                    // Wait for the appropriate duration
-                    await new Promise(resolve => setTimeout(resolve, imageDuration * 1000));
-                    currentTime += imageDuration;
+                    const { name: operationName } = await initialResponse.json();
+                    console.log(`Veo job started. Operation Name: ${operationName}`);
+
+                    const statusUrl = `${BASE_URL}/${operationName}?key=${apiKey}`;
+
+                    // 2. Poll for the result
+                    while (true) {
+                        console.log("Polling for Veo video status...");
+                        await new Promise(resolve => setTimeout(resolve, 10000)); // Wait 10 seconds
+
+                        const statusResponse = await fetch(statusUrl);
+                        if (!statusResponse.ok) throw new Error(`Veo polling failed: ${statusResponse.status}`);
+                        
+                        const statusResult = await statusResponse.json();
+
+                        if (statusResult.done) {
+                            console.log("Veo job finished!");
+                            const videoUri = statusResult.response.generateVideoResponse.generatedSamples[0].video.uri;
+                            // In a real server app, you'd download from this URI. Here we just return it.
+                            // The URI itself is often a signed URL that also requires auth to access.
+                            return videoUri; 
+                        }
+                    }
+                } catch (error) {
+                    console.error('VEO API LOGIC FAILED (Likely due to CORS):', error);
+                    // Return a placeholder on failure
+                    const randomColor = Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+                    return `https://placehold.co/400x225/${randomColor}/FFFFFF?text=Video+API+Failed`;
+                }
+            }
+
+            async function generateClips(prompt, apiKey) {
+                const artStyle = artStyleSelect.value;
+                const clipPromises = [];
+                const totalClips = 12;
+
+                for (let i = 0; i < totalClips; i++) {
+                    const isVideo = i % 2 === 0;
+                    const clipType = isVideo ? 'video' : 'image';
+                    const clipPrompt = `Clip ${i + 1}: ${prompt}, style: ${artStyle}`;
+
+                    if (isVideo) {
+                        clipPromises.push(generateVideoFromApi(clipPrompt, apiKey).then(content => ({ type: clipType, prompt: clipPrompt, content })));
+                    } else {
+                        clipPromises.push(generateImageFromApi(clipPrompt, apiKey).then(content => ({ type: clipType, prompt: clipPrompt, content })));
+                    }
                 }
                 
-                // Stop recording
-                mediaRecorder.stop();
+                return Promise.all(clipPromises);
+            }
+            
+            // --- UI and Playback Logic ---
+
+            async function regenerateClip(clipElement, clipData, apiKey, index) {
+                const regenLoader = document.createElement('div');
+                regenLoader.className = 'loader';
+                clipElement.innerHTML = '';
+                clipElement.appendChild(regenLoader);
+
+                try {
+                    const artStyle = artStyleSelect.value;
+                    const newPrompt = `${clipData.prompt.split(', style:')[0]}, style: ${artStyle}`;
+                    let newContentUrl;
+
+                    if (clipData.type === 'video') {
+                        newContentUrl = await generateVideoFromApi(newPrompt, apiKey);
+                    } else {
+                        newContentUrl = await generateImageFromApi(newPrompt, apiKey);
+                    }
+
+                    const newClipData = {
+                        type: clipData.type,
+                        prompt: newPrompt,
+                        content: newContentUrl
+                    };
+                    
+                    clipsData[index] = newClipData;
+                    updateClipElement(clipElement, newClipData, apiKey, index);
+                    playSequence(clipsData);
+
+                } catch (error) {
+                    console.error("Error regenerating clip:", error);
+                    clipElement.innerHTML = '<p class="text-red-500 text-xs">Failed</p>';
+                }
+            }
+
+            function displayClipsInEditor(clips, apiKey) {
+                clipEditor.innerHTML = '';
+                clips.forEach((clip, index) => {
+                    const clipContainer = document.createElement('div');
+                    clipContainer.className = 'relative group';
+                    updateClipElement(clipContainer, clip, apiKey, index);
+                    clipEditor.appendChild(clipContainer);
+                });
+            }
+
+            function updateClipElement(element, clipData, apiKey, index) {
+                element.innerHTML = '';
+                const mediaElement = document.createElement('img');
+                mediaElement.src = clipData.content;
+                mediaElement.className = 'w-full h-auto object-cover rounded-lg shadow-md';
                 
-            } catch (error) {
-                console.error('Video creation error:', error);
-                showError('Video creation failed: ' + error.message);
-                throw error;
+                const overlay = document.createElement('div');
+                overlay.className = 'clip-overlay';
+                
+                const promptText = document.createElement('p');
+                promptText.className = 'mb-2';
+                promptText.textContent = `Prompt: ${clipData.prompt}`;
+                
+                const regenerateButton = document.createElement('button');
+                regenerateButton.className = 'w-full bg-blue-500 hover:bg-blue-600 text-white text-xs py-1 rounded';
+                regenerateButton.textContent = 'Regenerate';
+                regenerateButton.onclick = () => regenerateClip(element, clipData, apiKey, index);
+
+                overlay.appendChild(promptText);
+                overlay.appendChild(regenerateButton);
+                
+                element.appendChild(mediaElement);
+                element.appendChild(overlay);
             }
-        }
 
-        function showError(message) {
-            // Remove any existing error
-            const existingError = document.querySelector('.error');
-            if (existingError) {
-                existingError.remove();
+            function playSequence(clips) {
+                let currentClipIndex = 0;
+                let timeoutId;
+                const videoClipDuration = 7000;
+                const imageClipDuration = 3000;
+
+                function playNextClip() {
+                    if (currentClipIndex >= clips.length) {
+                        videoPlayer.innerHTML = '<p class="text-white">Video finished.</p>';
+                        return;
+                    }
+
+                    const clip = clips[currentClipIndex];
+                    videoPlayer.innerHTML = '';
+                    const img = document.createElement('img');
+                    img.src = clip.content;
+                    img.className = 'w-full h-full object-cover';
+                    videoPlayer.appendChild(img);
+                    
+                    const duration = clip.type === 'video' ? videoClipDuration : imageClipDuration;
+                    timeoutId = setTimeout(playNextClip, duration);
+                    currentClipIndex++;
+                }
+                
+                if(timeoutId) clearTimeout(timeoutId);
+                playNextClip();
             }
-            
-            // Create and show new error
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'error';
-            errorDiv.textContent = message;
-            
-            generateBtn.parentNode.insertBefore(errorDiv, generateBtn.nextSibling);
-        }
 
-        function resetUI() {
-            // Clear previous results
-            storyOutput.textContent = '';
-            audioOutput.src = '';
-            videoOutput.src = '';
-            imageContainer.innerHTML = '';
-            downloadVideo.href = '#';
-            downloadVideo.textContent = '';
-            
-            // Remove any errors
-            const existingError = document.querySelector('.error');
-            if (existingError) {
-                existingError.remove();
+            function showLoader(show) {
+                loader.style.display = show ? 'block' : 'none';
             }
-            
-            resultsContainer.style.display = 'none';
-        }
 
-        function showProgress() {
-            progressContainer.style.display = 'block';
-            generateBtn.disabled = true;
-        }
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+            }
 
-        function updateProgress(percent, status) {
-            progressBar.style.width = `${percent}%`;
-            statusText.textContent = status;
-        }
-
-        function showResults() {
-            resultsContainer.style.display = 'block';
-            generateBtn.disabled = false;
-        }
+            function clearError() {
+                errorMessage.style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>

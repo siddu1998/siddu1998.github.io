@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Corpus Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: white;
+            color: black;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: normal;
+            border-bottom: 2px solid black;
+            padding-bottom: 10px;
+        }
+        
+        .search-container {
+            margin-bottom: 30px;
+        }
+        
+        #searchInput {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid black;
+            font-family: inherit;
+            background-color: white;
+        }
+        
+        #searchInput:focus {
+            outline: 2px solid black;
+        }
+        
+        .search-hint {
+            margin-top: 5px;
+            font-size: 12px;
+            font-style: italic;
+        }
+        
+        .prompt-card {
+            border: 1px solid black;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: white;
+        }
+        
+        .prompt-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid black;
+        }
+        
+        .prompt-id {
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .prompt-metadata {
+            font-size: 12px;
+            text-align: right;
+        }
+        
+        .prompt-text {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-left: 3px solid black;
+            background-color: #fafafa;
+            font-size: 14px;
+            white-space: pre-wrap;
+        }
+        
+        .codes-section {
+            margin-bottom: 15px;
+        }
+        
+        .code-category {
+            margin-bottom: 10px;
+        }
+        
+        .code-label {
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-right: 10px;
+            display: inline-block;
+            min-width: 120px;
+        }
+        
+        .code-tag {
+            display: inline-block;
+            padding: 3px 8px;
+            margin: 2px;
+            border: 1px solid black;
+            font-size: 11px;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .code-tag:hover {
+            background-color: black;
+            color: white;
+        }
+        
+        .interact-button {
+            padding: 10px 20px;
+            border: 2px solid black;
+            background-color: white;
+            color: black;
+            text-decoration: none;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+        
+        .interact-button:hover {
+            background-color: black;
+            color: white;
+        }
+        
+        .stats {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px dashed black;
+            font-size: 12px;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            font-size: 14px;
+            font-style: italic;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 16px;
+        }
+        
+        .file-upload {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px dashed black;
+        }
+        
+        .file-input-wrapper {
+            margin-bottom: 10px;
+        }
+        
+        .file-input-wrapper label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        input[type="file"] {
+            margin-bottom: 10px;
+            font-family: inherit;
+        }
+        
+        .load-button {
+            padding: 10px 20px;
+            border: 2px solid black;
+            background-color: black;
+            color: white;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .load-button:hover {
+            background-color: white;
+            color: black;
+        }
+        
+        .load-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+</head>
+<body>
+    <h1>PROMPT CORPUS VIEWER</h1>
+    
+    <div class="file-upload">
+        <div class="file-input-wrapper">
+            <label for="promptsFile">Prompts Database CSV:</label>
+            <input type="file" id="promptsFile" accept=".csv">
+        </div>
+        <div class="file-input-wrapper">
+            <label for="codingFile">Coding Progress CSV:</label>
+            <input type="file" id="codingFile" accept=".csv">
+        </div>
+        <button class="load-button" onclick="loadFiles()">LOAD DATA</button>
+    </div>
+    
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search by code tags..." disabled>
+        <div class="search-hint">Type to filter prompts by their open, axial, or selective codes</div>
+    </div>
+    
+    <div class="stats" id="stats" style="display: none;">
+        <span id="totalPrompts">0</span> prompts loaded | 
+        <span id="totalCodes">0</span> unique codes | 
+        <span id="visiblePrompts">0</span> prompts visible
+    </div>
+    
+    <div id="promptsContainer">
+        <div class="loading">Please upload both CSV files to begin</div>
+    </div>
+
+    <script>
+        let promptsData = [];
+        let codingData = [];
+        let allCodes = new Set();
+        let processedPrompts = [];
+
+        function loadFiles() {
+            const promptsFile = document.getElementById('promptsFile').files[0];
+            const codingFile = document.getElementById('codingFile').files[0];
+            
+            if (!promptsFile || !codingFile) {
+                alert('Please select both CSV files');
+                return;
+            }
+            
+            document.querySelector('.load-button').disabled = true;
+            document.querySelector('.load-button').textContent = 'LOADING...';
+            
+            Promise.all([
+                parseCSV(promptsFile),
+                parseCSV(codingFile)
+            ]).then(([prompts, coding]) => {
+                promptsData = prompts.data;
+                codingData = coding.data;
+                processData();
+                document.querySelector('.file-upload').style.display = 'none';
+                document.getElementById('searchInput').disabled = false;
+                document.getElementById('stats').style.display = 'block';
+            }).catch(error => {
+                console.error('Error loading files:', error);
+                alert('Error loading files. Please check the CSV format.');
+                document.querySelector('.load-button').disabled = false;
+                document.querySelector('.load-button').textContent = 'LOAD DATA';
+            });
+        }
+
+        function parseCSV(file) {
+            return new Promise((resolve, reject) => {
+                Papa.parse(file, {
+                    header: true,
+                    dynamicTyping: true,
+                    skipEmptyLines: true,
+                    complete: resolve,
+                    error: reject
+                });
+            });
+        }
+
+        function processData() {
+            // Group coding data by ID
+            const codingByID = {};
+            codingData.forEach(row => {
+                const id = row.ID || row.id || row['Unique ID'];
+                if (!codingByID[id]) {
+                    codingByID[id] = {
+                        openCodes: new Set(),
+                        axialCodes: new Set(),
+                        selectiveCodes: new Set()
+                    };
+                }
+                
+                if (row['Open Code']) codingByID[id].openCodes.add(row['Open Code']);
+                if (row['Axial Code']) codingByID[id].axialCodes.add(row['Axial Code']);
+                if (row['Selective Code']) codingByID[id].selectiveCodes.add(row['Selective Code']);
+            });
+            
+            // Process prompts and attach codes
+            processedPrompts = promptsData.map(prompt => {
+                const id = prompt['Unique ID'] || prompt.ID || prompt.id;
+                const codes = codingByID[id] || {
+                    openCodes: new Set(),
+                    axialCodes: new Set(),
+                    selectiveCodes: new Set()
+                };
+                
+                // Add all codes to the global set
+                codes.openCodes.forEach(code => allCodes.add(code));
+                codes.axialCodes.forEach(code => allCodes.add(code));
+                codes.selectiveCodes.forEach(code => allCodes.add(code));
+                
+                return {
+                    ...prompt,
+                    codes: {
+                        open: Array.from(codes.openCodes),
+                        axial: Array.from(codes.axialCodes),
+                        selective: Array.from(codes.selectiveCodes)
+                    }
+                };
+            });
+            
+            updateStats();
+            displayPrompts(processedPrompts);
+        }
+
+        function displayPrompts(prompts) {
+            const container = document.getElementById('promptsContainer');
+            
+            if (prompts.length === 0) {
+                container.innerHTML = '<div class="no-results">No prompts found matching your search</div>';
+                return;
+            }
+            
+            container.innerHTML = prompts.map(prompt => {
+                const id = prompt['Unique ID'] || prompt.ID || 'N/A';
+                const promptText = prompt['Gamified Prompt'] || prompt.Prompt || prompt.prompt || 'No prompt text available';
+                const creator = prompt['Primary Creator'] || 'Unknown';
+                const creationMethod = prompt['Creation Method'] || 'Unknown';
+                const role = prompt['Creator Role'] || 'Unknown';
+                const topic = prompt['Topic'] || 'Unknown';
+                const notes = prompt['Notes'] || '';
+                
+                return `
+                    <div class="prompt-card">
+                        <div class="prompt-header">
+                            <div class="prompt-id">ID: ${id}</div>
+                            <div class="prompt-metadata">
+                                  ${creationMethod}
+                            </div>
+                        </div>
+                        
+                        <div class="prompt-text">${promptText}</div>
+                        
+                        ${topic !== 'Unknown' ? `<div style="margin-bottom: 10px; font-size: 12px;"><strong>TOPIC:</strong> ${topic}</div>` : ''}
+                        ${notes ? `<div style="margin-bottom: 10px; font-size: 12px;"><strong>NOTES:</strong> ${notes}</div>` : ''}
+                        
+                        <div class="codes-section">
+                            ${prompt.codes.open.length > 0 ? `
+                                <div class="code-category">
+                                    <span class="code-label">OPEN CODES:</span>
+                                    ${prompt.codes.open.map(code => `<span class="code-tag" onclick="searchByCode('${code}')">${code}</span>`).join('')}
+                                </div>
+                            ` : ''}
+                            
+                            ${prompt.codes.axial.length > 0 ? `
+                                <div class="code-category">
+                                    <span class="code-label">AXIAL CODES:</span>
+                                    ${prompt.codes.axial.map(code => `<span class="code-tag" onclick="searchByCode('${code}')">${code}</span>`).join('')}
+                                </div>
+                            ` : ''}
+                            
+                            ${prompt.codes.selective.length > 0 ? `
+                                <div class="code-category">
+                                    <span class="code-label">SELECTIVE CODES:</span>
+                                    ${prompt.codes.selective.map(code => `<span class="code-tag" onclick="searchByCode('${code}')">${code}</span>`).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+                        
+                        <a href="#" class="interact-button" onclick="event.preventDefault(); alert('Interaction URL not yet configured');">INTERACT</a>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('visiblePrompts').textContent = prompts.length;
+        }
+
+        function searchByCode(code) {
+            document.getElementById('searchInput').value = code;
+            filterPrompts();
+        }
+
+        function filterPrompts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (!searchTerm) {
+                displayPrompts(processedPrompts);
+                return;
+            }
+            
+            const filtered = processedPrompts.filter(prompt => {
+                const allPromptCodes = [
+                    ...prompt.codes.open,
+                    ...prompt.codes.axial,
+                    ...prompt.codes.selective
+                ].map(code => code.toLowerCase());
+                
+                return allPromptCodes.some(code => code.includes(searchTerm));
+            });
+            
+            displayPrompts(filtered);
+        }
+
+        function updateStats() {
+            document.getElementById('totalPrompts').textContent = processedPrompts.length;
+            document.getElementById('totalCodes').textContent = allCodes.size;
+            document.getElementById('visiblePrompts').textContent = processedPrompts.length;
+        }
+
+        // Add search event listener
+        document.getElementById('searchInput').addEventListener('input', filterPrompts);
+        
+        // Try to load files automatically if using window.fs API
+        window.addEventListener('load', async () => {
+            if (window.fs && window.fs.readFile) {
+                try {
+                    const codingContent = await window.fs.readFile('coding_progress 19.csv', { encoding: 'utf8' });
+                    const promptsContent = await window.fs.readFile('Prompts Database  Generative Step 5.csv', { encoding: 'utf8' });
+                    
+                    codingData = Papa.parse(codingContent, {
+                        header: true,
+                        dynamicTyping: true,
+                        skipEmptyLines: true
+                    }).data;
+                    
+                    promptsData = Papa.parse(promptsContent, {
+                        header: true,
+                        dynamicTyping: true,
+                        skipEmptyLines: true
+                    }).data;
+                    
+                    processData();
+                    document.querySelector('.file-upload').style.display = 'none';
+                    document.getElementById('searchInput').disabled = false;
+                    document.getElementById('stats').style.display = 'block';
+                } catch (error) {
+                    console.log('Auto-load failed, manual upload required');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
