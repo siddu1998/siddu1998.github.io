@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OPM Viz - Visualization Systems for Student Reflection</title>
+    <style>
+        /* Base styles matching portfolio */
+        body {
+            background-color: #fdfdfd;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 3rem 0 1.5rem 0;
+            color: #333;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin: 2rem 0 1rem 0;
+            color: #333;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 1.5rem 0 0.5rem 0;
+            color: #333;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        /* Links */
+        a {
+            color: #333;
+            text-decoration: underline;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Meta information */
+        .meta {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Hero section */
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 2rem;
+            font-size: 1rem;
+            color: #666;
+            flex-wrap: wrap;
+        }
+
+        /* Images */
+        .image-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+        }
+
+        .image-caption {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        /* Videos */
+        .video-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            max-width: 600px;
+            height: 350px;
+            border: 1px solid #ddd;
+        }
+
+        .video-caption {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        /* Two video layout */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .video-item {
+            text-align: center;
+        }
+
+        .video-item iframe {
+            width: 100%;
+            height: 200px;
+            border: 1px solid #ddd;
+        }
+
+        /* Overview section */
+        .overview {
+            background-color: #f8f9fa;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-left: 3px solid #333;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .overview-item h4 {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .overview-item ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .overview-item li {
+            margin-bottom: 0.25rem;
+            color: #333;
+        }
+
+        /* Key findings and cards */
+        .key-finding {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 3px solid #333;
+        }
+
+        .key-finding h4 {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .card {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 3px solid #333;
+        }
+
+        .card h4 {
+            font-size: 1rem;
+            font-weight: bold;
+            margin: 0 0 1rem 0;
+            color: #333;
+        }
+
+        /* Quote styles */
+        .quote {
+            border-left: 3px solid #666;
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: #666;
+        }
+
+        .quote-author {
+            display: block;
+            margin-top: 0.5rem;
+            font-style: normal;
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        .quote-inline {
+            color: #666;
+            font-style: italic;
+        }
+
+        /* TL;DR section */
+        .tldr-section {
+            /* background-color: #f8f9fa; */
+            padding: 3rem 0;
+            margin: 2rem 0;
+            /* border: 1px solid #ddd; */
+        }
+
+        .tldr-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .tldr-card {
+            background-color: white;
+            padding: 1.5rem;
+            border: 1px solid #ddd;
+        }
+
+        .tldr-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 4rem 0 2rem;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .footer a {
+            color: #666;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.25rem;
+            }
+            
+            .hero-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .overview-grid,
+            .tldr-grid,
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .video-item iframe {
+                height: 250px;
+            }
+
+            .video-container iframe {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>OPM Viz: Visualization Systems for Student Reflection</h1>
+            <p class="meta">UX Case Study</p>
+            <p>Designing and evaluating a system to help students reflect on their gameplay and learn from peers in the educational game 'Parallel'.</p>
+            <div class="hero-meta">
+                <span>Timeline: August 2021 - May 2023</span>
+                <span>Published: ACM CHI 2024</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="tldr-section">
+            <h2>Why This Study Matters</h2>
+            <p>How a visualization system empowered students to learn from their gameplay and peers in educational games.</p>
+            
+            <div class="tldr-grid">
+                <div class="tldr-card">
+                    <h4>The Problem</h4>
+                    <p>Educational games generate data, but it's hard for students to use for reflection.</p>
+                    <ul>
+                        <li>Existing tools lack features for self-analysis and peer comparison</li>
+                        <li>Gap in bridging raw gameplay data with deep learning</li>
+                        <li>Students need better ways to understand their strategies</li>
+                    </ul>
+                </div>
+
+                <div class="tldr-card">
+                    <h4>My Approach</h4>
+                    <p>Design-Based Research combined with UX methods.</p>
+                    <ul>
+                        <li>Instructor focus groups and student playtesting</li>
+                        <li>Thematic analysis to identify core user needs</li>
+                        <li>Iterative design and development process</li>
+                    </ul>
+                </div>
+
+                <div class="tldr-card">
+                    <h4>The Solution</h4>
+                    <p>OPM Viz: An interactive visualization system for the 'Parallel' game.</p>
+                    <ul>
+                        <li>Enables students to compare gameplay with anonymized peers</li>
+                        <li>Provides metrics, synchronized replays, and reflection prompts</li>
+                        <li>Integrates seamlessly with educational game environment</li>
+                    </ul>
+                </div>
+
+                <div class="tldr-card">
+                    <h4>Key Results</h4>
+                    <p>Successfully facilitated student comparison and learning.</p>
+                    <ul>
+                        <li>Students identified inefficiencies in their approaches</li>
+                        <li>Sparked curiosity and supported self-assessment</li>
+                        <li>Published at ACM CHI 2024, contributing to learning sciences</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="overview">
+            <h3>Project Overview</h3>
+            <div class="overview-grid">
+                <div class="overview-item">
+                    <h4>My Role</h4>
+                    <ul>
+                        <li>Project Lead</li>
+                        <li>UX Researcher</li>
+                        <li>Designer</li>
+                        <li>Developer</li>
+                    </ul>
+                </div>
+                <div class="overview-item">
+                    <h4>Team</h4>
+                    <ul>
+                        <li>2 Researchers</li>
+                        <li>2 Faculty Mentors</li>
+                        <li>1 Developer</li>
+                    </ul>
+                </div>
+                <div class="overview-item">
+                    <h4>Duration</h4>
+                    <ul>
+                        <li>August 2021 - May 2023</li>
+                        <li>21 months total</li>
+                    </ul>
+                </div>
+                <div class="overview-item">
+                    <h4>Tools & Methods</h4>
+                    <ul>
+                        <li>Figma (Design)</li>
+                        <li>Python, JavaScript</li>
+                        <li>Focus Groups</li>
+                        <li>Playtesting</li>
+                        <li>Thematic Analysis</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <h2>The Challenge: Bridging Gameplay and Learning</h2>
+        <p>Educational games like 'Parallel', which teaches parallel programming concepts, generate vast amounts of player data. However, a significant gap exists: how can this data be effectively visualized to help students reflect on their own learning process and understand the strategies used by their peers?</p>
+
+        <p>Existing tools often lack features specifically designed to foster reflective learning. Our core challenge was to design a visualization system that moves beyond simple data presentation to actively guide students in analyzing gameplay, comparing strategies, and ultimately deepening their understanding of complex concepts taught through the game.</p>
+
+        <h2>Understanding the Users: Instructors & Students</h2>
+        <p>To ensure our solution was grounded in real needs, we employed a Design-Based Research approach, incorporating UX methods to understand both instructor goals and student expectations.</p>
+
+        <div class="image-container">
+            <img src="temporary/images/Frame 10 (2) (1).png" alt="UXR pipeline diagram showing Understand, Design, Evaluate process">
+            <div class="image-caption">UXR pipeline adopted for this project.</div>
+        </div>
+
+        <h3>Instructor Focus Groups: How Experts Facilitate Reflection</h3>
+        <p>We conducted workshops with two parallel programming instructors. They analyzed anonymized student gameplay recordings from 'Parallel', identifying different strategies, ranking performance, and pinpointing moments ripe for student reflection.</p>
+
+        <h4>Key Insights from Instructors:</h4>
+        <ul>
+            <li><strong>Chunking Gameplay:</strong> Instructors analyzed playtraces in segments to understand student actions (e.g., <span class="quote-inline">"Steps 2 and Step 3, is where the student is trying to figure out the Switch..."</span>)</li>
+            <li><strong>Spatial Awareness:</strong> They connected gameplay actions in specific game areas to programming concepts</li>
+            <li><strong>Comparative Analysis:</strong> Instructors frequently compared different students' strategies to highlight efficiency or alternative approaches</li>
+            <li><strong>Performance Metrics:</strong> Ranking was based on core parallel programming concepts like identifying critical sections and minimizing their size</li>
+        </ul>
+
+        <h3>Student Playtesting & Personas: What Learners Need</h3>
+        <p>We observed 10 students playing 'Parallel' and followed up with semi-structured interviews to understand their struggles, successes, and desires for a support system. Thematic analysis led to key insights about student needs.</p>
+
+        <div class="card">
+            <h4>Key Insights from Students:</h4>
+            <ol>
+                <li><strong>Desire for Efficiency Improvement:</strong> Players want to understand how to make their solutions better and faster. They need ways to identify and learn from more efficient peer strategies.</li>
+                <li><strong>Need for Easy Gameplay Comparison:</strong> Players want to compare their approach with others from different viewpoints (high-level overview vs. detailed step-by-step).</li>
+                <li><strong>Seeking Guidance and Suggestions:</strong> Players appreciate hints or alternative solutions, especially when stuck. They also value exploring different valid approaches after completing a level.</li>
+            </ol>
+        </div>
+
+        <h2>Designing the Visualization System</h2>
+        <p>Guided by insights from instructors and students, and utilizing Shneiderman's Visual Information-Seeking Mantra ("Overview first, zoom and filter, then details-on-demand") as a framework, we designed and developed the OPM Viz system.</p>
+
+        <p>Key design goals included:</p>
+        <ul>
+            <li>Providing an overview comparing a student's performance against the community</li>
+            <li>Allowing users to filter and select specific peer playtraces for deeper comparison</li>
+            <li>Offering a synchronized, detailed side-by-side view of playtraces</li>
+            <li>Incorporating metrics relevant to parallel programming efficiency</li>
+            <li>Suggesting moments for reflection based on common patterns or deviations</li>
+        </ul>
+
+        <div class="image-container">
+            <img src="temporary/images/Group 107 (4).png" alt="Screenshot of the OPM Viz visualization system interface">
+            <div class="image-caption">The OPM Viz Visualization System Interface.</div>
+        </div>
+
+        <h2>The Solution: OPM Viz</h2>
+        <p>OPM Viz is an interactive visualization system designed to integrate seamlessly with the 'Parallel' serious game. It empowers students to reflect on their gameplay, compare strategies with peers, and gain deeper insights into parallel programming concepts.</p>
+
+        <div class="video-grid">
+            <div class="video-item">
+                <iframe src="https://www.youtube.com/embed/sJTFw3Qix5o?si=xUFYlOV8RAiHKTvu" frameborder="0" allowfullscreen title="Explanation of the final visualization system"></iframe>
+                <div class="video-caption">Explaining the features of the OPM Viz system.</div>
+            </div>
+            <div class="video-item">
+                <iframe src="https://www.youtube.com/embed/MXeTHQlgcT8?si=38yGfgb_BQdqDCre" frameborder="0" allowfullscreen title="Development process and algorithms"></iframe>
+                <div class="video-caption">Overview of the development process and algorithms.</div>
+            </div>
+        </div>
+
+        <p>The system allows students to:</p>
+        <ul>
+            <li>View their own performance metrics</li>
+            <li>Compare their solution path against anonymized peers</li>
+            <li>Filter peers based on performance or specific strategies</li>
+            <li>Replay their own and selected peers' games side-by-side</li>
+            <li>Identify key differences and potential areas for improvement</li>
+        </ul>
+
+        <h2>Evaluation: Does it Foster Reflection?</h2>
+        <p>To assess the effectiveness of OPM Viz, we conducted an evaluative study with 8 student participants. They used the system after playing 'Parallel' while thinking aloud, followed by semi-structured interviews.</p>
+
+        <p>Our analysis focused on how and why students used the system and whether it prompted the desired reflection and learning.</p>
+
+        <div class="image-container">
+            <img src="temporary/images/Group 749 (1).png" alt="Thematic analysis results showing student interactions">
+            <div class="image-caption">Thematic map illustrating how students used OPM Viz for reflection and learning.</div>
+        </div>
+
+        <div class="card">
+            <h4>Key Findings from Evaluation:</h4>
+            <ul>
+                <li><strong>Facilitated Comparison:</strong> Participants actively used the system to compare their strategies with peers, often expressing surprise or gaining new ideas</li>
+                <li><strong>Identified Inefficiencies:</strong> The visualizations helped students pinpoint specific parts of their gameplay that were less efficient than others'</li>
+                <li><strong>Sparked Curiosity:</strong> Exploring different solutions through the system encouraged students to think more deeply about the underlying programming concepts</li>
+                <li><strong>Supported Self-Assessment:</strong> Participants used the comparative data to gauge their own understanding and performance relative to others</li>
+                <li><strong>Highlighted Trade-offs:</strong> Observing different strategies allowed students to understand the trade-offs between various parallel programming approaches</li>
+            </ul>
+        </div>
+
+        <p>Overall, the evaluation indicated that OPM Viz successfully prompted reflection and supported learning by making gameplay data accessible, comparable, and insightful.</p>
+
+        <h2>Impact and Contributions</h2>
+        <p>This project demonstrates the potential of integrating player-facing visualization systems, informed by Open Learner Model principles, into serious games to enhance learning.</p>
+
+        <div class="card">
+            <h4>Key Contributions:</h4>
+            <ul>
+               <li><strong>Bridging OLMs and Games:</strong> Introduced an Open Player Model approach, adapting OLM principles for the dynamic context of serious games</li>
+               <li><strong>Learning-Focused Visualization:</strong> Designed and validated a player-facing visualization system prioritizing reflection and learning over purely aesthetic goals</li>
+               <li><strong>Enhancing 'Parallel':</strong> Provided a novel tool for the established 'Parallel' research platform, enabling new avenues for studying game-based learning</li>
+               <li><strong>Published Research:</strong> Shared findings and system design with the academic community via publication at ACM CHI 2024</li>
+            </ul>
+        </div>
+
+        <p>The positive evaluation results and academic recognition underscore the value of this user-centered approach to designing learning support tools within educational games.</p>
+
+        <h2>Key Learnings & Future Directions</h2>
+        
+        <div class="card">
+            <h4>Key Learnings:</h4>
+            <ul>
+                <li><strong>The Power of Comparison:</strong> Directly comparing solutions was a highly motivating factor for student engagement and reflection</li>
+                <li><strong>Instructor Insights are Crucial:</strong> Understanding how experts analyze and provide feedback was invaluable in designing meaningful visualizations</li>
+                <li><strong>Balancing Guidance and Discovery:</strong> Finding the right level of information presentation—enough to guide reflection without overwhelming—is a key design challenge</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h4>Future Directions:</h4>
+            <ul>
+                <li>Exploring adaptive feedback based on student interaction patterns within the visualization</li>
+                <li>Integrating the visualization system more tightly within the game environment itself</li>
+                <li>Testing the system in authentic classroom settings over longer periods</li>
+            </ul>
+        </div>
+
+        <h2>Conclusion</h2>
+        <p>The OPM Viz project successfully demonstrated how thoughtful visualization design can bridge the gap between gameplay data and meaningful learning reflection. By centering the design process around both instructor expertise and student needs, we created a system that not only presents data but actively facilitates the kind of comparative analysis and reflection that leads to deeper understanding.</p>
+
+        <p>This work contributes to the growing field of learning analytics and educational technology, showing how UX research methods can inform the design of tools that truly support learning rather than simply displaying information.</p>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Sai Maram. Case Study.</p>
+        <p><a href="./index.html">Back to Portfolio</a></p>
+    </footer>
+</body>
+</html>

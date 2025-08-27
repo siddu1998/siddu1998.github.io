@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Discourse on Religion and Videogames</title>
+    <style>
+        /* Base styles matching portfolio */
+        body {
+            background-color: #fdfdfd;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 3rem 0 1.5rem 0;
+            color: #333;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin: 2rem 0 1rem 0;
+            color: #333;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 1.5rem 0 0.5rem 0;
+            color: #333;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        /* Links */
+        a {
+            color: #333;
+            text-decoration: underline;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Meta information */
+        .meta {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Hero section */
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 2rem;
+            font-size: 1rem;
+            color: #666;
+            flex-wrap: wrap;
+        }
+
+        /* Images */
+        .image-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+        }
+
+        .image-caption {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        /* Videos */
+        .video-container {
+            margin: 2rem 0;
+            text-align: center;
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 1px solid #ddd;
+        }
+
+        .video-caption {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        /* Overview section */
+        .overview {
+            background-color: #f8f9fa;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-left: 3px solid #333;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .overview-item h4 {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .overview-item ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .overview-item li {
+            margin-bottom: 0.25rem;
+            color: #333;
+        }
+
+        /* Key findings and cards */
+        .key-finding {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 3px solid #333;
+        }
+
+        .key-finding h4 {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .card {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 3px solid #333;
+        }
+
+        .card h4 {
+            font-size: 1rem;
+            font-weight: bold;
+            margin: 0 0 1rem 0;
+            color: #333;
+        }
+
+        /* Quote styles */
+        .quote {
+            border-left: 3px solid #666;
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: #666;
+        }
+
+        .quote-author {
+            display: block;
+            margin-top: 0.5rem;
+            font-style: normal;
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        /* TL;DR section */
+        .tldr-section {
+            /* background-color: #f8f9fa; */
+            padding: 3rem 0;
+            margin: 2rem 0;
+            /* border: 1px solid #ddd; */
+        }
+
+        .tldr-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .tldr-card {
+            background-color: white;
+            padding: 1.5rem;
+            border: 1px solid #ddd;
+        }
+
+        .tldr-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        /* Two-column layout */
+        .two-column {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 4rem 0 2rem;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .footer a {
+            color: #666;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.25rem;
+            }
+            
+            .hero-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .overview-grid,
+            .tldr-grid,
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+
+            .video-container {
+                padding-bottom: 56.25%; /* Maintain aspect ratio on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>Digital Discourse on Religion and Videogames</h1>
+            <p class="meta">UX Research Case Study</p>
+            <p>Exploring stakeholder perceptions and community discussions surrounding the integration of religious themes, artifacts, and narratives within videogames using topic modeling and qualitative analysis.</p>
+            <div class="hero-meta">
+                <span>Timeline: November 2023 - January 2024</span>
+                <span>Published: ACM CHI PLAY 2024</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="tldr-section">
+            <h2>Why This Study Matters</h2>
+            <p>How understanding player discourse can bridge the gap between religious themes and successful game design.</p>
+            
+            <div class="tldr-grid">
+                <div class="tldr-card">
+                    <h4>The Problem</h4>
+                    <p>Growing religious themes in games lack player perception insights.</p>
+                    <ul>
+                        <li>Risk of offense/misrepresentation due to cultural insensitivity</li>
+                        <li>Impacts player engagement and cultural resonance</li>
+                        <li>Lack of guidance for respectful implementation</li>
+                    </ul>
+                </div>
+
+                <div class="tldr-card">
+                    <h4>My Approach</h4>
+                    <p>Mixed-methods research combining computational and qualitative analysis.</p>
+                    <ul>
+                        <li>Python (PRAW) for data scraping from Reddit</li>
+                        <li>Advanced Topic Modeling (BERTopic) for themes</li>
+                        <li>Human-in-the-loop qualitative analysis for validation</li>
+                    </ul>
+                </div>
+
+                <div class="tldr-card">
+                    <h4>The Solution</h4>
+                    <p>Uncovered 3 primary themes of religion in gaming discourse.</p>
+                    <ul>
+                        <li>Provides actionable insights for sensitive game design</li>
+                        <li>Facilitates respectful integration of cultural narratives</li>
+                        <li>Bridges understanding between players and developers</li>
+                    </ul>
+                </div>
+
+                <div class="tldr-card">
+                    <h4>Key Results</h4>
+                    <p>Identified core concerns and opportunities in religious game design.</p>
+                    <ul>
+                        <li>Identified "Blasphemous Elements & Misrepresentation" as core concern</li>
+                        <li>Recognized "Religion as a Design Space" for rich content</li>
+                        <li>Highlighted "Videogames for Religious Education & Community"</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="overview">
+            <h3>Project Overview</h3>
+            <div class="overview-grid">
+                <div class="overview-item">
+                    <h4>My Role</h4>
+                    <ul>
+                        <li>Project Lead</li>
+                        <li>UX Researcher (Mixed Methods)</li>
+                        <li>Data Collection & Analysis</li>
+                        <li>Programming (Python/PRAW)</li>
+                    </ul>
+                </div>
+                <div class="overview-item">
+                    <h4>Team</h4>
+                    <ul>
+                        <li>2 Researchers (including me)</li>
+                        <li>2 Faculty Mentors</li>
+                    </ul>
+                </div>
+                <div class="overview-item">
+                    <h4>Duration</h4>
+                    <ul>
+                        <li>3 Months</li>
+                        <li>(Nov 2023 - Jan 2024)</li>
+                    </ul>
+                </div>
+                <div class="overview-item">
+                    <h4>Tools & Methods</h4>
+                    <ul>
+                        <li>Python (PRAW, BERTopic)</li>
+                        <li>Qualitative Coding</li>
+                        <li>Topic Modeling</li>
+                        <li>Content Analysis</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <h2>Paper Presentation</h2>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID_HERE" title="CHI PLAY 2024 Presentation" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="video-caption">Paper presentation at CHI PLAY 2024</div>
+
+        <h2>The Challenge & My Approach</h2>
+        <div class="two-column">
+            <div>
+                <h3>The Challenge</h3>
+                <p>There is a growing presence of religious themes in videogames, but little is understood about how players perceive, discuss, and interact with these themes. This lack of insight creates a gap in understanding how religion influences gaming experiences and how games can meaningfully incorporate religious narratives without causing offense or misrepresentation.</p>
+            </div>
+            <div>
+                <h3>My Approach</h3>
+                <p>This UX research study explored the intersection of religion and videogames by analyzing online discussions within Reddit gaming and religious communities. Using a mixed-methods approach combining Python scripting for data scraping, advanced topic modeling, and qualitative analysis, I uncovered key themes and narratives emerging from player discourse.</p>
+            </div>
+        </div>
+
+        <h2>Methodology</h2>
+        <p>To uncover the nuances at the intersection of religion and videogames, a structured three-step methodology was adopted, focusing on rigor and minimizing bias.</p>
+
+        <div class="image-container">
+            <img src="Group 162.png" alt="UXR Pipeline for Religion and Videogames Study">
+            <div class="image-caption">UXR pipeline adopted to understand stakeholder perceptions of religion in videogames.</div>
+        </div>
+
+        <h3>1. Data Retrieval and Cleaning</h3>
+        <p>Data was retrieved using Python's PRAW library to scrape posts and comments from relevant religious (e.g., r/Christianity, r/Islam) and gaming subreddits (e.g., r/pokemon, r/Smite). Keywords like "Christian," "Hindu," "Islam," etc., targeted contextually relevant discussions. The dataset was meticulously refined by removing noise and focusing on discussions around specific games mentioned in relation to religion.</p>
+
+        <h3>2. Topic Modeling with BERTopic</h3>
+        <p>BERTopic, a state-of-the-art topic modeling tool leveraging sentence embeddings, was employed to generate context-aware topic clusters from the cleaned text data. This approach allowed for the automatic identification of meaningful themes and the exclusion of outlier comments, significantly enhancing accuracy compared to traditional methods.</p>
+
+        <div class="image-container">
+            <img src="Group 774.png" alt="BERTopic output example for Islamic subreddit analysis">
+            <div class="image-caption">Example BERTopic output for the r/islam subreddit. Researchers assigned labels to the generated clusters.</div>
+        </div>
+
+        <h3>3. Qualitative Analysis & Researcher Validation</h3>
+        <p>To ensure human oversight and contextual understanding, a human-in-the-loop methodology was applied. Researchers collaboratively reviewed, interpreted, and labeled the topics generated by BERTopic. This robust process balanced computational efficiency with deep human interpretation.</p>
+
+        <h2>Key Insights</h2>
+        <p>The analysis surfaced 22 distinct sub-themes within online discussions, which were categorized into three primary themes revealing the complex relationship between religious players and videogames:</p>
+
+        <ol>
+            <li>Videogames perceived as Blasphemous or Sinful</li>
+            <li>Religion serving as a rich Design Space for game elements</li>
+            <li>Videogames acting as platforms for Religious Education and Community Building</li>
+        </ol>
+
+        <div class="image-container">
+            <img src="Group 521.png" alt="Examples of Religious Depictions and Controversial Themes in Games">
+            <div class="image-caption">Depictions of Hindu and Babylonian deities in Smite, and themes like alcohol, gambling, or nudity in GTA V, considered sinful by some religious practitioners.</div>
+        </div>
+
+        <h3>Insight 1: Blasphemous Elements & Misrepresentation</h3>
+        <p>A significant portion of discussions centered on players feeling that certain game elements misrepresented or disrespected their religious beliefs. Concerns included inaccurate portrayals of deities, the trivialization of sacred figures, and gameplay mechanics conflicting with religious values.</p>
+
+        <div class="image-container">
+            <img src="Group 869.png" alt="Diagram showing ways games can be perceived as blasphemous">
+            <div class="image-caption">Common ways videogames were perceived as blasphemous by religious stakeholders.</div>
+        </div>
+
+        <div class="quote">
+            "Kali has been deprived of all her original reference material. Instead, the character we see in Smite is a totally tranquil...blue woman with four arms."
+        </div>
+
+        <div class="quote">
+            "Seeing my God murdered by other gods...is upsetting. I find it unsettling to consider Ganesha engaging in warfare."
+        </div>
+
+        <p>The act of controlling gods or engaging in virtual activities deemed sinful were major points of contention, highlighting the need for developer sensitivity.</p>
+
+        <h3>Insight 2: Religion as a Design Space</h3>
+        <p>Conversely, many players view religion as a vast source of inspiration for game design, including characters, narratives, settings, and aesthetics. Online communities actively brainstormed ideas for incorporating religious stories, figures, and locations into games.</p>
+
+        <div class="image-container">
+            <img src="Group 800design (1).png" alt="Diagram showing aspects of religion used as design space">
+            <div class="image-caption">Various aspects of religion identified as inspiration for videogame design elements.</div>
+        </div>
+
+        <div class="quote">
+            "The Mahabharata provides numerous characters and stories for developing games; what are some stories you think would be good levels in the game?"
+        </div>
+
+        <div class="quote">
+            "Introducing a Christian character for Smite: The Archangel Gabriel...Gabriel radiates a glow that speeds up his and his nearby allies' HP and MP regeneration."
+        </div>
+
+        <p>This highlights player enthusiasm for culturally rich content and the potential for games to explore diverse mythologies and histories respectfully.</p>
+
+        <h3>Insight 3: Videogames for Religious Education & Community</h3>
+        <p>Communities actively leverage videogames as tools for religious education and fostering connection. Players suggest and even develop games aimed at teaching religious concepts or history.</p>
+
+        <div class="image-container">
+            <img src="Group 801commmunities (1).png" alt="Diagram showing how games contribute to social settings">
+            <div class="image-caption">Understanding how games with religious elements contribute to education and community building.</div>
+        </div>
+
+        <div class="quote">
+            "What questions should I include in an Android quiz game on Hinduism I am building?"
+        </div>
+
+        <div class="quote">
+            "God inspires me to create Christian videogames...Please lead me to God's Word and in the appropriate direction!"
+        </div>
+
+        <p>Furthermore, religious communities utilize games to create inclusive online spaces, organize events around festivals, and maintain curated lists of religiously appropriate games.</p>
+
+        <h2>Conclusion & Implications</h2>
+        <p>This research illuminated the intricate, often paradoxical, relationship between religion and videogames. While religious themes offer rich creative potential and foster community engagement, their implementation requires significant cultural sensitivity and nuanced understanding to avoid misrepresentation and alienation.</p>
+
+        <p>For UX professionals and game designers, this research highlights critical considerations:</p>
+
+        <div class="card">
+            <h4>Key Takeaways for Designers</h4>
+            <ul>
+                <li><strong>Prioritize Cultural Sensitivity:</strong> Deeply research and respectfully represent religious elements. Avoid trivialization or stereotypes</li>
+                <li><strong>Engage with Communities:</strong> Foster dialogue with players and relevant religious communities during development</li>
+                <li><strong>Acknowledge Player Perceptions:</strong> Understand that players bring diverse perspectives; what is acceptable to one group may be offensive to another</li>
+                <li><strong>Leverage Educational Potential:</strong> Explore opportunities for games to facilitate learning and positive community interaction around cultural and religious themes</li>
+            </ul>
+        </div>
+
+        <p>Ultimately, creating truly resonant and inclusive gaming experiences involving religion necessitates a thoughtful balance between creative expression, player expectation, and profound respect for diverse beliefs and practices.</p>
+
+        <div class="card">
+            <h4>Personal Learnings</h4>
+            <ul>
+                <li><strong>Unveiling Nuance:</strong> The study revealed a complex, often contradictory, relationship between religion and gaming, moving beyond simple "good" or "bad" portrayals</li>
+                <li><strong>Power of Mixed Methods:</strong> Combining quantitative topic modeling with qualitative interpretation was crucial for robust and contextually rich insights</li>
+                <li><strong>Importance of Discourse:</strong> Analyzing online community discussions provides invaluable, unsolicited feedback on user perceptions and cultural sensitivities</li>
+                <li><strong>Ethical Implications in Tech:</strong> This research highlighted the direct ethical responsibilities of designers and developers when incorporating sensitive cultural content</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Sai Maram. Case Study.</p>
+        <p><a href="./index.html">Back to Portfolio</a></p>
+    </footer>
+</body>
+</html>
