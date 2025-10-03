@@ -41,6 +41,12 @@
             cursor: default;
         }
 
+        /* Update this section in your portfolio's CSS */
+#project-viewer {
+    /* Ensure the viewer fills the main content area */
+    height: 100%; 
+    padding: 0; /* Remove padding here, add it inside the iframe content if needed */
+}
         /* Styles for the portfolio dropdown container */
         #project-links-container {
             margin-top: 0.5rem;
@@ -402,7 +408,7 @@
             <a id="portfolio-toggle"><span id="portfolio-indicator">+</span> UX Case Studies</a>
         </div>
         <div id="project-links-container" class="hidden">
-            <a class="project-link" data-src="">LLM UX (Microsoft) 🔒</a>
+            <a class="project-link" data-src="./Xbox2.html">LLMs meet UX (Microsoft) 🔒</a>
             <a class="project-link" data-src="">Xbox Family Safety 🔒</a>
             <a class="project-link" data-src="">LLM Games 🚧</a>
             <a class="project-link" data-src="./religionVideoGamesNew.html">Reddit,Games</a>
@@ -421,6 +427,7 @@
             </div>
             <div class="about-text-column">
                 <h1>Hi, I am Sai Maram.</h1>
+                <strong>Facebook Sports Cards, Meta Notes-Spotify Connect were outcomes of my internship at Meta. I am also the researcher/designer/developer behind Xbox AURA. My work also contributed to award winning videogames like Halo and Perfect Dark. </strong>
 
                 <!-- <h4 style="color: #666;">I craft intuitive experiences, and solve complex problems.</h4>
                 -->
@@ -444,6 +451,16 @@
                             <h4>Shloka: Climate Action through Cultural Games</h4>
                             <p>Ethnographic research exploring how religious narratives drive environmental behavior change.</p>
                         </div>
+                        <div class="featured-card" onclick="loadProject('./Xbox2.html')">
+                            <div class="featured-tag">MICROSOFT 2025</div>
+                            <h4>LLMs meet UX 🔒</h4>
+                            <p>Understood AI-requirements of UX Researchers at Xbox Research and designed and developed Xbox AURA.</p>
+                        </div>
+                        <div class="featured-card" onclick="loadProject('./metaNew.html')">
+                            <div class="featured-tag">META 2022</div>
+                            <h4>Facebook Home Redesign</h4>
+                            <p>Generative research identifying user needs and prototyping 21 new experiences.</p>
+                        </div>
                         <div class="featured-card" onclick="loadProject('./religionVideoGamesNew.html')">
                             <div class="featured-tag">CHI PLAY 2024</div>
                             <h4>Religious Inclusivity in Games</h4>
@@ -459,21 +476,13 @@
                             <h4>AstraVerse Character Design</h4>
                             <p>Visual ethnography creating culturally-sensitive game character frameworks.</p>
                         </div>
-                        <div class="featured-card" onclick="loadProject('./metaNew.html')">
-                            <div class="featured-tag">META 2022</div>
-                            <h4>Facebook Home Redesign</h4>
-                            <p>Generative research identifying user needs and prototyping 21 new experiences.</p>
-                        </div>
+                        
                         <div class="featured-card" onclick="showLockedMessage()">
                             <div class="featured-tag">MICROSOFT 2024</div>
                             <h4>Xbox Family Safety 🔒</h4>
                             <p>Unified 6 disparate parental control endpoints through 13 usability studies.</p>
                         </div>
-                        <div class="featured-card" onclick="showLockedMessage()">
-                            <div class="featured-tag">MICROSOFT 2025</div>
-                            <h4>LLM UX Research 🔒</h4>
-                            <p>Under NDA - Contact for details about my work on AI-powered experiences.</p>
-                        </div>
+                        
                         <div class="featured-card" onclick="showComingSoon()">
                             <div class="featured-tag">UPCOMING</div>
                             <h4>LLM Games Research 🚧</h4>
@@ -507,7 +516,7 @@
             </div>
         </div>
 
-        <div id="experience" class="content-section hidden">
+        <!-- <div id="experience" class="content-section hidden">
             <div class="experience-item">
                 <h3>Microsoft (Xbox)</h3>
                 <div class="role-info">
@@ -552,7 +561,7 @@
                     <li>Reduced deployment time by 12 hours and increased fleet health by 34%</li>
                 </ul>
             </div>
-        </div>
+        </div> -->
 
         <div id="research" class="content-section hidden">
             <h2>Publications</h2>
@@ -759,62 +768,28 @@
         });
 
         // New functions for featured work section
-        function loadProject(projectUrl) {
-            // Hide all sections
-            document.querySelectorAll('.content-section').forEach(section => {
-                section.classList.add('hidden');
-            });
-            
-            // Show project viewer
-            const projectViewer = document.getElementById('project-viewer');
-            projectViewer.classList.remove('hidden');
-            projectViewer.innerHTML = '<p>Loading project...</p>';
-            
-            // Check if we're on file:// protocol
-            if (window.location.protocol === 'file:') {
-                projectViewer.innerHTML = `
-                    <div style="padding: 2rem; text-align: center; border: 2px dashed #ccc; margin: 2rem;">
-                        <h2>Local File Access Limitation</h2>
-                        <p>Due to browser security restrictions, projects cannot be loaded when opening HTML files directly.</p>
-                        <p><strong>To view projects, please:</strong></p>
-                        <ol style="text-align: left; max-width: 500px; margin: 0 auto;">
-                            <li>Use a local web server (e.g., <code>python -m http.server 8000</code>)</li>
-                            <li>Or use VS Code with Live Server extension</li>
-                            <li>Then access via <code>http://localhost:8000</code></li>
-                        </ol>
-                        <p style="margin-top: 2rem;">Alternatively, you can open <strong>${projectUrl}</strong> directly in a new tab.</p>
-                        <button onclick="window.open('${projectUrl}', '_blank')" style="padding: 0.5rem 1rem; margin-top: 1rem; cursor: pointer;">
-                            Open ${projectUrl} in New Tab
-                        </button>
-                    </div>
-                `;
-                return;
-            }
-            
-            // Load the project
-            fetch(projectUrl)
-                .then(response => {
-                    if (!response.ok) { throw new Error('Network response was not ok'); }
-                    return response.text();
-                })
-                .then(html => {
-                    projectViewer.innerHTML = html;
-                    // Scroll to top of the page when project loads
-                    window.scrollTo(0, 0);
-                })
-                .catch(error => {
-                    projectViewer.innerHTML = `
-                        <div style="padding: 2rem; text-align: center;">
-                            <p>Sorry, couldn't load the project.</p>
-                            <p>Error: ${error.message}</p>
-                            <button onclick="window.open('${projectUrl}', '_blank')" style="padding: 0.5rem 1rem; margin-top: 1rem; cursor: pointer;">
-                                Try Opening in New Tab
-                            </button>
-                        </div>
-                    `;
-                });
-        }
+      function loadProject(projectUrl) {
+    // 1. Hide all sections and show the viewer
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.add('hidden');
+    });
+    const projectViewer = document.getElementById('project-viewer');
+    projectViewer.classList.remove('hidden');
+    
+    // 2. Clear previous content and insert an IFRAME
+    projectViewer.innerHTML = `
+        <div style="height: 100%; display: flex; flex-direction: column;">
+            <iframe 
+                src="${projectUrl}" 
+                style="flex-grow: 1; border: none; width: 100%; height: 100vh;" 
+                title="Embedded Project: ${projectUrl}">
+            </iframe>
+        </div>
+    `;
 
+    // 3. Optional: Scroll to top of the page when project loads
+    window.scrollTo(0, 0);
+}
         function showAllProjects() {
             // Expand the portfolio dropdown if it's collapsed
             const projectLinksContainer = document.getElementById('project-links-container');

@@ -3,9 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shloka: When Faith Meets Climate Action</title>
+    <title>Xbox AURA</title>
     <style>
-        /* Base styles matching portfolio */
+        /* Base styles matching portfolio (Existing styles are here) */
+        /* ... [Your existing CSS goes here] ... */
+
+        /* Styles for the password protection */
+        #content-wrapper {
+            display: none; /* Hide content by default */
+        }
+
+        #password-prompt {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            border: 1px solid #ddd;
+            text-align: center;
+            background-color: #f8f9fa;
+        }
+
+        #password-input {
+            padding: 10px;
+            margin: 10px 0;
+            width: 80%;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+
+        #submit-button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        #submit-button:hover {
+            background-color: #555;
+        }
+
+        #error-message {
+            color: red;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        /* Existing CSS for your content */
         body {
             background-color: #fdfdfd;
             font-family: 'Courier New', Courier, monospace;
@@ -16,14 +60,12 @@
             padding: 0;
         }
 
-        /* Container */
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 0 2rem;
         }
 
-        /* Typography */
         h1 {
             font-size: 2.5rem;
             font-weight: bold;
@@ -58,7 +100,6 @@
             color: #333;
         }
 
-        /* Links */
         a {
             color: #333;
             text-decoration: underline;
@@ -68,7 +109,6 @@
             text-decoration: none;
         }
 
-        /* Lists */
         ul, ol {
             margin-bottom: 1.5rem;
             padding-left: 2rem;
@@ -78,14 +118,12 @@
             margin-bottom: 0.5rem;
         }
 
-        /* Meta information */
         .meta {
             color: #666;
             font-size: 1rem;
             margin-bottom: 2rem;
         }
 
-        /* Hero section */
         .hero {
             padding: 4rem 0;
             text-align: center;
@@ -102,7 +140,6 @@
             flex-wrap: wrap;
         }
 
-        /* Images */
         .image-container {
             margin: 2rem 0;
             text-align: center;
@@ -121,7 +158,6 @@
             text-align: center;
         }
 
-        /* Overview section */
         .overview {
             background-color: #f8f9fa;
             padding: 2rem;
@@ -154,7 +190,6 @@
             color: #333;
         }
 
-        /* Key findings and cards */
         .key-finding {
             background-color: #f8f9fa;
             padding: 1.5rem;
@@ -167,6 +202,42 @@
             font-weight: bold;
             margin-bottom: 1rem;
             color: #333;
+        }
+
+        .video-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            max-width: 600px;
+            height: 350px;
+            border: 1px solid #ddd;
+        }
+
+        .video-caption {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .video-item {
+            text-align: center;
+        }
+
+        .video-item iframe {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ddd;
         }
 
         .card {
@@ -183,7 +254,6 @@
             color: #333;
         }
 
-        /* Quote styles */
         .quote {
             border-left: 3px solid #666;
             padding-left: 1.5rem;
@@ -200,7 +270,6 @@
             color: #999;
         }
 
-        /* Statistics */
         .stats-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -228,7 +297,6 @@
             margin-top: 0.5rem;
         }
 
-        /* Process timeline */
         .process-list {
             margin: 2rem 0;
         }
@@ -261,7 +329,6 @@
             counter-reset: process-counter;
         }
 
-        /* Results section */
         .results-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -282,12 +349,10 @@
             color: #333;
         }
 
-        /* TL;DR section */
         .tldr-section {
             background-color: #ffffff;
             padding: 3rem 0;
             margin: 2rem 0;
-            /* border: 1px solid #ddd; */
         }
 
         .tldr-grid {
@@ -309,7 +374,6 @@
             color: #333;
         }
 
-        /* Footer */
         .footer {
             padding: 4rem 0 2rem;
             border-top: 1px solid #ddd;
@@ -322,7 +386,6 @@
             color: #666;
         }
 
-        /* Mobile responsive */
         @media (max-width: 768px) {
             .container {
                 padding: 0 1rem;
@@ -361,410 +424,171 @@
     </style>
 </head>
 <body>
-    <div class="hero">
+    <div id="password-prompt">
+        <h2>Enter Password to View Case Study</h2>
+        <input type="password" id="password-input" placeholder="Password">
+        <button id="submit-button">Submit</button>
+        <p id="error-message" style="display: none;">Incorrect password. Please try again.</p>
+    </div>
+
+    <div id="content-wrapper">
+        <div class="hero">
+            <div class="container">
+                <h1>Xbox AURA: AI-User Research Assistant</h1>
+                <p class="meta">Designing, Developing and Conceptualizing LLM tools to support User Research.</p>
+                <div class="hero-meta">
+                    <span>Timeline: 3 months</span>
+                    <span>Team: Lead Researcher, Developer, Designer</span>
+                    
+                </div>
+            </div>
+        </div>
+
         <div class="container">
-            <h1>Xbox AURA: AI-User Research Assistant</h1>
-            <p class="meta">Designing, Developing and Conceptualizing LLM tools to support User Research.</p>
-            <div class="hero-meta">
-                <span>Timeline: 3 months</span>
-                <span>Team: Lead Researcher, Developer, Designer</span>
-                
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <!-- <div class="image-container">
-            <img src="Group789.png" alt="Various gods and their roles in the game Shloka">
-            <div class="image-caption">Various deities and their roles in the Shloka climate education game.</div>
-        </div> -->
-
-        <div class="tldr-section">
-            <h2>TL;DR</h2>
-      
             
-           <p>Xbox Research</p>
-        </div> 
-
-        <!-- <div class="overview">
-            <h3>Project Overview</h3>
-            <div class="overview-grid">
-                <div class="overview-item">
-                    <h4>My Role</h4>
-                    <ul>
-                        <li>Project Lead</li>
-                        <li>UX Researcher</li>
-                        <li>System Designer</li>
-                        <li>Data Analyst</li>
-                        <li>UX Writer</li>
-                    </ul>
+                <div class="video-item">
+                    <iframe src="UX Beyond language and Timezone.mp4" frameborder="0" allowfullscreen title="Explanation of the final visualization system"></iframe>
+                    <div class="video-caption">The AURA toolkit</div>
                 </div>
-                <div class="overview-item">
-                    <h4>Team</h4>
-                    <ul>
-                        <li>1 Researcher (Myself)</li>
-                        <li>1 Designer</li>
-                        <li>1 Developer</li>
-                        <li>2 Faculty Advisors</li>
-                    </ul>
+
+            
+
+            <div class="tldr-section">
+                <h2>TL;DR</h2>
+
+            <p>Xbox Research as an organization conducts player research to understand player behavior, preferences, and experiences within games. However, Xbox historically has focused on understanding players within Seattle, USA. With Xbox aiming to expand its research efforts globally, it faces the challenge to conduct UX studies across languages and agnostic of timezones. In this case-study, we discuss AURA Toolkit - AI User Reserach Assistants Toolkit, an effort initiated, designed and developed by me to increase the adaption of AI within Xbox Research and improve scale, speed at which UX reserach is conducted across Xbox. 
+            </p>
+            <h2>Key Takeways</h2>
+            <ul>
+                <li>All Participants found the AURA Interviews and AURA Surveys to be more efficient in providing playtest feedback compared to regular surveys and unmoderated Interviews.</li>
+                <li>AURA Canvas was effective in helping researchers visualize their data, arrange their data and identify themes from their data, <strong>resulting in saving an average of 8 hours time per reserach study/playtest</strong>.</li>
+                <li>AURA Toolkit helped reducing reliency on vendor support for data annotation, data collection, and subscription fees for tools like Dscout, UserTesting, and contract vendors<strong> saving around $1 million annually.</strong> </li>
+            </ul>
+            </div>
+
+            <h2>Co-designing with Researchers</h2>
+            <p>While AI offers a lot of promise, it is critical to understand how AI can best help UX Researchers in an organization from the researchers themselves. To understand the needs of researchers, I conducted 8 contextual inquiries and 5 semi-structured interviews with researchers across Xbox Research. Through these sessions, I identified key pain points and opportunities for AI integration in their workflows.</p> 
+
+            <h2>Key Insights</h2>
+            <ul>
+                <li><strong>Time Between Raw Data and Oraganized Data: </strong>Researcers spend a significant amout of time waiting for vendors to clean-up data, arrange data and identify important recordings, clipping and snippets from interviews and suverys</li>
+                <li><strong>Limited Scope of Data due to georgraphical and economical constraints: </strong> As Xbox expands to south-east asia and other markets, it becomes increasingly challenging to hire researcehrs fluent in specific languages and cultural contexts. Further, timezones make it challenging to conduct  interviews and playtests across timezones.</li>
+                <li><strong>Need for Real-time Collaboration: </strong> Researchers expressed a desire for tools that facilitate real-time collaboration and feedback, especially when working with remote teams across different time zones.</li>
+                <li><strong>Data Visualization and Synthesis: </strong> Researchers often struggle with synthesizing large amounts of qualitative data into actionable insights. They expressed a need for tools that can help visualize and organize data effectively.</li>
+            </ul>
+
+
+            <h2>AURA Toolkit</h2>
+            <p>Based on the insights gathered from researchers, I conceptualized and developed AURA Toolkit - AI User Research Assistants Toolkit, a suite of AI-powered tools designed to assist researchers in various stages of the research process. The toolkit includes the following main components:</p>
+
+            <ul>
+                <li><strong>AURA Interviews:</strong> AI-assisted interviews that streamline the process of conducting and analyzing user interviews agnostic of timezone and language.</li>
+                <li><strong>AURA Surveys:</strong> Intelligent surveys that adapt questions based on user responses, improving data quality and relevance.</li>
+                <li><strong>AURA Canvas:</strong> A visual collaboration tool that helps researchers organize and synthesize data in real-time and uses LLMs to take a Human In the Loop approach towards running grounded theory based analysis.</li>
+                <li><strong>AURA Coder:</strong> A qualitative analysis tool to help collaborative qualitative coding, allowing users to develop or recycle codebooks on their data. The tool leverages Copilot to help users in running qualitative analysis.</li>
+            </ul>
+
+            For further information I highly recommend watching the below video:
+        
+                <div class="video-item">
+                    <iframe src="UX Beyond language and Timezone.mp4" frameborder="0" allowfullscreen title="Explanation of the final visualization system"></iframe>
+                    <div class="video-caption">The AURA toolkit</div>
                 </div>
-                <div class="overview-item">
-                    <h4>Methods</h4>
-                    <ul>
-                        <li>Visual Ethnography</li>
-                        <li>Grounded Theory</li>
-                        <li>Participatory Design</li>
-                        <li>Statistical Analysis</li>
-                        <li>Cultural Validation</li>
-                    </ul>
-                </div>
-            </div>
-        </div> -->
+            
+            
+            
 
-        <!-- <h2>The Challenge: When Climate Games Miss the Mark</h2>
-        <p>Picture this: You're a practicing Hindu who visits temples regularly, celebrates religious festivals, and feels a deep spiritual connection to nature. You want to learn about climate change and take action, but every environmental game you encounter feels foreign.</p>
+            <h2>Evaluation</h2>
+            <small>Due to NDA, I do not share exact statistical numbers with regards to outcomes.</small>
 
-        <p>The characters don't look like you, the solutions don't fit your lifestyle, and the messaging feels disconnected from the values that actually drive your daily decisions. This disconnect isn't just frustrating—it's a massive missed opportunity.</p> -->
+            <p>To evaluate the effectiveness of various tools across the AURA Toolkit, I conducted a mixed-methods experiments, below I outline the methods used to evaluate, and the key findings associated with experiments for each tool.</p>
 
-        <!-- <div class="stats-container">
-            <div class="stat-item">
-                <span class="stat-number">1.2B</span>
-                <span class="stat-label">Hindus Worldwide</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">0</span>
-                <span class="stat-label">Culturally-Relevant Climate Games</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">41</span>
-                <span class="stat-label">Generic Climate Games Analyzed</span>
-            </div>
-        </div> -->
+            <h3>AURA Interviews</h3>
+            <p>To evaluate the effectiveness of AURA Interviews, I conducted a within-subjects experiment with 12 participants. Each participant completed two playtests of a game, one using traditional unmoderated interviews and the other using AURA Interviews. The order of conditions was counterbalanced to control for order effects. After each playtest, participants completed a survey assessing their experience and provided qualitative feedback through semi-structured interviews.</p>
 
-        <div class="card">
-            <h4>The Core Problem</h4>
-            <p>Traditional climate change games adopt a one-size-fits-all approach that ignores the rich cultural contexts that actually motivate human behavior. They present generic solutions that feel abstract and irrelevant to people whose environmental values are deeply rooted in tradition.</p>
-        </div>
-
-        <div class="card">
-            <h4>My Challenge</h4>
-            <p>How might we create climate education experiences that honor users' cultural identities while effectively communicating environmental science and inspiring action?</p>
-        </div>
-
-        <h2>Research Strategy: Going Beyond Surface-Level Understanding</h2>
-        
-        <h3>Defining the Research Questions</h3>
-        <p>After extensive literature review, I identified a critical gap: while researchers had studied religion and climate change from theological perspectives, no one had deeply explored how to integrate authentic religious practices into interactive climate education.</p>
-
-        <div class="key-finding">
-            <h4>Research Questions</h4>
-            <p><strong>RQ1:</strong> How does the integration of religious rituals and narratives in a serious game enhance players' reflection and interest in climate change?</p>
-            <p><strong>RQ2:</strong> How does this integration influence engagement and player experience?</p>
-        </div>
-
-        <!-- <h3>Research Philosophy: Respectful Inquiry</h3>
-        <p>Before diving into methods, I needed to address a fundamental challenge: How do you research religion respectfully as an outsider? My approach centered on collaborative inquiry rather than extractive research:</p>
-
-        <ul>
-            <li><strong>Positionality Transparency:</strong> I clearly disclosed my own religious background and potential biases</li>
-            <li><strong>Community Partnership:</strong> Working with religious scholars and practitioners as co-researchers, not just subjects</li>
-            <li><strong>Cultural Validation:</strong> Continuous verification of interpretations with community stakeholders</li>
-            <li><strong>Giving Back:</strong> Ensuring research benefits the communities being studied</li>
-        </ul> -->
-
-        <h2>Phase 1: Ethnographic Discovery - Understanding Sacred Spaces</h2>
-        
-        <h3>The Journey to Sacred Sites</h3>
-        <p>Rather than relying on secondary sources, I conducted ethnographic fieldwork at two of India's most significant pilgrimage sites: <strong>Tirumala</strong> and <strong>Sabarimala</strong>.</p>
-
-        <div class="image-container">
-            <img src="Group844.png" alt="Climate elements and efforts being noted at different religious sites">
-            <div class="image-caption">Climate elements and climate efforts being documented at different religious sites.</div>
-        </div>
-
-        <div class="card">
-            <h4>Why These Sites?</h4>
+            <h4>Key Findings</h4>
             <ul>
-                <li><strong>Scale:</strong> Tirumala receives 50,000+ visitors daily, Sabarimala hosts 40+ million pilgrims annually</li>
-                <li><strong>Environmental Context:</strong> Both are located in ecologically sensitive mountain regions</li>
-                <li><strong>Climate Vulnerability:</strong> Both face direct climate change impacts</li>
-                <li><strong>Active Environmental Initiatives:</strong> Both temple authorities have implemented climate action programs</li>
+                <li>Participants reported that AURA Interviews were more efficient in providing playtest feedback compared to traditional unmoderated methods.</li>
+                <li>The adaptive questioning approach of AURA Interviews led to more in-depth responses from participants.</li>
+                <li>Overall, participants expressed a preference for the AURA Interviews due to their streamlined nature and improved user experience.</li>
             </ul>
-        </div>
 
-        <h3>Research Methodology</h3>
-        
-        <div class="process-list">
-            <div class="process-item">
-                <h4>Visual Ethnography</h4>
-                <p>412 photographs, 43 videos documenting rituals, environmental practices, and climate impacts</p>
-            </div>
-            
-            <div class="process-item">
-                <h4>Participant Observation</h4>
-                <p>I participated in pilgrimages, rituals, and community practices as a practicing Hindu</p>
-            </div>
-            
-            <div class="process-item">
-                <h4>Field Sketching</h4>
-                <p>In areas where photography was restricted, I documented observations through detailed sketches</p>
-            </div>
-            
-            <div class="process-item">
-                <h4>Informal Interviews</h4>
-                <p>Conversations with pilgrims, temple staff, and local community members during natural interactions</p>
-            </div>
-        </div>
-
-        <h3>Key Discoveries</h3>
-
-        <div class="key-finding">
-            <h4>Discovery 1: Nature as Living Deities</h4>
-            <p>I observed consistent personification of natural elements—not just as symbols, but as active spiritual beings requiring respect and care. Rivers weren't just water sources; they were goddesses. Mountains weren't just landscapes; they were divine manifestations requiring protection.</p>
-        </div>
-
-        <div class="key-finding">
-            <h4>Discovery 2: Climate Change as Religious Crisis</h4>
-            <p>Climate impacts weren't just environmental problems—they were spiritual crises disrupting sacred practices. Heavy rains and landslides prevented devotees from reaching temples, seen as barriers to spiritual fulfillment.</p>
-        </div>
-
-        <div class="key-finding">
-            <h4>Discovery 3: Environmental Action as Religious Duty</h4>
-            <p>Temple authorities weren't promoting environmental protection for secular reasons—they were framing it as religious obligation. Signs reading "This forest is the abode of the deity—it is your duty to protect it" were common.</p>
-        </div>
-
-        <h2>Phase 2: Co-Design & Cultural Navigation</h2>
-
-        <h3>The Sensitivity Challenge</h3>
-        <p>Moving from ethnographic insights to game design required navigating complex cultural sensitivities. My initial prototypes faced significant pushback from religious scholars—teaching me that good intentions aren't enough when working with sacred content.</p>
-
-        <div class="card">
-            <h4>Initial Design Failure: The God-Player Problem</h4>
-            <p><strong>First Prototype Concept:</strong> Players would control Hindu deities directly, using their powers to combat pollution and climate change.</p>
-            <p><strong>Community Feedback:</strong> "This is problematic. Gods are omnipotent—they don't need to 'level up' or become more powerful. Allowing players to control deities could be seen as disrespectful."</p>
-            <p><strong>Key Learning:</strong> Representation isn't just about inclusion—it's about theological accuracy and cultural respect.</p>
-        </div>
-
-        <div class="image-container">
-            <img src="Group864.png" alt="Discussing with stakeholders and iterative process during development">
-            <div class="image-caption">Stakeholder discussions and iterative development process for Shloka.</div>
-        </div>
-
-        <h3>Design Iteration: From Control to Collaboration</h3>
-        <div class="card">
-            <h4>Revised Approach</h4>
-            <p>Instead of controlling deities, players embody "Shloka"—a chosen child who receives guidance and powers from climate deities through ritual practice.</p>
-            <p><strong>Why This Worked:</strong></p>
+            <h3>AURA Surveys</h3>
+            <p>To evaluate the effectiveness of AURA Surveys, I conducted a within-subjects experiment with 43 participants. Each participant completed two surveys about their gaming experience, one using a traditional static survey and the other using AURA Surveys. The order of conditions was counterbalanced to control for order effects. After each survey, participants completed a follow-up survey assessing their experience and provided qualitative feedback through semi-structured interviews.</p>
             <ul>
-                <li>Maintained Divine Agency: Gods remain omnipotent mentors</li>
-                <li>Preserved Ritual Meaning: Players perform real ritual actions</li>
-                <li>Created Authentic Narrative: Aligned with Hindu concepts of divine grace</li>
+                <li>Participants found AURA Surveys to be more engaging and interactive compared to traditional static surveys.</li>
+                <li>The dynamic question generation of AURA Surveys led to more relevant and personalized questions for participants.</li>
+                <li>Overall, participants expressed a preference for AURA Surveys due to their improved user experience and ability to capture nuanced feedback.</li>
             </ul>
-        </div>
 
-        <h3>Technical Innovation: Digitizing Sacred Practices</h3>
-        
-        <div class="results-grid">
-            <div class="result-card">
-                <h4>Mudra Recognition System</h4>
-                <p>Used Google Teachable Machine to create computer vision models trained on 500+ images of correct mudra formations, achieving 92% accuracy in gesture recognition.</p>
-            </div>
-
-            <div class="result-card">
-                <h4>Chanting Recognition</h4>
-                <p>Integrated OpenAI Whisper for speech recognition with pronunciation guides and rhythm detection for proper Sanskrit mantra pronunciation.</p>
-            </div>
-
-            <div class="result-card">
-                <h4>Breathing Detection</h4>
-                <p>Microphone-based system captures breathing patterns and provides visual feedback to guide users through traditional Pranayama techniques.</p>
-            </div>
-
-            <div class="result-card">
-                <h4>Fire Worship Recognition</h4>
-                <p>Computer vision detects light sources and tracks circular motion patterns for proper Arati ceremony performance.</p>
-            </div>
-        </div>
-
-        <div class="image-container">
-            <img src="Group 848 (2).png" alt="Different stages in a level showing specific climate change objectives">
-            <div class="image-caption">Different stages in a Shloka level, each teaching specific climate change concepts.</div>
-        </div>
-
-        <h2>Phase 3: Rigorous Evaluation - Measuring Cultural Resonance</h2>
-
-        <h3>Comparative Study Design</h3>
-        <p>To validate Shloka's effectiveness, I designed a comprehensive comparative study against existing climate games. This wasn't just about proving our game was better—it was about understanding what specific elements of cultural integration drive engagement.</p>
-
-        <div class="stats-container">
-            <div class="stat-item">
-                <span class="stat-number">24</span>
-                <span class="stat-label">Participants</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">10</span>
-                <span class="stat-label">Games Tested</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">2hrs</span>
-                <span class="stat-label">Per Session</span>
-            </div>
-        </div>
-
-        <h3>Study Protocol</h3>
-        
-        <div class="process-list">
-            <div class="process-item">
-                <h4>Opening Interview (20 min)</h4>
-                <p>Climate attitudes and gaming background assessment</p>
-            </div>
-            
-            <div class="process-item">
-                <h4>Game Rotation (2 hours)</h4>
-                <p>10 games in randomized order using Latin Square design</p>
-            </div>
-            
-            <div class="process-item">
-                <h4>Post-Game Surveys (10 min per game)</h4>
-                <p>Immediate reactions and standardized ratings</p>
-            </div>
-            
-            <div class="process-item">
-                <h4>Neutral Reset (3 min per game)</h4>
-                <p>Standardized video to clear mental palate between games</p>
-            </div>
-            
-            <div class="process-item">
-                <h4>Closing Interview (30 min)</h4>
-                <p>Comparative reflections and deeper insights</p>
-            </div>
-        </div>
-
-        <!-- <h2>Results: When Culture Drives Engagement</h2>
-
-        <h3>Quantitative Results</h3>
-        <p>The statistical results exceeded expectations. Across every major dimension measured, Shloka significantly outperformed traditional climate games:</p>
-
-        <div class="results-grid">
-            <div class="result-card">
-                <h4>Situational Interest - Novelty</h4>
-                <p>Friedman Test: χ²(9, N=24) = 19.45, p < 0.001</p>
-                <p>Effect sizes vs. other games: r = 0.78 to 0.87 (large effects)</p>
-            </div>
-
-            <div class="result-card">
-                <h4>Intrinsic Motivation - Interest</h4>
-                <p>Friedman Test: χ²(9, N=24) = 10.78, p < 0.002</p>
-                <p>Effect sizes vs. other games: r = 0.44 to 0.87 (medium to large effects)</p>
-            </div>
-
-            <div class="result-card">
-                <h4>Guidance Scale</h4>
-                <p>Friedman Test: χ²(9, N=24) = 27.98, p < 0.001</p>
-                <p>84% higher guidance scores than traditional tutorial systems</p>
-            </div>
-
-            <div class="result-card">
-                <h4>Accomplishment Scale</h4>
-                <p>Friedman Test: χ²(9, N=24) = 23.89, p < 0.002</p>
-                <p>Effect sizes vs. other games: r = 0.78 to 0.87 (large effects)</p>
-            </div>
-        </div> -->
-
-        <h3>Key Qualitative Insights</h3> 
-        <p>Through thematic analysis of 14 in-depth interviews, three major themes emerged:</p>
-
-        <div class="key-finding">
-            <h4>Climate Ethics Through Religious Lens</h4>
-            <p>Players reframed environmental responsibility from civic duty to sacred obligation.</p>
-            <div class="quote">
-                "What I can see is a reminder for myself or maybe any player to treat the climate as holy... Ganesha in the game is right, the Ganges is holy and devotees, the government, should treat it that way."
-                <span class="quote-author">— Participant 2</span>
-            </div>
-        </div>
-
-        <div class="key-finding">
-            <h4>Relating to Climate Consequences</h4>
-            <p>Localized climate scenarios affecting familiar sacred places created emotional urgency that abstract global impacts couldn't match.</p>
-            <div class="quote">
-                "Shloka shows places I know, I have visited, and it's sad to know not 100 years but actually now these holy places are being destroyed."
-                <span class="quote-author">— Participant 1</span>
-            </div>
-        </div>
-
-        <div class="key-finding">
-            <h4>Motivation Through Granular Climate Actions</h4>
-            <p>Culturally-specific, achievable actions felt more motivating than generic environmental advice.</p>
-            <div class="quote">
-                "Disposing of fireworks carefully after Diwali, or not spilling oil in the river when I put my diya—these are things I can work on. These are workable stuff."
-                <span class="quote-author">— Participant 2</span>
-            </div>
-        </div>
-
-        <h2>Design Principles Discovered</h2>
-        <p>Through this research, I identified five key principles for culturally-responsive UX design:</p>
-
-        <div class="key-finding">
-            <h4>1. Cultural Authenticity Over Cultural Aesthetics</h4>
-            <p>Surface-level cultural elements don't create engagement—authentic cultural practices and values do. Shloka's authentic ritual interactions created 87% higher immersion than culturally-themed but mechanically-generic games.</p>
-        </div>
-
-        <div class="key-finding">
-            <h4>2. Values-Based Motivation Over Feature-Based Persuasion</h4>
-            <p>Connect new behaviors to existing moral frameworks rather than creating new value systems. Participants reframed climate action as religious duty using existing concepts.</p>
-        </div>
-
-        <div class="key-finding">
-            <h4>3. Localized Relevance Over Universal Impact</h4>
-            <p>Personal/local consequences motivate more than global/abstract impacts. Participants showed higher emotional engagement with threats to familiar temples than global climate statistics.</p>
-        </div>
-
-        <div class="key-finding">
-            <h4>4. Embodied Interaction Over Cognitive Processing</h4>
-            <p>Physical/ritual interactions create deeper engagement than purely mental tasks. Ritual performance created "dual achievement" - cultural accomplishment plus learning goal.</p>
-        </div>
-
-        <div class="key-finding">
-            <h4>5. Mentorship-Based Guidance Over System-Based Instruction</h4>
-            <p>Guidance from culturally-respected figures feels more supportive than system tutorials. Deity mentors scored 84% higher on "guidance" than traditional tutorial systems.</p>
-        </div>
-
-        <h2>Impact & Professional Growth</h2>
-
-        <h3>Academic Impact</h3>
-        <ul>
-            <li>ACM DIS 2025 - Full Paper and Best Paper (Top-tier HCI Conference)</li>
-            <li>ACM CHI PLAY 2024 - WiP paper</li>
-
-        </ul>
-
-        <h3>Real-World Application</h3>
-        <ul>
-            <li><strong>Temple Education Programs:</strong> 5 temples piloting Shloka for youth climate education</li>
-            <li><strong>Academic Curriculum:</strong> Framework adopted in 2 game design courses</li>
-            <li><strong>Open Source Release:</strong> Code and design documents available for community adaptation</li>
-        </ul>
-
-        <!-- <h2>Key Learnings</h2>
-        <div class="key-finding">
-            <h4>Personal Growth</h4>
+            <h3>AURA Canvas</h3>
+                <p>To evaluate the effectiveness of AURA Canvas, I conducted a between-subjects experiment with 4 researchers from Xbox Research. Each researcher completed a playtest analysis using either traditional methods or AURA Canvas. The order of conditions was counterbalanced to control for order effects. After each analysis, researchers provided qualitative feedback through semi-structured interviews.</p>
             <ul>
-                <li><strong>Bridging Research & Design:</strong> Learned to translate academic ethnographic methods into practical design frameworks</li>
-                <li><strong>Cultural Sensitivity Navigation:</strong> Developed skills for respectful research in religious contexts</li>
-                <li><strong>Mixed Methods Mastery:</strong> Combined qualitative insights with quantitative validation effectively</li>
-                <li><strong>Technical Integration:</strong> Successfully integrated computer vision and speech recognition for cultural applications</li>
+                <li>Participants reported that AURA Canvas facilitated better organization and synthesis of data compared to traditional methods.</li>
+                <li>The real-time collaboration features of AURA Canvas led to more dynamic discussions among researchers.</li>
+                <li>Overall, participants expressed a preference for AURA Canvas due to its innovative approach to qualitative analysis.</li>
             </ul>
-        </div> -->
 
-        <h2>Conclusion</h2>
-        <p>The Shloka project demonstrated that culturally-responsive design isn't just about representation—it's about understanding and integrating the deep cultural practices and values that drive human behavior. By moving beyond surface-level aesthetics to authentic cultural integration, we created an experience that resonated deeply with users and motivated genuine climate engagement.</p>
+            <h3>AURA Coder</h3>
+                <p>To evaluate the effectiveness of AURA Coder, I conducted a between-subjects experiment with 6 researchers from Xbox Research. Each researcher completed a qualitative coding task using either traditional methods or AURA Coder. The order of conditions was counterbalanced to control for order effects. After each coding task, researchers provided qualitative feedback through semi-structured interviews.</p>
+            <ul>
+                <li>Participants reported that AURA Coder streamlined the coding process compared to traditional methods.</li>
+                <li>The AI-assisted coding features of AURA Coder led to more consistent application of codes among researchers.</li>
+                <li>Overall, participants expressed a preference for AURA Coder due to its efficiency and effectiveness in qualitative analysis.</li>
+            </ul>
 
-        <p>This work provides a framework for how UX practitioners can approach culturally-sensitive design challenges across domains, emphasizing the importance of collaborative inquiry, authentic representation, and values-based motivation in creating meaningful user experiences.</p>
-    </div>
+            <h2>Impact</h2>
+            <ul>
+                <li>AURA Toolkit has been adopted by multiple teams within Xbox Research, leading to increased efficiency and effectiveness in user research processes.</li>
+                <li>The toolkit has facilitated more inclusive and diverse research practices by enabling studies across languages and time zones.</li>
+                <li>Overall, AURA Toolkit has contributed to a more innovative and user-centered approach to research within Xbox.</li>
+            </ul>   
 
-    <footer class="footer">
-        <p>&copy; 2024 Sai Maram. Case Study.</p>
-        <p><a href="./index.html">Back to Portfolio</a></p>
-    </footer>
+            <h2>Drawbacks</h2>
+            <ul>
+                <li>Some participants shared that the use of AI in UX research felt intrusive and raised concerns about data privacy despite all data being internal to Microsoft and withing regulations.</li>
+                <li>Some researchers expressed discomfort with the AI-generated insights, feeling that they lacked the depth and nuance of human analysis. They shared that these insights are great first drafts but still require human interpretation and refinement, even though it does save the initial hassle of finding obvious patterns.</li>
+                <li>There were instances where the AI tools misinterpreted user responses, leading to irrelevant or off-topic questions in AURA Interviews and AURA Surveys. This highlighted the need for ongoing refinement of the AI algorithms to improve accuracy and relevance.</li>
+            </ul>
+
+        <footer class="footer">
+            <p>&copy; 2024 Sai Maram. Case Study.</p>
+            <p><a href="./index.html">Back to Portfolio</a></p>
+        </footer>
+    </div> <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const passwordInput = document.getElementById('password-input');
+            const submitButton = document.getElementById('submit-button');
+            const passwordPrompt = document.getElementById('password-prompt');
+            const contentWrapper = document.getElementById('content-wrapper');
+            const errorMessage = document.getElementById('error-message');
+
+            const CORRECT_PASSWORD = "YouCanSee";
+
+            const checkPassword = () => {
+                const enteredPassword = passwordInput.value;
+
+                if (enteredPassword === CORRECT_PASSWORD) {
+                    passwordPrompt.style.display = 'none'; // Hide the login prompt
+                    contentWrapper.style.display = 'block'; // Show the content
+                    errorMessage.style.display = 'none'; // Hide error message if it was visible
+                } else {
+                    errorMessage.style.display = 'block'; // Show error message
+                    passwordInput.value = ''; // Clear the input field
+                    passwordInput.focus(); // Set focus back to the input
+                }
+            };
+
+            // Event listener for the submit button click
+            submitButton.addEventListener('click', checkPassword);
+
+            // Event listener for the 'Enter' key press in the input field
+            passwordInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    checkPassword();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
