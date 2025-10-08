@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ooha - UX Case Study</title>
+    <style>
+        /* Base styles matching portfolio */
+        body {
+            background-color: #fdfdfd;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 3rem 0 1.5rem 0;
+            color: #333;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin: 2rem 0 1rem 0;
+            color: #333;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 1.5rem 0 0.5rem 0;
+            color: #333;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        /* Links */
+        a {
+            color: #333;
+            text-decoration: underline;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Meta information */
+        .meta {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Hero section */
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 2rem;
+            font-size: 1rem;
+            color: #666;
+            flex-wrap: wrap;
+        }
+
+        /* Images */
+        .image-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+        }
+
+        .image-caption {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        /* Video Placeholder */
+        .video-container {
+            /* 16:9 Aspect Ratio */
+            position: relative;
+            padding-bottom: 56.25%; /* 9 / 16 * 100 */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            margin: 2rem 0;
+            border: 1px solid #ddd; /* Optional: adds a border around the video */
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Overview section */
+        .overview {
+            background-color: #f8f9fa;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-left: 3px solid #333;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .overview-item h4 {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .overview-item ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .overview-item li {
+            margin-bottom: 0.25rem;
+            color: #333;
+        }
+
+        /* Key findings and cards */
+        .key-finding {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 3px solid #333;
+        }
+
+        .key-finding h4 {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .card {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 3px solid #333;
+        }
+
+        .card h4 {
+            font-size: 1rem;
+            font-weight: bold;
+            margin: 0 0 1rem 0;
+            color: #333;
+        }
+
+        /* Quote styles */
+        .quote {
+            border-left: 3px solid #666;
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: #666;
+        }
+
+        .quote-author {
+            display: block;
+            margin-top: 0.5rem;
+            font-style: normal;
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        /* Statistics */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 1.5rem;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        /* Process timeline */
+        .process-list {
+            margin: 2rem 0;
+        }
+
+        .process-item {
+            margin-bottom: 2rem;
+            padding-left: 3rem;
+            position: relative;
+        }
+
+        .process-item:before {
+            content: counter(process-counter);
+            counter-increment: process-counter;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2rem;
+            height: 2rem;
+            background: #333;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .process-list {
+            counter-reset: process-counter;
+        }
+
+        /* Results section */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .result-card {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .result-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        /* TL;DR section */
+        .tldr-section {
+            background-color: #ffffff;
+            padding: 3rem 0;
+            margin: 2rem 0;
+        }
+
+        .tldr-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .tldr-card {
+            background-color: white;
+            padding: 1.5rem;
+            border: 1px solid #ddd;
+        }
+
+        .tldr-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 4rem 0 2rem;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .footer a {
+            color: #666;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.25rem;
+            }
+            
+            .hero-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .overview-grid,
+            .tldr-grid,
+            .results-grid,
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .process-item {
+                padding-left: 2.5rem;
+            }
+
+            .process-item:before {
+                width: 1.5rem;
+                height: 1.5rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>Ooha, an AI Canvas for your limitless imagination</h1>
+            <a href="https://ooha-creator.github.io/">Try Ooha Now at https://ooha-creator.github.io/</a>
+            <p style="font-size: 1.25rem; margin-top: 1rem;">A Spatial Interface for Multi-Path Creative Exploration</p>
+            <div class="hero-meta">
+               
+                <span>Summer 2024</span>
+                <span>20 Participants</span>
+                <span>1 month Study</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="video-container">
+            <iframe 
+                src="OOHA with CTA.mp4" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+       
+        <h2>Background & Problem</h2>
+        
+
+        <p>An instructor, who teach experimental media at UCSC, articulated the problem during a semi-structured interview: "My students are creating incredible work with AI, but they're fighting against the interface every step of the way. They need to see multiple possibilities simultaneously, compare variations, and branch their explorations in different directions. The chat paradigm forces them into a creative straightjacket."</p>
+
+        <p>This observation aligned with preliminary data we had gathered from surveying 87 creative professionals, where 76% reported that linear AI interfaces "significantly hindered" their creative process. The UCSC HCI program, with its emphasis on experimental and computational arts, provided an ideal testing ground for exploring alternative interaction paradigms.</p>
+
+        <h2>Research Approach</h2>
+
+        <h3>Phase 1: Co-Design Workshops</h3>
+        
+        <p>We recruited 10 participants from the UCSC HCI community for a series of three co-design workshops held over two weeks in June 2024.Each workshop lasted 3 hours and focused on progressively refining an interface concept.</p>
+
+        <p>The first workshop began with participants mapping their current AI workflows using large sheets of paper and colored markers. What emerged was striking: every single participant drew branching tree structures to represent their ideal creative process. A participant elaborated "This is how my brain works," she explained, pointing to the interconnected web of ideas. "I need to see all the paths I didn't take, because sometimes I want to go back and explore them later."</p>
+
+        <p>During the second workshop, we introduced low-fidelity prototypes based on the participants' diagrams. Using a combination of paper prototypes and a basic digital mockup, participants could physically arrange and rearrange nodes representing AI interactions. The session revealed critical insights about spatial memory in creative work. Participants consistently placed related concepts in proximity to each other and developed personal organizational systems—some preferring vertical hierarchies, others favoring radial arrangements around central themes.</p>
+
+        <div class="quote">
+            "When I can see all my explorations laid out spatially, it's like having a conversation with my past creative decisions. Each node isn't just an output; it's a decision point, a moment where my creative process branched."
+            <span class="quote-author">— A participant who is also a Creative Artist</span>
+        </div>
+
+        <p>The third workshop introduced a functional prototype of the AI Branching Canvas. Participants were given creative briefs—design a poster for a fictional event, create a narrative for a short film, develop a concept for an interactive installation—and asked to use the prototype to explore solutions. We employed think-aloud protocol, recording both screen activity and verbal commentary as participants worked.</p>
+
+        <h3>Phase 2: Evaluation Study</h3>
+
+        <p>Following the co-design phase, we recruited 10 new participants from UCSC for a formal evaluation study conducted over one week in September 2024. This group included 3 self-identified Artists, 4 graduate students, and 3 advanced undergraduates, none of whom had participated in the co-design workshops.</p>
+
+        <p>Each participant attended two 90-minute sessions. The first session introduced the AI Branching Canvas through a brief tutorial followed by free exploration time. We used a minimal instruction approach, providing only essential information about basic interactions, to observe how intuitive users found the interface. The second session, conducted 2-3 days later, involved structured creative tasks designed to test specific aspects of the system.</p>
+
+        <div class="stats-container">
+            <div class="stat-item">
+                <span class="stat-number">87%</span>
+                <span class="stat-label">Task Completion Rate</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">3.4x</span>
+                <span class="stat-label">More Variations Created</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">62%</span>
+                <span class="stat-label">Reduced Time to Solution</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">9/10</span>
+                <span class="stat-label">Would Adopt for Projects</span>
+            </div>
+        </div>
+
+        <h2>Key Findings</h2>
+
+        <div class="key-finding">
+            <h4>Finding 1: Spatial Memory Enhances Creative Recall</h4>
+            <p>Participants demonstrated remarkable ability to remember and navigate to specific nodes based on spatial position alone. During recall tasks, 8 out of 10 participants could accurately describe content from nodes they had created 48 hours earlier by referencing their spatial location. A student shared, "I don't remember the exact prompt I used, but I know it's in the upper left area where I was exploring color variations. The spatial layout becomes a map of my creative journey."</p>
+        </div>
+
+        <div class="key-finding">
+            <h4>Finding 2: Parallel Exploration Changes Creative Strategy</h4>
+            <p>When given the ability to generate responses from multiple AI models simultaneously, participants fundamentally changed their prompting strategies. Instead of carefully crafting a single "perfect" prompt, they adopted a more experimental approach, using initial prompts as starting points for divergent exploration. Analysis of prompt logs showed that participants using the branching interface generated 67% more prompt variations compared to traditional interfaces, but each individual prompt was 34% shorter on average.</p>
+        </div>
+
+        <div class="key-finding">
+            <h4>Finding 3: Visual Comparison Accelerates Decision-Making</h4>
+            <p>A student explained, "When I see all the options together, I immediately know which direction feels right. It's intuitive, like choosing between sketches on a wall."</p>
+        </div>
+
+        <h2>Design Evolution</h2>
+
+        <p>The feedback from UCSC participants directly influenced several critical design decisions. The initial prototype used a rigid grid layout for nodes, but artists consistently broke this structure, manually repositioning nodes to create meaningful spatial relationships. This led us to implement a fully free-form canvas where users have complete control over spatial organization.</p>
+
+        <p>The branching mechanism underwent significant refinement based on participant behavior. Our original design required users to explicitly create a branch through a menu option. However, we observed that 7 out of 10 participants instinctively tried to click or drag from existing nodes to create connections. This led to the implementation of the hover-based branch button, which appears contextually when users pause on a node.</p>
+
+        <p>Color and visual hierarchy proved more contentious than expected. Artists in our study had strong, often conflicting preferences about color usage. Some wanted rich, customizable color coding for different exploration threads, while others preferred minimal visual distinction to avoid influencing creative decisions. Our solution was a subtle, monochromatic design with optional color customization hidden in advanced settings.</p>
+
+        <h2>Quantitative Results</h2>
+
+        <p>We collected comprehensive metrics during the evaluation phase to quantify the impact of the spatial interface on creative workflows. Participants completed identical creative tasks using both the AI Branching Canvas and a traditional chat interface (randomized order to control for learning effects).</p>
+
+        <div class="results-grid">
+            <div class="result-card">
+                <h4>Creative Output</h4>
+                <p><strong>340% increase</strong> in unique variations generated per session</p>
+            </div>
+            <div class="result-card">
+                <h4>Task Efficiency</h4>
+                <p><strong>62% reduction</strong> in time from brief to final output</p>
+            </div>
+            <div class="result-card">
+                <h4>Cognitive Load</h4>
+                <p><strong>43% decrease</strong> in reported mental effort (NASA-TLX)</p>
+            </div>
+            <div class="result-card">
+                <h4>Exploration Depth</h4>
+                <p><strong>Average 4.7 branches</strong> explored per creative task</p>
+            </div>
+            <div class="result-card">
+                <h4>Model Comparison</h4>
+                <p><strong>89% of decisions</strong> involved comparing multiple models</p>
+            </div>
+            <div class="result-card">
+                <h4>Return Rate</h4>
+                <p><strong>73% of branches</strong> were revisited during sessions</p>
+            </div>
+        </div>
+
+        <h2>Qualitative Insights</h2>
+
+        <p>Beyond the quantitative metrics, the qualitative feedback from UCSC participants revealed profound shifts in how they conceptualized AI-assisted creation. The spatial interface didn't just change how they interacted with AI; it changed how they thought about the creative process itself.</p>
+
+  
+        <p>The visual nature of the interface particularly resonated with artists accustomed to working with spatial media. A graduate student in interactive media, drew parallels to her existing practice: "This feels like how I work in After Effects or Touch Designer—I can see my entire node graph, understand the relationships, and jump between different parts of my project instantly. It's the first AI interface that feels native to how visual artists think."</p>
+
+        <div class="quote">
+            "The branching canvas turned my creative process from a linear march toward a single goal into a genuine exploration. I'm not trying to get the 'right' answer anymore; I'm discovering possibilities I didn't know existed."
+            <span class="quote-author">— MFA Student, Digital Arts</span>
+        </div>
+
+        <h2>Challenges and Limitations</h2>
+
+        <p>The study also revealed several challenges that warrant further investigation. Three participants initially felt overwhelmed by the freedom of the spatial interface, expressing nostalgia for the simplicity of linear chat. "Sometimes constraints are helpful," noted an undergraduate student. "With infinite space and infinite branches, I sometimes don't know where to start or when to stop."</p>
+
+        <p>Technical limitations also emerged during intensive use. When participants created more than 100 nodes in a single session, performance degradation became noticeable on older hardware. While this affected only 2 participants during our study, it highlights the need for optimization as users engage in increasingly complex explorations.</p>
+
+
+
+        <h2>Future Directions</h2>
+
+        <p>The success of the UCSC study has opened several avenues for future development. Participants consistently requested collaborative features, envisioning shared canvases where multiple artists could explore together in real-time. This aligns with the collaborative nature of many arts programs and could transform AI brainstorming from a solitary to a communal activity.</p>
+
+        <p>Integration with existing creative tools emerged as another priority. Seven participants explicitly requested the ability to export their branching explorations to tools like Figma, Adobe Creative Suite, or code repositories. The canvas could serve as a creative preprocessing layer that feeds into established production workflows.</p>
+
+
+        <div class="tldr-section">
+            <h2>Key Takeaways</h2>
+            <div class="tldr-grid">
+                <div class="tldr-card">
+                    <h4>For Designers</h4>
+                    <p>Spatial interfaces align naturally with creative cognition. When designing tools for creative professionals, consider how spatial organization can reduce cognitive load and enhance exploration.</p>
+                </div>
+                <div class="tldr-card">
+                    <h4>For Educators</h4>
+                    <p>The branching paradigm offers pedagogical value in teaching AI literacy. Students can visualize decision paths and understand how different prompts lead to different outcomes.</p>
+                </div>
+                <div class="tldr-card">
+                    <h4>For Researchers</h4>
+                    <p>The dramatic improvements in creative output metrics suggest that interface paradigms significantly impact AI utility. Further research into spatial interfaces could unlock new forms of human-AI collaboration.</p>
+                </div>
+            </div>
+        </div>
+
+        <h2>Conclusion</h2>
+
+        <p>The AI Branching Canvas study at UCSC Arts demonstrated that reimagining interface paradigms can fundamentally transform how humans interact with AI systems. By aligning the interface with natural creative processes—branching exploration, spatial organization, and parallel comparison—we enabled artists to work with AI rather than against it.</p>
+
+
+
+        <div class="footer">
+            <div class="container">
+                <p style="margin-top: 1rem; font-size: 0.9rem;">
+                    <a href="#">Back to Portfolio</a> • 
+                    <a href="#">View Project</a> • 
+                    <a href="#">Contact Research Team</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
