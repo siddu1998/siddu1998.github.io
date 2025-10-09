@@ -1,259 +1,245 @@
-<!-- <!DOCTYPE html>
-<html>
-<head profile="http://www.w3.org/2005/10/profile">
-    <link rel="icon" 
-    type="image/png" 
-    href="Group 116.png">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sai Siddartha Maram</title>
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
-<link rel="stylesheet" href="./stylesheet.css">
-
-<style>
-     body {
-            font-family: Arial, sans-serif;
-            background-image: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMiIgZmlsbD0iI2QwZDBkMCIgLz4KPC9zdmc+Cg==");
-            /* padding-top: 100px; */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sai Maram's Research Publications</title>
+    <style>
+        /* Base and Layout Styles */
+        body {
+            background-color: #fdfdfd;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            display: flex; /* Use flexbox for the main layout */
+            min-height: 100vh;
         }
 
-.navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: white;
-            padding: 15px 60px;
-            font-size: 1.2em;
-            position: fixed;  /* This makes it stick to the top */
-            top: 0;           /* Position it at the very top */
-            left: 0;          /* Align to the left edge */
-            width: 100%;      /* Take full width of the viewport */
-            z-index: 1000;
-            box-sizing: border-box;    /* Keep it above other elements */
+        /* Sidebar Navigation */
+        nav {
+            width: 220px;
+            padding: 2rem;
+            border-right: 1px solid #ddd;
+            flex-shrink: 0; /* Prevents the sidebar from shrinking */
         }
-
-        .navbar a, .dropdown-toggle {
-            color: black;
+        nav a {
+            display: block;
+            margin-bottom: 1rem;
+            color: #333;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        nav a:hover {
             text-decoration: none;
-            margin: 0 15px;
-            padding: 5px 15px;
-            transition: underline 0.3s;
+        }
+        .nav-logo {
+            font-weight: bold;
+            margin-bottom: 2rem;
+            text-decoration: none;
+            cursor: default;
+        }
+        #project-links-container {
+            margin-top: 0.5rem;
+            padding-left: 1rem;
+            border-left: 1px solid #eee;
+        }
+        .project-link {
+            font-size: 1rem;
         }
 
-        .navbar a:hover, .dropdown-toggle:hover {
+        /* Main Content Area */
+        main {
+            flex-grow: 1; /* Allows the main content to fill the remaining space */
+            overflow-y: auto; /* Allow scrolling within the main content area */
+            height: 100vh;
+            padding: 4rem;
+            box-sizing: border-box;
+        }
+        .hidden {
+            display: none;
+        }
+
+        /* Research Table Styles */
+        .research-table-wrapper {
+            margin-top: 2rem;
+        }
+        .research-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .research-table th {
+            text-align: left;
+            padding: 1rem 0;
+            border-bottom: 2px solid #333;
+            font-weight: bold;
+            font-size: 1rem;
+            color: #333;
+        }
+        .research-table td {
+            padding: 1rem 1rem 1rem 0;
+            border-bottom: 1px solid #ddd;
+            vertical-align: top;
+        }
+        .paper-title {
+            color: #333;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+        .paper-title:hover {
             text-decoration: underline;
         }
-
-        .navbar-left {
-            display: flex;
-            align-items: center;
+        .conference-badge {
+            background-color: #f0f0f0;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            color: #333;
+            font-weight: bold;
+            white-space: nowrap;
         }
-
-        .navbar-right {
-            display: flex;
-            align-items: center;
+        .research-table tr:last-child td {
+            border-bottom: none;
         }
-
-        /* Dropdown styling */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: whitesmoke;
-            min-width: 190px;
-            z-index: 1;
-            /* border: 1px solid black; */
-        }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #f5f5f5;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        /* Hamburger menu - hidden by default */
-        .menu-toggle {
-            display: none;
-        }
-
-        @media screen and (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 15px;
+        
+        /* --- Mobile Friendly Styles --- */
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column; 
             }
-
-            .navbar-right {
-                display: none; /* Hide menu items by default on small screens */
-                flex-direction: column;
+            main {
+                height: auto;
+                padding: 2rem;
+            }
+            nav {
+                width: 100%; 
+                padding: 1rem;
+                border-right: none; 
+                border-bottom: 1px solid #ddd; 
+                box-sizing: border-box;
+            }
+            .nav-container {
+                display: flex;
+                justify-content: center;
+                gap: 1.5rem;
+                flex-wrap: wrap;
+            }
+            .nav-logo {
+                display: none;
+            }
+            nav a {
+                margin-bottom: 0;
+            }
+            #project-links-container {
                 width: 100%;
+                text-align: center;
+                padding-left: 0;
+                border-left: none;
+                margin-top: 1rem;
             }
-
-            .navbar.active .navbar-right {
-                display: flex; /* Display menu items when navbar is active */
+            .research-table {
+                font-size: 0.9rem;
             }
-
-            /* Display hamburger menu only on small screens */
-            .menu-toggle {
-                display: block;
-                cursor: pointer;
-                font-size: 1.5em;
-                color: black;
+            .research-table th,
+            .research-table td {
+                padding: 0.5rem 0.5rem 0.5rem 0;
             }
-          }
-</style>
+        }
+    </style>
 </head>
-
 <body>
-  <div class="navbar">
-    <div class="navbar-left">
-        <a href="./index.html">Sai Siddartha Maram</a>
-        
-        <span class="menu-toggle" onclick="toggleMenu()">☰</span>
-    </div>
-    <div class="navbar-right">
-        <a href="./resume.html">Work Experience</a>
-        
-        
-        <div class="dropdown">
-            <a href="./portfolio.html">Case Studies</a>
-            <div class="dropdown-content">
-              <a href="./astraVerse.html">AstraVerse</a>
-              <a href="./meta_internship.html">Intern at Meta</a>
 
-              
-            </div>
+    <nav>
+        <div class="nav-logo">Sai Maram</div>
+        <div class="nav-container">
+            <a href="index.html">About</a>
+            <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+            <a href="research.html" style="text-decoration: none; cursor: default; color: #888;">Research</a>
+            <a id="portfolio-toggle"><span id="portfolio-indicator">+</span> UX Case Studies</a>
         </div>
-
-        <a href="./research.html">Research</a>
-        <a href="./misc.html">Miscellaneous</a>
-    </div>
-</div>
-<div class="main">
-    <div id="papers">
-        <h2 style="color:orangered">Academic Research Papers</h2>
-        <hr class="w3-opacity">
-        
-        <div class="w3-container;" style="overflow-x:auto;">
-        
-          <table class="w3-table">
-            <tr>
-              <th style="color:black">Title</th>
-              <th style="color:black">Conference</th>
-              <th style="color:black">Authors</th>
-            </tr>
-
-            
-            <tr>
-              <td><a target="blank" href=''>Designing Religious Games for Climate Action</a></td>
-              <td>CSCW 2023</td>
-              <td><b>Sai Siddartha Maram</b>, Yash Malegaonkar, Magy Seif El-Nasr</td>
-            </tr>
-
-          
-              <td><a target="blank" href=''>Mining Player Behavior Patterns from Domain-Based Spatial Abstraction in Games</a></td>
-              <td>IEEE CoG 2023</td>
-              <td><b>Sai Siddartha Maram</b>, Johannes Pfau, Jennifer Villareale, Zhaoqing Teng, Jichen Zhu ,Magy Seif El-Nasr</td>
-           
-
-            <tr>
-              <td><a target="blank" href=''>Mining Player Behavior Patterns from Domain-Based Spatial Abstraction in Games</a></td>
-              <td>IEEE CoG 2023</td>
-              <td><b>Sai Siddartha Maram</b>, Johannes Pfau, Jennifer Villareale, Zhaoqing Teng, Jichen Zhu ,Magy Seif El-Nasr</td>
-            </tr>
-            
-            <tr>
-              <td><a target="blank" href=''>Parallel OPM A Visualization System for Analyzing Peers Board States for Gameplay Reflection</a></td>
-              <td>IEEE CoG 2023</td>
-              <td><b>Sai Siddartha Maram</b>, Jennifer Villareale, Boyd Fox, Jichen Zhu ,Magy Seif El-Nasr</td>
-            </tr>
-            
-
-            <tr>
-              <td><a target="blank" href='https://dl.acm.org/doi/10.1145/3582437.3582445'>A Visual Ethnographic Study at Cultural Spaces to Identify Character Creation Opportunities</a></td>
-              <td>FDG 2023</td>
-              <td><b>Sai Siddartha Maram</b>, Johannes Pfau, Jai Dodechani, Magy Seif El-Nasr</td>
-            </tr>
-            
-            <tr>
-              <td><a target="blank" href='https://www.springerprofessional.de/astraverse-establishing-a-culturally-sensitive-framework-for-int/23634780'>AstraVerse: Establishing a Culturally Sensitive Framework for Integrating Elements from Mythological Backgrounds</a></td>
-              <td>IFIP-ICEC 2022</td>
-              <td><b>Sai Siddartha Maram</b>, Johannes Pfau, Reza Habibi, Magy Seif El-Nasr</td>
-            </tr>
-            <tr>
-              <td><a target="blank" href=''>Integrating the Player's Perspective in AI-Based Game Design: Designing Player-AI Interaction in AI-Based Games</a></td>
-              <td>FDG 2023</td>
-              <td>Jennifer Villareale, <b>Sai Siddartha Maram</b> and Jichen Zhu</td>
-            </tr>
-            <tr>
-              <td><a target="blank" href=''>Under Pressure: A Multi-Modal Analysis of Induced Stressors in Games for Resilience</a></td>
-              <td>FDG 2023</td>
-              <td>Reza Habibi, Johannes Pfau, <b>Sai Siddartha Maram </b>, Jiahong Li, Bjarke Larsen, Jason Xu, Atieh Kashani, Shweta Sisodiya, Jonattan Holmes, Zhaoqing Teng, Elin Carstensdottir and Magy Seif El-Nasr</td>
-            </tr>
-    
-            <tr>
-              <td><a target="blank" href='https://dl.acm.org/doi/abs/10.1145/3505270.3558340'>Player Segmentation with INSPECT: Revealing Systematic Behavior Differences within MMORPG and Educational Game Case Studies</a></td>
-              <td>CHI PLAY 2022</td>
-              <td>Zhaoqing Teng, Johannes Pfau, <b>Sai Siddartha Maram</b>, Magy Seif El-Nasr</td>
-            </tr>
-    
-            <tr>
-              <td><a target="blank" href='HCIxB _ AstraVerse_ Gaming Beyond Mortal Borders (1).pdf'>Gaming Beyond Mortal Boarders</a></td>
-              <td>ACM CHI 2022 (Workshop)</td>
-              <td><b>Sai Siddartha Maram</b>, Magy Seif El-Nasr</td>
-            </tr>
-    
-            <tr>
-              <td><a target="blank" href="">Gender, Cultures, and Communication</a></td>
-              <td>ACM CHI 2022 (Workshop)</td>
-              <td>Shweta Sisodiya, <b>Sai Siddartha Maram</b>, Magy Seif El-Nasr, Elin Carstensdottir</td>
-            </tr>
-            
-            <tr>
-              <td><a target="blank" href='https://link.springer.com/chapter/10.1007/978-3-031-05637-6_38'>A Data-driven Design of AR Alternate Reality Games to Measure Resilience</a> </td>
-              <td>HCII 2022 (Best Paper)</td>
-              <td>Rëza Habibi, <b>Sai Siddartha Maram</b>, Johannes Pfau, Jessica Wei, Shweta Sisodiya, Atieh Kashani, Elin Carstensdottir, Magy Seif El-Nasr</td>
-            </tr>
-    
-            <tr>
-              <td><a target="blank" href='https://wimlworkshop.org/icml2021/program/#:~:text=CricNet%20%3A%20Segment%20and,Singh%20Indraprastha%20University)'>CricNet : Segment and Classify Cricket Events</a></td>
-              <td> ICML (Un-Workshop)</td>
-              <td ><b>Sai Siddartha Maram</b>, Shambhavi Mishra</td>
-            </tr>
-      
-            <tr>
-              <td><a target="blank" href='https://ieeexplore.ieee.org/abstract/document/9347962'>Images to Signals, Signals to Highlights</a>
-                <a href='https://youtu.be/muyR9ZULk9Y' style='color:blue'>(Presentation)</a></td>
-              <td> IEEE GLOBECOM 2020</td>
-              <td><b>Sai Siddartha Maram</b>, Neeraj Kumar, Joel J. P. C. Rodrigues, Sudeep Tanwar, Arjav Jain </td>
-            </tr>
-    
-          <tr>
-              <td><a target="blank" href='https://dl.acm.org/doi/abs/10.1145/3422844.3423050'>Asking Graphs "How Did I Play?" Generating Graphs through Images Via Signals</a><a href='https://youtu.be/muyR9ZULk9Y' style='color:blue'>(Presentation)</a></td>
-              <td>ACM Multimedia (Workshop 2020)</td>
-              <td><b>Sai Siddartha Maram</b>, Arjav Jain </td> 
-          </tr>
-    
-          <tr>
-            <td><a target="blank" href='https://ieeexplore.ieee.org/document/8883008'>Neural network and ROS based threat detection and patrolling assistance</a></td>
-            <td>IEEE ICACCP 2019 (Best Paper)</td>
-            <td><b>Sai Siddartha Maram</b>, Tanuj Vishnoi, Sachin Pandey </td> 
-        </tr>
-          </table>
+        <div id="project-links-container" class="hidden">
+            <a class="project-link" href="./canvasNew.html">Ooha - AI interface for visual thinkers</a>
+            <a class="project-link" href="./Xbox2.html">LLMs meet UX (Microsoft) 🔒</a>
+            <a class="project-link" href="#" onclick="showLockedMessage(); return false;">Xbox Family Safety 🚧</a>
+            <a class="project-link" href="#" onclick="showComingSoon(); return false;">LLM Games 🚧</a>
+            <a class="project-link" href="./religionVideoGamesNew.html">Reddit,Games</a>
+            <a class="project-link" href="./opmNew.html">OPM</a>
+            <a class="project-link" href="./astraVerseNew.html">AstraVerse</a>
+            <a class="project-link" href="./shlokaNew.html">Shloka</a>
+            <a class="project-link" href="./metaNew.html">Facebook Top of Home</a>
         </div>
-</div>
+    </nav>
 
-</body>
-</html>  -->
+    <main>
+        <h2>Publications</h2>
+        <div class="research-table-wrapper">
+            <table class="research-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Venue</th>
+                        <th>Year</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <a href="#" class="paper-title">"Pray For Green, Play For Green": Integrating Religion into Climate Change Serious Games</a>
+                        </td>
+                        <td><span class="conference-badge">ACM DIS'25</span></td>
+                        <td>2025</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#" class="paper-title">A Topic Modeling Approach Towards Understanding the Discourse between Religion and Videogames on Reddit</a>
+                        </td>
+                        <td><span class="conference-badge">ACM CHI'24</span></td>
+                        <td>2024</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#" class="paper-title">Shloka: Developing Climate Change interventions through a lens of Religion and Videogames</a>
+                        </td>
+                        <td><span class="conference-badge">ACM CHI'24</span></td>
+                        <td>2024</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#" class="paper-title">"Ah! I see" - Facilitating Process Reflection in Gameplay through a Novel Spatio-Temporal Visualization System</a>
+                        </td>
+                        <td><span class="conference-badge">ACM CHI'24</span></td>
+                        <td>2024</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#" class="paper-title">Open Player Modeling - Using AI to help Reflection and Learning in Serious Games</a>
+                        </td>
+                        <td><span class="conference-badge">ACM SAC'24</span></td>
+                        <td>2024</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#" class="paper-title">Designing Religious Games for Climate Action</a>
+                        </td>
+                        <td><span class="conference-badge">ACM CSCW'24</span></td>
+                        <td>2023</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="https://ieeexplore.ieee.org/abstract/document/10333224" target="_blank" class="paper-title">Mining Player Behavior Patterns from Domain-Based Spatial Abstraction in Games</a>
+                        </td>
+                        <td><span class="conference-badge">IEEE CoG'23</span></td>
+                        <td>2023</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="https://dl.acm.org/doi/10.1145/3582437.3582445" target="_blank" class="paper-title">A Visual Ethnographic Study at Cultural Spaces to Identify Character Creation Opportunities</a>
+                        </td>
+                        <td><span class="conference-badge">ACM FDG'23</span></td>
+                        <td>2023</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="https://www.springerprofessional.de/astraverse-establishing-a-culturally-sensitive-framework-for-int/23634780" target="_blank" class="paper

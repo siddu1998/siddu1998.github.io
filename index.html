@@ -19,13 +19,13 @@
 
         /* Sidebar Navigation */
         nav {
-            width: 220px; /* Slightly wider for new links */
+            width: 220px;
             padding: 2rem;
             border-right: 1px solid #ddd;
             flex-shrink: 0; /* Prevents the sidebar from shrinking */
         }
         nav a {
-            display: block; /* Make links take up the full width */
+            display: block;
             margin-bottom: 1rem;
             color: #333;
             text-decoration: underline;
@@ -41,12 +41,6 @@
             cursor: default;
         }
 
-        /* Update this section in your portfolio's CSS */
-#project-viewer {
-    /* Ensure the viewer fills the main content area */
-    height: 100%; 
-    padding: 0; /* Remove padding here, add it inside the iframe content if needed */
-}
         /* Styles for the portfolio dropdown container */
         #project-links-container {
             margin-top: 0.5rem;
@@ -58,7 +52,7 @@
             font-size: 1rem; /* Make project links slightly smaller */
         }
 
-        /* Main Content Area - KEY FIX: Make each section take full area */
+        /* Main Content Area */
         main {
             flex-grow: 1; /* Allows the main content to fill the remaining space */
             position: relative; /* Important for absolute positioning of sections */
@@ -66,7 +60,7 @@
             height: 100vh;
         }
 
-        /* CRITICAL FIX: Make all content sections positioned absolutely to overlay each other */
+        /* Make all content sections positioned to overlay each other */
         .content-section {
             position: absolute;
             top: 0;
@@ -96,8 +90,8 @@
             overflow-y: auto;
         }
         
-        /* Styles for standard content pages like Experience, Research, etc. */
-        #experience, #research, #project-viewer {
+        /* Styles for standard content pages like Research */
+        #research {
             padding: 4rem;
         }
 
@@ -128,39 +122,6 @@
             display: none;
         }
 
-        /* Stats Section */
-        .stats-section {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-            margin: 3rem 0;
-            text-align: center;
-        }
-
-        .stat-item {
-            padding: 1.5rem 0;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #333;
-            line-height: 1;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 0.8rem;
-            color: #666;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-        }
-
-        /* Contact Section */
-        .contact-section {
-            margin-top: 3rem;
-        }
-
         /* Social Links */
         .social-links {
             display: flex;
@@ -185,74 +146,59 @@
             padding-top: 3rem;
             border-top: 1px solid #ddd;
         }
-
         .featured-work h3 {
             font-size: 1.2rem;
             margin-bottom: 2rem;
             font-weight: normal;
         }
-
         .featured-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
             margin-bottom: 1.5rem;
         }
-
         .featured-card {
             border: 1px solid #ddd;
             padding: 1.5rem;
             transition: background-color 0.2s ease;
             cursor: pointer;
         }
-
         .featured-card:hover {
             background-color: #f9f9f9;
         }
-
         .featured-card h4 {
             font-size: 1rem;
             margin: 0 0 0.5rem 0;
             font-weight: bold;
         }
-
         .featured-card p {
             font-size: 0.9rem;
             color: #666;
             margin: 0 0 1rem 0;
             line-height: 1.4;
         }
-
         .featured-tag {
             font-size: 0.7rem;
             color: #999;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
-
-        .view-all-work {
-            display: inline-block;
-            margin-top: 1rem;
-            text-decoration: underline;
-            color: #333;
-            font-size: 1rem;
-        }
-
-        .view-all-work:hover {
+        
+        /* New style to make featured cards act as proper links */
+        a.featured-card-link {
             text-decoration: none;
+            color: inherit;
         }
 
         /* Research Table Styles */
         .research-table-wrapper {
             margin-top: 2rem;
         }
-
         .research-table {
             width: 100%;
             border-collapse: collapse;
             font-family: 'Courier New', Courier, monospace;
         }
-
         .research-table th {
             text-align: left;
             padding: 1rem 0;
@@ -261,23 +207,19 @@
             font-size: 1rem;
             color: #333;
         }
-
         .research-table td {
             padding: 1rem 0;
             border-bottom: 1px solid #ddd;
             vertical-align: top;
         }
-
         .paper-title {
             color: #333;
             text-decoration: none;
             font-size: 1rem;
         }
-
         .paper-title:hover {
             text-decoration: underline;
         }
-
         .conference-badge {
             background-color: #f0f0f0;
             padding: 0.2rem 0.5rem;
@@ -286,89 +228,64 @@
             color: #333;
             font-weight: bold;
         }
-
         .research-table tr:last-child td {
             border-bottom: none;
         }
         
         /* --- Mobile Friendly Styles --- */
-        @media (max-width: 992px) { /* Changed breakpoint for a better look */
+        @media (max-width: 992px) {
             body {
                 flex-direction: column; 
             }
-            
             main {
                 height: auto;
                 position: static; /* Remove absolute positioning on mobile */
             }
-
             .content-section {
                 position: static; /* Remove absolute positioning on mobile */
                 width: auto;
                 height: auto;
             }
-
             #about {
                 flex-direction: column;
             }
-
-            /* Hide the image on mobile */
             .about-image-column {
                 display: none;
             }
-
-            .about-text-column, #experience, #research, #project-viewer {
+            .about-text-column, #research {
                 padding: 2rem;
             }
-
-            .stats-section {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-                margin: 2rem 0;
-            }
-
-            .stat-number {
-                font-size: 2rem;
-            }
-
             .social-links {
                 flex-wrap: wrap;
                 gap: 1rem;
                 justify-content: flex-start;
             }
-
             .featured-grid {
                 grid-template-columns: 1fr;
                 gap: 1rem;
             }
-            
             .featured-work {
                 margin-top: 2rem;
                 padding-top: 2rem;
             }
-
             nav {
                 width: 100%; 
                 padding: 1rem;
                 border-right: none; 
                 border-bottom: 1px solid #ddd; 
             }
-            
             .nav-container {
                 display: flex;
                 justify-content: center;
                 gap: 1.5rem;
                 flex-wrap: wrap;
             }
-            
             .nav-logo {
                 display: none; /* Hide logo on mobile for space */
             }
-
             nav a {
                 margin-bottom: 0;
             }
-
             #project-links-container {
                 width: 100%;
                 text-align: center;
@@ -376,19 +293,13 @@
                 border-left: none;
                 margin-top: 1rem;
             }
-
-            /* Mobile responsive for research table */
             .research-table {
                 font-size: 0.9rem;
             }
-            
-            .research-table th,
-            .research-table td {
+            .research-table th, .research-table td {
                 padding: 0.5rem 0;
             }
-            
-            .research-table th:last-child,
-            .research-table td:last-child {
+            .research-table th:last-child, .research-table td:last-child {
                 text-align: right;
             }
         }
@@ -396,32 +307,27 @@
 </head>
 <body>
 
-    <!-- Side Navigation Bar -->
     <nav>
         <div class="nav-logo">Sai Maram</div>
         <div class="nav-container">
             <a class="nav-link" data-target="about">About</a>
             <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
-            <!-- <a class="nav-link" data-target="experience">Experience</a> -->
-            <a class="nav-link" data-target="research">Research</a>
-            <!-- This link now opens the PDF in a new tab -->
-            
+            <a class="nav-link" href="./research.html">Research</a>
             <a id="portfolio-toggle"><span id="portfolio-indicator">+</span> UX Case Studies</a>
         </div>
         <div id="project-links-container" class="hidden">
-            <a class="project-link" data-src="./canvasNew.html">Ooha - AI interface for visual thinkers</a>
-            <a class="project-link" data-src="./Xbox2.html">LLMs meet UX (Microsoft) 🔒</a>
-            <a class="project-link" data-src="">Xbox Family Safety 🚧</a>
-            <a class="project-link" data-src="">LLM Games 🚧</a>
-            <a class="project-link" data-src="./religionVideoGamesNew.html">Reddit,Games</a>
-            <a class="project-link" data-src="./opmNew.html">OPM</a>
-            <a class="project-link" data-src="./astraVerseNew.html">AstraVerse</a>
-            <a class="project-link" data-src="./shlokaNew.html">Shloka</a>
-            <a class="project-link" data-src="./metaNew.html">Facebook Top of Home</a>
+            <a class="project-link" href="./canvasNew.html">Ooha - AI interface for visual thinkers</a>
+            <a class="project-link" href="./Xbox2.html">LLMs meet UX (Microsoft) 🔒</a>
+            <a class="project-link" href="#" onclick="showLockedMessage(); return false;">Xbox Family Safety 🚧</a>
+            <a class="project-link" href="#" onclick="showComingSoon(); return false;">LLM Games 🚧</a>
+            <a class="project-link" href="./religionVideoGamesNew.html">Reddit,Games</a>
+            <a class="project-link" href="./opmNew.html">OPM</a>
+            <a class="project-link" href="./astraVerseNew.html">AstraVerse</a>
+            <a class="project-link" href="./shlokaNew.html">Shloka</a>
+            <a class="project-link" href="./metaNew.html">Facebook Top of Home</a>
         </div>
     </nav>
 
-    <!-- Main Content Area -->
     <main>
         <div id="about" class="content-section">
             <div class="about-image-column">
@@ -429,60 +335,77 @@
             </div>
             <div class="about-text-column">
                 <h1>Hi, I am Sai Maram.</h1>
-                <strong>Facebook Sports Cards, Meta Notes-Spotify Connect were outcomes of my internship at Meta. I am also the researcher/designer/developer behind Xbox AURA. My work also contributed to award winning videogames like Halo and Perfect Dark. </strong>
+                <ul>
+                    <li><small>I run and maintain <a href="https://ooha-creator.github.io/">Ooha Canvas</a>, an LLM interface for visual chaining.</small></li>
+                    <li><small>My reserach at Meta laid foundation for Meta-Spotify connect and Facebook Sports cards.</small></li>
+                    <li><small>I was the lead researcher/designer behind Xbox AURA an LLM interface for playtesting and UX Operations.</small> </li>
+                    <li><small>My work has contributed to award-winning video games like Halo and Perfect Dark.</small></li>
 
-                <!-- <h4 style="color: #666;">I craft intuitive experiences, and solve complex problems.</h4>
-                -->
+                </ul>
+                <!-- <strong>Facebook Sports Cards, Meta Notes-Spotify Connect were outcomes of my internship at Meta. I am also the researcher/designer/developer behind Xbox AURA. My work also contributed to award winning videogames like Halo and Perfect Dark. </strong> -->
                 <p>
                  My work explores how design, AI, and community come together to support the development of intuitive experiences. I have previously worked with Meta, Microsoft, and Xbox.  If you'd like to connect or collaborate, feel free to reach out at <a href="mailto:msaisiddartha1@gmail.com">msaisiddartha1@gmail.com</a>
                 </p>
 
                  <div class="social-links">
-                        <a href="https://linkedin.com/in/sid-maram" target="_blank" title="LinkedIn">LinkedIn</a>
-                        <a href="https://scholar.google.com/citations?user=0eShD5EAAAAJ&hl=en" target="_blank" title="Google Scholar">Google Scholar</a>
-                        <a href="https://x.com/" target="_blank" title="Twitter">Twitter</a>
-                        <a href="https://siddu1998.github.io/cv.pdf" target="_blank" title="Resume">Resume</a>
-                    </div>
+                    <a href="https://linkedin.com/in/sid-maram" target="_blank" title="LinkedIn">LinkedIn</a>
+                    <a href="https://scholar.google.com/citations?user=0eShD5EAAAAJ&hl=en" target="_blank" title="Google Scholar">Google Scholar</a>
+                    <a href="https://x.com/" target="_blank" title="Twitter">Twitter</a>
+                    <a href="https://siddu1998.github.io/cv.pdf" target="_blank" title="Resume">Resume</a>
+                </div>
 
-                <!-- Featured Work Section - Moved to top -->
                 <div class="featured-work" style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #ddd;">
                     <h3>Selected Work</h3>
                     <div class="featured-grid">
-                        <div class="featured-card" onclick="loadProject('./canvasNew.html')">
-                            <div class="featured-tag">LLM x AI</div>
-                            <h4>Ooha: An AI Canvas for Visual thinkers</h4>
-                            <p>An interactive canvas leveraging AI to enhance creative workflows and design iterations.</p>
-                        </div>
-                        <div class="featured-card" onclick="loadProject('./shlokaNew.html')">
-                            <div class="featured-tag">ACM DIS 2025🏆, CHI PLAY 2024</div>
-                            <h4>Shloka: Climate Action through Cultural Games</h4>
-                            <p>Ethnographic research exploring how religious narratives drive environmental behavior change.</p>
-                        </div>
-                        <div class="featured-card" onclick="loadProject('./Xbox2.html')">
-                            <div class="featured-tag">MICROSOFT 2025</div>
-                            <h4>LLMs meet UX 🔒</h4>
-                            <p>Understood AI-requirements of UX Researchers at Xbox Research and designed and developed Xbox AURA.</p>
-                        </div>
-                        <div class="featured-card" onclick="loadProject('./metaNew.html')">
-                            <div class="featured-tag">META 2022</div>
-                            <h4>Facebook Home Redesign</h4>
-                            <p>Generative research identifying user needs and prototyping 21 new experiences.</p>
-                        </div>
-                        <div class="featured-card" onclick="loadProject('./religionVideoGamesNew.html')">
-                            <div class="featured-tag">CHI PLAY 2024</div>
-                            <h4>Religious Inclusivity in Games</h4>
-                            <p>Digital ethnography analyzing 10,000+ Reddit posts to understand religious representation in gaming.</p>
-                        </div>
-                        <div class="featured-card" onclick="loadProject('./opmNew.html')">
-                            <div class="featured-tag">CHI 2024</div>
-                            <h4>Game Play Reflection Systems</h4>
-                            <p>Design research developing visualization systems to enhance learning in educational games.</p>
-                        </div>
-                        <div class="featured-card" onclick="loadProject('./astraVerseNew.html')">
-                            <div class="featured-tag">IFIP-ICEC 2022</div>
-                            <h4>AstraVerse Character Design</h4>
-                            <p>Visual ethnography creating culturally-sensitive game character frameworks.</p>
-                        </div>
+                        <a href="./canvasNew.html" class="featured-card-link">
+                            <div class="featured-card">
+                                <div class="featured-tag">LLM x AI</div>
+                                <h4>Ooha: An AI Canvas for Visual thinkers</h4>
+                                <p>An interactive canvas leveraging AI to enhance creative workflows and design iterations.</p>
+                            </div>
+                        </a>
+                        <a href="./shlokaNew.html" class="featured-card-link">
+                            <div class="featured-card">
+                                <div class="featured-tag">ACM DIS 2025🏆, CHI PLAY 2024</div>
+                                <h4>Shloka: Climate Action through Cultural Games</h4>
+                                <p>Ethnographic research exploring how religious narratives drive environmental behavior change.</p>
+                            </div>
+                        </a>
+                        <a href="./Xbox2.html" class="featured-card-link">
+                            <div class="featured-card">
+                                <div class="featured-tag">MICROSOFT 2025</div>
+                                <h4>LLMs meet UX 🔒</h4>
+                                <p>Understood AI-requirements of UX Researchers at Xbox Research and designed and developed Xbox AURA.</p>
+                            </div>
+                        </a>
+                        <a href="./metaNew.html" class="featured-card-link">
+                            <div class="featured-card">
+                                <div class="featured-tag">META 2022</div>
+                                <h4>Facebook Home Redesign</h4>
+                                <p>Generative research identifying user needs and prototyping 21 new experiences.</p>
+                            </div>
+                        </a>
+                        <a href="./religionVideoGamesNew.html" class="featured-card-link">
+                            <div class="featured-card">
+                                <div class="featured-tag">CHI PLAY 2024</div>
+                                <h4>Religious Inclusivity in Games</h4>
+                                <p>Digital ethnography analyzing 10,000+ Reddit posts to understand religious representation in gaming.</p>
+                            </div>
+                        </a>
+                        <a href="./opmNew.html" class="featured-card-link">
+                            <div class="featured-card">
+                                <div class="featured-tag">CHI 2024</div>
+                                <h4>Game Play Reflection Systems</h4>
+                                <p>Design research developing visualization systems to enhance learning in educational games.</p>
+                            </div>
+                        </a>
+                        <a href="./astraVerseNew.html" class="featured-card-link">
+                            <div class="featured-card">
+                                <div class="featured-tag">IFIP-ICEC 2022</div>
+                                <h4>AstraVerse Character Design</h4>
+                                <p>Visual ethnography creating culturally-sensitive game character frameworks.</p>
+                            </div>
+                        </a>
                         
                         <div class="featured-card" onclick="showLockedMessage()">
                             <div class="featured-tag">MICROSOFT 2024</div>
@@ -497,78 +420,8 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Stats Section -->
-                <!-- <div class="stats-section">
-                    <div class="stat-item">
-                        <div class="stat-number">60+</div>
-                        <div class="stat-label">USER STUDIES</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">20+</div>
-                        <div class="stat-label">HCI/AI PUBLICATIONS</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">3</div>
-                        <div class="stat-label">FORTUNE 50 INTERNSHIPS</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">1</div>
-                        <div class="stat-label">PATENT</div>
-                    </div>
-                </div> -->
-
-                <!-- Contact Section -->
-               
             </div>
         </div>
-
-        <!-- <div id="experience" class="content-section hidden">
-            <div class="experience-item">
-                <h3>Microsoft (Xbox)</h3>
-                <div class="role-info">
-                    <span>UX Research Intern</span> | <span>Jun 2024 - Sep 2024</span>
-                </div>
-                <ul>
-                    <li>Conducted 13 usability studies on parental controls, identifying key pain points in family gaming experiences</li>
-                    <li>Developed strategy to unify 6 disparate parental control endpoints into a single streamlined application</li>
-                    <li>Created taxonomy of mental models that influenced Xbox's family safety roadmap</li>
-                </ul>
-            </div>
-            <div class="experience-item">
-                <h3>GUII Lab, UC Santa Cruz</h3>
-                <div class="role-info">
-                    <span>Graduate Research Assistant</span> | <span>Sep 2021 - Present</span>
-                </div>
-                <ul>
-                    <li>Led 10+ user studies establishing design frameworks for cultural elements in games (, CSCW)</li>
-                    <li>Conducted mixed-methods research with 500+ participants using surveys, interviews, and statistical analysis</li>
-                    <li>Published 15+ papers in top-tier conferences on game UX and player behavior</li>
-                </ul>
-            </div>
-            <div class="experience-item">
-                <h3>Meta</h3>
-                <div class="role-info">
-                    <span>UX Research Intern</span> | <span>Jun 2022 - Sep 2022</span>
-                </div>
-                <ul>
-                    <li>Conducted generative research for Facebook Home, interviewing 12 users to uncover 4 major expectations</li>
-                    <li>Facilitated 18 co-design sessions validating design hypotheses with diverse user groups</li>
-                    <li>Prototyped 21 new experiences that shaped Facebook's home feed strategy</li>
-                </ul>
-            </div>
-            <div class="experience-item">
-                <h3>Invento Robotics</h3>
-                <div class="role-info">
-                    <span>R&D Engineer</span> | <span>Jun 2020 - Mar 2021</span>
-                </div>
-                <ul>
-                    <li>Executed 17 contextual inquiries identifying 6 critical bottlenecks in robot deployment workflow</li>
-                    <li>Redesigned fleet management portal through card sorting and IA optimization</li>
-                    <li>Reduced deployment time by 12 hours and increased fleet health by 34%</li>
-                </ul>
-            </div>
-        </div> -->
 
         <div id="research" class="content-section hidden">
             <h2>Publications</h2>
@@ -583,79 +436,57 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>
-                                <a href="#" class="paper-title">"Pray For Green, Play For Green": Integrating Religion into Climate Change Serious Games</a>
-                            </td>
+                            <td><a href="#" class="paper-title">"Pray For Green, Play For Green": Integrating Religion into Climate Change Serious Games</a></td>
                             <td><span class="conference-badge">ACM DIS'25</span></td>
                             <td>2025</td>
                         </tr>
                         <tr>
-                            <td>
-                                <a href="#" class="paper-title">A Topic Modeling Approach Towards Understanding the Discourse between Religion and Videogames on Reddit</a>
-                            </td>
+                            <td><a href="#" class="paper-title">A Topic Modeling Approach Towards Understanding the Discourse between Religion and Videogames on Reddit</a></td>
                             <td><span class="conference-badge">ACM CHI'24</span></td>
                             <td>2024</td>
                         </tr>
                         <tr>
-                            <td>
-                                <a href="#" class="paper-title">Shloka: Developing Climate Change interventions through a lens of Religion and Videogames</a>
-                            </td>
+                            <td><a href="#" class="paper-title">Shloka: Developing Climate Change interventions through a lens of Religion and Videogames</a></td>
                             <td><span class="conference-badge">ACM CHI'24</span></td>
                             <td>2024</td>
                         </tr>
                         <tr>
-                            <td>
-                                <a href="#" class="paper-title">"Ah! I see" - Facilitating Process Reflection in Gameplay through a Novel Spatio-Temporal Visualization System</a>
-                            </td>
+                            <td><a href="#" class="paper-title">"Ah! I see" - Facilitating Process Reflection in Gameplay through a Novel Spatio-Temporal Visualization System</a></td>
                             <td><span class="conference-badge">ACM CHI'24</span></td>
                             <td>2024</td>
                         </tr>
                         <tr>
-                            <td>
-                                <a href="#" class="paper-title">Open Player Modeling - Using AI to help Reflection and Learning in Serious Games</a>
-                            </td>
+                            <td><a href="#" class="paper-title">Open Player Modeling - Using AI to help Reflection and Learning in Serious Games</a></td>
                             <td><span class="conference-badge">ACM SAC'24</span></td>
                             <td>2024</td>
                         </tr>
                         <tr>
-                            <td>
-                                <a href="#" class="paper-title">Designing Religious Games for Climate Action</a>
-                            </td>
+                            <td><a href="#" class="paper-title">Designing Religious Games for Climate Action</a></td>
                             <td><span class="conference-badge">ACM CSCW'24</span></td>
                             <td>2023</td>
                         </tr>
                         <tr>
-                            <td>
-                                <a href="https://ieeexplore.ieee.org/abstract/document/10333224" target="_blank" class="paper-title">Mining Player Behavior Patterns from Domain-Based Spatial Abstraction in Games</a>
-                            </td>
+                            <td><a href="https://ieeexplore.ieee.org/abstract/document/10333224" target="_blank" class="paper-title">Mining Player Behavior Patterns from Domain-Based Spatial Abstraction in Games</a></td>
                             <td><span class="conference-badge">IEEE CoG'23</span></td>
                             <td>2023</td>
                         </tr>
                         <tr>
-                            <td>
-                                <a href="https://dl.acm.org/doi/10.1145/3582437.3582445" target="_blank" class="paper-title">A Visual Ethnographic Study at Cultural Spaces to Identify Character Creation Opportunities</a>
-                            </td>
+                            <td><a href="https://dl.acm.org/doi/10.1145/3582437.3582445" target="_blank" class="paper-title">A Visual Ethnographic Study at Cultural Spaces to Identify Character Creation Opportunities</a></td>
                             <td><span class="conference-badge">ACM FDG'23</span></td>
                             <td>2023</td>
                         </tr>
                         <tr>
-                            <td>
-                                <a href="https://www.springerprofessional.de/astraverse-establishing-a-culturally-sensitive-framework-for-int/23634780" target="_blank" class="paper-title">AstraVerse: Establishing a Culturally Sensitive Framework for Integrating Elements from Mythological Backgrounds</a>
-                            </td>
+                            <td><a href="https://www.springerprofessional.de/astraverse-establishing-a-culturally-sensitive-framework-for-int/23634780" target="_blank" class="paper-title">AstraVerse: Establishing a Culturally Sensitive Framework for Integrating Elements from Mythological Backgrounds</a></td>
                             <td><span class="conference-badge">IFIP-ICEC'22</span></td>
                             <td>2022</td>
                         </tr>
                         <tr>
-                            <td>
-                                <a href="https://dl.acm.org/doi/abs/10.1145/3505270.3558340" target="_blank" class="paper-title">Player Segmentation with INSPECT: Revealing Systematic Behavior Differences</a>
-                            </td>
+                            <td><a href="https://dl.acm.org/doi/abs/10.1145/3505270.3558340" target="_blank" class="paper-title">Player Segmentation with INSPECT: Revealing Systematic Behavior Differences</a></td>
                             <td><span class="conference-badge">ACM FDG'23</span></td>
                             <td>2022</td>
                         </tr>
                         <tr>
-                            <td>
-                                <a href="https://link.springer.com/chapter/10.1007/978-3-031-05637-6_38" target="_blank" class="paper-title">A Data-driven Design of AR Alternate Reality Games to Measure Resilience</a>
-                            </td>
+                            <td><a href="https://link.springer.com/chapter/10.1007/978-3-031-05637-6_38" target="_blank" class="paper-title">A Data-driven Design of AR Alternate Reality Games to Measure Resilience</a></td>
                             <td><span class="conference-badge">ACM HCII'22</span></td>
                             <td>2022</td>
                         </tr>
@@ -664,18 +495,13 @@
             </div>
         </div>
         
-        <div id="project-viewer" class="content-section hidden">
-            <!-- Fetched project HTML will be loaded here -->
-        </div>
     </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Note: The resume link is now a standard link, so we select only the page-switching links
             const navLinks = document.querySelectorAll('.nav-link');
             const portfolioToggle = document.getElementById('portfolio-toggle');
             const projectLinksContainer = document.getElementById('project-links-container');
-            const projectLinks = document.querySelectorAll('.project-link');
             const contentSections = document.querySelectorAll('.content-section');
             const portfolioIndicator = document.getElementById('portfolio-indicator'); 
 
@@ -688,129 +514,23 @@
             navLinks.forEach(link => {
                 link.addEventListener('click', function() {
                     const targetId = this.getAttribute('data-target');
-                    
-                    // Debug: log what's happening
-                    console.log('Switching to section:', targetId);
-                    
-                    hideAllSections();
-                    
-                    const targetSection = document.getElementById(targetId);
-                    if (targetSection) {
-                        targetSection.classList.remove('hidden');
-                        console.log('Showing section:', targetId);
-                    } else {
-                        console.log('Section not found:', targetId);
+                    if (targetId) {
+                        hideAllSections();
+                        const targetSection = document.getElementById(targetId);
+                        if (targetSection) {
+                            targetSection.classList.remove('hidden');
+                        }
                     }
                 });
             });
 
             portfolioToggle.addEventListener('click', function() {
                 projectLinksContainer.classList.toggle('hidden');
-                if (projectLinksContainer.classList.contains('hidden')) {
-                    portfolioIndicator.textContent = '+';
-                } else {
-                    portfolioIndicator.textContent = '-';
-                }
-            });
-
-            projectLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    const sourceFile = this.getAttribute('data-src');
-                    
-                    // Check if it's a locked project
-                    if (!sourceFile) {
-                        showLockedMessage();
-                        return;
-                    }
-                    
-                    hideAllSections();
-                    const projectViewer = document.getElementById('project-viewer');
-                    projectViewer.classList.remove('hidden');
-                    projectViewer.innerHTML = '<p>Loading project...</p>';
-
-                    // Check if we're on file:// protocol
-                    if (window.location.protocol === 'file:') {
-                        projectViewer.innerHTML = `
-                            <div style="padding: 2rem; text-align: center; border: 2px dashed #ccc; margin: 2rem;">
-                                <h2>Local File Access Limitation</h2>
-                                <p>Due to browser security restrictions, projects cannot be loaded when opening HTML files directly.</p>
-                                <p><strong>To view projects, please:</strong></p>
-                                <ol style="text-align: left; max-width: 500px; margin: 0 auto;">
-                                    <li>Use a local web server (e.g., <code>python -m http.server 8000</code>)</li>
-                                    <li>Or use VS Code with Live Server extension</li>
-                                    <li>Then access via <code>http://localhost:8000</code></li>
-                                </ol>
-                                <p style="margin-top: 2rem;">Alternatively, you can open <strong>${sourceFile}</strong> directly in a new tab.</p>
-                                <button onclick="window.open('${sourceFile}', '_blank')" style="padding: 0.5rem 1rem; margin-top: 1rem; cursor: pointer;">
-                                    Open ${sourceFile} in New Tab
-                                </button>
-                            </div>
-                        `;
-                        return;
-                    }
-
-                    fetch(sourceFile)
-                        .then(response => {
-                            if (!response.ok) { throw new Error('Network response was not ok'); }
-                            return response.text();
-                        })
-                        .then(html => {
-                            projectViewer.innerHTML = html;
-                        })
-                        .catch(error => {
-                            projectViewer.innerHTML = `
-                                <div style="padding: 2rem; text-align: center;">
-                                    <p>Sorry, couldn't load the project.</p>
-                                    <p>Error: ${error.message}</p>
-                                    <p>Make sure the file '${sourceFile}' exists in the same directory.</p>
-                                    <button onclick="window.open('${sourceFile}', '_blank')" style="padding: 0.5rem 1rem; margin-top: 1rem; cursor: pointer;">
-                                        Try Opening ${sourceFile} in New Tab
-                                    </button>
-                                </div>
-                            `;
-                            console.error('Error fetching project:', error);
-                        });
-                });
+                portfolioIndicator.textContent = projectLinksContainer.classList.contains('hidden') ? '+' : '-';
             });
         });
 
-        // New functions for featured work section
-      function loadProject(projectUrl) {
-    // 1. Hide all sections and show the viewer
-    document.querySelectorAll('.content-section').forEach(section => {
-        section.classList.add('hidden');
-    });
-    const projectViewer = document.getElementById('project-viewer');
-    projectViewer.classList.remove('hidden');
-    
-    // 2. Clear previous content and insert an IFRAME
-    projectViewer.innerHTML = `
-        <div style="height: 100%; display: flex; flex-direction: column;">
-            <iframe 
-                src="${projectUrl}" 
-                style="flex-grow: 1; border: none; width: 100%; height: 100vh;" 
-                title="Embedded Project: ${projectUrl}">
-            </iframe>
-        </div>
-    `;
-
-    // 3. Optional: Scroll to top of the page when project loads
-    window.scrollTo(0, 0);
-}
-        function showAllProjects() {
-            // Expand the portfolio dropdown if it's collapsed
-            const projectLinksContainer = document.getElementById('project-links-container');
-            const portfolioIndicator = document.getElementById('portfolio-indicator');
-            
-            if (projectLinksContainer.classList.contains('hidden')) {
-                projectLinksContainer.classList.remove('hidden');
-                portfolioIndicator.textContent = '-';
-            }
-            
-            // Scroll to navigation smoothly
-            document.querySelector('nav').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
+        // Functions for locked/upcoming project alerts
         function showLockedMessage() {
             alert("This case study is under NDA and cannot be shared publicly. Please contact me directly for more information about my work at Microsoft/Xbox.");
         }

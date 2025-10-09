@@ -5,14 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xbox AURA</title>
     <style>
-        /* Base styles matching portfolio (Existing styles are here) */
-        /* ... [Your existing CSS goes here] ... */
-
-        /* Styles for the password protection */
+        /* --- New Sidebar and Layout Styles --- */
+        /* This rule makes the content wrapper a flex container when it becomes visible */
         #content-wrapper {
-            display: none; /* Hide content by default */
+            display: none; /* Hide content by default, JS will change this */
+            min-height: 100vh;
+        }
+        nav {
+            width: 220px;
+            padding: 2rem;
+            border-right: 1px solid #ddd;
+            flex-shrink: 0;
+            background-color: #fdfdfd;
+        }
+        nav a {
+            display: block;
+            margin-bottom: 1rem;
+            color: #333;
+            text-decoration: underline;
+            cursor: pointer;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        nav a:hover {
+            text-decoration: none;
+        }
+        .nav-logo {
+            font-weight: bold;
+            margin-bottom: 2rem;
+            text-decoration: none;
+            cursor: default;
+            font-size: 1.2rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        #project-links-container {
+            margin-top: 0.5rem;
+            padding-left: 1rem;
+            border-left: 1px solid #eee;
+        }
+        .project-link {
+            font-size: 1rem;
+        }
+        main {
+            flex-grow: 1;
+            overflow-y: auto;
+            height: 100vh;
+        }
+        .hidden {
+            display: none;
         }
 
+        /* --- Password Protection Styles --- */
         #password-prompt {
             max-width: 400px;
             margin: 100px auto;
@@ -21,7 +63,6 @@
             text-align: center;
             background-color: #f8f9fa;
         }
-
         #password-input {
             padding: 10px;
             margin: 10px 0;
@@ -29,7 +70,6 @@
             border: 1px solid #ccc;
             font-size: 1rem;
         }
-
         #submit-button {
             padding: 10px 20px;
             border: none;
@@ -38,18 +78,10 @@
             cursor: pointer;
             font-size: 1rem;
         }
+        #submit-button:hover { background-color: #555; }
+        #error-message { color: red; margin-top: 10px; font-size: 0.9rem; }
 
-        #submit-button:hover {
-            background-color: #555;
-        }
-
-        #error-message {
-            color: red;
-            margin-top: 10px;
-            font-size: 0.9rem;
-        }
-
-        /* Existing CSS for your content */
+        /* --- Original Case Study Styles --- */
         body {
             background-color: #fdfdfd;
             font-family: 'Courier New', Courier, monospace;
@@ -59,367 +91,100 @@
             margin: 0;
             padding: 0;
         }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 2rem; }
+        h1 { font-size: 2.5rem; font-weight: bold; margin-bottom: 1rem; color: #333; line-height: 1.2; }
+        h2 { font-size: 1.5rem; font-weight: bold; margin: 3rem 0 1.5rem 0; color: #333; }
+        h3 { font-size: 1.25rem; font-weight: bold; margin: 2rem 0 1rem 0; color: #333; }
+        h4 { font-size: 1.1rem; font-weight: bold; margin: 1.5rem 0 0.5rem 0; color: #333; }
+        p { margin-bottom: 1.5rem; color: #333; }
+        a { color: #333; text-decoration: underline; }
+        a:hover { text-decoration: none; }
+        ul, ol { margin-bottom: 1.5rem; padding-left: 2rem; }
+        li { margin-bottom: 0.5rem; }
+        .meta { color: #666; font-size: 1rem; margin-bottom: 2rem; }
+        .hero { padding: 4rem 0; text-align: center; border-bottom: 1px solid #ddd; }
+        .hero-meta { display: flex; gap: 2rem; justify-content: center; margin-top: 2rem; font-size: 1rem; color: #666; flex-wrap: wrap; }
+        .image-container { margin: 2rem 0; text-align: center; }
+        .image-container img { max-width: 100%; height: auto; border: 1px solid #ddd; }
+        .image-caption { font-size: 1rem; color: #666; margin-top: 0.5rem; text-align: center; }
+        .overview { background-color: #f8f9fa; padding: 2rem; margin: 2rem 0; border-left: 3px solid #333; }
+        .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 1.5rem; }
+        .overview-item h4 { font-size: 1rem; font-weight: bold; margin-bottom: 0.5rem; color: #333; }
+        .overview-item ul { list-style: none; padding: 0; margin: 0; }
+        .overview-item li { margin-bottom: 0.25rem; color: #333; }
+        .key-finding { background-color: #f8f9fa; padding: 1.5rem; margin: 1.5rem 0; border-left: 3px solid #333; }
+        .key-finding h4 { font-size: 1rem; font-weight: bold; margin-bottom: 1rem; color: #333; }
+        .video-container { margin: 2rem 0; text-align: center; }
+        .video-container iframe { width: 100%; max-width: 600px; height: 350px; border: 1px solid #ddd; }
+        .video-caption { font-size: 1rem; color: #666; margin-top: 0.5rem; text-align: center; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 2rem 0; }
+        .video-item { text-align: center; }
+        .video-item iframe { width: 100%; height: 500px; border: 1px solid #ddd; }
+        .card { background-color: #f8f9fa; padding: 1.5rem; margin: 1.5rem 0; border-left: 3px solid #333; }
+        .card h4 { font-size: 1rem; font-weight: bold; margin: 0 0 1rem 0; color: #333; }
+        .quote { border-left: 3px solid #666; padding-left: 1.5rem; margin: 1.5rem 0; font-style: italic; color: #666; }
+        .quote-author { display: block; margin-top: 0.5rem; font-style: normal; font-size: 0.9rem; color: #999; }
+        .stats-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem; margin: 2rem 0; text-align: center; }
+        .stat-item { padding: 1.5rem; background-color: #f8f9fa; border: 1px solid #ddd; }
+        .stat-number { font-size: 2rem; font-weight: bold; color: #333; display: block; }
+        .stat-label { font-size: 0.9rem; color: #666; margin-top: 0.5rem; }
+        .process-list { margin: 2rem 0; }
+        .process-item { margin-bottom: 2rem; padding-left: 3rem; position: relative; }
+        .process-item:before { content: counter(process-counter); counter-increment: process-counter; position: absolute; left: 0; top: 0; width: 2rem; height: 2rem; background: #333; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1rem; }
+        .process-list { counter-reset: process-counter; }
+        .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin: 2rem 0; }
+        .result-card { background-color: #f8f9fa; padding: 1.5rem; border: 1px solid #ddd; text-align: center; }
+        .result-card h4 { font-size: 1.1rem; margin-bottom: 1rem; color: #333; }
+        .tldr-section { background-color: #ffffff; padding: 3rem 0; margin: 2rem 0; }
+        .tldr-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .tldr-card { background-color: white; padding: 1.5rem; border: 1px solid #ddd; }
+        .tldr-card h4 { font-size: 1.1rem; margin-bottom: 1rem; color: #333; }
+        .footer { padding: 4rem 0 2rem; border-top: 1px solid #ddd; text-align: center; color: #666; font-size: 1rem; }
+        .footer a { color: #666; }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            color: #333;
-            line-height: 1.2;
-        }
-
-        h2 {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin: 3rem 0 1.5rem 0;
-            color: #333;
-        }
-
-        h3 {
-            font-size: 1.25rem;
-            font-weight: bold;
-            margin: 2rem 0 1rem 0;
-            color: #333;
-        }
-
-        h4 {
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin: 1.5rem 0 0.5rem 0;
-            color: #333;
-        }
-
-        p {
-            margin-bottom: 1.5rem;
-            color: #333;
-        }
-
-        a {
-            color: #333;
-            text-decoration: underline;
-        }
-
-        a:hover {
-            text-decoration: none;
-        }
-
-        ul, ol {
-            margin-bottom: 1.5rem;
-            padding-left: 2rem;
-        }
-
-        li {
-            margin-bottom: 0.5rem;
-        }
-
-        .meta {
-            color: #666;
-            font-size: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .hero {
-            padding: 4rem 0;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .hero-meta {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            margin-top: 2rem;
-            font-size: 1rem;
-            color: #666;
-            flex-wrap: wrap;
-        }
-
-        .image-container {
-            margin: 2rem 0;
-            text-align: center;
-        }
-
-        .image-container img {
-            max-width: 100%;
-            height: auto;
-            border: 1px solid #ddd;
-        }
-
-        .image-caption {
-            font-size: 1rem;
-            color: #666;
-            margin-top: 0.5rem;
-            text-align: center;
-        }
-
-        .overview {
-            background-color: #f8f9fa;
-            padding: 2rem;
-            margin: 2rem 0;
-            border-left: 3px solid #333;
-        }
-
-        .overview-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-top: 1.5rem;
-        }
-
-        .overview-item h4 {
-            font-size: 1rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            color: #333;
-        }
-
-        .overview-item ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .overview-item li {
-            margin-bottom: 0.25rem;
-            color: #333;
-        }
-
-        .key-finding {
-            background-color: #f8f9fa;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            border-left: 3px solid #333;
-        }
-
-        .key-finding h4 {
-            font-size: 1rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            color: #333;
-        }
-
-        .video-container {
-            margin: 2rem 0;
-            text-align: center;
-        }
-
-        .video-container iframe {
-            width: 100%;
-            max-width: 600px;
-            height: 350px;
-            border: 1px solid #ddd;
-        }
-
-        .video-caption {
-            font-size: 1rem;
-            color: #666;
-            margin-top: 0.5rem;
-            text-align: center;
-        }
-
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .video-item {
-            text-align: center;
-        }
-
-        .video-item iframe {
-            width: 100%;
-            height: 500px;
-            border: 1px solid #ddd;
-        }
-
-        .card {
-            background-color: #f8f9fa;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            border-left: 3px solid #333;
-        }
-
-        .card h4 {
-            font-size: 1rem;
-            font-weight: bold;
-            margin: 0 0 1rem 0;
-            color: #333;
-        }
-
-        .quote {
-            border-left: 3px solid #666;
-            padding-left: 1.5rem;
-            margin: 1.5rem 0;
-            font-style: italic;
-            color: #666;
-        }
-
-        .quote-author {
-            display: block;
-            margin-top: 0.5rem;
-            font-style: normal;
-            font-size: 0.9rem;
-            color: #999;
-        }
-
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-            text-align: center;
-        }
-
-        .stat-item {
-            padding: 1.5rem;
-            background-color: #f8f9fa;
-            border: 1px solid #ddd;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #333;
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 0.5rem;
-        }
-
-        .process-list {
-            margin: 2rem 0;
-        }
-
-        .process-item {
-            margin-bottom: 2rem;
-            padding-left: 3rem;
-            position: relative;
-        }
-
-        .process-item:before {
-            content: counter(process-counter);
-            counter-increment: process-counter;
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 2rem;
-            height: 2rem;
-            background: #333;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1rem;
-        }
-
-        .process-list {
-            counter-reset: process-counter;
-        }
-
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .result-card {
-            background-color: #f8f9fa;
-            padding: 1.5rem;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
-
-        .result-card h4 {
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            color: #333;
-        }
-
-        .tldr-section {
-            background-color: #ffffff;
-            padding: 3rem 0;
-            margin: 2rem 0;
-        }
-
-        .tldr-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .tldr-card {
-            background-color: white;
-            padding: 1.5rem;
-            border: 1px solid #ddd;
-        }
-
-        .tldr-card h4 {
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            color: #333;
-        }
-
-        .footer {
-            padding: 4rem 0 2rem;
-            border-top: 1px solid #ddd;
-            text-align: center;
-            color: #666;
-            font-size: 1rem;
-        }
-
-        .footer a {
-            color: #666;
+        @media (max-width: 992px) {
+            #content-wrapper {
+                flex-direction: column; 
+            }
+            main {
+                height: auto;
+            }
+            nav {
+                width: 100%; 
+                padding: 1rem;
+                border-right: none; 
+                border-bottom: 1px solid #ddd; 
+                box-sizing: border-box;
+            }
+            .nav-container {
+                display: flex;
+                justify-content: center;
+                gap: 1.5rem;
+                flex-wrap: wrap;
+            }
+            .nav-logo {
+                display: none;
+            }
+            nav a {
+                margin-bottom: 0;
+            }
+            #project-links-container {
+                width: 100%;
+                text-align: center;
+                padding-left: 0;
+                border-left: none;
+                margin-top: 1rem;
+            }
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 0 1rem;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            h2 {
-                font-size: 1.25rem;
-            }
-            
-            .hero-meta {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-            
-            .overview-grid,
-            .tldr-grid,
-            .results-grid,
-            .stats-container {
-                grid-template-columns: 1fr;
-            }
-
-            .process-item {
-                padding-left: 2.5rem;
-            }
-
-            .process-item:before {
-                width: 1.5rem;
-                height: 1.5rem;
-                font-size: 0.8rem;
-            }
+            .container { padding: 0 1rem; }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.25rem; }
+            .hero-meta { flex-direction: column; gap: 0.5rem; }
+            .overview-grid, .tldr-grid, .results-grid, .stats-container { grid-template-columns: 1fr; }
+            .process-item { padding-left: 2.5rem; }
+            .process-item:before { width: 1.5rem; height: 1.5rem; font-size: 0.8rem; }
         }
     </style>
 </head>
@@ -432,130 +197,142 @@
     </div>
 
     <div id="content-wrapper">
-        <div class="hero">
+        <nav>
+            <div class="nav-logo">Sai Maram</div>
+            <div class="nav-container">
+                <a href="index.html">About</a>
+                <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+                <a href="research.html">Research</a>
+                <a id="portfolio-toggle"><span id="portfolio-indicator">+</span> UX Case Studies</a>
+            </div>
+            <div id="project-links-container" class="hidden">
+                <a class="project-link" href="./canvasNew.html">Ooha - AI interface for visual thinkers</a>
+                <a class="project-link" href="./Xbox2.html">LLMs meet UX (Microsoft) 🔒</a>
+                <a class="project-link" href="#" onclick="showLockedMessage(); return false;">Xbox Family Safety 🚧</a>
+                <a class="project-link" href="#" onclick="showComingSoon(); return false;">LLM Games 🚧</a>
+                <a class="project-link" href="./religionVideoGamesNew.html">Reddit,Games</a>
+                <a class="project-link" href="./opmNew.html">OPM</a>
+                <a class="project-link" href="./astraVerseNew.html">AstraVerse</a>
+                <a class="project-link" href="./shlokaNew.html">Shloka</a>
+                <a class="project-link" href="./metaNew.html">Facebook Top of Home</a>
+            </div>
+        </nav>
+
+        <main>
+            <div class="hero">
+                <div class="container">
+                    <h1>Xbox AURA: AI-User Research Assistant</h1>
+                    <p class="meta">Designing, Developing and Conceptualizing LLM tools to support User Research.</p>
+                    <div class="hero-meta">
+                        <span>Timeline: 3 months</span>
+                        <span>Team: Lead Researcher, Developer, Designer</span>
+                    </div>
+                </div>
+            </div>
+
             <div class="container">
-                <h1>Xbox AURA: AI-User Research Assistant</h1>
-                <p class="meta">Designing, Developing and Conceptualizing LLM tools to support User Research.</p>
-                <div class="hero-meta">
-                    <span>Timeline: 3 months</span>
-                    <span>Team: Lead Researcher, Developer, Designer</span>
-                    
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
-            
                 <div class="video-item">
                     <iframe src="UX Beyond language and Timezone.mp4" frameborder="0" allowfullscreen title="Explanation of the final visualization system"></iframe>
                     <div class="video-caption">The AURA toolkit</div>
                 </div>
 
-            
+                <div class="tldr-section">
+                    <h2>TL;DR</h2>
+                    <p>Xbox Research as an organization conducts player research to understand player behavior, preferences, and experiences within games. However, Xbox historically has focused on understanding players within Seattle, USA. With Xbox aiming to expand its research efforts globally, it faces the challenge to conduct UX studies across languages and agnostic of timezones. In this case-study, we discuss AURA Toolkit - AI User Reserach Assistants Toolkit, an effort initiated, designed and developed by me to increase the adaption of AI within Xbox Research and improve scale, speed at which UX reserach is conducted across Xbox. 
+                    </p>
+                    <h2>Key Takeways</h2>
+                    <ul>
+                        <li>All Participants found the AURA Interviews and AURA Surveys to be more efficient in providing playtest feedback compared to regular surveys and unmoderated Interviews.</li>
+                        <li>AURA Canvas was effective in helping researchers visualize their data, arrange their data and identify themes from their data, <strong>resulting in saving an average of 8 hours time per reserach study/playtest</strong>.</li>
+                        <li>AURA Toolkit helped reducing reliency on vendor support for data annotation, data collection, and subscription fees for tools like Dscout, UserTesting, and contract vendors<strong> saving around $1 million annually.</strong> </li>
+                    </ul>
+                </div>
 
-            <div class="tldr-section">
-                <h2>TL;DR</h2>
+                <h2>Co-designing with Researchers</h2>
+                <p>While AI offers a lot of promise, it is critical to understand how AI can best help UX Researchers in an organization from the researchers themselves. To understand the needs of researchers, I conducted 8 contextual inquiries and 5 semi-structured interviews with researchers across Xbox Research. Through these sessions, I identified key pain points and opportunities for AI integration in their workflows.</p> 
 
-            <p>Xbox Research as an organization conducts player research to understand player behavior, preferences, and experiences within games. However, Xbox historically has focused on understanding players within Seattle, USA. With Xbox aiming to expand its research efforts globally, it faces the challenge to conduct UX studies across languages and agnostic of timezones. In this case-study, we discuss AURA Toolkit - AI User Reserach Assistants Toolkit, an effort initiated, designed and developed by me to increase the adaption of AI within Xbox Research and improve scale, speed at which UX reserach is conducted across Xbox. 
-            </p>
-            <h2>Key Takeways</h2>
-            <ul>
-                <li>All Participants found the AURA Interviews and AURA Surveys to be more efficient in providing playtest feedback compared to regular surveys and unmoderated Interviews.</li>
-                <li>AURA Canvas was effective in helping researchers visualize their data, arrange their data and identify themes from their data, <strong>resulting in saving an average of 8 hours time per reserach study/playtest</strong>.</li>
-                <li>AURA Toolkit helped reducing reliency on vendor support for data annotation, data collection, and subscription fees for tools like Dscout, UserTesting, and contract vendors<strong> saving around $1 million annually.</strong> </li>
-            </ul>
-            </div>
+                <h2>Key Insights</h2>
+                <ul>
+                    <li><strong>Time Between Raw Data and Oraganized Data: </strong>Researcers spend a significant amout of time waiting for vendors to clean-up data, arrange data and identify important recordings, clipping and snippets from interviews and suverys</li>
+                    <li><strong>Limited Scope of Data due to georgraphical and economical constraints: </strong> As Xbox expands to south-east asia and other markets, it becomes increasingly challenging to hire researcehrs fluent in specific languages and cultural contexts. Further, timezones make it challenging to conduct  interviews and playtests across timezones.</li>
+                    <li><strong>Need for Real-time Collaboration: </strong> Researchers expressed a desire for tools that facilitate real-time collaboration and feedback, especially when working with remote teams across different time zones.</li>
+                    <li><strong>Data Visualization and Synthesis: </strong> Researchers often struggle with synthesizing large amounts of qualitative data into actionable insights. They expressed a need for tools that can help visualize and organize data effectively.</li>
+                </ul>
 
-            <h2>Co-designing with Researchers</h2>
-            <p>While AI offers a lot of promise, it is critical to understand how AI can best help UX Researchers in an organization from the researchers themselves. To understand the needs of researchers, I conducted 8 contextual inquiries and 5 semi-structured interviews with researchers across Xbox Research. Through these sessions, I identified key pain points and opportunities for AI integration in their workflows.</p> 
-
-            <h2>Key Insights</h2>
-            <ul>
-                <li><strong>Time Between Raw Data and Oraganized Data: </strong>Researcers spend a significant amout of time waiting for vendors to clean-up data, arrange data and identify important recordings, clipping and snippets from interviews and suverys</li>
-                <li><strong>Limited Scope of Data due to georgraphical and economical constraints: </strong> As Xbox expands to south-east asia and other markets, it becomes increasingly challenging to hire researcehrs fluent in specific languages and cultural contexts. Further, timezones make it challenging to conduct  interviews and playtests across timezones.</li>
-                <li><strong>Need for Real-time Collaboration: </strong> Researchers expressed a desire for tools that facilitate real-time collaboration and feedback, especially when working with remote teams across different time zones.</li>
-                <li><strong>Data Visualization and Synthesis: </strong> Researchers often struggle with synthesizing large amounts of qualitative data into actionable insights. They expressed a need for tools that can help visualize and organize data effectively.</li>
-            </ul>
-
-
-            <h2>AURA Toolkit</h2>
-            <p>Based on the insights gathered from researchers, I conceptualized and developed AURA Toolkit - AI User Research Assistants Toolkit, a suite of AI-powered tools designed to assist researchers in various stages of the research process. The toolkit includes the following main components:</p>
-
-            <ul>
-                <li><strong>AURA Interviews:</strong> AI-assisted interviews that streamline the process of conducting and analyzing user interviews agnostic of timezone and language.</li>
-                <li><strong>AURA Surveys:</strong> Intelligent surveys that adapt questions based on user responses, improving data quality and relevance.</li>
-                <li><strong>AURA Canvas:</strong> A visual collaboration tool that helps researchers organize and synthesize data in real-time and uses LLMs to take a Human In the Loop approach towards running grounded theory based analysis.</li>
-                <li><strong>AURA Coder:</strong> A qualitative analysis tool to help collaborative qualitative coding, allowing users to develop or recycle codebooks on their data. The tool leverages Copilot to help users in running qualitative analysis.</li>
-            </ul>
-
-            For further information I highly recommend watching the below video:
-        
+                <h2>AURA Toolkit</h2>
+                <p>Based on the insights gathered from researchers, I conceptualized and developed AURA Toolkit - AI User Research Assistants Toolkit, a suite of AI-powered tools designed to assist researchers in various stages of the research process. The toolkit includes the following main components:</p>
+                <ul>
+                    <li><strong>AURA Interviews:</strong> AI-assisted interviews that streamline the process of conducting and analyzing user interviews agnostic of timezone and language.</li>
+                    <li><strong>AURA Surveys:</strong> Intelligent surveys that adapt questions based on user responses, improving data quality and relevance.</li>
+                    <li><strong>AURA Canvas:</strong> A visual collaboration tool that helps researchers organize and synthesize data in real-time and uses LLMs to take a Human In the Loop approach towards running grounded theory based analysis.</li>
+                    <li><strong>AURA Coder:</strong> A qualitative analysis tool to help collaborative qualitative coding, allowing users to develop or recycle codebooks on their data. The tool leverages Copilot to help users in running qualitative analysis.</li>
+                </ul>
+                For further information I highly recommend watching the below video:
                 <div class="video-item">
                     <iframe src="UX Beyond language and Timezone.mp4" frameborder="0" allowfullscreen title="Explanation of the final visualization system"></iframe>
                     <div class="video-caption">The AURA toolkit</div>
                 </div>
-            
-            
-            
 
-            <h2>Evaluation</h2>
-            <small>Due to NDA, I do not share exact statistical numbers with regards to outcomes.</small>
+                <h2>Evaluation</h2>
+                <small>Due to NDA, I do not share exact statistical numbers with regards to outcomes.</small>
+                <p>To evaluate the effectiveness of various tools across the AURA Toolkit, I conducted a mixed-methods experiments, below I outline the methods used to evaluate, and the key findings associated with experiments for each tool.</p>
 
-            <p>To evaluate the effectiveness of various tools across the AURA Toolkit, I conducted a mixed-methods experiments, below I outline the methods used to evaluate, and the key findings associated with experiments for each tool.</p>
+                <h3>AURA Interviews</h3>
+                <p>To evaluate the effectiveness of AURA Interviews, I conducted a within-subjects experiment with 12 participants. Each participant completed two playtests of a game, one using traditional unmoderated interviews and the other using AURA Interviews. The order of conditions was counterbalanced to control for order effects. After each playtest, participants completed a survey assessing their experience and provided qualitative feedback through semi-structured interviews.</p>
+                <h4>Key Findings</h4>
+                <ul>
+                    <li>Participants reported that AURA Interviews were more efficient in providing playtest feedback compared to traditional unmoderated methods.</li>
+                    <li>The adaptive questioning approach of AURA Interviews led to more in-depth responses from participants.</li>
+                    <li>Overall, participants expressed a preference for the AURA Interviews due to their streamlined nature and improved user experience.</li>
+                </ul>
 
-            <h3>AURA Interviews</h3>
-            <p>To evaluate the effectiveness of AURA Interviews, I conducted a within-subjects experiment with 12 participants. Each participant completed two playtests of a game, one using traditional unmoderated interviews and the other using AURA Interviews. The order of conditions was counterbalanced to control for order effects. After each playtest, participants completed a survey assessing their experience and provided qualitative feedback through semi-structured interviews.</p>
+                <h3>AURA Surveys</h3>
+                <p>To evaluate the effectiveness of AURA Surveys, I conducted a within-subjects experiment with 43 participants. Each participant completed two surveys about their gaming experience, one using a traditional static survey and the other using AURA Surveys. The order of conditions was counterbalanced to control for order effects. After each survey, participants completed a follow-up survey assessing their experience and provided qualitative feedback through semi-structured interviews.</p>
+                <ul>
+                    <li>Participants found AURA Surveys to be more engaging and interactive compared to traditional static surveys.</li>
+                    <li>The dynamic question generation of AURA Surveys led to more relevant and personalized questions for participants.</li>
+                    <li>Overall, participants expressed a preference for AURA Surveys due to their improved user experience and ability to capture nuanced feedback.</li>
+                </ul>
 
-            <h4>Key Findings</h4>
-            <ul>
-                <li>Participants reported that AURA Interviews were more efficient in providing playtest feedback compared to traditional unmoderated methods.</li>
-                <li>The adaptive questioning approach of AURA Interviews led to more in-depth responses from participants.</li>
-                <li>Overall, participants expressed a preference for the AURA Interviews due to their streamlined nature and improved user experience.</li>
-            </ul>
-
-            <h3>AURA Surveys</h3>
-            <p>To evaluate the effectiveness of AURA Surveys, I conducted a within-subjects experiment with 43 participants. Each participant completed two surveys about their gaming experience, one using a traditional static survey and the other using AURA Surveys. The order of conditions was counterbalanced to control for order effects. After each survey, participants completed a follow-up survey assessing their experience and provided qualitative feedback through semi-structured interviews.</p>
-            <ul>
-                <li>Participants found AURA Surveys to be more engaging and interactive compared to traditional static surveys.</li>
-                <li>The dynamic question generation of AURA Surveys led to more relevant and personalized questions for participants.</li>
-                <li>Overall, participants expressed a preference for AURA Surveys due to their improved user experience and ability to capture nuanced feedback.</li>
-            </ul>
-
-            <h3>AURA Canvas</h3>
+                <h3>AURA Canvas</h3>
                 <p>To evaluate the effectiveness of AURA Canvas, I conducted a between-subjects experiment with 4 researchers from Xbox Research. Each researcher completed a playtest analysis using either traditional methods or AURA Canvas. The order of conditions was counterbalanced to control for order effects. After each analysis, researchers provided qualitative feedback through semi-structured interviews.</p>
-            <ul>
-                <li>Participants reported that AURA Canvas facilitated better organization and synthesis of data compared to traditional methods.</li>
-                <li>The real-time collaboration features of AURA Canvas led to more dynamic discussions among researchers.</li>
-                <li>Overall, participants expressed a preference for AURA Canvas due to its innovative approach to qualitative analysis.</li>
-            </ul>
+                <ul>
+                    <li>Participants reported that AURA Canvas facilitated better organization and synthesis of data compared to traditional methods.</li>
+                    <li>The real-time collaboration features of AURA Canvas led to more dynamic discussions among researchers.</li>
+                    <li>Overall, participants expressed a preference for AURA Canvas due to its innovative approach to qualitative analysis.</li>
+                </ul>
 
-            <h3>AURA Coder</h3>
+                <h3>AURA Coder</h3>
                 <p>To evaluate the effectiveness of AURA Coder, I conducted a between-subjects experiment with 6 researchers from Xbox Research. Each researcher completed a qualitative coding task using either traditional methods or AURA Coder. The order of conditions was counterbalanced to control for order effects. After each coding task, researchers provided qualitative feedback through semi-structured interviews.</p>
-            <ul>
-                <li>Participants reported that AURA Coder streamlined the coding process compared to traditional methods.</li>
-                <li>The AI-assisted coding features of AURA Coder led to more consistent application of codes among researchers.</li>
-                <li>Overall, participants expressed a preference for AURA Coder due to its efficiency and effectiveness in qualitative analysis.</li>
-            </ul>
+                <ul>
+                    <li>Participants reported that AURA Coder streamlined the coding process compared to traditional methods.</li>
+                    <li>The AI-assisted coding features of AURA Coder led to more consistent application of codes among researchers.</li>
+                    <li>Overall, participants expressed a preference for AURA Coder due to its efficiency and effectiveness in qualitative analysis.</li>
+                </ul>
 
-            <h2>Impact</h2>
-            <ul>
-                <li>AURA Toolkit has been adopted by multiple teams within Xbox Research, leading to increased efficiency and effectiveness in user research processes.</li>
-                <li>The toolkit has facilitated more inclusive and diverse research practices by enabling studies across languages and time zones.</li>
-                <li>Overall, AURA Toolkit has contributed to a more innovative and user-centered approach to research within Xbox.</li>
-            </ul>   
+                <h2>Impact</h2>
+                <ul>
+                    <li>AURA Toolkit has been adopted by multiple teams within Xbox Research, leading to increased efficiency and effectiveness in user research processes.</li>
+                    <li>The toolkit has facilitated more inclusive and diverse research practices by enabling studies across languages and time zones.</li>
+                    <li>Overall, AURA Toolkit has contributed to a more innovative and user-centered approach to research within Xbox.</li>
+                </ul>   
 
-            <h2>Drawbacks</h2>
-            <ul>
-                <li>Some participants shared that the use of AI in UX research felt intrusive and raised concerns about data privacy despite all data being internal to Microsoft and withing regulations.</li>
-                <li>Some researchers expressed discomfort with the AI-generated insights, feeling that they lacked the depth and nuance of human analysis. They shared that these insights are great first drafts but still require human interpretation and refinement, even though it does save the initial hassle of finding obvious patterns.</li>
-                <li>There were instances where the AI tools misinterpreted user responses, leading to irrelevant or off-topic questions in AURA Interviews and AURA Surveys. This highlighted the need for ongoing refinement of the AI algorithms to improve accuracy and relevance.</li>
-            </ul>
+                <h2>Drawbacks</h2>
+                <ul>
+                    <li>Some participants shared that the use of AI in UX research felt intrusive and raised concerns about data privacy despite all data being internal to Microsoft and withing regulations.</li>
+                    <li>Some researchers expressed discomfort with the AI-generated insights, feeling that they lacked the depth and nuance of human analysis. They shared that these insights are great first drafts but still require human interpretation and refinement, even though it does save the initial hassle of finding obvious patterns.</li>
+                    <li>There were instances where the AI tools misinterpreted user responses, leading to irrelevant or off-topic questions in AURA Interviews and AURA Surveys. This highlighted the need for ongoing refinement of the AI algorithms to improve accuracy and relevance.</li>
+                </ul>
 
-        <footer class="footer">
-            <p>&copy; 2024 Sai Maram. Case Study.</p>
-            <p><a href="./index.html">Back to Portfolio</a></p>
-        </footer>
-    </div> <script>
+                <footer class="footer">
+                    <p>&copy; 2024 Sai Maram. Case Study.</p>
+                    <p><a href="./index.html">Back to Portfolio</a></p>
+                </footer>
+            </div>
+        </main>
+    </div> 
+
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             const passwordInput = document.getElementById('password-input');
             const submitButton = document.getElementById('submit-button');
@@ -569,26 +346,51 @@
                 const enteredPassword = passwordInput.value;
 
                 if (enteredPassword === CORRECT_PASSWORD) {
-                    passwordPrompt.style.display = 'none'; // Hide the login prompt
-                    contentWrapper.style.display = 'block'; // Show the content
-                    errorMessage.style.display = 'none'; // Hide error message if it was visible
+                    passwordPrompt.style.display = 'none';
+                    // CRITICAL CHANGE: Display as 'flex' to enable the sidebar layout
+                    contentWrapper.style.display = 'flex'; 
+                    errorMessage.style.display = 'none';
                 } else {
-                    errorMessage.style.display = 'block'; // Show error message
-                    passwordInput.value = ''; // Clear the input field
-                    passwordInput.focus(); // Set focus back to the input
+                    errorMessage.style.display = 'block';
+                    passwordInput.value = '';
+                    passwordInput.focus();
                 }
             };
 
-            // Event listener for the submit button click
             submitButton.addEventListener('click', checkPassword);
-
-            // Event listener for the 'Enter' key press in the input field
             passwordInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     checkPassword();
                 }
             });
         });
+    </script>
+    <script>
+        // This script is for the sidebar functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const portfolioToggle = document.getElementById('portfolio-toggle');
+            const projectLinksContainer = document.getElementById('project-links-container');
+            const portfolioIndicator = document.getElementById('portfolio-indicator'); 
+
+            if (portfolioToggle) {
+                portfolioToggle.addEventListener('click', function() {
+                    projectLinksContainer.classList.toggle('hidden');
+                    if (projectLinksContainer.classList.contains('hidden')) {
+                        portfolioIndicator.textContent = '+';
+                    } else {
+                        portfolioIndicator.textContent = '-';
+                    }
+                });
+            }
+        });
+
+        function showLockedMessage() {
+            alert("This case study is under NDA and cannot be shared publicly. Please contact me directly for more information about my work at Microsoft/Xbox.");
+        }
+
+        function showComingSoon() {
+            alert("This project case study is currently being developed. Please check back soon!");
+        }
     </script>
 </body>
 </html>
