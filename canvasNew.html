@@ -29,6 +29,7 @@
             color: #333;
             text-decoration: underline;
             cursor: pointer;
+            font-family: 'Courier New', Courier, monospace;
         }
         nav a:hover {
             text-decoration: none;
@@ -39,6 +40,7 @@
             text-decoration: none;
             cursor: default;
             font-size: 1.2rem;
+            font-family: 'Courier New', Courier, monospace;
         }
         #project-links-container {
             margin-top: 0.5rem;
@@ -112,8 +114,239 @@
         .image-container { margin: 2rem 0; text-align: center; }
         .image-container img { max-width: 100%; height: auto; border: 1px solid #ddd; }
         .image-caption { font-size: 1rem; color: #666; margin-top: 0.5rem; text-align: center; }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; margin: 2rem 0; border: 1px solid #ddd; }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        /* 3D Video Carousel Styles */
+        .video-carousel {
+            position: relative;
+            max-width: 100%;
+            margin: 2rem 0;
+            perspective: 1000px;
+            overflow: visible;
+        }
+        
+        .carousel-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: visible;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .carousel-track {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .carousel-slide {
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+        }
+        
+        .carousel-slide.prev {
+            transform: translateX(-60%) scale(0.8) rotateY(15deg);
+            opacity: 0.7;
+            z-index: 1;
+        }
+        
+        .carousel-slide.active {
+            transform: translateX(0) scale(1) rotateY(0deg);
+            opacity: 1;
+            z-index: 3;
+        }
+        
+        .carousel-slide.next {
+            transform: translateX(60%) scale(0.8) rotateY(-15deg);
+            opacity: 0.7;
+            z-index: 1;
+        }
+        
+        .carousel-slide.hidden {
+            transform: translateX(0) scale(0.6) rotateY(0deg);
+            opacity: 0;
+            z-index: 0;
+        }
+        
+        .carousel-slide video,
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+        
+        /* Error message styling for unsupported video formats */
+        .carousel-slide video::after {
+            content: "Video format not supported";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            text-align: center;
+            z-index: 10;
+        }
+        
+        /* Hover effects for side slides */
+        .carousel-slide.prev:hover {
+            transform: translateX(-30%) scale(0.9) rotateY(5deg);
+            opacity: 0.9;
+            z-index: 4;
+        }
+        
+        .carousel-slide.next:hover {
+            transform: translateX(30%) scale(0.9) rotateY(-5deg);
+            opacity: 0.9;
+            z-index: 4;
+        }
+        
+        .carousel-nav {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+        
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .carousel-dot.active {
+            background: rgba(255, 255, 255, 0.9);
+            transform: scale(1.2);
+        }
+        
+        .carousel-dot:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: scale(1.1);
+        }
+        
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #333;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .carousel-arrow:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .carousel-arrow.prev {
+            left: 20px;
+        }
+        
+        .carousel-arrow.next {
+            right: 20px;
+        }
+        
+        .carousel-arrow:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .carousel-arrow:disabled:hover {
+            transform: translateY(-50%);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .carousel-slide {
+                width: 90%;
+                height: 90%;
+            }
+            
+            .carousel-slide.prev {
+                transform: translateX(-50%) scale(0.7) rotateY(20deg);
+            }
+            
+            .carousel-slide.next {
+                transform: translateX(50%) scale(0.7) rotateY(-20deg);
+            }
+            
+            .carousel-arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 14px;
+            }
+            
+            .carousel-arrow.prev {
+                left: 10px;
+            }
+            
+            .carousel-arrow.next {
+                right: 10px;
+            }
+            
+            .carousel-nav {
+                bottom: 15px;
+            }
+            
+            .carousel-dot {
+                width: 10px;
+                height: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .carousel-slide.prev {
+                transform: translateX(-40%) scale(0.6) rotateY(25deg);
+            }
+            
+            .carousel-slide.next {
+                transform: translateX(40%) scale(0.6) rotateY(-25deg);
+            }
+            
+            .carousel-slide.prev:hover {
+                transform: translateX(-25%) scale(0.75) rotateY(10deg);
+                z-index: 4;
+            }
+            
+            .carousel-slide.next:hover {
+                transform: translateX(25%) scale(0.75) rotateY(-10deg);
+                z-index: 4;
+            }
+        }
         .overview { background-color: #f8f9fa; padding: 2rem; margin: 2rem 0; border-left: 3px solid #333; }
         .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 1.5rem; }
         .overview-item h4 { font-size: 1rem; font-weight: bold; margin-bottom: 0.5rem; color: #333; }
@@ -185,7 +418,7 @@
                 <p style="font-size: 1.25rem; margin-top: 1rem;">A Spatial Interface for Multi-Path Creative Exploration</p>
                 <div class="hero-meta">
                    
-                    <span>Summer 2024</span>
+                    <span>Summer 2025</span>
                     <span>20 Participants</span>
                     <span>1 month Study</span>
                 </div>
@@ -193,13 +426,69 @@
         </div>
         
         <div class="container">
-            <div class="video-container">
-                <iframe 
-                    src="OOHA with CTA.mp4" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
+            <div class="video-carousel">
+                <div class="carousel-container">
+                    <div class="carousel-track">
+                        <!-- Slide 1: Main Demo Video -->
+                        <div class="carousel-slide" data-index="0">
+                            <video muted loop>
+                                <source src="OOHA with CTA.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        
+                        <!-- Slide 2: Feature Demo 1 -->
+                        <div class="carousel-slide" data-index="1">
+                            <video muted loop>
+                                <source src="SpotifyOoha.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        
+                        <!-- Slide 3: Feature Demo 2 -->
+                        <div class="carousel-slide" data-index="2">
+                            <video muted loop>
+                                <source src="Ooha 3D Momentum.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        
+                        <!-- Slide 4: Feature Demo 3 -->
+                        <div class="carousel-slide" data-index="3">
+                            <video muted loop>
+                                <source src="momentum.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        
+                        <!-- Slide 5: Feature Demo 4 -->
+                        <div class="carousel-slide" data-index="4">
+                            <video muted loop>
+                                <source src="Day 3.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="carousel-slide" data-index="5">
+                            <video muted loop>
+                                <source src="ipad.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                    
+                    <!-- Navigation Arrows -->
+                    <button class="carousel-arrow prev" onclick="changeSlide(-1)">‹</button>
+                    <button class="carousel-arrow next" onclick="changeSlide(1)">›</button>
+                    
+                    <!-- Navigation Dots -->
+                    <div class="carousel-nav">
+                        <span class="carousel-dot active" onclick="currentSlide(1)"></span>
+                        <span class="carousel-dot" onclick="currentSlide(2)"></span>
+                        <span class="carousel-dot" onclick="currentSlide(3)"></span>
+                        <span class="carousel-dot" onclick="currentSlide(4)"></span>
+                        <span class="carousel-dot" onclick="currentSlide(5)"></span>
+                    </div>
+                </div>
             </div>
            
             <h2>Background & Problem</h2>
@@ -213,7 +502,7 @@
 
             <h3>Phase 1: Co-Design Workshops</h3>
             
-            <p>We recruited 10 participants from the UCSC HCI community for a series of three co-design workshops held over two weeks in June 2024.Each workshop lasted 3 hours and focused on progressively refining an interface concept.</p>
+            <p>We recruited 10 participants from the UCSC HCI community for a series of three co-design workshops held over two weeks in June 2025.Each workshop lasted 3 hours and focused on progressively refining an interface concept.</p>
 
             <p>The first workshop began with participants mapping their current AI workflows using large sheets of paper and colored markers. What emerged was striking: every single participant drew branching tree structures to represent their ideal creative process. A participant elaborated "This is how my brain works," she explained, pointing to the interconnected web of ideas. "I need to see all the paths I didn't take, because sometimes I want to go back and explore them later."</p>
 
@@ -233,7 +522,7 @@
 
             <h3>Phase 2: Evaluation Study</h3>
 
-            <p>Following the co-design phase, we recruited 10 new participants from UCSC for a formal evaluation study conducted over one week in September 2024. This group included 3 self-identified Artists, 4 graduate students, and 3 advanced undergraduates, none of whom had participated in the co-design workshops.</p>
+            <p>Following the co-design phase, we recruited 10 new participants from UCSC for a formal evaluation study conducted over one week in September 2025. This group included 3 self-identified Artists, 4 graduate students, and 3 advanced undergraduates, none of whom had participated in the co-design workshops.</p>
 
             <p>Each participant attended two 90-minute sessions. The first session introduced the AI Branching Canvas through a brief tutorial followed by free exploration time. We used a minimal instruction approach, providing only essential information about basic interactions, to observe how intuitive users found the interface. The second session, conducted 2-3 days later, involved structured creative tasks designed to test specific aspects of the system.</p>
 
@@ -369,7 +658,184 @@
     </main>
 
     <script>
+        // 3D Carousel functionality
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.carousel-dot');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            // Remove all classes from slides
+            slides.forEach(slide => {
+                slide.classList.remove('active', 'prev', 'next', 'hidden');
+            });
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            // Position slides based on their relationship to current slide
+            slides.forEach((slide, slideIndex) => {
+                const slideDataIndex = parseInt(slide.getAttribute('data-index'));
+                const relativePosition = slideDataIndex - index;
+                const video = slide.querySelector('video');
+                
+                if (relativePosition === 0) {
+                    // Current slide
+                    slide.classList.add('active');
+                    if (video) {
+                        video.play();
+                    }
+                } else if (relativePosition === -1 || (index === 0 && slideDataIndex === totalSlides - 1)) {
+                    // Previous slide (with wraparound)
+                    slide.classList.add('prev');
+                    if (video) {
+                        video.play();
+                    }
+                } else if (relativePosition === 1 || (index === totalSlides - 1 && slideDataIndex === 0)) {
+                    // Next slide (with wraparound)
+                    slide.classList.add('next');
+                    if (video) {
+                        video.play();
+                    }
+                } else {
+                    // Hidden slides
+                    slide.classList.add('hidden');
+                    if (video) {
+                        video.pause();
+                    }
+                }
+            });
+            
+            // Update dots
+            if (dots[index]) {
+                dots[index].classList.add('active');
+            }
+            
+            // Update arrow states (optional - remove if you want infinite loop)
+            const prevArrow = document.querySelector('.carousel-arrow.prev');
+            const nextArrow = document.querySelector('.carousel-arrow.next');
+            
+            if (prevArrow && nextArrow) {
+                // Uncomment these lines if you want to disable arrows at boundaries
+                // prevArrow.disabled = index === 0;
+                // nextArrow.disabled = index === totalSlides - 1;
+            }
+        }
+
+        function changeSlide(direction) {
+            // Stop current auto-play
+            clearTimeout(autoPlayTimeout);
+            
+            currentSlideIndex += direction;
+            
+            // Loop around if at boundaries
+            if (currentSlideIndex >= totalSlides) {
+                currentSlideIndex = 0;
+            } else if (currentSlideIndex < 0) {
+                currentSlideIndex = totalSlides - 1;
+            }
+            
+            showSlide(currentSlideIndex);
+            
+            // Restart auto-play for the new slide
+            if (isAutoPlaying) {
+                startAutoPlay();
+            }
+        }
+
+        function currentSlide(index) {
+            // Stop current auto-play
+            clearTimeout(autoPlayTimeout);
+            
+            currentSlideIndex = index - 1;
+            showSlide(currentSlideIndex);
+            
+            // Restart auto-play for the new slide
+            if (isAutoPlaying) {
+                startAutoPlay();
+            }
+        }
+
+        // Auto-play functionality based on video duration
+        let autoPlayTimeout;
+        let isAutoPlaying = true;
+        
+        function startAutoPlay() {
+            if (!isAutoPlaying) return;
+            
+            const currentVideo = slides[currentSlideIndex].querySelector('video');
+            if (currentVideo) {
+                // Wait for video to finish playing
+                currentVideo.addEventListener('ended', function onVideoEnd() {
+                    if (isAutoPlaying) {
+                        changeSlide(1);
+                    }
+                    currentVideo.removeEventListener('ended', onVideoEnd);
+                }, { once: true });
+                
+                // If video is already playing, check its current time
+                if (!currentVideo.paused && currentVideo.currentTime > 0) {
+                    const remainingTime = currentVideo.duration - currentVideo.currentTime;
+                    if (remainingTime > 0) {
+                        autoPlayTimeout = setTimeout(() => {
+                            if (isAutoPlaying) {
+                                changeSlide(1);
+                            }
+                        }, remainingTime * 1000);
+                    }
+                }
+            } else {
+                // Fallback to 5 seconds if no video
+                autoPlayTimeout = setTimeout(() => {
+                    if (isAutoPlaying) {
+                        changeSlide(1);
+                    }
+                }, 5000);
+            }
+        }
+        
+        function stopAutoPlay() {
+            isAutoPlaying = false;
+            clearTimeout(autoPlayTimeout);
+        }
+        
+        function resumeAutoPlay() {
+            isAutoPlaying = true;
+            startAutoPlay();
+        }
+
+        // Initialize carousel
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize carousel
+            showSlide(0);
+            
+            // Add click handlers for side slides
+            slides.forEach((slide, index) => {
+                slide.addEventListener('click', function() {
+                    const slideDataIndex = parseInt(slide.getAttribute('data-index'));
+                    currentSlideIndex = slideDataIndex;
+                    showSlide(currentSlideIndex);
+                });
+            });
+            
+            // Start auto-play
+            startAutoPlay();
+            
+            // Pause auto-play on hover
+            const carousel = document.querySelector('.video-carousel');
+            if (carousel) {
+                carousel.addEventListener('mouseenter', stopAutoPlay);
+                carousel.addEventListener('mouseleave', resumeAutoPlay);
+            }
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft') {
+                    changeSlide(-1);
+                } else if (e.key === 'ArrowRight') {
+                    changeSlide(1);
+                }
+            });
+
+            // Portfolio toggle functionality
             const portfolioToggle = document.getElementById('portfolio-toggle');
             const projectLinksContainer = document.getElementById('project-links-container');
             const portfolioIndicator = document.getElementById('portfolio-indicator'); 
