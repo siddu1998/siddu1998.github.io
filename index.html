@@ -6,115 +6,243 @@
     <title>Sai Siddartha Maram's Portfolio</title>
     <style>
         /* Base styles */
-        body {
-            background-color: #fdfdfd;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1.2rem;
-            line-height: 1.6;
-            color: #333;
+        * {
             margin: 0;
-            display: flex; /* Use flexbox for the main layout */
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #ffffff;
+            background-image: 
+                linear-gradient(rgba(200, 200, 200, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(200, 200, 200, 0.15) 1px, transparent 1px);
+            background-size: 40px 40px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #1a1a1a;
+            margin: 0;
             min-height: 100vh;
         }
 
-        /* Sidebar Navigation */
-        nav {
-            width: 220px;
-            padding: 2rem;
-            border-right: 1px solid #ddd;
-            flex-shrink: 0; /* Prevents the sidebar from shrinking */
-        }
-        nav a {
-            display: block;
-            margin-bottom: 1rem;
-            color: #333;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-        nav a:hover {
-            text-decoration: none;
-        }
-        .nav-logo {
-            font-weight: bold;
-            margin-bottom: 2rem;
-            text-decoration: none;
-            cursor: default;
-        }
-
-        /* Styles for the portfolio dropdown container */
-        #project-links-container {
-            margin-top: 0.5rem;
-            padding-left: 1rem; /* Indent the project links */
-            border-left: 1px solid #eee;
-        }
-        /* Style for the individual project links in the dropdown */
-        .project-link {
-            font-size: 1rem; /* Make project links slightly smaller */
-        }
-
-        /* Main Content Area */
-        main {
-            flex-grow: 1; /* Allows the main content to fill the remaining space */
-            position: relative; /* Important for absolute positioning of sections */
-            overflow-y: auto; /* Allow scrolling within the main content area */
-            height: 100vh;
-        }
-
-        /* Make all content sections positioned to overlay each other */
-        .content-section {
-            position: absolute;
+        /* Header */
+        header {
+            padding: 2rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
             top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow-y: auto;
-            background-color: #fdfdfd; /* Add background to prevent bleeding through */
+            z-index: 100;
+            border-bottom: 1px solid rgba(200, 200, 200, 0.2);
         }
         
-        /* Styles for the two-column About section */
-        #about {
-            display: flex;
-        }
-        .about-image-column {
-            flex: 0 0 40%; /* Image column takes 40% of the width */
-            display: flex;
-        }
-        .about-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Ensures the image covers the area without distortion */
-        }
-        .about-text-column {
-            flex: 1; /* Text column takes the remaining space */
-            padding: 4rem;
-            overflow-y: auto;
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            font-family: 'Georgia', serif;
         }
         
-        /* Styles for standard content pages like Research */
-        #research {
-            padding: 4rem;
+        .contact-btn {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background-color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .contact-btn:hover {
+            background-color: #333;
         }
 
-        /* Styles for Experience Section Items */
-        .experience-item {
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 3rem;
+        }
+
+        /* Profile Section */
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
             margin-bottom: 3rem;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
         }
-        .experience-item h3 {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin: 0;
+        
+        .profile-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 3px solid #f0f0f0;
         }
-        .experience-item .role-info {
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-info h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+        
+        .profile-info .role {
             font-size: 1.1rem;
             color: #666;
-            margin-bottom: 1rem;
-        }
-        .experience-item ul {
-            list-style-type: '- ';
-            padding-left: 1.5rem;
-        }
-        .experience-item li {
             margin-bottom: 0.5rem;
+            line-height: 1.8;
+        }
+        
+        .location {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: #999;
+            font-size: 0.95rem;
+            margin-top: 1rem;
+        }
+
+        /* Navigation Pills */
+        .nav-pills {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            padding: 0 2rem;
+        }
+        
+        .nav-pill {
+            padding: 0.8rem 1.8rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #e0e0e0;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #333;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .nav-pill:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+        }
+        
+        .nav-pill.active {
+            background-color: #1a1a1a;
+            color: white;
+            border-color: #1a1a1a;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            padding: 0 2rem;
+        }
+        
+        .project-card {
+            background-color: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            min-height: 280px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .project-tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .project-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+        
+        .project-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            opacity: 0.85;
+        }
+        
+        /* Color variants for project cards */
+        .card-blue {
+            background: linear-gradient(135deg, #a8d8ea 0%, #7fb3d5 100%);
+            color: #1a1a1a;
+        }
+        
+        .card-green {
+            background: linear-gradient(135deg, #c1f0c1 0%, #90d890 100%);
+            color: #1a1a1a;
+        }
+        
+        .card-orange {
+            background: linear-gradient(135deg, #ffd89b 0%, #ffb347 100%);
+            color: #1a1a1a;
+        }
+        
+        .card-red {
+            background: linear-gradient(135deg, #ff9a8b 0%, #ff6b6b 100%);
+            color: white;
+        }
+        
+        .card-purple {
+            background: linear-gradient(135deg, #d4a5ff 0%, #b57edc 100%);
+            color: white;
+        }
+        
+        .card-yellow {
+            background: linear-gradient(135deg, #fff59d 0%, #ffd54f 100%);
+            color: #1a1a1a;
+        }
+        
+        .card-white {
+            background: white;
+            border: 1px solid #e0e0e0;
+            color: #1a1a1a;
+        }
+        
+        .card-dark {
+            background: linear-gradient(135deg, #434343 0%, #1a1a1a 100%);
+            color: white;
         }
 
         /* Utility class to hide content */
@@ -125,79 +253,46 @@
         /* Social Links */
         .social-links {
             display: flex;
-            gap: 2rem;
-            margin-top: 2rem;
-            justify-content: flex-start;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
 
         .social-links a {
-            color: #333;
-            text-decoration: underline;
-            font-size: 1rem;
+            color: #1a1a1a;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+            background-color: rgba(255, 255, 255, 0.8);
         }
 
         .social-links a:hover {
-            text-decoration: none;
+            background-color: #1a1a1a;
+            color: white;
+            border-color: #1a1a1a;
         }
 
-        /* Featured Work Section */
-        .featured-work {
-            margin-top: 4rem;
-            padding-top: 3rem;
-            border-top: 1px solid #ddd;
-        }
-        .featured-work h3 {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            font-weight: normal;
-        }
-        .featured-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 1.5rem;
-        }
-        .featured-card {
-            border: 1px solid #ddd;
-            padding: 1.5rem;
-            transition: background-color 0.2s ease;
-            cursor: pointer;
-        }
-        .featured-card:hover {
-            background-color: #f9f9f9;
-        }
-        .featured-card h4 {
-            font-size: 1rem;
-            margin: 0 0 0.5rem 0;
-            font-weight: bold;
-        }
-        .featured-card p {
-            font-size: 0.9rem;
-            color: #666;
-            margin: 0 0 1rem 0;
-            line-height: 1.4;
-        }
-        .featured-tag {
-            font-size: 0.7rem;
-            color: #999;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+        /* Research Section */
+        .research-section {
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
         }
         
-        /* New style to make featured cards act as proper links */
-        a.featured-card-link {
-            text-decoration: none;
-            color: inherit;
+        .research-section h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            font-weight: 700;
         }
-
-        /* Research Table Styles */
+        
         .research-table-wrapper {
             margin-top: 2rem;
         }
         .research-table {
             width: 100%;
             border-collapse: collapse;
-            font-family: 'Courier New', Courier, monospace;
         }
         .research-table th {
             text-align: left;
@@ -209,7 +304,7 @@
         }
         .research-table td {
             padding: 1rem 0;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #e0e0e0;
             vertical-align: top;
         }
         .paper-title {
@@ -234,195 +329,234 @@
         
         /* --- Mobile Friendly Styles --- */
         @media (max-width: 992px) {
-            body {
-                flex-direction: column; 
+            header {
+                padding: 1.5rem;
             }
-            main {
-                height: auto;
-                position: static; /* Remove absolute positioning on mobile */
+            
+            .logo {
+                font-size: 1.2rem;
             }
-            .content-section {
-                position: static; /* Remove absolute positioning on mobile */
-                width: auto;
-                height: auto;
+            
+            .contact-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
             }
-            #about {
+            
+            .container {
+                padding: 2rem 1.5rem;
+            }
+            
+            .profile-section {
                 flex-direction: column;
+                text-align: center;
+                gap: 2rem;
+                padding: 2rem 1.5rem;
             }
-            .about-image-column {
-                display: none;
+            
+            .profile-image {
+                width: 140px;
+                height: 140px;
             }
-            .about-text-column, #research {
-                padding: 2rem;
+            
+            .profile-info h1 {
+                font-size: 2rem;
             }
+            
+            .profile-info .role {
+                font-size: 1rem;
+            }
+            
+            .location {
+                justify-content: center;
+            }
+            
             .social-links {
                 flex-wrap: wrap;
-                gap: 1rem;
-                justify-content: flex-start;
-            }
-            .featured-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            .featured-work {
-                margin-top: 2rem;
-                padding-top: 2rem;
-            }
-            nav {
-                width: 100%; 
-                padding: 1rem;
-                border-right: none; 
-                border-bottom: 1px solid #ddd; 
-            }
-            .nav-container {
-                display: flex;
+                gap: 0.8rem;
                 justify-content: center;
-                gap: 1.5rem;
-                flex-wrap: wrap;
             }
-            .nav-logo {
-                display: none; /* Hide logo on mobile for space */
+            
+            .nav-pills {
+                padding: 0 1rem;
+                justify-content: center;
             }
-            nav a {
-                margin-bottom: 0;
+            
+            .nav-pill {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
             }
-            #project-links-container {
-                width: 100%;
-                text-align: center;
-                padding-left: 0;
-                border-left: none;
-                margin-top: 1rem;
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+                padding: 0 1rem;
             }
+            
+            .project-card {
+                padding: 2rem;
+                min-height: 240px;
+            }
+            
+            .project-card h3 {
+                font-size: 1.2rem;
+            }
+            
+            .research-section {
+                padding: 1.5rem;
+            }
+            
             .research-table {
                 font-size: 0.9rem;
             }
+            
             .research-table th, .research-table td {
-                padding: 0.5rem 0;
-            }
-            .research-table th:last-child, .research-table td:last-child {
-                text-align: right;
+                padding: 0.75rem 0;
             }
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="nav-logo">Sai Maram</div>
-        <div class="nav-container">
-            <a class="nav-link" data-target="about">About</a>
-            <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
-            <a class="nav-link" href="./research.html">Research</a>
-            <a id="portfolio-toggle"><span id="portfolio-indicator">+</span> UX Case Studies</a>
-        </div>
-        <div id="project-links-container" class="hidden">
-            <a class="project-link" href="./canvasNew.html">Ooha - AI interface for visual thinkers</a>
-            <a class="project-link" href="./Xbox2.html">LLMs meet UX (Microsoft) 🔒</a>
-            <a class="project-link" href="#" onclick="showLockedMessage(); return false;">Xbox Family Safety 🚧</a>
-            <a class="project-link" href="#" onclick="showComingSoon(); return false;">LLM Games 🚧</a>
-            <a class="project-link" href="./religionVideoGamesNew.html">Reddit,Games</a>
-            <a class="project-link" href="./opmNew.html">OPM</a>
-            <a class="project-link" href="./astraVerseNew.html">AstraVerse</a>
-            <a class="project-link" href="./shlokaNew.html">Shloka</a>
-            <a class="project-link" href="./metaNew.html">Facebook Top of Home</a>
-        </div>
-    </nav>
+    <!-- Header -->
+    <header>
+        <div class="logo">Sai Maram</div>
+        <a href="mailto:msaisiddartha1@gmail.com" class="contact-btn">
+            msaisiddartha1@gmail.com →
+        </a>
+    </header>
 
-    <main>
-        <div id="about" class="content-section">
-            <div class="about-image-column">
-                <img src="https://siddu1998.github.io/IMG_7021%20(1).jpg" alt="A photo of Sai Siddartha Maram" class="about-image" onerror="this.onerror=null;this.src='https://placehold.co/800x1200/e0e0e0/333333?text=Image+Not+Found';">
-            </div>
-            <div class="about-text-column">
-                <h1>Hi, I am Sai Maram.</h1>
-                <ul>
-                <li><small>My research at Meta contributed to the Meta-Spotify integration and Facebook Sports cards, leading to <strong>over a billion users sharing Spotify content on Instagram.</strong></small></li>
-                <li><small>At Xbox, I designed and developed Xbox AURA, an agentic approach towards running playtests, and playtest data analysis resulting in approximately <strong>$2 million in annual savings.</strong></small></li>
-                <li><small>My work has contributed to award-winning video games, including <strong>Halo</strong> and <strong>Perfect Dark.</strong></small></li>
-                <li><small>I designed, developed, run and maintain <a href="https://ooha-creator.github.io/">Ooha Canvas</a>, an open source LLM interface for visual chaining.</small></li>
-            </ul>
-                <!-- <strong>Facebook Sports Cards, Meta Notes-Spotify Connect were outcomes of my internship at Meta. I am also the researcher/designer/developer behind Xbox AURA. My work also contributed to award winning videogames like Halo and Perfect Dark. </strong> -->
-                <!-- <p>
-                 My work explores how design, AI, and community come together to support the development of intuitive experiences. I have previously worked with Meta, Microsoft, and Xbox.  If you'd like to connect or collaborate, feel free to reach out at <a href="mailto:msaisiddartha1@gmail.com">msaisiddartha1@gmail.com</a>
-                </p> -->
-
-                 <div class="social-links">
-                    <a href="https://linkedin.com/in/sid-maram" target="_blank" title="LinkedIn">LinkedIn</a>
-                    <a href="https://scholar.google.com/citations?user=0eShD5EAAAAJ&hl=en" target="_blank" title="Google Scholar">Google Scholar</a>
-                    <a href="https://x.com/" target="_blank" title="Twitter">Twitter</a>
-                    <a href="https://siddu1998.github.io/cv.pdf" target="_blank" title="Resume">Resume</a>
-                </div>
-
-                <div class="featured-work" style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #ddd;">
-                    <h3>Selected Work</h3>
-                    <div class="featured-grid">
-                        <a href="./canvasNew.html" class="featured-card-link">
-                            <div class="featured-card">
-                                <div class="featured-tag">LLM x AI</div>
-                                <h4>Ooha: An AI Canvas for Visual thinkers</h4>
-                                <p>An interactive canvas leveraging AI to enhance creative workflows and design iterations.</p>
-                            </div>
-                        </a>
-                        <a href="./shlokaNew.html" class="featured-card-link">
-                            <div class="featured-card">
-                                <div class="featured-tag">ACM DIS 2025🏆, CHI PLAY 2024</div>
-                                <h4>Shloka: Climate Action through Cultural Games</h4>
-                                <p>Ethnographic research exploring how religious narratives drive environmental behavior change.</p>
-                            </div>
-                        </a>
-                        <a href="./Xbox2.html" class="featured-card-link">
-                            <div class="featured-card">
-                                <div class="featured-tag">MICROSOFT 2025</div>
-                                <h4>LLMs meet UX 🔒</h4>
-                                <p>Understood AI-requirements of UX Researchers at Xbox Research and designed and developed Xbox AURA.</p>
-                            </div>
-                        </a>
-                        <a href="./metaNew.html" class="featured-card-link">
-                            <div class="featured-card">
-                                <div class="featured-tag">META 2022</div>
-                                <h4>Facebook Home Redesign</h4>
-                                <p>Generative research identifying user needs and prototyping 21 new experiences.</p>
-                            </div>
-                        </a>
-                        <a href="./religionVideoGamesNew.html" class="featured-card-link">
-                            <div class="featured-card">
-                                <div class="featured-tag">CHI PLAY 2024</div>
-                                <h4>Religious Inclusivity in Games</h4>
-                                <p>Digital ethnography analyzing 10,000+ Reddit posts to understand religious representation in gaming.</p>
-                            </div>
-                        </a>
-                        <a href="./opmNew.html" class="featured-card-link">
-                            <div class="featured-card">
-                                <div class="featured-tag">CHI 2024</div>
-                                <h4>Game Play Reflection Systems</h4>
-                                <p>Design research developing visualization systems to enhance learning in educational games.</p>
-                            </div>
-                        </a>
-                        <a href="./astraVerseNew.html" class="featured-card-link">
-                            <div class="featured-card">
-                                <div class="featured-tag">IFIP-ICEC 2022</div>
-                                <h4>AstraVerse Character Design</h4>
-                                <p>Visual ethnography creating culturally-sensitive game character frameworks.</p>
-                            </div>
-                        </a>
-                        
-                        <div class="featured-card" onclick="showLockedMessage()">
-                            <div class="featured-tag">MICROSOFT 2024</div>
-                            <h4>Xbox Family Safety 🔒</h4>
-                            <p>Unified 6 disparate parental control endpoints through 13 usability studies.</p>
-                        </div>
-                        
-                        <div class="featured-card" onclick="showComingSoon()">
-                            <div class="featured-tag">UPCOMING</div>
-                            <h4>LLM Games Research 🚧</h4>
-                            <p>Exploring the intersection of large language models and game design.</p>
-                        </div>
-                    </div>
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Profile Section -->
+        <div class="profile-section">
+            <img src="temporary/sai_4.jpg" alt="Sai Maram" class="profile-image" onerror="this.onerror=null;this.src='https://placehold.co/400x400/e0e0e0/333333?text=SM';">
+            <div class="profile-info">
+                <h1>Sai Siddartha Maram</h1>
+                <div class="role">UX Researcher & Designer</div>
+                <div class="role">PhD Candidate at UCSC</div>
+                <div class="role">Previously @ Microsoft, Xbox, Meta</div>
+                <div class="location">📍 San Francisco, CA</div>
+                
+                <div class="social-links">
+                    <a href="https://linkedin.com/in/sid-maram" target="_blank">LinkedIn</a>
+                    <a href="https://scholar.google.com/citations?user=0eShD5EAAAAJ&hl=en" target="_blank">Google Scholar</a>
+                    <a href="https://x.com/ADesiHCI" target="_blank">Twitter</a>
+                    <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
                 </div>
             </div>
         </div>
-        <a href="https://info.flagcounter.com/AdSQ"><img src="https://s01.flagcounter.com/count2/AdSQ/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
-        <div id="research" class="content-section hidden">
+
+        <!-- Navigation Pills -->
+        <div class="nav-pills">
+            <div class="nav-pill active" data-section="projects">Selected Work</div>
+            <div class="nav-pill" data-section="about">About Me</div>
+            <div class="nav-pill" data-section="research">Publications</div>
+        </div>
+
+        <!-- Projects Section (Default View) -->
+        <div id="projects" class="projects-grid">
+            <a href="./canvasNew.html" class="project-card card-blue">
+                <div>
+                    <div class="project-tag">LLM × AI</div>
+                    <h3>Ooha: AI Canvas for Visual Thinkers</h3>
+                    <p>An interactive canvas leveraging AI to enhance creative workflows and design iterations.</p>
+                </div>
+            </a>
+
+            <a href="./shlokaNew.html" class="project-card card-green">
+                <div>
+                    <div class="project-tag">ACM DIS 2025 🏆</div>
+                    <h3>Shloka: Climate Action through Cultural Games</h3>
+                    <p>Ethnographic research exploring how religious narratives drive environmental behavior change.</p>
+                </div>
+            </a>
+
+            <a href="./Xbox2.html" class="project-card card-dark">
+                <div>
+                    <div class="project-tag">Microsoft 2025</div>
+                    <h3>LLMs meet UX 🔒</h3>
+                    <p>Designed and developed Xbox AURA: an agentic approach towards running playtests and data analysis, resulting in ~$400K in annual savings.</p>
+                </div>
+            </a>
+
+            <a href="./metaNew.html" class="project-card card-orange">
+                <div>
+                    <div class="project-tag">Meta 2022</div>
+                    <h3>Facebook Home Redesign</h3>
+                    <p>Generative research identifying user needs and prototyping 21 new experiences. Contributed to Meta-Spotify integration reaching over a billion users.</p>
+                </div>
+            </a>
+
+            <a href="./religionVideoGamesNew.html" class="project-card card-purple">
+                <div>
+                    <div class="project-tag">CHI PLAY 2024</div>
+                    <h3>Religious Inclusivity in Games</h3>
+                    <p>Digital ethnography analyzing 10,000+ Reddit posts to understand religious representation in gaming.</p>
+                </div>
+            </a>
+
+            <a href="./opmNew.html" class="project-card card-yellow">
+                <div>
+                    <div class="project-tag">CHI 2024</div>
+                    <h3>Game Play Reflection Systems</h3>
+                    <p>Design research developing visualization systems to enhance learning in educational games.</p>
+                </div>
+            </a>
+
+            <a href="./astraVerseNew.html" class="project-card card-white">
+                <div>
+                    <div class="project-tag">IFIP-ICEC 2022</div>
+                    <h3>AstraVerse Character Design</h3>
+                    <p>Visual ethnography creating culturally-sensitive game character frameworks.</p>
+                </div>
+            </a>
+
+            <div class="project-card card-red" onclick="showLockedMessage()">
+                <div>
+                    <div class="project-tag">Microsoft 2024</div>
+                    <h3>Xbox Family Safety 🔒</h3>
+                    <p>Unified 6 disparate parental control endpoints through 13 usability studies.</p>
+                </div>
+            </div>
+
+            <div class="project-card card-white" onclick="showComingSoon()">
+                <div>
+                    <div class="project-tag">Upcoming</div>
+                    <h3>LLM Games Research 🚧</h3>
+                    <p>Exploring the intersection of large language models and game design.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Section (Hidden by default) -->
+        <div id="about" class="hidden" style="padding: 2rem; background-color: rgba(255, 255, 255, 0.8); border-radius: 20px;">
+            <h2 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem; line-height: 1.3;">Crafting intuitive experiences,<br>solving complex problems.</h2>
+            
+            <div style="font-size: 1.05rem; line-height: 1.8; color: #333; max-width: 900px;">
+                <p style="margin-bottom: 1.5rem;">
+                    My path into UX research has been shaped by a mix of hands-on work, academic exploration, and a deep interest in how people interact with technology in everyday life. From designing conversational robots at Invento Robotics to studying digital communities during my internship at Meta, I've had the chance to work at the crossroads of AI, software, and human behavior. These experiences have taught me to approach problems with care, curiosity, and a focus on real-world impact.
+                </p>
+                
+                <p style="margin-bottom: 1.5rem;">
+                    As a PhD student in Human-Computer Interaction, I explore how design, AI, and community insights can come together to support meaningful learning and reflection. Whether I'm studying how families play games together, helping students engage with educational chatbots, or building tools for collaborative inquiry, my goal is to design systems that feel thoughtful and grounded. I value clarity over complexity, people over features, and learning over perfection.
+                </p>
+                
+                <p style="margin-bottom: 2.5rem;">
+                    If you'd like to connect or collaborate, feel free to reach out at <a href="mailto:msaisiddartha1@gmail.com" style="color: #0066cc; text-decoration: underline;">msaisiddartha1@gmail.com</a>
+                </p>
+                
+                <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; margin-top: 3rem;">Key Contributions</h3>
+                <ul style="list-style-type: none; padding: 0;">
+                    <li style="margin-bottom: 1.5rem;">• My research at Meta contributed to the Meta-Spotify integration and Facebook Sports cards, leading to <strong>over a billion users sharing Spotify content on Instagram.</strong></li>
+                    <li style="margin-bottom: 1.5rem;">• At Xbox, I designed and developed Xbox AURA, an agentic approach towards running playtests, and playtest data analysis resulting in approximately <strong>$400K in annual savings.</strong></li>
+                    <li style="margin-bottom: 1.5rem;">• My work has contributed to award-winning video games, including <strong>Halo</strong> and <strong>Perfect Dark.</strong></li>
+                    <li style="margin-bottom: 1.5rem;">• I designed, developed, run and maintain <a href="https://ooha-creator.github.io/" style="color: #1a1a1a; text-decoration: underline;">Ooha Canvas</a>, an open source LLM interface for visual chaining.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Research Section (Hidden by default) -->
+        <div id="research" class="research-section hidden">
             <h2>Publications</h2>
             <div class="research-table-wrapper">
                 <table class="research-table">
@@ -493,39 +627,43 @@
                 </table>
             </div>
         </div>
-        
-    </main>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const navLinks = document.querySelectorAll('.nav-link');
-            const portfolioToggle = document.getElementById('portfolio-toggle');
-            const projectLinksContainer = document.getElementById('project-links-container');
-            const contentSections = document.querySelectorAll('.content-section');
-            const portfolioIndicator = document.getElementById('portfolio-indicator'); 
+            const navPills = document.querySelectorAll('.nav-pill');
+            const sections = {
+                'projects': document.getElementById('projects'),
+                'about': document.getElementById('about'),
+                'research': document.getElementById('research')
+            };
 
             function hideAllSections() {
-                contentSections.forEach(section => {
-                    section.classList.add('hidden');
+                Object.values(sections).forEach(section => {
+                    if (section) section.classList.add('hidden');
                 });
             }
 
-            navLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    const targetId = this.getAttribute('data-target');
-                    if (targetId) {
-                        hideAllSections();
-                        const targetSection = document.getElementById(targetId);
-                        if (targetSection) {
-                            targetSection.classList.remove('hidden');
-                        }
+            function showSection(sectionName) {
+                hideAllSections();
+                if (sections[sectionName]) {
+                    sections[sectionName].classList.remove('hidden');
+                }
+                
+                // Update active pill
+                navPills.forEach(pill => {
+                    pill.classList.remove('active');
+                });
+                event.target.classList.add('active');
+            }
+
+            navPills.forEach(pill => {
+                pill.addEventListener('click', function(event) {
+                    const sectionName = this.getAttribute('data-section');
+                    if (sectionName) {
+                        showSection(sectionName);
                     }
                 });
-            });
-
-            portfolioToggle.addEventListener('click', function() {
-                projectLinksContainer.classList.toggle('hidden');
-                portfolioIndicator.textContent = projectLinksContainer.classList.contains('hidden') ? '+' : '-';
             });
         });
 
