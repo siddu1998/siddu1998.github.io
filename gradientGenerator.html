@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradient Generator - Sai Maram</title>
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #ffffff;
+            background-image: 
+                linear-gradient(rgba(200, 200, 200, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(200, 200, 200, 0.15) 1px, transparent 1px);
+            background-size: 40px 40px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #1a1a1a;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            padding: 2rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(200, 200, 200, 0.2);
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            font-family: 'Georgia', serif;
+            text-decoration: none;
+        }
+        
+        .back-btn {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background-color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .back-btn:hover {
+            background-color: #333;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 3rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+        }
+
+        .page-header p {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .gradient-wrapper {
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .gradient-display {
+            flex: 1;
+            height: 350px;
+            border-radius: 25px;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+            cursor: text;
+        }
+
+        .gradient-canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 25px;
+        }
+
+        .text-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            height: 5em;
+            text-align: center;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 3rem;
+            font-weight: 700;
+            outline: none;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            resize: none;
+            overflow: hidden;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            pointer-events: none;
+            line-height: 1.3;
+            padding: 0.5rem;
+            box-sizing: border-box;
+        }
+
+        .text-overlay.active {
+            pointer-events: auto;
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+        }
+
+        .controls-wrapper {
+            margin-bottom: 2rem;
+            max-height: 2000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            opacity: 1;
+        }
+
+        .controls-wrapper.hidden {
+            max-height: 0;
+            opacity: 0;
+            margin-bottom: 0;
+        }
+
+        .section-header {
+            padding: 0.8rem 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .section-header:hover {
+            border-bottom-color: #1a1a1a;
+        }
+
+        .section-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .section-toggle {
+            font-size: 0.9rem;
+            color: #999;
+            transition: transform 0.2s ease;
+        }
+
+        .section-toggle.open {
+            transform: rotate(180deg);
+        }
+
+        .section-content {
+            padding: 1.5rem 0 0 0;
+            max-height: 1000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.2s ease;
+            opacity: 1;
+        }
+
+        .section-content.collapsed {
+            max-height: 0;
+            padding: 0;
+            opacity: 0;
+        }
+
+        .gradient-type-buttons {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .type-btn {
+            flex: 1;
+            min-width: 100px;
+            padding: 0.8rem 1.8rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #e0e0e0;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #333;
+            transition: all 0.2s ease;
+        }
+
+        .type-btn.active {
+            background-color: #1a1a1a;
+            color: white;
+            border-color: #1a1a1a;
+        }
+
+        .type-btn:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+        }
+
+        .type-btn.active:hover {
+            background-color: #333;
+        }
+
+        .color-stops {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .color-stop {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.2s ease;
+        }
+
+        .color-stop:last-child {
+            border-bottom: none;
+        }
+
+        .color-stop:hover {
+            padding-left: 0.5rem;
+        }
+
+        .color-input-wrapper {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+        }
+
+        .color-input {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .color-input:hover {
+            border-color: #1a1a1a;
+            transform: scale(1.05);
+        }
+
+        .color-input::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        .color-input::-webkit-color-swatch {
+            border: none;
+            border-radius: 8px;
+        }
+
+        .stop-controls {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .control-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .control-label {
+            font-size: 0.9rem;
+            color: #333;
+            font-weight: 500;
+            min-width: 70px;
+        }
+
+        .slider {
+            flex: 1;
+            height: 6px;
+            border-radius: 3px;
+            background: #e0e0e0;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #1a1a1a;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .slider::-webkit-slider-thumb:hover {
+            background: #333;
+            transform: scale(1.1);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #1a1a1a;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .slider::-moz-range-thumb:hover {
+            background: #333;
+            transform: scale(1.1);
+        }
+
+        .slider-value {
+            min-width: 45px;
+            text-align: right;
+            font-size: 0.9rem;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        .lock-btn {
+            background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            padding: 0.3rem;
+        }
+
+        .lock-btn:hover {
+            color: #1a1a1a;
+            transform: scale(1.1);
+        }
+
+        .lock-btn.locked {
+            color: #1a1a1a;
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            padding: 0.3rem;
+        }
+
+        .remove-btn:hover {
+            color: #ff6b6b;
+            transform: scale(1.2);
+        }
+
+        .add-color-btn {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: #999;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            text-align: left;
+            margin-top: 0.5rem;
+        }
+
+        .add-color-btn:hover {
+            color: #1a1a1a;
+        }
+
+        .effects-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .effect-control {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .effect-control:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #1a1a1a;
+        }
+
+        .checkbox-label {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: flex-end;
+        }
+
+        .icon-btn-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #999;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-btn:hover {
+            color: #1a1a1a;
+            transform: scale(1.1);
+        }
+
+        .icon-btn-label {
+            font-size: 0.85rem;
+            color: #999;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .icon-btn-wrapper:hover .icon-btn-label {
+            color: #1a1a1a;
+        }
+
+        .settings-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #999;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 0.5rem;
+        }
+
+        .settings-btn:hover {
+            color: #1a1a1a;
+            transform: scale(1.1);
+        }
+
+        .settings-btn.active {
+            color: #1a1a1a;
+        }
+
+        .settings-panel {
+            max-height: 3000px;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.3s ease;
+            opacity: 1;
+        }
+
+        .settings-panel.hidden {
+            max-height: 0;
+            opacity: 0;
+        }
+
+        .css-output {
+            padding-top: 1.5rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .css-output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .css-output-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .copy-btn {
+            padding: 0.4rem 0.8rem;
+            background: none;
+            color: #999;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .copy-btn:hover {
+            color: #1a1a1a;
+            border-color: #1a1a1a;
+        }
+
+        .css-code {
+            background: #f7fafc;
+            padding: 1rem;
+            border-radius: 8px;
+            color: #666;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            word-wrap: break-word;
+            border: 1px solid #e0e0e0;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 992px) {
+            header {
+                padding: 1.5rem;
+            }
+            
+            .logo {
+                font-size: 1.2rem;
+            }
+            
+            .back-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+            
+            .container {
+                padding: 2rem 1.5rem;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .gradient-wrapper {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .gradient-display {
+                height: 250px;
+            }
+
+            .action-buttons {
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap: 1.5rem;
+            }
+
+            .icon-btn {
+                font-size: 1.2rem;
+            }
+
+            .icon-btn-label {
+                font-size: 0.8rem;
+            }
+
+            .section-header {
+                padding: 0.8rem 0;
+            }
+
+            .section-content {
+                padding: 1.2rem 0 0 0;
+            }
+
+            .section-content.collapsed {
+                padding: 0;
+            }
+
+            .color-stop {
+                flex-wrap: wrap;
+            }
+
+            .control-label {
+                min-width: 60px;
+                font-size: 0.85rem;
+            }
+
+            .type-btn {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .text-overlay {
+                font-size: 2rem;
+                height: 4em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="./index.html" class="logo">Sai Maram</a>
+        <a href="./index.html" class="back-btn">← Back to Portfolio</a>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="page-header">
+            <h1>Gradient Generator</h1>
+            <p>Create beautiful gradients with custom colors, textures, and effects</p>
+        </div>
+
+        <div class="gradient-wrapper">
+            <div class="gradient-display" ondblclick="activateTextOverlay()">
+                <canvas id="gradientCanvas" class="gradient-canvas"></canvas>
+                <textarea id="textOverlay" class="text-overlay" maxlength="100"></textarea>
+            </div>
+
+            <div class="action-buttons">
+                <div class="icon-btn-wrapper" onclick="randomizeGradient()">
+                    <span class="icon-btn-label">Randomize</span>
+                    <button class="icon-btn" title="Randomize">↻</button>
+                </div>
+                <div class="icon-btn-wrapper" onclick="copyCSS()">
+                    <span class="icon-btn-label">Copy CSS</span>
+                    <button class="icon-btn" title="Copy CSS">⎘</button>
+                </div>
+                <div class="icon-btn-wrapper" onclick="downloadGradient()">
+                    <span class="icon-btn-label">Download</span>
+                    <button class="icon-btn" title="Download PNG">↓</button>
+                </div>
+                <div class="icon-btn-wrapper" onclick="toggleSettings()">
+                    <span class="icon-btn-label">Gradient Settings</span>
+                    <button class="icon-btn" id="settingsBtn" title="Settings">⚙</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="settingsPanel" class="settings-panel hidden">
+            <div class="controls-wrapper">
+                <div class="section-header" onclick="toggleSection('gradientType')">
+                    <div class="section-title">Gradient Type</div>
+                    <div class="section-toggle open" id="toggle-gradientType">▼</div>
+                </div>
+                <div class="section-content" id="section-gradientType">
+                    <div class="gradient-type-buttons">
+                        <button class="type-btn active" data-type="linear">Linear</button>
+                        <button class="type-btn" data-type="radial">Radial</button>
+                        <button class="type-btn" data-type="conic">Conic</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls-wrapper">
+                <div class="section-header" onclick="toggleSection('colorStops')">
+                    <div class="section-title">Color Stops</div>
+                    <div class="section-toggle open" id="toggle-colorStops">▼</div>
+                </div>
+                <div class="section-content" id="section-colorStops">
+                    <div id="colorStops" class="color-stops"></div>
+                    <button class="add-color-btn" onclick="addColorStop()">+ Add Color Stop</button>
+                </div>
+            </div>
+
+            <div class="controls-wrapper">
+                <div class="section-header" onclick="toggleSection('effects')">
+                    <div class="section-title">Effects & Texture</div>
+                    <div class="section-toggle open" id="toggle-effects">▼</div>
+                </div>
+                <div class="section-content" id="section-effects">
+                    <div class="effects-section">
+                        <div class="effect-control">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" id="noiseToggle" class="checkbox" checked onchange="updateGradient()">
+                                <label for="noiseToggle" class="checkbox-label">Noise Texture</label>
+                            </div>
+                            <div class="control-row">
+                                <span class="control-label">Intensity</span>
+                                <input type="range" id="noiseIntensity" class="slider" min="0" max="100" value="30" onchange="updateGradient()">
+                                <span class="slider-value"><span id="noiseValue">30</span>%</span>
+                            </div>
+                        </div>
+                        <div class="effect-control">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" id="grainToggle" class="checkbox" onchange="updateGradient()">
+                                <label for="grainToggle" class="checkbox-label">Film Grain</label>
+                            </div>
+                            <div class="control-row">
+                                <span class="control-label">Amount</span>
+                                <input type="range" id="grainAmount" class="slider" min="0" max="100" value="20" onchange="updateGradient()">
+                                <span class="slider-value"><span id="grainValue">20</span>%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="css-output">
+            <div class="css-output-header">
+                <span class="css-output-title">CSS Code</span>
+                <button class="copy-btn" onclick="copyCSS()">Copy</button>
+            </div>
+            <div class="css-code" id="cssOutput"></div>
+        </div>
+    </div>
+
+    <script>
+        let gradientType = 'linear';
+        let colorStops = [
+            { color: '#a8d8ea', position: 0, alpha: 100, locked: false },
+            { color: '#7fb3d5', position: 100, alpha: 100, locked: false }
+        ];
+
+        const canvas = document.getElementById('gradientCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Text overlay functionality
+        function activateTextOverlay() {
+            const textOverlay = document.getElementById('textOverlay');
+            textOverlay.classList.add('active');
+            textOverlay.focus();
+            textOverlay.select();
+        }
+
+        // Deactivate text overlay when clicking outside
+        document.addEventListener('click', function(e) {
+            const textOverlay = document.getElementById('textOverlay');
+            const gradientDisplay = document.querySelector('.gradient-display');
+            
+            if (textOverlay && !gradientDisplay.contains(e.target)) {
+                textOverlay.classList.remove('active');
+            }
+        });
+
+        // Toggle settings panel
+        function toggleSettings() {
+            const panel = document.getElementById('settingsPanel');
+            const btn = document.getElementById('settingsBtn');
+            
+            if (panel.classList.contains('hidden')) {
+                panel.classList.remove('hidden');
+                btn.classList.add('active');
+            } else {
+                panel.classList.add('hidden');
+                btn.classList.remove('active');
+            }
+        }
+
+        // Toggle section collapse/expand
+        function toggleSection(sectionId) {
+            const content = document.getElementById('section-' + sectionId);
+            const toggle = document.getElementById('toggle-' + sectionId);
+            
+            if (content.classList.contains('collapsed')) {
+                content.classList.remove('collapsed');
+                toggle.classList.add('open');
+            } else {
+                content.classList.add('collapsed');
+                toggle.classList.remove('open');
+            }
+        }
+
+        // Set canvas size
+        function resizeCanvas() {
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * 2; // Retina display
+            canvas.height = rect.height * 2;
+            updateGradient();
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Initialize color stops UI
+        function renderColorStops() {
+            const container = document.getElementById('colorStops');
+            container.innerHTML = '';
+
+            colorStops.forEach((stop, index) => {
+                const stopElement = document.createElement('div');
+                stopElement.className = 'color-stop';
+                const lockIcon = stop.locked ? '🔒' : '🔓';
+                const lockClass = stop.locked ? 'locked' : '';
+                stopElement.innerHTML = `
+                    <div class="color-input-wrapper">
+                        <input type="color" class="color-input" value="${stop.color}" 
+                               onchange="updateColorStop(${index}, 'color', this.value)">
+                    </div>
+                    <div class="stop-controls">
+                        <div class="control-row">
+                            <span class="control-label">Position</span>
+                            <input type="range" class="slider" min="0" max="100" value="${stop.position}"
+                                   oninput="updateColorStop(${index}, 'position', this.value)">
+                            <span class="slider-value">${stop.position}%</span>
+                        </div>
+                        <div class="control-row">
+                            <span class="control-label">Opacity</span>
+                            <input type="range" class="slider" min="0" max="100" value="${stop.alpha}"
+                                   oninput="updateColorStop(${index}, 'alpha', this.value)">
+                            <span class="slider-value">${stop.alpha}%</span>
+                        </div>
+                    </div>
+                    <button class="lock-btn ${lockClass}" onclick="toggleLock(${index})" title="Lock/Unlock color">${lockIcon}</button>
+                    ${colorStops.length > 2 ? `<button class="remove-btn" onclick="removeColorStop(${index})">×</button>` : ''}
+                `;
+                container.appendChild(stopElement);
+            });
+        }
+
+        function updateColorStop(index, property, value) {
+            colorStops[index][property] = property === 'color' ? value : parseInt(value);
+            
+            // Update the slider value display
+            if (property !== 'color') {
+                const stopElement = document.getElementById('colorStops').children[index];
+                const sliders = stopElement.querySelectorAll('.slider-value');
+                sliders[property === 'position' ? 0 : 1].textContent = value + '%';
+            }
+            
+            updateGradient();
+        }
+
+        function toggleLock(index) {
+            colorStops[index].locked = !colorStops[index].locked;
+            renderColorStops();
+        }
+
+        function addColorStop() {
+            const newPosition = Math.round(Math.random() * 100);
+            const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+            colorStops.push({ color: randomColor, position: newPosition, alpha: 100, locked: false });
+            colorStops.sort((a, b) => a.position - b.position);
+            renderColorStops();
+            updateGradient();
+        }
+
+        function removeColorStop(index) {
+            if (colorStops.length > 2) {
+                colorStops.splice(index, 1);
+                renderColorStops();
+                updateGradient();
+            }
+        }
+
+        // Gradient type selection
+        document.querySelectorAll('.type-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                gradientType = this.dataset.type;
+                updateGradient();
+            });
+        });
+
+        // Update noise/grain value displays
+        document.getElementById('noiseIntensity').addEventListener('input', function() {
+            document.getElementById('noiseValue').textContent = this.value;
+        });
+
+        document.getElementById('grainAmount').addEventListener('input', function() {
+            document.getElementById('grainValue').textContent = this.value;
+        });
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        function updateGradient() {
+            const width = canvas.width;
+            const height = canvas.height;
+
+            ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
+            ctx.clearRect(0, 0, width, height);
+
+            // Create gradient using actual canvas dimensions
+            let gradient;
+            const sortedStops = [...colorStops].sort((a, b) => a.position - b.position);
+
+            if (gradientType === 'linear') {
+                gradient = ctx.createLinearGradient(0, 0, width, height);
+            } else if (gradientType === 'radial') {
+                gradient = ctx.createRadialGradient(width / 2, height / 2, 0, width / 2, height / 2, Math.max(width, height) / 2);
+            } else if (gradientType === 'conic') {
+                gradient = ctx.createConicGradient(0, width / 2, height / 2);
+            }
+
+            sortedStops.forEach(stop => {
+                const rgb = hexToRgb(stop.color);
+                const alpha = stop.alpha / 100;
+                gradient.addColorStop(stop.position / 100, `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})`);
+            });
+
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
+
+            // Apply noise texture
+            if (document.getElementById('noiseToggle').checked) {
+                const noiseIntensity = document.getElementById('noiseIntensity').value / 100;
+                const imageData = ctx.getImageData(0, 0, width, height);
+                const data = imageData.data;
+
+                for (let i = 0; i < data.length; i += 4) {
+                    const noise = (Math.random() - 0.5) * 50 * noiseIntensity;
+                    data[i] += noise;     // R
+                    data[i + 1] += noise; // G
+                    data[i + 2] += noise; // B
+                }
+
+                ctx.putImageData(imageData, 0, 0);
+            }
+
+            // Apply film grain
+            if (document.getElementById('grainToggle').checked) {
+                const grainAmount = document.getElementById('grainAmount').value / 100;
+                const imageData = ctx.getImageData(0, 0, width, height);
+                const data = imageData.data;
+
+                for (let i = 0; i < data.length; i += 4) {
+                    if (Math.random() < grainAmount * 0.3) {
+                        const grain = (Math.random() - 0.5) * 100;
+                        data[i] += grain;
+                        data[i + 1] += grain;
+                        data[i + 2] += grain;
+                    }
+                }
+
+                ctx.putImageData(imageData, 0, 0);
+            }
+
+            updateCSSOutput();
+        }
+
+        function updateCSSOutput() {
+            const sortedStops = [...colorStops].sort((a, b) => a.position - b.position);
+            const cssStops = sortedStops.map(stop => {
+                const rgb = hexToRgb(stop.color);
+                const alpha = stop.alpha / 100;
+                return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha}) ${stop.position}%`;
+            }).join(', ');
+
+            let css;
+            if (gradientType === 'linear') {
+                css = `background: linear-gradient(135deg, ${cssStops});`;
+            } else if (gradientType === 'radial') {
+                css = `background: radial-gradient(circle, ${cssStops});`;
+            } else if (gradientType === 'conic') {
+                css = `background: conic-gradient(from 0deg, ${cssStops});`;
+            }
+
+            document.getElementById('cssOutput').textContent = css;
+        }
+
+        function randomizeGradient() {
+            // Separate locked and unlocked color stops
+            const lockedStops = colorStops.filter(stop => stop.locked);
+            const unlockedCount = colorStops.filter(stop => !stop.locked).length;
+            
+            // Determine how many new colors to generate
+            const numColors = Math.max(2, unlockedCount > 0 ? unlockedCount : 2 + Math.floor(Math.random() * 3));
+
+            // Pastel color palette matching your design
+            const colorPalettes = [
+                ['#a8d8ea', '#7fb3d5'], // blue
+                ['#c1f0c1', '#90d890'], // green
+                ['#ffd89b', '#ffb347'], // orange
+                ['#ff9a8b', '#ff6b6b'], // red
+                ['#d4a5ff', '#b57edc'], // purple
+                ['#fff59d', '#ffd54f'], // yellow
+            ];
+
+            const palette = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
+
+            // Generate new unlocked colors
+            const newUnlockedStops = [];
+            for (let i = 0; i < numColors; i++) {
+                const color = i < palette.length ? palette[i] : '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+                const position = Math.round((i / (numColors - 1)) * 100);
+                const alpha = 85 + Math.floor(Math.random() * 15);
+                newUnlockedStops.push({ color, position, alpha, locked: false });
+            }
+
+            // Combine locked and new unlocked stops
+            colorStops = [...lockedStops, ...newUnlockedStops];
+            colorStops.sort((a, b) => a.position - b.position);
+
+            renderColorStops();
+            updateGradient();
+        }
+
+        function copyCSS() {
+            const css = document.getElementById('cssOutput').textContent;
+            navigator.clipboard.writeText(css).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        function downloadGradient() {
+            // Create a temporary canvas with the text overlay
+            const tempCanvas = document.createElement('canvas');
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCanvas.width = canvas.width;
+            tempCanvas.height = canvas.height;
+            
+            // Draw the gradient
+            tempCtx.drawImage(canvas, 0, 0);
+            
+            // Draw the text overlay if it exists
+            const textOverlay = document.getElementById('textOverlay');
+            if (textOverlay && textOverlay.value.trim()) {
+                const text = textOverlay.value;
+                const displayRect = document.querySelector('.gradient-display').getBoundingClientRect();
+                
+                // Scale for retina display
+                tempCtx.scale(1, 1);
+                tempCtx.font = '700 ' + (canvas.height / 6) + 'px -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif';
+                tempCtx.fillStyle = 'white';
+                tempCtx.textAlign = 'center';
+                tempCtx.textBaseline = 'middle';
+                tempCtx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+                tempCtx.shadowBlur = 20;
+                tempCtx.shadowOffsetY = 4;
+                
+                // Wrap text if needed
+                const maxWidth = canvas.width * 0.9;
+                const words = text.split(' ');
+                let line = '';
+                let y = canvas.height / 2;
+                const lineHeight = canvas.height / 6 * 1.2;
+                
+                // Calculate number of lines needed
+                let lines = [];
+                for (let n = 0; n < words.length; n++) {
+                    let testLine = line + words[n] + ' ';
+                    let metrics = tempCtx.measureText(testLine);
+                    if (metrics.width > maxWidth && n > 0) {
+                        lines.push(line);
+                        line = words[n] + ' ';
+                    } else {
+                        line = testLine;
+                    }
+                }
+                lines.push(line);
+                
+                // Adjust y position for multiple lines
+                y = canvas.height / 2 - ((lines.length - 1) * lineHeight) / 2;
+                
+                // Draw each line
+                for (let i = 0; i < lines.length; i++) {
+                    tempCtx.fillText(lines[i].trim(), canvas.width / 2, y);
+                    y += lineHeight;
+                }
+            }
+            
+            const link = document.createElement('a');
+            link.download = 'gradient.png';
+            link.href = tempCanvas.toDataURL('image/png');
+            link.click();
+        }
+
+        // Initialize
+        renderColorStops();
+        updateGradient();
+    </script>
+</body>
+</html>

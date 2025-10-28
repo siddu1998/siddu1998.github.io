@@ -221,12 +221,12 @@
         
         .card-red {
             background: linear-gradient(135deg, #ff9a8b 0%, #ff6b6b 100%);
-            color: white;
+            color: #1a1a1a;
         }
         
         .card-purple {
             background: linear-gradient(135deg, #d4a5ff 0%, #b57edc 100%);
-            color: white;
+            color: 1a1a1a;
         }
         
         .card-yellow {
@@ -451,6 +451,7 @@
             <div class="nav-pill active" data-section="projects">Selected Work</div>
             <div class="nav-pill" data-section="about">About Me</div>
             <div class="nav-pill" data-section="research">Publications</div>
+            <div class="nav-pill" data-section="resources">Resources</div>
         </div>
 
         <!-- Projects Section (Default View) -->
@@ -503,7 +504,7 @@
                 </div>
             </a>
 
-            <a href="./astraVerseNew.html" class="project-card card-white">
+            <a href="./astraVerseNew.html" class="project-card card-red">
                 <div>
                     <div class="project-tag">IFIP-ICEC 2022</div>
                     <h3>AstraVerse Character Design</h3>
@@ -527,7 +528,7 @@
                 </div>
             </div>
 
-            <div class="project-card card-white" onclick="showComingSoon()">
+            <div class="project-card card-green" onclick="showComingSoon()">
                 <div>
                     <div class="project-tag">Upcoming</div>
                     <h3>LLM Games Research 🚧</h3>
@@ -635,6 +636,29 @@
                 </table>
             </div>
         </div>
+
+        <!-- Resources Section (Hidden by default) -->
+        <div id="resources" class="hidden" style="padding: 2rem; background-color: rgba(255, 255, 255, 0.8); border-radius: 20px;">
+            <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 2rem;">Resources & Tools</h2>
+            
+            <div class="projects-grid" style="padding: 0;">
+                <a href="https://ooha-creator.github.io/" target="_blank" class="project-card card-blue">
+                    <div>
+                        <div class="project-tag">Open Source Tool</div>
+                        <h3>Ooha Canvas</h3>
+                        <p>An open-source LLM interface for visual chaining. Build and iterate on AI prompts visually.</p>
+                    </div>
+                </a>
+
+                <a href="./gradientGenerator.html" class="project-card card-purple">
+                    <div>
+                        <div class="project-tag">Design Tool</div>
+                        <h3>Gradient Generator</h3>
+                        <p>Create beautiful gradients with custom colors, textures, and effects. Download as PNG or copy CSS.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -643,7 +667,8 @@
             const sections = {
                 'projects': document.getElementById('projects'),
                 'about': document.getElementById('about'),
-                'research': document.getElementById('research')
+                'research': document.getElementById('research'),
+                'resources': document.getElementById('resources')
             };
 
             function hideAllSections() {
