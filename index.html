@@ -13,38 +13,44 @@
         }
         
         body {
-            background-color: #ffffff;
+            background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
             background-image: 
-                linear-gradient(rgba(200, 200, 200, 0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(200, 200, 200, 0.15) 1px, transparent 1px);
-            background-size: 40px 40px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+                linear-gradient(rgba(200, 200, 200, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(200, 200, 200, 0.08) 1px, transparent 1px);
+            background-size: 60px 60px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
             font-size: 1rem;
             line-height: 1.6;
             color: #1a1a1a;
             margin: 0;
             min-height: 100vh;
+            font-feature-settings: "ss01", "cv02", "cv03", "cv04";
+        }
+        
+        /* Smooth animations globally */
+        a, button, .nav-pill, .project-card, .social-links a {
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* Header */
         header {
-            padding: 2rem 3rem;
+            padding: 0.75rem 3rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid rgba(200, 200, 200, 0.2);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
         }
         
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: #1a1a1a;
-            font-family: 'Georgia', serif;
         }
         
         .contact-btn {
@@ -75,20 +81,21 @@
         .profile-section {
             display: flex;
             align-items: center;
-            gap: 3rem;
-            margin-bottom: 3rem;
-            padding: 2rem;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 20px;
+            gap: 2.5rem;
+            margin-bottom: 2.5rem;
+            padding: 1rem 2rem;
         }
         
         .profile-image {
-            width: 180px;
-            height: 180px;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
             object-fit: cover;
             flex-shrink: 0;
-            border: 3px solid #f0f0f0;
+            border: 4px solid white;
+            box-shadow: 
+                0 8px 24px rgba(0, 0, 0, 0.08),
+                0 2px 8px rgba(0, 0, 0, 0.04);
         }
         
         .profile-info {
@@ -96,17 +103,20 @@
         }
         
         .profile-info h1 {
-            font-size: 2.5rem;
+            font-size: 1.75rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             color: #1a1a1a;
+            letter-spacing: 0;
+            line-height: 1.3;
         }
         
         .profile-info .role {
-            font-size: 1.1rem;
+            font-size: 1rem;
+            font-weight: 400;
             color: #666;
-            margin-bottom: 0.5rem;
-            line-height: 1.8;
+            margin-bottom: 0.25rem;
+            line-height: 1.6;
         }
         
         .location {
@@ -114,8 +124,8 @@
             align-items: center;
             gap: 0.3rem;
             color: #999;
-            font-size: 0.95rem;
-            margin-top: 1rem;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
         }
 
         /* Navigation Pills */
@@ -128,28 +138,32 @@
         }
         
         .nav-pill {
-            padding: 0.8rem 1.8rem;
+            padding: 0.9rem 2rem;
             background-color: rgba(255, 255, 255, 0.9);
-            border: 1px solid #e0e0e0;
+            border: 1.5px solid #e5e7eb;
             border-radius: 50px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             font-size: 0.95rem;
-            font-weight: 500;
+            font-weight: 600;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
             color: #333;
             text-decoration: none;
             display: inline-block;
         }
         
         .nav-pill:hover {
-            background-color: #f0f0f0;
-            transform: translateY(-2px);
+            background-color: #f9fafb;
+            border-color: #d1d5db;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
         }
         
         .nav-pill.active {
-            background-color: #1a1a1a;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
             color: white;
             border-color: #1a1a1a;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         /* Projects Grid */
@@ -165,7 +179,7 @@
             border-radius: 20px;
             padding: 2.5rem;
             min-height: 280px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             text-decoration: none;
             color: inherit;
@@ -174,20 +188,31 @@
             justify-content: space-between;
             position: relative;
             overflow: hidden;
+            box-shadow: 
+                0 1px 3px rgba(0, 0, 0, 0.04),
+                0 1px 2px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.06);
         }
         
         .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.08),
+                0 8px 16px rgba(0, 0, 0, 0.04),
+                0 0 0 1px rgba(0, 0, 0, 0.04);
         }
         
         .project-tag {
-            font-size: 0.75rem;
-            font-weight: 600;
+            font-size: 0.7rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.08em;
             margin-bottom: 1rem;
-            opacity: 0.8;
+            padding: 0.3rem 0.8rem;
+            background: rgba(0, 0, 0, 0.06);
+            border-radius: 6px;
+            display: inline-block;
+            width: fit-content;
         }
         
         .project-card h3 {
@@ -205,44 +230,51 @@
         
         /* Color variants for project cards */
         .card-blue {
-            background: linear-gradient(135deg, #a8d8ea 0%, #7fb3d5 100%);
+            background: linear-gradient(135deg, #EEF2FF 0%, #DBEAFE 100%);
             color: #1a1a1a;
+            border: 1px solid rgba(59, 130, 246, 0.1);
         }
         
         .card-green {
-            background: linear-gradient(135deg, #c1f0c1 0%, #90d890 100%);
+            background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
             color: #1a1a1a;
+            border: 1px solid rgba(34, 197, 94, 0.1);
         }
         
         .card-orange {
-            background: linear-gradient(135deg, #ffd89b 0%, #ffb347 100%);
+            background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%);
             color: #1a1a1a;
+            border: 1px solid rgba(249, 115, 22, 0.1);
         }
         
         .card-red {
-            background: linear-gradient(135deg, #ff9a8b 0%, #ff6b6b 100%);
+            background: linear-gradient(135deg, #FFF1F2 0%, #FFE4E6 100%);
             color: #1a1a1a;
+            border: 1px solid rgba(244, 63, 94, 0.1);
         }
         
         .card-purple {
-            background: linear-gradient(135deg, #d4a5ff 0%, #b57edc 100%);
-            color: 1a1a1a;
+            background: linear-gradient(135deg, #FAF5FF 0%, #F3E8FF 100%);
+            color: #1a1a1a;
+            border: 1px solid rgba(168, 85, 247, 0.1);
         }
         
         .card-yellow {
-            background: linear-gradient(135deg, #fff59d 0%, #ffd54f 100%);
+            background: linear-gradient(135deg, #FEFCE8 0%, #FEF9C3 100%);
             color: #1a1a1a;
+            border: 1px solid rgba(234, 179, 8, 0.1);
         }
         
         .card-white {
             background: white;
-            border: 1px solid #e0e0e0;
+            border: 1px solid #e5e7eb;
             color: #1a1a1a;
         }
         
         .card-dark {
-            background: linear-gradient(135deg, #434343 0%, #1a1a1a 100%);
+            background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
             color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* Utility class to hide content */
@@ -253,8 +285,8 @@
         /* Social Links */
         .social-links {
             display: flex;
-            gap: 1.5rem;
-            margin-top: 1.5rem;
+            gap: 1rem;
+            margin-top: 1rem;
         }
 
         .social-links a {
@@ -262,16 +294,18 @@
             text-decoration: none;
             font-size: 0.9rem;
             padding: 0.5rem 1rem;
-            border: 1px solid #e0e0e0;
+            border: 1px solid #e5e7eb;
             border-radius: 20px;
-            transition: all 0.2s ease;
+            transition: all 0.25s ease;
             background-color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
         }
 
         .social-links a:hover {
-            background-color: #1a1a1a;
-            color: white;
-            border-color: #1a1a1a;
+            background-color: #f9fafb;
+            border-color: #d1d5db;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
         }
 
         /* Research Section */
@@ -327,14 +361,157 @@
             border-bottom: none;
         }
         
+        /* Fade-in animations for project cards */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .project-card {
+            animation: fadeInUp 0.6s ease backwards;
+        }
+
+        .project-card:nth-child(1) { animation-delay: 0.1s; }
+        .project-card:nth-child(2) { animation-delay: 0.15s; }
+        .project-card:nth-child(3) { animation-delay: 0.2s; }
+        .project-card:nth-child(4) { animation-delay: 0.25s; }
+        .project-card:nth-child(5) { animation-delay: 0.3s; }
+        .project-card:nth-child(6) { animation-delay: 0.35s; }
+        .project-card:nth-child(7) { animation-delay: 0.4s; }
+        .project-card:nth-child(8) { animation-delay: 0.45s; }
+        .project-card:nth-child(9) { animation-delay: 0.5s; }
+        .project-card:nth-child(10) { animation-delay: 0.55s; }
+        
+        /* Card Deck Styles - Tales of Dharma */
+        .tales-of-dharma {
+            grid-column: 1 / -1;
+            background-color: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 
+                0 1px 3px rgba(0, 0, 0, 0.04),
+                0 1px 2px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .tales-of-dharma:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.08),
+                0 8px 16px rgba(0, 0, 0, 0.04),
+                0 0 0 1px rgba(0, 0, 0, 0.04);
+        }
+
+        .tales-of-dharma .project-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 1rem;
+            padding: 0.3rem 0.8rem;
+            background: rgba(0, 0, 0, 0.06);
+            border-radius: 6px;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .tales-of-dharma h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .tales-of-dharma .description {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            opacity: 0.85;
+            margin-bottom: 2rem;
+        }
+
+        .tales-cards-grid {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .card-container {
+            perspective: 1000px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-content {
+            width: 200px;
+            transform-style: preserve-3d;
+            transition: transform 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 
+                0 2px 8px rgba(0, 0, 0, 0.06),
+                0 1px 3px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .card-image {
+            width: calc(100% + 20px);
+            height: auto;
+            transform: translateZ(30px);
+            display: block;
+            margin: -10px;
+        }
+
+        .card-content::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                rgba(255, 255, 255, 0.4),
+                rgba(255, 255, 255, 0) 60%
+            );
+            opacity: 0;
+            transition: opacity 0.25s;
+            transform: translateZ(31px);
+            pointer-events: none;
+        }
+
+        .card-container:hover .card-content::before {
+            opacity: 1;
+        }
+
+        .card-container:hover .card-content {
+            box-shadow: 
+                0 16px 32px rgba(0, 0, 0, 0.12),
+                0 6px 12px rgba(0, 0, 0, 0.08),
+                0 0 0 1px rgba(0, 0, 0, 0.04);
+        }
+
         /* --- Mobile Friendly Styles --- */
         @media (max-width: 992px) {
             header {
-                padding: 1.5rem;
+                padding: 0.75rem 1.5rem;
             }
             
             .logo {
-                font-size: 1.2rem;
+                font-size: 1rem;
             }
             
             .contact-btn {
@@ -354,16 +531,16 @@
             }
             
             .profile-image {
-                width: 140px;
-                height: 140px;
+                width: 160px;
+                height: 160px;
             }
             
             .profile-info h1 {
-                font-size: 2rem;
+                font-size: 1.4rem;
             }
             
             .profile-info .role {
-                font-size: 1rem;
+                font-size: 0.95rem;
             }
             
             .location {
@@ -411,6 +588,18 @@
             
             .research-table th, .research-table td {
                 padding: 0.75rem 0;
+            }
+            
+            .tales-of-dharma {
+                padding: 1.5rem;
+            }
+            
+            .tales-cards-grid {
+                gap: 1rem;
+            }
+            
+            .card-container .card-content {
+                width: 160px;
             }
         }
     </style>
@@ -480,7 +669,44 @@
                 </div>
             </a>
 
-            
+            <!-- Tales of Dharma Card Deck -->
+            <a href="./ToD.html" class="tales-of-dharma">
+                <div class="project-tag">Game Design 2025</div>
+                <h3>Tales of Dharma - Over 1000 copies sold!</h3>
+                <p class="description">A Card Game for fostering storytelling, family time, reflection and community engagement.</p>
+                
+                <div class="tales-cards-grid">
+                    <div class="card-container">
+                        <div class="card-content">
+                            <img src="monsta.png" alt="Ravana" class="card-image">
+                        </div>
+                    </div>
+                    
+                    <div class="card-container">
+                        <div class="card-content">
+                            <img src="Border Extension Frame-1.png" alt="Vayu" class="card-image">
+                        </div>
+                    </div>
+
+                    <div class="card-container">
+                        <div class="card-content">
+                            <img src="Border Extension Frame (5).png" alt="Garuda" class="card-image">
+                        </div>
+                    </div>
+
+                    <div class="card-container">
+                        <div class="card-content">
+                            <img src="Border Extension Frame-3.png" alt="Sita" class="card-image">
+                        </div>
+                    </div>
+
+                    <div class="card-container">
+                        <div class="card-content">
+                            <img src="Border Extension Frame.png" alt="Shakuni" class="card-image">
+                        </div>
+                    </div>
+                </div>
+            </a>
 
             <a href="./metaNew.html" class="project-card card-orange">
                 <div>
@@ -710,6 +936,47 @@
         function showComingSoon() {
             alert("This project case study is currently being developed. Please check back soon!");
         }
+
+        // Tales of Dharma Card Tilt Effect
+        const cardContainers = document.querySelectorAll('.card-container');
+        const maxRotation = 12;
+
+        cardContainers.forEach(container => {
+            const card = container.querySelector('.card-content');
+
+            container.addEventListener('mousemove', (e) => {
+                e.stopPropagation(); // Prevent parent link from triggering
+                const { left, top, width, height } = container.getBoundingClientRect();
+                
+                const x = (e.clientX - left - width / 2);
+                const y = (e.clientY - top - height / 2);
+
+                const rotateY = (x / width) * (maxRotation * 2);
+                const rotateX = -(y / height) * (maxRotation * 2);
+
+                const mouseXPercent = ((e.clientX - left) / width) * 100;
+                const mouseYPercent = ((e.clientY - top) / height) * 100;
+
+                card.style.transform = `
+                    perspective(1000px) 
+                    rotateX(${rotateX}deg) 
+                    rotateY(${rotateY}deg) 
+                    scale3d(1.05, 1.05, 1.05)
+                `;
+
+                card.style.setProperty('--mouse-x', `${mouseXPercent}%`);
+                card.style.setProperty('--mouse-y', `${mouseYPercent}%`);
+            });
+
+            container.addEventListener('mouseleave', () => {
+                card.style.transform = `
+                    perspective(1000px) 
+                    rotateX(0deg) 
+                    rotateY(0deg) 
+                    scale3d(1, 1, 1)
+                `;
+            });
+        });
     </script>
 
 </body>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tales of Dharma - UX Case Study</title>
+    <style>
+        /* --- Sidebar and Layout Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #ffffff;
+            background-image: 
+                linear-gradient(rgba(200, 200, 200, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(200, 200, 200, 0.15) 1px, transparent 1px);
+            background-size: 40px 40px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #1a1a1a;
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+        nav {
+            width: 220px;
+            padding: 2rem;
+            border-right: 1px solid rgba(200, 200, 200, 0.3);
+            flex-shrink: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        nav a {
+            display: block;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            text-decoration: underline;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        nav a:hover {
+            text-decoration: none;
+            color: #666;
+        }
+        .nav-logo {
+            font-weight: 600;
+            margin-bottom: 2rem;
+            text-decoration: none;
+            cursor: default;
+            font-size: 1.3rem;
+            color: #1a1a1a;
+        }
+        #project-links-container {
+            margin-top: 0.5rem;
+            padding-left: 1rem;
+            border-left: 1px solid #eee;
+        }
+        .project-link {
+            font-size: 1rem;
+        }
+        main {
+            flex-grow: 1;
+            overflow-y: auto;
+            height: 100vh;
+            background-color: transparent;
+        }
+        .hidden {
+            display: none;
+        }
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column;
+            }
+            main {
+                height: auto;
+            }
+            nav {
+                width: 100%;
+                padding: 1rem;
+                border-right: none;
+                border-bottom: 1px solid #ddd;
+                box-sizing: border-box;
+            }
+            .nav-container {
+                display: flex;
+                justify-content: center;
+                gap: 1.5rem;
+                flex-wrap: wrap;
+            }
+            .nav-logo {
+                display: none;
+            }
+            nav a {
+                margin-bottom: 0;
+            }
+            #project-links-container {
+                width: 100%;
+                text-align: center;
+                padding-left: 0;
+                border-left: none;
+                margin-top: 1rem;
+            }
+        }
+
+        /* --- Case Study Styles --- */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            line-height: 1.2;
+        }
+        h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            color: #1a1a1a;
+        }
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+        p {
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        .project-meta {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Card Display Section */
+        .cards-showcase {
+            margin: 3rem 0;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+        
+        .tales-cards-grid {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .card-container {
+            perspective: 1000px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-content {
+            width: 200px;
+            transform-style: preserve-3d;
+            transition: transform 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 
+                0 2px 8px rgba(0, 0, 0, 0.06),
+                0 1px 3px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .card-image {
+            width: calc(100% + 20px);
+            height: auto;
+            transform: translateZ(30px);
+            display: block;
+            margin: -10px;
+        }
+
+        .card-content::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                rgba(255, 255, 255, 0.4),
+                rgba(255, 255, 255, 0) 60%
+            );
+            opacity: 0;
+            transition: opacity 0.25s;
+            transform: translateZ(31px);
+            pointer-events: none;
+        }
+
+        .card-container:hover .card-content::before {
+            opacity: 1;
+        }
+
+        .card-container:hover .card-content {
+            box-shadow: 
+                0 16px 32px rgba(0, 0, 0, 0.12),
+                0 6px 12px rgba(0, 0, 0, 0.08),
+                0 0 0 1px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <nav>
+        <a href="index.html" class="nav-logo">Sai Maram</a>
+        <div class="nav-container">
+            <a href="index.html">← Back to Portfolio</a>
+            <a href="#overview">Overview</a>
+            <a href="#cards">The Cards</a>
+            <a href="#impact">Impact</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <h1>Tales of Dharma</h1>
+            <div class="project-meta">
+                <span class="badge">Game Design 2025</span>
+                <span class="badge">Card Game</span>
+                <span class="badge">Over 1000 Copies Sold</span>
+            </div>
+
+            <section id="overview">
+                <h2>Overview</h2>
+                <p>
+                    Tales of Dharma is a card game designed to foster storytelling, family time, reflection, and community engagement through Hindu mythology. The game brings ancient narratives to life through beautifully illustrated cards featuring deities, asuras, and mythological characters.
+                </p>
+                <p>
+                    With over 1000 copies sold, Tales of Dharma has successfully created a bridge between traditional cultural storytelling and modern gameplay, making mythology accessible and engaging for families and communities.
+                </p>
+            </section>
+
+            <section id="cards" class="cards-showcase">
+                <h2>The Cards</h2>
+                <p>Each card features unique character art and gameplay mechanics inspired by mythological narratives. Hover over the cards to see the 3D parallax effect.</p>
+                
+                <div class="tales-cards-grid">
+                    <div class="card-container">
+                        <div class="card-content">
+                            <img src="monsta.png" alt="Ravana" class="card-image">
+                        </div>
+                    </div>
+                    
+                    <div class="card-container">
+                        <div class="card-content">
+                            <img src="Border Extension Frame-1.png" alt="Vayu" class="card-image">
+                        </div>
+                    </div>
+
+                    <div class="card-container">
+                        <div class="card-content">
+                            <img src="Border Extension Frame (5).png" alt="Garuda" class="card-image">
+                        </div>
+                    </div>
+
+                    <div class="card-container">
+                        <div class="card-content">
+                            <img src="Border Extension Frame-3.png" alt="Sita" class="card-image">
+                        </div>
+                    </div>
+
+                    <div class="card-container">
+                        <div class="card-content">
+                            <img src="Border Extension Frame.png" alt="Shakuni" class="card-image">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="impact">
+                <h2>Impact</h2>
+                <p>
+                    Tales of Dharma has resonated with families and communities seeking meaningful ways to engage with cultural narratives. The game serves multiple purposes:
+                </p>
+                <ul style="margin-left: 2rem; margin-bottom: 1.5rem;">
+                    <li><strong>Family Bonding:</strong> Creates shared experiences around storytelling</li>
+                    <li><strong>Cultural Education:</strong> Introduces younger generations to mythological narratives</li>
+                    <li><strong>Community Engagement:</strong> Facilitates group discussions and reflections</li>
+                    <li><strong>Accessible Learning:</strong> Makes complex narratives approachable through gameplay</li>
+                </ul>
+                <p>
+                    The success of over 1000 copies sold demonstrates the demand for culturally-grounded gaming experiences that bring families together.
+                </p>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // Tales of Dharma Card Tilt Effect
+        const cardContainers = document.querySelectorAll('.card-container');
+        const maxRotation = 12;
+
+        cardContainers.forEach(container => {
+            const card = container.querySelector('.card-content');
+
+            container.addEventListener('mousemove', (e) => {
+                const { left, top, width, height } = container.getBoundingClientRect();
+                
+                const x = (e.clientX - left - width / 2);
+                const y = (e.clientY - top - height / 2);
+
+                const rotateY = (x / width) * (maxRotation * 2);
+                const rotateX = -(y / height) * (maxRotation * 2);
+
+                const mouseXPercent = ((e.clientX - left) / width) * 100;
+                const mouseYPercent = ((e.clientY - top) / height) * 100;
+
+                card.style.transform = `
+                    perspective(1000px) 
+                    rotateX(${rotateX}deg) 
+                    rotateY(${rotateY}deg) 
+                    scale3d(1.05, 1.05, 1.05)
+                `;
+
+                card.style.setProperty('--mouse-x', `${mouseXPercent}%`);
+                card.style.setProperty('--mouse-y', `${mouseYPercent}%`);
+            });
+
+            container.addEventListener('mouseleave', () => {
+                card.style.transform = `
+                    perspective(1000px) 
+                    rotateX(0deg) 
+                    rotateY(0deg) 
+                    scale3d(1, 1, 1)
+                `;
+            });
+        });
+    </script>
+
+</body>
+</html>
+
