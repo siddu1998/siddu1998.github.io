@@ -79,20 +79,67 @@
 
         /* Profile Section */
         .profile-section {
-            display: flex;
-            align-items: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 2.5rem;
             margin-bottom: 2.5rem;
             padding: 1rem 2rem;
+            align-items: start;
+        }
+        
+        .profile-left {
+            display: flex;
+            align-items: flex-start;
+            gap: 2.5rem;
+        }
+        
+        .contributions-card {
+            background-color: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 
+                0 1px 3px rgba(0, 0, 0, 0.04),
+                0 1px 2px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            height: fit-content;
+        }
+        
+        .contributions-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #1a1a1a;
+        }
+        
+        .contributions-card ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .contributions-card li {
+            margin-bottom: 1.25rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .contributions-card li:last-child {
+            margin-bottom: 0;
+        }
+        
+        .contributions-card strong {
+            color: #1a1a1a;
+            font-weight: 600;
         }
         
         .profile-image {
             width: 200px;
             height: 200px;
-            border-radius: 50%;
+            border-radius: 20px;
             object-fit: cover;
             flex-shrink: 0;
-            border: 4px solid white;
+            border: 1px solid rgba(0, 0, 0, 0.06);
             box-shadow: 
                 0 8px 24px rgba(0, 0, 0, 0.08),
                 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -285,27 +332,21 @@
         /* Social Links */
         .social-links {
             display: flex;
-            gap: 1rem;
+            gap: 1.5rem;
             margin-top: 1rem;
+            flex-wrap: wrap;
         }
 
         .social-links a {
-            color: #1a1a1a;
+            color: #999;
             text-decoration: none;
             font-size: 0.9rem;
-            padding: 0.5rem 1rem;
-            border: 1px solid #e5e7eb;
-            border-radius: 20px;
-            transition: all 0.25s ease;
-            background-color: rgba(255, 255, 255, 0.8);
-            font-weight: 500;
+            transition: color 0.2s ease;
         }
 
         .social-links a:hover {
-            background-color: #f9fafb;
-            border-color: #d1d5db;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            color: #666;
+            text-decoration: underline;
         }
 
         /* Research Section */
@@ -524,15 +565,21 @@
             }
             
             .profile-section {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 2rem 1.5rem;
+            }
+            
+            .profile-left {
                 flex-direction: column;
                 text-align: center;
                 gap: 2rem;
-                padding: 2rem 1.5rem;
             }
             
             .profile-image {
                 width: 160px;
                 height: 160px;
+                border-radius: 16px;
             }
             
             .profile-info h1 {
@@ -609,8 +656,8 @@
     <!-- Header -->
     <header>
         <div class="logo">Sai Maram</div>
-        <a href="mailto:msaisiddartha1@gmail.com" class="contact-btn">
-            msaisiddartha1@gmail.com →
+        <a href="https://siddu1998.github.io/cv.pdf" target="_blank" class="contact-btn">
+            Resume →
         </a>
     </header>
 
@@ -618,20 +665,32 @@
     <div class="container">
         <!-- Profile Section -->
         <div class="profile-section">
-            <img src="temporary/sai_4.jpg" alt="Sai Maram" class="profile-image" onerror="this.onerror=null;this.src='https://placehold.co/400x400/e0e0e0/333333?text=SM';">
-            <div class="profile-info">
-                <h1>Sai Siddartha Maram</h1>
-                <div class="role">UX Researcher & Designer</div>
-                <div class="role">PhD Candidate at UCSC</div>
-                <div class="role">Previously @ Microsoft, Xbox, Meta</div>
-                <div class="location">📍 San Francisco, CA</div>
-                
-                <div class="social-links">
-                    <a href="https://linkedin.com/in/sid-maram" target="_blank">LinkedIn</a>
-                    <a href="https://scholar.google.com/citations?user=0eShD5EAAAAJ&hl=en" target="_blank">Google Scholar</a>
-                    <a href="https://x.com/ADesiHCI" target="_blank">Twitter</a>
-                    <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+            <div class="profile-left">
+                <img src="temporary/sai_4.jpg" alt="Sai Maram" class="profile-image" onerror="this.onerror=null;this.src='https://placehold.co/400x400/e0e0e0/333333?text=SM';">
+                <div class="profile-info">
+                    <h1>Sai Siddartha Maram</h1>
+                    <div class="role">UX Researcher & Designer</div>
+                    <div class="role">PhD Candidate at UCSC</div>
+                    <div class="role">Previously @ Microsoft, Xbox, Meta</div>
+                    <div class="location">📍 San Francisco, CA</div>
+                    
+                    <div class="social-links">
+                        <a href="https://linkedin.com/in/sid-maram" target="_blank">LinkedIn</a>
+                        <a href="https://scholar.google.com/citations?user=0eShD5EAAAAJ&hl=en" target="_blank">Google Scholar</a>
+                        <a href="https://x.com/ADesiHCI" target="_blank">Twitter</a>
+                        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+                    </div>
                 </div>
+            </div>
+            
+            <div class="contributions-card">
+                <h3>Key Contributions</h3>
+                <ul>
+                    <li>• My research at Meta contributed to the Meta-Spotify integration and Facebook Sports cards, leading to <strong>over a billion users sharing Spotify content on Instagram.</strong></li>
+                    <li>• At Xbox, I designed and developed Xbox AURA, an agentic approach towards running playtests, and playtest data analysis resulting in an estimated savings of <strong>$400K annualky.</strong></li>
+                    <li>• My work has contributed to award-winning video games, including <strong>Halo</strong> and <strong>Perfect Dark.</strong></li>
+                    <li>• I designed, developed, run and maintain <a href="https://ooha-creator.github.io/" style="color: #999; text-decoration: underline;">Ooha Canvas</a>, an open source LLM interface for visual chaining.</li>
+                </ul>
             </div>
         </div>
 
@@ -647,7 +706,8 @@
         <div id="projects" class="projects-grid">
             <a href="./canvasNew.html" class="project-card card-blue">
                 <div>
-                    <div class="project-tag">LLM × AI</div>
+                    <div class="project-tag">LLM × UX</div>
+                    <div class="project-tag">UX Case Study</div>
                     <h3>Ooha: AI Canvas for Visual Thinkers</h3>
                     <p>An interactive canvas leveraging AI to enhance creative workflows and design iterations.</p>
                 </div>
@@ -656,6 +716,7 @@
             <a href="./Xbox2.html" class="project-card card-dark">
                 <div>
                     <div class="project-tag">Microsoft 2025</div>
+                    <div class="project-tag">UX Case Study</div>
                     <h3>LLMs meet UX 🔒</h3>
                     <p>Designed and developed Xbox AURA: an agentic approach towards running playtests and data analysis, resulting in ~$400K in annual savings.</p>
                 </div>
@@ -664,6 +725,7 @@
             <a href="./shlokaNew.html" class="project-card card-green">
                 <div>
                     <div class="project-tag">ACM DIS 2025 🏆</div>
+                    <div class="project-tag">UX Case Study</div>
                     <h3>Shloka: Climate Action through Cultural Games</h3>
                     <p>Ethnographic research exploring how religious narratives drive environmental behavior change.</p>
                 </div>
@@ -672,6 +734,7 @@
             <!-- Tales of Dharma Card Deck -->
             <a href="./ToD.html" class="tales-of-dharma">
                 <div class="project-tag">Game Design 2025</div>
+                <div class="project-tag">UX/UI Case Study</div>
                 <h3>Tales of Dharma - Over 1000 copies sold!</h3>
                 <p class="description">A Card Game for fostering storytelling, family time, reflection and community engagement.</p>
                 
@@ -711,6 +774,7 @@
             <a href="./metaNew.html" class="project-card card-orange">
                 <div>
                     <div class="project-tag">Meta 2022</div>
+                    <div class="project-tag">UX Case Study</div>
                     <h3>Facebook Home Redesign</h3>
                     <p>Generative research identifying user needs and prototyping 21 new experiences. Contributed to Meta-Spotify integration reaching over a billion users.</p>
                 </div>
@@ -719,6 +783,7 @@
             <a href="./religionVideoGamesNew.html" class="project-card card-purple">
                 <div>
                     <div class="project-tag">CHI PLAY 2024</div>
+                    <div class="project-tag">UX Case Study</div>
                     <h3>Religious Inclusivity in Games</h3>
                     <p>Digital ethnography analyzing 10,000+ Reddit posts to understand religious representation in gaming.</p>
                 </div>
@@ -727,6 +792,7 @@
             <a href="./opmNew.html" class="project-card card-yellow">
                 <div>
                     <div class="project-tag">CHI 2024</div>
+                    <div class="project-tag">UX Case Study</div>
                     <h3>Game Play Reflection Systems</h3>
                     <p>Design research developing visualization systems to enhance learning in educational games.</p>
                 </div>
@@ -735,14 +801,16 @@
             <a href="./astraVerseNew.html" class="project-card card-red">
                 <div>
                     <div class="project-tag">IFIP-ICEC 2022</div>
+                    <div class="project-tag">UX Case Study</div>
                     <h3>AstraVerse Character Design</h3>
-                    <p>Visual ethnography creating culturally-sensitive game character frameworks.</p>
+                    <p>AstraVerse is a culturally-sensitive game character framework that is used to create characters for video games. Through Ethnography and Grounded Theory, I created a design space of character creation artifacts.</p>
                 </div>
             </a>
 
             <a href="./moveNew.html" class="project-card card-blue">
                 <div>
-                    <div class="project-tag">Invento Robotics 2022</div>
+                    <div class="project-tag">Invento 2022</div>
+                    <div class="project-tag">UX Case Study</div>
                     <h3>Move: Robotics Workflow Optimization</h3>
                     <p>Ethnographic research identifying 5 critical communication bottlenecks across robotics startup teams.</p>
                 </div>
@@ -751,6 +819,7 @@
             <div class="project-card card-red" onclick="showLockedMessage()">
                 <div>
                     <div class="project-tag">Upcoming</div>
+                    <div class="project-tag">UX Case Study</div>
                     <h3>Xbox Family Safety 🚧</h3>
                     <p>Unified 6 disparate parental control endpoints through 13 usability studies.</p>
                 </div>
@@ -759,10 +828,19 @@
             <div class="project-card card-green" onclick="showComingSoon()">
                 <div>
                     <div class="project-tag">Upcoming</div>
+                    <div class="project-tag">UX Case Study</div>
                     <h3>LLM Games Research 🚧</h3>
                     <p>Exploring the intersection of large language models and game design.</p>
                 </div>
             </div>
+
+            <a href="./currencyShowcase.html" class="project-card card-orange">
+                <div>
+                    <div class="project-tag">UI Showcase</div>
+                    <h3>Currency Design Showcase</h3>
+                    <p>A modern UI showcase featuring layered currency notes with bold typography and elegant composition.</p>
+                </div>
+            </a>
         </div>
 
         <!-- About Section (Hidden by default) -->
@@ -785,7 +863,7 @@
                 <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; margin-top: 3rem;">Key Contributions</h3>
                 <ul style="list-style-type: none; padding: 0;">
                     <li style="margin-bottom: 1.5rem;">• My research at Meta contributed to the Meta-Spotify integration and Facebook Sports cards, leading to <strong>over a billion users sharing Spotify content on Instagram.</strong></li>
-                    <li style="margin-bottom: 1.5rem;">• At Xbox, I designed and developed Xbox AURA, an agentic approach towards running playtests, and playtest data analysis resulting in approximately <strong>$400K in annual savings.</strong></li>
+                    <li style="margin-bottom: 1.5rem;">• At Xbox, I designed and developed Xbox AURA, an agentic approach towards running playtests, and playtest data analysis resulting in estimated savings of <strong>$400K annually.</strong></li>
                     <li style="margin-bottom: 1.5rem;">• My work has contributed to award-winning video games, including <strong>Halo</strong> and <strong>Perfect Dark.</strong></li>
                     <li style="margin-bottom: 1.5rem;">• I designed, developed, run and maintain <a href="https://ooha-creator.github.io/" style="color: #1a1a1a; text-decoration: underline;">Ooha Canvas</a>, an open source LLM interface for visual chaining.</li>
                 </ul>
