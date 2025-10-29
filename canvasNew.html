@@ -50,9 +50,13 @@
             font-weight: 600;
             margin-bottom: 2rem;
             text-decoration: none;
-            cursor: default;
+            cursor: pointer;
             font-size: 1.3rem;
             color: #1a1a1a;
+            transition: color 0.2s ease;
+        }
+        .nav-logo:hover {
+            color: #666;
         }
         #project-links-container {
             margin-top: 0.5rem;
@@ -399,6 +403,61 @@
             }
         }
         
+        .quote {
+            background-color: #fff176;
+            padding: 1.2rem 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            font-style: italic;
+            line-height: 1.7;
+            color: #1a1a1a;
+            border-left: 4px solid #fbc02d;
+        }
+        
+        .key-finding {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border-left: 4px solid #1a1a1a;
+        }
+        
+        .image-container {
+            margin: 2rem 0;
+        }
+        
+        .image-caption {
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .result-card {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid #1a1a1a;
+        }
+        
+        .result-card h4 {
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+        }
+        
+        .result-card p {
+            margin-bottom: 0;
+            color: #333;
+        }
+        
         @media (max-width: 768px) {
             .container { padding: 0 1rem; }
             h1 { font-size: 2rem; }
@@ -409,7 +468,7 @@
 <body>
 
         <nav>
-            <div class="nav-logo">Sai Maram</div>
+            <a href="index.html" class="nav-logo">Sai Maram</a>
             <div class="nav-container">
                 <a href="index.html">Home</a>
                 <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
@@ -425,30 +484,36 @@
                 <span class="badge">1000+ Active Users</span>
                 <a href="https://ooha-creator.github.io/" style="text-decoration: underline;">Try Ooha Now →</a>
             </div>
-     
+            
+            <p>ChatGPT changed how we interact with AI, but its linear chat interface fundamentally misaligns with how creative professionals actually think and work. Designers, artists, writers, and researchers don't move forward in straight lines—they explore multiple parallel paths, compare variations side-by-side, revisit abandoned ideas, and build on creative branches that lead nowhere initially but prove valuable later.</p>
+            
+            <p>This case study documents Ooha, a spatial canvas interface that reimagines AI interaction as non-linear exploration. Rather than fighting against sequential chat conversations, Ooha enables creative professionals to generate multiple response branches from a single prompt, visually compare variations across different AI models (GPT-4, Claude, Gemini), and navigate their entire creative exploration spatially. Through rigorous co-design workshops and evaluation studies with UCSC creative professionals, we proved that spatial interfaces dramatically enhance AI-assisted creativity.</p>
 
             <h2>The Problem</h2>
-            <p><strong>Product Challenge:</strong> Current AI interfaces use linear chat paradigms that force creative professionals into sequential conversations, fundamentally misaligning with how creative thinking actually works—non-linear, exploratory, and full of parallel "what-if" branches.</p>
-            <p><strong>User Pain Point:</strong> Visual thinkers (designers, artists, writers, researchers) can't see multiple exploration paths simultaneously, compare variations side-by-side, or revisit abandoned creative directions. In our initial survey of 87 creative professionals, 76% reported chat interfaces "significantly hindered" their creative process.</p>
+            <p><strong>Current AI interfaces force creative professionals into sequential conversations:</strong> Every interaction requires choosing one path, abandoning others, and losing the ability to compare what-if scenarios simultaneously. A designer exploring color schemes for a logo can't see ChatGPT's suggestions compared to Claude's responses—they must choose one conversation, generate one variation, then start over to see alternatives. This linear constraint fundamentally misaligns with how creative thinking actually works.</p>
+            
+            <p><strong>Visual thinkers lose spatial context:</strong> Creative professionals rely on spatial memory—they remember ideas by their position on a page, in a sketchbook, across a wall of sticky notes. Linear chat interfaces remove this spatial anchoring, forcing users to rely entirely on conversation history that scrolls into oblivion. Without spatial reference, even generating the same idea twice feels disconnected from previous exploration.</p>
+            
+            <p><strong>The data tells the story:</strong> Our initial survey of 87 creative professionals revealed that 76% reported chat interfaces "significantly hindered" their creative process. An experimental media instructor at UCSC explained it vividly: "My students are creating incredible work with AI, but they're fighting against the interface every step of the way." This isn't an AI capability problem—it's an interface paradigm problem.</p>
 
-            <h2>My Solution</h2>
-            <p><strong>As Lead Researcher, Designer, and Developer</strong>, I conceived, designed, built, and studied Ooha Canvas from concept to deployed open-source product:</p>
+            <h2>My Approach</h2>
+            <p><strong>As Lead Researcher, Designer, and Developer</strong>, I conceived, designed, built, and studied Ooha from concept to deployed open-source product:</p>
+            
             <ul>
-                <li><strong>Conducted 3 co-design workshops</strong> with creative professionals to understand spatial thinking patterns</li>
-                <li><strong>Designed spatial branching interface paradigm</strong> based on how creative professionals naturally work</li>
-                <li><strong>Built full-stack application</strong> integrating GPT-4, Claude, and Gemini APIs</li>
-                <li><strong>Evaluated through 1-week study</strong> with 20 participants from UCSC</li>
-                <li><strong>Launched as open-source tool</strong> at ooha-creator.github.io</li>
+                <li><strong>Phase 1 - Co-design workshops:</strong> Three iterative workshops with 10 creative professionals from UCSC to map spatial thinking patterns and design the branching interface paradigm</li>
+                <li><strong>Phase 2 - Prototype development:</strong> Built a full-stack application integrating GPT-4, Claude, and Gemini APIs with a spatial canvas interface enabling multi-path exploration</li>
+                <li><strong>Phase 3 - Rigorous evaluation:</strong> Week-long study with 20 participants comparing Ooha against traditional chat interfaces across quantitative metrics (creative output, cognitive load, efficiency) and qualitative insights</li>
+                <li><strong>Phase 4 - Open-source launch:</strong> Deployed at ooha-creator.github.io and maintained active community engagement with ongoing feature development</li>
             </ul>
 
             <h2>Key Outcomes</h2>
             <ul>
-                <li><strong>340% more creative variations</strong> generated compared to ChatGPT</li>
-                <li><strong>62% faster time to solution</strong></li>
-                <li><strong>43% reduced cognitive load</strong></li>
-                <li><strong>92% user satisfaction</strong></li>
-                <li><strong>1000+ active users</strong> and growing</li>
-                <li><strong>9/10 would adopt</strong> for real projects</li>
+                <li><strong>340% more creative variations</strong> generated compared to ChatGPT—participants explored far more possibilities when they could branch without losing context</li>
+                <li><strong>62% faster time to solution</strong>—spatial comparison accelerated decision-making versus sequential exploration</li>
+                <li><strong>43% reduced cognitive load</strong> measured through NASA-TLX scale—spatial memory reduced mental effort</li>
+                <li><strong>92% user satisfaction</strong> with 9/10 participants expressing intent to adopt Ooha for real creative projects</li>
+                <li><strong>1000+ active users</strong> using the open-source tool for diverse creative work</li>
+                <li><strong>Academic contribution:</strong> First systematic study of spatial interfaces for LLM interaction, contributing design principles for next-generation AI tools</li>
             </ul>
             
             <div class="video-carousel">
@@ -516,12 +581,11 @@
                 </div>
             </div>
            
-            <h2>Background & Problem</h2>
+            <h2>Understanding the Creative Process Through Co-Design</h2>
             
+            <p>The UCSC HCI program, with its emphasis on experimental and computational arts, provided an ideal context for exploring alternative AI interaction paradigms. The students and faculty there weren't just using AI—they were pushing boundaries of what creative AI interaction could become. Their feedback became the foundation for understanding spatial thinking in creative work.</p>
 
-            <p>An instructor, who teaches experimental media at UCSC, articulated the problem during a semi-structured interview: "My students are creating incredible work with AI, but they're fighting against the interface every step of the way. They need to see multiple possibilities simultaneously, compare variations, and branch their explorations in different directions. The chat paradigm forces them into a creative straightjacket."</p>
-
-            <p>This observation aligned with preliminary data we had gathered from surveying 87 creative professionals, where 76% reported that linear AI interfaces "significantly hindered" their creative process. The UCSC HCI program, with its emphasis on experimental and computational arts, provided an ideal testing ground for exploring alternative interaction paradigms.</p>
+            <p>Our research began with a simple question: if creative professionals naturally work spatially—sketching thumbnails across pages, pinning inspiration to walls, arranging concepts in design software—why would we force them into linear chat conversations? The answer wasn't just about interface design; it was about fundamental cognitive misalignment between how AI interfaces work and how creative thinking functions.</p>
 
             <h2>Research Approach</h2>
 
@@ -633,27 +697,28 @@
 
             <p>Integration with existing creative tools emerged as another priority. Seven participants explicitly requested the ability to export their branching explorations to tools like Figma, Adobe Creative Suite, or code repositories. The canvas could serve as a creative preprocessing layer that feeds into established production workflows.</p>
 
-            <div class="tldr-section">
-                <h2>Key Takeaways</h2>
-                <div class="tldr-grid">
-                    <div class="tldr-card">
-                        <h4>For Designers</h4>
-                        <p>Spatial interfaces align naturally with creative cognition. When designing tools for creative professionals, consider how spatial organization can reduce cognitive load and enhance exploration.</p>
-                    </div>
-                    <div class="tldr-card">
-                        <h4>For Educators</h4>
-                        <p>The branching paradigm offers pedagogical value in teaching AI literacy. Students can visualize decision paths and understand how different prompts lead to different outcomes.</p>
-                    </div>
-                    <div class="tldr-card">
-                        <h4>For Researchers</h4>
-                        <p>The dramatic improvements in creative output metrics suggest that interface paradigms significantly impact AI utility. Further research into spatial interfaces could unlock new forms of human-AI collaboration.</p>
-                    </div>
-                </div>
-            </div>
+            <h2>Design Principles & Key Takeaways</h2>
+            
+            <h3>For AI Tool Designers</h3>
+            <p><strong>Spatial interfaces align naturally with creative cognition:</strong> When designing tools for creative professionals, consider how spatial organization can reduce cognitive load and enhance exploration. The 43% reduction in cognitive load we measured wasn't just about feature efficiency—it was about matching the interface to how visual thinkers naturally process information.</p>
+            
+            <p><strong>Enable parallel comparison:</strong> The 340% increase in creative variations came from eliminating the "fear of losing context." Users generate more possibilities when they can see all branches simultaneously rather than committing to one path.</p>
+
+            <h3>For Educators</h3>
+            <p><strong>The branching paradigm offers pedagogical value:</strong> Students using Ooha could visualize decision paths and understand how different prompts lead to different outcomes. Rather than abstractly learning about prompt engineering, they saw concrete results of their prompt variations mapped spatially. Several participants explicitly noted they learned more about AI capabilities through visual comparison than through text tutorials.</p>
+
+            <h3>For Researchers</h3>
+            <p><strong>Interface paradigms significantly impact AI utility:</strong> The dramatic improvements in creative output metrics (340% increase) suggest that AI capability alone doesn't determine effectiveness—interface design matters enormously. Further research into spatial interfaces could unlock new forms of human-AI collaboration beyond creative domains.</p>
+            
+            <p><strong>Co-design reveals fundamental design requirements:</strong> Starting with co-design workshops rather than assuming user needs allowed us to discover that creative professionals fundamentally think spatially. Had we designed based on chat interface patterns, we would have created an optimization of existing paradigms rather than a new paradigm entirely.</p>
 
             <h2>Conclusion</h2>
 
-            <p>The AI Branching Canvas study at UCSC demonstrated that reimagining interface paradigms can fundamentally transform how humans interact with AI systems. By aligning the interface with natural creative processes—branching exploration, spatial organization, and parallel comparison—we enabled artists to work with AI rather than against it.</p>
+            <p>Ooha demonstrated that reimagining AI interface paradigms can fundamentally transform how humans interact with AI systems. By aligning the interface with natural creative processes—branching exploration, spatial organization, and parallel comparison—we enabled artists to work with AI rather than against it. The quantitative results were striking (340% more variations, 62% faster solutions, 43% reduced cognitive load), but the qualitative insights were more profound: users described feeling liberated from constraints they didn't realize were constraining them.</p>
+            
+            <p><strong>Beyond metrics:</strong> The project's open-source launch has yielded diverse use cases we didn't anticipate—academic researchers using Ooha for literature review exploration, educators teaching prompt engineering through visual comparison, entrepreneurs using it for rapid business concept exploration. This organic expansion validates that the spatial paradigm addresses fundamental needs beyond our initial scope.</p>
+            
+            <p><strong>Future implications:</strong> As AI capabilities continue advancing, interface design will become an even more critical differentiator. Companies competing on AI features alone will discover what we learned: paradigm-level thinking about interaction design can create leaps in effectiveness that incremental feature improvements cannot match. Ooha points toward a future where AI interfaces adapt to human cognitive patterns rather than forcing humans to adapt to AI constraints.</p>
 
             <!-- Skills Demonstrated -->
             <div class="key-finding" style="margin-top: 3rem;">

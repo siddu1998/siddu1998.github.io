@@ -35,9 +35,13 @@
             font-weight: 600;
             margin-bottom: 2rem;
             text-decoration: none;
-            cursor: default;
+            cursor: pointer;
             font-size: 1.3rem;
             color: #1a1a1a;
+            transition: color 0.2s ease;
+        }
+        .nav-logo:hover {
+            color: #666;
         }
         #project-links-container {
             margin-top: 0.5rem;
@@ -198,6 +202,22 @@
             }
         }
 
+        .overview {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border-left: 4px solid #1a1a1a;
+        }
+        
+        h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #1a1a1a;
+        }
+        
         @media (max-width: 768px) {
             .container { padding: 0 1rem; }
             h1 { font-size: 2rem; }
@@ -215,7 +235,7 @@
 
     <div id="content-wrapper">
         <nav>
-            <div class="nav-logo">Sai Maram</div>
+            <a href="index.html" class="nav-logo">Sai Maram</a>
             <div class="nav-container">
                 <a href="index.html">Home</a>
                 <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
@@ -230,69 +250,85 @@
                     <span class="badge">LLM × UX Research</span>
                     <span class="badge">~$400K Annual Savings</span>
                 </div>
+                <p>Xbox Research conducts player research to understand behavior, preferences, and experiences across gaming ecosystems. But historical focus on Seattle-based players created a fundamental limitation: as Xbox expands into global markets like Southeast Asia, Latin America, and Eastern Europe, traditional research methods break down. The organization faced a choice: accept the cost and time of hiring language-fluent researchers across time zones, or miss critical player insights in growth markets that represent billions in potential revenue.</p>
+                
+                <p>This case study documents AURA Toolkit (AI User Research Assistants Toolkit)—a comprehensive suite of AI-powered tools I designed and developed to transform how Xbox Research operates globally. Through rigorous co-design with researchers, I built four integrated LLM-powered applications that eliminate language barriers, overcome timezone constraints, and dramatically accelerate the research-to-insight pipeline. The result: $400k+ in annual cost savings, 8 hours saved per study, and 100% researcher preference for the new tools.</p>
+
                 <video controls muted loop style="max-width: 100%; border-radius: 12px; margin: 2rem 0; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
                     <source src="UX Beyond language and Timezone.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
-                <div class="tldr-section">
-                    <h2>The Problem</h2>
-                    
-                    <div class="key-finding">
 
-                        <p><strong>Business Challenge:</strong> Xbox Research historically focused on Seattle players, limiting global insights. Expanding internationally required language-fluent researchers and timezone-flexible studies—costly and slow.</p>
-                        <p><strong>User Pain Point:</strong> Researchers spent weeks waiting for vendors to clean data, translate content, and coordinate international sessions.</p>
-                        <p><strong>Opportunity Cost:</strong> Without scalable solutions, Xbox risked missing player insights in growth markets, potentially losing millions in revenue.</p>
-                    </div>
+                <h2>The Problem</h2>
+                <p><strong>Xbox Research historically focused on Seattle players:</strong> While comprehensive and high-quality, this geographic limitation meant insights primarily reflected US cultural contexts and gaming behaviors. As Xbox expanded into global markets—Southeast Asia, Latin America, Eastern Europe—traditional research methods hit fundamental barriers.</p>
+                
+                <p><strong>Language barriers created expensive bottlenecks:</strong> Conducting UX studies in markets like Thailand, Indonesia, or Colombia required hiring researchers fluent in local languages and dialects. Finding qualified UX researchers who spoke specific languages and understood gaming cultures often meant expensive vendor contracts or hiring delays of weeks or months. Translation costs added another layer: surveys, interview transcripts, and playtest feedback all required professional translation services.</p>
+                
+                <p><strong>Timezone constraints limited scheduling flexibility:</strong> Traditional moderated sessions demanded real-time coordination between Xbox researchers in Seattle and participants in, for example, Vietnam (15-hour time difference) or Brazil (varies by 4-8 hours). This meant limited scheduling windows, higher no-show rates, and reduced ability to conduct iterative studies where follow-up questions could be explored immediately.</p>
+                
+                <p><strong>Vendor dependency slowed research velocity:</strong> Researchers reported spending weeks waiting for vendors to clean interview data, identify key clips from video sessions, and arrange findings into analyzable formats. This created a bottleneck: researchers couldn't progress from data collection to insight synthesis quickly enough to inform product decisions at the speed Xbox's competitive landscape demanded.</p>
+                
+                <p><strong>Opportunity cost in growth markets:</strong> Without scalable solutions to conduct research across languages and time zones, Xbox risked missing player insights in high-growth international markets. Understanding how players in different cultural contexts experience games isn't just nice-to-have—it's essential for product decisions that could impact millions in revenue.</p>
 
-                    <p>Xbox Research as an organization conducts player research to understand player behavior, preferences, and experiences within games. However, Xbox historically has focused on understanding players within Seattle, USA. With Xbox aiming to expand its research efforts globally, it faces the challenge to conduct UX studies across languages and agnostic of timezones. In this case-study, we discuss AURA Toolkit - AI User Reserach Assistants Toolkit, an effort initiated, designed and developed by me to increase the adaption of AI within Xbox Research and improve scale, speed at which UX reserach is conducted across Xbox. 
-                    </p>
-
-                    <h2>The Solution</h2>
-                    <p><strong>As the sole Lead Researcher, Designer, and Developer</strong>, I initiated, conceptualized, designed, built, and evaluated the entire AURA Toolkit:</p>
-                    <ul>
-                        <li><strong>Conducted 8 contextual inquiries</strong> and 5 semi-structured interviews</li>
-                        <li><strong>Synthesized pain points</strong> and user needs</li>
-                        <li><strong>Designed 4 AI-powered tools</strong></li>
-                        <li><strong>Built full-stack applications</strong> integrating LLMs</li>
-                        <li><strong>Evaluated with 35+ participants</strong> through mixed-methods analysis</li>
-                        <li><strong>Presented to Xbox leadership</strong> and secured adoption</li>
-                    </ul>
+                <h2>My Approach</h2>
+                <p><strong>As the sole Lead Researcher, Designer, and Developer</strong>, I initiated, conceptualized, designed, built, and evaluated the entire AURA Toolkit end-to-end:</p>
+                
+                <ul>
+                    <li><strong>Phase 1 - Discovery research (8 contextual inquiries + 5 interviews):</strong> Deep engagement with researchers to understand current workflows, pain points, and opportunities for AI integration across all stages of the research process</li>
+                    <li><strong>Phase 2 - Synthesis and design:</strong> Analyzed qualitative data to identify core problems, then designed 4 integrated AI-powered tools addressing language, timezone, data processing, and collaboration challenges</li>
+                    <li><strong>Phase 3 - Full-stack development:</strong> Built production-ready applications integrating LLM APIs (GPT-4, Claude) with intuitive interfaces designed specifically for UX researchers' mental models</li>
+                    <li><strong>Phase 4 - Rigorous evaluation (35+ participants):</strong> Conducted mixed-methods studies including within-subjects comparisons, statistical analysis, and qualitative interviews to validate effectiveness</li>
+                    <li><strong>Phase 5 - Leadership presentation and adoption:</strong> Demonstrated business impact ($400k+ savings) and user preference (100% adoption) to secure organizational commitment and adoption across Xbox Research</li>
+                </ul>
 
 
-                    <h2>Impact of AURA Toolkit</h2>
-                    <ul>
-                        <li><strong>100% researcher preference:</strong> All Participants found the AURA Interviews and AURA Surveys to be more efficient in providing playtest feedback compared to regular surveys and unmoderated Interviews.</li>
-                        <li><strong>8 hours saved per study:</strong> AURA Canvas was effective in helping researchers visualize their data, arrange their data and identify themes from their data, <strong>resulting in saving an average of 8 hours time per reserach study/playtest</strong>.</li>
-                        <li><strong>$400k+ estimated annual savings:</strong> AURA Toolkit helped reducing reliency on vendor support for data annotation, data collection, and subscription fees for tools like Dscout, UserTesting, and contract vendors<strong> saving around $400k annually.</strong></li>
-                        <li><strong>Global research enabled:</strong> Language-agnostic and timezone-flexible studies across Xbox's expansion markets</li>
-                    </ul>
-                </div>
+                <h2>Key Outcomes</h2>
+                <ul>
+                    <li><strong>100% researcher preference:</strong> All participants found AURA Interviews and AURA Surveys more efficient than traditional methods for generating playtest feedback, with qualitative insights indicating the AI-adaptive approach produced deeper, more nuanced responses</li>
+                    <li><strong>8 hours saved per study:</strong> AURA Canvas enabled researchers to visualize, organize, and identify themes from qualitative data significantly faster—saving an average of 8 hours per research study or playtest session</li>
+                    <li><strong>$400k+ estimated annual savings:</strong> By reducing dependency on vendor support for data annotation, data collection, and subscription fees for platforms like Dscout and UserTesting, AURA Toolkit generated approximately $400k in annual cost savings</li>
+                    <li><strong>Global research enabled:</strong> Language-agnostic and timezone-flexible study capabilities now allow Xbox to conduct player research in any market without geographic constraints</li>
+                    <li><strong>Faster time-to-insight:</strong> Researchers can move from data collection to actionable insights in days rather than weeks, dramatically increasing research velocity</li>
+                </ul>
                 
 
               
 
                
 
-                <h2>Co-designing with Researchers</h2>
-                <p>While AI offers a lot of promise, it is critical to understand how AI can best help UX Researchers in an organization from the researchers themselves. To understand the needs of researchers, I conducted 8 contextual inquiries and 5 semi-structured interviews with researchers across Xbox Research. Through these sessions, I identified key pain points and opportunities for AI integration in their workflows.</p> 
+                <h2>Co-Designing with Researchers</h2>
+                <p>While AI offers tremendous potential, I recognized that understanding exactly how AI could support UX researchers required deep engagement with researchers themselves—not assumptions from outside the discipline. To ground the AURA Toolkit in real researcher needs, I conducted 8 contextual inquiries (observing researchers in their actual workspace doing actual work) and 5 semi-structured interviews with researchers across Xbox Research. These sessions revealed critical pain points that became the foundation for each tool in the AURA Toolkit.</p> 
 
-                <h2>Key Insights</h2>
-                <ul>
-                    <li><strong>Time Between Raw Data and Oraganized Data: </strong>Researcers spend a significant amout of time waiting for vendors to clean-up data, arrange data and identify important recordings, clipping and snippets from interviews and suverys</li>
-                    <li><strong>Limited Scope of Data due to georgraphical and economical constraints: </strong> As Xbox expands to south-east asia and other markets, it becomes increasingly challenging to hire researcehrs fluent in specific languages and cultural contexts. Further, timezones make it challenging to conduct  interviews and playtests across timezones.</li>
-                    <li><strong>Need for Real-time Collaboration: </strong> Researchers expressed a desire for tools that facilitate real-time collaboration and feedback, especially when working with remote teams across different time zones.</li>
-                    <li><strong>Data Visualization and Synthesis: </strong> Researchers often struggle with synthesizing large amounts of qualitative data into actionable insights. They expressed a need for tools that can help visualize and organize data effectively.</li>
-                </ul>
+                <h3>Key Pain Points Discovered</h3>
+                
+                <h4>Time Gap Between Raw Data and Actionable Analysis</h4>
+                <p>Researchers reported spending significant time waiting for vendor services to clean data, arrange findings, and identify important clips from interview recordings and survey responses. One researcher shared: "I collect the data, send it to vendors, wait weeks, then finally get back something I can analyze. It feels like I'm constantly waiting for the next phase of my own work." This bottleneck meant researchers couldn't iterate quickly or respond to time-sensitive product questions.</p>
+                
+                <h4>Geographic and Economic Constraints on Research Scope</h4>
+                <p>As Xbox expands into Southeast Asia and other growth markets, finding qualified UX researchers fluent in specific languages (Thai, Indonesian, Tagalog, etc.) became increasingly challenging and expensive. Language requirements combined with cultural knowledge requirements meant either expensive vendor contracts or research gaps in critical markets. Further, timezone differences made real-time moderated sessions nearly impossible—creating scheduling friction that reduced participant convenience and study feasibility.</p>
+                
+                <h4>Need for Real-Time Collaborative Synthesis</h4>
+                <p>Researchers working on distributed teams across Xbox expressed frustration with asynchronous collaboration on qualitative analysis. They needed tools that enable real-time discussion of findings, shared note-taking during analysis sessions, and collaborative refinement of insights—especially when team members spanned multiple time zones. Traditional tools (email, shared documents, video calls) fragmented rather than streamlined this collaborative sense-making.</p>
+                
+                <h4>Struggle with Qualitative Data Synthesis at Scale</h4>
+                <p>When playtests generate hundreds of hours of interview recordings, thousands of survey responses, or complex behavioral data, researchers struggle to identify patterns, organize findings, and synthesize qualitative insights into actionable recommendations. Traditional manual methods (color-coding transcripts, creating affinity diagrams in Miro, writing synthesis documents) don't scale—researchers spend weeks on synthesis for a single study, limiting research velocity and reducing ability to inform rapid product decisions.</p>
 
-                <h2>AURA Toolkit</h2>
-                <p>Based on the insights gathered from researchers, I conceptualized and developed AURA Toolkit - AI User Research Assistants Toolkit, a suite of AI-powered tools designed to assist researchers in various stages of the research process. The toolkit includes the following main components:</p>
-                <ul>
-                    <li><strong>AURA Interviews:</strong> AI-assisted interviews that streamline the process of conducting and analyzing user interviews agnostic of timezone and language.</li>
-                    <li><strong>AURA Surveys:</strong> Intelligent surveys that adapt questions based on user responses, improving data quality and relevance.</li>
-                    <li><strong>AURA Canvas:</strong> A visual collaboration tool that helps researchers organize and synthesize data in real-time and uses LLMs to take a Human In the Loop approach towards running grounded theory based analysis.</li>
-                    <li><strong>AURA Coder:</strong> A qualitative analysis tool to help collaborative qualitative coding, allowing users to develop or recycle codebooks on their data. The tool leverages Copilot to help users in running qualitative analysis.</li>
-                </ul>
-                For further information I highly recommend watching the video on top of the page:
+                <h2>AURA Toolkit: Four Integrated Tools</h2>
+                <p>Based on the pain points discovered through co-design, I conceptualized and built four integrated AI-powered tools that address specific bottlenecks in the research lifecycle:</p>
+                
+                <h3>AURA Interviews</h3>
+                <p>AI-assisted interview platform that conducts and analyzes user interviews language-agnostically and timezone-flexibly. Rather than requiring a researcher to moderate sessions in real-time, AURA Interviews uses conversational AI to conduct adaptive interviews that follow up on participant responses with contextual questions. The system handles translation automatically, allowing Xbox researchers to analyze interviews conducted in Thai, Indonesian, or any language without manual translation overhead. Since interviews don't require real-time moderation, participants can complete them on their schedule—eliminating timezone constraints.</p>
+                
+                <h3>AURA Surveys</h3>
+                <p>Intelligent survey platform that adapts questions based on participant responses in real-time. Instead of presenting static questions to all participants, AURA Surveys uses LLM-based logic to ask follow-up questions based on previous answers—creating personalized survey experiences that generate deeper insights than traditional one-size-fits-all surveys. The adaptive questioning means researchers get more nuanced data while participants feel surveys are more engaging and relevant to their experiences.</p>
+                
+                <h3>AURA Canvas</h3>
+                <p>Visual collaboration tool that helps researchers organize and synthesize qualitative data in real-time using a "Human in the Loop" grounded theory approach. Researchers can arrange interview transcripts, survey responses, and behavioral observations spatially on a canvas, while LLM assistance suggests themes, connections, and patterns. Rather than replacing researcher judgment, AURA Canvas augments synthesis by handling initial organization and pattern detection, allowing researchers to focus on deeper interpretation. The real-time collaboration features enable distributed teams to work together synchronously despite timezone differences.</p>
+                
+                <h3>AURA Coder</h3>
+                <p>Qualitative coding tool for collaborative analysis that allows researchers to develop and apply codebooks systematically. By integrating Microsoft Copilot, AURA Coder assists researchers in identifying codes from data, applying codes consistently across large datasets, and refining codebooks iteratively. The tool supports collaborative workflows where multiple researchers can code the same dataset, ensuring consistency while maintaining researcher agency over interpretive decisions.</p>
+                
+                <p>For detailed demonstrations of these tools in action, I highly recommend watching the video at the top of this page.</p>
                 
 
                 <h2>Evaluation</h2>
@@ -332,12 +368,31 @@
                     <li>Overall, participants expressed a preference for AURA Coder due to its efficiency and effectiveness in qualitative analysis.</li>
                 </ul>
 
-                <h2>Impact</h2>
+                <h2>Organizational Impact and Adoption</h2>
+                <p>AURA Toolkit has been adopted by multiple teams across Xbox Research, fundamentally transforming how the organization conducts player research. The adoption didn't happen through top-down mandate—it emerged organically as researchers discovered the tools solved real problems in their daily workflows.</p>
+                
+                <h3>Operational Impact</h3>
                 <ul>
-                    <li>AURA Toolkit has been adopted by multiple teams within Xbox Research, leading to increased efficiency and effectiveness in user research processes.</li>
-                    <li>The toolkit has facilitated more inclusive and diverse research practices by enabling studies across languages and time zones.</li>
-                    <li>Overall, AURA Toolkit has contributed to a more innovative and user-centered approach to research within Xbox.</li>
-                </ul>   
+                    <li><strong>Increased research efficiency:</strong> Teams report completing studies in half the time previously required, from data collection through insight synthesis</li>
+                    <li><strong>Expanded research scope:</strong> Xbox can now conduct player research in markets previously considered infeasible due to language or timezone constraints</li>
+                    <li><strong>Improved data quality:</strong> The adaptive questioning in AURA Interviews and AURA Surveys generates more nuanced insights than static surveys or unmoderated methods</li>
+                    <li><strong>Reduced vendor dependency:</strong> By in-sourcing data processing capabilities, Xbox Research reduced spending on external vendors while gaining more control over research timelines</li>
+                </ul>
+                
+                <h3>Strategic Value</h3>
+                <ul>
+                    <li><strong>More inclusive research practices:</strong> Language-agnostic capabilities mean Xbox can understand player needs across diverse global markets, not just English-speaking regions</li>
+                    <li><strong>Faster product decision cycles:</strong> Reduced time-to-insight allows research to inform product decisions at the speed the competitive gaming landscape demands</li>
+                    <li><strong>Innovation in research methodology:</strong> AURA Toolkit demonstrates how AI can augment rather than replace human expertise in qualitative research</li>
+                    <li><strong>Organizational learning:</strong> The toolkit has become a catalyst for rethinking research processes more broadly across Xbox</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>AURA Toolkit demonstrates that transformative impact in enterprise research doesn't require massive teams or years of development—it requires deep understanding of researcher needs, thoughtful application of AI capabilities, and rigorous validation through mixed-methods evaluation. By starting with co-design rather than technical assumptions, I built tools that addressed fundamental pain points rather than optimizing surface-level workflows.</p>
+                
+                <p><strong>Beyond individual tools:</strong> The success of AURA Toolkit extends beyond the four specific applications—it represents a proof-of-concept for how AI can augment qualitative research expertise at scale. The $400k+ annual savings and 100% researcher preference don't just validate the tools' effectiveness; they demonstrate that AI integration in research organizations can create business value while improving researcher experience and research quality.</p>
+                
+                <p><strong>Future directions:</strong> The AURA Toolkit framework—co-designing with domain experts, integrating AI capabilities thoughtfully, and validating through rigorous evaluation—could extend to other research contexts beyond gaming. The approach demonstrated here offers a template for building AI-assisted research tools in any domain where qualitative expertise requires augmentation rather than replacement.</p>   
 
                 <div class="overview">
                     <h3>Skills Demonstrated</h3>

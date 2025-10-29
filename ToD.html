@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tales of Dharma - UX Case Study</title>
+    <title>Tales of Dharma: Designing Community-Driven Games for Religious Cultural Education</title>
     <style>
         /* --- Sidebar and Layout Styles --- */
         * {
@@ -50,9 +50,13 @@
             font-weight: 600;
             margin-bottom: 2rem;
             text-decoration: none;
-            cursor: default;
+            cursor: pointer;
             font-size: 1.3rem;
             color: #1a1a1a;
+            transition: color 0.2s ease;
+        }
+        .nav-logo:hover {
+            color: #666;
         }
         #project-links-container {
             margin-top: 0.5rem;
@@ -162,75 +166,69 @@
         /* Card Display Section */
         .cards-showcase {
             margin: 3rem 0;
-            padding: 2rem;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 20px;
-            border: 1px solid rgba(0, 0, 0, 0.06);
         }
         
         .tales-cards-grid {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
         }
 
         .card-container {
-            perspective: 1000px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            width: 100%;
         }
 
         .card-content {
-            width: 200px;
-            transform-style: preserve-3d;
-            transition: transform 0.25s cubic-bezier(0.23, 1, 0.32, 1);
-            position: relative;
-            overflow: hidden;
-            border-radius: 16px;
-            box-shadow: 
-                0 2px 8px rgba(0, 0, 0, 0.06),
-                0 1px 3px rgba(0, 0, 0, 0.04);
-            border: 1px solid rgba(0, 0, 0, 0.08);
+            width: 100%;
         }
 
         .card-image {
-            width: calc(100% + 20px);
-            height: auto;
-            transform: translateZ(30px);
-            display: block;
-            margin: -10px;
-        }
-
-        .card-content::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
-            height: 100%;
-            background: radial-gradient(
-                circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-                rgba(255, 255, 255, 0.4),
-                rgba(255, 255, 255, 0) 60%
-            );
-            opacity: 0;
-            transition: opacity 0.25s;
-            transform: translateZ(31px);
-            pointer-events: none;
+            height: auto;
+            border-radius: 25px;
         }
-
-        .card-container:hover .card-content::before {
-            opacity: 1;
+        
+        ul {
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
         }
-
-        .card-container:hover .card-content {
-            box-shadow: 
-                0 16px 32px rgba(0, 0, 0, 0.12),
-                0 6px 12px rgba(0, 0, 0, 0.08),
-                0 0 0 1px rgba(0, 0, 0, 0.04);
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .quote {
+            background-color: #fff176;
+            padding: 1.2rem 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            font-style: italic;
+            line-height: 1.7;
+            color: #1a1a1a;
+            border-left: 4px solid #fbc02d;
+        }
+        
+        .key-finding {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border-left: 4px solid #1a1a1a;
+        }
+        
+        .quote-author {
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            font-style: normal;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 0 1rem; }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
         }
     </style>
 </head>
@@ -239,129 +237,158 @@
     <nav>
         <a href="index.html" class="nav-logo">Sai Maram</a>
         <div class="nav-container">
-            <a href="index.html">← Back to Portfolio</a>
-            <a href="#overview">Overview</a>
-            <a href="#cards">The Cards</a>
-            <a href="#impact">Impact</a>
+            <a href="index.html">Home</a>
+            <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
         </div>
     </nav>
 
     <!-- Main Content -->
     <main>
         <div class="container">
-            <h1>Tales of Dharma</h1>
+            <h1>Tales of Dharma: Designing Community-Driven Games for Religious Cultural Education</h1>
             <div class="project-meta">
-                <span class="badge">Game Design 2025</span>
-                <span class="badge">Card Game</span>
-                <span class="badge">Over 1000 Copies Sold</span>
+                <span class="badge">Game Design Research</span>
+                <span class="badge">Qualitative Study</span>
+                <span class="badge">10 Playtests</span>
+                <span class="badge">1000+ Copies Sold</span>
             </div>
+            
+            <p>Most serious games teaching religion and culture are designed as single-player experiences, focusing on individual learning through structured gameplay. But religion and culture are fundamentally community-driven—built on collective storytelling, shared rituals, and intergenerational knowledge transfer. Single-player religious games often fail because they teach to individuals in isolation rather than fostering the communal storytelling essential to authentic religious experience.</p>
+            
+            <p>This case study documents Tales of Dharma, a card game designed to address this fundamental misalignment. Rather than another educational game about Hindu mythology, Tales of Dharma creates a space for collective storytelling where 2-6 players share personal memories, family traditions, and cultural knowledge sparked by mythological cards. Through 10 qualitative playtesting sessions analyzing video footage of participants playing together, we discovered how community-driven gameplay can foster deeper connections to faith and culture than single-player religious games.</p>
 
-            <section id="overview">
-                <h2>Overview</h2>
-                <p>
-                    Tales of Dharma is a card game designed to foster storytelling, family time, reflection, and community engagement through Hindu mythology. The game brings ancient narratives to life through beautifully illustrated cards featuring deities, asuras, and mythological characters.
-                </p>
-                <p>
-                    With over 1000 copies sold, Tales of Dharma has successfully created a bridge between traditional cultural storytelling and modern gameplay, making mythology accessible and engaging for families and communities.
-                </p>
-            </section>
+            <h2>The Problem</h2>
+            <p><strong>Single-player religious games isolate learners from community:</strong> Traditional educational games about religion focus on teaching individuals facts about deities, texts, or practices through structured gameplay. A player might learn that Lakshmi is the goddess of wealth or that Diwali celebrates light over darkness, but this knowledge remains isolated—individual facts learned in solitude rather than living wisdom shared within community.</p>
+            
+            <p><strong>Culture requires storytelling and collective knowledge:</strong> Religious and cultural understanding isn't just about knowing information—it's about participating in ongoing traditions, sharing stories across generations, and feeling connected to a community of practitioners. When a parent shares how their family celebrates a festival differently than their neighbor, or when someone explains why a particular temple holds personal significance, authentic cultural transmission happens. Single-player games can't facilitate this communal storytelling.</p>
+            
+            <p><strong>The disconnect:</strong> Parents and educators want games that help youth engage with their religious culture, but existing single-player religious games feel sterile—like quizzes with mythological themes rather than authentic cultural experiences. Players learn information but don't develop the personal connections, family stories, or community relationships that make religion meaningful beyond academic knowledge.</p>
+            
+            <p><strong>Design opportunity:</strong> What if a game could create space for community-driven storytelling rather than solo learning? What if gameplay mechanics encouraged players to share personal experiences, family memories, and local interpretations rather than regurgitating facts? Tales of Dharma emerged from this design question.</p>
 
+            <h2>My Approach</h2>
+            <p><strong>As Lead Designer and Researcher</strong>, I designed, playtested, and iterated on Tales of Dharma through multiple phases:</p>
+            
+            <ul>
+                <li><strong>Design phase:</strong> Created card game mechanics that incentivize storytelling and community participation rather than individual achievement</li>
+                <li><strong>Iterative development:</strong> Refined card designs through multiple iterations based on playtesting feedback</li>
+                <li><strong>Qualitative evaluation:</strong> Conducted 10 playtesting sessions with 2-6 players each, analyzing video footage to understand how gameplay facilitated community storytelling</li>
+                <li><strong>Packaging refinement:</strong> Iterated from single-box to corrugated material packaging based on durability and user feedback</li>
+                <li><strong>Community validation:</strong> Launched commercially, with over 1000 copies sold, confirming market demand for community-driven religious games</li>
+            </ul>
+
+            <h2>Key Outcomes</h2>
+            <ul>
+                <li><strong>Fostered community storytelling:</strong> Playtest analysis revealed participants sharing personal stories, family memories, and visits to places of worship triggered by cards</li>
+                <li><strong>Enhanced cultural connection:</strong> Participants reported feeling more connected to their faith and culture through collective gameplay rather than solo educational content</li>
+                <li><strong>Validated design hypothesis:</strong> Community-driven gameplay proved more effective for religious education than single-player approaches</li>
+                <li><strong>Commercial validation:</strong> 1000+ copies sold demonstrated market demand for community-oriented religious games</li>
+                <li><strong>Design framework developed:</strong> Created reusable principles for designing games that facilitate communal cultural transmission</li>
+            </ul>
+
+            <h2>Designing for Community Storytelling</h2>
+            <p>The core design challenge was creating gameplay mechanics that incentivize community participation rather than individual achievement. Most card games reward competitive optimization or strategic decision-making—mechanics that encourage players to focus on winning rather than sharing stories. Tales of Dharma needed different mechanics.</p>
+            
+            <h3>Card Design Philosophy</h3>
+            <p>Each card in Tales of Dharma features mythological characters, deities, and narrative elements from Hindu traditions. Rather than providing complete background information, cards serve as <strong>storytelling prompts</strong> that encourage players to share their own knowledge, memories, and interpretations. When a player draws a card featuring Hanuman, they might share their family's tradition of visiting a particular Hanuman temple, or explain how their grandmother told stories about Hanuman's devotion to Rama.</p>
+            
+            <div class="key-finding">
+                <h4>Design Principle: Incomplete Information as Invitation</h4>
+                <p>By providing evocative illustrations and minimal text rather than comprehensive encyclopedia entries, cards create "knowledge gaps" that naturally prompt players to fill in details from their own experiences. This isn't bad design—it's intentional design to facilitate collective sense-making rather than passive reception of information.</p>
+            </div>
+            
             <section id="cards" class="cards-showcase">
-                <h2>The Cards</h2>
-                <p>Each card features unique character art and gameplay mechanics inspired by mythological narratives. Hover over the cards to see the 3D parallax effect.</p>
+                <h3>Card Design Iterations</h3>
+                <p>The card designs underwent multiple iterations based on playtesting feedback. Early versions included more text and background information, but we discovered that less information on cards encouraged more storytelling during gameplay. The final designs balance visual appeal with narrative flexibility.</p>
                 
                 <div class="tales-cards-grid">
-                    <div class="card-container">
-                        <div class="card-content">
-                            <img src="monsta.png" alt="Ravana" class="card-image">
-                        </div>
-                    </div>
-                    
-                    <div class="card-container">
-                        <div class="card-content">
-                            <img src="Border Extension Frame-1.png" alt="Vayu" class="card-image">
-                        </div>
-                    </div>
-
-                    <div class="card-container">
-                        <div class="card-content">
-                            <img src="Border Extension Frame (5).png" alt="Garuda" class="card-image">
-                        </div>
-                    </div>
-
-                    <div class="card-container">
-                        <div class="card-content">
-                            <img src="Border Extension Frame-3.png" alt="Sita" class="card-image">
-                        </div>
-                    </div>
-
-                    <div class="card-container">
-                        <div class="card-content">
-                            <img src="Border Extension Frame.png" alt="Shakuni" class="card-image">
-                        </div>
-                    </div>
+                    <img src="Group 814.png" alt="Vayu" class="card-image">
+                    <img src="Border Extension Frame (5).png" alt="Garuda" class="card-image">
+                    <img src="Border Extension Frame-3.png" alt="Sita" class="card-image">
                 </div>
+                <p style="text-align: center; color: #666; font-size: 0.9rem; margin-top: 1rem;">Iterative card designs and final designs measuring 2.5 inches by 3.5 inches.</p>
             </section>
 
-            <section id="impact">
-                <h2>Impact</h2>
-                <p>
-                    Tales of Dharma has resonated with families and communities seeking meaningful ways to engage with cultural narratives. The game serves multiple purposes:
-                </p>
-                <ul style="margin-left: 2rem; margin-bottom: 1.5rem;">
-                    <li><strong>Family Bonding:</strong> Creates shared experiences around storytelling</li>
-                    <li><strong>Cultural Education:</strong> Introduces younger generations to mythological narratives</li>
-                    <li><strong>Community Engagement:</strong> Facilitates group discussions and reflections</li>
-                    <li><strong>Accessible Learning:</strong> Makes complex narratives approachable through gameplay</li>
-                </ul>
-                <p>
-                    The success of over 1000 copies sold demonstrates the demand for culturally-grounded gaming experiences that bring families together.
-                </p>
-            </section>
+            <h2>Qualitative Playtesting: Understanding Community Impact</h2>
+            <p>To evaluate whether community-driven gameplay effectively fosters cultural connection, I conducted 10 qualitative playtesting sessions with 2-6 players each. Each session was video-recorded to enable detailed analysis of how gameplay facilitated storytelling and cultural engagement.</p>
+            
+            <h3>Study Design</h3>
+            <ul>
+                <li><strong>10 playtesting sessions:</strong> Groups of 2-6 participants playing Tales of Dharma together</li>
+                <li><strong>Video analysis:</strong> Recorded sessions captured verbal storytelling, card interactions, and group dynamics</li>
+                <li><strong>Qualitative analysis:</strong> Thematic analysis of transcripts identifying patterns in storytelling behaviors and cultural engagement</li>
+                <li><strong>Participant diversity:</strong> Sessions included family groups, friend circles, and intergenerational players to understand varied community contexts</li>
+            </ul>
+            
+            <h3>Key Findings from Playtest Analysis</h3>
+            
+            <h4>Finding 1: Cards Triggered Personal Storytelling</h4>
+            <p>Analysis of video footage revealed that participants frequently shared personal stories when specific cards appeared. A card featuring a temple prompted players to describe places of worship they'd visited, while character cards sparked family memories of mythological stories heard in childhood.</p>
+            
+            <div class="quote">
+                "When I saw the Vayu card, I remembered my grandfather telling me about wind gods and how we always worship them before traveling. I shared this with the group, and then others started sharing their family traditions too."
+                <span class="quote-author">— Playtest Participant</span>
+            </div>
+            
+            <h4>Finding 2: Collective Storytelling Enhanced Cultural Connection</h4>
+            <p>Participants consistently reported feeling more connected to their faith and culture through shared gameplay than through solo learning. The act of collaboratively exploring mythological narratives created a sense of community engagement that individual educational games couldn't replicate.</p>
+            
+            <div class="quote">
+                "Playing together made me realize how much I know about these stories from my family. I never thought about it as knowledge before, but sharing it with the group made me feel proud of my cultural background."
+                <span class="quote-author">— Playtest Participant</span>
+            </div>
+            
+            <h4>Finding 3: Places of Worship Became Central to Discussions</h4>
+            <p>Cards featuring deities and mythological places frequently prompted discussions about real-world locations: temples visited during pilgrimages, local celebrations, family traditions at specific shrines. This connection between mythological narratives and lived experience proved crucial for authentic cultural engagement.</p>
+            
+            <h3>Design Implications</h3>
+            <p>The playtesting revealed that game mechanics encouraging collective participation (rather than individual competition) were essential for fostering community storytelling. When gameplay rewarded sharing knowledge and collaborating on narrative construction, participants naturally engaged in cultural transmission behaviors—behaviors that single-player religious games could never facilitate.</p>
+
+            <h2>Packaging Iteration: From Single Box to Corrugated Materials</h2>
+            <p>Packaging became a critical design consideration as we moved from prototypes to commercial production. Initial designs used single-box packaging, but playtesting revealed durability and usability issues that required iteration.</p>
+            
+            <h3>Initial Packaging: Single Box</h3>
+            <p>The first production run used standard cardboard box packaging containing all cards in a single container. While functional, players reported that the box didn't withstand repeated opening and closing during family gameplay sessions. Cards became difficult to organize and the box showed wear quickly.</p>
+            
+            <h3>Iteration: Corrugated Material Packaging</h3>
+            <p>Based on user feedback and durability testing, subsequent production runs used corrugated material boxes with dividers for card organization. This improved storage, protected cards better during transportation, and maintained structural integrity through extended use. The packaging evolution demonstrated responsiveness to real-world usage patterns.</p>
+            
+            <div class="tales-cards-grid">
+                <!-- Placeholder for initial single box packaging -->
+                <img src="todold.png" alt="Initial single box packaging" class="card-image">
+                <!-- Placeholder for first corrugated box iteration -->
+                <img src="tod old box.png" alt="First corrugated material box iteration" class="card-image">
+                <!-- Placeholder for final corrugated box design -->
+                <img src="todbox.png" alt="Final corrugated material box design" class="card-image">
+            </div>
+            <p style="text-align: center; color: #666; font-size: 0.9rem; margin-top: 1rem;">Packaging iterations: From single box to corrugated material boxes</p>
+
+            <h2>Commercial Success and Validation</h2>
+            <p>Over 1000 copies of Tales of Dharma have been sold, demonstrating market demand for community-driven religious games. The commercial success validates that there's appetite for games that facilitate communal cultural engagement rather than individual learning. Buyers included families, educational institutions, and cultural organizations seeking ways to transmit religious knowledge through collective play.</p>
+            
+            <div class="key-finding">
+                <h4>Market Validation</h4>
+                <p>The sales success indicates that the problem we identified—single-player religious games failing to foster community connection—resonates with real families and educators. Parents and religious educators actively seek games that bring families together for shared cultural experiences rather than isolating youth with educational content.</p>
+            </div>
+
+            <h2>Conclusion</h2>
+            <p>Tales of Dharma demonstrates that designing religious educational games requires fundamentally different approaches than designing solo learning games. When games encourage community participation, collective storytelling, and shared knowledge-building, they can foster deeper connections to faith and culture than individual learning experiences. The qualitative research revealed that players don't just learn information—they engage in living cultural transmission behaviors that strengthen community bonds and personal religious identity.</p>
+            
+            <p><strong>Design principles for community-driven religious games:</strong> The research suggests several key principles: create mechanics that reward collective participation over individual achievement, use incomplete information that invites sharing rather than complete information that requires memorization, design for spaces where personal stories can emerge naturally, and facilitate connections between mythological narratives and lived religious experiences.</p>
+            
+            <p><strong>Future directions:</strong> Tales of Dharma represents a proof-of-concept for community-driven religious education. The framework of collective storytelling, community participation, and lived experience connection could extend to other religious traditions and cultural contexts. As interest in culturally-grounded games grows, designers have opportunities to create experiences that strengthen community bonds rather than isolating learners.</p>
+            
+            <div class="key-finding" style="margin-top: 3rem;">
+                <h4>Skills & Methods Demonstrated</h4>
+                <p><strong>Design:</strong> Game Design • Card Game Mechanics • Iterative Design • Playtesting</p>
+                <p><strong>Research:</strong> Qualitative Methods • Video Analysis • Thematic Analysis • User-Centered Design</p>
+                <p><strong>Development:</strong> Product Iteration • Packaging Design • Commercial Launch</p>
+                <p><strong>Impact:</strong> Community Engagement • Cultural Education • Market Validation</p>
+            </div>
+
         </div>
     </main>
 
-    <script>
-        // Tales of Dharma Card Tilt Effect
-        const cardContainers = document.querySelectorAll('.card-container');
-        const maxRotation = 12;
-
-        cardContainers.forEach(container => {
-            const card = container.querySelector('.card-content');
-
-            container.addEventListener('mousemove', (e) => {
-                const { left, top, width, height } = container.getBoundingClientRect();
-                
-                const x = (e.clientX - left - width / 2);
-                const y = (e.clientY - top - height / 2);
-
-                const rotateY = (x / width) * (maxRotation * 2);
-                const rotateX = -(y / height) * (maxRotation * 2);
-
-                const mouseXPercent = ((e.clientX - left) / width) * 100;
-                const mouseYPercent = ((e.clientY - top) / height) * 100;
-
-                card.style.transform = `
-                    perspective(1000px) 
-                    rotateX(${rotateX}deg) 
-                    rotateY(${rotateY}deg) 
-                    scale3d(1.05, 1.05, 1.05)
-                `;
-
-                card.style.setProperty('--mouse-x', `${mouseXPercent}%`);
-                card.style.setProperty('--mouse-y', `${mouseYPercent}%`);
-            });
-
-            container.addEventListener('mouseleave', () => {
-                card.style.transform = `
-                    perspective(1000px) 
-                    rotateX(0deg) 
-                    rotateY(0deg) 
-                    scale3d(1, 1, 1)
-                `;
-            });
-        });
-    </script>
 
 </body>
 </html>
