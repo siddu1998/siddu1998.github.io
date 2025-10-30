@@ -30,7 +30,7 @@
             justify-content: space-between;
             gap: 4rem;
             position: relative;
-            padding: 6rem 6rem 4rem;
+            padding: 6rem 6rem 8rem; /* Increased bottom padding */
             min-height: auto;
         }
         
@@ -62,7 +62,7 @@
             margin-left: 0;
             z-index: 2;
             justify-content: flex-start;
-            min-height: 800px;
+            min-height: 900px; /* Increased height for button */
             padding-top: 2rem;
         }
         
@@ -71,8 +71,8 @@
             max-width: 280px;
             height: auto;
             position: absolute;
-            border-radius: 8px;
-            overflow: hidden;
+            /* border-radius: 8px; */ /* Moved to front/back */
+            /* overflow: hidden; */ /* Removed for 3D flip */
             box-shadow: 
                 0 25px 70px rgba(0, 0, 0, 0.18),
                 0 10px 30px rgba(0, 0, 0, 0.12),
@@ -80,6 +80,7 @@
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
                         box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             transform-origin: bottom left;
+            perspective: 1000px; /* Added for 3D */
         }
         
         .note:hover {
@@ -91,6 +92,44 @@
             z-index: 10;
         }
         
+        .note-inner {
+            position: relative;
+            width: 100%;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            background-color: transparent;
+        }
+
+        .note.is-flipped .note-inner {
+            transform: rotateY(180deg);
+        }
+
+        .note-front,
+        .note-back {
+            width: 100%;
+            -webkit-backface-visibility: hidden; /* Safari */
+            backface-visibility: hidden;
+            
+            border-radius: 8px;
+            overflow: hidden;
+            display: block;
+            line-height: 0; /* Fixes gap under image */
+            background: transparent; /* Fallback bg changed to transparent */
+        }
+        
+        .note-front {
+            position: relative;
+            z-index: 2;
+        }
+
+        .note-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: rotateY(180deg);
+            z-index: 1;
+        }
+
         .note-100 {
             left: 0;
             top: 0;
@@ -119,6 +158,38 @@
             display: block;
             object-fit: contain;
         }
+
+        /* Flip Button Styles */
+        .flip-button-container {
+            /* width: 100%; */ /* Removed */
+            /* text-align: center; */ /* Removed */
+            position: absolute;
+            bottom: 4rem; /* Positioned within the .currency-notes container */
+            left: 0;
+            /* right: 0; */ /* Removed */
+            /* margin: 0 auto; */ /* Removed */
+            z-index: 5;
+        }
+        
+        .flip-button {
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            background: #1a1a1a;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .flip-button:hover {
+            background: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
         
         /* Design Documentation Section */
         .documentation-section {
@@ -380,12 +451,19 @@
             }
             
             .visual-showcase {
-                padding: 4rem 3rem 6rem;
+                padding: 4rem 3rem;
             }
         }
         
         /* Gradient overlays for each note color */
-        .note-100::before {
+        /* MOVED to .note-front */
+        .note-100::before,
+        .note-50::before,
+        .note-500::before {
+            content: none;
+        }
+
+        .note-100 .note-front::before {
             content: '';
             position: absolute;
             top: 0;
@@ -397,7 +475,7 @@
             z-index: 1;
         }
         
-        .note-50::before {
+        .note-50 .note-front::before {
             content: '';
             position: absolute;
             top: 0;
@@ -409,7 +487,7 @@
             z-index: 1;
         }
         
-        .note-500::before {
+        .note-500 .note-front::before {
             content: '';
             position: absolute;
             top: 0;
@@ -445,6 +523,8 @@
                 margin-left: 0;
                 flex: 1;
                 width: 100%;
+                min-height: auto; /* Reset min-height */
+                padding-bottom: 8rem; /* Add padding for button */
             }
             
             .note {
@@ -478,6 +558,17 @@
                 top: auto;
                 transform: rotate(3deg);
                 margin-top: -60px;
+            }
+
+            .flip-button-container {
+                position: absolute;
+                bottom: 1rem; /* Adjust for mobile */
+                left: 50%;
+                transform: translateX(-50%);
+                width: auto;
+            }
+            .flip-button {
+                white-space: nowrap;
             }
         }
         
@@ -518,6 +609,10 @@
                 transform: rotate(2deg);
                 margin-top: -40px;
             }
+
+            .currency-notes {
+                padding-bottom: 7rem; /* Adjust */
+            }
         }
         
         /* Back button */
@@ -543,6 +638,7 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
+
     </style>
 </head>
 <body>
@@ -559,101 +655,144 @@
         </div>
         
         <div class="currency-notes">
-            <!-- ₹100 Note (Purple) - Replace with actual image -->
+            <!-- ₹100 Note (Purple) -->
             <div class="note note-100">
-                <!-- Replace this img src with your actual ₹100 note image path -->
-                <img src="Frame 2.png" alt="₹100 Currency Note" class="note-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <!-- Fallback SVG if image not found -->
-                <svg class="note-image" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                    <defs>
-                        <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#9333EA;stop-opacity:1" />
-                            <stop offset="50%" style="stop-color:#A855F7;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#7E22CE;stop-opacity:1" />
-                        </linearGradient>
-                        <linearGradient id="purpleTop" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" style="stop-color:#9333EA;stop-opacity:0.4" />
-                            <stop offset="100%" style="stop-color:#A855F7;stop-opacity:0.4" />
-                        </linearGradient>
-                        <pattern id="purplePattern" patternUnits="userSpaceOnUse" width="60" height="60">
-                            <circle cx="30" cy="30" r="1.5" fill="#9333EA" opacity="0.2"/>
-                        </pattern>
-                    </defs>
-                    <rect width="1000" height="500" fill="url(#purpleGrad)"/>
-                    <rect width="1000" height="85" fill="url(#purpleTop)"/>
-                    <rect width="1000" height="500" fill="url(#purplePattern)"/>
-                    <rect x="20" y="20" width="960" height="460" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" rx="8"/>
-                    <text x="80" y="155" font-size="130" font-weight="bold" fill="white" font-family="Arial, sans-serif">₹ 100</text>
-                    <text x="80" y="220" font-size="38" fill="rgba(255,255,255,0.92)" font-family="Arial, sans-serif" font-weight="500">One Hundred Rupees</text>
-                    <circle cx="800" cy="250" r="80" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="3"/>
-                    <text x="750" y="260" font-size="120" fill="rgba(255,255,255,0.12)" font-weight="bold">100</text>
-                </svg>
+                <div class="note-inner">
+                    <!-- Front -->
+                    <div class="note-front">
+                        <img src="Frame 2.png" alt="₹100 Currency Note" class="note-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <svg class="note-image" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <defs>
+                                <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#9333EA;stop-opacity:1" />
+                                    <stop offset="50%" style="stop-color:#A855F7;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#7E22CE;stop-opacity:1" />
+                                </linearGradient>
+                                <linearGradient id="purpleTop" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#9333EA;stop-opacity:0.4" />
+                                    <stop offset="100%" style="stop-color:#A855F7;stop-opacity:0.4" />
+                                </linearGradient>
+                                <pattern id="purplePattern" patternUnits="userSpaceOnUse" width="60" height="60">
+                                    <circle cx="30" cy="30" r="1.5" fill="#9333EA" opacity="0.2"/>
+                                </pattern>
+                            </defs>
+                            <rect width="1000" height="500" fill="url(#purpleGrad)"/>
+                            <rect width="1000" height="85" fill="url(#purpleTop)"/>
+                            <rect width="1000" height="500" fill="url(#purplePattern)"/>
+                            <rect x="20" y="20" width="960" height="460" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" rx="8"/>
+                            <text x="80" y="155" font-size="130" font-weight="bold" fill="white" font-family="Arial, sans-serif">₹ 100</text>
+                            <text x="80" y="220" font-size="38" fill="rgba(255,255,255,0.92)" font-family="Arial, sans-serif" font-weight="500">One Hundred Rupees</text>
+                            <circle cx="800" cy="250" r="80" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="3"/>
+                            <text x="750" y="260" font-size="120" fill="rgba(255,255,255,0.12)" font-weight="bold">100</text>
+                        </svg>
+                    </div>
+                    <!-- Back -->
+                    <div class="note-back">
+                        <img src="back 3.png" alt="Back of ₹100 Note" class="note-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <!-- Fallback SVG for the back -->
+                        <svg class="note-image" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <rect width="1000" height="500" fill="#E9D5FF"/>
+                            <text x="500" y="270" font-size="40" fill="#7E22CE" text-anchor="middle" font-family="Arial, sans-serif">Back of ₹100 Note</text>
+                        </svg>
+                    </div>
+                </div>
             </div>
             
-            <!-- ₹50 Note (Blue) - Replace with actual image -->
+            <!-- ₹50 Note (Blue) -->
             <div class="note note-50">
-                <!-- Replace this img src with your actual ₹50 note image path -->
-                <img src="Frame 5.png" alt="₹50 Currency Note" class="note-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <!-- Fallback SVG if image not found -->
-                <svg class="note-image" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                    <defs>
-                        <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#2563EB;stop-opacity:1" />
-                            <stop offset="50%" style="stop-color:#3B82F6;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#1D4ED8;stop-opacity:1" />
-                        </linearGradient>
-                        <linearGradient id="blueTop" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" style="stop-color:#2563EB;stop-opacity:0.4" />
-                            <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:0.4" />
-                        </linearGradient>
-                        <pattern id="bluePattern" patternUnits="userSpaceOnUse" width="60" height="60">
-                            <circle cx="30" cy="30" r="1.5" fill="#2563EB" opacity="0.2"/>
-                        </pattern>
-                    </defs>
-                    <rect width="1000" height="500" fill="url(#blueGrad)"/>
-                    <rect width="1000" height="85" fill="url(#blueTop)"/>
-                    <rect width="1000" height="500" fill="url(#bluePattern)"/>
-                    <rect x="20" y="20" width="960" height="460" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" rx="8"/>
-                    <text x="80" y="155" font-size="130" font-weight="bold" fill="white" font-family="Arial, sans-serif">₹ 50</text>
-                    <text x="80" y="220" font-size="38" fill="rgba(255,255,255,0.92)" font-family="Arial, sans-serif" font-weight="500">Fifty Rupees</text>
-                    <circle cx="800" cy="250" r="80" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="3"/>
-                    <text x="770" y="260" font-size="120" fill="rgba(255,255,255,0.12)" font-weight="bold">50</text>
-                </svg>
+                <div class="note-inner">
+                    <!-- Front -->
+                    <div class="note-front">
+                        <img src="Frame 5.png" alt="₹50 Currency Note" class="note-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <svg class="note-image" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <defs>
+                                <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#2563EB;stop-opacity:1" />
+                                    <stop offset="50%" style="stop-color:#3B82F6;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#1D4ED8;stop-opacity:1" />
+                                </linearGradient>
+                                <linearGradient id="blueTop" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#2563EB;stop-opacity:0.4" />
+                                    <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:0.4" />
+                                </linearGradient>
+                                <pattern id="bluePattern" patternUnits="userSpaceOnUse" width="60" height="60">
+                                    <circle cx="30" cy="30" r="1.5" fill="#2563EB" opacity="0.2"/>
+                                </pattern>
+                            </defs>
+                            <rect width="1000" height="500" fill="url(#blueGrad)"/>
+                            <rect width="1000" height="85" fill="url(#blueTop)"/>
+                            <rect width="1000" height="500" fill="url(#bluePattern)"/>
+                            <rect x="20" y="20" width="960" height="460" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" rx="8"/>
+                            <text x="80" y="155" font-size="130" font-weight="bold" fill="white" font-family="Arial, sans-serif">₹ 50</text>
+                            <text x="80" y="220" font-size="38" fill="rgba(255,255,255,0.92)" font-family="Arial, sans-serif" font-weight="500">Fifty Rupees</text>
+                            <circle cx="800" cy="250" r="80" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="3"/>
+                            <text x="770" y="260" font-size="120" fill="rgba(255,255,255,0.12)" font-weight="bold">50</text>
+                        </svg>
+                    </div>
+                    <!-- Back -->
+                    <div class="note-back">
+                        <img src="back 2.png" alt="Back of ₹50 Note" class="note-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <!-- Fallback SVG for the back -->
+                        <svg class="note-image" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <rect width="1000" height="500" fill="#DBEAFE"/>
+                            <text x="500" y="270" font-size="40" fill="#1D4ED8" text-anchor="middle" font-family="Arial, sans-serif">Back of ₹50 Note</text>
+                        </svg>
+                    </div>
+                </div>
             </div>
             
-            <!-- ₹500 Note (Orange) - Replace with actual image -->
+            <!-- ₹500 Note (Orange) -->
             <div class="note note-500">
-                <!-- Replace this img src with your actual ₹500 note image path -->
-                <img src="Group 5.png" alt="₹500 Currency Note" class="note-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <!-- Fallback SVG if image not found -->
-                <svg class="note-image" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                    <defs>
-                        <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#F97316;stop-opacity:1" />
-                            <stop offset="50%" style="stop-color:#FB923C;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#EA580C;stop-opacity:1" />
-                        </linearGradient>
-                        <linearGradient id="orangeTop" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" style="stop-color:#F97316;stop-opacity:0.4" />
-                            <stop offset="100%" style="stop-color:#FB923C;stop-opacity:0.4" />
-                        </linearGradient>
-                        <pattern id="orangePattern" patternUnits="userSpaceOnUse" width="60" height="60">
-                            <circle cx="30" cy="30" r="1.5" fill="#F97316" opacity="0.2"/>
-                        </pattern>
-                    </defs>
-                    <rect width="1000" height="500" fill="url(#orangeGrad)"/>
-                    <rect width="1000" height="85" fill="url(#orangeTop)"/>
-                    <rect width="1000" height="500" fill="url(#orangePattern)"/>
-                    <rect x="20" y="20" width="960" height="460" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" rx="8"/>
-                    <text x="80" y="155" font-size="130" font-weight="bold" fill="white" font-family="Arial, sans-serif">₹ 500</text>
-                    <text x="80" y="220" font-size="38" fill="rgba(255,255,255,0.92)" font-family="Arial, sans-serif" font-weight="500">Five Hundred Rupees</text>
-                    <circle cx="800" cy="250" r="80" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="3"/>
-                    <text x="730" y="260" font-size="120" fill="rgba(255,255,255,0.12)" font-weight="bold">500</text>
-                </svg>
+                <div class="note-inner">
+                    <!-- Front -->
+                    <div class="note-front">
+                        <img src="Group 5.png" alt="₹500 Currency Note" class="note-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <svg class="note-image" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <defs>
+                                <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#F97316;stop-opacity:1" />
+                                    <stop offset="50%" style="stop-color:#FB923C;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#EA580C;stop-opacity:1" />
+                                </linearGradient>
+                                <linearGradient id="orangeTop" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#F97316;stop-opacity:0.4" />
+                                    <stop offset="100%" style="stop-color:#FB923C;stop-opacity:0.4" />
+                                </linearGradient>
+                                <pattern id="orangePattern" patternUnits="userSpaceOnUse" width="60" height="60">
+                                    <circle cx="30" cy="30" r="1.5" fill="#F97316" opacity="0.2"/>
+                                </pattern>
+                            </defs>
+                            <rect width="1000" height="500" fill="url(#orangeGrad)"/>
+                            <rect width="1000" height="85" fill="url(#orangeTop)"/>
+                            <rect width="1000" height="500" fill="url(#orangePattern)"/>
+                            <rect x="20" y="20" width="960" height="460" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" rx="8"/>
+                            <text x="80" y="155" font-size="130" font-weight="bold" fill="white" font-family="Arial, sans-serif">₹ 500</text>
+                            <text x="80" y="220" font-size="38" fill="rgba(255,255,255,0.92)" font-family="Arial, sans-serif" font-weight="500">Five Hundred Rupees</text>
+                            <circle cx="800" cy="250" r="80" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="3"/>
+                            <text x="730" y="260" font-size="120" fill="rgba(255,255,255,0.12)" font-weight="bold">500</text>
+                        </svg>
+                    </div>
+                    <!-- Back -->
+                    <div class="note-back">
+                        <img src="back 1.png" alt="Back of ₹500 Note" class="note-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <!-- Fallback SVG for the back -->
+                        <svg class="note-image" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <rect width="1000" height="500" fill="#FFEDD5"/>
+                            <text x="500" y="270" font-size="40" fill="#EA580C" text-anchor="middle" font-family="Arial, sans-serif">Back of ₹500 Note</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flip Button Container -->
+            <div class="flip-button-container">
+                <button id="flipButton" class="flip-button">Flip Notes</button>
             </div>
         </div>
     </div>
     
+    
+
     <!-- Design Documentation Section -->
     <section class="documentation-section">
         <div class="documentation-container">
@@ -720,7 +859,7 @@
                     </div>
                 </div>
                 
-                <div class="design-details-section">
+                <!-- <div class="design-details-section">
                     <h4 style="margin-top: 3rem; margin-bottom: 1.5rem; font-size: 1.3rem; color: #1a1a1a;">Technical Specifications</h4>
                     <div class="spec-grid">
                         <div class="spec-item">
@@ -748,7 +887,7 @@
                             <p>Strategic edge positioning for tactile identification</p>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             
             <!-- Iconic Portraits -->
@@ -780,7 +919,7 @@
                 </ul>
             </div>
             
-            <!-- Security Features -->
+            <!-- Security Features
             <div class="doc-section">
                 <h3>Security & Holographic Features</h3>
                 <p>Multiple layers of security features are integrated seamlessly into the aesthetic design. Each element serves dual purposes—beauty and protection—creating a currency that is both visually stunning and technologically secure.</p>
@@ -798,7 +937,7 @@
                     <p>The colorful top border patterns aren't merely decorative—they serve as complex security features that are extremely difficult to reproduce accurately. The intricate designs combine cultural authenticity with technological sophistication.</p>
                 </div>
             </div>
-            
+             -->
             <!-- Vertical Orientation -->
             <div class="doc-section">
                 <h3>Vertical Orientation: Design Benefits</h3>
@@ -815,9 +954,37 @@
                     <li><strong>Digital Adaptability:</strong> Vertical orientation translates better to mobile banking apps, digital wallets, and payment interfaces, ensuring consistency across physical and digital representations.</li>
                 </ul>
                 
-                <p>Following the examples of countries like Canada (which introduced vertical notes in 2018) and Switzerland (known for striking vertical designs), this orientation represents a commitment to modern design that balances aesthetic beauty, functional usability, and technological innovation.</p>
             </div>
         </div>
     </section>
+
+    <!-- JavaScript for Flip Functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const flipButton = document.getElementById('flipButton');
+            const notes = document.querySelectorAll('.note');
+            let isFlipped = false;
+
+            if (flipButton) {
+                flipButton.addEventListener('click', () => {
+                    isFlipped = !isFlipped;
+                    
+                    // Toggle the .is-flipped class on each note
+                    notes.forEach(note => {
+                        note.classList.toggle('is-flipped');
+                    });
+                    
+                    // Change button text
+                    if (isFlipped) {
+                        flipButton.textContent = 'View Front';
+                    } else {
+                        flipButton.textContent = 'View Back';
+                    }
+                });
+            }
+        });
+    </script>
+    
 </body>
 </html>
+
