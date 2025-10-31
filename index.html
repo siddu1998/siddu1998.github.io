@@ -813,10 +813,15 @@
                 <div id="contributionsContent">
                     <h3>Key Contributions</h3>
                     <ul>
-                        <li>• My research at Meta contributed to the Meta-Spotify integration and Facebook Sports cards, leading to <strong>over a billion users sharing Spotify content on Instagram.</strong></li>
-                        <li>• At Xbox, I designed and developed Xbox AURA, an agentic approach towards running playtests, and playtest data analysis resulting in an estimated savings of <strong>$400K annualky.</strong></li>
+                        <li>• My ethnographic research towards understanding how cultural narratives drive environmental behavior change won <strong>best paper at ACM DIS 2025.</strong></li>
+
                         <li>• My work has contributed to award-winning video games, including <strong>Halo</strong> and <strong>Perfect Dark.</strong></li>
-                        <li>• I designed, developed, run and maintain <a href="https://ooha-creator.github.io/" style="color: #999; text-decoration: underline;">Ooha Canvas</a>, an open source LLM interface for visual chaining.</li>
+
+                        <!-- <li>• My research at Meta contributed to the Meta-Spotify integration and Facebook Sports cards, leading to <strong>over a billion users sharing Spotify content on Instagram.</strong></li> -->
+                        
+                        <li>• At Xbox, I designed and developed Xbox AURA, an agentic approach towards analyzing playtest data, conducting unmoderated interviews resulting in an average of <strong>8 hours saved per study.</strong></li>
+                       
+                        <li>• I am an award winning Koret Mentor for my mentorship contributions to the HCI community at UCSC.</li>
                     </ul>
                 </div>
 
@@ -1157,20 +1162,20 @@
 
         const contributions = [
             {
-                title: "Meta Impact",
-                text: "My research at Meta contributed to the Meta-Spotify integration and Facebook Sports cards, leading to over a billion users sharing Spotify content on Instagram."
+                title: "Award winning UX Research",
+                text: "My ethnographic research towards understanding how cultural narratives drive environmental behavior change won best paper at ACM DIS 2025."
             },
             {
                 title: "Xbox AURA",
-                text: "At Xbox, I designed and developed Xbox AURA, an agentic approach towards running playtests, and playtest data analysis resulting in estimated savings of $400K annually."
+                text: "At Xbox, I designed and developed Xbox AURA, an agentic approach towards analyzing playtest data, conducting unmoderated interviews resulting in an average of 8 hours saved per study."
             },
             {
                 title: "Gaming Success",
                 text: "My work has contributed to award-winning video games, including Halo and Perfect Dark."
             },
             {
-                title: "Ooha Canvas",
-                text: "I designed, developed, run and maintain Ooha Canvas, an open source LLM interface for visual chaining."
+                title: "Koret Mentor",
+                text: "I am an award winning Koret Mentor for my mentorship contributions to the HCI community at UCSC."
             }
         ];
 
@@ -1217,13 +1222,12 @@
             const cols = Math.floor(containerWidth / tileSize);
             const rows = Math.floor(containerHeight / tileSize);
             
-            // Set canvas to fill container completely
-            canvas.width = containerWidth;
-            canvas.height = containerHeight;
+            // Set canvas to exact tile dimensions (no gaps)
+            canvas.width = cols * tileSize;
+            canvas.height = rows * tileSize;
             
-            // We'll still use the calculated cols/rows for grid logic
             console.log('Canvas initialized:', canvas.width, 'x', canvas.height);
-            console.log('Grid:', cols, 'x', rows);
+            console.log('Grid:', cols, 'x', rows, 'tiles');
             console.log('Canvas context valid:', !!ctx);
             
             // Create maze (1 = wall, 0 = path with dot)
