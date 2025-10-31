@@ -176,9 +176,12 @@
             width: 100%;
             height: 100%;
             image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
             display: block;
             background: #000000;
             transition: opacity 0.2s ease;
+            object-fit: fill;
         }
 
         .pixel-popup {
@@ -1207,15 +1210,82 @@
             
             // Set canvas size - use parent container dimensions
             const container = document.getElementById('pacmanGame');
-            canvas.width = container.offsetWidth || 800;
-            canvas.height = container.offsetHeight || 500;
-            
-            console.log('Canvas initialized:', canvas.width, 'x', canvas.height);
-            console.log('Canvas context valid:', !!ctx);
+            const containerWidth = container.clientWidth || 800;
+            const containerHeight = container.clientHeight || 500;
             
             const tileSize = 20;
-            const cols = Math.floor(canvas.width / tileSize);
-            const rows = Math.floor(canvas.height / tileSize);
+            const cols = Math.floor(containerWidth / tileSize);
+            const rows = Math.floor(containerHeight / tileSize);
+            
+            // Set canvas to fill container completely
+            canvas.width = containerWidth;
+            canvas.height = containerHeight;
+            
+            // We'll still use the calculated cols/rows for grid logic
+            console.log('Canvas initialized:', canvas.width, 'x', canvas.height);
+            console.log('Grid:', cols, 'x', rows);
+            console.log('Canvas context valid:', !!ctx);
+            
+            // Create maze (1 = wall, 0 = path with dot)
+            const maze = [];
+            const tunnelRow = Math.floor(rows / 2); // Middle row for tunnel
+            
+            for (let y = 0; y < rows; y++) {
+                maze[y] = [];
+                for (let x = 0; x < cols; x++) {
+                    // Create tunnels on left and right sides (middle rows)
+                    if ((x === 0 || x === cols - 1) && (y >= tunnelRow - 1 && y <= tunnelRow + 1)) {
+                        maze[y][x] = 0; // Open tunnel
+                    }
+                    // Create walls around the border (except tunnels)
+                    else if (x === 0 || x === cols - 1 || y === 0 || y === rows - 1) {
+                        maze[y][x] = 1;
+                    }
+                    // Create 2x2 wall blocks in a grid pattern (every 5 tiles)
+                    else if (x % 5 === 2 && y % 5 === 2 && x < cols - 2 && y < rows - 2) {
+                        // Create 2x2 wall blocks
+                        if ((x % 5 === 2 || x % 5 === 3) && (y % 5 === 2 || y % 5 === 3)) {
+                            maze[y][x] = 1;
+                        } else {
+                            maze[y][x] = 0;
+                        }
+                    }
+                    // Add some horizontal wall segments
+                    else if (y % 10 === 5 && x % 4 === 1 && x > 5 && x < cols - 5) {
+                        if (x % 8 !== 4) { // Leave gaps
+                            maze[y][x] = 1;
+                        } else {
+                            maze[y][x] = 0;
+                        }
+                    }
+                    // Add some vertical wall segments
+                    else if (x % 10 === 7 && y % 4 === 1 && y > 5 && y < rows - 5) {
+                        if (y % 8 !== 4) { // Leave gaps
+                            maze[y][x] = 1;
+                        } else {
+                            maze[y][x] = 0;
+                        }
+                    }
+                    else {
+                        maze[y][x] = 0; // Path with dot
+                    }
+                }
+            }
+            
+            // Clear starting area for Pac-Man
+            maze[2][2] = 0;
+            maze[2][3] = 0;
+            maze[3][2] = 0;
+            maze[1][2] = 0;
+            
+            // Track collected dots
+            const dots = [];
+            for (let y = 0; y < rows; y++) {
+                dots[y] = [];
+                for (let x = 0; x < cols; x++) {
+                    dots[y][x] = (maze[y][x] === 0); // Dot exists if it's a path
+                }
+            }
             
             // Pac-Man
             const pacman = {
@@ -1226,20 +1296,69 @@
                 speed: 150
             };
             
-            // Power-ups (one for each contribution)
-            const powerups = [
-                { x: Math.floor(cols * 0.7), y: Math.floor(rows * 0.3), active: true, contribution: 0, color: '#FF1493' },
-                { x: Math.floor(cols * 0.3), y: Math.floor(rows * 0.7), active: true, contribution: 1, color: '#00FF00' },
-                { x: Math.floor(cols * 0.8), y: Math.floor(rows * 0.8), active: true, contribution: 2, color: '#FF6347' },
-                { x: Math.floor(cols * 0.5), y: Math.floor(rows * 0.5), active: true, contribution: 3, color: '#1E90FF' }
+            // Power-ups (one for each contribution) - place on non-wall tiles
+            const powerups = [];
+            const powerupPositions = [
+                { xRatio: 0.7, yRatio: 0.3, contribution: 0, color: '#FF1493' },
+                { xRatio: 0.3, yRatio: 0.7, contribution: 1, color: '#00FF00' },
+                { xRatio: 0.8, yRatio: 0.8, contribution: 2, color: '#FF6347' },
+                { xRatio: 0.5, yRatio: 0.5, contribution: 3, color: '#1E90FF' }
             ];
             
-            // Enemies (Ghosts)
-            const enemies = [
-                { x: Math.floor(cols * 0.8), y: 2, color: '#FF0000', direction: 0, speed: 200, lastMove: Date.now() },
-                { x: Math.floor(cols * 0.2), y: Math.floor(rows * 0.8), color: '#FF69B4', direction: 1, speed: 250, lastMove: Date.now() },
-                { x: Math.floor(cols * 0.5), y: Math.floor(rows * 0.2), color: '#00CED1', direction: 2, speed: 220, lastMove: Date.now() }
+            powerupPositions.forEach(pos => {
+                let x = Math.floor(cols * pos.xRatio);
+                let y = Math.floor(rows * pos.yRatio);
+                
+                // Find nearest non-wall position
+                while (maze[y] && maze[y][x] === 1) {
+                    x = Math.max(1, x - 1);
+                }
+                
+                powerups.push({ 
+                    x, y, 
+                    active: true, 
+                    contribution: pos.contribution, 
+                    color: pos.color 
+                });
+                
+                // Clear dots around powerup
+                if (dots[y]) {
+                    dots[y][x] = false;
+                    if (dots[y][x-1]) dots[y][x-1] = false;
+                    if (dots[y][x+1]) dots[y][x+1] = false;
+                    if (dots[y-1] && dots[y-1][x]) dots[y-1][x] = false;
+                    if (dots[y+1] && dots[y+1][x]) dots[y+1][x] = false;
+                }
+            });
+            
+            // Enemies (Ghosts) - place on non-wall tiles
+            const enemies = [];
+            const enemyPositions = [
+                { xRatio: 0.8, yRatio: 0.15, color: '#FF0000', speed: 200 },
+                { xRatio: 0.2, yRatio: 0.8, color: '#FF69B4', speed: 250 },
+                { xRatio: 0.5, yRatio: 0.2, color: '#00CED1', speed: 220 }
             ];
+            
+            enemyPositions.forEach(pos => {
+                let x = Math.floor(cols * pos.xRatio);
+                let y = Math.floor(rows * pos.yRatio);
+                
+                // Find nearest non-wall position
+                while (maze[y] && maze[y][x] === 1) {
+                    x = Math.max(1, x - 1);
+                    if (x === 1) {
+                        y = Math.max(1, y - 1);
+                    }
+                }
+                
+                enemies.push({ 
+                    x, y, 
+                    color: pos.color, 
+                    direction: Math.floor(Math.random() * 4), 
+                    speed: pos.speed, 
+                    lastMove: Date.now() 
+                });
+            });
             
             console.log('Game started! Cols:', cols, 'Rows:', rows);
             console.log('Powerups:', powerups);
@@ -1378,6 +1497,36 @@
                 ctx.fillStyle = '#000000';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
+                // Draw maze walls
+                ctx.fillStyle = '#0000FF'; // Blue walls like classic Pac-Man
+                for (let y = 0; y < rows; y++) {
+                    for (let x = 0; x < cols; x++) {
+                        if (maze[y][x] === 1) {
+                            // Draw wall with slight inset for visual effect
+                            ctx.fillRect(
+                                x * tileSize + 1, 
+                                y * tileSize + 1, 
+                                tileSize - 2, 
+                                tileSize - 2
+                            );
+                        }
+                    }
+                }
+                
+                // Draw dots
+                ctx.fillStyle = '#FFFFFF';
+                for (let y = 0; y < rows; y++) {
+                    for (let x = 0; x < cols; x++) {
+                        if (dots[y][x]) {
+                            const centerX = x * tileSize + tileSize / 2;
+                            const centerY = y * tileSize + tileSize / 2;
+                            ctx.beginPath();
+                            ctx.arc(centerX, centerY, 2, 0, Math.PI * 2);
+                            ctx.fill();
+                        }
+                    }
+                }
+                
                 drawCount++;
                 if (drawCount === 1) {
                     console.log('Grid drawn successfully!');
@@ -1398,28 +1547,46 @@
                         enemy.direction = Math.floor(Math.random() * 4);
                     }
                     
-                    // Move in current direction
-                    const oldX = enemy.x;
-                    const oldY = enemy.y;
+                    // Calculate new position
+                    let newX = enemy.x;
+                    let newY = enemy.y;
                     
                     if (enemy.direction === 0) { // right
-                        enemy.x = Math.min(enemy.x + 1, cols - 1);
+                        newX = enemy.x + 1;
                     } else if (enemy.direction === 1) { // down
-                        enemy.y = Math.min(enemy.y + 1, rows - 1);
+                        newY = enemy.y + 1;
                     } else if (enemy.direction === 2) { // left
-                        enemy.x = Math.max(enemy.x - 1, 0);
+                        newX = enemy.x - 1;
                     } else if (enemy.direction === 3) { // up
-                        enemy.y = Math.max(enemy.y - 1, 0);
+                        newY = enemy.y - 1;
                     }
                     
-                    // If hit a wall, change direction
-                    if (enemy.x === oldX && enemy.y === oldY) {
+                    // Wraparound for tunnels
+                    if (newX < 0) {
+                        newX = cols - 1;
+                    } else if (newX >= cols) {
+                        newX = 0;
+                    }
+                    
+                    // Check if new position is valid (not a wall)
+                    if (newY >= 0 && newY < rows && maze[newY][newX] === 0) {
+                        enemy.x = newX;
+                        enemy.y = newY;
+                    } else {
+                        // Hit a wall, change direction
                         enemy.direction = Math.floor(Math.random() * 4);
                     }
                 });
             }
             
             function checkCollisions() {
+                // Check collision with dots
+                if (dots[pacman.y] && dots[pacman.y][pacman.x]) {
+                    dots[pacman.y][pacman.x] = false; // Eat the dot
+                    score += 2;
+                    document.getElementById('score').textContent = score;
+                }
+                
                 // Check collision with enemies
                 enemies.forEach(enemy => {
                     if (pacman.x === enemy.x && pacman.y === enemy.y) {
@@ -1457,24 +1624,37 @@
                 lastUpdate = now;
                 
                 // Update Pac-Man position
-                const oldX = pacman.x;
-                const oldY = pacman.y;
+                let newX = pacman.x;
+                let newY = pacman.y;
                 
                 if (gameKeys['ArrowRight'] || gameKeys['d']) {
                     pacman.direction = 0;
-                    pacman.x = Math.min(pacman.x + 1, cols - 1);
+                    newX = pacman.x + 1;
                 }
                 if (gameKeys['ArrowDown'] || gameKeys['s']) {
                     pacman.direction = 1;
-                    pacman.y = Math.min(pacman.y + 1, rows - 1);
+                    newY = pacman.y + 1;
                 }
                 if (gameKeys['ArrowLeft'] || gameKeys['a']) {
                     pacman.direction = 2;
-                    pacman.x = Math.max(pacman.x - 1, 0);
+                    newX = pacman.x - 1;
                 }
                 if (gameKeys['ArrowUp'] || gameKeys['w']) {
                     pacman.direction = 3;
-                    pacman.y = Math.max(pacman.y - 1, 0);
+                    newY = pacman.y - 1;
+                }
+                
+                // Wraparound for tunnels
+                if (newX < 0) {
+                    newX = cols - 1; // Wrap to right side
+                } else if (newX >= cols) {
+                    newX = 0; // Wrap to left side
+                }
+                
+                // Only move if new position is valid (not a wall)
+                if (newY >= 0 && newY < rows && maze[newY][newX] === 0) {
+                    pacman.x = newX;
+                    pacman.y = newY;
                 }
                 
                 // Update enemies
