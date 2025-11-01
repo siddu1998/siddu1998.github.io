@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rainforest Design System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Rainforest Colors */
+            --canopy-green: #1a4d2e;
+            --forest-green: #2d6a4f;
+            --moss-green: #52b788;
+            --leaf-green: #74c69d;
+            --mist-green: #95d5b2;
+            
+            --orchid-purple: #9d4edd;
+            --bird-paradise: #ff6b35;
+            --golden-frog: #ffd60a;
+            --sky-blue: #4cc9f0;
+            
+            /* Neutrals */
+            --black: #1a1a1a;
+            --gray-800: #2d2d2d;
+            --gray-600: #666666;
+            --gray-400: #999999;
+            --gray-200: #e5e5e5;
+            --gray-100: #f5f5f5;
+            --white: #ffffff;
+            
+            /* Spacing - Fibonacci */
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 13px;
+            --space-lg: 21px;
+            --space-xl: 34px;
+            --space-2xl: 55px;
+            --space-3xl: 89px;
+        }
+
+        body {
+            background: var(--white);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--black);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 8rem 6rem 6rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .hero h1 {
+            font-size: clamp(4rem, 10vw, 8rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 0.95;
+            margin-bottom: 2rem;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: var(--gray-600);
+            max-width: 800px;
+            font-weight: 300;
+            line-height: 1.5;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 6rem;
+        }
+
+        /* Section */
+        .section {
+            padding: 6rem 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+        }
+
+        .section-description {
+            font-size: 1.25rem;
+            color: var(--gray-600);
+            margin-bottom: 4rem;
+            max-width: 900px;
+        }
+
+        /* Inspiration Grid - Side by Side */
+        .inspiration-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+            align-items: start;
+        }
+
+        .inspiration-item {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .inspiration-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gray-400);
+            font-weight: 600;
+        }
+
+        .inspiration-image {
+            width: 100%;
+            aspect-ratio: 3/2;
+            background: var(--gray-100);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-400);
+            font-size: 0.9rem;
+            border: 1px solid var(--gray-200);
+            overflow: hidden;
+        }
+
+        .inspiration-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .component-showcase {
+            background: var(--white);
+            padding: 3rem;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+        }
+
+        .component-description {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+
+        /* Color System */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .color-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .color-swatch {
+            height: 140px;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid var(--gray-200);
+            transition: transform 0.2s ease;
+            cursor: pointer;
+        }
+
+        .color-swatch:hover {
+            transform: translateY(-4px);
+        }
+
+        .color-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .color-value {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--gray-600);
+        }
+
+        /* Typography */
+        .type-scale {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .type-sample {
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .type-sample:last-child {
+            border-bottom: none;
+        }
+
+        .type-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gray-400);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .type-display {
+            font-size: 4rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .type-h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+        }
+
+        .type-h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+        }
+
+        .type-body {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .type-specs {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--gray-600);
+            margin-top: 0.5rem;
+        }
+
+        /* Spacing System */
+        .spacing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .spacing-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .spacing-visual {
+            background: var(--moss-green);
+            border-radius: 4px;
+        }
+
+        .spacing-label {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--gray-600);
+            text-align: center;
+        }
+
+        /* Buttons */
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .button-item {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .rf-button {
+            padding: 13px 34px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .rf-button-primary {
+            background: var(--forest-green);
+            color: white;
+        }
+
+        .rf-button-primary:hover {
+            background: var(--canopy-green);
+            transform: translateY(-2px);
+        }
+
+        .rf-button-secondary {
+            background: white;
+            color: var(--forest-green);
+            border: 2px solid var(--forest-green);
+        }
+
+        .rf-button-secondary:hover {
+            background: var(--gray-100);
+        }
+
+        .rf-button-accent {
+            background: var(--orchid-purple);
+            color: white;
+        }
+
+        .rf-button-accent:hover {
+            background: #8b3ec9;
+            transform: translateY(-2px);
+        }
+
+        /* Loader Animations */
+        .loader-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .loader-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            padding: 3rem;
+            background: var(--gray-100);
+            border-radius: 8px;
+        }
+
+        .loader-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        /* Leaf Loader */
+        .leaf-loader {
+            width: 60px;
+            height: 60px;
+            position: relative;
+        }
+
+        .leaf {
+            position: absolute;
+            width: 20px;
+            height: 28px;
+            background: var(--moss-green);
+            border-radius: 0 50% 50% 50%;
+            animation: leaf-spin 2s ease-in-out infinite;
+        }
+
+        .leaf:nth-child(1) {
+            top: 0;
+            left: 50%;
+            transform-origin: center;
+            animation-delay: 0s;
+        }
+
+        .leaf:nth-child(2) {
+            top: 50%;
+            right: 0;
+            transform-origin: center;
+            animation-delay: 0.4s;
+        }
+
+        .leaf:nth-child(3) {
+            bottom: 0;
+            left: 0;
+            transform-origin: center;
+            animation-delay: 0.8s;
+        }
+
+        @keyframes leaf-spin {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+        }
+
+        /* Growth Loader */
+        .growth-loader {
+            width: 60px;
+            height: 60px;
+            position: relative;
+        }
+
+        .stem {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 3px;
+            height: 0;
+            background: var(--forest-green);
+            transform: translateX(-50%);
+            animation: grow-stem 2s ease-in-out infinite;
+        }
+
+        @keyframes grow-stem {
+            0% {
+                height: 0;
+            }
+            50% {
+                height: 50px;
+            }
+            100% {
+                height: 0;
+            }
+        }
+
+        .bud {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            width: 16px;
+            height: 16px;
+            background: var(--orchid-purple);
+            border-radius: 50%;
+            transform: translateX(-50%) scale(0);
+            animation: bloom 2s ease-in-out infinite;
+        }
+
+        @keyframes bloom {
+            0%, 25% {
+                transform: translateX(-50%) scale(0);
+            }
+            50% {
+                transform: translateX(-50%) scale(1);
+            }
+            75%, 100% {
+                transform: translateX(-50%) scale(0);
+            }
+        }
+
+        /* Ripple Loader */
+        .ripple-loader {
+            width: 60px;
+            height: 60px;
+            position: relative;
+        }
+
+        .ripple {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border: 3px solid var(--sky-blue);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: ripple-expand 2s ease-out infinite;
+        }
+
+        .ripple:nth-child(2) {
+            animation-delay: 0.7s;
+        }
+
+        @keyframes ripple-expand {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            100% {
+                width: 60px;
+                height: 60px;
+                opacity: 0;
+            }
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .rf-card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .rf-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--leaf-green), var(--moss-green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-text {
+            font-size: 0.95rem;
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+
+        /* Forms */
+        .form-grid {
+            display: grid;
+            gap: 1.5rem;
+            max-width: 600px;
+            margin-bottom: 3rem;
+        }
+
+        .rf-input,
+        .rf-textarea {
+            width: 100%;
+            padding: 13px 21px;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background: white;
+        }
+
+        .rf-input:focus,
+        .rf-textarea:focus {
+            outline: none;
+            border-color: var(--moss-green);
+            box-shadow: 0 0 0 3px rgba(82, 183, 136, 0.1);
+        }
+
+        .rf-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* Toggle */
+        .toggle-demo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .rf-toggle {
+            width: 52px;
+            height: 28px;
+            background: var(--gray-200);
+            border-radius: 100px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .rf-toggle.active {
+            background: var(--moss-green);
+        }
+
+        .toggle-thumb {
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .rf-toggle.active .toggle-thumb {
+            transform: translateX(24px);
+        }
+
+        /* Progress Bar */
+        .progress-demo {
+            margin-bottom: 3rem;
+        }
+
+        .rf-progress {
+            width: 100%;
+            max-width: 600px;
+            height: 8px;
+            background: var(--gray-200);
+            border-radius: 100px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--forest-green), var(--moss-green));
+            border-radius: 100px;
+            animation: progress-animate 3s ease-in-out infinite;
+        }
+
+        @keyframes progress-animate {
+            0% {
+                width: 0%;
+            }
+            50% {
+                width: 100%;
+            }
+            100% {
+                width: 0%;
+            }
+        }
+
+        /* Voice Agent */
+        .voice-agent {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            padding: 4rem;
+            background: var(--gray-100);
+            border-radius: 8px;
+            margin-bottom: 3rem;
+        }
+
+        .voice-button {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--forest-green);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .voice-button:hover {
+            transform: scale(1.05);
+            background: var(--canopy-green);
+        }
+
+        .voice-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 30px;
+            height: 30px;
+            background: white;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .voice-button.active {
+            animation: voice-pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes voice-pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(45, 106, 79, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 0 20px rgba(45, 106, 79, 0);
+            }
+        }
+
+        .voice-label {
+            font-size: 0.95rem;
+            color: var(--gray-600);
+        }
+
+        /* Spec Table */
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 3rem;
+        }
+
+        .spec-table th,
+        .spec-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .spec-table th {
+            font-weight: 600;
+            color: var(--black);
+        }
+
+        .spec-table td {
+            color: var(--gray-600);
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        /* Image Upload Prompts */
+        .upload-prompts {
+            background: var(--gray-100);
+            padding: 3rem;
+            border-radius: 8px;
+            margin-bottom: 3rem;
+        }
+
+        .upload-prompts h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .upload-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .upload-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .upload-item strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--black);
+        }
+
+        .upload-item p {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            line-height: 1.5;
+        }
+
+        /* Code Block */
+        .code-block {
+            background: var(--black);
+            color: #a3e635;
+            padding: 2rem;
+            border-radius: 8px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            margin-bottom: 3rem;
+            line-height: 1.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero,
+            .container {
+                padding-left: 3rem;
+                padding-right: 3rem;
+            }
+
+            .hero {
+                padding-top: 4rem;
+                padding-bottom: 4rem;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .section {
+                padding: 4rem 0;
+            }
+
+            .inspiration-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero,
+            .container {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero -->
+    <div class="hero">
+        <h1>Rainforest<br>Design System</h1>
+        <p>A modern design language inspired by the growth patterns, organic forms, and natural harmony of rainforest ecosystems. Built for next-generation AI products.</p>
+    </div>
+
+    <!-- Colors -->
+    <div class="container">
+        <section class="section">
+            <h2 class="section-title">Color System</h2>
+            <p class="section-description">A carefully curated palette derived from rainforest elements—canopy greens, vibrant flora, and natural tones.</p>
+
+            <div class="inspiration-grid">
+                <div class="inspiration-item">
+                    <div class="inspiration-label">Inspiration</div>
+                    <div class="inspiration-image">
+                        Upload: Dense rainforest canopy with layered greens<br>
+                        (aerial view or looking up through trees)
+                    </div>
+                    <p class="component-description"><strong>Canopy Layers</strong> — Multiple shades of green represent the layered structure of the rainforest, from deep shadows to bright sunlit leaves.</p>
+                </div>
+
+                <div class="inspiration-item">
+                    <div class="inspiration-label">Applied Colors</div>
+                    <div class="component-showcase">
+                        <div class="color-grid" style="width: 100%;">
+                            <div class="color-item">
+                                <div class="color-swatch" style="background: #1a4d2e;"></div>
+                                <div class="color-name">Canopy Green</div>
+                                <div class="color-value">#1a4d2e</div>
+                            </div>
+                            <div class="color-item">
+                                <div class="color-swatch" style="background: #2d6a4f;"></div>
+                                <div class="color-name">Forest Green</div>
+                                <div class="color-value">#2d6a4f</div>
+                            </div>
+                            <div class="color-item">
+                                <div class="color-swatch" style="background: #52b788;"></div>
+                                <div class="color-name">Moss Green</div>
+                                <div class="color-value">#52b788</div>
+                            </div>
+                            <div class="color-item">
+                                <div class="color-swatch" style="background: #74c69d;"></div>
+                                <div class="color-name">Leaf Green</div>
+                                <div class="color-value">#74c69d</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="inspiration-grid">
+                <div class="inspiration-item">
+                    <div class="inspiration-label">Inspiration</div>
+                    <div class="inspiration-image">
+                        Upload: Vibrant tropical flowers<br>
+                        (orchids, hibiscus, bird of paradise)
+                    </div>
+                    <p class="component-description"><strong>Exotic Flora</strong> — Accent colors drawn from the vibrant blooms that add life and energy to the forest floor.</p>
+                </div>
+
+                <div class="inspiration-item">
+                    <div class="inspiration-label">Accent Colors</div>
+                    <div class="component-showcase">
+                        <div class="color-grid" style="width: 100%;">
+                            <div class="color-item">
+                                <div class="color-swatch" style="background: #9d4edd;"></div>
+                                <div class="color-name">Orchid Purple</div>
+                                <div class="color-value">#9d4edd</div>
+                            </div>
+                            <div class="color-item">
+                                <div class="color-swatch" style="background: #ff6b35;"></div>
+                                <div class="color-name">Bird of Paradise</div>
+                                <div class="color-value">#ff6b35</div>
+                            </div>
+                            <div class="color-item">
+                                <div class="color-swatch" style="background: #ffd60a;"></div>
+                                <div class="color-name">Golden Frog</div>
+                                <div class="color-value">#ffd60a</div>
+                            </div>
+                            <div class="color-item">
+                                <div class="color-swatch" style="background: #4cc9f0;"></div>
+                                <div class="color-name">Sky Blue</div>
+                                <div class="color-value">#4cc9f0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Typography -->
+        <section class="section">
+            <h2 class="section-title">Typography</h2>
+            <p class="section-description">Clean, modern typefaces ensure clarity and readability across all touchpoints.</p>
+
+            <div class="type-scale">
+                <div class="type-sample">
+                    <div class="type-label">Display</div>
+                    <div class="type-display">Rainforest</div>
+                    <div class="type-specs">Inter • 700 • 4rem • -0.03em tracking</div>
+                </div>
+
+                <div class="type-sample">
+                    <div class="type-label">Heading 1</div>
+                    <div class="type-h1">Natural Growth Patterns</div>
+                    <div class="type-specs">Inter • 700 • 3rem • -0.02em tracking</div>
+                </div>
+
+                <div class="type-sample">
+                    <div class="type-label">Heading 2</div>
+                    <div class="type-h2">Organic Components</div>
+                    <div class="type-specs">Inter • 600 • 2rem • -0.01em tracking</div>
+                </div>
+
+                <div class="type-sample">
+                    <div class="type-label">Body Text</div>
+                    <div class="type-body">The rainforest ecosystem demonstrates perfect balance between complexity and harmony. Each element contributes to the whole, creating sustainable patterns that inspire our design philosophy.</div>
+                    <div class="type-specs">Inter • 400 • 1rem • 1.6 line-height</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Spacing -->
+        <section class="section">
+            <h2 class="section-title">Spacing System</h2>
+            <p class="section-description">Based on the Fibonacci sequence—mirroring natural growth patterns found throughout the rainforest.</p>
+
+            <div class="spacing-grid">
+                <div class="spacing-item">
+                    <div class="spacing-visual" style="width: 4px; height: 4px;"></div>
+                    <div class="spacing-label">XS<br>4px</div>
+                </div>
+                <div class="spacing-item">
+                    <div class="spacing-visual" style="width: 8px; height: 8px;"></div>
+                    <div class="spacing-label">SM<br>8px</div>
+                </div>
+                <div class="spacing-item">
+                    <div class="spacing-visual" style="width: 13px; height: 13px;"></div>
+                    <div class="spacing-label">MD<br>13px</div>
+                </div>
+                <div class="spacing-item">
+                    <div class="spacing-visual" style="width: 21px; height: 21px;"></div>
+                    <div class="spacing-label">LG<br>21px</div>
+                </div>
+                <div class="spacing-item">
+                    <div class="spacing-visual" style="width: 34px; height: 34px;"></div>
+                    <div class="spacing-label">XL<br>34px</div>
+                </div>
+                <div class="spacing-item">
+                    <div class="spacing-visual" style="width: 55px; height: 55px;"></div>
+                    <div class="spacing-label">2XL<br>55px</div>
+                </div>
+                <div class="spacing-item">
+                    <div class="spacing-visual" style="width: 89px; height: 89px;"></div>
+                    <div class="spacing-label">3XL<br>89px</div>
+                </div>
+            </div>
+
+            <table class="spec-table">
+                <thead>
+                    <tr>
+                        <th>Token</th>
+                        <th>Value</th>
+                        <th>Use Case</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>--space-xs</td>
+                        <td>4px</td>
+                        <td>Tight spacing, icons</td>
+                    </tr>
+                    <tr>
+                        <td>--space-sm</td>
+                        <td>8px</td>
+                        <td>Component padding</td>
+                    </tr>
+                    <tr>
+                        <td>--space-md</td>
+                        <td>13px</td>
+                        <td>Element margins</td>
+                    </tr>
+                    <tr>
+                        <td>--space-lg</td>
+                        <td>21px</td>
+                        <td>Section spacing</td>
+                    </tr>
+                    <tr>
+                        <td>--space-xl</td>
+                        <td>34px</td>
+                        <td>Large gaps</td>
+                    </tr>
+                    <tr>
+                        <td>--space-2xl</td>
+                        <td>55px</td>
+                        <td>Container padding</td>
+                    </tr>
+                    <tr>
+                        <td>--space-3xl</td>
+                        <td>89px</td>
+                        <td>Page sections</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Buttons -->
+        <section class="section">
+            <h2 class="section-title">Buttons</h2>
+            <p class="section-description">Organic shapes with smooth interactions.</p>
+
+            <div class="inspiration-grid">
+                <div class="inspiration-item">
+                    <div class="inspiration-label">Inspiration</div>
+                    <div class="inspiration-image">
+                        Upload: Smooth river stones or pebbles<br>
+                        (rounded, organic shapes)
+                    </div>
+                    <p class="component-description"><strong>Smooth Stones</strong> — Rounded corners (8px radius) inspired by water-smoothed pebbles, creating approachable, touchable interfaces.</p>
+                </div>
+
+                <div class="inspiration-item">
+                    <div class="inspiration-label">Button Components</div>
+                    <div class="component-showcase">
+                        <div class="button-grid" style="width: 100%;">
+                            <div class="button-item">
+                                <button class="rf-button rf-button-primary">Primary Action</button>
+                                <div class="type-specs">padding: 13px 34px • radius: 8px</div>
+                            </div>
+                            <div class="button-item">
+                                <button class="rf-button rf-button-secondary">Secondary</button>
+                                <div class="type-specs">border: 2px solid • background: transparent</div>
+                            </div>
+                            <div class="button-item">
+                                <button class="rf-button rf-button-accent">Accent</button>
+                                <div class="type-specs">accent color • hover lift effect</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loaders -->
+        <section class="section">
+            <h2 class="section-title">Loading States</h2>
+            <p class="section-description">Animations inspired by natural growth, water, and life cycles.</p>
+
+            <div class="inspiration-grid">
+                <div class="inspiration-item">
+                    <div class="inspiration-label">Inspiration</div>
+                    <div class="inspiration-image">
+                        Upload: Fern unfurling or plant growing<br>
+                        (time-lapse or macro photography)
+                    </div>
+                    <p class="component-description"><strong>Growth & Movement</strong> — Loading animations mimic natural processes: leaves sprouting, water rippling, vines growing.</p>
+                </div>
+
+                <div class="inspiration-item">
+                    <div class="inspiration-label">Loader Animations</div>
+                    <div class="component-showcase">
+                        <div class="loader-grid" style="width: 100%;">
+                            <div class="loader-item">
+                                <div class="leaf-loader">
+                                    <div class="leaf"></div>
+                                    <div class="leaf"></div>
+                                    <div class="leaf"></div>
+                                </div>
+                                <div class="loader-name">Leaf Pulse</div>
+                            </div>
+
+                            <div class="loader-item">
+                                <div class="growth-loader">
+                                    <div class="stem"></div>
+                                    <div class="bud"></div>
+                                </div>
+                                <div class="loader-name">Growth</div>
+                            </div>
+
+                            <div class="loader-item">
+                                <div class="ripple-loader">
+                                    <div class="ripple"></div>
+                                    <div class="ripple"></div>
+                                </div>
+                                <div class="loader-name">Water Ripple</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Voice Agent -->
+        <section class="section">
+            <h2 class="section-title">Voice Interface</h2>
+            <p class="section-description">Interactive voice agent with pulsing feedback, inspired by natural rhythms.</p>
+
+            <div class="inspiration-grid">
+                <div class="inspiration-item">
+                    <div class="inspiration-label">Inspiration</div>
+                    <div class="inspiration-image">
+                        Upload: Water droplet creating ripples<br>
+                        (macro photography of water surface)
+                    </div>
+                    <p class="component-description"><strong>Ripple Effect</strong> — The pulsing animation echoes ripples expanding across water when activated.</p>
+                </div>
+
+                <div class="inspiration-item">
+                    <div class="inspiration-label">Voice Component</div>
+                    <div class="component-showcase">
+                        <div class="voice-agent">
+                            <button class="voice-button" onclick="this.classList.toggle('active')"></button>
+                            <div class="voice-label">Click to activate voice</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cards -->
+        <section class="section">
+            <h2 class="section-title">Cards</h2>
+            <p class="section-description">Content containers with subtle elevation and clean borders.</p>
+
+            <div class="card-grid">
+                <div class="rf-card">
+                    <div class="card-image-placeholder">🌿</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Lush Foliage</h3>
+                        <p class="card-text">Dense vegetation creates layers of life, providing shelter and sustenance.</p>
+                    </div>
+                </div>
+
+                <div class="rf-card">
+                    <div class="card-image-placeholder">🌺</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Vibrant Blooms</h3>
+                        <p class="card-text">Colorful flowers attract pollinators and bring energy to the ecosystem.</p>
+                    </div>
+                </div>
+
+                <div class="rf-card">
+                    <div class="card-image-placeholder">💧</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Water Cycle</h3>
+                        <p class="card-text">Rain and mist nourish all life, creating perfect balance.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Forms -->
+        <section class="section">
+            <h2 class="section-title">Form Elements</h2>
+            <p class="section-description">Clean input fields with subtle focus states.</p>
+
+            <div class="form-grid">
+                <input type="text" class="rf-input" placeholder="Enter your name">
+                <input type="email" class="rf-input" placeholder="Enter your email">
+                <textarea class="rf-textarea" placeholder="Your message"></textarea>
+                <button class="rf-button rf-button-primary">Submit</button>
+            </div>
+
+            <div class="toggle-demo">
+                <div class="rf-toggle" onclick="this.classList.toggle('active')">
+                    <div class="toggle-thumb"></div>
+                </div>
+                <span>Toggle switch</span>
+            </div>
+
+            <div class="progress-demo">
+                <div class="rf-progress">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Image Requirements -->
+        <section class="section">
+            <h2 class="section-title">Image Requirements</h2>
+            <p class="section-description">To complete this design system, please source and upload the following reference images:</p>
+
+            <div class="upload-prompts">
+                <div class="upload-list">
+                    <div class="upload-item">
+                        <strong>Rainforest Canopy</strong>
+                        <p>Aerial view or looking up through dense tree layers with filtered sunlight. Shows gradient of greens from dark to bright.</p>
+                    </div>
+
+                    <div class="upload-item">
+                        <strong>Tropical Flowers</strong>
+                        <p>Close-up of vibrant blooms—orchids, hibiscus, bird of paradise. High saturation, macro detail.</p>
+                    </div>
+
+                    <div class="upload-item">
+                        <strong>Smooth Stones/Pebbles</strong>
+                        <p>River-smoothed stones with organic, rounded forms. Natural texture and subtle color variation.</p>
+                    </div>
+
+                    <div class="upload-item">
+                        <strong>Plant Growth</strong>
+                        <p>Fern unfurling, seedling sprouting, or time-lapse of growth. Shows natural expansion and movement.</p>
+                    </div>
+
+                    <div class="upload-item">
+                        <strong>Water Ripples</strong>
+                        <p>Macro photography of water droplet creating concentric ripples on calm surface.</p>
+                    </div>
+
+                    <div class="upload-item">
+                        <strong>Moss & Texture</strong>
+                        <p>Close-up of moss-covered surfaces, showing soft organic texture and layered depth.</p>
+                    </div>
+
+                    <div class="upload-item">
+                        <strong>Tree Bark</strong>
+                        <p>Natural wood texture with organic patterns, showing age and character.</p>
+                    </div>
+
+                    <div class="upload-item">
+                        <strong>Morning Mist</strong>
+                        <p>Atmospheric fog through trees, creating soft gradients and depth.</p>
+                    </div>
+                </div>
+            </div>
+
+            <p style="margin-top: 2rem; color: var(--gray-600);">
+                <strong>Recommended sources:</strong> Unsplash, Pexels, Pixabay — Search terms: "Amazon rainforest aerial," "tropical orchid macro," "river stones," "fern unfurling time lapse," "water droplet ripple macro"
+            </p>
+        </section>
+
+        <!-- Design Tokens -->
+        <section class="section">
+            <h2 class="section-title">Design Tokens</h2>
+            <p class="section-description">Complete CSS variables for implementation.</p>
+
+            <div class="code-block">:root {
+  /* Primary Colors */
+  --canopy-green: #1a4d2e;
+  --forest-green: #2d6a4f;
+  --moss-green: #52b788;
+  --leaf-green: #74c69d;
+  --mist-green: #95d5b2;
+  
+  /* Accent Colors */
+  --orchid-purple: #9d4edd;
+  --bird-paradise: #ff6b35;
+  --golden-frog: #ffd60a;
+  --sky-blue: #4cc9f0;
+  
+  /* Neutrals */
+  --black: #1a1a1a;
+  --gray-800: #2d2d2d;
+  --gray-600: #666666;
+  --gray-400: #999999;
+  --gray-200: #e5e5e5;
+  --gray-100: #f5f5f5;
+  --white: #ffffff;
+  
+  /* Spacing (Fibonacci) */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 13px;
+  --space-lg: 21px;
+  --space-xl: 34px;
+  --space-2xl: 55px;
+  --space-3xl: 89px;
+  
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Roboto Mono', monospace;
+}</div>
+        </section>
+    </div>
+
+    <script>
+        // Color swatch click to copy
+        document.querySelectorAll('.color-swatch').forEach(swatch => {
+            swatch.addEventListener('click', function() {
+                const colorValue = this.nextElementSibling.nextElementSibling.textContent;
+                navigator.clipboard.writeText(colorValue);
+            });
+        });
+    </script>
+</body>
+</html>
