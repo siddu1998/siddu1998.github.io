@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Chess with AI Coach</title>
+    <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+            background-image: 
+                linear-gradient(rgba(200, 200, 200, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(200, 200, 200, 0.08) 1px, transparent 1px);
+            background-size: 60px 60px;
+            min-height: 100vh;
+            color: #1a1a1a;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 600px 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .header {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: #1a1a1a;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .setup-panel, .coaching-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 
+                0 1px 3px rgba(0, 0, 0, 0.04),
+                0 1px 2px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .board-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 
+                0 1px 3px rgba(0, 0, 0, 0.04),
+                0 1px 2px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        #myBoard {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Chess piece emoji styling */
+        #myBoard [class^="square-"] {
+            cursor: pointer;
+            position: relative;
+        }
+
+        /* Style for emoji pieces */
+        .emoji-piece {
+            font-size: 50px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            line-height: 1;
+            cursor: grab;
+            user-select: none;
+            -webkit-user-select: none;
+            pointer-events: none;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* White pieces - bright with strong black outline */
+        .emoji-piece[data-piece^="w"] {
+            color: #ffffff;
+            text-shadow: 
+                -2px -2px 0 #000,
+                2px -2px 0 #000,
+                -2px 2px 0 #000,
+                2px 2px 0 #000,
+                -2px 0 0 #000,
+                2px 0 0 #000,
+                0 -2px 0 #000,
+                0 2px 0 #000,
+                0 3px 5px rgba(0,0,0,0.4);
+            filter: brightness(1.15) contrast(1.1);
+        }
+
+        /* Black pieces - dark solid with depth */
+        .emoji-piece[data-piece^="b"] {
+            color: #1a1a1a;
+            text-shadow: 
+                0 1px 1px rgba(0,0,0,0.8),
+                0 2px 3px rgba(0,0,0,0.5),
+                0 3px 5px rgba(0,0,0,0.3);
+            filter: contrast(1.1);
+        }
+
+        /* Make board not selectable */
+        [class^="board-"] {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+        }
+
+        h2 {
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            padding-bottom: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .color-selector {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .color-option {
+            flex: 1;
+            padding: 15px;
+            border: 3px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .color-option:hover {
+            border-color: #1a1a1a;
+            background: #f8f9fa;
+        }
+
+        .color-option.selected {
+            border-color: #1a1a1a;
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px 20px;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .btn:hover:not(:disabled) {
+            background: #333;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #666;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #888;
+        }
+
+        .status-bar {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 3px solid #1a1a1a;
+        }
+
+        .status-bar p {
+            margin: 5px 0;
+            font-size: 0.95rem;
+        }
+
+        .status-bar strong {
+            color: #1a1a1a;
+        }
+
+        .coaching-chat {
+            height: 600px;
+            overflow-y: auto;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 10px;
+            padding: 20px;
+            background: #fafafa;
+            margin-top: 15px;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.coach {
+            background: white;
+            border-left: 3px solid #1a1a1a;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        }
+
+        .message.player {
+            background: #f0f0f0;
+            border-left: 3px solid #666;
+        }
+
+        .message.system {
+            background: whitesmoke;
+            border-left: 3px solid #c6c6c5;
+            font-style: italic;
+        }
+
+        .message-header {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .message-content {
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .message-content strong {
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .mini-board {
+            width: 280px;
+            height: 280px;
+            margin: 15px 0;
+            border: 2px solid rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Mini board emoji styling */
+        .mini-board .emoji-piece {
+            font-size: 10px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mini-board [class^="square-"] {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px;
+        }
+
+        /* Ensure mini board white pieces are also styled */
+        .mini-board .emoji-piece[data-piece^="w"] {
+            color: #ffffff;
+            text-shadow: 
+                -1.5px -1.5px 0 #000,
+                1.5px -1.5px 0 #000,
+                -1.5px 1.5px 0 #000,
+                1.5px 1.5px 0 #000,
+                -1.5px 0 0 #000,
+                1.5px 0 0 #000,
+                0 -1.5px 0 #000,
+                0 1.5px 0 #000,
+                0 2px 3px rgba(0,0,0,0.4);
+            filter: brightness(1.15);
+        }
+
+        .mini-board .emoji-piece[data-piece^="b"] {
+            color: #1a1a1a;
+            text-shadow: 
+                0 1px 1px rgba(0,0,0,0.6),
+                0 1px 2px rgba(0,0,0,0.4);
+        }
+
+        /* Square highlight animation */
+        @keyframes highlight-pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 0.9; }
+        }
+
+        .square-highlight {
+            animation: highlight-pulse 2s ease-in-out infinite;
+        }
+
+        .move-history {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .move-history h3 {
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .move-item {
+            padding: 8px;
+            border-bottom: 1px solid #f0f0f0;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .move-item:last-child {
+            border-bottom: none;
+        }
+
+        .thinking {
+            display: inline-block;
+            padding: 8px 15px;
+            background: #fff9e6;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .game-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .info-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            background: #1a1a1a;
+            color: white;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            margin-right: 8px;
+        }
+
+        @media (max-width: 1400px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                grid-column: 1;
+            }
+        }
+
+        .highlight-square {
+            box-shadow: inset 0 0 3px 3px yellow;
+        }
+
+        .settings-toggle {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .settings-toggle label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .settings-toggle input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        /* Header navigation */
+        .top-nav {
+            padding: 0.75rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+        }
+
+        .logo {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            text-decoration: none;
+        }
+
+        .back-btn {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="top-nav">
+        <a href="index.html" class="logo">Sai Siddartha Maram</a>
+        <a href="index.html" class="back-btn">← Back to Portfolio</a>
+    </header>
+
+    <div class="container">
+        <div class="header">
+            <h1>♟️ Learn Chess with AI Coach</h1>
+            <p>Improve your game with real-time Socratic coaching powered by Gemini or GPT-4o</p>
+        </div>
+
+        <!-- Left Panel: Setup & Controls -->
+        <div class="setup-panel">
+            <h2>🎮 Game Setup</h2>
+            
+            <div class="input-group">
+                <label for="aiProvider">AI Model Provider</label>
+                <select id="aiProvider">
+                    <option value="gemini" selected>Gemini 2.0 Flash (Google)</option>
+                    <option value="gpt4o">GPT-4o mini (OpenAI)</option>
+                </select>
+            </div>
+
+            <div class="input-group" id="geminiKeyGroup">
+                <label for="geminiApiKey">Gemini API Key</label>
+                <input type="password" id="geminiApiKey" placeholder="Enter your Gemini API key">
+                <small style="color: #666; margin-top: 5px; display: block;">Get your key from <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a></small>
+            </div>
+
+            <div class="input-group" id="gpt4oKeyGroup" style="display: none;">
+                <label for="gpt4oApiKey">OpenAI GPT-4o API Key</label>
+                <input type="password" id="gpt4oApiKey" placeholder="Enter your OpenAI API key">
+                <small style="color: #666; margin-top: 5px; display: block;">Get your key from <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI</a></small>
+            </div>
+
+            <div class="input-group">
+                <label>Choose Your Color</label>
+                <div class="color-selector">
+                    <div class="color-option selected" data-color="white">
+                        ⚪ White
+                    </div>
+                    <div class="color-option" data-color="black">
+                        ⚫ Black
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="difficulty">AI Difficulty</label>
+                <select id="difficulty">
+                    <option value="beginner">Beginner (Elo ~800)</option>
+                    <option value="intermediate" selected>Intermediate (Elo ~1200)</option>
+                    <option value="advanced">Advanced (Elo ~1600)</option>
+                    <option value="expert">Expert (Elo ~2000)</option>
+                </select>
+            </div>
+
+            <div class="settings-toggle">
+                <label>
+                    <input type="checkbox" id="coachingEnabled" checked>
+                    Enable AI Coaching
+                </label>
+            </div>
+
+            <button class="btn" id="startGame">Start New Game</button>
+            <button class="btn btn-secondary" id="resetGame" style="display:none;">Reset Game</button>
+
+            <div class="status-bar">
+                <p><strong>Status:</strong> <span id="gameStatus">Setup your game</span></p>
+                <p><strong>Turn:</strong> <span id="turnIndicator">-</span></p>
+                <p><strong>Material:</strong> <span id="materialCount">Equal</span></p>
+            </div>
+
+            <div class="move-history">
+                <h3>📜 Move History</h3>
+                <div id="moveList"></div>
+            </div>
+        </div>
+
+        <!-- Center Panel: Chess Board -->
+        <div class="board-container">
+            <div id="myBoard"></div>
+            <div style="text-align: center; margin-top: 10px; font-size: 0.9rem; color: #666;">
+                <span style="color: #fff; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;">♔</span> White pieces (outlined) | 
+                <span style="color: #2c2c2c;">♚</span> Black pieces (solid)
+            </div>
+            <div class="game-controls">
+                <button class="btn" id="undoMove" disabled>↶ Undo Move</button>
+            </div>
+        </div>
+
+        <!-- Right Panel: AI Coach -->
+        <div class="coaching-panel">
+            <h2>🎓 AI Chess Coach</h2>
+            <p style="color: #666; margin-bottom: 15px;">Your personal chess mentor providing insights and teaching moments</p>
+            
+            <div class="coaching-chat" id="coachingChat">
+                <div class="message system">
+                    <div class="message-content">
+                        👋 Welcome! I'm your AI chess coach. Once you start the game, I'll observe your moves and provide guidance to help you improve. I'll teach you about openings, tactics, strategy, and help you think critically about each position.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="user-input-section" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(0, 0, 0, 0.1);">
+                <label for="playerThoughts" style="display: block; margin-bottom: 8px; font-weight: 600; color: #555;">💭 Share Your Thoughts or Ask a Question</label>
+                <textarea 
+                    id="playerThoughts" 
+                    rows="3" 
+                    placeholder="What are you thinking about this position? Ask me anything about the game..." 
+                    style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 0.9rem; font-family: inherit; resize: vertical; margin-bottom: 8px;"></textarea>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn" id="shareThoughts" style="flex: 1; margin-top: 0;">💬 Send</button>
+                    <button class="btn btn-secondary" id="askCoach" style="flex: 1; margin-top: 0;">💡 Ask Coach</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+    
+    <script>
+        // Game state
+        let board = null;
+        let game = new Chess();
+        let playerColor = 'white';
+        let aiDifficulty = 'intermediate';
+        let geminiApiKey = '';
+        let gpt4oApiKey = '';
+        let aiProvider = 'gemini';
+        const GEMINI_MODEL = 'gemini-2.0-flash-exp';
+        const GPT4O_MODEL = 'gpt-4o-mini';
+        let coachingEnabled = true;
+        let moveHistory = [];
+        let gameStarted = false;
+        let isAiThinking = false;
+        let lastCoachingMove = 0; // Track when we last provided coaching
+        let movesSinceCoaching = 0;
+
+        // Initialize
+        $(document).ready(function() {
+            initializeBoard();
+            setupEventListeners();
+        });
+
+        // Piece emoji mapping
+        const pieceEmojis = {
+            'wP': '♙', 'wN': '♘', 'wB': '♗', 'wR': '♖', 'wQ': '♕', 'wK': '♔',
+            'bP': '♟', 'bN': '♞', 'bB': '♝', 'bR': '♜', 'bQ': '♛', 'bK': '♚'
+        };
+
+        function convertImagesToEmojis(boardElement) {
+            try {
+                const $board = $(boardElement);
+                
+                if ($board.length === 0) {
+                    console.warn('Board element not found:', boardElement);
+                    return;
+                }
+                
+                // Remove any existing emoji pieces first
+                $board.find('.emoji-piece').remove();
+                
+                // Get current board position - prefer board position directly
+                let position;
+                let boardPos;
+                
+                // Try to get position from chessboard.js first (works even before game starts)
+                if (board && typeof board.position === 'function') {
+                    try {
+                        boardPos = board.position();
+                    } catch (e) {
+                        // Board not ready yet
+                    }
+                }
+                
+                // Convert board position object to array format
+                if (boardPos && typeof boardPos === 'object') {
+                    position = [];
+                    for (let rank = 7; rank >= 0; rank--) {
+                        position[7 - rank] = [];
+                        for (let file = 0; file < 8; file++) {
+                            const square = String.fromCharCode(97 + file) + (rank + 1);
+                            const piece = boardPos[square];
+                            if (piece) {
+                                // Convert chessboard.js format (e.g., 'wP') to chess.js format
+                                position[7 - rank][file] = {
+                                    color: piece[0] === 'w' ? 'w' : 'b',
+                                    type: piece[1].toLowerCase()
+                                };
+                            } else {
+                                position[7 - rank][file] = null;
+                            }
+                        }
+                    }
+                } else {
+                    // Try to use game position
+                    try {
+                        position = game.board();
+                    } catch (e) {
+                        // Default starting position
+                        position = [];
+                        const startingPos = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR';
+                        const ranks = startingPos.split('/');
+                        for (let rank = 0; rank < 8; rank++) {
+                            position[rank] = [];
+                            let file = 0;
+                            for (let char of ranks[rank]) {
+                                if (char >= '1' && char <= '8') {
+                                    const empty = parseInt(char);
+                                    for (let i = 0; i < empty; i++) {
+                                        position[rank][file++] = null;
+                                    }
+                                } else {
+                                    const color = char === char.toUpperCase() ? 'w' : 'b';
+                                    const type = char.toLowerCase();
+                                    const pieceMap = { 'r': 'r', 'n': 'n', 'b': 'b', 'q': 'q', 'k': 'k', 'p': 'p' };
+                                    position[rank][file++] = { color, type: pieceMap[type] };
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                // Iterate through all squares and place emojis
+                for (let rank = 0; rank < 8; rank++) {
+                    for (let file = 0; file < 8; file++) {
+                        const piece = position[rank] && position[rank][file];
+                        if (piece) {
+                            // Convert rank/file to square notation (e.g., 0,0 -> 'a8')
+                            const square = String.fromCharCode(97 + file) + (8 - rank);
+                            const pieceCode = piece.color + piece.type.toUpperCase();
+                            const emoji = pieceEmojis[pieceCode];
+                            
+                                if (emoji) {
+                                // Find the square element - try multiple selectors
+                                // Chessboard.js uses classes like "square-55" where 55 is the square index
+                                // or sometimes "square-a1" format
+                                const fileNum = file;
+                                const rankNum = 7 - rank;
+                                const squareIndex = rankNum * 8 + fileNum;
+                                
+                                let $square = $board.find(`.square-${square}`);
+                                if ($square.length === 0) {
+                                    $square = $board.find(`.square-${squareIndex}`);
+                                }
+                                if ($square.length === 0) {
+                                    $square = $board.find(`[data-square="${square}"]`);
+                                }
+                                if ($square.length === 0) {
+                                    // Try finding by class pattern
+                                    const squareClass = square.replace(/([a-h])([1-8])/, 'square-$1$2');
+                                    $square = $board.find(`.${squareClass}`);
+                                }
+                                if ($square.length === 0) {
+                                    // Try finding by the square's position in the DOM
+                                    // Chessboard.js creates squares in order
+                                    const allSquares = $board.find('[class*="square-"]');
+                                    if (allSquares.length >= squareIndex + 1) {
+                                        $square = $(allSquares[squareIndex]);
+                                    }
+                                }
+                                
+                                if ($square.length > 0) {
+                                    // Hide any images in this square (for drag functionality)
+                                    $square.find('img').css({
+                                        'opacity': '0',
+                                        'width': '100%',
+                                        'height': '100%'
+                                    });
+                                    
+                                    // Add emoji span on top
+                                    const $emojiSpan = $('<span>')
+                                        .addClass('emoji-piece')
+                                        .attr('data-piece', pieceCode)
+                                        .text(emoji)
+                                        .css({
+                                            'pointer-events': 'none', // Let clicks pass through to img
+                                            'position': 'absolute',
+                                            'top': '50%',
+                                            'left': '50%',
+                                            'transform': 'translate(-50%, -50%)',
+                                            'font-size': '50px',
+                                            'line-height': '1',
+                                            'z-index': '10'
+                                        });
+                                    
+                                    // Make sure square has relative positioning
+                                    if ($square.css('position') === 'static') {
+                                        $square.css('position', 'relative');
+                                    }
+                                    
+                                    $square.append($emojiSpan);
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error converting images to emojis:', error);
+            }
+        }
+        
+        // Set up mutation observer to catch dynamically added images
+        function setupBoardObserver() {
+            const boardElement = document.getElementById('myBoard');
+            if (!boardElement) return;
+            
+            const observer = new MutationObserver((mutations) => {
+                let needsConversion = false;
+                mutations.forEach((mutation) => {
+                    if (mutation.addedNodes.length > 0) {
+                        mutation.addedNodes.forEach((node) => {
+                            if (node.tagName === 'IMG' || (node.querySelectorAll && node.querySelectorAll('img').length > 0)) {
+                                needsConversion = true;
+                            }
+                        });
+                    }
+                });
+                
+                if (needsConversion) {
+                    setTimeout(() => convertImagesToEmojis('#myBoard'), 10);
+                }
+            });
+            
+            observer.observe(boardElement, {
+                childList: true,
+                subtree: true
+            });
+        }
+
+        function initializeBoard() {
+            // Create a transparent 1x1 pixel data URL to prevent 404 errors
+            const transparentPixel = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+            
+            const config = {
+                draggable: true,
+                position: 'start',
+                pieceTheme: function(piece) {
+                    // Return transparent pixel to prevent 404 errors
+                    // The actual pieces will be emojis overlaid on top
+                    return transparentPixel;
+                },
+                onDragStart: onDragStart,
+                onDrop: onDrop,
+                onSnapEnd: onSnapEnd,
+                onChange: function() {
+                    // Convert images to emojis after any board change
+                    setTimeout(() => convertImagesToEmojis('#myBoard'), 100);
+                }
+            };
+            board = Chessboard('myBoard', config);
+            $(window).resize(board.resize);
+            
+            // Initial conversion - give it more time to ensure board is fully rendered
+            setTimeout(() => {
+                convertImagesToEmojis('#myBoard');
+                setupBoardObserver();
+            }, 300);
+            
+            // Also convert after board is fully loaded
+            setTimeout(() => {
+                convertImagesToEmojis('#myBoard');
+            }, 500);
+        }
+
+        function setupEventListeners() {
+            aiProvider = $('#aiProvider').val();
+            updateProviderUI();
+
+            $('#aiProvider').change(function() {
+                aiProvider = $(this).val();
+                updateProviderUI();
+            });
+
+            // Color selection
+            $('.color-option').click(function() {
+                $('.color-option').removeClass('selected');
+                $(this).addClass('selected');
+                playerColor = $(this).data('color');
+            });
+
+            // Start game
+            $('#startGame').click(startNewGame);
+            
+            // Reset game
+            $('#resetGame').click(resetGame);
+
+            // Undo move
+            $('#undoMove').click(undoLastMove);
+
+            // Ask coach
+            $('#askCoach').click(askCoachForAdvice);
+
+            // Send message
+            $('#shareThoughts').click(sendPlayerMessage);
+
+            // Also allow Enter key to send message
+            $('#playerThoughts').keydown(function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendPlayerMessage();
+                }
+            });
+
+            // Difficulty change
+            $('#difficulty').change(function() {
+                aiDifficulty = $(this).val();
+            });
+
+            // Coaching toggle
+            $('#coachingEnabled').change(function() {
+                coachingEnabled = $(this).is(':checked');
+            });
+        }
+
+        function updateProviderUI() {
+            const selectedProvider = $('#aiProvider').val();
+            $('#geminiKeyGroup').toggle(selectedProvider === 'gemini');
+            $('#gpt4oKeyGroup').toggle(selectedProvider === 'gpt4o');
+        }
+
+        function startNewGame() {
+            aiProvider = $('#aiProvider').val();
+            geminiApiKey = $('#geminiApiKey').val().trim();
+            gpt4oApiKey = $('#gpt4oApiKey').val().trim();
+
+            if (aiProvider === 'gemini' && !geminiApiKey) {
+                alert('Please enter your Gemini API key');
+                return;
+            }
+
+            if (aiProvider === 'gpt4o' && !gpt4oApiKey) {
+                alert('Please enter your OpenAI GPT-4o API key');
+                return;
+            }
+
+            game = new Chess();
+            moveHistory = [];
+            gameStarted = true;
+            lastCoachingMove = 0;
+            movesSinceCoaching = 0;
+            
+            board.position('start');
+            setTimeout(() => convertImagesToEmojis('#myBoard'), 100);
+            
+            if (playerColor === 'black') {
+                board.orientation('black');
+                setTimeout(() => {
+                    convertImagesToEmojis('#myBoard');
+                    makeAiMove();
+                }, 500);
+            } else {
+                board.orientation('white');
+            }
+
+            $('#startGame').hide();
+            $('#resetGame').show();
+            $('#undoMove').prop('disabled', false);
+            
+            updateStatus();
+            updateMoveHistory();
+            // addCoachMessage('system', `Game started! You are playing as ${playerColor}. Good luck! I'll be watching and providing guidance.`);
+            
+            if (coachingEnabled) {
+                setTimeout(() => {
+                    provideOpeningAdvice();
+                }, 1000);
+            }
+        }
+
+        function resetGame() {
+            if (confirm('Are you sure you want to reset the game?')) {
+                game = new Chess();
+                board.position('start');
+                setTimeout(() => convertImagesToEmojis('#myBoard'), 100);
+                moveHistory = [];
+                gameStarted = false;
+                lastCoachingMove = 0;
+                movesSinceCoaching = 0;
+                
+                // Clear AI reasoning
+                lastAiReasoning = null;
+                lastAiMove = null;
+                $('.ai-thinking-btn').remove();
+                
+                $('#startGame').show();
+                $('#resetGame').hide();
+                $('#undoMove').prop('disabled', true);
+                
+                updateStatus();
+                updateMoveHistory();
+                $('#coachingChat').html(`
+                    <div class="message system">
+                        <div class="message-content">
+                            Game reset. Start a new game when ready!
+                        </div>
+                    </div>
+                `);
+            }
+        }
+
+        function onDragStart(source, piece, position, orientation) {
+            if (!gameStarted) return false;
+            if (game.game_over()) return false;
+            if (isAiThinking) return false;
+            
+            // Only allow player to move their own pieces
+            if ((playerColor === 'white' && piece.search(/^b/) !== -1) ||
+                (playerColor === 'black' && piece.search(/^w/) !== -1)) {
+                return false;
+            }
+            
+            // Only allow moves on player's turn
+            if ((game.turn() === 'w' && playerColor === 'black') ||
+                (game.turn() === 'b' && playerColor === 'white')) {
+                return false;
+            }
+        }
+
+        function onDrop(source, target) {
+            // Check if move is legal
+            const move = game.move({
+                from: source,
+                to: target,
+                promotion: 'q' // Always promote to queen for simplicity
+            });
+
+            // Illegal move
+            if (move === null) return 'snapback';
+
+            // Legal move made
+            moveHistory.push({
+                move: move,
+                fen: game.fen(),
+                player: playerColor
+            });
+
+            updateStatus();
+            updateMoveHistory();
+
+            // Make AI move (coaching happens after AI responds)
+            if (!game.game_over()) {
+                setTimeout(() => makeAiMove(), 1000);
+            }
+        }
+
+        function onSnapEnd() {
+            board.position(game.fen());
+            setTimeout(() => convertImagesToEmojis('#myBoard'), 50);
+        }
+
+        // Store AI reasoning for the last move
+        let lastAiReasoning = null;
+        let lastAiMove = null;
+
+        async function makeAiMove() {
+            if (game.game_over()) return;
+            
+            isAiThinking = true;
+            // Removed "AI is thinking" message as requested
+            
+            try {
+                const move = await getAiMove();
+                
+                if (move) {
+                    game.move(move);
+                    board.position(game.fen());
+                    setTimeout(() => convertImagesToEmojis('#myBoard'), 100);
+                    
+                    moveHistory.push({
+                        move: game.history({ verbose: true }).pop(),
+                        fen: game.fen(),
+                        player: playerColor === 'white' ? 'black' : 'white'
+                    });
+                    
+                    // Store AI move and reasoning
+                    lastAiMove = move;
+                    
+                    // Get AI reasoning for the move
+                    try {
+                        const reasoning = await getAiReasoning(move);
+                        lastAiReasoning = reasoning;
+                        
+                        // Add button to see AI thinking
+                        addAiThinkingButton();
+                    } catch (error) {
+                        console.error('Error getting AI reasoning:', error);
+                        lastAiReasoning = null;
+                    }
+                    
+                    updateStatus();
+                    updateMoveHistory();
+                    
+                    // Now check if coach should provide feedback after the complete exchange
+                    if (coachingEnabled && !game.game_over()) {
+                        setTimeout(() => analyzePlayerMove(move), 500);
+                    }
+                }
+            } catch (error) {
+                console.error('AI move error:', error);
+                addCoachMessage('system', '⚠️ Error making AI move. Please try again.');
+            }
+            
+            isAiThinking = false;
+        }
+
+        async function getAiMove() {
+            const legalMoves = game.moves({ verbose: true });
+            if (legalMoves.length === 0) return null;
+
+            const currentFen = game.fen();
+            const moveHistoryText = moveHistory.slice(-10).map(m => m.move.san).join(' ');
+
+            const prompt = `You are a world class chess player engine playing at extreme difficulty level. Think like a grandmaster and play the best possible move and think ahead 0-30 moves to make it extremely hard.
+Current position (FEN): ${currentFen}
+Recent moves: ${moveHistoryText}
+Legal moves: ${legalMoves.map(m => m.san).join(', ')}
+
+Respond with ONLY a legal move in standard algebraic notation (e.g., "e4", "Nf3", "O-O"). Pick ONE move.`;
+
+            try {
+                const response = await callAiAPI(prompt, 'ai-player');
+                const moveText = response.trim().replace(/['"]/g, '');
+                
+                // Try to find matching move
+                const matchingMove = legalMoves.find(m => 
+                    m.san === moveText || m.from + m.to === moveText.toLowerCase()
+                );
+                
+                if (matchingMove) {
+                    return matchingMove;
+                }
+                
+                // Fallback: random legal move
+                return legalMoves[Math.floor(Math.random() * legalMoves.length)];
+                
+            } catch (error) {
+                console.error('Error getting AI move:', error);
+                return legalMoves[Math.floor(Math.random() * legalMoves.length)];
+            }
+        }
+
+        async function getAiReasoning(move) {
+            const currentFen = game.fen();
+            const moveHistoryText = moveHistory.slice(-10).map(m => m.move.san).join(' ');
+            const moveNotation = move.san;
+
+            const prompt = `You are a chess AI explaining your move to a learning player. You just played ${moveNotation}.
+
+Current position (FEN): ${currentFen}
+Recent moves: ${moveHistoryText}
+Your move: ${moveNotation}
+Difficulty: ${aiDifficulty}
+
+Explain why you made this move in 2-3 sentences:
+1. What was your strategic or tactical goal?
+2. What threats or opportunities were you responding to?
+3. What squares or pieces were you trying to control?
+
+Be educational and help the player understand opponent thinking. Keep it concise and clear.`;
+
+            try {
+                        const reasoning = await callAiAPI(prompt, 'coach');
+                return reasoning;
+            } catch (error) {
+                console.error('Error getting AI reasoning:', error);
+                return null;
+            }
+        }
+
+        function addAiThinkingButton() {
+            // Remove any existing AI thinking button
+            $('.ai-thinking-btn').remove();
+            
+            if (!lastAiReasoning || !lastAiMove) return;
+            
+            const button = $('<button>')
+                .addClass('btn btn-secondary ai-thinking-btn')
+                .css({
+                    'margin-top': '10px',
+                    'width': '100%',
+                    'font-size': '0.9rem'
+                })
+                .html('🧠 See Why AI Played ' + lastAiMove.san)
+                .click(function() {
+                    showAiThinking();
+                });
+            
+            // Add button after the last message in coaching chat
+            $('#coachingChat').append(button);
+            $('#coachingChat').scrollTop($('#coachingChat')[0].scrollHeight);
+        }
+
+        function showAiThinking() {
+            if (!lastAiReasoning || !lastAiMove) return;
+            
+            addCoachMessage('coach', `AI Move: ${lastAiMove.san}\n\n${lastAiReasoning}`);
+            
+            // Remove the button after showing
+            $('.ai-thinking-btn').remove();
+        }
+
+        async function sendPlayerMessage() {
+            const message = $('#playerThoughts').val().trim();
+            
+            if (!message) {
+                return;
+            }
+            
+            if (!gameStarted) {
+                alert('Start a game first!');
+                return;
+            }
+            
+            // Add player message to chat
+            addCoachMessage('player', message);
+            
+            // Clear input
+            $('#playerThoughts').val('');
+            
+            // Get AI coach response
+            const currentFen = game.fen();
+            const recentMoves = moveHistory.slice(-8).map(m => m.move.san).join(' ');
+            const moveNumber = Math.floor(moveHistory.length / 2) + 1;
+            
+            const prompt = `You are a helpful chess coach. The student just sent you a message: "${message}"
+
+Current position (FEN): ${currentFen}
+Recent moves: ${recentMoves}
+Move number: ${moveNumber}
+Player color: ${playerColor}
+Player's turn: ${(game.turn() === 'w' && playerColor === 'white') || (game.turn() === 'b' && playerColor === 'black') ? 'Yes' : 'No'}
+
+Respond helpfully to their message. Provide guidance, answer their question, or discuss the position. Keep response to 3-4 sentences. Be encouraging and educational.`;
+
+            try {
+                const response = await callAiAPI(prompt, 'coach');
+                
+                // Extract mentioned squares for highlighting
+                const squarePattern = /\b[a-h][1-8]\b/g;
+                const mentionedSquares = response.match(squarePattern) || [];
+                
+                addCoachMessage('coach', response, currentFen, mentionedSquares);
+            } catch (error) {
+                console.error('Error getting coach response:', error);
+                addCoachMessage('system', '⚠️ Error getting coach response. Please check your API key.');
+            }
+        }
+
+        async function analyzePlayerMove(move) {
+            movesSinceCoaching++;
+            
+            // Only analyze after BOTH players have moved (complete turn pair)
+            if (moveHistory.length % 2 !== 0) return;
+            
+            const currentFen = game.fen();
+            const moveNumber = Math.floor(moveHistory.length / 2);
+            const lastTwoMoves = moveHistory.slice(-2).map(m => m.move.san);
+            const playerLastMove = lastTwoMoves[0];
+            const aiLastMove = lastTwoMoves[1];
+            const recentMoves = moveHistory.slice(-6).map(m => m.move.san).join(' ');
+
+            // Strategic coaching moments - like a real coach would intervene
+            const isCheckOrCheckmate = game.in_check() || game.in_checkmate();
+            const isOpeningPhase = moveNumber <= 5; // First 5 move pairs
+            const isKeyMoment = movesSinceCoaching >= 4; // Every 4 complete turns (8 moves)
+            const isCriticalPosition = game.in_check() || game.in_checkmate() || game.in_stalemate();
+            
+            // Decide if we should coach at this moment
+            const shouldCoach = isCheckOrCheckmate || 
+                               (isOpeningPhase && moveNumber % 2 === 0) || // Every 2 turns in opening
+                               (isKeyMoment && !isOpeningPhase) || // Every 4 turns mid/endgame
+                               isCriticalPosition;
+
+            if (!shouldCoach) return;
+
+            // Reset counter
+            movesSinceCoaching = 0;
+            lastCoachingMove = moveHistory.length;
+
+            const gamePhase = moveNumber <= 5 ? 'Opening' : moveNumber <= 20 ? 'Middlegame' : 'Endgame';
+
+            const prompt = `You are a chess coach observing a game. Analyze the last exchange of moves and provide strategic guidance.
+
+Current position (FEN): ${currentFen}
+Move number: ${moveNumber}
+Your student (${playerColor}) played: ${playerLastMove}
+Opponent responded: ${aiLastMove}
+Recent moves: ${recentMoves}
+Game phase: ${gamePhase}
+Position status: ${game.in_check() ? 'Check!' : game.in_checkmate() ? 'Checkmate!' : game.in_stalemate() ? 'Stalemate' : 'Normal'}
+
+As a Socratic coach:
+1. Analyze the last exchange (both moves together)
+2. Ask thought-provoking questions about the position
+3. Identify key squares, threats, or opportunities
+4. Teach relevant chess concepts (tactics, strategy, openings)
+5. In your response, mention 1-2 specific key squares (like "e5", "d4") that are important
+6. Keep response to 3-4 sentences
+
+Be encouraging but insightful. Focus on teaching, not just describing.`;
+
+            try {
+                const coaching = await callAiAPI(prompt, 'coach');
+                
+                // Extract mentioned squares from coaching for highlighting
+                const squarePattern = /\b[a-h][1-8]\b/g;
+                const mentionedSquares = coaching.match(squarePattern) || [];
+                
+                addCoachMessage('coach', coaching, currentFen, mentionedSquares);
+            } catch (error) {
+                console.error('Error getting coaching:', error);
+            }
+        }
+
+        async function provideOpeningAdvice() {
+            const prompt = `You are a chess coach at the start of a game. The player is playing as ${playerColor}. 
+Provide brief (2-3 sentences) encouraging advice about opening principles:
+- Control the center
+- Develop pieces
+- King safety
+- Don't move the same piece twice
+
+Be warm and encouraging.`;
+
+            try {
+                const advice = await callAiAPI(prompt, 'coach');
+                addCoachMessage('coach', advice);
+            } catch (error) {
+                console.error('Error getting opening advice:', error);
+            }
+        }
+
+        async function askCoachForAdvice() {
+            if (!gameStarted) {
+                alert('Start a game first!');
+                return;
+            }
+
+            const currentFen = game.fen();
+            const recentMoves = moveHistory.slice(-8).map(m => m.move.san).join(' ');
+            const moveNumber = Math.floor(moveHistory.length / 2) + 1;
+
+            addCoachMessage('player', 'I could use some advice on this position. What should I be thinking about?');
+
+            const prompt = `You are a helpful chess coach. The student has asked for advice.
+
+Current position (FEN): ${currentFen}
+Recent moves: ${recentMoves}
+Move number: ${moveNumber}
+Player color: ${playerColor}
+Player's turn: ${(game.turn() === 'w' && playerColor === 'white') || (game.turn() === 'b' && playerColor === 'black') ? 'Yes' : 'No'}
+
+Provide helpful guidance:
+1. What should the player be thinking about in this position?
+2. What are the key features of the position?
+3. Mention 1-2 specific important squares (like "e5", "d4") 
+4. What might be some good candidate moves to consider?
+5. Use Socratic questioning to help them think critically
+
+Keep response to 3-4 sentences. Be encouraging and educational.`;
+
+            try {
+                const advice = await callAiAPI(prompt, 'coach');
+                
+                // Extract mentioned squares for highlighting
+                const squarePattern = /\b[a-h][1-8]\b/g;
+                const mentionedSquares = advice.match(squarePattern) || [];
+                
+                addCoachMessage('coach', advice, currentFen, mentionedSquares);
+            } catch (error) {
+                console.error('Error getting advice:', error);
+                addCoachMessage('system', '⚠️ Error getting coaching advice. Please check your API key.');
+            }
+        }
+
+        async function callAiAPI(prompt, context) {
+            const temperature = context === 'coach' ? 0.8 : 0.7;
+            const maxTokens = context === 'ai-player' ? 50 : 500;
+
+            if (aiProvider === 'gpt4o') {
+                if (!gpt4oApiKey) {
+                    throw new Error('OpenAI API key is missing.');
+                }
+
+                const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${gpt4oApiKey}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        model: GPT4O_MODEL,
+                        temperature,
+                        max_tokens: maxTokens,
+                        messages: [
+                            {
+                                role: 'user',
+                                content: prompt
+                            }
+                        ]
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    console.error('OpenAI API Error:', errorData);
+                    throw new Error(`OpenAI API call failed: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const message = data.choices?.[0]?.message?.content;
+                if (!message) {
+                    throw new Error('OpenAI API returned an empty response.');
+                }
+
+                return message.trim();
+            }
+
+            if (!geminiApiKey) {
+                throw new Error('Gemini API key is missing.');
+            }
+
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`, {
+                method: 'POST',
+                headers: {
+                    'x-goog-api-key': geminiApiKey,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: prompt
+                        }]
+                    }],
+                    generationConfig: {
+                        temperature,
+                        maxOutputTokens: maxTokens,
+                    }
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                console.error('Gemini API Error:', errorData);
+                throw new Error(`Gemini API call failed: ${response.status}`);
+            }
+
+            const data = await response.json();
+            const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (!text) {
+                throw new Error('Gemini API returned an empty response.');
+            }
+
+            return text.trim();
+        }
+
+        function addCoachMessage(type, message, fen = null, highlightSquares = []) {
+            const messageDiv = $('<div>').addClass('message').addClass(type);
+            
+            let header = '';
+            if (type === 'coach') header = '🎓 Coach';
+            else if (type === 'player') header = '👤 You';
+            else if (type === 'system') header = '📢 System';
+            
+            if (header) {
+                messageDiv.append($('<div>').addClass('message-header').text(header));
+            }
+            
+            const content = $('<div>').addClass('message-content').text(message);
+            messageDiv.append(content);
+            
+            // Add to DOM first
+            $('#coachingChat').append(messageDiv);
+            $('#coachingChat').scrollTop($('#coachingChat')[0].scrollHeight);
+            
+            // Add mini board visualization if FEN provided
+            if (fen && type === 'coach') {
+                const miniId = 'mini-' + Date.now();
+                const miniDiv = $('<div>').attr('id', miniId).addClass('mini-board').css('position', 'relative');
+                messageDiv.append(miniDiv);
+                
+                        // Create mini board after DOM insertion - need longer delay
+                setTimeout(() => {
+                    try {
+                        // Verify element exists in DOM
+                        const element = document.getElementById(miniId);
+                        if (!element) {
+                            console.warn('Mini board element not found in DOM:', miniId);
+                            return;
+                        }
+                        
+                        // Create transparent pixel to prevent 404 errors
+                        const transparentPixel = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+                        
+                        // Create board using just the ID string (no #)
+                        const miniBoard = Chessboard(miniId, {
+                            position: fen,
+                            draggable: false,
+                            showNotation: false,
+                            pieceTheme: function(piece) {
+                                return transparentPixel;
+                            }
+                        });
+                        
+                        // Convert images to emojis for mini board
+                        setTimeout(() => {
+                            convertImagesToEmojis('#' + miniId);
+                            
+                            // Add highlights for key squares
+                            if (highlightSquares.length > 0) {
+                                addSquareHighlights(miniId, highlightSquares);
+                            }
+                        }, 200);
+                    } catch (error) {
+                        console.error('Error creating mini board:', error, miniId);
+                        // Remove the div if board creation failed
+                        $('#' + miniId).remove();
+                    }
+                }, 200);
+            }
+        }
+        
+        function addSquareHighlights(boardId, squares) {
+            const $board = $('#' + boardId);
+            if ($board.length === 0) return;
+            
+            // Limit to first 3 mentioned squares to avoid clutter
+            const squaresToHighlight = squares.slice(0, 3);
+            
+            // Add highlights to mentioned squares
+            squaresToHighlight.forEach((square, index) => {
+                // Find the square element by data-square attribute or class
+                let $square = $board.find(`[data-square="${square}"]`);
+                
+                // If not found by data-square, try finding by square- class
+                if ($square.length === 0) {
+                    $square = $board.find(`[class*="square-${square}"]`);
+                }
+                
+                if ($square.length > 0) {
+                    // Create highlight overlay with different colors for each
+                    const colors = [
+                        { bg: 'rgba(255, 255, 0, 0.5)', border: '#ffcc00' },  // Yellow for primary
+                        { bg: 'rgba(0, 255, 255, 0.4)', border: '#00ccff' },  // Cyan for secondary
+                        { bg: 'rgba(255, 0, 255, 0.4)', border: '#ff00ff' }   // Magenta for tertiary
+                    ];
+                    
+                    const colorSet = colors[index] || colors[0];
+                    
+                    const $highlight = $('<div>')
+                        .addClass('square-highlight')
+                        .css({
+                            'position': 'absolute',
+                            'top': '0',
+                            'left': '0',
+                            'right': '0',
+                            'bottom': '0',
+                            'background': colorSet.bg,
+                            'border': '3px solid ' + colorSet.border,
+                            'pointer-events': 'none',
+                            'z-index': '1',
+                            'box-sizing': 'border-box',
+                            'border-radius': '3px'
+                        });
+                    
+                    $square.css('position', 'relative').append($highlight);
+                }
+            });
+        }
+
+        function updateStatus() {
+            let status = '';
+            
+            if (game.in_checkmate()) {
+                status = 'Checkmate! Game over.';
+                gameStarted = false;
+            } else if (game.in_draw()) {
+                status = 'Draw! Game over.';
+                gameStarted = false;
+            } else if (game.in_stalemate()) {
+                status = 'Stalemate! Game over.';
+                gameStarted = false;
+            } else if (game.in_check()) {
+                status = 'Check!';
+            } else {
+                status = 'In progress';
+            }
+            
+            $('#gameStatus').text(status);
+            
+            const turn = game.turn() === 'w' ? 'White' : 'Black';
+            $('#turnIndicator').text(turn);
+            
+            // Calculate material
+            updateMaterial();
+        }
+
+        function updateMaterial() {
+            const pieces = {
+                'p': 1, 'n': 3, 'b': 3, 'r': 5, 'q': 9,
+                'P': 1, 'N': 3, 'B': 3, 'R': 5, 'Q': 9
+            };
+            
+            let whiteValue = 0;
+            let blackValue = 0;
+            
+            const board = game.board();
+            for (let row of board) {
+                for (let square of row) {
+                    if (square) {
+                        if (square.color === 'w') {
+                            whiteValue += pieces[square.type.toUpperCase()] || 0;
+                        } else {
+                            blackValue += pieces[square.type.toLowerCase()] || 0;
+                        }
+                    }
+                }
+            }
+            
+            const diff = whiteValue - blackValue;
+            let materialText = '';
+            
+            if (diff > 0) {
+                materialText = `White +${diff}`;
+            } else if (diff < 0) {
+                materialText = `Black +${Math.abs(diff)}`;
+            } else {
+                materialText = 'Equal';
+            }
+            
+            $('#materialCount').text(materialText);
+        }
+
+        function updateMoveHistory() {
+            const moves = game.history();
+            let html = '';
+            
+            for (let i = 0; i < moves.length; i += 2) {
+                const moveNum = Math.floor(i / 2) + 1;
+                const whiteMove = moves[i];
+                const blackMove = moves[i + 1] || '';
+                
+                html += `
+                    <div class="move-item">
+                        <span>${moveNum}.</span>
+                        <span>${whiteMove}</span>
+                        <span>${blackMove}</span>
+                    </div>
+                `;
+            }
+            
+            $('#moveList').html(html || '<p style="color: #999;">No moves yet</p>');
+        }
+
+        function undoLastMove() {
+            if (moveHistory.length < 2) {
+                alert('No moves to undo');
+                return;
+            }
+            
+            // Undo last two moves (player + AI)
+            game.undo();
+            game.undo();
+            
+            moveHistory.pop();
+            moveHistory.pop();
+            
+            board.position(game.fen());
+            setTimeout(() => convertImagesToEmojis('#myBoard'), 100);
+            updateStatus();
+            updateMoveHistory();
+            
+            addCoachMessage('system', 'Last move undone. Try a different approach!');
+        }
+    </script>
+</body>
+</html>
+
