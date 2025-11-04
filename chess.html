@@ -52,7 +52,7 @@
             color: #666;
         }
 
-        .setup-panel, .coaching-panel {
+        .setup-panel {
             background: white;
             border-radius: 20px;
             padding: 25px;
@@ -60,6 +60,21 @@
                 0 1px 3px rgba(0, 0, 0, 0.04),
                 0 1px 2px rgba(0, 0, 0, 0.02);
             border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .coaching-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 
+                0 1px 3px rgba(0, 0, 0, 0.04),
+                0 1px 2px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 180px);
+            min-height: 600px;
+            max-height: 900px;
         }
 
         .board-container {
@@ -204,13 +219,41 @@
         }
 
         .coaching-chat {
-            height: 600px;
+            flex: 1;
             overflow-y: auto;
             border: 1px solid rgba(0, 0, 0, 0.06);
             border-radius: 10px;
             padding: 20px;
             background: #fafafa;
             margin-top: 15px;
+            margin-bottom: 15px;
+            min-height: 0; /* Important for flex scrolling */
+        }
+
+        .coaching-chat::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .coaching-chat::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .coaching-chat::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        .coaching-chat::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .user-input-section {
+            flex-shrink: 0;
+            padding-top: 15px;
+            border-top: 2px solid rgba(0, 0, 0, 0.1);
+            background: white;
+            border-radius: 0 0 10px 10px;
         }
 
         .message {
@@ -218,6 +261,7 @@
             padding: 15px;
             border-radius: 10px;
             animation: fadeIn 0.3s;
+            line-height: 1.6;
         }
 
         @keyframes fadeIn {
@@ -250,12 +294,15 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            font-size: 0.9rem;
         }
 
         .message-content {
-            line-height: 1.6;
+            line-height: 1.7;
             white-space: pre-wrap;
-            word-wrap: break-word; /* Ensure long text breaks */
+            word-wrap: break-word;
+            font-size: 0.95rem;
+            color: #2a2a2a;
         }
 
         .message-content strong {
@@ -265,8 +312,8 @@
 
         /* Mini-board container for chessboard.js */
         .mini-board-img {
-            width: 280px;
-            height: 280px;
+            width: 240px;
+            height: 240px;
             margin: 15px 0;
             border: 2px solid rgba(0, 0, 0, 0.15);
             border-radius: 8px;
@@ -427,7 +474,7 @@
 
         <!-- Left Panel: Setup & Controls -->
         <div class="setup-panel">
-            <h2>🎮 Game Setup</h2>
+            <h2>Game Setup</h2>
             
             <div class="input-group">
                 <label for="aiProvider">AI Model Provider</label>
@@ -464,8 +511,9 @@
             <div class="input-group">
                 <label for="gameMode">Game Mode</label>
                 <select id="gameMode">
-                    <option value="llm">Play vs LLM</option>
                     <option value="coach">Coach Mode (Minimax Engine)</option>
+                    <option value="llm">Play vs LLM</option>
+                    
                 </select>
                 <small style="color: #666; margin-top: 5px; display: block;">Coach Mode: Minimax engine plays, LLM provides coaching only</small>
             </div>
@@ -513,8 +561,10 @@
 
         <!-- Right Panel: AI Coach -->
         <div class="coaching-panel">
-            <h2>🎓 AI Chess Coach</h2>
-            <p style="color: #666; margin-bottom: 15px;">Your personal chess mentor providing insights and teaching moments</p>
+            <div style="flex-shrink: 0;">
+                <h2 style="margin-bottom: 8px;">AI Chess Coach</h2>
+                <p style="color: #666; margin-bottom: 15px; font-size: 0.9rem;">Your personal chess mentor providing insights and teaching moments</p>
+            </div>
             
             <div class="coaching-chat" id="coachingChat">
                 <div class="message system">
@@ -524,16 +574,16 @@
                 </div>
             </div>
             
-            <div class="user-input-section" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(0, 0, 0, 0.1);">
-                <label for="playerThoughts" style="display: block; margin-bottom: 8px; font-weight: 600; color: #555;">💭 Share Your Thoughts or Ask a Question</label>
+            <div class="user-input-section">
+                <label for="playerThoughts" style="display: block; margin-bottom: 8px; font-weight: 600; color: #555; font-size: 0.95rem;">💬 Ask a Question</label>
                 <textarea 
                     id="playerThoughts" 
-                    rows="3" 
-                    placeholder="What are you thinking about this position? Ask me anything about the game..." 
-                    style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 0.9rem; font-family: inherit; resize: vertical; margin-bottom: 8px;"></textarea>
+                    rows="2" 
+                    placeholder="What are you thinking? Ask about openings, tactics, strategy..." 
+                    style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 0.9rem; font-family: inherit; resize: none; margin-bottom: 8px;"></textarea>
                 <div style="display: flex; gap: 8px;">
-                    <button class="btn" id="shareThoughts" style="flex: 1; margin-top: 0;">💬 Send</button>
-                    <button class="btn btn-secondary" id="askCoach" style="flex: 1; margin-top: 0;">💡 Ask Coach</button>
+                    <button class="btn" id="shareThoughts" style="flex: 1; margin-top: 0; padding: 10px; font-size: 0.9rem;">Send</button>
+                    <button class="btn btn-secondary" id="askCoach" style="flex: 1; margin-top: 0; padding: 10px; font-size: 0.9rem;">Ask Coach</button>
                 </div>
             </div>
         </div>
@@ -1336,16 +1386,70 @@ Player color: ${playerColor}
 Player's turn: ${(game.turn() === 'w' && playerColor === 'white') || (game.turn() === 'b' && playerColor === 'black') ? 'Yes' : 'No'}
 
 Respond helpfully to their message. Provide guidance, answer their question, or discuss the position. Keep response to 3-4 sentences. Be encouraging and educational.
-**Important**: If you mention key squares, list them in your text (e.g., "focus on controlling e4 and d5").`;
+**Important**: If you mention key squares, list them in your text (e.g., "focus on controlling e4 and d5").
+
+**CRITICAL FOR OPENING DEMONSTRATIONS**: If the student is asking about a specific opening (e.g., "show me the Queen's Gambit" or "what is the Sicilian Defense?") or how to play an opening, you MUST provide the move sequence so they can see the moves animated.
+
+YOU MUST include the moves in this exact format at the end of your response: [MOVES: d4 d5 c4]
+
+For Queen's Gambit specifically, your response MUST end with: [MOVES: d4 d5 c4]
+
+Other examples:
+- Sicilian Defense: [MOVES: e4 c5]
+- Italian Game: [MOVES: e4 e5 Nf3 Nc6 Bc4]
+- French Defense: [MOVES: e4 e6]
+
+If you are NOT discussing an opening, omit the [MOVES: ...] tag.`;
 
             try {
                 const response = await callAiAPI(prompt, 'coach');
                 
+                console.log('AI Response:', response); // Debug logging
+                
+                // Extract move sequence if present - try multiple patterns
+                let movesMatch = response.match(/\[MOVES:\s*([^\]]+)\]/i);
+                if (!movesMatch) {
+                    // Try without brackets
+                    movesMatch = response.match(/MOVES:\s*([a-h1-8NBRQKO\-]+(?:\s+[a-h1-8NBRQKO\-]+)+)/i);
+                }
+                if (!movesMatch) {
+                    // Try to detect common opening patterns in text
+                    const queenGambitPattern = /(?:queen'?s gambit|queens gambit).*?(?:1\.\s*d4|d4).*?(?:2\.\s*d5|d5).*?(?:3\.\s*c4|c4)/i;
+                    if (queenGambitPattern.test(response.toLowerCase())) {
+                        movesMatch = ['', 'd4 d5 c4'];
+                    }
+                }
+                
+                let moveSequence = null;
+                let cleanResponse = response;
+                
+                if (movesMatch && movesMatch[1]) {
+                    const movesString = movesMatch[1].trim();
+                    moveSequence = movesString.split(/\s+/).filter(m => m.length > 0 && !m.match(/^\d+\.$/));
+                    console.log('Extracted move sequence:', moveSequence); // Debug logging
+                    // Remove the moves marker from the message
+                    cleanResponse = response.replace(/\[MOVES:[^\]]+\]/gi, '').trim();
+                }
+                
+                // Extract teaching FEN if present
+                const teachingFenMatch = cleanResponse.match(/\[TEACHING_FEN:\s*([^\]]+)\]/i);
+                let teachingFen = null;
+                
+                if (teachingFenMatch) {
+                    teachingFen = teachingFenMatch[1].trim();
+                    // Remove the teaching FEN marker from the message
+                    cleanResponse = cleanResponse.replace(/\[TEACHING_FEN:[^\]]+\]/gi, '').trim();
+                }
+                
+                // Use teaching FEN if provided and no move sequence, otherwise use current FEN
+                const fenToUse = (moveSequence && moveSequence.length > 0 ? null : (teachingFen || currentFen));
+                
                 // Extract mentioned squares for highlighting
                 const squarePattern = /\b[a-h][1-8]\b/g;
-                const mentionedSquares = response.match(squarePattern) || [];
+                const mentionedSquares = cleanResponse.match(squarePattern) || [];
                 
-                addCoachMessage('coach', response, currentFen, mentionedSquares);
+                console.log('Calling addCoachMessage with moveSequence:', moveSequence); // Debug logging
+                addCoachMessage('coach', cleanResponse, fenToUse, mentionedSquares, moveSequence);
             } catch (error) {
                 console.error('Error getting coach response:', error);
                 addCoachMessage('system', '⚠️ Error getting coach response. Please check your API key.');
@@ -1447,31 +1551,109 @@ Be warm and encouraging.`;
 
             addCoachMessage('player', 'I could use some advice on this position. What should I be thinking about?');
 
-            const prompt = `You are a helpful chess coach. The student has asked for advice.
+            const prompt = `You are an expert and encouraging chess coach. Your primary goal is not just to give the next move, but to teach the student underlying chess concepts so they can improve long-term.
+
+Use the provided game data to give a comprehensive, educational mini-lesson. Keep the responses between 200-250 characters.
+
+Game Data:
 
 Current position (FEN): ${currentFen}
+
 Recent moves: ${recentMoves}
+
 Move number: ${moveNumber}
+
 Player color: ${playerColor}
+
 Player's turn: ${(game.turn() === 'w' && playerColor === 'white') || (game.turn() === 'b' && playerColor === 'black') ? 'Yes' : 'No'}
 
-Provide helpful guidance:
-1. What should the player be thinking about in this position?
-2. What are the key features of the position?
-3. **Important**: List 1-2 specific important squares (like "e5", "d4") 
-4. What might be some good candidate moves to consider?
-5. Use Socratic questioning to help them think critically
+Your Guidance:
+1. 🎓 The Big Picture: What setup is this?
 
-Keep response to 3-4 sentences. Be encouraging and educational.`;
+Based on the ${recentMoves} and ${moveNumber}, identify any named concepts.
+
+If it's an opening: Does this resemble a specific named opening (e.g., "This is a setup from the Queen's Gambit")? Briefly explain the main goals or typical plans for ${playerColor} in this system.
+
+If it's a middlegame/endgame: Identify any key pawn structures (e.g., "isolated queen's pawn," "passed pawn"), tactical themes (e.g., "potential pin," "back-rank weakness"), or positional features (e.g., "bishop pair," "open c-file").
+
+2. 🎯 Current Board Analysis: What matters right now?
+
+Key Features: What are the 1-2 most important, immediate features of this specific position (e.g., "Your king is still in the center," "Their knight on f6 is very strong")?
+
+Critical Squares: Name 1-2 specific squares that are vital to control (e.g., "e5", "d4").
+
+3. 💡 Actionable Advice: What are some good ideas?
+
+Candidate Moves: Suggest 1-2 good candidate moves to consider.
+
+The "Why": For each move, explain the strategic idea behind it (e.g., "This move develops a piece while also challenging their control of the center," or "This move creates an escape square for your king").
+
+4. 🤔 Food for Thought: A question to ask yourself.
+
+Conclude with one guiding question to help the student think critically (e.g., "How can you improve the coordination of your rooks?" or "If you make that trade, whose pawn structure will be better?").
+
+**CRITICAL FOR OPENING DEMONSTRATIONS**: If you are teaching about a specific opening (e.g., Queen's Gambit, Sicilian Defense, etc.), you MUST provide the move sequence so the student can see the moves animated.
+
+YOU MUST include the moves in this exact format at the end of your response: [MOVES: d4 d5 c4]
+
+For Queen's Gambit specifically, your response MUST end with: [MOVES: d4 d5 c4]
+
+Other examples:
+- Sicilian Defense: [MOVES: e4 c5]
+- Italian Game: [MOVES: e4 e5 Nf3 Nc6 Bc4]
+- French Defense: [MOVES: e4 e6]
+
+If you are NOT discussing an opening, omit the [MOVES: ...] tag.`;
 
             try {
                 const advice = await callAiAPI(prompt, 'coach');
                 
+                console.log('AI Advice Response:', advice); // Debug logging
+                
+                // Extract move sequence if present - try multiple patterns
+                let movesMatch = advice.match(/\[MOVES:\s*([^\]]+)\]/i);
+                if (!movesMatch) {
+                    // Try without brackets
+                    movesMatch = advice.match(/MOVES:\s*([a-h1-8NBRQKO\-]+(?:\s+[a-h1-8NBRQKO\-]+)+)/i);
+                }
+                if (!movesMatch) {
+                    // Try to detect common opening patterns in text
+                    const queenGambitPattern = /(?:queen'?s gambit|queens gambit).*?(?:1\.\s*d4|d4).*?(?:2\.\s*d5|d5).*?(?:3\.\s*c4|c4)/i;
+                    if (queenGambitPattern.test(advice.toLowerCase())) {
+                        movesMatch = ['', 'd4 d5 c4'];
+                    }
+                }
+                
+                let moveSequence = null;
+                let cleanAdvice = advice;
+                
+                if (movesMatch && movesMatch[1]) {
+                    const movesString = movesMatch[1].trim();
+                    moveSequence = movesString.split(/\s+/).filter(m => m.length > 0 && !m.match(/^\d+\.$/));
+                    console.log('Extracted move sequence:', moveSequence); // Debug logging
+                    // Remove the moves marker from the message
+                    cleanAdvice = advice.replace(/\[MOVES:[^\]]+\]/gi, '').trim();
+                }
+                
+                // Extract teaching FEN if present
+                const teachingFenMatch = cleanAdvice.match(/\[TEACHING_FEN:\s*([^\]]+)\]/i);
+                let teachingFen = null;
+                
+                if (teachingFenMatch) {
+                    teachingFen = teachingFenMatch[1].trim();
+                    // Remove the teaching FEN marker from the message
+                    cleanAdvice = cleanAdvice.replace(/\[TEACHING_FEN:[^\]]+\]/gi, '').trim();
+                }
+                
+                // Use teaching FEN if provided and no move sequence, otherwise use current FEN
+                const fenToUse = (moveSequence && moveSequence.length > 0 ? null : (teachingFen || currentFen));
+                
                 // Extract mentioned squares for highlighting
                 const squarePattern = /\b[a-h][1-8]\b/g;
-                const mentionedSquares = advice.match(squarePattern) || [];
+                const mentionedSquares = cleanAdvice.match(squarePattern) || [];
                 
-                addCoachMessage('coach', advice, currentFen, mentionedSquares);
+                console.log('Calling addCoachMessage with moveSequence:', moveSequence); // Debug logging
+                addCoachMessage('coach', cleanAdvice, fenToUse, mentionedSquares, moveSequence);
             } catch (error) {
                 console.error('Error getting advice:', error);
                 addCoachMessage('system', '⚠️ Error getting coaching advice. Please check your API key.');
@@ -1480,7 +1662,7 @@ Keep response to 3-4 sentences. Be encouraging and educational.`;
 
         async function callAiAPI(prompt, context) {
             const temperature = context === 'coach' ? 0.8 : 0.7;
-            const maxTokens = context === 'ai-player' ? 50 : 500;
+            const maxTokens = context === 'ai-player' ? 50 : 800; // Increased for coach to allow teaching FEN
 
             if (aiProvider === 'gpt4o') {
                 if (!gpt4oApiKey) {
@@ -1566,10 +1748,151 @@ Keep response to 3-4 sentences. Be encouraging and educational.`;
         }
 
         /**
+         * Animates a sequence of moves on a mini-board
+         */
+        function animateMovesOnMiniBoard(boardInstance, moves, startFen = 'start', highlightSquares = [], boardId) {
+            console.log('animateMovesOnMiniBoard called with:', { boardInstance, moves, startFen, highlightSquares, boardId });
+            if (!boardInstance) {
+                console.error('No board instance provided');
+                return;
+            }
+            
+            // Normalize startFen - if it's 'start', use undefined to get default starting position
+            const normalizedStartFen = startFen === 'start' ? undefined : startFen;
+            
+            // Start from initial position
+            boardInstance.position(normalizedStartFen || 'start');
+            
+            // Create a chess game to track the position - use new Chess() for default start
+            let currentGame = new Chess(normalizedStartFen);
+            console.log('Chess game initialized. FEN:', currentGame.fen());
+            console.log('Legal moves from start:', currentGame.moves({ verbose: true }).length);
+            
+            let moveIndex = 0;
+            
+            // Animate each move
+            function playNextMove() {
+                if (moveIndex >= moves.length) {
+                    // Animation complete, add highlights if any
+                    console.log('Animation complete');
+                    if (highlightSquares.length > 0 && boardId) {
+                        setTimeout(() => {
+                            addSquareHighlights(boardId, highlightSquares);
+                        }, 300);
+                    }
+                    return;
+                }
+                
+                const moveNotation = moves[moveIndex].trim();
+                console.log(`Playing move ${moveIndex + 1}/${moves.length}: ${moveNotation}`);
+                console.log('Current FEN:', currentGame.fen());
+                
+                try {
+                    // Get all legal moves to find the matching one
+                    const legalMoves = currentGame.moves({ verbose: true });
+                    console.log('Legal moves available:', legalMoves.length, legalMoves.map(m => m.san));
+                    
+                    if (legalMoves.length === 0) {
+                        console.error('No legal moves available! Game might be over or invalid.');
+                        moveIndex++;
+                        setTimeout(playNextMove, 100);
+                        return;
+                    }
+                    
+                    // Try to find the move by SAN notation
+                    let move = legalMoves.find(m => m.san === moveNotation);
+                    
+                    // If not found, try without any move number prefix
+                    if (!move) {
+                        const moveWithoutNumber = moveNotation.replace(/^\d+\.\s*/, '');
+                        move = legalMoves.find(m => m.san === moveWithoutNumber);
+                    }
+                    
+                    // Try case-insensitive match
+                    if (!move) {
+                        move = legalMoves.find(m => m.san.toLowerCase() === moveNotation.toLowerCase());
+                    }
+                    
+                    if (move) {
+                        console.log('Found move:', move);
+                        // Apply the move using the verbose format (from/to)
+                        const appliedMove = currentGame.move({
+                            from: move.from,
+                            to: move.to,
+                            promotion: move.promotion
+                        });
+                        
+                        if (appliedMove) {
+                            const newPosition = currentGame.fen();
+                            console.log('Move applied successfully. New FEN:', newPosition);
+                            
+                            // Animate the move by updating board position
+                            boardInstance.position(newPosition);
+                            moveIndex++;
+                            
+                            // Wait before next move (800ms delay)
+                            setTimeout(playNextMove, 800);
+                        } else {
+                            console.error('Failed to apply move:', move);
+                            // Try using SAN string as fallback
+                            try {
+                                const sanMove = currentGame.move(move.san);
+                                if (sanMove) {
+                                    boardInstance.position(currentGame.fen());
+                                    moveIndex++;
+                                    setTimeout(playNextMove, 800);
+                                } else {
+                                    moveIndex++;
+                                    setTimeout(playNextMove, 100);
+                                }
+                            } catch (e) {
+                                console.error('SAN fallback also failed:', e);
+                                moveIndex++;
+                                setTimeout(playNextMove, 100);
+                            }
+                        }
+                    } else {
+                        console.warn('Could not find move:', moveNotation, 'Legal moves:', legalMoves.map(m => m.san));
+                        // Try direct SAN move as fallback
+                        try {
+                            const directMove = currentGame.move(moveNotation);
+                            if (directMove) {
+                                const newPosition = currentGame.fen();
+                                console.log('Direct move succeeded. New FEN:', newPosition);
+                                boardInstance.position(newPosition);
+                                moveIndex++;
+                                setTimeout(playNextMove, 800);
+                            } else {
+                                console.error('Direct move returned null');
+                                moveIndex++;
+                                setTimeout(playNextMove, 100);
+                            }
+                        } catch (e) {
+                            console.error('Direct move failed:', e);
+                            moveIndex++;
+                            setTimeout(playNextMove, 100);
+                        }
+                    }
+                } catch (e) {
+                    console.error('Error animating move:', e, moveNotation);
+                    moveIndex++;
+                    setTimeout(playNextMove, 100);
+                }
+            }
+            
+            // Start animation after a short delay
+            console.log('Starting animation in 500ms...');
+            setTimeout(playNextMove, 500);
+        }
+
+        /**
          * Adds a message to the chat.
          * Creates mini-board with highlighting for coach messages.
+         * Supports animated move sequences for opening demonstrations.
          */
-        function addCoachMessage(type, message, fen = null, highlightSquares = []) {
+        function addCoachMessage(type, message, fen = null, highlightSquares = [], moveSequence = null) {
+            console.log('addCoachMessage called with:', { type, message: message.substring(0, 100), fen, highlightSquares, moveSequence });
+            
             const messageDiv = $('<div>').addClass('message').addClass(type);
             
             let header = '';
@@ -1588,13 +1911,17 @@ Keep response to 3-4 sentences. Be encouraging and educational.`;
             $('#coachingChat').append(messageDiv);
             $('#coachingChat').scrollTop($('#coachingChat')[0].scrollHeight);
             
-            // Add mini board visualization if FEN provided
-            if (fen && type === 'coach') {
+            // Add mini board visualization if FEN provided or move sequence provided
+            const hasMoveSequence = moveSequence && Array.isArray(moveSequence) && moveSequence.length > 0;
+            console.log('Has move sequence?', hasMoveSequence, moveSequence);
+            
+            if ((fen || hasMoveSequence) && type === 'coach') {
+                console.log('Creating mini board...');
                 const miniId = 'mini-' + Date.now();
                 const miniDiv = $('<div>').attr('id', miniId).addClass('mini-board-img').css({
                     'position': 'relative',
-                    'width': '280px',
-                    'height': '280px',
+                    'width': '240px',
+                    'height': '240px',
                     'margin': '15px 0',
                     'border': '2px solid rgba(0, 0, 0, 0.15)',
                     'border-radius': '8px',
@@ -1615,20 +1942,32 @@ Keep response to 3-4 sentences. Be encouraging and educational.`;
                         // Use local piece images
                         const pieceTheme = 'chess_images/chesspieces/wikipedia/{piece}.png';
                         
+                        // Determine starting position
+                        const startPosition = hasMoveSequence ? 'start' : (fen || 'start');
+                        
                         // Create board using just the ID string (no #)
                         const miniBoard = Chessboard(miniId, {
-                            position: fen,
+                            position: startPosition,
                             draggable: false,
                             showNotation: false,
                             pieceTheme: pieceTheme
                         });
                         
-                        // Add highlights for key squares after board is rendered
-                        setTimeout(() => {
-                            if (highlightSquares.length > 0) {
-                                addSquareHighlights(miniId, highlightSquares);
-                            }
-                        }, 300);
+                        // If we have a move sequence, animate it
+                        if (hasMoveSequence) {
+                            console.log('Starting animation with moves:', moveSequence);
+                            animateMovesOnMiniBoard(miniBoard, moveSequence, startPosition, highlightSquares, miniId);
+                        } else {
+                            // Just show the final position and add highlights
+                            setTimeout(() => {
+                                if (fen) {
+                                    miniBoard.position(fen);
+                                }
+                                if (highlightSquares.length > 0) {
+                                    addSquareHighlights(miniId, highlightSquares);
+                                }
+                            }, 300);
+                        }
                     } catch (error) {
                         console.error('Error creating mini board:', error, miniId);
                         // Remove the div if board creation failed
