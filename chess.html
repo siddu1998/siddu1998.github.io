@@ -32,47 +32,70 @@
             grid-template-columns: 1fr 600px 1fr;
             gap: 30px;
             align-items: start;
+            min-height: calc(100vh - 100px);
         }
 
         .header {
             grid-column: 1 / -1;
             text-align: center;
             color: #1a1a1a;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: 2rem;
+            margin-bottom: 8px;
             font-weight: 700;
         }
 
         .header p {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #666;
         }
 
         .setup-panel {
             background: white;
             border-radius: 20px;
-            padding: 25px;
+            padding: 20px;
             box-shadow: 
                 0 1px 3px rgba(0, 0, 0, 0.04),
                 0 1px 2px rgba(0, 0, 0, 0.02);
             border: 1px solid rgba(0, 0, 0, 0.06);
+            max-height: calc(100vh - 160px);
+            overflow-y: auto;
+            position: sticky;
+            top: 80px;
+        }
+        
+        .setup-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .setup-panel::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        
+        .setup-panel::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 3px;
+        }
+        
+        .setup-panel::-webkit-scrollbar-thumb:hover {
+            background: #999;
         }
 
         .coaching-panel {
             background: white;
             border-radius: 20px;
-            padding: 25px;
+            padding: 20px;
             box-shadow: 
                 0 1px 3px rgba(0, 0, 0, 0.04),
                 0 1px 2px rgba(0, 0, 0, 0.02);
             border: 1px solid rgba(0, 0, 0, 0.06);
             display: flex;
             flex-direction: column;
-            height: calc(100vh - 180px);
+            height: calc(100vh - 160px);
             min-height: 600px;
             max-height: 900px;
         }
@@ -116,7 +139,7 @@
         }
 
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .input-group label {
@@ -203,9 +226,9 @@
 
         .status-bar {
             background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 18px;
             border-left: 3px solid #1a1a1a;
         }
 
@@ -221,10 +244,10 @@
         .coaching-chat {
             flex: 1;
             overflow-y: auto;
-            border: 1px solid rgba(0, 0, 0, 0.06);
-            border-radius: 10px;
-            padding: 20px;
-            background: #fafafa;
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            background: transparent;
             margin-top: 15px;
             margin-bottom: 15px;
             min-height: 0; /* Important for flex scrolling */
@@ -251,17 +274,24 @@
         .user-input-section {
             flex-shrink: 0;
             padding-top: 15px;
-            border-top: 2px solid rgba(0, 0, 0, 0.1);
-            background: white;
-            border-radius: 0 0 10px 10px;
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            background: transparent;
+            border-radius: 0;
         }
 
         .message {
             margin-bottom: 20px;
-            padding: 15px;
-            border-radius: 10px;
+            padding: 0;
+            border-radius: 0;
             animation: fadeIn 0.3s;
-            line-height: 1.6;
+            line-height: 1.7;
+            width: 100%;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            padding-bottom: 20px;
+        }
+        
+        .message:last-child {
+            border-bottom: none;
         }
 
         @keyframes fadeIn {
@@ -270,39 +300,41 @@
         }
 
         .message.coach {
-            background: white;
-            border-left: 3px solid #1a1a1a;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            background: transparent;
+            border-left: none;
+            box-shadow: none;
         }
 
         .message.player {
-            background: #f0f0f0;
-            border-left: 3px solid #666;
+            background: transparent;
+            border-left: none;
         }
 
         .message.system {
-            background: #fff9e6; /* Light yellow for system messages */
-            border-left: 3px solid #f39c12; /* Orange border */
-            color: #5f4c0a;
-            font-style: italic;
+            background: transparent;
+            border-left: none;
+            color: #666;
+            font-style: normal;
         }
 
         .message-header {
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             color: #1a1a1a;
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
 
         .message-content {
-            line-height: 1.7;
+            line-height: 1.8;
             white-space: pre-wrap;
             word-wrap: break-word;
-            font-size: 0.95rem;
-            color: #2a2a2a;
+            font-size: 1rem;
+            color: #1a1a1a;
+            padding: 0;
+            margin: 0;
         }
 
         .message-content strong {
@@ -312,12 +344,14 @@
 
         /* Mini-board container for chessboard.js */
         .mini-board-img {
-            width: 240px;
-            height: 240px;
+            width: 100%;
+            max-width: 320px;
+            height: auto;
+            aspect-ratio: 1;
             margin: 15px 0;
-            border: 2px solid rgba(0, 0, 0, 0.15);
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 6px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
         }
 
         /* Square highlight animation for mini-boards */
@@ -331,11 +365,11 @@
         }
 
         .move-history {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 20px;
-            max-height: 300px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 18px;
+            max-height: 250px;
             overflow-y: auto;
         }
 
@@ -562,8 +596,8 @@
         <!-- Right Panel: AI Coach -->
         <div class="coaching-panel">
             <div style="flex-shrink: 0;">
-                <h2 style="margin-bottom: 8px;">AI Chess Coach</h2>
-                <p style="color: #666; margin-bottom: 15px; font-size: 0.9rem;">Your personal chess mentor providing insights and teaching moments</p>
+                <h2 style="margin-bottom: 6px;">AI Chess Coach</h2>
+                <p style="color: #666; margin-bottom: 12px; font-size: 0.9rem;">Your personal chess mentor providing insights and teaching moments</p>
             </div>
             
             <div class="coaching-chat" id="coachingChat">
@@ -1920,12 +1954,14 @@ If you are NOT discussing an opening, omit the [MOVES: ...] tag.`;
                 const miniId = 'mini-' + Date.now();
                 const miniDiv = $('<div>').attr('id', miniId).addClass('mini-board-img').css({
                     'position': 'relative',
-                    'width': '240px',
-                    'height': '240px',
+                    'width': '100%',
+                    'max-width': '320px',
+                    'height': 'auto',
+                    'aspect-ratio': '1',
                     'margin': '15px 0',
-                    'border': '2px solid rgba(0, 0, 0, 0.15)',
-                    'border-radius': '8px',
-                    'box-shadow': '0 2px 8px rgba(0, 0, 0, 0.1)'
+                    'border': '1px solid rgba(0, 0, 0, 0.1)',
+                    'border-radius': '6px',
+                    'box-shadow': '0 1px 4px rgba(0, 0, 0, 0.08)'
                 });
                 messageDiv.append(miniDiv);
                 
