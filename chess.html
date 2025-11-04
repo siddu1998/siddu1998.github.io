@@ -263,7 +263,7 @@
             color: #1a1a1a;
         }
 
-        /* This is now for the static mini-board image */
+        /* Mini-board container for chessboard.js */
         .mini-board-img {
             width: 280px;
             height: 280px;
@@ -271,10 +271,17 @@
             border: 2px solid rgba(0, 0, 0, 0.15);
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            display: block;
         }
 
-        /* Removed square highlight animation, as it's not compatible with static images */
+        /* Square highlight animation for mini-boards */
+        @keyframes highlight-pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 0.9; }
+        }
+
+        .square-highlight {
+            animation: highlight-pulse 2s ease-in-out infinite;
+        }
 
         .move-history {
             background: white;
@@ -1284,7 +1291,14 @@ Be educational and help the player understand opponent thinking. Keep it concise
         function showAiThinking() {
             if (!lastAiReasoning || !lastAiMove) return;
             
-            addCoachMessage('coach', `AI Move: ${lastAiMove.san}\n\n${lastAiReasoning}`);
+            const currentFen = game.fen();
+            const message = `AI Move: ${lastAiMove.san}\n\n${lastAiReasoning}`;
+            
+            // Extract mentioned squares for highlighting
+            const squarePattern = /\b[a-h][1-8]\b/g;
+            const mentionedSquares = lastAiReasoning.match(squarePattern) || [];
+            
+            addCoachMessage('coach', message, currentFen, mentionedSquares);
             
             // Remove the button after showing
             $('.ai-thinking-btn').remove();
@@ -1326,7 +1340,12 @@ Respond helpfully to their message. Provide guidance, answer their question, or 
 
             try {
                 const response = await callAiAPI(prompt, 'coach');
-                addCoachMessage('coach', response, currentFen);
+                
+                // Extract mentioned squares for highlighting
+                const squarePattern = /\b[a-h][1-8]\b/g;
+                const mentionedSquares = response.match(squarePattern) || [];
+                
+                addCoachMessage('coach', response, currentFen, mentionedSquares);
             } catch (error) {
                 console.error('Error getting coach response:', error);
                 addCoachMessage('system', '⚠️ Error getting coach response. Please check your API key.');
@@ -1387,7 +1406,12 @@ Be encouraging but insightful. Focus on teaching, not just describing.`;
 
             try {
                 const coaching = await callAiAPI(prompt, 'coach');
-                addCoachMessage('coach', coaching, currentFen);
+                
+                // Extract mentioned squares from coaching for highlighting
+                const squarePattern = /\b[a-h][1-8]\b/g;
+                const mentionedSquares = coaching.match(squarePattern) || [];
+                
+                addCoachMessage('coach', coaching, currentFen, mentionedSquares);
             } catch (error) {
                 console.error('Error getting coaching:', error);
             }
@@ -1442,7 +1466,12 @@ Keep response to 3-4 sentences. Be encouraging and educational.`;
 
             try {
                 const advice = await callAiAPI(prompt, 'coach');
-                addCoachMessage('coach', advice, currentFen);
+                
+                // Extract mentioned squares for highlighting
+                const squarePattern = /\b[a-h][1-8]\b/g;
+                const mentionedSquares = advice.match(squarePattern) || [];
+                
+                addCoachMessage('coach', advice, currentFen, mentionedSquares);
             } catch (error) {
                 console.error('Error getting advice:', error);
                 addCoachMessage('system', '⚠️ Error getting coaching advice. Please check your API key.');
@@ -1538,9 +1567,9 @@ Keep response to 3-4 sentences. Be encouraging and educational.`;
 
         /**
          * Adds a message to the chat.
-         * Now uses a static image for the mini-board.
+         * Creates mini-board with highlighting for coach messages.
          */
-        function addCoachMessage(type, message, fen = null) {
+        function addCoachMessage(type, message, fen = null, highlightSquares = []) {
             const messageDiv = $('<div>').addClass('message').addClass(type);
             
             let header = '';
@@ -1555,24 +1584,118 @@ Keep response to 3-4 sentences. Be encouraging and educational.`;
             const content = $('<div>').addClass('message-content').text(message);
             messageDiv.append(content);
             
-            // Add static mini board visualization if FEN provided
-            if (fen && type === 'coach') {
-                // Use a static image generator for performance
-                // The 'chess-com' piece style is clear and looks good
-                const imgUrl = `https://chessboardimage.com/img/${fen}.png?style=chess-com&size=280`;
-                const miniBoardImg = $('<img>')
-                    .attr('src', imgUrl)
-                    .addClass('mini-board-img')
-                    .attr('alt', 'Chess position');
-                messageDiv.append(miniBoardImg);
-            }
-
-            // Add to DOM
+            // Add to DOM first
             $('#coachingChat').append(messageDiv);
             $('#coachingChat').scrollTop($('#coachingChat')[0].scrollHeight);
+            
+            // Add mini board visualization if FEN provided
+            if (fen && type === 'coach') {
+                const miniId = 'mini-' + Date.now();
+                const miniDiv = $('<div>').attr('id', miniId).addClass('mini-board-img').css({
+                    'position': 'relative',
+                    'width': '280px',
+                    'height': '280px',
+                    'margin': '15px 0',
+                    'border': '2px solid rgba(0, 0, 0, 0.15)',
+                    'border-radius': '8px',
+                    'box-shadow': '0 2px 8px rgba(0, 0, 0, 0.1)'
+                });
+                messageDiv.append(miniDiv);
+                
+                // Create mini board after DOM insertion
+                setTimeout(() => {
+                    try {
+                        // Verify element exists in DOM
+                        const element = document.getElementById(miniId);
+                        if (!element) {
+                            console.warn('Mini board element not found in DOM:', miniId);
+                            return;
+                        }
+                        
+                        // Use local piece images
+                        const pieceTheme = 'chess_images/chesspieces/wikipedia/{piece}.png';
+                        
+                        // Create board using just the ID string (no #)
+                        const miniBoard = Chessboard(miniId, {
+                            position: fen,
+                            draggable: false,
+                            showNotation: false,
+                            pieceTheme: pieceTheme
+                        });
+                        
+                        // Add highlights for key squares after board is rendered
+                        setTimeout(() => {
+                            if (highlightSquares.length > 0) {
+                                addSquareHighlights(miniId, highlightSquares);
+                            }
+                        }, 300);
+                    } catch (error) {
+                        console.error('Error creating mini board:', error, miniId);
+                        // Remove the div if board creation failed
+                        $('#' + miniId).remove();
+                    }
+                }, 200);
+            }
         }
-
-        // Removed addSquareHighlights function
+        
+        function addSquareHighlights(boardId, squares) {
+            const $board = $('#' + boardId);
+            if ($board.length === 0) return;
+            
+            // Limit to first 3 mentioned squares to avoid clutter
+            const squaresToHighlight = squares.slice(0, 3);
+            
+            // Add highlights to mentioned squares
+            squaresToHighlight.forEach((square, index) => {
+                // Find the square element by data-square attribute or class
+                let $square = $board.find(`[data-square="${square}"]`);
+                
+                // If not found by data-square, try finding by square- class
+                if ($square.length === 0) {
+                    $square = $board.find(`[class*="square-${square}"]`);
+                }
+                
+                // Try finding by square index if still not found
+                if ($square.length === 0) {
+                    const file = square.charCodeAt(0) - 97; // a=0, b=1, etc.
+                    const rank = 8 - parseInt(square.charAt(1)); // 1=7, 2=6, etc.
+                    const squareIndex = rank * 8 + file;
+                    const allSquares = $board.find('[class*="square-"]');
+                    if (allSquares.length > squareIndex) {
+                        $square = $(allSquares[squareIndex]);
+                    }
+                }
+                
+                if ($square.length > 0) {
+                    // Create highlight overlay with different colors for each
+                    const colors = [
+                        { bg: 'rgba(255, 255, 0, 0.5)', border: '#ffcc00' },  // Yellow for primary
+                        { bg: 'rgba(0, 255, 255, 0.4)', border: '#00ccff' },  // Cyan for secondary
+                        { bg: 'rgba(255, 0, 255, 0.4)', border: '#ff00ff' }   // Magenta for tertiary
+                    ];
+                    
+                    const colorSet = colors[index] || colors[0];
+                    
+                    const $highlight = $('<div>')
+                        .addClass('square-highlight')
+                        .css({
+                            'position': 'absolute',
+                            'top': '0',
+                            'left': '0',
+                            'right': '0',
+                            'bottom': '0',
+                            'background': colorSet.bg,
+                            'border': '3px solid ' + colorSet.border,
+                            'pointer-events': 'none',
+                            'z-index': '1',
+                            'box-sizing': 'border-box',
+                            'border-radius': '3px'
+                        });
+                    
+                    $square.css('position', 'relative').append($highlight);
+                }
+            });
+        }
 
         function updateStatus() {
             let status = '';
