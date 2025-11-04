@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learn Chess with AI Coach</title>
+    <!-- Use the official chessboard.js CSS -->
     <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
     <style>
         * {
@@ -75,53 +76,8 @@
             max-width: 100%;
             margin: 0 auto;
         }
-
-        /* Chess piece emoji styling */
-        #myBoard [class^="square-"] {
-            cursor: pointer;
-            position: relative;
-        }
-
-        /* Style for emoji pieces */
-        .emoji-piece {
-            font-size: 50px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            line-height: 1;
-            cursor: grab;
-            user-select: none;
-            -webkit-user-select: none;
-            pointer-events: none;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-
-        /* White pieces - bright with strong black outline */
-        .emoji-piece[data-piece^="w"] {
-            color: #ffffff;
-            text-shadow: 
-                -2px -2px 0 #000,
-                2px -2px 0 #000,
-                -2px 2px 0 #000,
-                2px 2px 0 #000,
-                -2px 0 0 #000,
-                2px 0 0 #000,
-                0 -2px 0 #000,
-                0 2px 0 #000,
-                0 3px 5px rgba(0,0,0,0.4);
-            filter: brightness(1.15) contrast(1.1);
-        }
-
-        /* Black pieces - dark solid with depth */
-        .emoji-piece[data-piece^="b"] {
-            color: #1a1a1a;
-            text-shadow: 
-                0 1px 1px rgba(0,0,0,0.8),
-                0 2px 3px rgba(0,0,0,0.5),
-                0 3px 5px rgba(0,0,0,0.3);
-            filter: contrast(1.1);
-        }
+        
+        /* Removed all emoji-piece styling. We now use default images. */
 
         /* Make board not selectable */
         [class^="board-"] {
@@ -129,7 +85,12 @@
             -webkit-user-select: none;
             -moz-user-select: none;
         }
-
+        
+        /* Style for the piece images from chessboard.js */
+        #myBoard .piece-417db {
+            cursor: grab;
+        }
+        
         h2 {
             color: #1a1a1a;
             margin-bottom: 20px;
@@ -276,8 +237,9 @@
         }
 
         .message.system {
-            background: whitesmoke;
-            border-left: 3px solid #c6c6c5;
+            background: #fff9e6; /* Light yellow for system messages */
+            border-left: 3px solid #f39c12; /* Orange border */
+            color: #5f4c0a;
             font-style: italic;
         }
 
@@ -293,6 +255,7 @@
         .message-content {
             line-height: 1.6;
             white-space: pre-wrap;
+            word-wrap: break-word; /* Ensure long text breaks */
         }
 
         .message-content strong {
@@ -300,64 +263,18 @@
             color: #1a1a1a;
         }
 
-        .mini-board {
+        /* This is now for the static mini-board image */
+        .mini-board-img {
             width: 280px;
             height: 280px;
             margin: 15px 0;
             border: 2px solid rgba(0, 0, 0, 0.15);
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: block;
         }
 
-        /* Mini board emoji styling */
-        .mini-board .emoji-piece {
-            font-size: 10px;
-            line-height: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .mini-board [class^="square-"] {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2px;
-        }
-
-        /* Ensure mini board white pieces are also styled */
-        .mini-board .emoji-piece[data-piece^="w"] {
-            color: #ffffff;
-            text-shadow: 
-                -1.5px -1.5px 0 #000,
-                1.5px -1.5px 0 #000,
-                -1.5px 1.5px 0 #000,
-                1.5px 1.5px 0 #000,
-                -1.5px 0 0 #000,
-                1.5px 0 0 #000,
-                0 -1.5px 0 #000,
-                0 1.5px 0 #000,
-                0 2px 3px rgba(0,0,0,0.4);
-            filter: brightness(1.15);
-        }
-
-        .mini-board .emoji-piece[data-piece^="b"] {
-            color: #1a1a1a;
-            text-shadow: 
-                0 1px 1px rgba(0,0,0,0.6),
-                0 1px 2px rgba(0,0,0,0.4);
-        }
-
-        /* Square highlight animation */
-        @keyframes highlight-pulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 0.9; }
-        }
-
-        .square-highlight {
-            animation: highlight-pulse 2s ease-in-out infinite;
-        }
+        /* Removed square highlight animation, as it's not compatible with static images */
 
         .move-history {
             background: white;
@@ -429,9 +346,7 @@
             }
         }
 
-        .highlight-square {
-            box-shadow: inset 0 0 3px 3px yellow;
-        }
+        /* Removed .highlight-square. It's no longer used. */
 
         .settings-toggle {
             background: #f8f9fa;
@@ -493,7 +408,7 @@
 <body>
     <!-- Header Navigation -->
     <header class="top-nav">
-        <a href="index.html" class="logo">Sai Siddartha Maram</a>
+        <a href="index.html" class="logo">AI Chess Coach</a>
         <a href="index.html" class="back-btn">← Back to Portfolio</a>
     </header>
 
@@ -510,7 +425,7 @@
             <div class="input-group">
                 <label for="aiProvider">AI Model Provider</label>
                 <select id="aiProvider">
-                    <option value="gemini" selected>Gemini 2.0 Flash (Google)</option>
+                    <option value="gemini" selected>Gemini 2.5 Flash (Google)</option>
                     <option value="gpt4o">GPT-4o mini (OpenAI)</option>
                 </select>
             </div>
@@ -582,11 +497,8 @@
 
         <!-- Center Panel: Chess Board -->
         <div class="board-container">
+            <!-- This div is where chessboard.js will build the board -->
             <div id="myBoard"></div>
-            <div style="text-align: center; margin-top: 10px; font-size: 0.9rem; color: #666;">
-                <span style="color: #fff; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;">♔</span> White pieces (outlined) | 
-                <span style="color: #2c2c2c;">♚</span> Black pieces (solid)
-            </div>
             <div class="game-controls">
                 <button class="btn" id="undoMove" disabled>↶ Undo Move</button>
             </div>
@@ -621,20 +533,97 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Use the official chessboard.js JS -->
     <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+    <!-- Use the official chess.js JS (for game logic) - Using version 0.10.3 which works with script tags -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js" 
+            onload="console.log('chess.js script tag loaded');" 
+            onerror="console.error('Failed to load chess.js from cdnjs');"></script>
     
     <script>
+        // Function to load chess.js from fallback CDN
+        function loadChessFallback() {
+            console.log('Trying fallback CDN for chess.js...');
+            const script = document.createElement('script');
+            script.src = 'https://unpkg.com/chess.js@0.10.3/chess.min.js';
+            script.onerror = function() {
+                console.error('Fallback CDN failed. Trying alternative...');
+                // Try one more time with jsDelivr
+                const script2 = document.createElement('script');
+                script2.src = 'https://cdn.jsdelivr.net/npm/chess.js@0.10.3/chess.min.js';
+                script2.onload = function() {
+                    console.log('Checking Chess after jsDelivr load...', typeof Chess);
+                    if (typeof Chess !== 'undefined') {
+                        console.log('Chess.js loaded from jsDelivr with version 0.10.3');
+                        initializeChessApp();
+                    } else {
+                        console.error('Chess.js loaded but Chess is still undefined');
+                        alert('Error: Chess.js library loaded but Chess constructor is not available. Please refresh the page.');
+                    }
+                };
+                script2.onerror = function() {
+                    alert('Error: Chess.js library failed to load from all sources. Please check your internet connection and refresh the page.');
+                };
+                document.head.appendChild(script2);
+            };
+            script.onload = function() {
+                console.log('Checking Chess after unpkg load...', typeof Chess);
+                if (typeof Chess !== 'undefined') {
+                    console.log('Chess.js loaded successfully from fallback CDN');
+                    initializeChessApp();
+                } else {
+                    console.error('Chess.js loaded but Chess is still undefined');
+                    // Try the jsDelivr fallback
+                    script.onerror();
+                }
+            };
+            document.head.appendChild(script);
+        }
+        
+        // Wait for scripts to load and verify chess.js is available
+        function waitForChess() {
+            console.log('Checking for Chess.js...', typeof Chess);
+            if (typeof Chess !== 'undefined') {
+                console.log('Chess.js loaded successfully from main CDN');
+                initializeChessApp();
+            } else {
+                // Check again after a longer delay to allow script to load
+                setTimeout(function() {
+                    console.log('Checking again for Chess.js...', typeof Chess);
+                    if (typeof Chess !== 'undefined') {
+                        console.log('Chess.js loaded successfully (delayed check)');
+                        initializeChessApp();
+                    } else {
+                        console.error('Chess.js not found after waiting. Trying fallback...');
+                        loadChessFallback();
+                    }
+                }, 1000); // Increased delay to 1 second
+            }
+        }
+        
+        // Start checking for Chess.js once DOM is ready
+        // Give the script tag time to load first
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                setTimeout(waitForChess, 200);
+            });
+        } else {
+            setTimeout(waitForChess, 200);
+        }
+        
+        // Initialize the chess app once Chess.js is loaded
+        function initializeChessApp() {
+        
         // Game state
         let board = null;
-        let game = new Chess();
+        let game = null; // <-- FIX: Declare as null, will instantiate when DOM is ready
         let playerColor = 'white';
         let aiDifficulty = 'intermediate';
         let gameMode = 'llm'; // 'llm' or 'coach'
         let geminiApiKey = '';
         let gpt4oApiKey = '';
         let aiProvider = 'gemini';
-        const GEMINI_MODEL = 'gemini-2.0-flash-exp';
+        const GEMINI_MODEL = 'gemini-2.5-flash-preview-09-2025'; // Updated to valid model
         const GPT4O_MODEL = 'gpt-4o-mini';
         let coachingEnabled = true;
         let moveHistory = [];
@@ -643,173 +632,199 @@
         let lastCoachingMove = 0; // Track when we last provided coaching
         let movesSinceCoaching = 0;
 
-        // Minimax/Negamax Algorithm Implementation
-        function noOfPiece(state, piece) {
-            let count = 0;
-            const board = state.board();
-            const targetType = piece.toLowerCase();
-            const targetColor = piece === piece.toUpperCase() ? 'w' : 'b';
-            
-            for (let i = 0; i < 8; i++) {
-                for (let j = 0; j < 8; j++) {
-                    if (board[i][j] && board[i][j].type === targetType && board[i][j].color === targetColor) {
-                        count++;
-                    }
-                }
-            }
-            return count;
-        }
+        // --- Start: Upgraded Minimax/Negamax AI Engine ---
 
-        function noDevelopedPieces(state, side) {
-            let count = 0;
+        // Piece square tables for positional evaluation
+        const pieceSquareTables = {
+            'p': [
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [50, 50, 50, 50, 50, 50, 50, 50],
+                [10, 10, 20, 30, 30, 20, 10, 10],
+                [5, 5, 10, 25, 25, 10, 5, 5],
+                [0, 0, 0, 20, 20, 0, 0, 0],
+                [5, -5, -10, 0, 0, -10, -5, 5],
+                [5, 10, 10, -20, -20, 10, 10, 5],
+                [0, 0, 0, 0, 0, 0, 0, 0]
+            ],
+            'n': [
+                [-50, -40, -30, -30, -30, -30, -40, -50],
+                [-40, -20, 0, 0, 0, 0, -20, -40],
+                [-30, 0, 10, 15, 15, 10, 0, -30],
+                [-30, 5, 15, 20, 20, 15, 5, -30],
+                [-30, 0, 15, 20, 20, 15, 0, -30],
+                [-30, 5, 10, 15, 15, 10, 5, -30],
+                [-40, -20, 0, 5, 5, 0, -20, -40],
+                [-50, -40, -30, -30, -30, -30, -40, -50]
+            ],
+            'b': [
+                [-20, -10, -10, -10, -10, -10, -10, -20],
+                [-10, 0, 0, 0, 0, 0, 0, -10],
+                [-10, 0, 5, 10, 10, 5, 0, -10],
+                [-10, 5, 5, 10, 10, 5, 5, -10],
+                [-10, 0, 10, 10, 10, 10, 0, -10],
+                [-10, 10, 10, 10, 10, 10, 10, -10],
+                [-10, 5, 0, 0, 0, 0, 5, -10],
+                [-20, -10, -10, -10, -10, -10, -10, -20]
+            ],
+            'r': [
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [5, 10, 10, 10, 10, 10, 10, 5],
+                [-5, 0, 0, 0, 0, 0, 0, -5],
+                [-5, 0, 0, 0, 0, 0, 0, -5],
+                [-5, 0, 0, 0, 0, 0, 0, -5],
+                [-5, 0, 0, 0, 0, 0, 0, -5],
+                [-5, 0, 0, 0, 0, 0, 0, -5],
+                [0, 0, 0, 5, 5, 0, 0, 0]
+            ],
+            'q': [
+                [-20, -10, -10, -5, -5, -10, -10, -20],
+                [-10, 0, 0, 0, 0, 0, 0, -10],
+                [-10, 0, 5, 5, 5, 5, 0, -10],
+                [-5, 0, 5, 5, 5, 5, 0, -5],
+                [0, 0, 5, 5, 5, 5, 0, -5],
+                [-10, 5, 5, 5, 5, 5, 0, -10],
+                [-10, 0, 5, 0, 0, 0, 0, -10],
+                [-20, -10, -10, -5, -5, -10, -10, -20]
+            ],
+            'k': [
+                [-30, -40, -40, -50, -50, -40, -40, -30],
+                [-30, -40, -40, -50, -50, -40, -40, -30],
+                [-30, -40, -40, -50, -50, -40, -40, -30],
+                [-30, -40, -40, -50, -50, -40, -40, -30],
+                [-20, -30, -30, -40, -40, -30, -30, -20],
+                [-10, -20, -20, -20, -20, -20, -20, -10],
+                [20, 20, 0, 0, 0, 0, 20, 20],
+                [20, 30, 10, 0, 0, 10, 30, 20]
+            ]
+        };
+
+        // Base piece values
+        const pieceValues = { 'p': 100, 'n': 320, 'b': 330, 'r': 500, 'q': 900, 'k': 20000 };
+
+        /**
+         * This is a standard evaluation function for a negamax algorithm.
+         * It returns the score relative to the *current player to move*.
+         */
+        function evaluate(state) {
+            if (state.in_checkmate()) {
+                return -Infinity; // Current player is checkmated
+            }
+            if (state.in_draw() || state.in_stalemate()) {
+                return 0;
+            }
+
+            let score = 0;
             const board = state.board();
-            const backRank = side === 'w' ? 0 : 7;
-            
-            // Count knights and bishops that are NOT on the back rank (developed)
-            for (let i = 0; i < 8; i++) {
-                for (let j = 0; j < 8; j++) {
-                    const piece = board[i][j];
-                    if (piece && piece.color === side && (piece.type === 'n' || piece.type === 'b')) {
-                        if (i !== backRank) {
-                            count++; // Piece is developed (not on back rank)
+            const turn = state.turn(); // 'w' or 'b'
+
+            for (let r = 0; r < 8; r++) {
+                for (let f = 0; f < 8; f++) {
+                    const piece = board[r][f];
+                    if (piece) {
+                        const value = pieceValues[piece.type];
+                        let positionalScore = 0;
+
+                        if (piece.color === 'w') {
+                            positionalScore = pieceSquareTables[piece.type][r][f];
+                        } else {
+                            // Flip row for black
+                            positionalScore = pieceSquareTables[piece.type][7 - r][f];
+                        }
+
+                        if (piece.color === turn) {
+                            score += (value + positionalScore);
+                        } else {
+                            score -= (value + positionalScore);
                         }
                     }
                 }
             }
-            
-            return count;
-        }
 
-        function inCheck(state, side) {
-            return state.in_check();
-        }
-
-        function availableMoves(state, side) {
-            const moves = state.moves({ verbose: true });
-            if (state.turn() === side) {
-                return moves;
-            }
-            // Create a temporary state to get moves for the other side
-            const tempState = new Chess(state.fen());
-            tempState.turn = side;
-            return tempState.moves({ verbose: true });
-        }
-
-        function evaluate(state, side) {
-            let score = 0;
-            const fen = state.fen();
-            const currentTurn = state.turn();
-            
-            // Material evaluation
-            score += 9 * (noOfPiece(state, 'Q') - noOfPiece(state, 'q')) +
-                     5 * (noOfPiece(state, 'R') - noOfPiece(state, 'r')) +
-                     3 * (noOfPiece(state, 'B') - noOfPiece(state, 'b')) +
-                     3 * (noOfPiece(state, 'N') - noOfPiece(state, 'n')) +
-                     1 * (noOfPiece(state, 'P') - noOfPiece(state, 'p'));
-            
-            // Development bonus (only in opening)
-            const emptySquares = fen.split(' ')[0].split('/').join('').replace(/[^12345678]/g, '').split('').reduce((sum, n) => sum + parseInt(n), 0);
-            if (emptySquares < 44) { // Rough check for opening phase
-                score += 0.1 * (noDevelopedPieces(state, 'w') - noDevelopedPieces(state, 'b'));
-            }
-            
-            // Mobility - get moves for both sides
-            let whitesMoves = 0;
-            let blacksMoves = 0;
-            
-            if (currentTurn === 'w') {
-                whitesMoves = state.moves().length;
-                // Create temporary state with black to move to count black moves
-                const tempFen = fen.split(' ');
-                tempFen[1] = 'b'; // Change active color to black
-                const tempState = new Chess(tempFen.join(' '));
-                blacksMoves = tempState.moves().length;
-            } else {
-                blacksMoves = state.moves().length;
-                // Create temporary state with white to move to count white moves
-                const tempFen = fen.split(' ');
-                tempFen[1] = 'w'; // Change active color to white
-                const tempState = new Chess(tempFen.join(' '));
-                whitesMoves = tempState.moves().length;
-            }
-            
-            score += 0.005 * (whitesMoves - blacksMoves);
-            
-            // Check for checkmate or stalemate
+            // Add mobility score (simple version)
             const moves = state.moves();
-            if (moves.length == 0) {
-                if (state.in_check()) {
-                    // Checkmate
-                    if (currentTurn === 'w') {
-                        score -= Infinity;
-                    } else {
-                        score += Infinity;
-                    }
-                } else {
-                    // Stalemate - draw
-                    score = 0;
-                }
-            }
-            
-            return score * (side === 'w' ? 1 : -1);
+            score += moves.length * 5; // 5 points per legal move
+
+            return score;
         }
 
-        function negamax(state, depth, alpha, beta, side) {
-            if (depth == 0 || state.game_over()) {
-                return evaluate(state, side);
+        // Transposition table for memoization
+        let transpositionTable = {};
+
+        /**
+         * Standard Negamax algorithm with Alpha-Beta Pruning and Transposition Table.
+         */
+        function negamax(state, depth, alpha, beta) {
+            const fen = state.fen();
+
+            // Transposition table lookup
+            if (transpositionTable[fen] && transpositionTable[fen].depth >= depth) {
+                return transpositionTable[fen].score;
             }
-            
+
+            if (depth === 0 || state.game_over()) {
+                // We want the score from the perspective of the player *whose turn it is*
+                return evaluate(state);
+            }
+
+            let maxScore = -Infinity;
             const moves = state.moves({ verbose: true });
-            if (moves.length === 0) {
-                return evaluate(state, side);
-            }
             
-            let bestScore = -Infinity;
-            
-            for (let m = 0; m < moves.length; m++) {
-                const newState = new Chess(state.fen());
-                newState.move(moves[m]);
-                
-                // After making a move, the turn switches, so evaluate from the new side's perspective
-                const newSide = newState.turn() === 'w' ? 'w' : 'b';
-                const score = -negamax(newState, depth - 1, -beta, -alpha, newSide);
-                
-                if (score > bestScore) {
-                    bestScore = score;
+            // Simple move ordering: captures first
+            moves.sort((a, b) => (b.flags.includes('c') ? 1 : 0) - (a.flags.includes('c') ? 1 : 0));
+
+            for (const move of moves) {
+                state.move(move);
+                const score = -negamax(state, depth - 1, -beta, -alpha);
+                state.undo();
+
+                if (score > maxScore) {
+                    maxScore = score;
                 }
-                
-                alpha = Math.max(alpha, score);
+                if (score > alpha) {
+                    alpha = score;
+                }
                 if (alpha >= beta) {
-                    break; // Alpha-beta pruning
+                    break; // Beta cut-off
                 }
             }
             
-            return bestScore;
+            // Store in transposition table
+            transpositionTable[fen] = { depth: depth, score: maxScore };
+            
+            return maxScore;
         }
 
+        /**
+         * Root function to find the best move using Negamax.
+         */
         function getMinimaxMove(state, side, depth) {
+            // Clear transposition table for each new move
+            transpositionTable = {}; 
+            
             const moves = state.moves({ verbose: true });
             if (moves.length === 0) return null;
-            
+
             let bestScore = -Infinity;
             let bestMove = moves[0];
             
-            for (let m = 0; m < moves.length; m++) {
-                const newState = new Chess(state.fen());
-                newState.move(moves[m]);
-                
-                // Evaluate from the perspective of the side that just moved
-                // The negamax function will handle switching sides internally
-                const score = -negamax(newState, depth - 1, -Infinity, Infinity, side);
-                
+            // Simple move ordering: captures first
+            moves.sort((a, b) => (b.flags.includes('c') ? 1 : 0) - (a.flags.includes('c') ? 1 : 0));
+
+            for (const move of moves) {
+                state.move(move);
+                // The score returned by negamax is from the *next* player's perspective.
+                // So, we negate it to get the score from the *current* player's perspective.
+                const score = -negamax(state, depth - 1, -Infinity, Infinity);
+                state.undo();
+
                 if (score > bestScore) {
                     bestScore = score;
-                    bestMove = moves[m];
+                    bestMove = move;
                 }
             }
-            
             return bestMove;
         }
+
 
         function getMinimaxDepth() {
             // Adjust depth based on difficulty
@@ -822,231 +837,51 @@
             return depthMap[aiDifficulty] || 3;
         }
 
+        // --- End: Upgraded Minimax/Negamax AI Engine ---
+
+
         // Initialize
         $(document).ready(function() {
-            initializeBoard();
-            setupEventListeners();
+            // Double-check that Chess is available before initializing
+            if (typeof Chess === 'undefined') {
+                console.error('Chess is not defined when trying to initialize!');
+                alert('Error: Chess.js library is not loaded. Please refresh the page.');
+                return;
+            }
+            
+            try {
+                game = new Chess(); // <-- FIX: Instantiate here to ensure chess.js is loaded
+                initializeBoard();
+                setupEventListeners();
+                console.log('Chess board initialized successfully');
+            } catch (error) {
+                console.error('Error initializing chess board:', error);
+                alert('Error initializing chess board. Please refresh the page.');
+            }
         });
 
-        // Piece emoji mapping
-        const pieceEmojis = {
-            'wP': '♙', 'wN': '♘', 'wB': '♗', 'wR': '♖', 'wQ': '♕', 'wK': '♔',
-            'bP': '♟', 'bN': '♞', 'bB': '♝', 'bR': '♜', 'bQ': '♛', 'bK': '♚'
-        };
 
-        function convertImagesToEmojis(boardElement) {
-            try {
-                const $board = $(boardElement);
-                
-                if ($board.length === 0) {
-                    console.warn('Board element not found:', boardElement);
-                    return;
-                }
-                
-                // Remove any existing emoji pieces first
-                $board.find('.emoji-piece').remove();
-                
-                // Get current board position - prefer board position directly
-                let position;
-                let boardPos;
-                
-                // Try to get position from chessboard.js first (works even before game starts)
-                if (board && typeof board.position === 'function') {
-                    try {
-                        boardPos = board.position();
-                    } catch (e) {
-                        // Board not ready yet
-                    }
-                }
-                
-                // Convert board position object to array format
-                if (boardPos && typeof boardPos === 'object') {
-                    position = [];
-                    for (let rank = 7; rank >= 0; rank--) {
-                        position[7 - rank] = [];
-                        for (let file = 0; file < 8; file++) {
-                            const square = String.fromCharCode(97 + file) + (rank + 1);
-                            const piece = boardPos[square];
-                            if (piece) {
-                                // Convert chessboard.js format (e.g., 'wP') to chess.js format
-                                position[7 - rank][file] = {
-                                    color: piece[0] === 'w' ? 'w' : 'b',
-                                    type: piece[1].toLowerCase()
-                                };
-                            } else {
-                                position[7 - rank][file] = null;
-                            }
-                        }
-                    }
-                } else {
-                    // Try to use game position
-                    try {
-                        position = game.board();
-                    } catch (e) {
-                        // Default starting position
-                        position = [];
-                        const startingPos = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR';
-                        const ranks = startingPos.split('/');
-                        for (let rank = 0; rank < 8; rank++) {
-                            position[rank] = [];
-                            let file = 0;
-                            for (let char of ranks[rank]) {
-                                if (char >= '1' && char <= '8') {
-                                    const empty = parseInt(char);
-                                    for (let i = 0; i < empty; i++) {
-                                        position[rank][file++] = null;
-                                    }
-                                } else {
-                                    const color = char === char.toUpperCase() ? 'w' : 'b';
-                                    const type = char.toLowerCase();
-                                    const pieceMap = { 'r': 'r', 'n': 'n', 'b': 'b', 'q': 'q', 'k': 'k', 'p': 'p' };
-                                    position[rank][file++] = { color, type: pieceMap[type] };
-                                }
-                            }
-                        }
-                    }
-                }
-                
-                // Iterate through all squares and place emojis
-                for (let rank = 0; rank < 8; rank++) {
-                    for (let file = 0; file < 8; file++) {
-                        const piece = position[rank] && position[rank][file];
-                        if (piece) {
-                            // Convert rank/file to square notation (e.g., 0,0 -> 'a8')
-                            const square = String.fromCharCode(97 + file) + (8 - rank);
-                            const pieceCode = piece.color + piece.type.toUpperCase();
-                            const emoji = pieceEmojis[pieceCode];
-                            
-                                if (emoji) {
-                                // Find the square element - try multiple selectors
-                                // Chessboard.js uses classes like "square-55" where 55 is the square index
-                                // or sometimes "square-a1" format
-                                const fileNum = file;
-                                const rankNum = 7 - rank;
-                                const squareIndex = rankNum * 8 + fileNum;
-                                
-                                let $square = $board.find(`.square-${square}`);
-                                if ($square.length === 0) {
-                                    $square = $board.find(`.square-${squareIndex}`);
-                                }
-                                if ($square.length === 0) {
-                                    $square = $board.find(`[data-square="${square}"]`);
-                                }
-                                if ($square.length === 0) {
-                                    // Try finding by class pattern
-                                    const squareClass = square.replace(/([a-h])([1-8])/, 'square-$1$2');
-                                    $square = $board.find(`.${squareClass}`);
-                                }
-                                if ($square.length === 0) {
-                                    // Try finding by the square's position in the DOM
-                                    // Chessboard.js creates squares in order
-                                    const allSquares = $board.find('[class*="square-"]');
-                                    if (allSquares.length >= squareIndex + 1) {
-                                        $square = $(allSquares[squareIndex]);
-                                    }
-                                }
-                                
-                                if ($square.length > 0) {
-                                    // Hide any images in this square (for drag functionality)
-                                    $square.find('img').css({
-                                        'opacity': '0',
-                                        'width': '100%',
-                                        'height': '100%'
-                                    });
-                                    
-                                    // Add emoji span on top
-                                    const $emojiSpan = $('<span>')
-                                        .addClass('emoji-piece')
-                                        .attr('data-piece', pieceCode)
-                                        .text(emoji)
-                                        .css({
-                                            'pointer-events': 'none', // Let clicks pass through to img
-                                            'position': 'absolute',
-                                            'top': '50%',
-                                            'left': '50%',
-                                            'transform': 'translate(-50%, -50%)',
-                                            'font-size': '50px',
-                                            'line-height': '1',
-                                            'z-index': '10'
-                                        });
-                                    
-                                    // Make sure square has relative positioning
-                                    if ($square.css('position') === 'static') {
-                                        $square.css('position', 'relative');
-                                    }
-                                    
-                                    $square.append($emojiSpan);
-                                }
-                            }
-                        }
-                    }
-                }
-            } catch (error) {
-                console.error('Error converting images to emojis:', error);
-            }
-        }
-        
-        // Set up mutation observer to catch dynamically added images
-        function setupBoardObserver() {
-            const boardElement = document.getElementById('myBoard');
-            if (!boardElement) return;
-            
-            const observer = new MutationObserver((mutations) => {
-                let needsConversion = false;
-                mutations.forEach((mutation) => {
-                    if (mutation.addedNodes.length > 0) {
-                        mutation.addedNodes.forEach((node) => {
-                            if (node.tagName === 'IMG' || (node.querySelectorAll && node.querySelectorAll('img').length > 0)) {
-                                needsConversion = true;
-                            }
-                        });
-                    }
-                });
-                
-                if (needsConversion) {
-                    setTimeout(() => convertImagesToEmojis('#myBoard'), 10);
-                }
-            });
-            
-            observer.observe(boardElement, {
-                childList: true,
-                subtree: true
-            });
-        }
+        // Removed pieceEmojis map
+        // Removed convertImagesToEmojis function
+        // Removed setupBoardObserver function
 
         function initializeBoard() {
-            // Create a transparent 1x1 pixel data URL to prevent 404 errors
-            const transparentPixel = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+            // Use local chess piece images from chess_images directory
+            const pieceTheme = 'chess_images/chesspieces/wikipedia/{piece}.png';
             
             const config = {
                 draggable: true,
                 position: 'start',
-                pieceTheme: function(piece) {
-                    // Return transparent pixel to prevent 404 errors
-                    // The actual pieces will be emojis overlaid on top
-                    return transparentPixel;
-                },
+                pieceTheme: pieceTheme, // Use real images
                 onDragStart: onDragStart,
                 onDrop: onDrop,
-                onSnapEnd: onSnapEnd,
-                onChange: function() {
-                    // Convert images to emojis after any board change
-                    setTimeout(() => convertImagesToEmojis('#myBoard'), 100);
-                }
+                onSnapEnd: onSnapEnd
+                // Removed the 'onChange' handler, it's not needed
             };
             board = Chessboard('myBoard', config);
             $(window).resize(board.resize);
             
-            // Initial conversion - give it more time to ensure board is fully rendered
-            setTimeout(() => {
-                convertImagesToEmojis('#myBoard');
-                setupBoardObserver();
-            }, 300);
-            
-            // Also convert after board is fully loaded
-            setTimeout(() => {
-                convertImagesToEmojis('#myBoard');
-            }, 500);
+            // No emoji conversion needed anymore
         }
 
         function setupEventListeners() {
@@ -1119,29 +954,29 @@
             // Only require API keys if using LLM mode or if coaching is enabled
             if (gameMode === 'llm' || coachingEnabled) {
                 if (aiProvider === 'gemini' && !geminiApiKey) {
-                    alert('Please enter your Gemini API key');
+                    // Use new message system instead of alert
+                    addCoachMessage('system', 'Please enter your Gemini API key to use AI features.');
                     return;
                 }
 
                 if (aiProvider === 'gpt4o' && !gpt4oApiKey) {
-                    alert('Please enter your OpenAI GPT-4o API key');
+                    // Use new message system instead of alert
+                    addCoachMessage('system', 'Please enter your OpenAI GPT-4o API key to use AI features.');
                     return;
                 }
             }
 
-            game = new Chess();
+            game = new Chess(); // Re-initialize game on new game
             moveHistory = [];
             gameStarted = true;
             lastCoachingMove = 0;
             movesSinceCoaching = 0;
             
             board.position('start');
-            setTimeout(() => convertImagesToEmojis('#myBoard'), 100);
             
             if (playerColor === 'black') {
                 board.orientation('black');
                 setTimeout(() => {
-                    convertImagesToEmojis('#myBoard');
                     makeAiMove();
                 }, 500);
             } else {
@@ -1154,7 +989,6 @@
             
             updateStatus();
             updateMoveHistory();
-            // addCoachMessage('system', `Game started! You are playing as ${playerColor}. Good luck! I'll be watching and providing guidance.`);
             
             if (coachingEnabled) {
                 setTimeout(() => {
@@ -1164,34 +998,32 @@
         }
 
         function resetGame() {
-            if (confirm('Are you sure you want to reset the game?')) {
-                game = new Chess();
-                board.position('start');
-                setTimeout(() => convertImagesToEmojis('#myBoard'), 100);
-                moveHistory = [];
-                gameStarted = false;
-                lastCoachingMove = 0;
-                movesSinceCoaching = 0;
-                
-                // Clear AI reasoning
-                lastAiReasoning = null;
-                lastAiMove = null;
-                $('.ai-thinking-btn').remove();
-                
-                $('#startGame').show();
-                $('#resetGame').hide();
-                $('#undoMove').prop('disabled', true);
-                
-                updateStatus();
-                updateMoveHistory();
-                $('#coachingChat').html(`
-                    <div class="message system">
-                        <div class="message-content">
-                            Game reset. Start a new game when ready!
-                        </div>
+            // Removed confirm() as it's blocked
+            game = new Chess(); // Re-initialize game on reset
+            board.position('start');
+            moveHistory = [];
+            gameStarted = false;
+            lastCoachingMove = 0;
+            movesSinceCoaching = 0;
+            
+            // Clear AI reasoning
+            lastAiReasoning = null;
+            lastAiMove = null;
+            $('.ai-thinking-btn').remove();
+            
+            $('#startGame').show();
+            $('#resetGame').hide();
+            $('#undoMove').prop('disabled', true);
+            
+            updateStatus();
+            updateMoveHistory();
+            $('#coachingChat').html(`
+                <div class="message system">
+                    <div class="message-content">
+                        Game reset. Start a new game when ready!
                     </div>
-                `);
-            }
+                </div>
+            `);
         }
 
         function onDragStart(source, piece, position, orientation) {
@@ -1213,12 +1045,19 @@
         }
 
         function onDrop(source, target) {
-            // Check if move is legal
-            const move = game.move({
-                from: source,
-                to: target,
-                promotion: 'q' // Always promote to queen for simplicity
-            });
+            let move = null;
+            try {
+                // Check if move is legal
+                move = game.move({
+                    from: source,
+                    to: target,
+                    promotion: 'q' // Always promote to queen for simplicity
+                });
+            } catch (e) {
+                // This can happen with chess.js v1+ if the move is invalid
+                console.warn("Invalid move attempted:", e.message);
+                return 'snapback';
+            }
 
             // Illegal move
             if (move === null) return 'snapback';
@@ -1235,13 +1074,15 @@
 
             // Make AI move (coaching happens after AI responds)
             if (!game.game_over()) {
-                setTimeout(() => makeAiMove(), 1000);
+                setTimeout(() => makeAiMove(), 500); // Reduced delay
             }
         }
 
         function onSnapEnd() {
+            // The board state is already updated by game.move()
+            // We just need to ensure the board UI reflects the game logic's FEN
             board.position(game.fen());
-            setTimeout(() => convertImagesToEmojis('#myBoard'), 50);
+            // No emoji conversion needed
         }
 
         // Store AI reasoning for the last move
@@ -1252,7 +1093,7 @@
             if (game.game_over()) return;
             
             isAiThinking = true;
-            // Removed "AI is thinking" message as requested
+            // Removed "AI is thinking" message
             
             try {
                 let moveObject;
@@ -1261,11 +1102,10 @@
                 // Use minimax if in coach mode, otherwise use LLM
                 if (gameMode === 'coach') {
                     // Add a small delay to show the engine is "thinking"
-                    await new Promise(resolve => setTimeout(resolve, 300));
+                    await new Promise(resolve => setTimeout(resolve, 100)); // Shorter delay
                     
                     const depth = getMinimaxDepth();
-                    // Get the side whose turn it is (this should be the AI's turn)
-                    const currentSide = game.turn() === 'w' ? 'w' : 'b';
+                    const currentSide = game.turn();
                     moveToMake = getMinimaxMove(game, currentSide, depth);
                     
                     if (!moveToMake) {
@@ -1273,14 +1113,14 @@
                         return;
                     }
                     
-                    // Execute the move - game.move() returns the move object
+                    // Execute the move
                     moveObject = game.move(moveToMake);
                 } else {
                     // LLM mode
                     moveToMake = await getAiMove();
                     
                     if (moveToMake) {
-                        // Execute the move - game.move() returns the move object
+                        // Execute the move
                         moveObject = game.move(moveToMake);
                     } else {
                         isAiThinking = false;
@@ -1289,13 +1129,18 @@
                 }
                 
                 if (!moveObject) {
-                    console.error('Invalid move');
-                    isAiThinking = false;
-                    return;
+                    console.error('Invalid move attempted by AI');
+                    // Try a random move as a fallback
+                    const moves = game.moves({ verbose: true });
+                    if(moves.length > 0) {
+                        moveObject = game.move(moves[Math.floor(Math.random() * moves.length)]);
+                    } else {
+                        isAiThinking = false;
+                        return;
+                    }
                 }
                 
                 board.position(game.fen());
-                setTimeout(() => convertImagesToEmojis('#myBoard'), 100);
                 
                 moveHistory.push({
                     move: moveObject,
@@ -1303,7 +1148,7 @@
                     player: playerColor === 'white' ? 'black' : 'white'
                 });
                 
-                // Store AI move and reasoning
+                // Store AI move
                 lastAiMove = moveObject;
                 
                 // Get AI reasoning for the move (only if coaching is enabled and we have API key)
@@ -1350,31 +1195,37 @@
             const currentFen = game.fen();
             const moveHistoryText = moveHistory.slice(-10).map(m => m.move.san).join(' ');
 
-            const prompt = `You are a world class chess player engine playing at extreme difficulty level. Think like a grandmaster and play the best possible move and think ahead 0-30 moves to make it extremely hard.
+            // Prompt adjusted for new chess.js version
+            const prompt = `You are a world class chess player engine playing at extreme difficulty level. Think like a grandmaster and play the best possible move.
 Current position (FEN): ${currentFen}
 Recent moves: ${moveHistoryText}
-Legal moves: ${legalMoves.map(m => m.san).join(', ')}
+Legal moves (in SAN format): ${legalMoves.map(m => m.san).join(', ')}
 
-Respond with ONLY a legal move in standard algebraic notation (e.g., "e4", "Nf3", "O-O"). Pick ONE move.`;
+Respond with ONLY your chosen move in Standard Algebraic Notation (e.g., "e4", "Nf3", "O-O"). Pick ONE move.`;
 
             try {
                 const response = await callAiAPI(prompt, 'ai-player');
-                const moveText = response.trim().replace(/['"]/g, '');
+                const moveText = response.trim().replace(/['".]/g, ''); // Clean up response
                 
                 // Try to find matching move
-                const matchingMove = legalMoves.find(m => 
-                    m.san === moveText || m.from + m.to === moveText.toLowerCase()
-                );
+                let matchingMove = legalMoves.find(m => m.san === moveText);
+
+                if (!matchingMove) {
+                    // Try to find by coordinate notation (e.g., e2e4)
+                    matchingMove = legalMoves.find(m => m.from + m.to === moveText.toLowerCase());
+                }
                 
                 if (matchingMove) {
                     return matchingMove;
                 }
                 
-                // Fallback: random legal move
+                // Fallback: AI gave a weird response, pick a random move
+                console.warn(`AI returned non-legal move: "${moveText}". Picking random move.`);
                 return legalMoves[Math.floor(Math.random() * legalMoves.length)];
                 
             } catch (error) {
                 console.error('Error getting AI move:', error);
+                // Fallback: random legal move
                 return legalMoves[Math.floor(Math.random() * legalMoves.length)];
             }
         }
@@ -1399,7 +1250,7 @@ Explain why you made this move in 2-3 sentences:
 Be educational and help the player understand opponent thinking. Keep it concise and clear.`;
 
             try {
-                        const reasoning = await callAiAPI(prompt, 'coach');
+                const reasoning = await callAiAPI(prompt, 'coach');
                 return reasoning;
             } catch (error) {
                 console.error('Error getting AI reasoning:', error);
@@ -1447,7 +1298,7 @@ Be educational and help the player understand opponent thinking. Keep it concise
             }
             
             if (!gameStarted) {
-                alert('Start a game first!');
+                addCoachMessage('system', 'Start a game first before asking questions!');
                 return;
             }
             
@@ -1470,16 +1321,12 @@ Move number: ${moveNumber}
 Player color: ${playerColor}
 Player's turn: ${(game.turn() === 'w' && playerColor === 'white') || (game.turn() === 'b' && playerColor === 'black') ? 'Yes' : 'No'}
 
-Respond helpfully to their message. Provide guidance, answer their question, or discuss the position. Keep response to 3-4 sentences. Be encouraging and educational.`;
+Respond helpfully to their message. Provide guidance, answer their question, or discuss the position. Keep response to 3-4 sentences. Be encouraging and educational.
+**Important**: If you mention key squares, list them in your text (e.g., "focus on controlling e4 and d5").`;
 
             try {
                 const response = await callAiAPI(prompt, 'coach');
-                
-                // Extract mentioned squares for highlighting
-                const squarePattern = /\b[a-h][1-8]\b/g;
-                const mentionedSquares = response.match(squarePattern) || [];
-                
-                addCoachMessage('coach', response, currentFen, mentionedSquares);
+                addCoachMessage('coach', response, currentFen);
             } catch (error) {
                 console.error('Error getting coach response:', error);
                 addCoachMessage('system', '⚠️ Error getting coach response. Please check your API key.');
@@ -1499,17 +1346,16 @@ Respond helpfully to their message. Provide guidance, answer their question, or 
             const aiLastMove = lastTwoMoves[1];
             const recentMoves = moveHistory.slice(-6).map(m => m.move.san).join(' ');
 
-            // Strategic coaching moments - like a real coach would intervene
+            // Strategic coaching moments
             const isCheckOrCheckmate = game.in_check() || game.in_checkmate();
-            const isOpeningPhase = moveNumber <= 5; // First 5 move pairs
-            const isKeyMoment = movesSinceCoaching >= 4; // Every 4 complete turns (8 moves)
+            const isOpeningPhase = moveNumber <= 5;
+            const isKeyMoment = movesSinceCoaching >= 4; // Every 4 complete turns
             const isCriticalPosition = game.in_check() || game.in_checkmate() || game.in_stalemate();
             
-            // Decide if we should coach at this moment
             const shouldCoach = isCheckOrCheckmate || 
-                               (isOpeningPhase && moveNumber % 2 === 0) || // Every 2 turns in opening
-                               (isKeyMoment && !isOpeningPhase) || // Every 4 turns mid/endgame
-                               isCriticalPosition;
+                                (isOpeningPhase && moveNumber % 2 === 0) || // Every 2 turns in opening
+                                (isKeyMoment && !isOpeningPhase) || // Every 4 turns mid/endgame
+                                isCriticalPosition;
 
             if (!shouldCoach) return;
 
@@ -1534,19 +1380,14 @@ As a Socratic coach:
 2. Ask thought-provoking questions about the position
 3. Identify key squares, threats, or opportunities
 4. Teach relevant chess concepts (tactics, strategy, openings)
-5. In your response, mention 1-2 specific key squares (like "e5", "d4") that are important
+5. **Important**: In your response, list 1-2 specific key squares (like "e5", "d4") that are important
 6. Keep response to 3-4 sentences
 
 Be encouraging but insightful. Focus on teaching, not just describing.`;
 
             try {
                 const coaching = await callAiAPI(prompt, 'coach');
-                
-                // Extract mentioned squares from coaching for highlighting
-                const squarePattern = /\b[a-h][1-8]\b/g;
-                const mentionedSquares = coaching.match(squarePattern) || [];
-                
-                addCoachMessage('coach', coaching, currentFen, mentionedSquares);
+                addCoachMessage('coach', coaching, currentFen);
             } catch (error) {
                 console.error('Error getting coaching:', error);
             }
@@ -1555,7 +1396,7 @@ Be encouraging but insightful. Focus on teaching, not just describing.`;
         async function provideOpeningAdvice() {
             const prompt = `You are a chess coach at the start of a game. The player is playing as ${playerColor}. 
 Provide brief (2-3 sentences) encouraging advice about opening principles:
-- Control the center
+- Control the center (e.g., e4, d4, e5, d5)
 - Develop pieces
 - King safety
 - Don't move the same piece twice
@@ -1572,7 +1413,7 @@ Be warm and encouraging.`;
 
         async function askCoachForAdvice() {
             if (!gameStarted) {
-                alert('Start a game first!');
+                addCoachMessage('system', 'Start a game first before asking for advice!');
                 return;
             }
 
@@ -1593,7 +1434,7 @@ Player's turn: ${(game.turn() === 'w' && playerColor === 'white') || (game.turn(
 Provide helpful guidance:
 1. What should the player be thinking about in this position?
 2. What are the key features of the position?
-3. Mention 1-2 specific important squares (like "e5", "d4") 
+3. **Important**: List 1-2 specific important squares (like "e5", "d4") 
 4. What might be some good candidate moves to consider?
 5. Use Socratic questioning to help them think critically
 
@@ -1601,12 +1442,7 @@ Keep response to 3-4 sentences. Be encouraging and educational.`;
 
             try {
                 const advice = await callAiAPI(prompt, 'coach');
-                
-                // Extract mentioned squares for highlighting
-                const squarePattern = /\b[a-h][1-8]\b/g;
-                const mentionedSquares = advice.match(squarePattern) || [];
-                
-                addCoachMessage('coach', advice, currentFen, mentionedSquares);
+                addCoachMessage('coach', advice, currentFen);
             } catch (error) {
                 console.error('Error getting advice:', error);
                 addCoachMessage('system', '⚠️ Error getting coaching advice. Please check your API key.');
@@ -1656,6 +1492,7 @@ Keep response to 3-4 sentences. Be encouraging and educational.`;
                 return message.trim();
             }
 
+            // Default to Gemini
             if (!geminiApiKey) {
                 throw new Error('Gemini API key is missing.');
             }
@@ -1688,13 +1525,22 @@ Keep response to 3-4 sentences. Be encouraging and educational.`;
             const data = await response.json();
             const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
             if (!text) {
+                // Check for safety blocks
+                if(data.candidates?.[0]?.finishReason === 'SAFETY') {
+                    console.warn('Gemini API blocked response due to safety settings.');
+                    return "My response was blocked by safety filters. Let's try a different topic.";
+                }
                 throw new Error('Gemini API returned an empty response.');
             }
 
             return text.trim();
         }
 
-        function addCoachMessage(type, message, fen = null, highlightSquares = []) {
+        /**
+         * Adds a message to the chat.
+         * Now uses a static image for the mini-board.
+         */
+        function addCoachMessage(type, message, fen = null) {
             const messageDiv = $('<div>').addClass('message').addClass(type);
             
             let header = '';
@@ -1709,104 +1555,24 @@ Keep response to 3-4 sentences. Be encouraging and educational.`;
             const content = $('<div>').addClass('message-content').text(message);
             messageDiv.append(content);
             
-            // Add to DOM first
+            // Add static mini board visualization if FEN provided
+            if (fen && type === 'coach') {
+                // Use a static image generator for performance
+                // The 'chess-com' piece style is clear and looks good
+                const imgUrl = `https://chessboardimage.com/img/${fen}.png?style=chess-com&size=280`;
+                const miniBoardImg = $('<img>')
+                    .attr('src', imgUrl)
+                    .addClass('mini-board-img')
+                    .attr('alt', 'Chess position');
+                messageDiv.append(miniBoardImg);
+            }
+
+            // Add to DOM
             $('#coachingChat').append(messageDiv);
             $('#coachingChat').scrollTop($('#coachingChat')[0].scrollHeight);
-            
-            // Add mini board visualization if FEN provided
-            if (fen && type === 'coach') {
-                const miniId = 'mini-' + Date.now();
-                const miniDiv = $('<div>').attr('id', miniId).addClass('mini-board').css('position', 'relative');
-                messageDiv.append(miniDiv);
-                
-                        // Create mini board after DOM insertion - need longer delay
-                setTimeout(() => {
-                    try {
-                        // Verify element exists in DOM
-                        const element = document.getElementById(miniId);
-                        if (!element) {
-                            console.warn('Mini board element not found in DOM:', miniId);
-                            return;
-                        }
-                        
-                        // Create transparent pixel to prevent 404 errors
-                        const transparentPixel = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-                        
-                        // Create board using just the ID string (no #)
-                        const miniBoard = Chessboard(miniId, {
-                            position: fen,
-                            draggable: false,
-                            showNotation: false,
-                            pieceTheme: function(piece) {
-                                return transparentPixel;
-                            }
-                        });
-                        
-                        // Convert images to emojis for mini board
-                        setTimeout(() => {
-                            convertImagesToEmojis('#' + miniId);
-                            
-                            // Add highlights for key squares
-                            if (highlightSquares.length > 0) {
-                                addSquareHighlights(miniId, highlightSquares);
-                            }
-                        }, 200);
-                    } catch (error) {
-                        console.error('Error creating mini board:', error, miniId);
-                        // Remove the div if board creation failed
-                        $('#' + miniId).remove();
-                    }
-                }, 200);
-            }
         }
-        
-        function addSquareHighlights(boardId, squares) {
-            const $board = $('#' + boardId);
-            if ($board.length === 0) return;
-            
-            // Limit to first 3 mentioned squares to avoid clutter
-            const squaresToHighlight = squares.slice(0, 3);
-            
-            // Add highlights to mentioned squares
-            squaresToHighlight.forEach((square, index) => {
-                // Find the square element by data-square attribute or class
-                let $square = $board.find(`[data-square="${square}"]`);
-                
-                // If not found by data-square, try finding by square- class
-                if ($square.length === 0) {
-                    $square = $board.find(`[class*="square-${square}"]`);
-                }
-                
-                if ($square.length > 0) {
-                    // Create highlight overlay with different colors for each
-                    const colors = [
-                        { bg: 'rgba(255, 255, 0, 0.5)', border: '#ffcc00' },  // Yellow for primary
-                        { bg: 'rgba(0, 255, 255, 0.4)', border: '#00ccff' },  // Cyan for secondary
-                        { bg: 'rgba(255, 0, 255, 0.4)', border: '#ff00ff' }   // Magenta for tertiary
-                    ];
-                    
-                    const colorSet = colors[index] || colors[0];
-                    
-                    const $highlight = $('<div>')
-                        .addClass('square-highlight')
-                        .css({
-                            'position': 'absolute',
-                            'top': '0',
-                            'left': '0',
-                            'right': '0',
-                            'bottom': '0',
-                            'background': colorSet.bg,
-                            'border': '3px solid ' + colorSet.border,
-                            'pointer-events': 'none',
-                            'z-index': '1',
-                            'box-sizing': 'border-box',
-                            'border-radius': '3px'
-                        });
-                    
-                    $square.css('position', 'relative').append($highlight);
-                }
-            });
-        }
+
+        // Removed addSquareHighlights function
 
         function updateStatus() {
             let status = '';
@@ -1889,12 +1655,14 @@ Keep response to 3-4 sentences. Be encouraging and educational.`;
                 `;
             }
             
-            $('#moveList').html(html || '<p style="color: #999;">No moves yet</p>');
+            $('#moveList').html(html || '<p style="color: #999; padding: 8px;">No moves yet</p>');
+            // Scroll to bottom of move list
+            $('#moveList').scrollTop($('#moveList')[0].scrollHeight);
         }
 
         function undoLastMove() {
             if (moveHistory.length < 2) {
-                alert('No moves to undo');
+                addCoachMessage('system', 'No moves to undo.');
                 return;
             }
             
@@ -1906,12 +1674,13 @@ Keep response to 3-4 sentences. Be encouraging and educational.`;
             moveHistory.pop();
             
             board.position(game.fen());
-            setTimeout(() => convertImagesToEmojis('#myBoard'), 100);
             updateStatus();
             updateMoveHistory();
             
             addCoachMessage('system', 'Last move undone. Try a different approach!');
         }
+        
+        } // End of initializeChessApp()
     </script>
 </body>
 </html>
