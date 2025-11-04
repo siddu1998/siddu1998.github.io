@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chess Coach - In-Game Learning vs Post-Game Analysis</title>
+    <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #ffffff;
+            background-image: 
+                linear-gradient(rgba(200, 200, 200, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(200, 200, 200, 0.15) 1px, transparent 1px);
+            background-size: 40px 40px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #1a1a1a;
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+        nav {
+            width: 220px;
+            padding: 2rem;
+            border-right: 1px solid rgba(200, 200, 200, 0.3);
+            flex-shrink: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        nav a {
+            display: block;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            text-decoration: underline;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        nav a:hover {
+            text-decoration: none;
+            color: #666;
+        }
+        .nav-logo {
+            font-weight: 600;
+            margin-bottom: 2rem;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 1.3rem;
+            color: #1a1a1a;
+            transition: color 0.2s ease;
+        }
+        .nav-logo:hover {
+            color: #666;
+        }
+        main {
+            flex-grow: 1;
+            overflow-y: auto;
+            height: 100vh;
+            background-color: transparent;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            line-height: 1.2;
+        }
+        h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            color: #1a1a1a;
+        }
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+        h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #1a1a1a;
+        }
+        p {
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        .project-meta {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        ul {
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+        ol {
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .key-finding {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid #1a1a1a;
+            margin: 2rem 0;
+        }
+        .card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .comparison-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        .comparison-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        .example-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+        }
+        .example-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        .example-board {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .example-board h4 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+        .board-container-example {
+            width: 100%;
+            max-width: 350px;
+            margin: 0 auto 1rem auto;
+        }
+        .coach-message-example {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .player-message-example {
+            background: #e6fff2;
+            border-left: 4px solid #48bb78;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .message-header-example {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 0 1rem; }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+            .comparison-table { font-size: 0.9rem; }
+            .example-grid {
+                grid-template-columns: 1fr;
+            }
+            nav {
+                width: 100%;
+                padding: 1rem;
+                border-right: none;
+                border-bottom: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-logo">Sai Maram</a>
+        <div class="nav-container">
+            <a href="index.html">Home</a>
+            <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <h1>AI Chess Coach: Building Mental Models Through In-Game Visualization</h1>
+            <div class="project-meta">
+                <span class="badge">Educational Technology</span>
+                <span class="badge">Socratic Learning</span>
+                <span class="badge">In-Game Coaching</span>
+                <a href="./chess.html" style="text-decoration: underline; color: #666;">Play AI Chess Coach Now →</a>
+            </div>
+            
+            <p>Most chess training happens after your game ends. You lose, pull up Chess.com's analysis, and see that move 14 was a "mistake" or move 23 was a "blunder." The computer shows arrows and evaluations telling you what you should have done. But by then, you've forgotten what you were thinking. You can't remember why you made that move, what alternatives you considered, or what patterns you were trying to recognize. The learning opportunity is gone.</p>
+            
+            <p>AI Chess Coach takes a different approach: it coaches you <em>while you play</em>, not after. Instead of telling you what was wrong, it helps you build better mental models in real-time—asking Socratic questions, visualizing critical squares, and helping you think through positions as they happen. You learn resilience by working through tough spots with guidance. You develop planning skills by articulating your thinking out loud. And most importantly, you build pattern recognition that transfers to future games.</p>
+
+            <h2>The Problem with Post-Game Analysis</h2>
+            <p><strong>Chess.com and similar platforms excel at showing what happened—but not why you thought it was right:</strong> After a game ends, you can review every move with computer evaluation. The system tells you move 14 was a "mistake" (evaluation drops from +1.2 to +0.3). It shows you the "best" move with an arrow. But it doesn't help you understand your thinking process. You don't learn <em>why</em> you made that mistake or <em>how</em> to recognize better patterns in future games.</p>
+            
+            <p><strong>The disconnect between feedback and decision-making:</strong> By the time you're reviewing your game, you've moved on mentally. You can't remember what you were thinking at move 14. Did you see the better move and reject it? Did you miss it entirely? Were you focused on a different part of the board? Without understanding your mental model at the moment of decision, post-game analysis just shows you what you did wrong—it doesn't help you build better thinking patterns.</p>
+            
+            <p><strong>It's reactive, not proactive:</strong> Post-game analysis waits until you've lost to tell you where you went wrong. You don't learn to spot weak squares before your opponent exploits them. You don't develop the habit of asking "What is my opponent threatening?" until after you've been attacked. The coaching comes too late to build the mental habits that prevent mistakes in the first place.</p>
+
+            <h2>The In-Game Coaching Approach</h2>
+            <p><strong>What if coaching happened while you're deciding, not after you've decided?</strong> AI Chess Coach provides guidance during gameplay. After each move exchange, the coach asks questions about the position. When you're stuck, you can think out loud and get Socratic guidance. When you're curious about a pattern, you can ask and see it visualized immediately. The coaching is tied to your actual decision-making process, building mental models in real-time.</p>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Post-Game Analysis (Chess.com)</th>
+                        <th>In-Game Coaching (AI Chess Coach)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>When</strong></td>
+                        <td>After the game ends</td>
+                        <td>During active gameplay</td>
+                    </tr>
+                    <tr>
+                        <td><strong>What it shows</strong></td>
+                        <td>"This move was a mistake" (computer evaluation)</td>
+                        <td>"What squares should you control?" (Socratic question)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Learning focus</strong></td>
+                        <td>What you did wrong</td>
+                        <td>How to think better</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mental models</strong></td>
+                        <td>Doesn't capture or develop thinking process</td>
+                        <td>Builds pattern recognition through questioning</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Resilience</strong></td>
+                        <td>Shows you lost—doesn't help you recover</td>
+                        <td>Guides you through tough positions in real-time</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Planning</strong></td>
+                        <td>No support during decision-making</td>
+                        <td>Helps you think through moves before making them</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Student input</strong></td>
+                        <td>Passive review only</td>
+                        <td>Active thinking out loud encouraged</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Building Mental Models in Real-Time</h2>
+            <p>The key difference is focus. Post-game analysis tells you what moves were good or bad. In-game coaching helps you build the mental frameworks to find good moves yourself.</p>
+
+            <p><strong>What are mental models in chess?</strong> Mental models are the patterns and frameworks expert players use: "Control the center in the opening," "Look for knight forks when pieces are undefended," "Activate rooks in the endgame." These aren't just facts to memorize—they're thinking patterns that guide decision-making. In-game coaching builds these patterns by asking questions at the moment you need them.</p>
+
+            <h2>How the System Works</h2>
+            <p>Three core features work together to build mental models, resilience, and planning skills:</p>
+
+            <div class="card">
+                <h4>1. Socratic Coaching During Play</h4>
+                <p>After each move exchange (you move, AI moves), the coach analyzes the position and asks guiding questions. Instead of "You should have played Nf3," it asks "What squares does your knight control from f3? How does that help your position?" You learn to ask yourself these questions in future games.</p>
+            </div>
+
+            <div class="card">
+                <h4>2. Visual Board Context with Highlighting</h4>
+                <p>Every coaching message includes a mini-board showing the exact position being discussed. When the coach mentions "e4" or "d5," those squares are automatically highlighted in yellow. You see what the coach is talking about, not just reading abstract notation. This builds visual pattern recognition.</p>
+            </div>
+
+            <div class="card">
+                <h4>3. Think-Out-Loud Input</h4>
+                <p>You can type your thoughts mid-game: "I'm thinking about Nf3 but worried about my e4 pawn." The coach responds to your actual thinking process with Socratic questions and visual demonstrations. This externalizes your mental model, making weaknesses visible and fixable.</p>
+            </div>
+
+            <h2>Real Examples from the System</h2>
+
+            <div class="example-section">
+                <h3>Example 1: Developing Pattern Recognition (Opening Phase)</h3>
+                <p><strong>What happens:</strong> You play 1.e4. Instead of waiting until the game ends to analyze, the coach immediately provides context.</p>
+                
+                <div class="example-grid">
+                    <div class="example-board">
+                        <h4>Your Move: 1.e4</h4>
+                        <div id="board-example-1" class="board-container-example"></div>
+                    </div>
+                    
+                    <div class="example-board">
+                        <h4>Coach Response</h4>
+                        <div class="coach-message-example">
+                            <div class="message-header-example">🎓 Coach</div>
+                            Good start! You've played e4, controlling the center. Notice the highlighted squares—e4 and e5 are the most important in the opening. What do you think your opponent might play? And why would controlling these squares help your pieces?
+                        </div>
+                        <div id="board-mini-1" class="board-container-example" style="max-width: 250px;"></div>
+                        <p style="font-size: 0.85rem; color: #666; text-align: center; margin-top: 0.5rem;">e4 and e5 highlighted in yellow</p>
+                    </div>
+                </div>
+                
+                <p><strong>What you're learning:</strong> You're building the mental model "center squares matter in openings" while actually playing, not reading about it in a book. The visual highlighting helps you remember these squares in future games.</p>
+            </div>
+
+            <div class="example-section">
+                <h3>Example 2: Building Planning Skills Through Thinking Out Loud</h3>
+                <p><strong>What happens:</strong> You're about to move but uncertain. Instead of guessing, you type your thinking process.</p>
+                
+                <div class="example-grid">
+                    <div class="example-board">
+                        <h4>Position (1.e4 e5)</h4>
+                        <div id="board-example-2" class="board-container-example"></div>
+                        <div class="player-message-example" style="margin-top: 1rem;">
+                            <div class="message-header-example">👤 You Type</div>
+                            I'm considering Nf3, but I'm worried about leaving my e4 pawn undefended. Should I defend it first or develop pieces?
+                        </div>
+                    </div>
+                    
+                    <div class="example-board">
+                        <h4>Coach Guides Your Thinking</h4>
+                        <div class="coach-message-example">
+                            <div class="message-header-example">🎓 Coach</div>
+                            Great question! Look at the highlighted squares—your pawn on e4 is defended by your queen on d1. Nf3 develops while maintaining that defense. What squares does Nf3 control? How does that help your position?
+                        </div>
+                        <div id="board-mini-2" class="board-container-example" style="max-width: 250px;"></div>
+                        <p style="font-size: 0.85rem; color: #666; text-align: center; margin-top: 0.5rem;">Shows defense relationship</p>
+                    </div>
+                </div>
+                
+                <p><strong>What you're learning:</strong> You're developing the habit of checking piece safety before moving. By thinking out loud, you make your mental model explicit. The coach's questions help you spot what you missed (the queen defends the pawn). In future games, you'll automatically check for defenders before worrying about "undefended" pieces.</p>
+            </div>
+
+            <div class="example-section">
+                <h3>Example 3: Developing Resilience by Discovering Tactics</h3>
+                <p><strong>What happens:</strong> You're in a complex position. Instead of just telling you "there's a fork here," the coach asks guiding questions.</p>
+                
+                <div class="example-grid">
+                    <div class="example-board">
+                        <h4>Complex Position</h4>
+                        <div id="board-example-3" class="board-container-example"></div>
+                        <p style="font-size: 0.85rem; color: #666;">Italian Game: After 1.e4 e5 2.Nf3 Nc6 3.Bc4 Nf6 4.Ng5</p>
+                    </div>
+                    
+                    <div class="example-board">
+                        <h4>Coach Asks, Doesn't Tell</h4>
+                        <div class="coach-message-example">
+                            <div class="message-header-example">🎓 Coach</div>
+                            Interesting position! Look at your knight on g5 and the f7 square. What would happen if your knight jumped to f7? Which pieces would it attack? Think about the king's position...
+                        </div>
+                        <div id="board-mini-3" class="board-container-example" style="max-width: 250px;"></div>
+                        <p style="font-size: 0.85rem; color: #666; text-align: center; margin-top: 0.5rem;">f7 and g5 highlighted</p>
+                    </div>
+                </div>
+                
+                <p><strong>What you're learning:</strong> Instead of being told "play Nxf7," you discover the pattern yourself through guided questions. This builds resilience—when you face similar positions later, you recognize the pattern and find the tactic yourself. You're learning <em>how to think</em>, not just <em>what to play</em>.</p>
+            </div>
+
+            <div class="example-section">
+                <h3>Example 4: Visual Learning of Opening Patterns</h3>
+                <p><strong>What happens:</strong> You ask "Can you show me the Queen's Gambit?" The system animates the opening so you see how moves flow.</p>
+                
+                <div style="max-width: 500px; margin: 0 auto;">
+                    <div class="player-message-example">
+                        <div class="message-header-example">👤 You Ask</div>
+                        Can you show me the Queen's Gambit?
+                    </div>
+                    
+                    <div class="coach-message-example">
+                        <div class="message-header-example">🎓 Coach</div>
+                        The Queen's Gambit: White plays 1.d4 to control the center. Black responds 1...d5. Then White plays 2.c4, offering a pawn to gain central control. Watch the board below—notice how each move fights for the center squares...
+                    </div>
+                    
+                    <div class="example-board" style="margin-top: 1.5rem;">
+                        <h4>Animated Opening (Watch It Unfold)</h4>
+                        <div id="board-example-4" class="board-container-example"></div>
+                        <p style="font-size: 0.85rem; color: #666; text-align: center;">Animates: 1.d4 → 1...d5 → 2.c4 (highlighted)</p>
+                    </div>
+                </div>
+                
+                <p><strong>What you're learning:</strong> You see openings as dynamic sequences, not static diagrams. The animation shows how each move connects to the next. After watching, you understand the <em>idea</em> behind the Queen's Gambit (central control through pawn sacrifice), not just the moves.</p>
+            </div>
+
+
+            <h2>What You Actually Build</h2>
+
+            <h3>1. Mental Models (Pattern Recognition)</h3>
+            <p>Through repeated exposure to highlighted squares and Socratic questions, you develop automatic pattern recognition. After seeing "control e4 and e5" highlighted multiple times across different openings, you start thinking about center control automatically in future games. These patterns become part of your mental toolkit.</p>
+
+            <h3>2. Resilience (Working Through Difficulty)</h3>
+            <p>When you're in a tough position, the coach doesn't abandon you—it asks questions that help you find the path forward. "What threats is your opponent creating? How can you defend?" You learn to stay calm, analyze systematically, and find solutions even when positions feel overwhelming. This resilience transfers to future games.</p>
+
+            <h3>3. Planning Skills (Thinking Ahead)</h3>
+            <p>By typing your thoughts out loud, you develop the habit of articulating your plans before executing them. "If I move my knight to f3, it controls e5 and d4." The coach responds: "Good analysis! What would your next move be after Nf3?" You learn to think multiple moves ahead, building planning skills that weak players lack.</p>
+
+            <h3>4. Self-Questioning Habits</h3>
+            <p>The most powerful long-term benefit: you internalize the coach's questions. After enough games, you automatically ask yourself "What squares matter here?" or "What is my opponent threatening?" without needing the coach. The Socratic method becomes your internal dialogue.</p>
+
+            
+            <h2>Why This Approach Works</h2>
+            <p>Learning happens best when it's:</p>
+            <ul>
+                <li><strong>Contextual:</strong> Tied to actual decision-making moments (in-game), not disconnected reviews (post-game)</li>
+                <li><strong>Active:</strong> You discover patterns through questions, not passive reception of "correct answers"</li>
+                <li><strong>Visual:</strong> You see patterns highlighted on actual boards, building spatial recognition</li>
+                <li><strong>Reflective:</strong> You articulate your thinking, making mental models explicit and improvable</li>
+            </ul>
+
+            <p>Post-game analysis shows you what you did wrong. In-game coaching helps you develop the thinking patterns to avoid those mistakes in the first place.</p>
+
+       
+
+            <h2>Conclusion</h2>
+            <p>AI Chess Coach shows that chess learning doesn't have to wait until after you lose. By providing Socratic coaching during gameplay, visualizing critical patterns in real-time, and encouraging students to think out loud, the system builds mental models, resilience, and planning skills that post-game analysis can't match.</p>
+
+            <p>The shift from "what was wrong" to "how to think better" is what makes in-game coaching fundamentally different from traditional post-game analysis.</p>
+
+            <!-- Skills Demonstrated -->
+            <div class="key-finding" style="margin-top: 3rem;">
+                <h4>Skills & Methods Demonstrated</h4>
+                <p><strong>Design:</strong> Interactive Design • Visualization Design • Educational Technology • UX Design</p>
+                <p><strong>Development:</strong> JavaScript • Chess.js • Chessboard.js • LLM Integration • Animation Systems</p>
+                <p><strong>Pedagogy:</strong> Socratic Methods • Mental Model Development • Learning Design • Resilience Building</p>
+                <p><strong>Innovation:</strong> In-Game Coaching • Real-Time Visualization • Think-Aloud Protocols</p>
+            </div>
+
+        </div>
+
+        <footer style="text-align: center; padding: 2rem; color: #666; border-top: 1px solid #e0e0e0; margin-top: 3rem;">
+            <p>&copy; 2024 Sai Maram. Case Study.</p>
+            <p style="margin-top: 0.5rem;"><a href="./index.html" style="color: #1a1a1a; text-decoration: underline;">Back to Portfolio</a> | <a href="./chess.html" style="color: #1a1a1a; text-decoration: underline;">Try AI Chess Coach</a></p>
+        </footer>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const pieceTheme = 'chess_images/chesspieces/wikipedia/{piece}.png';
+            
+            // Example 1: Opening position after e4
+            const board1 = Chessboard('board-example-1', {
+                position: 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR',
+                draggable: false,
+                pieceTheme: pieceTheme
+            });
+            
+            // Mini board for example 1 with e4 and e5 highlighted
+            const boardMini1 = Chessboard('board-mini-1', {
+                position: 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR',
+                draggable: false,
+                pieceTheme: pieceTheme
+            });
+            
+            setTimeout(function() {
+                $('#board-mini-1 .square-e4, #board-mini-1 .square-e5').css({
+                    'background': 'rgba(255, 255, 0, 0.5)',
+                    'box-shadow': 'inset 0 0 0 3px rgba(255, 204, 0, 0.8)'
+                });
+            }, 200);
+            
+            // Example 2: Position after e4 e5
+            const board2 = Chessboard('board-example-2', {
+                position: 'rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR',
+                draggable: false,
+                pieceTheme: pieceTheme
+            });
+            
+            // Mini board showing Nf3 position with defense shown
+            const boardMini2 = Chessboard('board-mini-2', {
+                position: 'rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R',
+                draggable: false,
+                pieceTheme: pieceTheme
+            });
+            
+            setTimeout(function() {
+                $('#board-mini-2 .square-e4, #board-mini-2 .square-f3, #board-mini-2 .square-d1').css({
+                    'background': 'rgba(255, 255, 0, 0.5)',
+                    'box-shadow': 'inset 0 0 0 3px rgba(255, 204, 0, 0.8)'
+                });
+            }, 200);
+            
+            // Example 3: Italian Game tactical position
+            const board3 = Chessboard('board-example-3', {
+                position: 'r1bqkb1r/pppp1ppp/2n2n2/4p1N1/2B1P3/8/PPPP1PPP/RNBQK2R',
+                draggable: false,
+                pieceTheme: pieceTheme
+            });
+            
+            const boardMini3 = Chessboard('board-mini-3', {
+                position: 'r1bqkb1r/pppp1ppp/2n2n2/4p1N1/2B1P3/8/PPPP1PPP/RNBQK2R',
+                draggable: false,
+                pieceTheme: pieceTheme
+            });
+            
+            setTimeout(function() {
+                $('#board-mini-3 .square-f7, #board-mini-3 .square-g5, #board-mini-3 .square-e8').css({
+                    'background': 'rgba(255, 255, 0, 0.5)',
+                    'box-shadow': 'inset 0 0 0 3px rgba(255, 204, 0, 0.8)'
+                });
+            }, 200);
+            
+            // Example 4: Queen's Gambit animation
+            const board4 = Chessboard('board-example-4', {
+                position: 'start',
+                draggable: false,
+                pieceTheme: pieceTheme
+            });
+            
+            // Animate Queen's Gambit sequence
+            setTimeout(function() {
+                board4.position('rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR');
+            }, 1000);
+            
+            setTimeout(function() {
+                board4.position('rnbqkbnr/ppp1pppp/8/3p4/3P4/8/PPP1PPPP/RNBQKBNR');
+            }, 2000);
+            
+            setTimeout(function() {
+                board4.position('rnbqkbnr/ppp1pppp/8/3p4/2PP4/8/PP2PPPP/RNBQKBNR');
+                setTimeout(function() {
+                    $('#board-example-4 .square-c4, #board-example-4 .square-d4, #board-example-4 .square-d5').css({
+                        'background': 'rgba(255, 255, 0, 0.5)',
+                        'box-shadow': 'inset 0 0 0 3px rgba(255, 204, 0, 0.8)'
+                    });
+                }, 200);
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
