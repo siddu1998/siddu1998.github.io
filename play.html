@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Webcam Cricket - AI Powered</title>
+    <!-- TensorFlow.js and MoveNet model dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            display: none; /* Initially hidden */
+        }
+        video, canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: scaleX(-1); /* Mirror image for intuitive movement */
+        }
+        canvas {
+            border: 2px solid white;
+        }
+    </style>
+</head>
+<body>
+    <div id="handedness-selection" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; background: rgba(0,0,0,0.7); padding: 20px; color: white; text-align: center; border-radius: 10px;">
+        <h2>Which hand do you bat with?</h2>
+        <button id="right-handed" style="padding: 10px 20px; font-size: 16px; cursor: pointer; margin: 5px;">Right Hand</button>
+        <button id="left-handed" style="padding: 10px 20px; font-size: 16px; cursor: pointer; margin: 5px;">Left Hand</button>
+    </div>
+
+    <div class="container">
+        <video id="video" width="800" height="600" preload autoplay loop muted></video>
+        <canvas id="canvas" width="800" height="600"></canvas>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const selectionDiv = document.getElementById('handedness-selection');
+            const rightHandedButton = document.getElementById('right-handed');
+            const leftHandedButton = document.getElementById('left-handed');
+            const container = document.querySelector('.container');
+            let batsmanHand = 'right'; // Default
+
+            rightHandedButton.addEventListener('click', () => {
+                batsmanHand = 'right';
+                startGame();
+            });
+
+            leftHandedButton.addEventListener('click', () => {
+                batsmanHand = 'left';
+                startGame();
+            });
+
+            function startGame() {
+                selectionDiv.style.display = 'none';
+                container.style.display = 'block';
+                runGame();
+            }
+
+            async function runGame() {
+                const video = document.getElementById('video');
+                const canvas = document.getElementById('canvas');
+                const context = canvas.getContext('2d');
+
+                let wristAsBat = null;
+                let lastWristPosition = null;
+                let swingSpeed = 0;
+                let detector;
+                let poses;
+
+                // Setup camera
+                async function setupCamera() {
+                    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                        throw new Error('Browser API navigator.mediaDevices.getUserMedia not available');
+                    }
+                    const stream = await navigator.mediaDevices.getUserMedia({ 'video': true });
+                    video.srcObject = stream;
+                    await new Promise((resolve) => {
+                        video.onloadedmetadata = () => resolve(video);
+                    });
+                    return video;
+                }
+
+                // Load the MoveNet model
+                async function loadModel() {
+                    const detectorConfig = { modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING };
+                    detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet, detectorConfig);
+                }
+
+                try {
+                    await setupCamera();
+                    video.play();
+                    await loadModel();
+                } catch (err) {
+                    alert('Failed to initialize. Please allow camera access and refresh.');
+                    console.error(err);
+                    return;
+                }
+
+                let ball = {
+                    x: canvas.width / 2,
+                    y: 0,
+                    radius: 15,
+                    vx: (Math.random() - 0.5) * 4,
+                    vy: 6,
+                    draw: function() {
+                        context.beginPath();
+                        context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+                        context.closePath();
+                        context.fillStyle = 'yellow';
+                        context.fill();
+                    }
+                };
+
+                let gameState = 'ready'; // ready, bowling, hit, missed
+
+                function resetBall() {
+                    ball.y = 0;
+                    if (batsmanHand === 'right') {
+                        // For a right-hander (on screen right due to mirror), ball comes from screen-left.
+                        ball.x = canvas.width / 4 + Math.random() * (canvas.width / 4);
+                    } else {
+                        // For a left-hander (on screen left), ball comes from screen-right.
+                        ball.x = canvas.width / 2 + Math.random() * (canvas.width / 4);
+                    }
+                    ball.vx = (Math.random() - 0.5) * 4;
+                    ball.vy = 6;
+                    gameState = 'bowling';
+                }
+
+                // Function to draw the detected skeleton
+                function drawSkeleton(keypoints) {
+                    const adjacentKeyPoints = poseDetection.util.getAdjacentPairs(poseDetection.SupportedModels.MoveNet);
+                    
+                    context.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+                    context.lineWidth = 2;
+
+                    adjacentKeyPoints.forEach((pair) => {
+                        const [i, j] = pair;
+                        const kp1 = keypoints[i];
+                        const kp2 = keypoints[j];
+                        
+                        if (kp1.score > 0.3 && kp2.score > 0.3) {
+                            context.beginPath();
+                            context.moveTo(kp1.x, kp1.y);
+                            context.lineTo(kp2.x, kp2.y);
+                            context.stroke();
+                        }
+                    });
+                }
+                function drawBatHeatmap(x, y, maxRadius) {
+                    let gradient = context.createRadialGradient(x, y, 0, x, y, maxRadius);
+                    gradient.addColorStop(0, 'rgba(255, 0, 0, 0.8)'); // Opaque red center
+                    gradient.addColorStop(0.5, 'rgba(255, 255, 0, 0.5)'); // Semi-transparent yellow middle
+                    gradient.addColorStop(1, 'rgba(0, 255, 0, 0)');   // Transparent green outer edge
+
+                    context.fillStyle = gradient;
+                    context.beginPath();
+                    context.arc(x, y, maxRadius, 0, 2 * Math.PI);
+                    context.fill();
+                }
+
+                async function gameLoop() {
+                    if (detector && video.readyState >= 2) {
+                        poses = await detector.estimatePoses(video, { flipHorizontal: false });
+                    }
+
+                    context.clearRect(0, 0, canvas.width, canvas.height);
+
+                    if (poses && poses.length > 0) {
+                        const keypoints = poses[0].keypoints;
+                        drawSkeleton(keypoints);
+                        
+                        const rightWrist = keypoints.find(k => k.name === 'right_wrist');
+                        const rightElbow = keypoints.find(k => k.name === 'right_elbow');
+                        
+                        let batHotspot = null;
+
+                        if (rightWrist && rightWrist.score > 0.3) {
+                            // Default to wrist position if elbow is not visible
+                            batHotspot = { x: rightWrist.x, y: rightWrist.y };
+
+                            // If elbow is also visible, estimate a better "palm" position
+                            if (rightElbow && rightElbow.score > 0.3) {
+                                const forearmVectorX = rightWrist.x - rightElbow.x;
+                                const forearmVectorY = rightWrist.y - rightElbow.y;
+                                
+                                // Estimate palm position by extending the forearm vector
+                                const palmOffsetFactor = 0.4; // 40% of forearm length
+                                batHotspot.x = rightWrist.x + (forearmVectorX * palmOffsetFactor);
+                                batHotspot.y = rightWrist.y + (forearmVectorY * palmOffsetFactor);
+                            }
+                        }
+                        
+                        if (batHotspot) {
+                            wristAsBat = { x: batHotspot.x, y: batHotspot.y, width: 30, height: 30 };
+                            if (lastWristPosition) {
+                                swingSpeed = wristAsBat.x - lastWristPosition.x;
+                            }
+                            lastWristPosition = { x: wristAsBat.x, y: wristAsBat.y };
+                        } else {
+                            wristAsBat = null;
+                            lastWristPosition = null;
+                            swingSpeed = 0;
+                        }
+                    }
+
+                    if (wristAsBat) {
+                        const batRadius = wristAsBat.width * 2.0; // Increased size
+                        drawBatHeatmap(wristAsBat.x, wristAsBat.y, batRadius);
+                    }
+                    
+                    if (gameState === 'ready') {
+                        context.save();
+                        context.scale(-1, 1); // Un-mirror for text
+                        context.font = "40px Arial";
+                        context.fillStyle = "white";
+                        context.textAlign = "center";
+                        context.fillText("Get Ready! Swing your arm.", -canvas.width / 2, canvas.height / 2);
+                        context.restore();
+
+                        if (wristAsBat) {
+                            setTimeout(resetBall, 2000);
+                        }
+                    } else if (gameState === 'bowling' || gameState === 'hit') {
+                        ball.draw();
+                        ball.x += ball.vx;
+                        ball.y += ball.vy;
+
+                        if (ball.x + ball.radius > canvas.width || ball.x - ball.radius < 0) ball.vx = -ball.vx;
+                        if (ball.y - ball.radius > canvas.height) {
+                            gameState = 'missed';
+                            setTimeout(resetBall, 1000);
+                        }
+                        if (gameState === 'hit' && ball.y + ball.radius < 0) resetBall();
+
+                        if (wristAsBat && gameState === 'bowling') {
+                            // Circle vs. Circle collision detection
+                            const batHitboxRadius = wristAsBat.width * 2.0; // Increased hitbox
+                            const dx = ball.x - wristAsBat.x;
+                            const dy = ball.y - wristAsBat.y;
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+
+                            if (distance < ball.radius + batHitboxRadius) {
+                                const SWING_THRESHOLD = 5;
+                                if (Math.abs(swingSpeed) > SWING_THRESHOLD) {
+                                    gameState = 'hit';
+                                    ball.vy *= -1.3;
+                                    ball.vx += swingSpeed * 0.5;
+                                }
+                            }
+                        }
+                    } else if (gameState === 'missed') {
+                        context.save();
+                        context.scale(-1, 1);
+                        context.font = "40px Arial";
+                        context.fillStyle = "red";
+                        context.textAlign = "center";
+                        context.fillText("MISSED!", -canvas.width / 2, canvas.height / 2);
+                        context.restore();
+                    }
+
+                    requestAnimationFrame(gameLoop);
+                }
+                
+                gameLoop();
+            }
+        };
+    </script>
+</body>
+</html>

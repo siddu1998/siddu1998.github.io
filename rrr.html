@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RRR Resistance</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-start: #f6b264;
+        --bg-end: #d07250;
+        --sand: rgba(64, 42, 29, 0.28);
+        --platform: rgba(46, 29, 19, 0.5);
+        --health: #3ade6d;
+        --health-back: rgba(0, 0, 0, 0.25);
+        --xp-fill: #dff2c4;
+        --xp-trail: rgba(255, 255, 255, 0.3);
+        --hud-text: #331616;
+        --weapon-panel: rgba(32, 23, 20, 0.45);
+        --weapon-active: rgba(243, 224, 167, 0.9);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-family: "Montserrat", system-ui, -apple-system, sans-serif;
+        background: linear-gradient(180deg, var(--bg-start), var(--bg-end));
+        color: #fff;
+        padding: 32px 20px 48px;
+        overflow-x: hidden;
+      }
+
+      header {
+        width: clamp(300px, 90vw, 1080px);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 18px;
+        gap: 24px;
+      }
+
+      .xp-hud {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: min(100%, 540px);
+        color: var(--hud-text);
+      }
+
+      .xp-label {
+        font-weight: 700;
+        font-size: 0.95rem;
+      }
+
+      .xp-track {
+        flex: 1;
+        height: 18px;
+        background: var(--xp-trail);
+        border-radius: 999px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        position: relative;
+      }
+
+      .xp-fill {
+        position: absolute;
+        inset: 0;
+        width: 55%;
+        background: linear-gradient(90deg, #f8f6d8, var(--xp-fill));
+        border-radius: inherit;
+        transition: width 220ms ease;
+      }
+
+      .coin-display {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--hud-text);
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 999px;
+        padding: 6px 18px;
+        font-weight: 600;
+      }
+
+      .coin-display span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .coin-icon {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%, #ffe97d, #d09626);
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6),
+          inset 0 -1px 2px rgba(0, 0, 0, 0.25);
+      }
+
+      .game-shell {
+        display: flex;
+        width: clamp(300px, 90vw, 1080px);
+        gap: 24px;
+      }
+
+      .canvas-wrap {
+        position: relative;
+        flex: 1;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 225, 179, 0.22),
+          rgba(92, 54, 42, 0.45)
+        );
+        border-radius: 28px;
+        box-shadow: 0 24px 60px rgba(33, 22, 18, 0.3);
+        overflow: hidden;
+      }
+
+      canvas {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .arsenal {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        min-width: 90px;
+      }
+
+      .weapon-btn {
+        border: none;
+        border-radius: 18px;
+        background: var(--weapon-panel);
+        padding: 12px 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        color: #fff;
+        transition: transform 160ms ease, box-shadow 160ms ease,
+          background 160ms ease;
+        cursor: pointer;
+      }
+
+      .weapon-btn[disabled],
+      .weapon-btn.depleted {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      .weapon-btn.active {
+        background: var(--weapon-active);
+        color: #3e2a1c;
+        box-shadow: 0 12px 30px rgba(28, 18, 12, 0.25);
+        transform: translateY(-4px);
+      }
+
+      .weapon-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.23);
+        display: grid;
+        place-items: center;
+        font-size: 1.25rem;
+      }
+
+      .weapon-count {
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+
+      .weapon-name {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .game-banner {
+        position: absolute;
+        inset: 24px auto auto 50%;
+        transform: translateX(-50%);
+        padding: 14px 28px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.86);
+        color: #3e2418;
+        font-weight: 700;
+        font-size: 1rem;
+        letter-spacing: 0.04em;
+        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.18);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 220ms ease, transform 220ms ease;
+      }
+
+      .game-banner.visible {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      .tip {
+        margin-top: 18px;
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 0.92rem;
+        text-align: center;
+        letter-spacing: 0.04em;
+      }
+
+      @media (max-width: 960px) {
+        header {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .game-shell {
+          flex-direction: column-reverse;
+          align-items: stretch;
+        }
+
+        .arsenal {
+          flex-direction: row;
+          justify-content: center;
+          min-width: unset;
+        }
+
+        .weapon-btn {
+          flex: 1;
+        }
+
+        .game-banner {
+          inset: 18px 18px auto;
+          transform: none;
+        }
+
+        .game-banner.visible {
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="xp-hud">
+        <span class="xp-label" data-xp-left>XP 22</span>
+        <div class="xp-track">
+          <div class="xp-fill" data-xp-fill></div>
+        </div>
+        <span class="xp-label" data-xp-right>XP 23</span>
+      </div>
+      <div class="coin-display">
+        <span>
+          <span class="coin-icon" aria-hidden="true"></span>
+          <span data-coins>3930</span>
+        </span>
+      </div>
+    </header>
+
+    <section class="game-shell">
+      <div class="canvas-wrap">
+        <canvas id="gameCanvas" width="960" height="420">
+          Your browser does not support the canvas element.
+        </canvas>
+        <div class="game-banner" data-banner>Victory!</div>
+      </div>
+
+      <aside class="arsenal" aria-label="Weapons">
+        <button class="weapon-btn active" data-weapon-btn data-weapon="spear">
+          <span class="weapon-icon">🗡️</span>
+          <span class="weapon-count" data-weapon-count="spear">100</span>
+          <span class="weapon-name">Spear</span>
+        </button>
+        <button class="weapon-btn" data-weapon-btn data-weapon="storm">
+          <span class="weapon-icon">⚡</span>
+          <span class="weapon-count" data-weapon-count="storm">45</span>
+          <span class="weapon-name">Storm</span>
+        </button>
+        <button class="weapon-btn" data-weapon-btn data-weapon="trident">
+          <span class="weapon-icon">🔱</span>
+          <span class="weapon-count" data-weapon-count="trident">12</span>
+          <span class="weapon-name">Trident</span>
+        </button>
+      </aside>
+    </section>
+
+    <p class="tip">
+      Hold, aim, and release on the battlefield to send your projectile flying.
+      Clear all colonial guards to win.
+    </p>
+
+    <script>
+      (() => {
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        const xpLeftEl = document.querySelector("[data-xp-left]");
+        const xpRightEl = document.querySelector("[data-xp-right]");
+        const xpFillEl = document.querySelector("[data-xp-fill]");
+        const coinsEl = document.querySelector("[data-coins]");
+        const bannerEl = document.querySelector("[data-banner]");
+        const weaponButtons = Array.from(
+          document.querySelectorAll("[data-weapon-btn]")
+        );
+
+        function loadImage(src) {
+          const img = new Image();
+          img.src = src;
+          return img;
+        }
+
+        const heroSprites = {
+          idle: loadImage("hero_ideal.png"),
+          ready: loadImage("hero_ready.png"),
+          throw: loadImage("hero_throw.png"),
+        };
+
+        const weaponCountsMap = weaponButtons.reduce((acc, btn) => {
+          const id = btn.dataset.weapon;
+          acc[id] = document.querySelector(
+            `[data-weapon-count="${id}"]`
+          );
+          return acc;
+        }, {});
+
+        const groundY = canvas.height - 56;
+        const heroBaseX = 110;
+
+        const state = {
+          lastFrameTime: 0,
+          player: {
+            x: heroBaseX,
+            y: groundY,
+            level: 22,
+            xpProgress: 0.55,
+            coins: 3930,
+          },
+          weapons: {
+            spear: {
+              remaining: 100,
+              damage: 1,
+              speed: 14,
+              color: "#f5f0d0",
+              trail: "rgba(215, 227, 146, 0.45)",
+              gravity: 0.32,
+            },
+            storm: {
+              remaining: 45,
+              damage: 2,
+              speed: 16,
+              color: "#70f6ff",
+              trail: "rgba(126, 250, 255, 0.55)",
+              gravity: 0.18,
+            },
+            trident: {
+              remaining: 12,
+              damage: 3,
+              speed: 13,
+              color: "#ffd966",
+              trail: "rgba(255, 217, 102, 0.55)",
+              gravity: 0.28,
+            },
+          },
+          selectedWeapon: "spear",
+          projectiles: [],
+          particles: [],
+          defeatedEnemies: 0,
+          aimPoint: { x: heroBaseX + 150, y: groundY - 160 },
+          charging: false,
+          chargeStart: 0,
+          heroPulse: 0,
+          heroPose: "idle",
+          heroPoseTimer: 0,
+          heroAimOrigin: { x: heroBaseX + 36, y: groundY - 32 },
+        };
+
+        const enemyHeight = 86;
+        const enemyWidth = 42;
+
+        const platforms = [
+          { x: 320, y: groundY - 30, width: 110, height: 10 },
+          { x: 430, y: groundY - 76, width: 96, height: 10 },
+          { x: 560, y: groundY - 42, width: 120, height: 10 },
+          { x: 700, y: groundY - 118, width: 100, height: 10 },
+          { x: 790, y: groundY - 36, width: 120, height: 10 },
+        ];
+
+        const enemies = [
+          spawnEnemy(platforms[0].x + 30),
+          spawnEnemy(platforms[2].x + 60),
+          spawnEnemy(platforms[4].x + 30),
+          spawnEnemyOn(platforms[1]),
+          spawnEnemyOn(platforms[1], -26),
+          spawnEnemyOn(platforms[3], 18),
+          spawnEnemy(640, 0, groundY),
+        ];
+
+        function spawnEnemy(baseX, offsetY = 0, baseGround = groundY) {
+          const platform = platforms.find(
+            (p) => baseX >= p.x - 10 && baseX <= p.x + p.width + 10
+          );
+          const targetY = platform
+            ? platform.y - enemyHeight
+            : baseGround - enemyHeight;
+          return {
+            x: baseX,
+            y: targetY + offsetY,
+            width: enemyWidth,
+            height: enemyHeight,
+            health: 3,
+            maxHealth: 3,
+            state: "idle",
+            vx: 0,
+            vy: 0,
+            wobble: Math.random() * Math.PI * 2,
+          };
+        }
+
+        function spawnEnemyOn(platform, offsetX = 0) {
+          return spawnEnemy(platform.x + platform.width / 2 + offsetX);
+        }
+
+        function selectWeapon(id) {
+          if (!state.weapons[id] || state.weapons[id].remaining <= 0) {
+            return;
+          }
+          state.selectedWeapon = id;
+          weaponButtons.forEach((btn) => {
+            btn.classList.toggle("active", btn.dataset.weapon === id);
+          });
+        }
+
+        weaponButtons.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            selectWeapon(btn.dataset.weapon);
+          });
+        });
+
+        function updateHud() {
+          xpLeftEl.textContent = `XP ${state.player.level}`;
+          xpRightEl.textContent = `XP ${state.player.level + 1}`;
+          xpFillEl.style.width = `${Math.min(
+            state.player.xpProgress * 100,
+            100
+          )}%`;
+          coinsEl.textContent = state.player.coins.toString();
+
+          Object.entries(state.weapons).forEach(([key, weapon]) => {
+            if (weaponCountsMap[key]) {
+              weaponCountsMap[key].textContent = weapon.remaining;
+            }
+            const btn = weaponButtons.find(
+              (b) => b.dataset.weapon === key
+            );
+            if (btn) {
+              const depleted = weapon.remaining <= 0;
+              btn.classList.toggle("depleted", depleted);
+              btn.disabled = depleted;
+              if (
+                depleted &&
+                state.selectedWeapon === key
+              ) {
+                const fallback =
+                  Object.keys(state.weapons).find(
+                    (id) => state.weapons[id].remaining > 0
+                  ) || key;
+                selectWeapon(fallback);
+              }
+            }
+          });
+        }
+
+        function getCanvasPosition(evt) {
+          const rect = canvas.getBoundingClientRect();
+          const scaleX = canvas.width / rect.width;
+          const scaleY = canvas.height / rect.height;
+          return {
+            x: (evt.clientX - rect.left) * scaleX,
+            y: (evt.clientY - rect.top) * scaleY,
+          };
+        }
+
+        canvas.addEventListener("pointermove", (evt) => {
+          const pos = getCanvasPosition(evt);
+          state.aimPoint.x = pos.x;
+          state.aimPoint.y = pos.y;
+        });
+
+        canvas.addEventListener("pointerdown", (evt) => {
+          evt.preventDefault();
+          const pos = getCanvasPosition(evt);
+          state.aimPoint.x = pos.x;
+          state.aimPoint.y = pos.y;
+          if (state.weapons[state.selectedWeapon].remaining <= 0) {
+            return;
+          }
+          state.charging = true;
+          state.chargeStart = performance.now();
+          state.heroPose = "ready";
+        });
+
+        canvas.addEventListener("pointerup", (evt) => {
+          if (!state.charging) return;
+          state.charging = false;
+          const chargeTime = performance.now() - state.chargeStart;
+          const chargeRatio = Math.min(chargeTime / 900, 1.1);
+          const launched = launchProjectile(chargeRatio);
+          if (launched) {
+            state.heroPose = "throw";
+            state.heroPoseTimer = 280;
+          } else {
+            state.heroPose = state.weapons[state.selectedWeapon].remaining > 0 ? "idle" : state.heroPose;
+          }
+        });
+
+        canvas.addEventListener("pointerleave", () => {
+          if (state.charging) {
+            state.charging = false;
+            state.heroPose = "idle";
+          }
+        });
+
+        function launchProjectile(chargeRatio) {
+          const weapon = state.weapons[state.selectedWeapon];
+          if (!weapon || weapon.remaining <= 0) return false;
+
+          weapon.remaining -= 1;
+
+          const origin = state.heroAimOrigin || {
+            x: state.player.x + 36,
+            y: state.player.y - 32,
+          };
+
+          const dx = state.aimPoint.x - origin.x;
+          const dy = state.aimPoint.y - origin.y;
+          const angle = Math.atan2(dy, dx);
+
+          const speed =
+            weapon.speed * (0.66 + chargeRatio * 0.66);
+          const vx = Math.cos(angle) * speed;
+          const vy = Math.sin(angle) * speed;
+
+          state.projectiles.push({
+            x: origin.x,
+            y: origin.y,
+            vx,
+            vy,
+            rotation: angle,
+            radius: 6,
+            life: 0,
+            damage: weapon.damage,
+            color: weapon.color,
+            trail: weapon.trail,
+            gravity: weapon.gravity,
+          });
+
+          updateHud();
+          return true;
+        }
+
+        function spawnHitParticles(x, y, color) {
+          for (let i = 0; i < 10; i += 1) {
+            const angle = Math.random() * Math.PI * 2;
+            const speed = Math.random() * 1.8 + 0.8;
+            state.particles.push({
+              x,
+              y,
+              vx: Math.cos(angle) * speed,
+              vy: Math.sin(angle) * speed - 0.4,
+              life: 28 + Math.random() * 12,
+              color,
+            });
+          }
+        }
+
+        function awardKill(enemy) {
+          state.player.coins += 35;
+          state.player.xpProgress += 0.22;
+          if (state.player.xpProgress >= 1) {
+            state.player.level += 1;
+            state.player.xpProgress -= 1;
+          }
+          state.defeatedEnemies += 1;
+          updateHud();
+        }
+
+        function showBanner(message) {
+          bannerEl.textContent = message;
+          bannerEl.classList.add("visible");
+        }
+
+        function hideBanner() {
+          bannerEl.classList.remove("visible");
+        }
+
+        function updateProjectiles(delta) {
+          for (let i = state.projectiles.length - 1; i >= 0; i -= 1) {
+            const proj = state.projectiles[i];
+            proj.vy += proj.gravity;
+            proj.x += proj.vx;
+            proj.y += proj.vy;
+            proj.rotation = Math.atan2(proj.vy, proj.vx);
+            proj.life += delta;
+
+            if (
+              proj.x > canvas.width + 60 ||
+              proj.x < -60 ||
+              proj.y > canvas.height + 60
+            ) {
+              state.projectiles.splice(i, 1);
+              continue;
+            }
+
+            const hit = enemies.find(
+              (enemy) =>
+                enemy.state !== "dead" &&
+                intersectsProjectileEnemy(proj, enemy)
+            );
+
+            if (hit) {
+              hit.health -= proj.damage;
+              spawnHitParticles(
+                proj.x,
+                proj.y,
+                "rgba(255, 240, 220, 0.9)"
+              );
+              state.projectiles.splice(i, 1);
+
+              if (hit.health <= 0) {
+                hit.state = "falling";
+                hit.vx = (Math.random() > 0.5 ? 1 : -1) * 1.4;
+                hit.vy = -4.4;
+                awardKill(hit);
+              }
+            }
+          }
+        }
+
+        function updateParticles() {
+          for (let i = state.particles.length - 1; i >= 0; i -= 1) {
+            const p = state.particles[i];
+            p.vy += 0.12;
+            p.x += p.vx;
+            p.y += p.vy;
+            p.life -= 1;
+            if (p.life <= 0) {
+              state.particles.splice(i, 1);
+            }
+          }
+        }
+
+        function updateEnemies() {
+          let anyAlive = false;
+          enemies.forEach((enemy) => {
+            if (enemy.state === "idle") {
+              anyAlive = true;
+              enemy.wobble += 0.005;
+            } else if (enemy.state === "falling") {
+              anyAlive = true;
+              enemy.vy += 0.35;
+              enemy.x += enemy.vx;
+              enemy.y += enemy.vy;
+              if (enemy.y > groundY - enemy.height / 2) {
+                enemy.state = "dead";
+                spawnHitParticles(enemy.x, groundY - 10, "rgba(0,0,0,0.3)");
+              }
+            }
+          });
+
+          if (!anyAlive) {
+            showBanner("Victory! You cleared the patrol.");
+          } else {
+            hideBanner();
+          }
+        }
+
+        function intersectsProjectileEnemy(proj, enemy) {
+          const halfW = enemy.width / 2;
+          const eLeft = enemy.x - halfW;
+          const eRight = enemy.x + halfW;
+          const eTop = enemy.y;
+          const eBottom = enemy.y + enemy.height;
+
+          const closestX = clamp(proj.x, eLeft, eRight);
+          const closestY = clamp(proj.y, eTop, eBottom);
+
+          const dx = proj.x - closestX;
+          const dy = proj.y - closestY;
+          return dx * dx + dy * dy < proj.radius * proj.radius;
+        }
+
+        function clamp(value, min, max) {
+          return Math.max(min, Math.min(max, value));
+        }
+
+        function drawBackground() {
+          const sky = ctx.createLinearGradient(
+            0,
+            0,
+            0,
+            canvas.height
+          );
+          sky.addColorStop(0, "rgba(247, 209, 157, 0.62)");
+          sky.addColorStop(1, "rgba(91, 54, 43, 0.85)");
+          ctx.fillStyle = sky;
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          ctx.fillStyle = "rgba(255, 199, 120, 0.48)";
+          ctx.beginPath();
+          ctx.arc(120, 70, 52, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = "rgba(0, 0, 0, 0.12)";
+          ctx.fillRect(0, groundY, canvas.width, canvas.height - groundY);
+          ctx.fillStyle = "rgba(124, 74, 44, 0.32)";
+          ctx.fillRect(0, groundY + 18, canvas.width, 14);
+        }
+
+        function drawPlatforms() {
+          ctx.fillStyle = varColor("--platform", "#533528");
+          platforms.forEach((plat) => {
+            ctx.fillRect(plat.x, plat.y, plat.width, plat.height);
+            ctx.fillStyle = "rgba(0, 0, 0, 0.18)";
+            ctx.fillRect(plat.x, plat.y + plat.height, plat.width, 6);
+            ctx.fillStyle = varColor("--platform", "#533528");
+          });
+        }
+
+        function varColor(name, fallback) {
+          return getComputedStyle(document.documentElement)
+            .getPropertyValue(name)
+            .trim() || fallback;
+        }
+
+        function drawHero(delta) {
+          state.heroPulse = (state.heroPulse + delta * 0.0006) % (Math.PI * 2);
+          const bob = Math.sin(state.heroPulse) * 2;
+
+          const heroX = state.player.x;
+          const heroY = state.player.y + bob;
+
+          const sprite =
+            heroSprites[state.heroPose] || heroSprites.idle || null;
+          const isSpriteReady =
+            sprite && sprite.complete && sprite.naturalWidth > 0;
+          const spriteWidth = isSpriteReady ? sprite.naturalWidth : 120;
+          const spriteHeight = isSpriteReady ? sprite.naturalHeight : 180;
+
+          const drawX = heroX - spriteWidth * 0.45;
+          const drawY = heroY - spriteHeight;
+
+          if (isSpriteReady) {
+            ctx.drawImage(sprite, drawX, drawY, spriteWidth, spriteHeight);
+          } else {
+            ctx.save();
+            ctx.translate(heroX, heroY);
+            ctx.fillStyle = "#362634";
+            ctx.beginPath();
+            ctx.arc(-14, -70, 24, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = "#f0c89d";
+            ctx.beginPath();
+            ctx.arc(-14, -74, 20, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = "#14354d";
+            ctx.fillRect(-26, -48, 52, 66);
+            ctx.fillStyle = "#f0c89d";
+            ctx.fillRect(-22, 18, 14, 30);
+            ctx.fillRect(8, 18, 14, 30);
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(-24, 66, 14, 24);
+            ctx.fillRect(10, 66, 14, 24);
+            ctx.restore();
+          }
+
+          const origin = {
+            x: drawX + spriteWidth * 0.55,
+            y: drawY + spriteHeight * 0.44,
+          };
+          state.heroAimOrigin = origin;
+
+          if (state.charging) {
+            const chargeTime = performance.now() - state.chargeStart;
+            const chargeRatio = Math.min(chargeTime / 900, 1);
+            const glow = ctx.createRadialGradient(
+              origin.x + 28,
+              origin.y - 4,
+              10,
+              origin.x + 28,
+              origin.y - 4,
+              90
+            );
+            glow.addColorStop(0, `rgba(255, 241, 171, ${0.25 + chargeRatio * 0.4})`);
+            glow.addColorStop(1, "rgba(255, 241, 171, 0)");
+            ctx.fillStyle = glow;
+            ctx.beginPath();
+            ctx.arc(
+              origin.x + 28,
+              origin.y - 4,
+              90 + chargeRatio * 30,
+              0,
+              Math.PI * 2
+            );
+            ctx.fill();
+          }
+        }
+
+        function drawProjectiles() {
+          state.projectiles.forEach((proj) => {
+            ctx.save();
+            ctx.translate(proj.x, proj.y);
+            ctx.rotate(proj.rotation);
+
+            ctx.strokeStyle = proj.trail;
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(-18, 0);
+            ctx.lineTo(18, 0);
+            ctx.stroke();
+
+            ctx.fillStyle = proj.color;
+            ctx.fillRect(-18, -3, 34, 6);
+            ctx.beginPath();
+            ctx.moveTo(16, 0);
+            ctx.lineTo(28, -6);
+            ctx.lineTo(28, 6);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.restore();
+          });
+        }
+
+        function drawParticles() {
+          state.particles.forEach((p) => {
+            ctx.fillStyle = p.color;
+            ctx.globalAlpha = Math.max(p.life / 36, 0);
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.globalAlpha = 1;
+          });
+        }
+
+        function drawAimLine() {
+          const origin =
+            state.heroAimOrigin || {
+              x: state.player.x + 36,
+              y: state.player.y - 32,
+            };
+          ctx.strokeStyle = "rgba(255, 255, 255, 0.35)";
+          ctx.lineWidth = 2;
+          ctx.setLineDash([6, 6]);
+          ctx.beginPath();
+          ctx.moveTo(origin.x, origin.y);
+          ctx.lineTo(state.aimPoint.x, state.aimPoint.y);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
+
+        function drawEnemies() {
+          enemies.forEach((enemy) => {
+            if (enemy.state === "dead") return;
+
+            ctx.save();
+            ctx.translate(enemy.x, enemy.y + enemy.height / 2);
+            const rotation =
+              enemy.state === "falling"
+                ? enemy.vx * 0.12 + enemy.vy * 0.05
+                : Math.sin(enemy.wobble) * 0.04;
+            ctx.rotate(rotation);
+
+            ctx.fillStyle = "#6c5242";
+            ctx.fillRect(
+              -enemy.width / 2,
+              -enemy.height / 2,
+              enemy.width,
+              enemy.height
+            );
+
+            ctx.fillStyle = "#f3d8b3";
+            ctx.fillRect(
+              -enemy.width / 2 + 6,
+              -enemy.height / 2 - 18,
+              enemy.width - 12,
+              28
+            );
+
+            ctx.fillStyle = "#202020";
+            ctx.fillRect(-enemy.width / 2, enemy.height / 2 - 12, enemy.width, 12);
+            ctx.restore();
+
+            const barWidth = enemy.width + 16;
+            const barHeight = 6;
+            const barX = enemy.x - barWidth / 2;
+            const barY = enemy.y - 14;
+            ctx.fillStyle = varColor("--health-back", "rgba(0,0,0,0.3)");
+            ctx.fillRect(barX, barY, barWidth, barHeight);
+
+            const fill = (enemy.health / enemy.maxHealth) * barWidth;
+            ctx.fillStyle = varColor("--health", "#3ade6d");
+            ctx.fillRect(barX, barY, fill, barHeight);
+          });
+        }
+
+        function gameLoop(timestamp) {
+          const delta = timestamp - state.lastFrameTime || 16;
+          state.lastFrameTime = timestamp;
+
+          if (state.heroPose === "throw") {
+            state.heroPoseTimer -= delta;
+            if (state.heroPoseTimer <= 0) {
+              state.heroPose = state.charging ? "ready" : "idle";
+              state.heroPoseTimer = 0;
+            }
+          } else if (!state.charging && state.heroPose === "ready") {
+            state.heroPoseTimer -= delta;
+            if (state.heroPoseTimer <= 0) {
+              state.heroPose = "idle";
+              state.heroPoseTimer = 0;
+            }
+          }
+
+          drawBackground();
+          drawPlatforms();
+          drawAimLine();
+          drawHero(delta);
+
+          updateProjectiles(delta);
+          updateParticles();
+          updateEnemies();
+
+          drawProjectiles();
+          drawEnemies();
+          drawParticles();
+
+          requestAnimationFrame(gameLoop);
+        }
+
+        updateHud();
+        requestAnimationFrame(gameLoop);
+      })();
+    </script>
+  </body>
+</html>
+
