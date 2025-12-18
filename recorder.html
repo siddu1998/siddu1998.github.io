@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Teleprompter Recorder</title>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* Custom scrollbar hiding */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            /* Prevent rubber banding on mobile */
+            overscroll-behavior: none;
+        }
+
+        /* Range Input Customization for Light Theme */
+        input[type=range] {
+            -webkit-appearance: none; 
+            background: transparent; 
+        }
+        
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+        }
+
+        input[type=range]:focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useRef, useEffect } = React;
+
+        // --- Icons (Inline SVGs) ---
+        const IconBase = ({ children, size = 24, className = "" }) => (
+            <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width={size} 
+                height={size} 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                className={className}
+            >
+                {children}
+            </svg>
+        );
+
+        const CameraIcon = (props) => (
+            <IconBase {...props}>
+                <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+                <circle cx="12" cy="13" r="3" />
+            </IconBase>
+        );
+
+        const SquareIcon = (props) => (
+            <IconBase {...props}>
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+            </IconBase>
+        );
+
+        const MonitorUpIcon = (props) => (
+            <IconBase {...props}>
+                <path d="M18 11l-6-6-6 6" />
+                <path d="M12 5v14" />
+                <path d="M2 20h20" />
+            </IconBase>
+        );
+
+        const RefreshCcwIcon = (props) => (
+            <IconBase {...props}>
+                <path d="M3 2v6h6" />
+                <path d="M21 12A9 9 0 0 0 6 5.3L3 8" />
+                <path d="M21 22v-6h-6" />
+                <path d="M3 12a9 9 0 0 0 15 6.7l3-2.7" />
+            </IconBase>
+        );
+
+        const VideoIcon = (props) => (
+            <IconBase {...props}>
+                <polygon points="23 7 16 12 23 17 23 7" />
+                <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+            </IconBase>
+        );
+
+        const DownloadIcon = (props) => (
+            <IconBase {...props}>
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+            </IconBase>
+        );
+
+        const AlertCircleIcon = (props) => (
+            <IconBase {...props}>
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+            </IconBase>
+        );
+
+        const TypeIcon = (props) => (
+            <IconBase {...props}>
+                <polyline points="4 7 4 4 20 4 20 7" />
+                <line x1="9" y1="20" x2="15" y2="20" />
+                <line x1="12" y1="4" x2="12" y2="20" />
+            </IconBase>
+        );
+
+        const GaugeIcon = (props) => (
+            <IconBase {...props}>
+                <path d="m12 14 4-4" />
+                <path d="M3.34 19a10 10 0 1 1 17.32 0" />
+            </IconBase>
+        );
+
+        const RatioIcon = (props) => (
+            <IconBase {...props}>
+                <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+                <line x1="9" x2="9" y1="3" y2="21" />
+            </IconBase>
+        );
+
+        const PlayIcon = (props) => (
+            <IconBase {...props}>
+                <polygon points="5 3 19 12 5 21 5 3" />
+            </IconBase>
+        );
+
+        const PauseIcon = (props) => (
+            <IconBase {...props}>
+                <rect x="6" y="4" width="4" height="16" />
+                <rect x="14" y="4" width="4" height="16" />
+            </IconBase>
+        );
+
+
+        // --- Main App Component ---
+        const App = () => {
+            // --- State ---
+            const [isRecording, setIsRecording] = useState(false);
+            const [stream, setStream] = useState(null);
+            const [recordedVideo, setRecordedVideo] = useState(null);
+            const [error, setError] = useState(null);
+            const [script, setScript] = useState("Welcome to your new Teleprompter!\n\nType your script here on the right side.\n\nWhen you press Record, this text will automatically scroll so you can read naturally while looking at the camera.\n\nSwitch to 9:16 mode below for TikTok or Shorts!");
+            
+            // Settings
+            const [scrollSpeed, setScrollSpeed] = useState(5); // 0 to 20
+            const [fontSize, setFontSize] = useState(32); // px
+            const [mirrorVideo, setMirrorVideo] = useState(true);
+            const [isScreenSharing, setIsScreenSharing] = useState(false);
+            const [aspectRatio, setAspectRatio] = useState('16:9'); // '16:9' or '9:16'
+            const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+            const [isPaused, setIsPaused] = useState(false);
+
+            // --- Refs ---
+            const videoRef = useRef(null);
+            const mediaRecorderRef = useRef(null);
+            const chunksRef = useRef([]);
+            const prompterRef = useRef(null);
+            const scrollIntervalRef = useRef(null);
+            const scrollSpeedRef = useRef(scrollSpeed);
+            const isPausedRef = useRef(isPaused);
+
+            // --- Initialization ---
+            useEffect(() => {
+                const handleResize = () => setIsMobile(window.innerWidth < 1024);
+                window.addEventListener('resize', handleResize);
+                return () => window.removeEventListener('resize', handleResize);
+            }, []);
+
+            // Update refs when state changes
+            useEffect(() => {
+                scrollSpeedRef.current = scrollSpeed;
+            }, [scrollSpeed]);
+
+            useEffect(() => {
+                isPausedRef.current = isPaused;
+            }, [isPaused]);
+
+            // Restart camera when aspect ratio changes
+            useEffect(() => {
+                startCamera();
+                return () => {
+                    stopStream();
+                    stopScrolling();
+                };
+            }, [aspectRatio]);
+
+            // Ensure video plays when stream changes
+            useEffect(() => {
+                if (videoRef.current && stream) {
+                    videoRef.current.srcObject = stream;
+                }
+            }, [stream]);
+
+            // --- Media Functions ---
+            const startCamera = async () => {
+                stopStream(); // Stop existing stream first
+                try {
+                    setError(null);
+                    
+                    // Constraints for different ratios
+                    // Note: On mobile, browsers are picky. We use ideal values.
+                    const videoConstraints = aspectRatio === '9:16' 
+                        ? { 
+                            facingMode: 'user',
+                            aspectRatio: { ideal: 0.5625 }, // 9/16
+                            width: { ideal: 720 },
+                            height: { ideal: 1280 }
+                          }
+                        : { 
+                            facingMode: 'user',
+                            aspectRatio: { ideal: 1.777 }, // 16/9
+                            width: { ideal: 1280 },
+                            height: { ideal: 720 }
+                          };
+
+                    const userStream = await navigator.mediaDevices.getUserMedia({ 
+                        video: videoConstraints, 
+                        audio: true 
+                    });
+                    setStream(userStream);
+                    setIsScreenSharing(false);
+                    setMirrorVideo(true);
+                } catch (err) {
+                    setError("Could not access camera/microphone. Please check permissions.");
+                    console.error(err);
+                }
+            };
+
+            const startScreenShare = async () => {
+                try {
+                    setError(null);
+                    const displayStream = await navigator.mediaDevices.getDisplayMedia({ 
+                        video: true, 
+                        audio: true 
+                    });
+                    setStream(displayStream);
+                    setIsScreenSharing(true);
+                    setMirrorVideo(false);
+
+                    displayStream.getVideoTracks()[0].onended = () => {
+                        startCamera();
+                    };
+                } catch (err) {
+                    console.error("Screen share cancelled or failed", err);
+                }
+            };
+
+            const stopStream = () => {
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                }
+            };
+
+            // --- Recording Functions ---
+            const handleRecordToggle = () => {
+                if (isRecording) {
+                    stopRecording();
+                } else {
+                    startRecording();
+                }
+            };
+
+            const handlePauseToggle = () => {
+                setIsPaused(prev => !prev);
+            };
+
+            const startRecording = () => {
+                if (!stream) return;
+
+                setIsPaused(false); // Ensure scrolling isn't paused at start
+                chunksRef.current = [];
+                try {
+                    const options = { mimeType: 'video/webm;codecs=vp9,opus' };
+                    const mimeType = MediaRecorder.isTypeSupported(options.mimeType) 
+                        ? options.mimeType 
+                        : 'video/webm';
+
+                    const recorder = new MediaRecorder(stream, { mimeType });
+                    
+                    recorder.ondataavailable = (e) => {
+                        if (e.data.size > 0) {
+                            chunksRef.current.push(e.data);
+                        }
+                    };
+
+                    recorder.onstop = () => {
+                        const blob = new Blob(chunksRef.current, { type: 'video/webm' });
+                        const url = URL.createObjectURL(blob);
+                        setRecordedVideo(url);
+                    };
+
+                    recorder.start();
+                    mediaRecorderRef.current = recorder;
+                    setIsRecording(true);
+                    setRecordedVideo(null); 
+                    
+                    startScrolling();
+                } catch (err) {
+                    setError("Failed to start recording. Browser support issue?");
+                    console.error(err);
+                }
+            };
+
+            const stopRecording = () => {
+                if (mediaRecorderRef.current && isRecording) {
+                    mediaRecorderRef.current.stop();
+                    setIsRecording(false);
+                    stopScrolling();
+                }
+            };
+
+            // --- Teleprompter Logic ---
+            const startScrolling = () => {
+                if (scrollIntervalRef.current) clearInterval(scrollIntervalRef.current);
+                
+                scrollIntervalRef.current = setInterval(() => {
+                    if (prompterRef.current && !isPausedRef.current) {
+                        if (prompterRef.current.scrollTop + prompterRef.current.clientHeight >= prompterRef.current.scrollHeight) {
+                            stopScrolling(); 
+                            return;
+                        }
+                        prompterRef.current.scrollTop += scrollSpeedRef.current * 0.5;
+                    }
+                }, 16);
+            };
+
+            const stopScrolling = () => {
+                if (scrollIntervalRef.current) {
+                    clearInterval(scrollIntervalRef.current);
+                    scrollIntervalRef.current = null;
+                }
+            };
+
+            const resetScroll = () => {
+                if (prompterRef.current) {
+                    prompterRef.current.scrollTop = 0;
+                }
+            };
+
+            // --- Render ---
+            return (
+                // Main Container: Mobile = Col, Desktop = Row. use h-[100dvh] for mobile browser height fix
+                <div className="flex flex-col lg:flex-row h-[100dvh] w-full bg-slate-50 text-slate-900 overflow-hidden font-sans selection:bg-blue-100">
+                
+                    {/* LEFT SIDE (or TOP on Mobile): Camera & Teleprompter */}
+                    {/* On mobile, when recording, this takes full height. Otherwise it shares space. */}
+                    <div className={`relative flex flex-col bg-black transition-all duration-500 ease-in-out
+                        ${isMobile && isRecording ? 'h-full order-1' : 'h-[55%] lg:h-full lg:flex-1 order-1'}
+                    `}>
+                        
+                        {/* Video Display Area */}
+                        <div className="relative flex-1 w-full h-full overflow-hidden bg-black flex items-center justify-center">
+                            {/* Live Video Feed */}
+                            {stream ? (
+                                <video
+                                    ref={videoRef}
+                                    autoPlay
+                                    muted
+                                    playsInline
+                                    // object-contain ensures we see the full frame regardless of aspect ratio choice
+                                    className={`max-h-full max-w-full transition-transform duration-300 
+                                        ${mirrorVideo ? 'scale-x-[-1]' : ''} 
+                                        ${aspectRatio === '9:16' && !isMobile ? 'h-full w-auto' : 'w-full h-full object-cover'}
+                                    `}
+                                />
+                            ) : (
+                                <div className="flex flex-col items-center justify-center h-full text-slate-400 space-y-4">
+                                    <CameraIcon size={48} />
+                                    <p>Waiting for camera...</p>
+                                    {error && (
+                                        <div className="flex items-center text-red-400 bg-red-900/20 px-4 py-2 rounded-lg mx-4 text-center text-sm">
+                                            <AlertCircleIcon size={20} className="mr-2 flex-shrink-0" />
+                                            {error}
+                                        </div>
+                                    )}
+                                    <button 
+                                        onClick={startCamera}
+                                        className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-full text-white text-sm font-medium shadow-lg"
+                                    >
+                                        Start Camera
+                                    </button>
+                                </div>
+                            )}
+
+                            {/* Teleprompter Overlay - Always overlaying the Video area */}
+                            <div className="absolute inset-0 flex justify-center items-start pt-12 pb-24 pointer-events-none z-10">
+                                <div className={`w-full h-full overflow-hidden relative px-6 transition-all duration-300 ${aspectRatio === '9:16' ? 'max-w-sm' : 'max-w-2xl'}`}>
+                                    
+                                    {/* Gradient fades */}
+                                    <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black/70 to-transparent z-20"></div>
+                                    <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black/70 to-transparent z-20"></div>
+                                    
+                                    {/* The Scrolling Text */}
+                                    <div 
+                                        ref={prompterRef}
+                                        className="h-full overflow-y-auto no-scrollbar text-center scroll-smooth pb-[50vh]" 
+                                    >
+                                        <div className="h-[35vh]"></div> 
+                                        <p 
+                                            className="whitespace-pre-wrap leading-relaxed font-bold text-white transition-all duration-200 drop-shadow-md"
+                                            style={{ 
+                                                fontSize: `${fontSize}px`,
+                                                textShadow: '0 2px 4px rgba(0,0,0,0.8)'
+                                            }}
+                                        >
+                                            {script}
+                                        </p>
+                                        <div className="h-[45vh]"></div>
+                                    </div>
+                                    
+                                    {/* Reading Guide Indicator */}
+                                    <div className="absolute top-[40%] left-0 w-full flex items-center justify-between opacity-40 pointer-events-none z-10">
+                                        <div className="h-1 bg-red-500 rounded-r w-8 shadow-sm"></div>
+                                        <div className="h-1 bg-red-500 rounded-l w-8 shadow-sm"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Recording Status Badge */}
+                            {isRecording && (
+                                <div className="absolute top-6 right-6 flex items-center space-x-2 bg-red-600 text-white px-3 py-1.5 rounded-full animate-pulse z-30 shadow-lg">
+                                    <div className="w-2 h-2 bg-white rounded-full"></div>
+                                    <span className="font-bold text-[10px] uppercase tracking-widest">REC</span>
+                                </div>
+                            )}
+
+                            {/* Floating Control Bar */}
+                            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex items-center space-x-2 bg-white/90 backdrop-blur-md p-2 rounded-full border border-slate-200 shadow-xl z-50">
+                                <button
+                                    onClick={handleRecordToggle}
+                                    className={`flex items-center space-x-2 px-6 py-3 rounded-full font-bold transition-all shadow-md ${
+                                        isRecording 
+                                        ? 'bg-red-600 hover:bg-red-700 text-white ring-2 ring-red-200' 
+                                        : 'bg-white text-slate-800 hover:bg-slate-50'
+                                    }`}
+                                >
+                                    {isRecording ? <SquareIcon size={20} fill="currentColor" /> : <div className="w-4 h-4 rounded-full bg-red-600 mr-1 ring-2 ring-red-100"/>}
+                                    <span>{isRecording ? 'Stop' : 'Rec'}</span>
+                                </button>
+
+                                {isRecording && (
+                                    <>
+                                        <div className="w-px h-6 bg-slate-300 mx-1"></div>
+                                        <button
+                                            onClick={handlePauseToggle}
+                                            className="p-3 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
+                                            title={isPaused ? "Resume Scroll" : "Pause Scroll"}
+                                        >
+                                            {isPaused ? <PlayIcon size={20} /> : <PauseIcon size={20} />}
+                                        </button>
+                                    </>
+                                )}
+
+                                <div className="w-px h-6 bg-slate-300 mx-1"></div>
+
+                                <button 
+                                    onClick={resetScroll}
+                                    className="p-3 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
+                                    title="Reset Scroll"
+                                >
+                                    <RefreshCcwIcon size={20} />
+                                </button>
+
+                                <button 
+                                    onClick={() => isScreenSharing ? startCamera() : startScreenShare()}
+                                    className={`p-3 rounded-full transition-colors ${isScreenSharing ? 'bg-blue-100 text-blue-600' : 'text-slate-500 hover:text-blue-600 hover:bg-blue-50'}`}
+                                    title="Toggle Camera/Screen"
+                                >
+                                    {isScreenSharing ? <CameraIcon size={20} /> : <MonitorUpIcon size={20} />}
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Download Banner */}
+                        {recordedVideo && !isRecording && (
+                            <div className="absolute top-0 left-0 right-0 z-50 animate-slide-down">
+                                <div className="bg-green-50 border-b border-green-200 p-4 flex items-center justify-between shadow-md">
+                                    <div className="flex items-center space-x-3">
+                                        <div className="bg-green-100 p-2 rounded-full">
+                                            <VideoIcon className="text-green-600" size={18} />
+                                        </div>
+                                        <div className="hidden sm:block">
+                                            <p className="text-green-800 font-semibold text-sm">Recording Ready</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center space-x-2">
+                                        <a 
+                                            href={recordedVideo} 
+                                            download={`teleprompter-${new Date().getTime()}.webm`}
+                                            className="flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full text-sm font-bold shadow-sm transition-colors"
+                                        >
+                                            <DownloadIcon size={16} />
+                                            <span>Save</span>
+                                        </a>
+                                        <button 
+                                            onClick={() => setRecordedVideo(null)}
+                                            className="text-slate-400 hover:text-slate-600 px-3 py-2 text-sm"
+                                        >
+                                            Close
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* RIGHT SIDE (or BOTTOM on Mobile): Script Editor & Settings */}
+                    {/* On mobile, hidden when recording to maximize screen */}
+                    <div className={`
+                        flex flex-col bg-white border-l border-slate-200 shadow-xl z-20 transition-all duration-500
+                        ${isMobile && isRecording ? 'hidden' : 'flex'}
+                        ${isMobile ? 'h-[45%] w-full order-2 rounded-t-2xl -mt-4 relative z-30' : 'w-[400px] h-full order-2'}
+                    `}>
+                        
+                        {/* Drag handle for mobile look */}
+                        {isMobile && (
+                            <div className="w-full flex justify-center pt-3 pb-1">
+                                <div className="w-12 h-1.5 bg-slate-200 rounded-full"></div>
+                            </div>
+                        )}
+
+                        {/* Header */}
+                        <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center">
+                            <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+                                <TypeIcon size={20} className="text-blue-600" />
+                                Script
+                            </h2>
+                            <div className="text-xs font-medium px-2 py-1 bg-slate-100 text-slate-500 rounded">
+                                {aspectRatio}
+                            </div>
+                        </div>
+
+                        {/* Text Area */}
+                        <div className="flex-1 relative bg-slate-50/50">
+                            <textarea
+                                value={script}
+                                onChange={(e) => setScript(e.target.value)}
+                                className="w-full h-full bg-transparent text-slate-700 p-6 resize-none focus:outline-none focus:bg-white transition-colors leading-relaxed text-base placeholder-slate-400"
+                                placeholder="Write your script here..."
+                                spellCheck={false}
+                            />
+                        </div>
+
+                        {/* Controls Panel */}
+                        <div className="bg-white border-t border-slate-100 p-6 space-y-6 pb-8 lg:pb-6">
+                            
+                            {/* Speed Control */}
+                            <div className="space-y-2">
+                                <div className="flex justify-between text-sm font-semibold text-slate-600">
+                                    <span className="flex items-center gap-2"><GaugeIcon size={16} className="text-slate-400" /> Scroll Speed</span>
+                                    <span className="text-blue-600">{scrollSpeed.toFixed(1)}x</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <button 
+                                        onClick={() => setScrollSpeed(Math.max(0, scrollSpeed - 0.5))}
+                                        className="w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-600 transition-colors"
+                                    >
+                                        -
+                                    </button>
+                                    <input
+                                        type="range"
+                                        min="0"
+                                        max="20"
+                                        step="0.1"
+                                        value={scrollSpeed}
+                                        onChange={(e) => setScrollSpeed(parseFloat(e.target.value))}
+                                        className="flex-1 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                                    />
+                                    <button 
+                                        onClick={() => setScrollSpeed(Math.min(20, scrollSpeed + 0.5))}
+                                        className="w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-600 transition-colors"
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Font Size Control */}
+                            <div className="space-y-2">
+                                <div className="flex justify-between text-sm font-semibold text-slate-600">
+                                    <span className="flex items-center gap-2"><TypeIcon size={16} className="text-slate-400" /> Text Size</span>
+                                    <span className="text-blue-600">{fontSize}px</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <button 
+                                        onClick={() => setFontSize(Math.max(16, fontSize - 2))}
+                                        className="w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-600 transition-colors"
+                                    >
+                                        -
+                                    </button>
+                                    <input
+                                        type="range"
+                                        min="16"
+                                        max="80"
+                                        step="2"
+                                        value={fontSize}
+                                        onChange={(e) => setFontSize(parseInt(e.target.value))}
+                                        className="flex-1 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                                    />
+                                    <button 
+                                        onClick={() => setFontSize(Math.min(80, fontSize + 2))}
+                                        className="w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-600 transition-colors"
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Ratio & Mirror Toggles */}
+                            <div className="flex items-center justify-between pt-2 gap-4">
+                                
+                                {/* Aspect Ratio Toggle */}
+                                <div className="flex-1">
+                                    <p className="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide">Camera Ratio</p>
+                                    <div className="flex bg-slate-100 rounded-lg p-1">
+                                        <button 
+                                            onClick={() => setAspectRatio('16:9')}
+                                            className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-all ${aspectRatio === '16:9' ? 'bg-white shadow text-blue-600' : 'text-slate-500'}`}
+                                        >
+                                            16:9
+                                        </button>
+                                        <button 
+                                            onClick={() => setAspectRatio('9:16')}
+                                            className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-all ${aspectRatio === '9:16' ? 'bg-white shadow text-blue-600' : 'text-slate-500'}`}
+                                        >
+                                            9:16
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Mirror Toggle */}
+                                <div className="flex flex-col items-end">
+                                     <p className="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide">Mirror</p>
+                                    <button 
+                                        onClick={() => setMirrorVideo(!mirrorVideo)}
+                                        className={`w-12 h-6 rounded-full transition-colors relative ${mirrorVideo ? 'bg-blue-600' : 'bg-slate-300'}`}
+                                    >
+                                        <div className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow-sm transition-transform ${mirrorVideo ? 'translate-x-7' : 'translate-x-1'}`}></div>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

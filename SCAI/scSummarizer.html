@@ -347,8 +347,9 @@
     }
 
     .message.user-message {
-      background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
+      background: #ffffff;
       border-left: 3px solid var(--accent-blue);
+      border: 1px solid var(--border-color);
     }
 
     .message.ai-message {
@@ -442,9 +443,10 @@
 
       <div class="form-group">
         <label for="gptUsed">GPT Used</label>
-        <select id="gptUsed">
+        <input type="text" id="gptUsed" list="gptUsedOptions" placeholder="Search or select GPT..." autocomplete="off" />
+        <datalist id="gptUsedOptions">
           <option value="">Select GPT Used</option>
-        </select>
+        </datalist>
       </div>
 
       <button id="applyFilters">Apply Filters</button>
@@ -600,11 +602,14 @@
         Object.values(data).flat().forEach(msg => {
           if (msg.gpt_used) usedGPTs.add(msg.gpt_used);
         });
+        const datalist = document.getElementById('gptUsedOptions');
+        // Clear existing options except the first placeholder
+        datalist.innerHTML = '<option value="">Select GPT Used</option>';
         usedGPTs.forEach(gpt => {
           const opt = document.createElement('option');
           opt.value = gpt;
           opt.textContent = gpt;
-          gptUsedSelect.appendChild(opt);
+          datalist.appendChild(opt);
         });
       }
 
@@ -628,8 +633,10 @@
 
           Object.keys(filteredData).forEach(sessionId => {
             filteredData[sessionId] = filteredData[sessionId].filter(msg => {
-              const ts = new Date(msg.timestamp);
-              return ts >= startDate && ts <= endDate;
+              const timeValue = msg.created_at || msg.timestamp;
+              if (!timeValue) return false;
+              const ts = new Date(timeValue);
+              return !isNaN(ts.getTime()) && ts >= startDate && ts <= endDate;
             });
             if (filteredData[sessionId].length === 0) {
               delete filteredData[sessionId];
@@ -812,20 +819,51 @@ ${allTexts.join('\n')}
 
       function showConversationDetail(messages) {
         conversationDetail.innerHTML = '';
-        messages.forEach(msg => {
+        
+        // Sort messages by timestamp (oldest first)
+        const sortedMessages = [...messages].sort((a, b) => {
+          const timeA = a.created_at || a.timestamp || '';
+          const timeB = b.created_at || b.timestamp || '';
+          return new Date(timeA) - new Date(timeB);
+        });
+        
+        sortedMessages.forEach((msg, index) => {
           const msgDiv = document.createElement('div');
-          msgDiv.className = `message ${msg.role === 'user' ? 'user-message' : 'ai-message'}`;
           
-          const timestamp = new Date(msg.timestamp).toLocaleString('en-US', {
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-          });
+          // Determine if message is from user or AI
+          // Messages use 'sent_by' property with values 'user-message' or 'ai-message'
+          const sentBy = msg.sent_by;
+          const isUser = sentBy === 'user-message';
+          
+          // Apply the appropriate class
+          msgDiv.className = `message ${isUser ? 'user-message' : 'ai-message'}`;
+          
+          const messageRole = isUser ? 'user' : 'ai';
+          
+          // Get timestamp from created_at or timestamp property
+          const timeValue = msg.created_at || msg.timestamp;
+          let timestamp = 'Invalid Date';
+          
+          if (timeValue) {
+            try {
+              const date = new Date(timeValue);
+              if (!isNaN(date.getTime())) {
+                timestamp = date.toLocaleString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  year: 'numeric'
+                });
+              }
+            } catch (e) {
+              console.warn('Error parsing date:', timeValue, e);
+            }
+          }
           
           msgDiv.innerHTML = `
             <div class="message-header">
-              <span class="message-role">${msg.role === 'user' ? 'Student' : 'AI Assistant'}</span>
+              <span class="message-role">${messageRole === 'user' ? 'Student' : 'AI Assistant'}</span>
               <span class="message-time">${timestamp}</span>
             </div>
             <div class="message-content">${msg.content}</div>
