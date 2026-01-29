@@ -642,6 +642,33 @@
 
             <p>Color and visual hierarchy proved more contentious than expected. Artists in our study had strong, often conflicting preferences about color usage. Some wanted rich, customizable color coding for different exploration threads, while others preferred minimal visual distinction to avoid influencing creative decisions. Our solution was a subtle, monochromatic design with optional color customization hidden in advanced settings.</p>
 
+            <h2>Design Iteration</h2>
+
+            <p>The journey from initial concept to the final Ooha interface involved multiple design iterations, each informed by user feedback and technical constraints. Our early sketches explored fundamentally different interaction paradigms, revealing both promising directions and dead ends that ultimately shaped the final design.</p>
+
+            <div class="image-container">
+                <img src="SCAI/IMG_0144.JPG" alt="Early design iteration exploring dropdown-based use case selection and credit management">
+                <div class="image-caption">Iteration 1: Early exploration of dropdown-based use case selection (text, video, images, Maps, Google Search) with integrated credit management system. This version emphasized organized use case categorization but lacked the spatial freedom that creative professionals needed.</div>
+            </div>
+
+            <p>Our first major iteration focused on structured use case organization through a dropdown interface. This design attempted to categorize different interaction types (text, video, images, Maps, Google Search) into a hierarchical menu system. While this approach provided clear organization, co-design workshop participants immediately identified a critical limitation: the rigid categorization conflicted with how creative professionals actually think. Artists don't work in discrete categories—they blend text, images, and video in fluid exploration. The dropdown paradigm also introduced friction, requiring users to pre-select their interaction type before exploring possibilities.</p>
+
+            <div class="image-container">
+                <img src="SCAI/IMG_0145.JPG" alt="Second iteration exploring horizontal growth patterns and video/image branching">
+                <div class="image-caption">Iteration 2: Exploration of horizontal growth patterns with separate video and image processing paths. This iteration emphasized "neat progression and branching" and easier merging of image and video content for selection.</div>
+            </div>
+
+            <p>The second iteration shifted toward a more spatial approach, exploring horizontal growth patterns with distinct processing paths for video and image content. This design recognized the importance of branching and progression, but still maintained separate tracks for different media types. Workshop participants appreciated the visual branching concept but noted that the separation between video and image paths felt artificial. Creative professionals wanted to explore all content types within a unified spatial context, not switch between parallel systems. This iteration's key contribution was establishing the importance of "neat progression and branching"—a principle that would become central to the final design.</p>
+
+            <div class="image-container">
+                <img src="SCAI/finalOOHA.png" alt="Final Ooha interface design with unified spatial canvas">
+                <div class="image-caption">Final Design: The unified spatial canvas interface that emerged from iterative refinement. This version combines the branching principles from earlier iterations with a free-form canvas that supports all content types (text, video, images) in a single, flexible spatial context.</div>
+            </div>
+
+            <p>The final design synthesized insights from both earlier iterations while addressing their limitations. We eliminated the dropdown categorization system, recognizing that creative exploration doesn't fit into predefined categories. Instead, we created a unified spatial canvas where text, video, and images coexist naturally. The branching mechanism evolved from the second iteration's horizontal growth concept, but became more flexible—supporting not just linear progression but multi-directional exploration. The final interface maintains the "neat progression" principle while allowing complete spatial freedom, enabling users to organize their creative exploration in whatever pattern feels natural to their thinking process.</p>
+
+            <p>This iterative process revealed a fundamental design principle: <strong>spatial interfaces for creative AI must prioritize flexibility over structure</strong>. Each iteration that imposed organizational constraints—whether through dropdowns or separate media paths—was rejected by users who needed the freedom to explore without predefined categories. The final design succeeded because it provided structure (branching, spatial organization) without constraining how that structure is used.</p>
+
             <h2>Quantitative Results</h2>
 
             <p>We collected comprehensive metrics during the evaluation phase to quantify the impact of the spatial interface on creative workflows. Participants completed identical creative tasks using both the AI Branching Canvas and a traditional chat interface (randomized order to control for learning effects).</p>
@@ -763,19 +790,19 @@
                     // Current slide
                     slide.classList.add('active');
                     if (video) {
-                        video.play();
+                        video.pause();
                     }
                 } else if (relativePosition === -1 || (index === 0 && slideDataIndex === totalSlides - 1)) {
                     // Previous slide (with wraparound)
                     slide.classList.add('prev');
                     if (video) {
-                        video.play();
+                        video.pause();
                     }
                 } else if (relativePosition === 1 || (index === totalSlides - 1 && slideDataIndex === 0)) {
                     // Next slide (with wraparound)
                     slide.classList.add('next');
                     if (video) {
-                        video.play();
+                        video.pause();
                     }
                 } else {
                     // Hidden slides
@@ -898,8 +925,8 @@
                 });
             });
             
-            // Start auto-play
-            startAutoPlay();
+            // Auto-play disabled by default - videos start paused
+            // startAutoPlay();
             
             // Pause auto-play on hover
             const carousel = document.querySelector('.video-carousel');

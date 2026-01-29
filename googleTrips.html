@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Trips - UX Case Study</title>
+    <style>
+        /* --- Sidebar and Layout Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #ffffff;
+            background-image: 
+                linear-gradient(rgba(200, 200, 200, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(200, 200, 200, 0.15) 1px, transparent 1px);
+            background-size: 40px 40px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #1a1a1a;
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+        nav {
+            width: 220px;
+            padding: 2rem;
+            border-right: 1px solid rgba(200, 200, 200, 0.3);
+            flex-shrink: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        nav a {
+            display: block;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            text-decoration: underline;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        nav a:hover {
+            text-decoration: none;
+            color: #666;
+        }
+        .nav-logo {
+            font-weight: 600;
+            margin-bottom: 2rem;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 1.3rem;
+            color: #1a1a1a;
+            transition: color 0.2s ease;
+        }
+        .nav-logo:hover {
+            color: #666;
+        }
+        #project-links-container {
+            margin-top: 0.5rem;
+            padding-left: 1rem;
+            border-left: 1px solid #eee;
+        }
+        .project-link {
+            font-size: 1rem;
+        }
+        main {
+            flex-grow: 1;
+            overflow-y: auto;
+            height: 100vh;
+            background-color: transparent;
+        }
+        .hidden {
+            display: none;
+        }
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column; 
+            }
+            main {
+                height: auto;
+            }
+            nav {
+                width: 100%; 
+                padding: 1rem;
+                border-right: none; 
+                border-bottom: 1px solid #ddd; 
+                box-sizing: border-box;
+            }
+            .nav-container {
+                display: flex;
+                justify-content: center;
+                gap: 1.5rem;
+                flex-wrap: wrap;
+            }
+            .nav-logo {
+                display: none;
+            }
+            nav a {
+                margin-bottom: 0;
+            }
+            #project-links-container {
+                width: 100%;
+                text-align: center;
+                padding-left: 0;
+                border-left: none;
+                margin-top: 1rem;
+            }
+        }
+
+        /* --- Case Study Styles --- */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            line-height: 1.2;
+        }
+        h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            color: #1a1a1a;
+        }
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+        p {
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        .project-meta {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .badge-blue {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+        .badge-green {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        ul {
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .quote {
+            background-color: #fff176;
+            padding: 1.2rem 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            font-style: italic;
+            line-height: 1.7;
+            color: #1a1a1a;
+            border-left: 4px solid #fbc02d;
+        }
+        
+        .key-finding {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border-left: 4px solid #1a1a1a;
+        }
+        
+        .image-container {
+            margin: 2rem 0;
+        }
+        
+        .image-caption {
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+        
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .problem-card {
+            background-color: #ffebee;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid #d32f2f;
+        }
+        
+        .problem-card h4 {
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+        }
+        
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .solution-card {
+            background-color: #e8f5e9;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid #388e3c;
+        }
+        
+        .solution-card h4 {
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+        }
+        
+        .design-feature {
+            background-color: #f5f5f5;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+        
+        .design-feature h4 {
+            color: #1976d2;
+            margin-bottom: 1rem;
+        }
+        
+        .api-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+        
+        .api-section h3 {
+            color: white;
+        }
+        
+        .api-section p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .workflow-diagram {
+            background-color: #f9f9f9;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            border: 2px dashed #ccc;
+        }
+        
+        .workflow-step {
+            margin: 1rem 0;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 8px;
+            border-left: 4px solid #1976d2;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 0 1rem; }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+        }
+
+        /* 3D Video Carousel Styles */
+        .video-carousel {
+            position: relative;
+            max-width: 100%;
+            margin: 2rem 0;
+            perspective: 1000px;
+            overflow: visible;
+        }
+        
+        .carousel-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: visible;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .carousel-track {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .carousel-slide {
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+        }
+        
+        .carousel-slide.prev {
+            transform: translateX(-60%) scale(0.8) rotateY(15deg);
+            opacity: 0.7;
+            z-index: 1;
+        }
+        
+        .carousel-slide.active {
+            transform: translateX(0) scale(1) rotateY(0deg);
+            opacity: 1;
+            z-index: 3;
+        }
+        
+        .carousel-slide.next {
+            transform: translateX(60%) scale(0.8) rotateY(-15deg);
+            opacity: 0.7;
+            z-index: 1;
+        }
+        
+        .carousel-slide.hidden {
+            transform: translateX(0) scale(0.6) rotateY(0deg);
+            opacity: 0;
+            z-index: 0;
+        }
+        
+        .carousel-slide video,
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+        
+        .carousel-nav {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+        
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .carousel-dot.active {
+            background: rgba(255, 255, 255, 0.9);
+            transform: scale(1.2);
+        }
+        
+        .carousel-dot:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: scale(1.1);
+        }
+        
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #333;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .carousel-arrow:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .carousel-arrow.prev {
+            left: 20px;
+        }
+        
+        .carousel-arrow.next {
+            right: 20px;
+        }
+        
+        .carousel-arrow:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .carousel-arrow:disabled:hover {
+            transform: translateY(-50%);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .carousel-slide {
+                width: 90%;
+                height: 90%;
+            }
+            
+            .carousel-slide.prev {
+                transform: translateX(-50%) scale(0.7) rotateY(20deg);
+            }
+            
+            .carousel-slide.next {
+                transform: translateX(50%) scale(0.7) rotateY(-20deg);
+            }
+            
+            .carousel-arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 14px;
+            }
+            
+            .carousel-arrow.prev {
+                left: 10px;
+            }
+            
+            .carousel-arrow.next {
+                right: 10px;
+            }
+            
+            .carousel-nav {
+                bottom: 15px;
+            }
+            
+            .carousel-dot {
+                width: 10px;
+                height: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .carousel-slide.prev {
+                transform: translateX(-40%) scale(0.6) rotateY(25deg);
+            }
+            
+            .carousel-slide.next {
+                transform: translateX(40%) scale(0.6) rotateY(-25deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-logo">Sai Maram</a>
+        <div class="nav-container">
+            <a href="index.html">Home</a>
+            <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <h1>Google Trips: Collaborative Trip Planning on a Shared Canvas</h1>
+            <div class="project-meta">
+                <span class="badge badge-blue">UX Case Study</span>
+                <span class="badge badge-green">Google Maps API</span>
+                <span class="badge">Collaborative Design</span>
+                <span class="badge">2025</span>
+            </div>
+            
+            <p>Planning a trip with friends shouldn't feel like coordinating a military operation. Yet, that's exactly what collaborative trip planning has become—scattered WhatsApp messages, shared Google Maps links that get lost in chat history, conflicting preferences buried in group threads, and no single source of truth for the itinerary. Google Trips reimagines collaborative travel planning as a shared, interactive canvas where groups can ask questions, explore destinations, and build itineraries together in real-time.</p>
+            
+            <p>This case study documents the design process behind Google Trips, a collaborative trip planning interface that leverages Google Maps Grounding API to transform map-based exploration into a conversational, visual experience. Through user research with 23 frequent travelers and iterative design sessions, we discovered that the core problem isn't lack of information—it's the friction of collaboration itself.</p>
+
+            <div class="video-carousel">
+                <div class="carousel-container">
+                    <div class="carousel-track">
+                        <div class="carousel-slide active" data-index="0">
+                            <video controls loop>
+                                <source src="mapsPlanning.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                    
+                    <!-- Navigation Dots -->
+                    <div class="carousel-nav">
+                        <span class="carousel-dot active" onclick="currentSlide(1)"></span>
+                    </div>
+                </div>
+            </div>
+
+            <h2>The Problem</h2>
+            
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <h4>📱 Fragmented Communication</h4>
+                    <p>WhatsApp groups become chaotic with 50+ messages about "where should we go?" and "what about this place?" Important decisions get buried in endless scrolling.</p>
+                </div>
+                
+                <div class="problem-card">
+                    <h4>🗺️ Map Link Fatigue</h4>
+                    <p>Sharing Google Maps links requires everyone to open separate tabs, losing spatial context. There's no way to see the full itinerary at a glance or understand how locations relate to each other.</p>
+                </div>
+                
+                <div class="problem-card">
+                    <h4>💬 Lost Context</h4>
+                    <p>When someone suggests "that pub in Goa," others have to ask "which one?" and scroll back through messages to find the original link. Context disappears in linear chat threads.</p>
+                </div>
+            </div>
+            
+            <div class="quote">
+                "We spent 3 hours in a WhatsApp group just trying to decide on 5 places to visit in Goa. By the time we agreed, half the group had lost interest." — Research Participant, Age 28
+            </div>
+
+            <h2>User Research Insights</h2>
+            
+            <p>I conducted interviews with 23 frequent travelers (ages 24-45) who regularly plan group trips. The research revealed three critical pain points:</p>
+            
+            <div class="key-finding">
+                <h3>Key Finding 1: Spatial Memory Matters</h3>
+                <p>Users don't just remember places by name—they remember them by location. "That place near the beach" or "the restaurant between the hotel and the fort" are common references. Current tools force users to translate spatial thinking into text, losing the visual context that makes trip planning intuitive.</p>
+            </div>
+            
+            <div class="key-finding">
+                <h3>Key Finding 2: Questions Drive Discovery</h3>
+                <p>73% of participants reported asking questions like "What are the best beer places in Goa?" or "Can you add historic spots?" during planning. These natural language queries are how people actually think about trips, but existing tools require manual searching and link sharing.</p>
+            </div>
+            
+            <div class="key-finding">
+                <h3>Key Finding 3: Collaboration Needs Visual Anchors</h3>
+                <p>When someone says "Let's go to the first one!" in a chat, others need to scroll back to understand what "first one" means. Visual anchors—seeing places on a map with comments attached—eliminate this ambiguity and make collaboration seamless.</p>
+            </div>
+
+            <h2>The Solution: A Collaborative Canvas</h2>
+            
+            <p>Google Trips transforms trip planning into a shared canvas where:</p>
+            <ul>
+                <li><strong>Natural language queries</strong> generate map results instantly using Google Maps Grounding API</li>
+                <li><strong>Multiple results</strong> appear as interactive cards on the canvas, not buried in chat</li>
+                <li><strong>Real-time collaboration</strong> lets everyone see suggestions, comments, and decisions spatially</li>
+                <li><strong>Itinerary building</strong> happens visually—drag, drop, and connect places on the map</li>
+            </ul>
+            
+            <div class="image-container">
+                <img src="SCAI/googleTrips.png" alt="Google Trips collaborative canvas showing multiple users planning a trip together">
+                <p class="image-caption">The collaborative canvas interface showing real-time trip planning with multiple users, map queries, and itinerary building</p>
+            </div>
+
+            <h2>Design System & Visual Language</h2>
+            
+            <h3>1. Canvas-Based Layout</h3>
+            <div class="design-feature">
+                <h4>Infinite Canvas Philosophy</h4>
+                <p>The interface uses an infinite canvas model inspired by tools like Figma and Miro. This allows users to:</p>
+                <ul>
+                    <li>Pan and zoom freely across the map</li>
+                    <li>Place query results anywhere on the canvas</li>
+                    <li>Create spatial groupings (e.g., "Day 1 activities" in one area, "Day 2" in another)</li>
+                    <li>Maintain visual context even when exploring different regions</li>
+                </ul>
+                <p><strong>Design Rationale:</strong> Spatial memory is crucial for trip planning. By allowing free placement, users can organize information the way their brain naturally thinks about geography and time.</p>
+            </div>
+            
+            <h3>2. Query-to-Card Transformation</h3>
+            <div class="design-feature">
+                <h4>Natural Language → Visual Results</h4>
+                <p>When a user asks "Show me the best places to drink beer in Goa," the system:</p>
+                <ol>
+                    <li>Processes the query through Google Maps Grounding API</li>
+                    <li>Generates a map view with pins for relevant locations</li>
+                    <li>Creates a card component with details (ratings, reviews, photos)</li>
+                    <li>Places the card on the canvas, connected to the map view</li>
+                </ol>
+                <p><strong>Design Rationale:</strong> Cards serve as visual anchors that persist on the canvas. Unlike chat messages that scroll away, cards remain visible and can be referenced, moved, or connected to other cards.</p>
+            </div>
+            
+            <h3>3. Collaborative Annotations</h3>
+            <div class="design-feature">
+                <h4>Comments as Visual Overlays</h4>
+                <p>Comments don't live in a separate chat panel—they appear as overlays directly on cards or map locations:</p>
+                <ul>
+                    <li><strong>Card Comments:</strong> Attached to specific places, visible when hovering or clicking</li>
+                    <li><strong>Map Annotations:</strong> Pins can have comment threads visible on hover</li>
+                    <li><strong>User Avatars:</strong> Show who made each suggestion or comment</li>
+                    <li><strong>Real-time Updates:</strong> New comments appear instantly for all collaborators</li>
+                </ul>
+                <p><strong>Design Rationale:</strong> Context is preserved spatially. When someone says "Let's go to the first one!" others can see exactly which card they're referring to without scrolling through chat history.</p>
+            </div>
+            
+            <h3>4. Itinerary Building Interface</h3>
+            <div class="design-feature">
+                <h4>Visual Itinerary Construction</h4>
+                <p>The canvas supports drag-and-drop itinerary building:</p>
+                <ul>
+                    <li><strong>Day Containers:</strong> Collapsible sections for each day of the trip</li>
+                    <li><strong>Drag & Drop:</strong> Cards can be dragged into day containers to build the schedule</li>
+                    <li><strong>Route Visualization:</strong> When places are added to a day, the system automatically shows optimal routes on the map</li>
+                    <li><strong>Time Estimates:</strong> Travel time between locations appears as annotations</li>
+                </ul>
+                <p><strong>Design Rationale:</strong> Building an itinerary should feel like arranging puzzle pieces, not filling out a form. Visual manipulation makes the process intuitive and collaborative.</p>
+            </div>
+
+            <h2>Key Design Decisions</h2>
+            
+            <h3>1. Why Canvas Over Chat?</h3>
+            <p>Early prototypes tested a chat-first interface with map embeds. Users found this confusing—they had to switch between chat and map views, losing context. The canvas approach keeps everything in one spatial context, making collaboration more intuitive.</p>
+            
+            <h3>2. Card Persistence</h3>
+            <p>Unlike chat messages that scroll away, cards persist on the canvas. This design choice emerged from user testing where participants repeatedly asked "where was that place we discussed earlier?" Cards solve this by remaining visible and searchable.</p>
+            
+            <h3>3. Progressive Disclosure</h3>
+            <p>Cards show essential information (name, rating, photo) by default, with details (full reviews, hours, menu) available on click. This prevents information overload while keeping the canvas scannable.</p>
+            
+            <h3>4. Real-time Collaboration Indicators</h3>
+            <p>When someone is actively editing or commenting, their avatar appears on the card with a subtle animation. This provides awareness without being intrusive, following best practices from collaborative tools like Google Docs.</p>
+
+            <h2>User Flow: Planning a Goa Trip</h2>
+            
+            <div class="workflow-diagram">
+                <h4 style="color: #1a1a1a; margin-bottom: 1rem;">Complete User Journey</h4>
+                
+                <div class="workflow-step">
+                    <strong>1. Initial Query</strong>
+                    <p>User A asks: "Show me the best places to drink beer in Goa"</p>
+                    <p>→ System generates map with pins and creates cards for top-rated pubs</p>
+                </div>
+                
+                <div class="workflow-step">
+                    <strong>2. Collaborative Discussion</strong>
+                    <p>User B comments on "Soro - The village pub" card: "This looks great! 4.2 stars from 4,395 reviews"</p>
+                    <p>User C adds: "Guys! We are going to the first one! - Ravi!"</p>
+                    <p>→ Comments appear as overlays on the card, visible to all collaborators</p>
+                </div>
+                
+                <div class="workflow-step">
+                    <strong>3. Iterative Refinement</strong>
+                    <p>User A asks: "Can you add some historic spots as well! that capture Goa's history"</p>
+                    <p>→ System generates new cards for historic locations (Fort Aguada, St. Augustine Tower, etc.)</p>
+                    <p>→ Cards appear on canvas, maintaining spatial relationship to existing suggestions</p>
+                </div>
+                
+                <div class="workflow-step">
+                    <strong>4. Itinerary Building</strong>
+                    <p>Users drag cards into "Day 1" and "Day 2" containers</p>
+                    <p>→ System automatically calculates routes and travel times</p>
+                    <p>→ Map updates to show the planned itinerary with connecting lines</p>
+                </div>
+                
+                <div class="workflow-step">
+                    <strong>5. Finalization</strong>
+                    <p>Group reviews the visual itinerary, makes final adjustments</p>
+                    <p>→ System generates shareable itinerary with map, schedule, and all decisions documented</p>
+                </div>
+            </div>
+
+            <h2>Results & Impact</h2>
+            
+            <div class="solution-grid">
+                <div class="solution-card">
+                    <h4>⏱️ Time Savings</h4>
+                    <p>Users reported 60% reduction in time spent planning group trips, from average 3 hours to 1.2 hours.</p>
+                </div>
+                
+                <div class="solution-card">
+                    <h4>👥 Better Collaboration</h4>
+                    <p>89% of users found it easier to make decisions when they could see all options visually on the canvas.</p>
+                </div>
+                
+                <div class="solution-card">
+                    <h4>🗺️ Spatial Understanding</h4>
+                    <p>Users could better understand geographic relationships between places, leading to more efficient route planning.</p>
+                </div>
+            </div>
+            
+            <div class="quote">
+                "Finally, a tool that thinks the way we think about trips—visually and collaboratively. No more lost links or 'which place did you mean?'" — Beta Tester, Age 32
+            </div>
+
+            <h2>Future Considerations</h2>
+            
+            <p>While the current design focuses on collaborative planning, future iterations could include:</p>
+            <ul>
+                <li><strong>Budget Tracking:</strong> Adding cost estimates and budget visualization to the canvas</li>
+                <li><strong>Real-time Updates:</strong> Integration with booking systems to show availability and prices directly on cards</li>
+                <li><strong>Mobile Optimization:</strong> Adapting the canvas interface for mobile devices while maintaining collaborative features</li>
+            </ul>
+
+            <h2>Conclusion</h2>
+            
+            <p>Google Trips demonstrates how combining natural language processing (via Google Maps Grounding API) with spatial canvas interfaces can transform collaborative experiences. By moving away from linear chat-based planning to a visual, persistent canvas, we've created a tool that aligns with how people actually think about trips—spatially, collaboratively, and iteratively.</p>
+            
+            <p>The key insight from this project is that <strong>collaboration tools shouldn't force users to adapt to the tool's constraints</strong>. Instead, they should adapt to how humans naturally think and communicate. For trip planning, that means preserving spatial context, enabling natural language queries, and making all information visible and referenceable—not buried in chat history.</p>
+            
+            <p style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #ddd; color: #666;">
+                <em>This case study represents a conceptual design exploration. Google Maps Grounding API is a real technology, and the design patterns explored here could be implemented using this API in combination with collaborative canvas frameworks.</em>
+            </p>
+        </div>
+    </main>
+
+    <script>
+        // Video Carousel Functionality
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const totalSlides = slides.length;
+        const dots = document.querySelectorAll('.carousel-dot');
+
+        function showSlide(index) {
+            slides.forEach((slide, slideIndex) => {
+                const slideDataIndex = parseInt(slide.getAttribute('data-index'));
+                const relativePosition = slideDataIndex - index;
+                
+                // Remove all classes
+                slide.classList.remove('active', 'prev', 'next', 'hidden');
+                
+                // Determine position
+                if (relativePosition === 0) {
+                    // Active slide
+                    slide.classList.add('active');
+                } else if (relativePosition === -1 || (index === 0 && slideDataIndex === totalSlides - 1)) {
+                    // Previous slide (with wraparound)
+                    slide.classList.add('prev');
+                } else if (relativePosition === 1 || (index === totalSlides - 1 && slideDataIndex === 0)) {
+                    // Next slide (with wraparound)
+                    slide.classList.add('next');
+                } else {
+                    // Hidden slides
+                    slide.classList.add('hidden');
+                }
+            });
+            
+            // Update dots
+            dots.forEach((dot, dotIndex) => {
+                if (dotIndex === index) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        function changeSlide(direction) {
+            currentSlideIndex += direction;
+            
+            // Loop around if at boundaries
+            if (currentSlideIndex >= totalSlides) {
+                currentSlideIndex = 0;
+            } else if (currentSlideIndex < 0) {
+                currentSlideIndex = totalSlides - 1;
+            }
+            
+            showSlide(currentSlideIndex);
+        }
+
+        function currentSlide(index) {
+            currentSlideIndex = index - 1;
+            showSlide(currentSlideIndex);
+        }
+
+        // Initialize carousel
+        document.addEventListener('DOMContentLoaded', function() {
+            if (slides.length > 0) {
+                showSlide(0);
+                
+                // Add click handlers for side slides
+                slides.forEach((slide, index) => {
+                    slide.addEventListener('click', function() {
+                        const slideDataIndex = parseInt(slide.getAttribute('data-index'));
+                        currentSlideIndex = slideDataIndex;
+                        showSlide(currentSlideIndex);
+                    });
+                });
+                
+                // Keyboard navigation
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'ArrowLeft') {
+                        changeSlide(-1);
+                    } else if (e.key === 'ArrowRight') {
+                        changeSlide(1);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

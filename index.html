@@ -74,17 +74,20 @@
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 3rem 3rem;
+            padding: 3rem 2rem;
         }
 
         /* Profile Section */
         .profile-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 2.5rem;
-            margin-bottom: 2.5rem;
-            padding: 1rem 2rem;
+            gap: 3rem;
+            margin-bottom: 4rem;
+            padding: 0;
             align-items: start;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .profile-left {
@@ -297,9 +300,12 @@
         .nav-pills {
             display: flex;
             gap: 1rem;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
             flex-wrap: wrap;
-            padding: 0 2rem;
+            padding: 0;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .nav-pill {
@@ -334,16 +340,30 @@
         /* Projects Grid */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
             padding: 0 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 1200px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
         .project-card {
             background-color: white;
             border-radius: 20px;
             padding: 2.5rem;
-            min-height: 280px;
+            min-height: 300px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             text-decoration: none;
@@ -558,7 +578,7 @@
             grid-column: 1 / -1;
             background-color: white;
             border-radius: 20px;
-            padding: 2.5rem;
+            padding: 3rem;
             box-shadow: 
                 0 1px 3px rgba(0, 0, 0, 0.04),
                 0 1px 2px rgba(0, 0, 0, 0.02);
@@ -851,6 +871,14 @@
                 </div>
             </a>
 
+            <a href="./googleTrips.html" class="project-card card-green">
+                <div>
+                    <div class="project-tag">Google Maps API</div>
+                    <div class="project-tag">UX Case Study</div>
+                    <h3>Google Trips: Collaborative Trip Planning</h3>
+                    <p>A shared canvas for collaborative trip planning using Google Maps Grounding API to transform natural language queries into visual itineraries.</p>
+                </div>
+            </a>
             <a href="./Xbox2.html" class="project-card card-purple">
                 <div>
                     <div class="project-tag">Microsoft 2025</div>
@@ -860,12 +888,31 @@
                 </div>
             </a>
 
+
+            <a href="./religionVideoGamesNew.html" class="project-card card-purple">
+                <div>
+                    <div class="project-tag">CHI PLAY 2024</div>
+                    <div class="project-tag">UX Case Study</div>
+                    <h3>Religious Inclusivity in Games</h3>
+                    <p>Digital ethnography analyzing 10,000+ Reddit posts to understand religious representation in gaming.</p>
+                </div>
+            </a>
             <a href="./shlokaNew.html" class="project-card card-green">
                 <div>
                     <div class="project-tag">ACM DIS 2025 🏆</div>
                     <div class="project-tag">UX Case Study</div>
                     <h3>Shloka: Climate Action through LLMs and Cultural Games</h3>
                     <p>Ethnographic research exploring how religious narratives drive environmental behavior change.</p>
+                </div>
+            </a>
+
+           
+            <a href="./metaNew.html" class="project-card card-orange">
+                <div>
+                    <div class="project-tag">Meta 2022</div>
+                    <div class="project-tag">UX Case Study</div>
+                    <h3>Facebook Home Redesign</h3>
+                    <p>Generative research identifying user needs and prototyping 21 new experiences. Contributed to Meta-Spotify integration reaching over a billion users.</p>
                 </div>
             </a>
 
@@ -909,23 +956,7 @@
                 </div>
             </a>
 
-            <a href="./metaNew.html" class="project-card card-orange">
-                <div>
-                    <div class="project-tag">Meta 2022</div>
-                    <div class="project-tag">UX Case Study</div>
-                    <h3>Facebook Home Redesign</h3>
-                    <p>Generative research identifying user needs and prototyping 21 new experiences. Contributed to Meta-Spotify integration reaching over a billion users.</p>
-                </div>
-            </a>
-
-            <a href="./religionVideoGamesNew.html" class="project-card card-purple">
-                <div>
-                    <div class="project-tag">CHI PLAY 2024</div>
-                    <div class="project-tag">UX Case Study</div>
-                    <h3>Religious Inclusivity in Games</h3>
-                    <p>Digital ethnography analyzing 10,000+ Reddit posts to understand religious representation in gaming.</p>
-                </div>
-            </a>
+            
 
             <a href="./opmNew.html" class="project-card card-yellow">
                 <div>
