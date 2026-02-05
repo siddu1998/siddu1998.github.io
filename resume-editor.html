@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <style>
+        :root {
+            --bg-main: #0d0d0d;
+            --bg-panel: #161616;
+            --bg-elevated: #1c1c1c;
+            --bg-input: #232323;
+            --border: #2a2a2a;
+            --border-hover: #3a3a3a;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --accent-soft: rgba(59, 130, 246, 0.15);
+            --success: #22c55e;
+            --error: #ef4444;
+            --resume-bg: #ffffff;
+            --resume-text: #1a1a1a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-main);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            height: 56px;
+            background: var(--bg-panel);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo svg {
+            width: 18px;
+            height: 18px;
+            color: white;
+        }
+
+        .header-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.15s;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+        }
+
+        .btn-ghost:hover {
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+        }
+
+        /* Main Layout */
+        .main {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            height: calc(100vh - 56px);
+        }
+
+        /* Preview Panel */
+        .preview-panel {
+            background: var(--bg-elevated);
+            overflow: auto;
+            padding: 32px;
+        }
+
+        .resume-paper {
+            background: var(--resume-bg);
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 48px;
+            border-radius: 4px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+            min-height: 880px;
+            color: var(--resume-text);
+        }
+
+        .resume-paper h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #111;
+        }
+
+        .resume-paper .contact-info {
+            font-size: 12px;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .resume-paper .contact-info a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .resume-paper .section {
+            margin-bottom: 18px;
+        }
+
+        .resume-paper .section-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #333;
+            border-bottom: 1.5px solid #222;
+            padding-bottom: 4px;
+            margin-bottom: 12px;
+        }
+
+        .resume-paper .entry {
+            margin-bottom: 14px;
+        }
+
+        .resume-paper .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .resume-paper .entry-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111;
+        }
+
+        .resume-paper .entry-date {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .resume-paper .entry-subtitle {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 4px;
+        }
+
+        .resume-paper ul {
+            margin: 6px 0 0 0;
+            padding-left: 16px;
+        }
+
+        .resume-paper li {
+            font-size: 12px;
+            line-height: 1.55;
+            color: #333;
+            margin-bottom: 3px;
+        }
+
+        .resume-paper p {
+            font-size: 12px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .resume-paper strong {
+            font-weight: 600;
+        }
+
+        .error-display {
+            color: var(--error);
+            padding: 20px;
+            font-size: 13px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        /* Right Panel */
+        .right-panel {
+            background: var(--bg-panel);
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            padding: 0 16px;
+        }
+
+        .tab {
+            padding: 14px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.15s;
+            font-family: inherit;
+        }
+
+        .tab:hover {
+            color: var(--text-secondary);
+        }
+
+        .tab.active {
+            color: var(--text-primary);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 16px;
+            right: 16px;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 1px 1px 0 0;
+        }
+
+        .clear-chat-btn {
+            margin-left: auto;
+            padding: 8px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .clear-chat-btn:hover {
+            background: var(--bg-elevated);
+            color: var(--error);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            flex: 1;
+            overflow: hidden;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .tab-content.active {
+            display: flex;
+        }
+
+        #chatTab {
+            min-height: 0;
+        }
+
+        /* Chat Tab */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-height: 0;
+        }
+
+        .message {
+            display: flex;
+            gap: 10px;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .message.ai .message-avatar {
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            color: white;
+        }
+
+        .message.user .message-avatar {
+            background: var(--bg-elevated);
+            color: var(--text-secondary);
+        }
+
+        .message-bubble {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: calc(100% - 40px);
+        }
+
+        .message.ai .message-bubble {
+            background: var(--bg-elevated);
+            border-radius: 8px 8px 8px 2px;
+        }
+
+        .message.user .message-bubble {
+            background: var(--accent);
+            color: white;
+            border-radius: 8px 8px 2px 8px;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 4px 0;
+        }
+
+        .typing-indicator span {
+            width: 6px;
+            height: 6px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            animation: typing 1.2s infinite ease-in-out;
+        }
+
+        .typing-indicator span:nth-child(1) { animation-delay: -0.24s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.12s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.4; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        .chat-suggestions {
+            padding: 12px 16px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .suggestion {
+            padding: 6px 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: inherit;
+        }
+
+        .suggestion:hover {
+            background: var(--accent-soft);
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .chat-input-area {
+            padding: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 10px 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: inherit;
+            color: var(--text-primary);
+            outline: none;
+            resize: none;
+            max-height: 100px;
+            transition: border-color 0.15s;
+        }
+
+        .chat-input:focus {
+            border-color: var(--accent);
+        }
+
+        .chat-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .send-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: var(--accent);
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+
+        .send-btn:hover {
+            background: var(--accent-hover);
+        }
+
+        .send-btn:disabled {
+            background: var(--bg-elevated);
+            color: var(--text-muted);
+            cursor: not-allowed;
+        }
+
+        /* YAML Editor */
+        .yaml-editor-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .yaml-toolbar {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .yaml-hint {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .yaml-editor {
+            flex: 1;
+            background: var(--bg-main);
+            color: var(--text-primary);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            line-height: 1.7;
+            padding: 16px;
+            border: none;
+            outline: none;
+            resize: none;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--bg-panel);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            width: 400px;
+            max-width: 90vw;
+            transform: scale(0.95);
+            transition: transform 0.2s;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-header h2 {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .modal-close:hover {
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            padding: 10px 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: inherit;
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            border-color: var(--accent);
+        }
+
+        .form-select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+
+        .form-hint {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .form-checkbox input {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--accent);
+        }
+
+        .modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2000;
+        }
+
+        .toast {
+            padding: 10px 20px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            border-radius: 8px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: toastIn 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .toast.success {
+            border-color: var(--success);
+        }
+
+        .toast.success::before {
+            content: '✓';
+            color: var(--success);
+        }
+
+        .toast.error {
+            border-color: var(--error);
+        }
+
+        .toast.error::before {
+            content: '✕';
+            color: var(--error);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border-hover);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .main {
+                grid-template-columns: 1fr;
+            }
+
+            .preview-panel {
+                display: none;
+            }
+
+            .right-panel {
+                border-left: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                    <polyline points="10 9 9 9 8 9"/>
+                </svg>
+            </div>
+            <span class="header-title">Resume Builder</span>
+        </div>
+        <div class="header-right">
+            <button class="btn btn-ghost" onclick="openSettings()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v10M4.22 4.22l4.24 4.24m7.08 7.08l4.24 4.24M1 12h6m6 0h10M4.22 19.78l4.24-4.24m7.08-7.08l4.24-4.24"/></svg>
+                Settings
+            </button>
+            <button class="btn btn-primary" onclick="downloadPDF()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Export PDF
+            </button>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- Resume Preview -->
+        <div class="preview-panel">
+            <div class="resume-paper" id="resumePreview"></div>
+        </div>
+
+        <!-- Right Panel: Chat + YAML Tabs -->
+        <div class="right-panel">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('chat')">Chat</button>
+                <button class="tab" onclick="switchTab('yaml')">YAML</button>
+                <button class="clear-chat-btn" onclick="clearChat()" title="Clear conversation">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                </button>
+            </div>
+
+            <!-- Chat Tab -->
+            <div class="tab-content active" id="chatTab">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai">
+                        <div class="message-avatar">AI</div>
+                        <div class="message-bubble">
+                            Hi! I'll help you build your resume. Just tell me your name and I'll start updating the preview immediately. You can share your experience, education, and skills one by one - I'll remember everything and keep updating.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-suggestions">
+                    <button class="suggestion" onclick="quickAction('name')">Start with my name</button>
+                    <button class="suggestion" onclick="quickAction('experience')">Add experience</button>
+                    <button class="suggestion" onclick="quickAction('tailor')">Tailor to job</button>
+                </div>
+
+                <div class="chat-input-area">
+                    <div class="chat-input-wrapper">
+                        <textarea class="chat-input" id="chatInput" placeholder="Describe yourself or paste a job description..." rows="1" onkeydown="handleKeydown(event)" oninput="autoResize(this)"></textarea>
+                        <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- YAML Tab -->
+            <div class="tab-content" id="yamlTab">
+                <div class="yaml-editor-wrapper">
+                    <div class="yaml-toolbar">
+                        <span class="yaml-hint">Edit YAML directly • Auto-saves</span>
+                        <button class="btn btn-ghost" onclick="resetYaml()">Reset</button>
+                    </div>
+                    <textarea class="yaml-editor" id="yamlEditor" spellcheck="false" oninput="handleYamlEdit()"></textarea>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button class="modal-close" onclick="closeSettings()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">AI Provider</label>
+                    <select class="form-select" id="aiProvider" onchange="updateModels()">
+                        <option value="openai">OpenAI</option>
+                        <option value="gemini">Google Gemini</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">API Key</label>
+                    <input type="password" class="form-input" id="apiKey" placeholder="Your API key...">
+                    <p class="form-hint">Stored locally, never sent to external servers.</p>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Model</label>
+                    <select class="form-select" id="modelSelect">
+                        <option value="gpt-4o">GPT-4o</option>
+                        <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-checkbox">
+                        <input type="checkbox" id="enableWebSearch" checked>
+                        Enable web search
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeSettings()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // State
+        const state = {
+            apiProvider: localStorage.getItem('apiProvider') || 'openai',
+            apiKey: localStorage.getItem('apiKey') || '',
+            model: localStorage.getItem('model') || 'gpt-4o',
+            enableWebSearch: localStorage.getItem('enableWebSearch') !== 'false',
+            currentTab: 'chat',
+            isProcessing: false,
+            conversationHistory: []
+        };
+
+        // Default YAML
+        const defaultResume = `name: Your Name
+
+contact:
+  email: your.email@example.com
+  phone: "+1-555-123-4567"
+  website: linkedin.com/in/yourprofile
+  location: City, State
+
+summary: >
+  Experienced professional with expertise in your field. 
+  Passionate about key interests with a proven track record.
+
+experience:
+  - title: Job Title
+    company: Company Name
+    location: City, State
+    dates: Jan 2022 – Present
+    bullets:
+      - Accomplished result by implementing specific action
+      - Led team of X members to deliver project on time
+      - Increased metric by X% through strategic approach
+
+  - title: Previous Role
+    company: Previous Company
+    location: City, State
+    dates: Jun 2019 – Dec 2021
+    bullets:
+      - Key achievement or responsibility
+      - Another accomplishment with measurable impact
+
+education:
+  - degree: Bachelor's/Master's Degree
+    field: Your Major
+    school: University Name
+    dates: 2015 – 2019
+
+skills:
+  - category: Technical
+    items: Skill 1, Skill 2, Skill 3, Skill 4
+  - category: Soft Skills
+    items: Communication, Leadership, Problem Solving
+
+publications:
+  - "Author Name et al. Paper Title. Conference/Journal, Year."`;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedResume = localStorage.getItem('resumeYaml');
+            state.resumeYaml = savedResume || defaultResume;
+            document.getElementById('yamlEditor').value = state.resumeYaml;
+            renderPreview();
+
+            if (!state.apiKey) {
+                setTimeout(() => {
+                    addMessage('ai', 'Click <strong>Settings</strong> to add your API key and enable AI features.');
+                }, 800);
+            }
+        });
+
+        // Render resume
+        function renderPreview() {
+            const preview = document.getElementById('resumePreview');
+            try {
+                const data = jsyaml.load(state.resumeYaml);
+                if (!data) {
+                    preview.innerHTML = '<p style="color:#999;text-align:center;padding:40px;">Your resume will appear here...</p>';
+                    return;
+                }
+
+                let html = '';
+
+                if (data.name) {
+                    html += `<h1>${esc(data.name)}</h1>`;
+                }
+
+                if (data.contact) {
+                    const c = data.contact;
+                    const parts = [];
+                    if (c.email) parts.push(`<a href="mailto:${c.email}">${c.email}</a>`);
+                    if (c.phone) parts.push(c.phone);
+                    if (c.website) parts.push(`<a href="https://${c.website}" target="_blank">${c.website}</a>`);
+                    if (c.location) parts.push(c.location);
+                    html += `<p class="contact-info">${parts.join(' • ')}</p>`;
+                }
+
+                if (data.summary) {
+                    html += `<div class="section">
+                        <div class="section-title">Summary</div>
+                        <p>${esc(data.summary)}</p>
+                    </div>`;
+                }
+
+                if (data.experience?.length) {
+                    html += `<div class="section"><div class="section-title">Experience</div>`;
+                    data.experience.forEach(exp => {
+                        html += `<div class="entry">
+                            <div class="entry-header">
+                                <span class="entry-title">${esc(exp.title)} @ ${esc(exp.company)}</span>
+                                <span class="entry-date">${esc(exp.dates)}</span>
+                            </div>
+                            <div class="entry-subtitle">${esc(exp.location || '')}</div>`;
+                        if (exp.bullets?.length) {
+                            html += `<ul>`;
+                            exp.bullets.forEach(b => {
+                                const formatted = esc(b).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+                                html += `<li>${formatted}</li>`;
+                            });
+                            html += `</ul>`;
+                        }
+                        html += `</div>`;
+                    });
+                    html += `</div>`;
+                }
+
+                if (data.education?.length) {
+                    html += `<div class="section"><div class="section-title">Education</div>`;
+                    data.education.forEach(edu => {
+                        html += `<div class="entry">
+                            <div class="entry-header">
+                                <span class="entry-title">${esc(edu.degree)} in ${esc(edu.field)}</span>
+                                <span class="entry-date">${esc(edu.dates)}</span>
+                            </div>
+                            <div class="entry-subtitle">${esc(edu.school)}</div>
+                        </div>`;
+                    });
+                    html += `</div>`;
+                }
+
+                if (data.skills?.length) {
+                    html += `<div class="section"><div class="section-title">Skills</div>`;
+                    data.skills.forEach(s => {
+                        html += `<p><strong>${esc(s.category)}:</strong> ${esc(s.items)}</p>`;
+                    });
+                    html += `</div>`;
+                }
+
+                if (data.publications?.length) {
+                    html += `<div class="section"><div class="section-title">Publications</div><ul>`;
+                    data.publications.forEach(p => {
+                        html += `<li>${esc(p)}</li>`;
+                    });
+                    html += `</ul></div>`;
+                }
+
+                preview.innerHTML = html || '<p style="color:#999;text-align:center;padding:40px;">Your resume will appear here...</p>';
+            } catch (e) {
+                preview.innerHTML = `<div class="error-display">YAML Error: ${esc(e.message)}</div>`;
+            }
+        }
+
+        function esc(str) {
+            if (!str) return '';
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        // Tab switching
+        function switchTab(tab) {
+            state.currentTab = tab;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+            if (tab === 'chat') {
+                document.querySelector('.tab:nth-child(1)').classList.add('active');
+                document.getElementById('chatTab').classList.add('active');
+            } else {
+                document.querySelector('.tab:nth-child(2)').classList.add('active');
+                document.getElementById('yamlTab').classList.add('active');
+                document.getElementById('yamlEditor').value = state.resumeYaml;
+            }
+        }
+
+        // YAML editing
+        let yamlDebounce = null;
+        function handleYamlEdit() {
+            clearTimeout(yamlDebounce);
+            yamlDebounce = setTimeout(() => {
+                state.resumeYaml = document.getElementById('yamlEditor').value;
+                localStorage.setItem('resumeYaml', state.resumeYaml);
+                renderPreview();
+            }, 300);
+        }
+
+        function resetYaml() {
+            if (confirm('Reset to default template?')) {
+                state.resumeYaml = defaultResume;
+                document.getElementById('yamlEditor').value = defaultResume;
+                localStorage.setItem('resumeYaml', defaultResume);
+                renderPreview();
+                showToast('success', 'Reset to default');
+            }
+        }
+
+        // Chat
+        function clearChat() {
+            state.conversationHistory = [];
+            const container = document.getElementById('chatMessages');
+            container.innerHTML = `
+                <div class="message ai">
+                    <div class="message-avatar">AI</div>
+                    <div class="message-bubble">
+                        Chat cleared! Tell me about yourself and I'll build your resume. What's your name and current role?
+                    </div>
+                </div>
+            `;
+            showToast('success', 'Conversation cleared');
+        }
+
+        function handleKeydown(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function autoResize(el) {
+            el.style.height = 'auto';
+            el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+        }
+
+        function quickAction(action) {
+            const prompts = {
+                name: "My name is ",
+                experience: "I worked at [Company] as a [Role] from [dates]. I was responsible for ",
+                tailor: "Tailor my resume to this job:\n\n[Paste job description]"
+            };
+            const input = document.getElementById('chatInput');
+            input.value = prompts[action];
+            input.focus();
+            // Place cursor at end or at placeholder
+            const pos = prompts[action].indexOf('[');
+            if (pos > -1) {
+                input.setSelectionRange(pos, prompts[action].indexOf(']') + 1);
+            }
+            autoResize(input);
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+
+            if (!message || state.isProcessing) return;
+
+            if (!state.apiKey) {
+                showToast('error', 'Add your API key in Settings');
+                openSettings();
+                return;
+            }
+
+            state.isProcessing = true;
+            document.getElementById('sendBtn').disabled = true;
+            input.value = '';
+            input.style.height = 'auto';
+
+            // Add to conversation history
+            state.conversationHistory.push({ role: 'user', content: message });
+            
+            addMessage('user', message);
+            const loadingId = addMessage('ai', '<div class="typing-indicator"><span></span><span></span><span></span></div>', true);
+
+            try {
+                const response = await callAI(message);
+                document.getElementById(loadingId)?.remove();
+                
+                // Add AI response to history (without HTML)
+                state.conversationHistory.push({ role: 'assistant', content: response.rawMessage || response.message });
+                
+                addMessage('ai', response.message, true);
+
+                if (response.updatedYaml) {
+                    state.resumeYaml = response.updatedYaml;
+                    localStorage.setItem('resumeYaml', response.updatedYaml);
+                    document.getElementById('yamlEditor').value = response.updatedYaml;
+                    renderPreview();
+                    showToast('success', 'Resume updated');
+                }
+            } catch (error) {
+                document.getElementById(loadingId)?.remove();
+                addMessage('ai', `Error: ${error.message}`, true);
+            }
+
+            state.isProcessing = false;
+            document.getElementById('sendBtn').disabled = false;
+        }
+
+        function addMessage(type, content, isHtml = false) {
+            const container = document.getElementById('chatMessages');
+            const id = 'msg-' + Date.now();
+            const div = document.createElement('div');
+            div.id = id;
+            div.className = `message ${type}`;
+            div.innerHTML = `
+                <div class="message-avatar">${type === 'ai' ? 'AI' : 'You'}</div>
+                <div class="message-bubble">${isHtml ? content : esc(content)}</div>
+            `;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+            return id;
+        }
+
+        async function callAI(userMessage) {
+            const systemPrompt = `You are a professional resume writer assistant. You help users build resumes through conversation.
+
+CURRENT RESUME YAML:
+\`\`\`yaml
+${state.resumeYaml}
+\`\`\`
+
+YOUR BEHAVIOR:
+1. Remember everything the user tells you in this conversation
+2. Be proactive - when the user gives you information, UPDATE THE RESUME IMMEDIATELY
+3. Don't ask too many questions - use reasonable defaults and update the resume
+4. After each update, briefly confirm what you changed
+
+WHEN UPDATING THE RESUME:
+You MUST include the complete updated YAML wrapped exactly like this:
+
+[UPDATED_YAML]
+name: "Person's Name"
+contact:
+  email: email@example.com
+  phone: "+1-555-123-4567"
+  website: linkedin.com/in/profile
+  location: City, State
+summary: >
+  Professional summary here...
+experience:
+  - title: Job Title
+    company: Company Name
+    location: City, State
+    dates: Jan 2022 – Present
+    bullets:
+      - Achievement or responsibility
+education:
+  - degree: Degree Name
+    field: Field of Study
+    school: University Name
+    dates: 2015 – 2019
+skills:
+  - category: Technical
+    items: Skill 1, Skill 2, Skill 3
+publications:
+  - "Author. Title. Venue, Year."
+[/UPDATED_YAML]
+
+YAML RULES:
+- Quote strings with colons: "Title: Subtitle"
+- Keep the structure exactly as shown
+- Include ALL sections even if unchanged
+
+When user gives their name: Update name immediately
+When user describes experience: Add it to experience section
+When user mentions skills: Add to skills section
+Be helpful and proactive!`;
+
+            // Build messages array with conversation history
+            const messages = [
+                { role: "system", content: systemPrompt },
+                ...state.conversationHistory
+            ];
+
+            if (state.apiProvider === 'openai') {
+                if (state.enableWebSearch) {
+                    const res = await fetch('https://api.openai.com/v1/responses', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${state.apiKey}`
+                        },
+                        body: JSON.stringify({
+                            model: state.model,
+                            tools: [{ type: "web_search" }],
+                            input: messages
+                        })
+                    });
+
+                    if (!res.ok) {
+                        const err = await res.json();
+                        throw new Error(err.error?.message || 'API error');
+                    }
+
+                    const data = await res.json();
+                    let text = '';
+
+                    if (data.output) {
+                        for (const item of data.output) {
+                            if (item.type === 'message' && item.content) {
+                                for (const c of item.content) {
+                                    if (c.type === 'output_text' || c.type === 'text') {
+                                        text += c.text;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    return parseResponse(text);
+                } else {
+                    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${state.apiKey}`
+                        },
+                        body: JSON.stringify({
+                            model: state.model,
+                            messages: messages
+                        })
+                    });
+
+                    if (!res.ok) {
+                        const err = await res.json();
+                        throw new Error(err.error?.message || 'API error');
+                    }
+
+                    const data = await res.json();
+                    return parseResponse(data.choices?.[0]?.message?.content || '');
+                }
+            } else {
+                // For Gemini, format conversation history differently
+                const geminiHistory = state.conversationHistory.map(msg => ({
+                    role: msg.role === 'assistant' ? 'model' : 'user',
+                    parts: [{ text: msg.content }]
+                }));
+                
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${state.model}:generateContent?key=${state.apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        contents: geminiHistory.length > 0 ? geminiHistory : [{ role: "user", parts: [{ text: userMessage }] }]
+                    })
+                });
+
+                if (!res.ok) {
+                    const err = await res.json();
+                    throw new Error(err.error?.message || 'API error');
+                }
+
+                const data = await res.json();
+                let text = data.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('') || '';
+                return parseResponse(text);
+            }
+        }
+
+        function parseResponse(text) {
+            let updatedYaml = null;
+            const rawMessage = text; // Store original for history
+            
+            // Try custom tags first
+            let match = text.match(/\[UPDATED_YAML\]([\s\S]*?)\[\/UPDATED_YAML\]/);
+            if (match) {
+                updatedYaml = match[1].trim().replace(/^```yaml?\n?/i, '').replace(/\n?```$/i, '');
+                text = text.replace(/\[UPDATED_YAML\][\s\S]*?\[\/UPDATED_YAML\]/, '').trim();
+                if (!text) text = '✅ Resume updated!';
+            }
+            
+            // Try ```yaml code blocks
+            if (!updatedYaml) {
+                match = text.match(/```yaml\s*\n([\s\S]*?)```/);
+                if (match && match[1].includes('name:')) {
+                    updatedYaml = match[1].trim();
+                    text = text.replace(/```yaml\s*\n[\s\S]*?```/, '').trim();
+                    if (!text) text = '✅ Resume updated!';
+                }
+            }
+            
+            // Try ``` code blocks (no language specified)
+            if (!updatedYaml) {
+                match = text.match(/```\s*\n([\s\S]*?)```/);
+                if (match && match[1].includes('name:') && match[1].includes('experience:')) {
+                    updatedYaml = match[1].trim();
+                    text = text.replace(/```\s*\n[\s\S]*?```/, '').trim();
+                    if (!text) text = '✅ Resume updated!';
+                }
+            }
+            
+            // Last resort: if the response looks like it starts with yaml
+            if (!updatedYaml && text.trim().startsWith('name:')) {
+                const lines = text.split('\n');
+                let yamlEnd = lines.length;
+                for (let i = 0; i < lines.length; i++) {
+                    if (lines[i].trim() === '' && i > 10) {
+                        yamlEnd = i;
+                        break;
+                    }
+                }
+                updatedYaml = lines.slice(0, yamlEnd).join('\n').trim();
+                text = '✅ Resume updated!';
+            }
+
+            // Format display text
+            let displayText = text
+                .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>');
+
+            return { 
+                message: displayText || 'Done!', 
+                rawMessage: rawMessage,
+                updatedYaml 
+            };
+        }
+
+        // Settings
+        function openSettings() {
+            document.getElementById('settingsModal').classList.add('active');
+            document.getElementById('aiProvider').value = state.apiProvider;
+            document.getElementById('apiKey').value = state.apiKey;
+            document.getElementById('modelSelect').value = state.model;
+            document.getElementById('enableWebSearch').checked = state.enableWebSearch;
+            updateModels();
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').classList.remove('active');
+        }
+
+        function updateModels() {
+            const provider = document.getElementById('aiProvider').value;
+            const select = document.getElementById('modelSelect');
+
+            if (provider === 'openai') {
+                select.innerHTML = `
+                    <option value="gpt-4o">GPT-4o</option>
+                    <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                `;
+            } else {
+                select.innerHTML = `
+                    <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
+                    <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+                `;
+            }
+        }
+
+        function saveSettings() {
+            state.apiProvider = document.getElementById('aiProvider').value;
+            state.apiKey = document.getElementById('apiKey').value;
+            state.model = document.getElementById('modelSelect').value;
+            state.enableWebSearch = document.getElementById('enableWebSearch').checked;
+
+            localStorage.setItem('apiProvider', state.apiProvider);
+            localStorage.setItem('apiKey', state.apiKey);
+            localStorage.setItem('model', state.model);
+            localStorage.setItem('enableWebSearch', state.enableWebSearch);
+
+            closeSettings();
+            showToast('success', 'Settings saved');
+        }
+
+        // PDF
+        function downloadPDF() {
+            const preview = document.getElementById('resumePreview');
+
+            const win = window.open('', '_blank');
+            win.document.write(`<!DOCTYPE html>
+<html>
+<head>
+    <title>Resume</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'IBM Plex Sans', sans-serif; max-width: 680px; margin: 0 auto; padding: 40px; color: #1a1a1a; }
+        h1 { font-size: 22px; margin-bottom: 4px; }
+        .contact-info { font-size: 11px; color: #555; margin-bottom: 16px; }
+        .contact-info a { color: #3b82f6; text-decoration: none; }
+        .section { margin-bottom: 14px; }
+        .section-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1.5px solid #222; padding-bottom: 3px; margin-bottom: 10px; }
+        .entry { margin-bottom: 12px; }
+        .entry-header { display: flex; justify-content: space-between; align-items: baseline; }
+        .entry-title { font-size: 13px; font-weight: 600; }
+        .entry-date { font-size: 11px; color: #666; }
+        .entry-subtitle { font-size: 12px; color: #555; }
+        ul { margin: 4px 0; padding-left: 16px; }
+        li { font-size: 11px; line-height: 1.5; margin-bottom: 2px; }
+        p { font-size: 11px; line-height: 1.6; margin-bottom: 3px; }
+        strong { font-weight: 600; }
+        @media print { body { padding: 0; } }
+    </style>
+</head>
+<body>${preview.innerHTML}</body>
+</html>`);
+            win.document.close();
+            setTimeout(() => win.print(), 300);
+        }
+
+        // Toast
+        function showToast(type, message) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Close modal on overlay click
+        document.getElementById('settingsModal').addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-overlay')) closeSettings();
+        });
+    </script>
+</body>
+</html>
