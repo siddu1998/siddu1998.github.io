@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design System - Portfolio Documentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1a1a1a;
+            --paper: #f8f5f0;
+            --accent: #1a1a1a;
+            --muted: #6b6b6b;
+            --rule: #d4d0c8;
+            --serif: 'Instrument Serif', Georgia, serif;
+            --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--paper);
+            font-family: var(--sans);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--ink);
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* --- Navigation --- */
+        nav {
+            width: 200px;
+            padding: 2.5rem 1.5rem;
+            border-right: 1px solid var(--rule);
+            flex-shrink: 0;
+            background-color: var(--paper);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+        
+        nav a {
+            display: block;
+            margin-bottom: 0.75rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            transition: color 0.2s ease;
+        }
+        
+        nav a:hover {
+            color: var(--ink);
+        }
+        
+        .nav-logo {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 2.5rem;
+            color: var(--ink);
+            text-decoration: none;
+            display: block;
+        }
+        
+        main {
+            flex-grow: 1;
+            overflow-y: auto;
+            background-color: var(--paper);
+        }
+        
+        /* --- Hero Section --- */
+        .hero {
+            padding: 6rem 4rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .issue-number {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+        
+        h1 {
+            font-family: var(--serif);
+            font-size: 4rem;
+            font-weight: 400;
+            line-height: 1.05;
+            color: var(--ink);
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            max-width: 800px;
+        }
+        
+        .hero-subtitle {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--muted);
+            max-width: 600px;
+        }
+        
+        /* --- Article Layout --- */
+        .article-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem;
+        }
+        
+        .lede {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            line-height: 1.6;
+            color: var(--ink);
+            max-width: 800px;
+            margin-bottom: 3rem;
+        }
+        
+        .lede::first-letter {
+            font-size: 4.5rem;
+            float: left;
+            line-height: 0.8;
+            margin-right: 0.5rem;
+            margin-top: 0.1rem;
+            color: var(--ink);
+        }
+        
+        h2 {
+            font-family: var(--serif);
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-top: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--ink);
+            padding-top: 2rem;
+            border-top: 3px solid var(--ink);
+        }
+        
+        h3 {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--muted);
+        }
+        
+        h4 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+            color: var(--ink);
+        }
+        
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--ink);
+            max-width: 680px;
+        }
+        
+        /* --- Color System --- */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+            margin: 2rem 0;
+        }
+        
+        .color-swatch {
+            padding: 2rem 1.5rem;
+            background: var(--paper);
+        }
+        
+        .swatch-preview {
+            width: 100%;
+            height: 80px;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            border: 1px solid var(--rule);
+        }
+        
+        .swatch-name {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+        
+        .swatch-value {
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+        
+        .swatch-usage {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.5rem;
+            line-height: 1.4;
+        }
+        
+        /* --- Typography Showcase --- */
+        .type-specimen {
+            border: 1px solid var(--rule);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .type-specimen-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .type-name {
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+        
+        .type-details {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+        
+        .type-sample-serif {
+            font-family: var(--serif);
+        }
+        
+        .type-sample-sans {
+            font-family: var(--sans);
+        }
+        
+        .type-scale {
+            margin: 1.5rem 0;
+        }
+        
+        .type-scale-item {
+            display: flex;
+            align-items: baseline;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .type-scale-item:last-child {
+            border-bottom: none;
+        }
+        
+        .type-scale-label {
+            width: 120px;
+            flex-shrink: 0;
+            font-size: 0.8rem;
+            color: var(--muted);
+            font-family: var(--sans);
+        }
+        
+        .type-scale-example {
+            flex-grow: 1;
+        }
+        
+        /* --- Component Showcase --- */
+        .component-demo {
+            border: 1px solid var(--rule);
+            margin: 2rem 0;
+        }
+        
+        .component-header {
+            padding: 1rem 1.5rem;
+            background: rgba(0,0,0,0.02);
+            border-bottom: 1px solid var(--rule);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .component-name {
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        
+        .component-tag {
+            font-size: 0.75rem;
+            color: var(--muted);
+            padding: 0.25rem 0.5rem;
+            background: var(--paper);
+            border: 1px solid var(--rule);
+        }
+        
+        .component-preview {
+            padding: 2rem;
+            background: var(--paper);
+        }
+        
+        /* --- Stat Box Demo --- */
+        .stat-grid-demo {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+        }
+        
+        .stat-box-demo {
+            background: var(--paper);
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .stat-number-demo {
+            font-family: var(--serif);
+            font-size: 2.8rem;
+            font-style: italic;
+            color: var(--ink);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label-demo {
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        
+        /* --- Card Grid Demo --- */
+        .card-grid-demo {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--ink);
+        }
+        
+        .card-demo {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .card-demo h4 {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+        }
+        
+        .card-demo p {
+            font-size: 0.95rem;
+            color: var(--muted);
+            margin-bottom: 0;
+            max-width: none;
+        }
+        
+        /* --- Quote Demo --- */
+        .quote-demo {
+            background: linear-gradient(to right, var(--ink), var(--ink)) no-repeat 0 0;
+            background-size: 4px 100%;
+            padding: 1.5rem 2rem;
+            font-family: var(--serif);
+            font-size: 1.25rem;
+            font-style: italic;
+            line-height: 1.5;
+        }
+        
+        .quote-demo cite {
+            display: block;
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-style: normal;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 1rem;
+        }
+        
+        /* --- Accent Colors --- */
+        .accent-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .accent-item {
+            text-align: center;
+        }
+        
+        .accent-swatch {
+            width: 100%;
+            height: 60px;
+            border-radius: 4px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .accent-name {
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        
+        .accent-value {
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+        
+        /* --- Code Block --- */
+        .code-block {
+            background: var(--ink);
+            color: var(--paper);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            border-radius: 4px;
+        }
+        
+        .code-block .comment {
+            color: #6b7280;
+        }
+        
+        .code-block .property {
+            color: #93c5fd;
+        }
+        
+        .code-block .value {
+            color: #fcd34d;
+        }
+        
+        /* --- Principles Grid --- */
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+            margin: 2rem 0;
+        }
+        
+        .principle-card {
+            background: var(--paper);
+            padding: 2.5rem;
+        }
+        
+        .principle-number {
+            font-family: var(--serif);
+            font-size: 3rem;
+            font-style: italic;
+            color: var(--rule);
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+        
+        .principle-card h4 {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            margin-top: 0;
+        }
+        
+        .principle-card p {
+            font-size: 0.95rem;
+            color: var(--muted);
+            margin-bottom: 0;
+            max-width: none;
+        }
+        
+        /* --- Layout Demo --- */
+        .layout-demo {
+            border: 2px dashed var(--rule);
+            padding: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .layout-label {
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            background: var(--paper);
+            padding: 0.25rem 0.5rem;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .layout-box {
+            background: rgba(0,0,0,0.03);
+            border: 1px dashed var(--rule);
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+        
+        /* --- Dark Section Demo --- */
+        .dark-section-demo {
+            background: var(--ink);
+            color: var(--paper);
+            padding: 3rem;
+            margin: 2rem 0;
+        }
+        
+        .dark-section-demo h4 {
+            color: var(--paper);
+            margin-top: 0;
+        }
+        
+        .dark-section-demo p {
+            color: rgba(255,255,255,0.8);
+            max-width: none;
+        }
+        
+        /* --- Footer --- */
+        .footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--rule);
+            text-align: center;
+        }
+        
+        .footer a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .footer a:hover {
+            color: var(--ink);
+        }
+        
+        /* --- Responsive --- */
+        @media (max-width: 1100px) {
+            .color-grid,
+            .accent-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .stat-grid-demo,
+            .card-grid-demo {
+                grid-template-columns: 1fr;
+            }
+            
+            .principles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column;
+            }
+            
+            nav {
+                width: 100%;
+                padding: 1rem 2rem;
+                border-right: none;
+                border-bottom: 1px solid var(--rule);
+                height: auto;
+                position: relative;
+            }
+            
+            .nav-logo {
+                display: inline-block;
+                margin-bottom: 0;
+                margin-right: 2rem;
+            }
+            
+            nav a {
+                display: inline-block;
+                margin-right: 1.5rem;
+                margin-bottom: 0;
+            }
+            
+            .article-container {
+                padding: 2rem;
+            }
+            
+            .hero {
+                padding: 3rem 2rem;
+            }
+            
+            h1 {
+                font-size: 2.8rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.8rem; }
+            
+            .color-grid,
+            .accent-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-logo">Sai Maram</a>
+        <a href="index.html">Home</a>
+        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="issue-number">Documentation · Design System</div>
+            <h1>Editorial Magazine Design System</h1>
+            <p class="hero-subtitle">A comprehensive design language for case study pages—typography, color, components, and principles.</p>
+        </header>
+
+        <article class="article-container">
+            
+            <!-- Opening Lede -->
+            <p class="lede">This portfolio draws inspiration from editorial magazine design—clean typography, generous whitespace, and a focus on content hierarchy. Every case study uses a consistent design system that balances sophistication with readability.</p>
+
+            <h2>Design Philosophy</h2>
+            
+            <div class="principles-grid">
+                <div class="principle-card">
+                    <div class="principle-number">01</div>
+                    <h4>Content First</h4>
+                    <p>The design serves the content, not the other way around. Typography and layout choices prioritize readability and comprehension over decoration.</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-number">02</div>
+                    <h4>Editorial Heritage</h4>
+                    <p>Drawing from print magazine traditions—drop caps, pull quotes, generous margins—to create a premium reading experience on screen.</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-number">03</div>
+                    <h4>Systematic Flexibility</h4>
+                    <p>A consistent core system (typography, spacing, components) with accent color variations that give each project its own identity.</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-number">04</div>
+                    <h4>Quiet Sophistication</h4>
+                    <p>Avoiding trendy effects and AI-aesthetic clichés. The design feels timeless, professional, and distinctly human-crafted.</p>
+                </div>
+            </div>
+
+            <h2>Color System</h2>
+            
+            <h3>Core Palette</h3>
+            <p>Five semantic colors form the foundation. These remain constant across all case studies.</p>
+            
+            <div class="color-grid">
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: #1a1a1a;"></div>
+                    <div class="swatch-name">Ink</div>
+                    <div class="swatch-value">#1a1a1a</div>
+                    <div class="swatch-usage">Primary text, headings, dark sections</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: #f8f5f0;"></div>
+                    <div class="swatch-name">Paper</div>
+                    <div class="swatch-value">#f8f5f0</div>
+                    <div class="swatch-usage">Background, card surfaces</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: #c41e3a;"></div>
+                    <div class="swatch-name">Accent</div>
+                    <div class="swatch-value">varies</div>
+                    <div class="swatch-usage">Brand highlights, drop caps, labels</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: #6b6b6b;"></div>
+                    <div class="swatch-name">Muted</div>
+                    <div class="swatch-value">#6b6b6b</div>
+                    <div class="swatch-usage">Secondary text, captions</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: #d4d0c8;"></div>
+                    <div class="swatch-name">Rule</div>
+                    <div class="swatch-value">#d4d0c8</div>
+                    <div class="swatch-usage">Borders, dividers, grid lines</div>
+                </div>
+            </div>
+
+            <h3>Project Accent Colors</h3>
+            <p>Each case study has a unique accent color reflecting the project's brand or theme.</p>
+            
+            <div class="accent-grid">
+                <div class="accent-item">
+                    <div class="accent-swatch" style="background: #c41e3a;"></div>
+                    <div class="accent-name">Ooha</div>
+                    <div class="accent-value">#c41e3a</div>
+                </div>
+                <div class="accent-item">
+                    <div class="accent-swatch" style="background: #107c10;"></div>
+                    <div class="accent-name">Xbox</div>
+                    <div class="accent-value">#107c10</div>
+                </div>
+                <div class="accent-item">
+                    <div class="accent-swatch" style="background: #0866ff;"></div>
+                    <div class="accent-name">Meta</div>
+                    <div class="accent-value">#0866ff</div>
+                </div>
+                <div class="accent-item">
+                    <div class="accent-swatch" style="background: #c45e2c;"></div>
+                    <div class="accent-name">Shloka</div>
+                    <div class="accent-value">#c45e2c</div>
+                </div>
+                <div class="accent-item">
+                    <div class="accent-swatch" style="background: #6b4c9a;"></div>
+                    <div class="accent-name">Religion & Games</div>
+                    <div class="accent-value">#6b4c9a</div>
+                </div>
+                <div class="accent-item">
+                    <div class="accent-swatch" style="background: #8b5a2b;"></div>
+                    <div class="accent-name">Tower of Deities</div>
+                    <div class="accent-value">#8b5a2b</div>
+                </div>
+                <div class="accent-item">
+                    <div class="accent-swatch" style="background: #1a73e8;"></div>
+                    <div class="accent-name">Google Trips</div>
+                    <div class="accent-value">#1a73e8</div>
+                </div>
+                <div class="accent-item">
+                    <div class="accent-swatch" style="background: #2d6a4f;"></div>
+                    <div class="accent-name">OPM Viz</div>
+                    <div class="accent-value">#2d6a4f</div>
+                </div>
+                <div class="accent-item">
+                    <div class="accent-swatch" style="background: #8b2942;"></div>
+                    <div class="accent-name">AstraVerse</div>
+                    <div class="accent-value">#8b2942</div>
+                </div>
+                <div class="accent-item">
+                    <div class="accent-swatch" style="background: #5d4e37;"></div>
+                    <div class="accent-name">Chess Coach</div>
+                    <div class="accent-value">#5d4e37</div>
+                </div>
+            </div>
+
+            <div class="code-block">
+<span class="comment">/* CSS Custom Properties */</span>
+:root {
+    <span class="property">--ink</span>: <span class="value">#1a1a1a</span>;
+    <span class="property">--paper</span>: <span class="value">#f8f5f0</span>;
+    <span class="property">--accent</span>: <span class="value">#c41e3a</span>; <span class="comment">/* varies per project */</span>
+    <span class="property">--muted</span>: <span class="value">#6b6b6b</span>;
+    <span class="property">--rule</span>: <span class="value">#d4d0c8</span>;
+}
+            </div>
+
+            <h2>Typography</h2>
+            
+            <h3>Primary Typefaces</h3>
+            
+            <div class="type-specimen">
+                <div class="type-specimen-header">
+                    <span class="type-name">Instrument Serif</span>
+                    <span class="type-details">Headlines, Display, Drop Caps</span>
+                </div>
+                <div class="type-sample-serif" style="font-size: 3rem; line-height: 1.1; margin-bottom: 1rem;">
+                    The quick brown fox jumps over the lazy dog
+                </div>
+                <div class="type-sample-serif" style="font-size: 1.5rem; font-style: italic; color: var(--muted);">
+                    The quick brown fox jumps over the lazy dog
+                </div>
+            </div>
+            
+            <div class="type-specimen">
+                <div class="type-specimen-header">
+                    <span class="type-name">DM Sans</span>
+                    <span class="type-details">Body Text, UI, Navigation</span>
+                </div>
+                <div class="type-sample-sans" style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 1rem;">
+                    The quick brown fox jumps over the lazy dog. This is the primary body text typeface, optimized for long-form reading on screens. It pairs well with Instrument Serif for a classic editorial feel.
+                </div>
+                <div class="type-sample-sans" style="font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);">
+                    The quick brown fox jumps over the lazy dog
+                </div>
+            </div>
+
+            <h3>Type Scale</h3>
+            
+            <div class="type-scale">
+                <div class="type-scale-item">
+                    <span class="type-scale-label">H1 / Title</span>
+                    <span class="type-scale-example" style="font-family: var(--serif); font-size: 3.2rem; line-height: 1.05;">Case Study Title</span>
+                </div>
+                <div class="type-scale-item">
+                    <span class="type-scale-label">H2 / Section</span>
+                    <span class="type-scale-example" style="font-family: var(--serif); font-size: 2.5rem;">Section Heading</span>
+                </div>
+                <div class="type-scale-item">
+                    <span class="type-scale-label">H3 / Label</span>
+                    <span class="type-scale-example" style="font-family: var(--sans); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted);">Subsection Label</span>
+                </div>
+                <div class="type-scale-item">
+                    <span class="type-scale-label">H4 / Card</span>
+                    <span class="type-scale-example" style="font-family: var(--serif); font-size: 1.3rem;">Card Title</span>
+                </div>
+                <div class="type-scale-item">
+                    <span class="type-scale-label">Lede</span>
+                    <span class="type-scale-example" style="font-family: var(--serif); font-size: 1.5rem; line-height: 1.6;">Opening paragraph with drop cap</span>
+                </div>
+                <div class="type-scale-item">
+                    <span class="type-scale-label">Body</span>
+                    <span class="type-scale-example" style="font-family: var(--sans); font-size: 1.1rem; line-height: 1.7;">Standard paragraph text for content</span>
+                </div>
+                <div class="type-scale-item">
+                    <span class="type-scale-label">Caption</span>
+                    <span class="type-scale-example" style="font-family: var(--sans); font-size: 0.85rem; color: var(--muted);">Image caption or meta text</span>
+                </div>
+            </div>
+
+            <h2>Components</h2>
+            
+            <h3>Stat Grid</h3>
+            <p>Used in hero sections to highlight key metrics. 1px gap creates the grid effect.</p>
+            
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Hero Stats</span>
+                    <span class="component-tag">4 columns</span>
+                </div>
+                <div class="component-preview">
+                    <div class="stat-grid-demo">
+                        <div class="stat-box-demo">
+                            <div class="stat-number-demo">97%</div>
+                            <div class="stat-label-demo">Novelty Rate</div>
+                        </div>
+                        <div class="stat-box-demo">
+                            <div class="stat-number-demo">23</div>
+                            <div class="stat-label-demo">Users Tested</div>
+                        </div>
+                        <div class="stat-box-demo">
+                            <div class="stat-number-demo">CHI</div>
+                            <div class="stat-label-demo">2024 Published</div>
+                        </div>
+                        <div class="stat-box-demo">
+                            <div class="stat-number-demo">4</div>
+                            <div class="stat-label-demo">Design Iterations</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Card Grid</h3>
+            <p>Problem statements, findings, and features. Dark 1px borders create visual separation.</p>
+            
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Problem Cards</span>
+                    <span class="component-tag">3 columns, dark gap</span>
+                </div>
+                <div class="component-preview">
+                    <div class="card-grid-demo">
+                        <div class="card-demo">
+                            <h4>First Problem</h4>
+                            <p>Description of the problem or finding. Keep it concise and scannable.</p>
+                        </div>
+                        <div class="card-demo">
+                            <h4>Second Problem</h4>
+                            <p>Description of the problem or finding. Keep it concise and scannable.</p>
+                        </div>
+                        <div class="card-demo">
+                            <h4>Third Problem</h4>
+                            <p>Description of the problem or finding. Keep it concise and scannable.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Inline Quote</h3>
+            <p>Pull quotes and testimonials with accent-colored left border.</p>
+            
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Quote Block</span>
+                    <span class="component-tag">accent border</span>
+                </div>
+                <div class="component-preview">
+                    <div class="quote-demo">
+                        "This is how quotes appear throughout the case studies. They add human voice and break up long text sections."
+                        <cite>— Research Participant, Role</cite>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Dark Results Section</h3>
+            <p>High-contrast section for highlighting key outcomes and impact metrics.</p>
+            
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Results Section</span>
+                    <span class="component-tag">inverted colors</span>
+                </div>
+                <div class="component-preview" style="padding: 0;">
+                    <div class="dark-section-demo">
+                        <h4 style="font-family: var(--serif); font-size: 2rem; margin-bottom: 1rem;">Key Outcomes</h4>
+                        <p>This dark section creates visual contrast and signals important results or conclusions. It breaks the reading rhythm intentionally.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Layout Structure</h2>
+            
+            <h3>Page Anatomy</h3>
+            <p>Every case study follows this structural pattern:</p>
+            
+            <div class="layout-demo">
+                <div class="layout-label">200px</div>
+                <div style="display: grid; grid-template-columns: 200px 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div class="layout-box" style="min-height: 300px;">Navigation<br>(sticky)</div>
+                    <div>
+                        <div class="layout-box" style="margin-bottom: 1rem;">Hero Section (stats grid, title, meta)</div>
+                        <div class="layout-box" style="margin-bottom: 1rem;">TL;DR Section (4-point summary + sidebar)</div>
+                        <div class="layout-box" style="min-height: 200px;">Article Container (max-width: 1200px)<br>Lede → Sections → Components → Skills → Footer</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Spacing System</h3>
+            <p>Consistent spacing creates rhythm and hierarchy:</p>
+            <ul>
+                <li><strong>Section gap:</strong> 4rem between major sections</li>
+                <li><strong>Component gap:</strong> 3rem between components within sections</li>
+                <li><strong>Paragraph gap:</strong> 1.25rem between paragraphs</li>
+                <li><strong>Grid gap:</strong> 1px for card/stat grids (creates border effect)</li>
+                <li><strong>Article padding:</strong> 4rem horizontal on desktop</li>
+            </ul>
+
+            <h3>Max Widths</h3>
+            <ul>
+                <li><strong>Article container:</strong> 1200px</li>
+                <li><strong>Body text:</strong> 680px (optimal line length)</li>
+                <li><strong>Lede paragraph:</strong> 800px</li>
+            </ul>
+
+            <h2>Responsive Behavior</h2>
+            
+            <p>The design adapts at three breakpoints:</p>
+            
+            <ul>
+                <li><strong>1100px:</strong> Hero becomes single column, grids stack</li>
+                <li><strong>992px:</strong> Navigation moves to top, horizontal layout</li>
+                <li><strong>768px:</strong> Reduced type scale, simplified spacing</li>
+            </ul>
+
+            <p>Navigation transforms from a sticky sidebar to a horizontal top bar on tablet and mobile, preserving space for content.</p>
+
+            <h2>Implementation Notes</h2>
+            
+            <h3>CSS Custom Properties</h3>
+            <p>All colors and font stacks are defined as CSS variables in <code>:root</code>, making theme changes trivial—just update the accent color per project.</p>
+
+            <h3>Grid Technique</h3>
+            <p>Card grids use a clever technique: the parent has the border color as background, with 1px gap, and children have the paper color. This creates borders without actual border properties.</p>
+
+            <div class="code-block">
+<span class="comment">/* Grid border technique */</span>
+.card-grid {
+    <span class="property">display</span>: <span class="value">grid</span>;
+    <span class="property">grid-template-columns</span>: <span class="value">repeat(3, 1fr)</span>;
+    <span class="property">gap</span>: <span class="value">1px</span>;
+    <span class="property">background</span>: <span class="value">var(--ink)</span>; <span class="comment">/* border color */</span>
+}
+
+.card {
+    <span class="property">background</span>: <span class="value">var(--paper)</span>; <span class="comment">/* fills gap */</span>
+    <span class="property">padding</span>: <span class="value">2rem</span>;
+}
+            </div>
+
+            <h3>Drop Cap</h3>
+            <p>The lede paragraph uses <code>::first-letter</code> pseudo-element for the drop cap effect, floated left with careful line-height tuning.</p>
+
+            <div class="code-block">
+<span class="comment">/* Drop cap effect */</span>
+.lede::first-letter {
+    <span class="property">font-size</span>: <span class="value">4.5rem</span>;
+    <span class="property">float</span>: <span class="value">left</span>;
+    <span class="property">line-height</span>: <span class="value">0.8</span>;
+    <span class="property">margin-right</span>: <span class="value">0.5rem</span>;
+    <span class="property">margin-top</span>: <span class="value">0.1rem</span>;
+    <span class="property">color</span>: <span class="value">var(--accent)</span>;
+}
+            </div>
+
+            <footer class="footer">
+                <a href="index.html">← Back to Portfolio</a>
+            </footer>
+        </article>
+    </main>
+
+</body>
+</html>

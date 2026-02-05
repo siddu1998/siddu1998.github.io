@@ -4,8 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gradient Generator - Sai Maram</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        /* Base styles */
+        :root {
+            --ink: #1a1a1a;
+            --paper: #f8f5f0;
+            --accent: #6366f1;
+            --muted: #6b6b6b;
+            --rule: #d4d0c8;
+            --serif: 'Instrument Serif', Georgia, serif;
+            --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --mono: 'Roboto Mono', monospace;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,94 +26,113 @@
         }
         
         body {
-            background-color: #ffffff;
-            background-image: 
-                linear-gradient(rgba(200, 200, 200, 0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(200, 200, 200, 0.15) 1px, transparent 1px);
-            background-size: 40px 40px;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--paper);
+            font-family: var(--sans);
             font-size: 1rem;
             line-height: 1.6;
-            color: #1a1a1a;
-            margin: 0;
+            color: var(--ink);
+            display: flex;
             min-height: 100vh;
         }
-
-        /* Header */
-        header {
-            padding: 2rem 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+        
+        /* --- Navigation --- */
+        nav {
+            width: 200px;
+            padding: 2.5rem 1.5rem;
+            border-right: 1px solid var(--rule);
+            flex-shrink: 0;
+            background-color: var(--paper);
             position: sticky;
             top: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(200, 200, 200, 0.2);
+            height: 100vh;
         }
         
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #1a1a1a;
+        nav a {
+            display: block;
+            margin-bottom: 0.75rem;
+            color: var(--muted);
             text-decoration: none;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            transition: color 0.2s ease;
         }
         
-        .back-btn {
-            background-color: #1a1a1a;
-            color: white;
-            padding: 0.6rem 1.5rem;
-            border-radius: 8px;
+        nav a:hover {
+            color: var(--ink);
+        }
+        
+        .nav-logo {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 2.5rem;
+            color: var(--ink);
             text-decoration: none;
-            font-size: 0.9rem;
-            transition: background-color 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+            display: block;
         }
         
-        .back-btn:hover {
-            background-color: #333;
+        main {
+            flex-grow: 1;
+            overflow-y: auto;
+            background-color: var(--paper);
         }
-
-        /* Main Container */
-        .container {
-            max-width: 1200px;
+        
+        /* --- Hero Section --- */
+        .hero {
+            padding: 4rem 4rem 3rem;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 3rem 3rem;
+            border-bottom: 1px solid var(--rule);
         }
-
-        .page-header {
-            text-align: center;
-            margin-bottom: 3rem;
+        
+        .issue-number {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-weight: 500;
         }
-
-        .page-header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: #1a1a1a;
+        
+        h1 {
+            font-family: var(--serif);
+            font-size: 3.2rem;
+            font-weight: 400;
+            line-height: 1.1;
+            color: var(--ink);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
         }
-
-        .page-header p {
-            font-size: 1rem;
-            color: #666;
+        
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--muted);
+            max-width: 500px;
+            line-height: 1.5;
         }
-
+        
+        /* --- Tool Container --- */
+        .tool-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 3rem 4rem;
+        }
+        
+        /* --- Gradient Display --- */
         .gradient-wrapper {
-            margin-bottom: 2rem;
-            display: flex;
-            gap: 1.5rem;
-            align-items: flex-start;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            align-items: start;
         }
-
+        
         .gradient-display {
-            flex: 1;
             height: 350px;
-            border-radius: 25px;
+            border-radius: 4px;
             background: white;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--rule);
             position: relative;
             overflow: hidden;
             cursor: text;
@@ -109,7 +141,6 @@
         .gradient-canvas {
             width: 100%;
             height: 100%;
-            border-radius: 25px;
         }
 
         .text-overlay {
@@ -123,402 +154,61 @@
             background: none;
             border: none;
             color: white;
-            font-size: 3rem;
-            font-weight: 700;
+            font-size: 2.5rem;
+            font-weight: 600;
+            font-family: var(--serif);
             outline: none;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
             resize: none;
             overflow: hidden;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             pointer-events: none;
             line-height: 1.3;
             padding: 0.5rem;
-            box-sizing: border-box;
         }
 
         .text-overlay.active {
             pointer-events: auto;
             border: 2px dashed rgba(255, 255, 255, 0.5);
         }
-
-        .controls-wrapper {
-            margin-bottom: 2rem;
-            max-height: 2000px;
-            overflow: hidden;
-            transition: max-height 0.3s ease, opacity 0.3s ease;
-            opacity: 1;
-        }
-
-        .controls-wrapper.hidden {
-            max-height: 0;
-            opacity: 0;
-            margin-bottom: 0;
-        }
-
-        .section-header {
-            padding: 0.8rem 0;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #e0e0e0;
-            transition: all 0.2s ease;
-            user-select: none;
-        }
-
-        .section-header:hover {
-            border-bottom-color: #1a1a1a;
-        }
-
-        .section-title {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #1a1a1a;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .section-toggle {
-            font-size: 0.9rem;
-            color: #999;
-            transition: transform 0.2s ease;
-        }
-
-        .section-toggle.open {
-            transform: rotate(180deg);
-        }
-
-        .section-content {
-            padding: 1.5rem 0 0 0;
-            max-height: 1000px;
-            overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.2s ease;
-            opacity: 1;
-        }
-
-        .section-content.collapsed {
-            max-height: 0;
-            padding: 0;
-            opacity: 0;
-        }
-
-        .gradient-type-buttons {
-            display: flex;
-            gap: 0.8rem;
-            flex-wrap: wrap;
-        }
-
-        .type-btn {
-            flex: 1;
-            min-width: 100px;
-            padding: 0.8rem 1.8rem;
-            background-color: rgba(255, 255, 255, 0.9);
-            border: 1px solid #e0e0e0;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: #333;
-            transition: all 0.2s ease;
-        }
-
-        .type-btn.active {
-            background-color: #1a1a1a;
-            color: white;
-            border-color: #1a1a1a;
-        }
-
-        .type-btn:hover {
-            background-color: #f0f0f0;
-            transform: translateY(-2px);
-        }
-
-        .type-btn.active:hover {
-            background-color: #333;
-        }
-
-        .color-stops {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .color-stop {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-            padding: 1rem 0;
-            border-bottom: 1px solid #f0f0f0;
-            transition: all 0.2s ease;
-        }
-
-        .color-stop:last-child {
-            border-bottom: none;
-        }
-
-        .color-stop:hover {
-            padding-left: 0.5rem;
-        }
-
-        .color-input-wrapper {
-            position: relative;
-            width: 40px;
-            height: 40px;
-            flex-shrink: 0;
-        }
-
-        .color-input {
-            width: 40px;
-            height: 40px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .color-input:hover {
-            border-color: #1a1a1a;
-            transform: scale(1.05);
-        }
-
-        .color-input::-webkit-color-swatch-wrapper {
-            padding: 0;
-        }
-
-        .color-input::-webkit-color-swatch {
-            border: none;
-            border-radius: 8px;
-        }
-
-        .stop-controls {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-
-        .control-row {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .control-label {
-            font-size: 0.9rem;
-            color: #333;
-            font-weight: 500;
-            min-width: 70px;
-        }
-
-        .slider {
-            flex: 1;
-            height: 6px;
-            border-radius: 3px;
-            background: #e0e0e0;
-            outline: none;
-            appearance: none;
-            -webkit-appearance: none;
-        }
-
-        .slider::-webkit-slider-thumb {
-            appearance: none;
-            -webkit-appearance: none;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: #1a1a1a;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .slider::-webkit-slider-thumb:hover {
-            background: #333;
-            transform: scale(1.1);
-        }
-
-        .slider::-moz-range-thumb {
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: #1a1a1a;
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s ease;
-        }
-
-        .slider::-moz-range-thumb:hover {
-            background: #333;
-            transform: scale(1.1);
-        }
-
-        .slider-value {
-            min-width: 45px;
-            text-align: right;
-            font-size: 0.9rem;
-            color: #1a1a1a;
-            font-weight: 600;
-        }
-
-        .lock-btn {
-            background: none;
-            border: none;
-            color: #ccc;
-            cursor: pointer;
-            font-size: 1.1rem;
-            transition: all 0.2s ease;
-            flex-shrink: 0;
-            padding: 0.3rem;
-        }
-
-        .lock-btn:hover {
-            color: #1a1a1a;
-            transform: scale(1.1);
-        }
-
-        .lock-btn.locked {
-            color: #1a1a1a;
-        }
-
-        .remove-btn {
-            background: none;
-            border: none;
-            color: #ccc;
-            cursor: pointer;
-            font-size: 1.1rem;
-            transition: all 0.2s ease;
-            flex-shrink: 0;
-            padding: 0.3rem;
-        }
-
-        .remove-btn:hover {
-            color: #ff6b6b;
-            transform: scale(1.2);
-        }
-
-        .add-color-btn {
-            width: 100%;
-            padding: 0.8rem;
-            border: none;
-            background: none;
-            cursor: pointer;
-            color: #999;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            text-align: left;
-            margin-top: 0.5rem;
-        }
-
-        .add-color-btn:hover {
-            color: #1a1a1a;
-        }
-
-        .effects-section {
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-        }
-
-        .effect-control {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .effect-control:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-
-        .checkbox-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .checkbox {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: #1a1a1a;
-        }
-
-        .checkbox-label {
-            font-size: 0.9rem;
-            color: #666;
-            font-weight: 500;
-            cursor: pointer;
-        }
-
+        
+        /* --- Action Buttons --- */
         .action-buttons {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
-            align-items: flex-end;
+            gap: 0.75rem;
         }
-
-        .icon-btn-wrapper {
+        
+        .action-btn {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
+            padding: 0.75rem 1.25rem;
+            background: var(--paper);
+            border: 1px solid var(--rule);
             cursor: pointer;
-        }
-
-        .icon-btn {
-            background: none;
-            border: none;
-            font-size: 1.3rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: #999;
-            padding: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .icon-btn:hover {
-            color: #1a1a1a;
-            transform: scale(1.1);
-        }
-
-        .icon-btn-label {
+            font-family: var(--sans);
             font-size: 0.85rem;
-            color: #999;
-            font-weight: 500;
+            color: var(--muted);
             transition: all 0.2s ease;
+            text-align: left;
         }
-
-        .icon-btn-wrapper:hover .icon-btn-label {
-            color: #1a1a1a;
+        
+        .action-btn:hover {
+            border-color: var(--ink);
+            color: var(--ink);
         }
-
-        .settings-btn {
-            background: none;
-            border: none;
-            font-size: 1.3rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: #999;
-            padding: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 0.5rem;
+        
+        .action-btn.active {
+            background: var(--ink);
+            color: var(--paper);
+            border-color: var(--ink);
         }
-
-        .settings-btn:hover {
-            color: #1a1a1a;
-            transform: scale(1.1);
+        
+        .action-btn span {
+            font-size: 1.1rem;
         }
-
-        .settings-btn.active {
-            color: #1a1a1a;
-        }
-
+        
+        /* --- Settings Panel --- */
         .settings-panel {
             max-height: 3000px;
             overflow: hidden;
@@ -530,208 +220,487 @@
             max-height: 0;
             opacity: 0;
         }
-
-        .css-output {
-            padding-top: 1.5rem;
-            border-top: 1px solid #e0e0e0;
+        
+        /* --- Section Styling --- */
+        .controls-section {
+            margin-bottom: 2.5rem;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--ink);
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .section-title {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: var(--ink);
+        }
+        
+        .section-toggle {
+            font-size: 0.8rem;
+            color: var(--muted);
+            transition: transform 0.2s ease;
         }
 
+        .section-toggle.open {
+            transform: rotate(180deg);
+        }
+        
+        .section-content {
+            max-height: 1000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.2s ease;
+            opacity: 1;
+        }
+
+        .section-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+        }
+        
+        /* --- Gradient Type Buttons --- */
+        .type-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+        }
+        
+        .type-btn {
+            padding: 1rem;
+            background: var(--paper);
+            border: none;
+            cursor: pointer;
+            font-family: var(--sans);
+            font-size: 0.9rem;
+            color: var(--muted);
+            transition: all 0.2s ease;
+        }
+        
+        .type-btn:hover {
+            background: #f0ebe4;
+        }
+        
+        .type-btn.active {
+            background: var(--ink);
+            color: var(--paper);
+        }
+        
+        /* --- Color Stops --- */
+        .color-stops {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+        }
+        
+        .color-stop {
+            display: grid;
+            grid-template-columns: 50px 1fr auto auto;
+            gap: 1.5rem;
+            align-items: center;
+            padding: 1.25rem;
+            background: var(--paper);
+        }
+        
+        .color-input-wrapper {
+            position: relative;
+        }
+        
+        .color-input {
+            width: 50px;
+            height: 50px;
+            border: 1px solid var(--rule);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .color-input:hover {
+            border-color: var(--ink);
+        }
+        
+        .color-input::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+        
+        .color-input::-webkit-color-swatch {
+            border: none;
+            border-radius: 3px;
+        }
+        
+        .stop-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .control-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .control-label {
+            font-size: 0.8rem;
+            color: var(--muted);
+            min-width: 60px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .slider {
+            flex: 1;
+            height: 4px;
+            border-radius: 2px;
+            background: var(--rule);
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--ink);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+        
+        .slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--ink);
+            cursor: pointer;
+            border: none;
+        }
+        
+        .slider-value {
+            min-width: 40px;
+            text-align: right;
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            color: var(--ink);
+        }
+        
+        .icon-btn {
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
+            padding: 0.5rem;
+        }
+        
+        .icon-btn:hover {
+            color: var(--ink);
+        }
+        
+        .icon-btn.locked {
+            color: var(--accent);
+        }
+        
+        .remove-btn:hover {
+            color: #e53e3e;
+        }
+        
+        .add-color-btn {
+            width: 100%;
+            padding: 1rem;
+            border: 1px dashed var(--rule);
+            background: none;
+            cursor: pointer;
+            color: var(--muted);
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        .add-color-btn:hover {
+            border-color: var(--ink);
+            color: var(--ink);
+        }
+        
+        /* --- Effects Section --- */
+        .effect-control {
+            padding: 1.25rem;
+            background: var(--paper);
+            border: 1px solid var(--rule);
+            margin-bottom: 1rem;
+        }
+        
+        .effect-control:last-child {
+            margin-bottom: 0;
+        }
+        
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--accent);
+        }
+        
+        .checkbox-label {
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            color: var(--ink);
+            cursor: pointer;
+        }
+        
+        /* --- CSS Output --- */
+        .css-output {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--rule);
+        }
+        
         .css-output-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
         }
-
+        
         .css-output-title {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #999;
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            color: var(--accent);
         }
-
+        
         .copy-btn {
-            padding: 0.4rem 0.8rem;
+            padding: 0.5rem 1rem;
             background: none;
-            color: #999;
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
+            color: var(--muted);
+            border: 1px solid var(--rule);
             cursor: pointer;
+            font-family: var(--sans);
             font-size: 0.8rem;
             transition: all 0.2s ease;
-            font-weight: 500;
         }
-
+        
         .copy-btn:hover {
-            color: #1a1a1a;
-            border-color: #1a1a1a;
+            color: var(--ink);
+            border-color: var(--ink);
         }
-
+        
         .css-code {
-            background: #f7fafc;
-            padding: 1rem;
-            border-radius: 8px;
-            color: #666;
-            font-family: 'Courier New', monospace;
+            background: var(--ink);
+            padding: 1.5rem;
+            color: #e2e8f0;
+            font-family: var(--mono);
             font-size: 0.85rem;
             word-wrap: break-word;
-            border: 1px solid #e0e0e0;
             line-height: 1.6;
         }
-
-        @media (max-width: 992px) {
-            header {
+        
+        /* --- Footer --- */
+        .footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--rule);
+            text-align: center;
+        }
+        
+        .footer a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .footer a:hover {
+            color: var(--ink);
+        }
+        
+        /* --- Responsive --- */
+        @media (max-width: 1000px) {
+            nav {
+                display: none;
+            }
+            
+            .hero,
+            .tool-container {
+                padding: 2rem;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .gradient-wrapper {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .action-btn {
+                flex: 1;
+                min-width: 120px;
+                justify-content: center;
+            }
+            
+            .gradient-display {
+                height: 280px;
+            }
+            
+            .type-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .color-stop {
+                grid-template-columns: 40px 1fr auto;
+                gap: 1rem;
+            }
+            
+            .color-input {
+                width: 40px;
+                height: 40px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .hero,
+            .tool-container {
                 padding: 1.5rem;
             }
             
-            .logo {
-                font-size: 1.2rem;
-            }
-            
-            .back-btn {
-                padding: 0.5rem 1rem;
-                font-size: 0.85rem;
-            }
-            
-            .container {
-                padding: 2rem 1.5rem;
-            }
-
-            .page-header h1 {
+            h1 {
                 font-size: 2rem;
             }
-
-            .gradient-wrapper {
-                flex-direction: column;
+            
+            .gradient-display {
+                height: 220px;
+            }
+            
+            .text-overlay {
+                font-size: 1.5rem;
+            }
+            
+            .color-stop {
+                grid-template-columns: 1fr;
                 gap: 1rem;
             }
-
-            .gradient-display {
-                height: 250px;
-            }
-
-            .action-buttons {
-                flex-direction: row;
-                justify-content: center;
+            
+            .color-input-wrapper {
+                display: flex;
+                gap: 1rem;
                 align-items: center;
-                gap: 1.5rem;
             }
-
-            .icon-btn {
-                font-size: 1.2rem;
-            }
-
-            .icon-btn-label {
-                font-size: 0.8rem;
-            }
-
-            .section-header {
-                padding: 0.8rem 0;
-            }
-
-            .section-content {
-                padding: 1.2rem 0 0 0;
-            }
-
-            .section-content.collapsed {
-                padding: 0;
-            }
-
-            .color-stop {
-                flex-wrap: wrap;
-            }
-
+            
             .control-label {
-                min-width: 60px;
-                font-size: 0.85rem;
-            }
-
-            .type-btn {
-                padding: 0.7rem 1.5rem;
-                font-size: 0.9rem;
-            }
-
-            .text-overlay {
-                font-size: 2rem;
-                height: 4em;
+                min-width: 50px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <a href="./index.html" class="logo">Sai Maram</a>
-        <a href="./index.html" class="back-btn">← Back to Portfolio</a>
-    </header>
-
-    <!-- Main Container -->
-    <div class="container">
-        <div class="page-header">
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html" class="nav-logo">Sai Maram</a>
+        <a href="index.html">Home</a>
+        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+    </nav>
+    
+    <main>
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="issue-number">Design Tool · Interactive</div>
             <h1>Gradient Generator</h1>
-            <p>Create beautiful gradients with custom colors, textures, and effects</p>
-        </div>
+            <p class="hero-subtitle">Create beautiful gradients with custom colors, textures, and effects. Double-click the canvas to add text.</p>
+        </header>
+        
+        <!-- Tool Container -->
+        <div class="tool-container">
+            <div class="gradient-wrapper">
+                <div class="gradient-display" ondblclick="activateTextOverlay()">
+                    <canvas id="gradientCanvas" class="gradient-canvas"></canvas>
+                    <textarea id="textOverlay" class="text-overlay" maxlength="100"></textarea>
+                </div>
 
-        <div class="gradient-wrapper">
-            <div class="gradient-display" ondblclick="activateTextOverlay()">
-                <canvas id="gradientCanvas" class="gradient-canvas"></canvas>
-                <textarea id="textOverlay" class="text-overlay" maxlength="100"></textarea>
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="randomizeGradient()">
+                        <span>↻</span> Randomize
+                    </button>
+                    <button class="action-btn" onclick="copyCSS()">
+                        <span>⎘</span> Copy CSS
+                    </button>
+                    <button class="action-btn" onclick="downloadGradient()">
+                        <span>↓</span> Download
+                    </button>
+                    <button class="action-btn" id="settingsBtn" onclick="toggleSettings()">
+                        <span>⚙</span> Settings
+                    </button>
+                </div>
             </div>
 
-            <div class="action-buttons">
-                <div class="icon-btn-wrapper" onclick="randomizeGradient()">
-                    <span class="icon-btn-label">Randomize</span>
-                    <button class="icon-btn" title="Randomize">↻</button>
-                </div>
-                <div class="icon-btn-wrapper" onclick="copyCSS()">
-                    <span class="icon-btn-label">Copy CSS</span>
-                    <button class="icon-btn" title="Copy CSS">⎘</button>
-                </div>
-                <div class="icon-btn-wrapper" onclick="downloadGradient()">
-                    <span class="icon-btn-label">Download</span>
-                    <button class="icon-btn" title="Download PNG">↓</button>
-                </div>
-                <div class="icon-btn-wrapper" onclick="toggleSettings()">
-                    <span class="icon-btn-label">Gradient Settings</span>
-                    <button class="icon-btn" id="settingsBtn" title="Settings">⚙</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="settingsPanel" class="settings-panel hidden">
-            <div class="controls-wrapper">
-                <div class="section-header" onclick="toggleSection('gradientType')">
-                    <div class="section-title">Gradient Type</div>
-                    <div class="section-toggle open" id="toggle-gradientType">▼</div>
-                </div>
-                <div class="section-content" id="section-gradientType">
-                    <div class="gradient-type-buttons">
-                        <button class="type-btn active" data-type="linear">Linear</button>
-                        <button class="type-btn" data-type="radial">Radial</button>
-                        <button class="type-btn" data-type="conic">Conic</button>
+            <div id="settingsPanel" class="settings-panel hidden">
+                <!-- Gradient Type Section -->
+                <div class="controls-section">
+                    <div class="section-header" onclick="toggleSection('gradientType')">
+                        <h2 class="section-title">Gradient Type</h2>
+                        <div class="section-toggle open" id="toggle-gradientType">▼</div>
+                    </div>
+                    <div class="section-content" id="section-gradientType">
+                        <div class="type-buttons">
+                            <button class="type-btn active" data-type="linear">Linear</button>
+                            <button class="type-btn" data-type="radial">Radial</button>
+                            <button class="type-btn" data-type="conic">Conic</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="controls-wrapper">
-                <div class="section-header" onclick="toggleSection('colorStops')">
-                    <div class="section-title">Color Stops</div>
-                    <div class="section-toggle open" id="toggle-colorStops">▼</div>
+                <!-- Color Stops Section -->
+                <div class="controls-section">
+                    <div class="section-header" onclick="toggleSection('colorStops')">
+                        <h2 class="section-title">Color Stops</h2>
+                        <div class="section-toggle open" id="toggle-colorStops">▼</div>
+                    </div>
+                    <div class="section-content" id="section-colorStops">
+                        <div id="colorStops" class="color-stops"></div>
+                        <button class="add-color-btn" onclick="addColorStop()">+ Add Color Stop</button>
+                    </div>
                 </div>
-                <div class="section-content" id="section-colorStops">
-                    <div id="colorStops" class="color-stops"></div>
-                    <button class="add-color-btn" onclick="addColorStop()">+ Add Color Stop</button>
-                </div>
-            </div>
 
-            <div class="controls-wrapper">
-                <div class="section-header" onclick="toggleSection('effects')">
-                    <div class="section-title">Effects & Texture</div>
-                    <div class="section-toggle open" id="toggle-effects">▼</div>
-                </div>
-                <div class="section-content" id="section-effects">
-                    <div class="effects-section">
+                <!-- Effects Section -->
+                <div class="controls-section">
+                    <div class="section-header" onclick="toggleSection('effects')">
+                        <h2 class="section-title">Effects & Texture</h2>
+                        <div class="section-toggle open" id="toggle-effects">▼</div>
+                    </div>
+                    <div class="section-content" id="section-effects">
                         <div class="effect-control">
                             <div class="checkbox-wrapper">
                                 <input type="checkbox" id="noiseToggle" class="checkbox" checked onchange="updateGradient()">
@@ -757,16 +726,21 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="css-output">
-            <div class="css-output-header">
-                <span class="css-output-title">CSS Code</span>
-                <button class="copy-btn" onclick="copyCSS()">Copy</button>
+            <!-- CSS Output -->
+            <div class="css-output">
+                <div class="css-output-header">
+                    <span class="css-output-title">CSS Code</span>
+                    <button class="copy-btn" onclick="copyCSS()">Copy</button>
+                </div>
+                <div class="css-code" id="cssOutput"></div>
             </div>
-            <div class="css-code" id="cssOutput"></div>
+
+            <footer class="footer">
+                <a href="index.html">← Back to Portfolio</a>
+            </footer>
         </div>
-    </div>
+    </main>
 
     <script>
         let gradientType = 'linear';
@@ -827,7 +801,7 @@
         // Set canvas size
         function resizeCanvas() {
             const rect = canvas.getBoundingClientRect();
-            canvas.width = rect.width * 2; // Retina display
+            canvas.width = rect.width * 2;
             canvas.height = rect.height * 2;
             updateGradient();
         }
@@ -864,8 +838,8 @@
                             <span class="slider-value">${stop.alpha}%</span>
                         </div>
                     </div>
-                    <button class="lock-btn ${lockClass}" onclick="toggleLock(${index})" title="Lock/Unlock color">${lockIcon}</button>
-                    ${colorStops.length > 2 ? `<button class="remove-btn" onclick="removeColorStop(${index})">×</button>` : ''}
+                    <button class="icon-btn ${lockClass}" onclick="toggleLock(${index})" title="Lock/Unlock color">${lockIcon}</button>
+                    ${colorStops.length > 2 ? `<button class="icon-btn remove-btn" onclick="removeColorStop(${index})">×</button>` : ''}
                 `;
                 container.appendChild(stopElement);
             });
@@ -874,7 +848,6 @@
         function updateColorStop(index, property, value) {
             colorStops[index][property] = property === 'color' ? value : parseInt(value);
             
-            // Update the slider value display
             if (property !== 'color') {
                 const stopElement = document.getElementById('colorStops').children[index];
                 const sliders = stopElement.querySelectorAll('.slider-value');
@@ -938,10 +911,9 @@
             const width = canvas.width;
             const height = canvas.height;
 
-            ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
             ctx.clearRect(0, 0, width, height);
 
-            // Create gradient using actual canvas dimensions
             let gradient;
             const sortedStops = [...colorStops].sort((a, b) => a.position - b.position);
 
@@ -970,9 +942,9 @@
 
                 for (let i = 0; i < data.length; i += 4) {
                     const noise = (Math.random() - 0.5) * 50 * noiseIntensity;
-                    data[i] += noise;     // R
-                    data[i + 1] += noise; // G
-                    data[i + 2] += noise; // B
+                    data[i] += noise;
+                    data[i + 1] += noise;
+                    data[i + 2] += noise;
                 }
 
                 ctx.putImageData(imageData, 0, 0);
@@ -1020,26 +992,22 @@
         }
 
         function randomizeGradient() {
-            // Separate locked and unlocked color stops
             const lockedStops = colorStops.filter(stop => stop.locked);
             const unlockedCount = colorStops.filter(stop => !stop.locked).length;
             
-            // Determine how many new colors to generate
             const numColors = Math.max(2, unlockedCount > 0 ? unlockedCount : 2 + Math.floor(Math.random() * 3));
 
-            // Pastel color palette matching your design
             const colorPalettes = [
-                ['#a8d8ea', '#7fb3d5'], // blue
-                ['#c1f0c1', '#90d890'], // green
-                ['#ffd89b', '#ffb347'], // orange
-                ['#ff9a8b', '#ff6b6b'], // red
-                ['#d4a5ff', '#b57edc'], // purple
-                ['#fff59d', '#ffd54f'], // yellow
+                ['#a8d8ea', '#7fb3d5'],
+                ['#c1f0c1', '#90d890'],
+                ['#ffd89b', '#ffb347'],
+                ['#ff9a8b', '#ff6b6b'],
+                ['#d4a5ff', '#b57edc'],
+                ['#fff59d', '#ffd54f'],
             ];
 
             const palette = colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
 
-            // Generate new unlocked colors
             const newUnlockedStops = [];
             for (let i = 0; i < numColors; i++) {
                 const color = i < palette.length ? palette[i] : '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
@@ -1048,7 +1016,6 @@
                 newUnlockedStops.push({ color, position, alpha, locked: false });
             }
 
-            // Combine locked and new unlocked stops
             colorStops = [...lockedStops, ...newUnlockedStops];
             colorStops.sort((a, b) => a.position - b.position);
 
@@ -1069,24 +1036,19 @@
         }
 
         function downloadGradient() {
-            // Create a temporary canvas with the text overlay
             const tempCanvas = document.createElement('canvas');
             const tempCtx = tempCanvas.getContext('2d');
             tempCanvas.width = canvas.width;
             tempCanvas.height = canvas.height;
             
-            // Draw the gradient
             tempCtx.drawImage(canvas, 0, 0);
             
-            // Draw the text overlay if it exists
             const textOverlay = document.getElementById('textOverlay');
             if (textOverlay && textOverlay.value.trim()) {
                 const text = textOverlay.value;
-                const displayRect = document.querySelector('.gradient-display').getBoundingClientRect();
                 
-                // Scale for retina display
                 tempCtx.scale(1, 1);
-                tempCtx.font = '700 ' + (canvas.height / 6) + 'px -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif';
+                tempCtx.font = '600 ' + (canvas.height / 6) + 'px "Instrument Serif", Georgia, serif';
                 tempCtx.fillStyle = 'white';
                 tempCtx.textAlign = 'center';
                 tempCtx.textBaseline = 'middle';
@@ -1094,14 +1056,12 @@
                 tempCtx.shadowBlur = 20;
                 tempCtx.shadowOffsetY = 4;
                 
-                // Wrap text if needed
                 const maxWidth = canvas.width * 0.9;
                 const words = text.split(' ');
                 let line = '';
                 let y = canvas.height / 2;
                 const lineHeight = canvas.height / 6 * 1.2;
                 
-                // Calculate number of lines needed
                 let lines = [];
                 for (let n = 0; n < words.length; n++) {
                     let testLine = line + words[n] + ' ';
@@ -1115,10 +1075,8 @@
                 }
                 lines.push(line);
                 
-                // Adjust y position for multiple lines
                 y = canvas.height / 2 - ((lines.length - 1) * lineHeight) / 2;
                 
-                // Draw each line
                 for (let i = 0; i < lines.length; i++) {
                     tempCtx.fillText(lines[i].trim(), canvas.width / 2, y);
                     y += lineHeight;

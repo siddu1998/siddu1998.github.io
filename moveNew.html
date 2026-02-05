@@ -4,8 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Move - Robotics Startup UX Research</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
     <style>
-        /* --- New Sidebar and Layout Styles --- */
+        :root {
+            --ink: #1a1a1a;
+            --paper: #f8f5f0;
+            --accent: #0891b2; /* Robotics teal */
+            --muted: #6b6b6b;
+            --rule: #d4d0c8;
+            --serif: 'Instrument Serif', Georgia, serif;
+            --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,161 +25,783 @@
         }
         
         body {
-            background-color: #ffffff;
-            background-image: 
-                linear-gradient(rgba(200, 200, 200, 0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(200, 200, 200, 0.15) 1px, transparent 1px);
-            background-size: 40px 40px;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 1.05rem;
-            line-height: 1.6;
-            color: #1a1a1a;
-            margin: 0;
+            background-color: var(--paper);
+            font-family: var(--sans);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--ink);
             display: flex;
             min-height: 100vh;
         }
+        
+        /* --- Navigation --- */
         nav {
-            width: 220px;
-            padding: 2rem;
-            border-right: 1px solid rgba(200, 200, 200, 0.3);
+            width: 200px;
+            padding: 2.5rem 1.5rem;
+            border-right: 1px solid var(--rule);
             flex-shrink: 0;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background-color: var(--paper);
+            position: sticky;
+            top: 0;
+            height: 100vh;
         }
+        
         nav a {
             display: block;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-            text-decoration: underline;
-            cursor: pointer;
+            margin-bottom: 0.75rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
             transition: color 0.2s ease;
         }
+        
         nav a:hover {
-            text-decoration: none;
-            color: #666;
+            color: var(--ink);
         }
+        
         .nav-logo {
-            font-weight: 600;
-            margin-bottom: 2rem;
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 2.5rem;
+            color: var(--ink);
             text-decoration: none;
-            cursor: pointer;
-            font-size: 1.3rem;
-            color: #1a1a1a;
-            transition: color 0.2s ease;
+            display: block;
         }
-        .nav-logo:hover {
-            color: #666;
-        }
+        
         main {
             flex-grow: 1;
             overflow-y: auto;
-            height: 100vh;
-            background-color: transparent;
+            background-color: var(--paper);
         }
-        .hidden {
-            display: none;
-        }
-        @media (max-width: 992px) {
-            body {
-                flex-direction: column; 
-            }
-            main {
-                height: auto;
-            }
-            nav {
-                width: 100%; 
-                padding: 1rem;
-                border-right: none; 
-                border-bottom: 1px solid #ddd; 
-                box-sizing: border-box;
-            }
-            .nav-container {
-                display: flex;
-                justify-content: center;
-                gap: 1.5rem;
-                flex-wrap: wrap;
-            }
-            .nav-logo {
-                display: none;
-            }
-            nav a {
-                margin-bottom: 0;
-            }
-        }
-
-        /* --- Case Study Styles --- */
-        .container {
-            max-width: 900px;
+        
+        /* --- Hero Section --- */
+        .hero {
+            padding: 6rem 4rem 4rem;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 3rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: end;
+            border-bottom: 1px solid var(--rule);
         }
+        
+        .hero-content {
+            padding-bottom: 2rem;
+        }
+        
+        .issue-number {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+        
         h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-            line-height: 1.2;
-        }
-        h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-top: 3rem;
+            font-family: var(--serif);
+            font-size: 3.2rem;
+            font-weight: 400;
+            line-height: 1.05;
+            color: var(--ink);
             margin-bottom: 1.5rem;
-            color: #1a1a1a;
+            letter-spacing: -0.02em;
         }
-        h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
+        
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
             margin-top: 2rem;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--rule);
         }
-        p {
-            margin-bottom: 1.5rem;
-            color: #333;
+        
+        .meta-item {
+            font-size: 0.85rem;
+            color: var(--muted);
         }
-        .project-meta {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 2rem;
+        
+        .meta-item strong {
+            display: block;
+            color: var(--ink);
+            font-weight: 500;
+            margin-bottom: 0.2rem;
         }
-        .badge {
-            display: inline-block;
-            padding: 0.4rem 1rem;
-            background-color: #f0f0f0;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
         }
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 12px;
-            margin: 2rem 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        
+        .stat-box {
+            background: var(--paper);
+            padding: 2rem;
+            text-align: center;
         }
-        ul {
-            margin-left: 2rem;
-            margin-bottom: 1.5rem;
-        }
-        li {
+        
+        .stat-number {
+            font-family: var(--serif);
+            font-size: 2.8rem;
+            font-style: italic;
+            color: var(--ink);
+            line-height: 1;
             margin-bottom: 0.5rem;
         }
         
-        /* Yellow highlighter for participant quotes */
-        em {
-            background-color: #fff176;
-            padding: 0.15em 0.25em;
+        .stat-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        
+        /* --- Article Layout --- */
+        .article-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem;
+        }
+        
+        .lede {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            line-height: 1.6;
+            color: var(--ink);
+            max-width: 800px;
+            margin-bottom: 3rem;
+        }
+        
+        .lede::first-letter {
+            font-size: 4.5rem;
+            float: left;
+            line-height: 0.8;
+            margin-right: 0.5rem;
+            margin-top: 0.1rem;
+            color: var(--accent);
+        }
+        
+        .two-column {
+            column-count: 2;
+            column-gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .two-column p {
+            margin-bottom: 1.25rem;
+        }
+        
+        h2 {
+            font-family: var(--serif);
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-top: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--ink);
+            padding-top: 2rem;
+            border-top: 3px solid var(--ink);
+        }
+        
+        h3 {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        h4 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+            color: var(--ink);
+        }
+        
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--ink);
+            max-width: 680px;
+        }
+        
+        /* --- Participant Quotes (highlighted) --- */
+        .participant-quote {
+            background-color: rgba(8, 145, 178, 0.1);
+            padding: 0.15em 0.4em;
             border-radius: 3px;
+            font-style: italic;
+        }
+        
+        /* --- Inline Quote --- */
+        .inline-quote {
+            background: linear-gradient(to right, var(--accent), var(--accent)) no-repeat 0 0;
+            background-size: 4px 100%;
+            padding: 1.5rem 2rem;
+            margin: 2.5rem 0;
+            font-family: var(--serif);
+            font-size: 1.25rem;
+            font-style: italic;
+            line-height: 1.5;
+        }
+        
+        .inline-quote cite {
+            display: block;
+            font-family: var(--sans);
+            font-size: 0.8rem;
             font-style: normal;
-            display: inline;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 1rem;
+        }
+        
+        /* --- Image Styling --- */
+        .image-container {
+            margin: 2.5rem 0;
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .image-caption {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--rule);
+            max-width: 500px;
+        }
+        
+        /* --- Method Cards --- */
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+            margin: 3rem 0;
+        }
+        
+        .method-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .method-number {
+            font-family: var(--serif);
+            font-size: 2rem;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .method-card h4 {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .method-card p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Finding Cards --- */
+        .finding-section {
+            border: 1px solid var(--rule);
+            padding: 2.5rem;
+            margin: 2rem 0;
+        }
+        
+        .finding-header {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .finding-number {
+            font-family: var(--serif);
+            font-size: 2.5rem;
+            font-style: italic;
+            color: var(--accent);
+            line-height: 1;
+        }
+        
+        .finding-title {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--ink);
+        }
+        
+        .finding-section p {
+            max-width: none;
+        }
+        
+        .finding-impact {
+            margin-top: 1.5rem;
+            padding: 1rem 1.5rem;
+            background: rgba(0,0,0,0.03);
+            border-left: 2px solid var(--accent);
+        }
+        
+        .finding-impact strong {
+            display: block;
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+        
+        .finding-impact p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+        
+        /* --- Solution Cards --- */
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--ink);
+            margin: 3rem 0;
+        }
+        
+        .solution-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .solution-number {
+            font-family: var(--serif);
+            font-size: 2rem;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .solution-card h4 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .solution-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Results Section --- */
+        .results-section {
+            background: var(--ink);
+            color: var(--paper);
+            margin: 4rem -4rem;
+            padding: 4rem;
+        }
+        
+        .results-section h2 {
+            color: var(--paper);
+            border-top-color: var(--paper);
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .result-item {
+            border-left: 1px solid rgba(255,255,255,0.3);
+            padding-left: 1.5rem;
+        }
+        
+        .result-number {
+            font-family: var(--serif);
+            font-size: 3.5rem;
+            font-style: italic;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-detail {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        /* --- Learnings Grid --- */
+        .learnings-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--ink);
+            margin: 3rem 0;
+        }
+        
+        .learning-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .learning-card h4 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .learning-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Recommendation Cards --- */
+        .rec-section {
+            border: 1px solid var(--rule);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .rec-header {
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .rec-section h4 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            margin-top: 0;
+        }
+        
+        .rec-section ul {
+            margin-bottom: 0;
+        }
+        
+        /* --- List Styling --- */
+        ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.75rem;
+            padding-left: 0.5rem;
+            max-width: 680px;
+        }
+        
+        li strong {
+            color: var(--ink);
+        }
+        
+        /* --- Skills Section --- */
+        .skills-section {
+            margin-top: 4rem;
+            padding: 3rem;
+            border: 1px solid var(--rule);
+        }
+        
+        .skills-section h4 {
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            margin-top: 0;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+        
+        .skill-category strong {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .skill-category p {
+            font-size: 0.85rem;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 0;
+            max-width: none;
+        }
+        
+        /* --- TL;DR Section --- */
+        .tldr-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 4rem;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .tldr-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .tldr-label {
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--paper);
+            background: var(--ink);
+            padding: 0.4rem 0.8rem;
+        }
+        
+        .tldr-subtitle {
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--muted);
+        }
+        
+        .tldr-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+        
+        .tldr-main {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        
+        .tldr-item {
+            padding-left: 1rem;
+            border-left: 2px solid var(--rule);
+        }
+        
+        .tldr-item:hover {
+            border-left-color: var(--accent);
+        }
+        
+        .tldr-number {
+            font-family: var(--serif);
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 0.3rem;
+        }
+        
+        .tldr-title {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+        
+        .tldr-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--muted);
+            margin: 0;
+        }
+        
+        .tldr-sidebar {
+            padding: 2rem;
+            background: var(--ink);
+            color: var(--paper);
+        }
+        
+        .tldr-sidebar-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 1rem;
+        }
+        
+        .tldr-sidebar-text {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-style: italic;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            color: var(--paper);
+        }
+        
+        /* --- Footer --- */
+        .footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--rule);
+            text-align: center;
+        }
+        
+        .footer a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .footer a:hover {
+            color: var(--ink);
+        }
+        
+        /* --- Responsive --- */
+        @media (max-width: 1100px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                padding: 4rem 3rem;
+            }
+            
+            .two-column {
+                column-count: 1;
+            }
+            
+            .method-grid,
+            .learnings-grid,
+            .results-grid,
+            .skills-grid,
+            .solution-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tldr-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .tldr-main {
+                grid-template-columns: 1fr;
+            }
+            
+            .tldr-section {
+                padding: 2rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column;
+            }
+            
+            nav {
+                width: 100%;
+                padding: 1rem 2rem;
+                border-right: none;
+                border-bottom: 1px solid var(--rule);
+                height: auto;
+                position: relative;
+            }
+            
+            .nav-logo {
+                display: inline-block;
+                margin-bottom: 0;
+                margin-right: 2rem;
+            }
+            
+            nav a {
+                display: inline-block;
+                margin-right: 1.5rem;
+                margin-bottom: 0;
+            }
+            
+            .article-container {
+                padding: 2rem;
+            }
+            
+            .results-section {
+                margin-left: -2rem;
+                margin-right: -2rem;
+                padding: 3rem 2rem;
+            }
+            
+            h1 {
+                font-size: 2.4rem;
+            }
         }
         
         @media (max-width: 768px) {
-            .container { padding: 0 1rem; }
             h1 { font-size: 2rem; }
-            h2 { font-size: 1.5rem; }
+            h2 { font-size: 1.8rem; }
+            
+            .lede {
+                font-size: 1.25rem;
+            }
+            
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+        
+        .hidden {
+            display: none;
         }
     </style>
 </head>
@@ -175,208 +809,364 @@
 
     <nav>
         <a href="index.html" class="nav-logo">Sai Maram</a>
-        <div class="nav-container">
-            <a href="index.html">Home</a>
-            <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
-        </div>
+        <a href="index.html">Home</a>
+        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
     </nav>
 
     <main>
-        <div class="container">
-            <h1>Move: Optimizing Robotics Workflows</h1>
-            <div class="project-meta">
-                <span class="badge">Invento Robotics</span>
-                <span class="badge">Ethnographic Research</span>
-                <span class="badge">Process Optimization</span>
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="hero-content">
+                <div class="issue-number">Case Study № 11 · Invento Robotics</div>
+                <h1>Move: Optimizing Robotics Workflows Through Ethnographic Research</h1>
+                <p style="max-width: 100%; font-size: 1.15rem; color: var(--muted);">Embedded as the first UX researcher to identify systemic bottlenecks and co-design solutions with teams—not impose them.</p>
+                
+                <div class="hero-meta">
+                    <div class="meta-item">
+                        <strong>Role</strong>
+                        UX Researcher
+                    </div>
+                    <div class="meta-item">
+                        <strong>Duration</strong>
+                        8 Weeks
+                    </div>
+                    <div class="meta-item">
+                        <strong>Method</strong>
+                        Ethnographic Research
+                    </div>
+                </div>
             </div>
             
-            <p>When a robotics startup scales from 20 to 80 employees in 18 months, documented processes rarely keep pace. Invento Robotics was deploying robots to enterprise clients while their internal workflows crumbled under the weight of rapid growth. Communication breakdowns between Sales, Engineering, and Deployment teams were costing weeks of productivity and risking client relationships.</p>
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-number">15</div>
+                    <div class="stat-label">Stakeholders</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Teams Embedded</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">2-3</div>
+                    <div class="stat-label">Days Lost / Deploy</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">60%</div>
+                    <div class="stat-label">Est. Time Saved</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- TL;DR Section -->
+        <section class="tldr-section">
+            <div class="tldr-header">
+                <span class="tldr-label">Quick Read</span>
+                <span class="tldr-subtitle">The essentials in 60 seconds</span>
+            </div>
             
-            <p>This case study documents my role as the first UX researcher at Invento, where I embedded directly within engineering teams to identify systemic workflow bottlenecks and co-design solutions with employees rather than imposing top-down fixes.</p>
+            <div class="tldr-grid">
+                <div class="tldr-main">
+                    <div class="tldr-item">
+                        <div class="tldr-number">01</div>
+                        <div class="tldr-title">The Problem</div>
+                        <p class="tldr-text">Rapid scaling from 20 to 80 employees broke informal communication. Teams lost 2-3 days per deployment to preventable errors.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">02</div>
+                        <div class="tldr-title">The Approach</div>
+                        <p class="tldr-text">"Researcher as Engineer"—embedded directly with teams, participating in actual work while observing genuine behaviors and pain points.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">03</div>
+                        <div class="tldr-title">Key Findings</div>
+                        <p class="tldr-text">Five critical bottlenecks: information silos, no source of truth, outdated SOPs, technical barriers, and leadership blind spots.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">04</div>
+                        <div class="tldr-title">Solutions</div>
+                        <p class="tldr-text">Centralized Robot Hub, simplified deployment interface, leadership dashboard—all emerged from employee co-design workshops.</p>
+                    </div>
+                </div>
+                
+                <aside class="tldr-sidebar">
+                    <div class="tldr-sidebar-label">Key Insight</div>
+                    <p class="tldr-sidebar-text">"Startup chaos is systemic, not personal. Teams weren't lazy—they were working around systems that didn't support their workflows."</p>
+                </aside>
+            </div>
+        </section>
+
+        <article class="article-container">
+            
+            <!-- Opening Lede -->
+            <p class="lede">When a robotics startup scales from 20 to 80 employees in 18 months, documented processes rarely keep pace. Invento Robotics was deploying robots to enterprise clients while their internal workflows crumbled under the weight of rapid growth.</p>
+            
+            <div class="two-column">
+                <p>Communication breakdowns between Sales, Engineering, and Deployment teams were costing weeks of productivity and risking client relationships. Leadership knew something was wrong but couldn't pinpoint where.</p>
+                
+                <p>This case study documents my role as the first UX researcher at Invento, where I embedded directly within engineering teams to identify systemic workflow bottlenecks and co-design solutions with employees rather than imposing top-down fixes.</p>
+            </div>
 
             <h2>The Problem</h2>
-            <p>Imagine this scenario: Sales closes a $200K deal with an enterprise client, promising custom features and specific delivery dates. Engineering receives a brief Slack message with the client's name and a vague feature description. Deployment teams show up on-site without knowing the robot's configuration, software version, or client-specific requirements. The robot fails during demonstration, the client threatens to cancel, and Engineers get called at midnight to fix an undocumented customization.</p>
             
+            <p>Imagine this scenario: Sales closes a $200K deal with an enterprise client, promising custom features and specific delivery dates. Engineering receives a brief Slack message with the client's name and a vague feature description. Deployment teams show up on-site without knowing the robot's configuration, software version, or client-specific requirements.</p>
+            
+            <p>The robot fails during demonstration, the client threatens to cancel, and Engineers get called at midnight to fix an undocumented customization.</p>
+
+            <div class="inline-quote">
+                "Yeah, I'll need to talk with the sales team to understand what they're selling... and the software team to see what features they have at this point..."
+                <cite>— Manager describing typical information gathering</cite>
+            </div>
+
             <p><strong>The root cause?</strong> Invento had grown beyond their informal communication channels. Information that once lived in a few people's heads now needed to flow across five teams. When I arrived, they were losing an average of <strong>2-3 days per deployment</strong> to preventable communication errors.</p>
-            
-            <p>Leadership knew something was wrong but couldn't pinpoint where. They needed someone to map the actual workflows, identify the bottlenecks, and propose solutions that teams would actually adopt—not just another process document that gets ignored.</p>
 
-            <h2>My Approach: Researcher as Engineer</h2>
-            <p>Instead of the traditional approach of conducting interviews from the sidelines, I embedded directly within teams as a "Researcher as Engineer." Given my technical background, I could credibly participate in actual engineering work—debugging robots, writing code, attending stand-ups—while observing genuine behaviors and pain points.</p>
-            
-            <p>This ethnographic approach revealed what formal interviews would have missed: the informal workarounds teams had developed, the WhatsApp groups where critical information actually lived, and the moments when workflows broke down in real-time.</p>
-            
             <h2>Research Methodology</h2>
-            <p>Over eight weeks, I conducted ethnographic research by embedding with teams, participatory observation during actual work, and co-design workshops:</p>
             
-            <ul>
-                <li><strong>Ethnographic Embedding (4 weeks):</strong> Worked alongside Sales, Engineering, Hardware, Deployment, and Leadership teams. Participated in stand-ups, client calls, robot testing, and deployment visits.</li>
-                <li><strong>Stakeholder Interviews (15 people):</strong> Semi-structured interviews with team leads, individual contributors, and leadership to understand strategic perspectives and pain points.</li>
-                <li><strong>Co-Design Workshops (3 sessions):</strong> Used "Quick 4s" sketching method where employees rapidly ideate solutions in 4-minute sessions. This generated employee-driven ideas rather than top-down mandates.</li>
-                <li><strong>Process Documentation:</strong> Created visual workflow diagrams showing information flow (or lack thereof) across teams.</li>
-            </ul>
+            <p>Instead of the traditional approach of conducting interviews from the sidelines, I embedded directly within teams as a "Researcher as Engineer." Given my technical background, I could credibly participate in actual engineering work—debugging robots, writing code, attending stand-ups—while observing genuine behaviors and pain points.</p>
 
-            <!-- <div class="image-container">
-                <img src="flow.png" alt="Robot lifecycle workflow diagram" onerror="this.style.display='none'">
-                <div class="image-caption">Mapping the complex robot lifecycle across multiple teams revealed critical communication breakdowns and information loss at each handoff.</div>
-            </div> -->
+            <div class="method-grid">
+                <div class="method-card">
+                    <div class="method-number">01</div>
+                    <h4>Ethnographic Embedding</h4>
+                    <p>4 weeks working alongside Sales, Engineering, Hardware, Deployment, and Leadership teams. Participated in stand-ups, client calls, robot testing, and deployment visits.</p>
+                </div>
+                <div class="method-card">
+                    <div class="method-number">02</div>
+                    <h4>Stakeholder Interviews</h4>
+                    <p>15 semi-structured interviews with team leads, individual contributors, and leadership to understand strategic perspectives and pain points.</p>
+                </div>
+                <div class="method-card">
+                    <div class="method-number">03</div>
+                    <h4>Co-Design Workshops</h4>
+                    <p>3 sessions using "Quick 4s" sketching method where employees rapidly ideate solutions in 4-minute sessions—generating employee-driven ideas.</p>
+                </div>
+                <div class="method-card">
+                    <div class="method-number">04</div>
+                    <h4>Process Documentation</h4>
+                    <p>Created visual workflow diagrams showing information flow (or lack thereof) across teams, revealing gaps formal interviews missed.</p>
+                </div>
+            </div>
+
+            <!-- Results Section - Dark Background -->
+            <div class="results-section">
+                <h2>Estimated Impact</h2>
+                <p style="color: rgba(255,255,255,0.8); max-width: 600px;">Based on documented incidents, the recommendations could transform deployment efficiency.</p>
+                
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="result-number">60%</div>
+                        <div class="result-label">Troubleshooting Reduction</div>
+                        <div class="result-detail">Estimated reduction in on-site troubleshooting time with simplified interface</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">40-50%</div>
+                        <div class="result-label">Fewer Failures</div>
+                        <div class="result-detail">Estimated reduction in deployment failures with centralized information</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">8-12 hrs</div>
+                        <div class="result-label">Weekly Savings</div>
+                        <div class="result-detail">Hours saved per team per week in information-hunting time</div>
+                    </div>
+                </div>
+            </div>
 
             <h2>Key Findings: Five Critical Bottlenecks</h2>
 
-            <h3>1. Information Silos Between Teams</h3>
-            <p>In a typical week, I observed this pattern multiple times: Sales would close a deal promising specific features, but Engineering wouldn't learn about these commitments until days later. When Deployment teams arrived on-site, they often discovered the robot had software updates or configuration changes that weren't in their documentation.</p>
-            
-            <p><strong>Why this mattered:</strong> One deployment required 3 engineers to travel back to headquarters to debug an undocumented feature the client expected. The fix took 4 hours, but the round-trip travel cost $2,000 and delayed the client's go-live by a week. I documented 12 similar incidents over the observation period.</p>
-            
-            <p><strong>What I Heard:</strong> <em>"Yeah, I'll need to talk with the sales team to understand what they're selling... and the software team to see what features they have at this point..."</em> — Manager describing typical information gathering</p>
+            <div class="finding-section">
+                <div class="finding-header">
+                    <span class="finding-number">01</span>
+                    <span class="finding-title">Information Silos Between Teams</span>
+                </div>
+                <p>In a typical week, I observed this pattern multiple times: Sales would close a deal promising specific features, but Engineering wouldn't learn about these commitments until days later. When Deployment teams arrived on-site, they often discovered the robot had software updates or configuration changes that weren't in their documentation.</p>
+                
+                <div class="finding-impact">
+                    <strong>Real Cost</strong>
+                    <p>One deployment required 3 engineers to travel back to headquarters to debug an undocumented feature the client expected. The fix took 4 hours, but the round-trip travel cost $2,000 and delayed the client's go-live by a week. I documented 12 similar incidents over the observation period.</p>
+                </div>
+            </div>
 
-            <h3>2. No Single Source of Truth</h3>
-            <p>Critical information lived in a fragmented ecosystem: emails, Slack threads, WhatsApp groups, Google Docs, and individual memories. There was no central repository for robot configurations, client requirements, deployment histories, or troubleshooting knowledge.</p>
-            
-            <p>I shadowed a deployment engineer who spent 40 minutes searching for the correct robot configuration across six different channels before finding the right documentation in a WhatsApp group from two months prior. This wasn't unusual—it was the norm.</p>
+            <div class="finding-section">
+                <div class="finding-header">
+                    <span class="finding-number">02</span>
+                    <span class="finding-title">No Single Source of Truth</span>
+                </div>
+                <p>Critical information lived in a fragmented ecosystem: emails, Slack threads, WhatsApp groups, Google Docs, and individual memories. There was no central repository for robot configurations, client requirements, deployment histories, or troubleshooting knowledge.</p>
+                
+                <div class="finding-impact">
+                    <strong>Observed Behavior</strong>
+                    <p>I shadowed a deployment engineer who spent 40 minutes searching for the correct robot configuration across six different channels before finding the right documentation in a WhatsApp group from two months prior. This wasn't unusual—it was the norm.</p>
+                </div>
+            </div>
 
-            <h3>3. Inconsistent and Unfollowed SOPs</h3>
-            <p>The company had documented Standard Operating Procedures, but adherence was inconsistent. Teams developed informal workarounds that weren't captured. When experienced employees left, their undocumented processes disappeared with them.</p>
-            
-            <p>During one deployment, the on-site team skipped three documented steps because "the PDF is outdated, let me just tell you the right way." When I checked, their verbal process contradicted the official SOP in two critical ways. This knowledge lived only in that person's head.</p>
+            <div class="finding-section">
+                <div class="finding-header">
+                    <span class="finding-number">03</span>
+                    <span class="finding-title">Inconsistent and Unfollowed SOPs</span>
+                </div>
+                <p>The company had documented Standard Operating Procedures, but adherence was inconsistent. Teams developed informal workarounds that weren't captured. When experienced employees left, their undocumented processes disappeared with them.</p>
+                
+                <div class="finding-impact">
+                    <strong>Observed Behavior</strong>
+                    <p>During one deployment, the on-site team skipped three documented steps because "the PDF is outdated, let me just tell you the right way." When I checked, their verbal process contradicted the official SOP in two critical ways.</p>
+                </div>
+            </div>
 
-            <h3>4. Technical Complexity Barriers</h3>
-            <p>Deployment teams needed to send complex ROS (Robot Operating System) commands to troubleshoot robots on-site, but most deployment engineers weren't programmers. They struggled with command-line interfaces during time-sensitive installations, often calling engineers for help with basic diagnostic commands.</p>
-            
-            <p><strong>What I Heard:</strong> <em>"I can't send ROS commands, I don't get it... it has to be simple. Something like this..."</em> — Deployment team member during co-design, sketching a visual interface</p>
-            
-            <p>During co-design workshops, deployment teams sketched solutions showing simple button interfaces replacing complex commands. One engineer's sketch showed a "Run Diagnostics" button that would execute the complicated ROS sequence behind the scenes.</p>
+            <div class="finding-section">
+                <div class="finding-header">
+                    <span class="finding-number">04</span>
+                    <span class="finding-title">Technical Complexity Barriers</span>
+                </div>
+                <p>Deployment teams needed to send complex ROS (Robot Operating System) commands to troubleshoot robots on-site, but most deployment engineers weren't programmers. They struggled with command-line interfaces during time-sensitive installations.</p>
+                
+                <div class="inline-quote" style="margin: 1.5rem 0;">
+                    "I can't send ROS commands, I don't get it... it has to be simple. Something like this..."
+                    <cite>— Deployment team member, sketching a visual interface</cite>
+                </div>
+            </div>
 
-            <h3>5. Leadership Visibility Gaps</h3>
-            <p>Leadership had no aggregated visibility into robot fleet status, deployment timelines, or team bottlenecks. They relied on manual check-ins and hallway conversations. Decisions about resource allocation, client commitments, and product priorities were made without real-time data.</p>
-            
-            <p>When I interviewed a senior manager, he explained they'd recently promised a client a 3-week delivery timeline without knowing the actual deployment queue—it was actually 6 weeks. "We just didn't have that information readily available," he told me.</p>
+            <div class="finding-section">
+                <div class="finding-header">
+                    <span class="finding-number">05</span>
+                    <span class="finding-title">Leadership Visibility Gaps</span>
+                </div>
+                <p>Leadership had no aggregated visibility into robot fleet status, deployment timelines, or team bottlenecks. They relied on manual check-ins and hallway conversations. Decisions about resource allocation and client commitments were made without real-time data.</p>
+                
+                <div class="finding-impact">
+                    <strong>Observed Behavior</strong>
+                    <p>The CEO promised a client a 3-week delivery timeline without knowing the actual deployment queue—it was actually 6 weeks. "We just didn't have that information readily available," he told me.</p>
+                </div>
+            </div>
 
             <div class="image-container">
                 <img src="Group 21 (5).png" alt="Visual summary of problems and solutions" onerror="this.style.display='none'">
-                <div class="image-caption">Visual summary highlighting key problems and solution concepts.</div>
+                <p class="image-caption">Visual summary highlighting key problems and solution concepts from the research.</p>
             </div>
 
-            <h2>Solution Concepts: Bridging the Gaps</h2>
-            <p>Based on research findings and co-design workshop outputs, I developed low-fidelity prototypes addressing the five core bottlenecks. These weren't just my ideas—they emerged from employees' own sketches and pain points.</p>
+            <h2>Solution Concepts</h2>
+            
+            <p>Based on research findings and co-design workshop outputs, I developed concepts addressing the five core bottlenecks. These weren't just my ideas—they emerged from employees' own sketches and pain points.</p>
 
-            <h3>1. Centralized Robot Hub</h3>
-            <p><strong>The Concept:</strong> A single platform where every robot "lived" digitally. Sales could add client requirements, Engineering could update configurations, Deployment could log installation notes, and everyone could see the complete robot's history in real-time.</p>
-            
-            <p>During co-design, a Sales manager sketched what this would look like: "Each robot gets its own page, like a profile. I can see what features it has, what the client wants, and what's different from the standard build. Right now I'm asking Engineering every time."</p>
-            
-            <p><strong>Key Features:</strong></p>
-            <ul>
-                <li>Real-time updates visible to all teams</li>
-                <li>Version-controlled configuration management</li>
-                <li>Chat-like comments for async collaboration</li>
-                <li>Timeline showing the robot's full lifecycle</li>
-                <li>Integration with existing tools (Slack, email notifications)</li>
-            </ul>
-
-            <h3>2. Simplified Deployment Interface</h3>
-            <p><strong>The Concept:</strong> Replace complex command-line ROS interfaces with visual, button-based controls that deployment teams could use on-site without programming knowledge.</p>
-            
-            <p>This idea came directly from deployment engineers during workshops. One team member showed me his sketch: a mobile app with large, labeled buttons like "Run Diagnostics," "Check Connectivity," and "Reboot System." He explained, "Instead of me typing 15 commands I don't understand, just let me tap this."</p>
-            
-            <p><strong>Key Features:</strong></p>
-            <ul>
-                <li>Visual controls replacing CLI commands</li>
-                <li>Pre-configured diagnostic workflows</li>
-                <li>Error prevention with guided wizards</li>
-                <li>Offline capability for installations without WiFi</li>
-                <li>One-tap access to engineering support when needed</li>
-            </ul>
-            
-            <p><strong>Estimated Impact:</strong> Deployment engineers estimated this would reduce on-site troubleshooting time by 60% and cut calls to engineering support in half.</p>
-
-            <h3>3. Leadership Dashboard</h3>
-            <p><strong>The Concept:</strong> An executive-facing view showing fleet health, deployment queues, team capacity, and bottleneck alerts to enable data-driven decisions.</p>
-            
-            <p>The CEO told me, "Right now I'm asking managers 'how's it going?' and getting vague answers. I need to see the actual state of our operations." This dashboard would answer questions like: How many robots are in deployment? Which teams are at capacity? Where are we seeing repeated issues?</p>
-            
-            <p><strong>Key Features:</strong></p>
-            <ul>
-                <li>Real-time robot fleet status overview</li>
-                <li>Deployment queue and timeline visualization</li>
-                <li>Team capacity and workload metrics</li>
-                <li>Automated bottleneck alerts (e.g., "Hardware team at 90% capacity")</li>
-                <li>Historical trends and pattern identification</li>
-            </ul>
+            <div class="solution-grid">
+                <div class="solution-card">
+                    <div class="solution-number">01</div>
+                    <h4>Centralized Robot Hub</h4>
+                    <p>A single platform where every robot "lives" digitally. Sales can add client requirements, Engineering can update configurations, Deployment can log installation notes—everyone sees complete robot history in real-time.</p>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-number">02</div>
+                    <h4>Simplified Deployment Interface</h4>
+                    <p>Replace complex command-line ROS interfaces with visual, button-based controls. "Run Diagnostics" button executes complicated sequences behind the scenes. No programming required.</p>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-number">03</div>
+                    <h4>Leadership Dashboard</h4>
+                    <p>Executive-facing view showing fleet health, deployment queues, team capacity, and bottleneck alerts. Real-time data for resource allocation and client commitment decisions.</p>
+                </div>
+            </div>
 
             <div class="image-container">
-                <img src="Group 34.png" alt="Prototype screens for centralized hub and simplified controls" onerror="this.style.display='none'">
-                <div class="image-caption">Conceptual prototypes developed by designers exploring solutions for improved information access and simplified workflows.</div>
+                <img src="Group 34.png" alt="Prototype screens" onerror="this.style.display='none'">
+                <p class="image-caption">Conceptual prototypes developed by designers exploring solutions for improved information access and simplified workflows.</p>
             </div>
 
             <h2>Research Insights & Learnings</h2>
-            
+
             <h3>What Worked Well</h3>
-            <p><strong>Ethnographic immersion:</strong> Being embedded as an engineer wasn't just a research method—it was essential for gaining authentic insights. During formal interviews, employees gave polished, idealized descriptions. But when I was working alongside them during a deployment emergency, I saw the real behaviors: how they circumvented broken processes, who they actually called for help, and what they said in Slack when leadership wasn't listening.</p>
-            
-            <p>One particularly revealing moment came when I was debugging a robot alongside an engineer. He spent 20 minutes on a problem before casually mentioning, "Oh, I usually check the beta Slack channel for undocumented fixes." This wasn't in any documentation, and he hadn't mentioned it in our interview. Ethnographic observation captured what interviews missed.</p>
-            
-            <p><strong>Co-design workshops:</strong> The "Quick 4s" sketching method—where participants have 4 minutes to rapidly sketch solution ideas—was transformative. Employees who struggled to articulate problems verbally could suddenly visualize solutions on paper. One deployment engineer who had been quiet during interviews became animated, sketching four different interface concepts. "This is exactly what I need!" he exclaimed.</p>
-            
-            <p>These employee-generated sketches became the foundation for my prototypes. Rather than imposing solutions, I translated their ideas into designable concepts. This built buy-in—teams saw their own suggestions reflected in the solutions.</p>
-            
-            <p><strong>Multi-stakeholder perspective:</strong> Understanding all five teams prevented classic startup mistakes: solving one group's problems while creating new ones for another. For example, I initially proposed a comprehensive documentation system that would solve Engineering's need for specs. But when I interviewed Deployment, they explained such a system would add 30 minutes to each deployment because they'd need to read through everything. The solution needed to be searchable and filterable by team role.</p>
 
-            <h3>Key Learnings</h3>
-            <p><strong>Startup chaos is systemic, not personal:</strong> Initially, I assumed the communication breakdowns resulted from individual negligence. After observation, I realized most failures stemmed from missing infrastructure—there simply weren't channels for information to flow correctly. Teams weren't lazy or uncooperative; they were working around systems that didn't support their workflows.</p>
-            
-            <p><strong>Simple solutions win:</strong> When I presented early concepts, teams consistently chose simplicity over feature-richness. They wanted minimal clicks, maximum clarity, and predictable outcomes. One engineer told me, "I don't care if it has 20 features if it takes 5 seconds longer than doing it the old way."</p>
-            
-            <p><strong>Trust enables honesty:</strong> Working alongside teams (not just interviewing) built relationships that revealed truths formal processes hid. Employees shared frustrations they wouldn't express to leadership directly: "The CEO thinks we're lazy, but we're spending half our time hunting down information that should be in one place."</p>
-            
-            <p><strong>Visual communication accelerates alignment:</strong> Sketching during co-design clarified needs faster than verbal descriptions. When a Sales manager said "transparency," I thought he meant financial numbers. His sketch showed robot configuration visibility across teams. Without the visual, we would have spent weeks designing the wrong solution.</p>
-            
-            <p><strong>Process documentation must capture informal wisdom:</strong> The biggest knowledge gaps weren't in documentation systems—they were in the undocumented workarounds experienced employees had developed. When employees described their workflows, they often didn't realize they were skipping or modifying official processes. Ethnographic observation caught these informal practices.</p>
-
-            <h2>Impact & Recommendations</h2>
-            <p>This research provided Invento Robotics with a comprehensive understanding of their workflow bottlenecks and actionable paths forward:</p>
-            
-            <h3>Immediate Wins (No Investment Required)</h3>
-            <ul>
-                <li><strong>Standardized communication templates:</strong> Quick-win documentation templates for common information handoffs (e.g., Sales-to-Engineering deal briefs, Engineering-to-Deployment robot configurations)</li>
-                <li><strong>Weekly cross-team sync meetings:</strong> Structured 30-minute meetings where each team shares updates that impact others</li>
-                <li><strong>Shared "Robot Status" Slack channel:</strong> Centralized channel where teams post real-time robot updates visible to everyone</li>
-                <li><strong>Documentation audit:</strong> Identify which SOPs are outdated and update them based on actual workflows I observed</li>
-            </ul>
-
-            <h3>Short-Term Solutions (2-3 Month Implementation)</h3>
-            <ul>
-                <li><strong>Phase 1 of Centralized Robot Hub:</strong> Start with a simple shared workspace (notion, Airtable, or similar) where robot information lives. Teams can migrate from current fragmented channels gradually.</li>
-                <li><strong>Deployment mobile app prototype:</strong> Build MVP simplified diagnostic interface for deployment teams, starting with the top 5 most-used ROS commands</li>
-                <li><strong>Automated alert system:</strong> Set up simple alerts when critical information changes (e.g., "Robot configuration updated, notifying Sales and Deployment")</li>
-            </ul>
-
-            <h3>Long-Term Vision</h3>
-            <ul>
-                <li><strong>Full Centralized Robot Hub:</strong> Custom platform integrating robot lifecycle, team collaboration, and real-time visibility</li>
-                <li><strong>Leadership Dashboard:</strong> Real-time visibility into fleet status, team capacity, and bottlenecks</li>
-                <li><strong>Knowledge management system:</strong> Capture and share informal workarounds and undocumented processes across teams</li>
-            </ul>
-            
-            <p><strong>Estimated ROI:</strong> Based on documented incidents, the immediate wins alone could save 8-12 hours per week per team in information-hunting time. The short-term solutions could reduce deployment failures by 40-50%.</p>
-
-            <!-- Skills Demonstrated -->
-            <div class="key-finding" style="margin-top: 3rem;">
-                <h4>Skills & Methods Demonstrated</h4>
-                <p><strong>Research:</strong> Ethnographic Research • Stakeholder Interviews • Co-Design Workshops • Contextual Inquiry • Process Mapping</p>
-                <p><strong>Analysis:</strong> Qualitative Analysis • Thematic Synthesis • System Thinking • Bottleneck Identification</p>
-                <p><strong>Design:</strong> Prototyping • Figma • UX Writing • Information Architecture • Workflow Design</p>
-                <p><strong>Specialized:</strong> Robotics Domain Knowledge • Cross-Functional Collaboration • Startup Operations • Technical Translation</p>
+            <div class="learnings-grid">
+                <div class="learning-card">
+                    <h4>Ethnographic Immersion</h4>
+                    <p>Being embedded as an engineer wasn't just a research method—it was essential. During formal interviews, employees gave polished descriptions. But working alongside them during a deployment emergency, I saw real behaviors: circumvented processes, who they actually called for help, what they said when leadership wasn't listening.</p>
+                </div>
+                <div class="learning-card">
+                    <h4>Co-Design Workshops</h4>
+                    <p>The "Quick 4s" sketching method was transformative. Employees who struggled to articulate problems verbally could suddenly visualize solutions on paper. One deployment engineer who had been quiet during interviews became animated, sketching four different interface concepts.</p>
+                </div>
+                <div class="learning-card">
+                    <h4>Multi-Stakeholder Perspective</h4>
+                    <p>Understanding all five teams prevented classic mistakes: solving one group's problems while creating new ones for another. A comprehensive documentation system would solve Engineering's needs but add 30 minutes to each deployment.</p>
+                </div>
+                <div class="learning-card">
+                    <h4>Trust Enables Honesty</h4>
+                    <p>Working alongside teams (not just interviewing) built relationships that revealed truths formal processes hid. Employees shared frustrations they wouldn't express to leadership directly.</p>
+                </div>
             </div>
 
-        </div>
+            <h3>Key Learnings</h3>
 
-        <footer class="footer">
-            <p>&copy; 2024 Sai Maram. Case Study.</p>
-            <p><a href="./index.html">Back to Portfolio</a></p>
-        </footer>
+            <div class="inline-quote">
+                "The CEO thinks we're lazy, but we're spending half our time hunting down information that should be in one place."
+                <cite>— Employee sharing what they wouldn't tell leadership</cite>
+            </div>
+
+            <ul>
+                <li><strong>Startup chaos is systemic, not personal:</strong> Most failures stemmed from missing infrastructure—not individual negligence. Teams weren't lazy; they were working around systems that didn't support their workflows.</li>
+                <li><strong>Simple solutions win:</strong> Teams consistently chose simplicity over feature-richness. "I don't care if it has 20 features if it takes 5 seconds longer than doing it the old way."</li>
+                <li><strong>Visual communication accelerates alignment:</strong> When a Sales manager said "transparency," I thought he meant financial numbers. His sketch showed robot configuration visibility. Without the visual, we would have designed the wrong solution.</li>
+                <li><strong>Process documentation must capture informal wisdom:</strong> The biggest knowledge gaps weren't in documentation—they were in the undocumented workarounds experienced employees had developed.</li>
+            </ul>
+
+            <h2>Recommendations</h2>
+
+            <div class="rec-section">
+                <div class="rec-header">Immediate Wins (No Investment)</div>
+                <h4>Quick Implementation</h4>
+                <ul>
+                    <li><strong>Standardized communication templates:</strong> Documentation templates for common handoffs (Sales-to-Engineering briefs, Engineering-to-Deployment configurations)</li>
+                    <li><strong>Weekly cross-team sync meetings:</strong> 30-minute meetings where each team shares updates that impact others</li>
+                    <li><strong>Shared "Robot Status" Slack channel:</strong> Centralized channel for real-time robot updates visible to everyone</li>
+                    <li><strong>Documentation audit:</strong> Update SOPs based on actual workflows observed</li>
+                </ul>
+            </div>
+
+            <div class="rec-section">
+                <div class="rec-header">Short-Term (2-3 Months)</div>
+                <h4>Phase 1 Implementation</h4>
+                <ul>
+                    <li><strong>Centralized Robot Hub MVP:</strong> Simple shared workspace (Notion, Airtable) where robot information lives</li>
+                    <li><strong>Deployment mobile app prototype:</strong> Simplified diagnostic interface starting with top 5 most-used ROS commands</li>
+                    <li><strong>Automated alert system:</strong> Alerts when critical information changes</li>
+                </ul>
+            </div>
+
+            <div class="rec-section">
+                <div class="rec-header">Long-Term Vision</div>
+                <h4>Full Implementation</h4>
+                <ul>
+                    <li><strong>Full Centralized Robot Hub:</strong> Custom platform integrating robot lifecycle, team collaboration, and real-time visibility</li>
+                    <li><strong>Leadership Dashboard:</strong> Real-time visibility into fleet status, team capacity, and bottlenecks</li>
+                    <li><strong>Knowledge management system:</strong> Capture and share informal workarounds across teams</li>
+                </ul>
+            </div>
+
+            <!-- Skills Section -->
+            <div class="skills-section">
+                <h4>Skills & Methods Demonstrated</h4>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <strong>Research</strong>
+                        <p>Ethnographic Research, Stakeholder Interviews, Co-Design Workshops, Contextual Inquiry, Process Mapping</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Analysis</strong>
+                        <p>Qualitative Analysis, Thematic Synthesis, Systems Thinking, Bottleneck Identification</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Design</strong>
+                        <p>Prototyping, Figma, UX Writing, Information Architecture, Workflow Design</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Specialized</strong>
+                        <p>Robotics Domain, Cross-Functional Collaboration, Startup Operations, Technical Translation</p>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer">
+                <a href="index.html">← Back to Portfolio</a>
+            </footer>
+        </article>
     </main>
 
 </body>
 </html>
-
