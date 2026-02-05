@@ -4,8 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Google Trips - UX Case Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
     <style>
-        /* --- Sidebar and Layout Styles --- */
+        :root {
+            --ink: #1a1a1a;
+            --paper: #f8f5f0;
+            --accent: #1a73e8; /* Google blue */
+            --muted: #6b6b6b;
+            --rule: #d4d0c8;
+            --serif: 'Instrument Serif', Georgia, serif;
+            --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,483 +25,790 @@
         }
         
         body {
-            background-color: #ffffff;
-            background-image: 
-                linear-gradient(rgba(200, 200, 200, 0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(200, 200, 200, 0.15) 1px, transparent 1px);
-            background-size: 40px 40px;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 1.05rem;
-            line-height: 1.6;
-            color: #1a1a1a;
-            margin: 0;
+            background-color: var(--paper);
+            font-family: var(--sans);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--ink);
             display: flex;
             min-height: 100vh;
         }
+        
+        /* --- Navigation --- */
         nav {
-            width: 220px;
-            padding: 2rem;
-            border-right: 1px solid rgba(200, 200, 200, 0.3);
+            width: 200px;
+            padding: 2.5rem 1.5rem;
+            border-right: 1px solid var(--rule);
             flex-shrink: 0;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background-color: var(--paper);
+            position: sticky;
+            top: 0;
+            height: 100vh;
         }
+        
         nav a {
             display: block;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-            text-decoration: underline;
-            cursor: pointer;
+            margin-bottom: 0.75rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
             transition: color 0.2s ease;
         }
+        
         nav a:hover {
-            text-decoration: none;
-            color: #666;
+            color: var(--ink);
         }
+        
         .nav-logo {
-            font-weight: 600;
-            margin-bottom: 2rem;
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 2.5rem;
+            color: var(--ink);
             text-decoration: none;
-            cursor: pointer;
-            font-size: 1.3rem;
-            color: #1a1a1a;
-            transition: color 0.2s ease;
+            display: block;
         }
-        .nav-logo:hover {
-            color: #666;
-        }
-        #project-links-container {
-            margin-top: 0.5rem;
-            padding-left: 1rem;
-            border-left: 1px solid #eee;
-        }
-        .project-link {
-            font-size: 1rem;
-        }
+        
         main {
             flex-grow: 1;
             overflow-y: auto;
-            height: 100vh;
-            background-color: transparent;
+            background-color: var(--paper);
         }
-        .hidden {
-            display: none;
-        }
-        @media (max-width: 992px) {
-            body {
-                flex-direction: column; 
-            }
-            main {
-                height: auto;
-            }
-            nav {
-                width: 100%; 
-                padding: 1rem;
-                border-right: none; 
-                border-bottom: 1px solid #ddd; 
-                box-sizing: border-box;
-            }
-            .nav-container {
-                display: flex;
-                justify-content: center;
-                gap: 1.5rem;
-                flex-wrap: wrap;
-            }
-            .nav-logo {
-                display: none;
-            }
-            nav a {
-                margin-bottom: 0;
-            }
-            #project-links-container {
-                width: 100%;
-                text-align: center;
-                padding-left: 0;
-                border-left: none;
-                margin-top: 1rem;
-            }
-        }
-
-        /* --- Case Study Styles --- */
-        .container {
-            max-width: 900px;
+        
+        /* --- Hero Section --- */
+        .hero {
+            padding: 6rem 4rem 4rem;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 3rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: end;
+            border-bottom: 1px solid var(--rule);
         }
+        
+        .hero-content {
+            padding-bottom: 2rem;
+        }
+        
+        .issue-number {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+        
         h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-            line-height: 1.2;
-        }
-        h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-top: 3rem;
+            font-family: var(--serif);
+            font-size: 3.2rem;
+            font-weight: 400;
+            line-height: 1.05;
+            color: var(--ink);
             margin-bottom: 1.5rem;
-            color: #1a1a1a;
+            letter-spacing: -0.02em;
         }
-        h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
+        
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
             margin-top: 2rem;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-        }
-        p {
-            margin-bottom: 1.5rem;
-            color: #333;
-        }
-        .project-meta {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 2rem;
-        }
-        .badge {
-            display: inline-block;
-            padding: 0.4rem 1rem;
-            background-color: #f0f0f0;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-        .badge-blue {
-            background-color: #e3f2fd;
-            color: #1976d2;
-        }
-        .badge-green {
-            background-color: #e8f5e9;
-            color: #388e3c;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 12px;
-            margin: 2rem 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        ul {
-            margin-left: 2rem;
-            margin-bottom: 1.5rem;
-        }
-        li {
-            margin-bottom: 0.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--rule);
         }
         
-        .quote {
-            background-color: #fff176;
-            padding: 1.2rem 1.5rem;
-            border-radius: 8px;
-            margin: 2rem 0;
+        .meta-item {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+        
+        .meta-item strong {
+            display: block;
+            color: var(--ink);
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+        }
+        
+        .stat-box {
+            background: var(--paper);
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-family: var(--serif);
+            font-size: 2.8rem;
             font-style: italic;
-            line-height: 1.7;
-            color: #1a1a1a;
-            border-left: 4px solid #fbc02d;
+            color: var(--ink);
+            line-height: 1;
+            margin-bottom: 0.5rem;
         }
         
-        .key-finding {
-            background-color: #f9f9f9;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 2rem 0;
-            border-left: 4px solid #1a1a1a;
+        .stat-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
         }
         
+        /* --- Article Layout --- */
+        .article-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem;
+        }
+        
+        .lede {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            line-height: 1.6;
+            color: var(--ink);
+            max-width: 800px;
+            margin-bottom: 3rem;
+        }
+        
+        .lede::first-letter {
+            font-size: 4.5rem;
+            float: left;
+            line-height: 0.8;
+            margin-right: 0.5rem;
+            margin-top: 0.1rem;
+            color: var(--accent);
+        }
+        
+        .two-column {
+            column-count: 2;
+            column-gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .two-column p {
+            margin-bottom: 1.25rem;
+        }
+        
+        h2 {
+            font-family: var(--serif);
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-top: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--ink);
+            padding-top: 2rem;
+            border-top: 3px solid var(--ink);
+        }
+        
+        h3 {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        h4 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+            color: var(--ink);
+        }
+        
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--ink);
+            max-width: 680px;
+        }
+        
+        /* --- Pull Quote --- */
+        .pull-quote {
+            float: right;
+            width: 45%;
+            margin: 0 0 2rem 3rem;
+            padding: 2rem 0 2rem 2rem;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .pull-quote blockquote {
+            font-family: var(--serif);
+            font-size: 1.8rem;
+            font-style: italic;
+            line-height: 1.4;
+            color: var(--ink);
+            margin-bottom: 1rem;
+        }
+        
+        .pull-quote cite {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-style: normal;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        
+        /* --- Inline Quote --- */
+        .inline-quote {
+            background: linear-gradient(to right, var(--accent), var(--accent)) no-repeat 0 0;
+            background-size: 4px 100%;
+            padding: 1.5rem 2rem;
+            margin: 2.5rem 0;
+            font-family: var(--serif);
+            font-size: 1.25rem;
+            font-style: italic;
+            line-height: 1.5;
+        }
+        
+        .inline-quote cite {
+            display: block;
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-style: normal;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 1rem;
+        }
+        
+        /* --- Video Container --- */
+        .video-container {
+            position: relative;
+            margin: 3rem 0;
+        }
+        
+        .video-container video {
+            width: 100%;
+            display: block;
+            border-radius: 4px;
+        }
+        
+        .video-caption {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--rule);
+            max-width: 500px;
+        }
+        
+        /* --- Image Styling --- */
         .image-container {
-            margin: 2rem 0;
+            margin: 2.5rem 0;
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
         
         .image-caption {
-            text-align: center;
-            color: #666;
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-            font-style: italic;
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--rule);
+            max-width: 500px;
         }
         
+        /* --- Problem Cards --- */
         .problem-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--ink);
+            margin: 3rem 0;
         }
         
         .problem-card {
-            background-color: #ffebee;
-            padding: 1.5rem;
-            border-radius: 12px;
-            border-left: 4px solid #d32f2f;
+            background: var(--paper);
+            padding: 2rem;
         }
         
         .problem-card h4 {
-            margin-bottom: 0.5rem;
-            color: #1a1a1a;
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
         }
         
-        .solution-grid {
+        .problem-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Key Finding Cards --- */
+        .findings-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--ink);
+            margin: 3rem 0;
         }
         
-        .solution-card {
-            background-color: #e8f5e9;
-            padding: 1.5rem;
-            border-radius: 12px;
-            border-left: 4px solid #388e3c;
-        }
-        
-        .solution-card h4 {
-            margin-bottom: 0.5rem;
-            color: #1a1a1a;
-        }
-        
-        .design-feature {
-            background-color: #f5f5f5;
+        .finding-card {
+            background: var(--paper);
             padding: 2rem;
-            border-radius: 12px;
+        }
+        
+        .finding-card h4 {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .finding-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Design Feature Cards --- */
+        .feature-card {
+            border: 1px solid var(--rule);
+            padding: 2rem;
             margin: 2rem 0;
         }
         
-        .design-feature h4 {
-            color: #1976d2;
+        .feature-card h4 {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .feature-card p {
+            max-width: none;
             margin-bottom: 1rem;
         }
         
-        .api-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+        .feature-card p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .feature-card ul, .feature-card ol {
+            max-width: none;
+        }
+        
+        .feature-rationale {
+            font-size: 0.9rem;
+            padding: 1rem;
+            background: rgba(0,0,0,0.03);
+            border-left: 2px solid var(--accent);
+            margin-top: 1rem;
+        }
+        
+        /* --- Workflow Steps --- */
+        .workflow-container {
+            border: 1px solid var(--rule);
             padding: 2rem;
-            border-radius: 12px;
             margin: 2rem 0;
-        }
-        
-        .api-section h3 {
-            color: white;
-        }
-        
-        .api-section p {
-            color: rgba(255, 255, 255, 0.9);
-        }
-        
-        .workflow-diagram {
-            background-color: #f9f9f9;
-            padding: 2rem;
-            border-radius: 12px;
-            margin: 2rem 0;
-            border: 2px dashed #ccc;
         }
         
         .workflow-step {
-            margin: 1rem 0;
-            padding: 1rem;
-            background-color: white;
-            border-radius: 8px;
-            border-left: 4px solid #1976d2;
-        }
-        
-        @media (max-width: 768px) {
-            .container { padding: 0 1rem; }
-            h1 { font-size: 2rem; }
-            h2 { font-size: 1.5rem; }
-        }
-
-        /* 3D Video Carousel Styles */
-        .video-carousel {
+            padding: 1.5rem;
+            border-left: 2px solid var(--rule);
+            margin-left: 1rem;
+            margin-bottom: 1rem;
             position: relative;
-            max-width: 100%;
-            margin: 2rem 0;
-            perspective: 1000px;
-            overflow: visible;
         }
         
-        .carousel-container {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            height: 0;
-            overflow: visible;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .carousel-track {
+        .workflow-step::before {
+            content: '';
             position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .carousel-slide {
-            position: absolute;
-            width: 80%;
-            height: 80%;
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-            cursor: pointer;
-        }
-        
-        .carousel-slide.prev {
-            transform: translateX(-60%) scale(0.8) rotateY(15deg);
-            opacity: 0.7;
-            z-index: 1;
-        }
-        
-        .carousel-slide.active {
-            transform: translateX(0) scale(1) rotateY(0deg);
-            opacity: 1;
-            z-index: 3;
-        }
-        
-        .carousel-slide.next {
-            transform: translateX(60%) scale(0.8) rotateY(-15deg);
-            opacity: 0.7;
-            z-index: 1;
-        }
-        
-        .carousel-slide.hidden {
-            transform: translateX(0) scale(0.6) rotateY(0deg);
-            opacity: 0;
-            z-index: 0;
-        }
-        
-        .carousel-slide video,
-        .carousel-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 20px;
-        }
-        
-        .carousel-nav {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 12px;
-            z-index: 10;
-        }
-        
-        .carousel-dot {
+            left: -7px;
+            top: 1.5rem;
             width: 12px;
             height: 12px;
+            background: var(--accent);
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            cursor: pointer;
-            transition: all 0.3s ease;
         }
         
-        .carousel-dot.active {
-            background: rgba(255, 255, 255, 0.9);
-            transform: scale(1.2);
+        .workflow-step:last-child {
+            margin-bottom: 0;
         }
         
-        .carousel-dot:hover {
-            background: rgba(255, 255, 255, 0.8);
-            transform: scale(1.1);
+        .workflow-step strong {
+            display: block;
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--ink);
         }
         
-        .carousel-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
+        .workflow-step p {
+            font-size: 0.95rem;
+            color: var(--muted);
+            margin-bottom: 0.5rem;
+            max-width: none;
+        }
+        
+        .workflow-step p:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* --- Results Section --- */
+        .results-section {
+            background: var(--ink);
+            color: var(--paper);
+            margin: 4rem -4rem;
+            padding: 4rem;
+        }
+        
+        .results-section h2 {
+            color: var(--paper);
+            border-top-color: var(--paper);
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .result-item {
+            border-left: 1px solid rgba(255,255,255,0.3);
+            padding-left: 1.5rem;
+        }
+        
+        .result-number {
+            font-family: var(--serif);
+            font-size: 3.5rem;
+            font-style: italic;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-detail {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        /* --- List Styling --- */
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.75rem;
+            padding-left: 0.5rem;
+            max-width: 680px;
+        }
+        
+        li strong {
+            color: var(--ink);
+        }
+        
+        /* --- Skills Section --- */
+        .skills-section {
+            margin-top: 4rem;
+            padding: 3rem;
+            border: 1px solid var(--rule);
+        }
+        
+        .skills-section h4 {
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            margin-top: 0;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+        
+        .skill-category strong {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .skill-category p {
+            font-size: 0.85rem;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 0;
+            max-width: none;
+        }
+        
+        /* --- TL;DR Section --- */
+        .tldr-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 4rem;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .tldr-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            color: #333;
-            transition: all 0.3s ease;
-            z-index: 10;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
         
-        .carousel-arrow:hover {
-            background: rgba(255, 255, 255, 1);
-            transform: translateY(-50%) scale(1.1);
+        .tldr-label {
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--paper);
+            background: var(--ink);
+            padding: 0.4rem 0.8rem;
         }
         
-        .carousel-arrow.prev {
-            left: 20px;
+        .tldr-subtitle {
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--muted);
         }
         
-        .carousel-arrow.next {
-            right: 20px;
+        .tldr-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
         }
         
-        .carousel-arrow:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
+        .tldr-main {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
         }
         
-        .carousel-arrow:disabled:hover {
-            transform: translateY(-50%);
+        .tldr-item {
+            padding-left: 1rem;
+            border-left: 2px solid var(--rule);
         }
         
-        /* Responsive adjustments */
+        .tldr-item:hover {
+            border-left-color: var(--accent);
+        }
+        
+        .tldr-number {
+            font-family: var(--serif);
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 0.3rem;
+        }
+        
+        .tldr-title {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+        
+        .tldr-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--muted);
+            margin: 0;
+        }
+        
+        .tldr-sidebar {
+            padding: 2rem;
+            background: var(--ink);
+            color: var(--paper);
+        }
+        
+        .tldr-sidebar-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 1rem;
+        }
+        
+        .tldr-sidebar-text {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-style: italic;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            color: var(--paper);
+        }
+        
+        /* --- Note Box --- */
+        .note-box {
+            font-size: 0.9rem;
+            color: var(--muted);
+            font-style: italic;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--rule);
+        }
+        
+        /* --- Footer --- */
+        .footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--rule);
+            text-align: center;
+        }
+        
+        .footer a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .footer a:hover {
+            color: var(--ink);
+        }
+        
+        /* --- Responsive --- */
+        @media (max-width: 1100px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                padding: 4rem 3rem;
+            }
+            
+            .two-column {
+                column-count: 1;
+            }
+            
+            .findings-grid,
+            .results-grid,
+            .skills-grid,
+            .problem-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pull-quote {
+                float: none;
+                width: 100%;
+                margin: 2rem 0;
+            }
+            
+            .tldr-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .tldr-main {
+                grid-template-columns: 1fr;
+            }
+            
+            .tldr-section {
+                padding: 2rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column;
+            }
+            
+            nav {
+                width: 100%;
+                padding: 1rem 2rem;
+                border-right: none;
+                border-bottom: 1px solid var(--rule);
+                height: auto;
+                position: relative;
+            }
+            
+            .nav-logo {
+                display: inline-block;
+                margin-bottom: 0;
+                margin-right: 2rem;
+            }
+            
+            nav a {
+                display: inline-block;
+                margin-right: 1.5rem;
+                margin-bottom: 0;
+            }
+            
+            .article-container {
+                padding: 2rem;
+            }
+            
+            .results-section {
+                margin-left: -2rem;
+                margin-right: -2rem;
+                padding: 3rem 2rem;
+            }
+            
+            h1 {
+                font-size: 2.4rem;
+            }
+        }
+        
         @media (max-width: 768px) {
-            .carousel-slide {
-                width: 90%;
-                height: 90%;
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.8rem; }
+            
+            .lede {
+                font-size: 1.25rem;
             }
             
-            .carousel-slide.prev {
-                transform: translateX(-50%) scale(0.7) rotateY(20deg);
+            .hero-stats {
+                grid-template-columns: 1fr;
             }
             
-            .carousel-slide.next {
-                transform: translateX(50%) scale(0.7) rotateY(-20deg);
-            }
-            
-            .carousel-arrow {
-                width: 40px;
-                height: 40px;
-                font-size: 14px;
-            }
-            
-            .carousel-arrow.prev {
-                left: 10px;
-            }
-            
-            .carousel-arrow.next {
-                right: 10px;
-            }
-            
-            .carousel-nav {
-                bottom: 15px;
-            }
-            
-            .carousel-dot {
-                width: 10px;
-                height: 10px;
+            .stat-number {
+                font-size: 2.5rem;
             }
         }
         
-        @media (max-width: 480px) {
-            .carousel-slide.prev {
-                transform: translateX(-40%) scale(0.6) rotateY(25deg);
-            }
-            
-            .carousel-slide.next {
-                transform: translateX(40%) scale(0.6) rotateY(-25deg);
-            }
+        .hidden {
+            display: none;
         }
     </style>
 </head>
@@ -497,84 +816,151 @@
 
     <nav>
         <a href="index.html" class="nav-logo">Sai Maram</a>
-        <div class="nav-container">
-            <a href="index.html">Home</a>
-            <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
-        </div>
+        <a href="index.html">Home</a>
+        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
     </nav>
 
     <main>
-        <div class="container">
-            <h1>Google Trips: Collaborative Trip Planning on a Shared Canvas</h1>
-            <div class="project-meta">
-                <span class="badge badge-blue">UX Case Study</span>
-                <span class="badge badge-green">Google Maps API</span>
-                <span class="badge">Collaborative Design</span>
-                <span class="badge">2025</span>
-            </div>
-            
-            <p>Planning a trip with friends shouldn't feel like coordinating a military operation. Yet, that's exactly what collaborative trip planning has become—scattered WhatsApp messages, shared Google Maps links that get lost in chat history, conflicting preferences buried in group threads, and no single source of truth for the itinerary. Google Trips reimagines collaborative travel planning as a shared, interactive canvas where groups can ask questions, explore destinations, and build itineraries together in real-time.</p>
-            
-            <p>This case study documents the design process behind Google Trips, a collaborative trip planning interface that leverages Google Maps Grounding API to transform map-based exploration into a conversational, visual experience. Through user research with 23 frequent travelers and iterative design sessions, we discovered that the core problem isn't lack of information—it's the friction of collaboration itself.</p>
-
-            <div class="video-carousel">
-                <div class="carousel-container">
-                    <div class="carousel-track">
-                        <div class="carousel-slide active" data-index="0">
-                            <video controls loop>
-                                <source src="mapsPlanning.mp4" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="hero-content">
+                <div class="issue-number">Case Study № 07 · Concept</div>
+                <h1>Google Trips: Collaborative Trip Planning on a Shared Canvas</h1>
+                <p style="max-width: 100%; font-size: 1.15rem; color: var(--muted);">Reimagining group travel planning through natural language queries and spatial collaboration using Google Maps Grounding API.</p>
+                
+                <div class="hero-meta">
+                    <div class="meta-item">
+                        <strong>Role</strong>
+                        Designer & Researcher
                     </div>
-                    
-                    <!-- Navigation Dots -->
-                    <div class="carousel-nav">
-                        <span class="carousel-dot active" onclick="currentSlide(1)"></span>
+                    <div class="meta-item">
+                        <strong>Focus</strong>
+                        Collaborative UX
+                    </div>
+                    <div class="meta-item">
+                        <strong>Year</strong>
+                        2025
                     </div>
                 </div>
+            </div>
+            
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-number">23</div>
+                    <div class="stat-label">Users Interviewed</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">60%</div>
+                    <div class="stat-label">Time Saved</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">89%</div>
+                    <div class="stat-label">Easier Decisions</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">Canvas</div>
+                    <div class="stat-label">Based UX</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- TL;DR Section -->
+        <section class="tldr-section">
+            <div class="tldr-header">
+                <span class="tldr-label">Quick Read</span>
+                <span class="tldr-subtitle">The essentials in 60 seconds</span>
+            </div>
+            
+            <div class="tldr-grid">
+                <div class="tldr-main">
+                    <div class="tldr-item">
+                        <div class="tldr-number">01</div>
+                        <div class="tldr-title">The Problem</div>
+                        <p class="tldr-text">Group trip planning is chaos—scattered WhatsApp messages, lost Google Maps links, and decisions buried in endless chat scrolling.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">02</div>
+                        <div class="tldr-title">The Insight</div>
+                        <p class="tldr-text">Users think spatially about trips, but current tools force them to translate spatial thinking into linear text threads.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">03</div>
+                        <div class="tldr-title">The Solution</div>
+                        <p class="tldr-text">A shared canvas where natural language queries generate map results, cards persist spatially, and collaboration happens visually.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">04</div>
+                        <div class="tldr-title">The Impact</div>
+                        <p class="tldr-text">60% faster planning, 89% found visual canvas easier for group decisions, better spatial understanding of itineraries.</p>
+                    </div>
+                </div>
+                
+                <aside class="tldr-sidebar">
+                    <div class="tldr-sidebar-label">Key Insight</div>
+                    <p class="tldr-sidebar-text">"Collaboration tools should adapt to how humans naturally think—not force humans to adapt to the tool."</p>
+                </aside>
+            </div>
+        </section>
+
+        <article class="article-container">
+            
+            <!-- Opening Lede -->
+            <p class="lede">Planning a trip with friends shouldn't feel like coordinating a military operation. Yet, that's exactly what collaborative trip planning has become—scattered WhatsApp messages, shared Google Maps links that get lost in chat history, conflicting preferences buried in group threads, and no single source of truth for the itinerary.</p>
+            
+            <div class="two-column">
+                <p>Google Trips reimagines collaborative travel planning as a shared, interactive canvas where groups can ask questions, explore destinations, and build itineraries together in real-time. By leveraging Google Maps Grounding API, we transform map-based exploration into a conversational, visual experience.</p>
+                
+                <p>Through user research with 23 frequent travelers and iterative design sessions, we discovered that the core problem isn't lack of information—it's the friction of collaboration itself. The solution preserves spatial context, enables natural language queries, and makes all information visible and referenceable.</p>
+            </div>
+
+            <!-- Video -->
+            <div class="video-container">
+                <video controls loop>
+                    <source src="mapsPlanning.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <p class="video-caption">Google Trips collaborative canvas demonstration showing real-time trip planning.</p>
             </div>
 
             <h2>The Problem</h2>
             
             <div class="problem-grid">
                 <div class="problem-card">
-                    <h4>📱 Fragmented Communication</h4>
-                    <p>WhatsApp groups become chaotic with 50+ messages about "where should we go?" and "what about this place?" Important decisions get buried in endless scrolling.</p>
+                    <h4>Fragmented Communication</h4>
+                    <p>WhatsApp groups become chaotic with 50+ messages about "where should we go?" Important decisions get buried in endless scrolling.</p>
                 </div>
-                
                 <div class="problem-card">
-                    <h4>🗺️ Map Link Fatigue</h4>
-                    <p>Sharing Google Maps links requires everyone to open separate tabs, losing spatial context. There's no way to see the full itinerary at a glance or understand how locations relate to each other.</p>
+                    <h4>Map Link Fatigue</h4>
+                    <p>Sharing Google Maps links requires everyone to open separate tabs, losing spatial context. No way to see the full itinerary at a glance.</p>
                 </div>
-                
                 <div class="problem-card">
-                    <h4>💬 Lost Context</h4>
-                    <p>When someone suggests "that pub in Goa," others have to ask "which one?" and scroll back through messages to find the original link. Context disappears in linear chat threads.</p>
+                    <h4>Lost Context</h4>
+                    <p>When someone suggests "that pub in Goa," others have to scroll back through messages to find the original link. Context disappears in linear threads.</p>
                 </div>
             </div>
-            
-            <div class="quote">
-                "We spent 3 hours in a WhatsApp group just trying to decide on 5 places to visit in Goa. By the time we agreed, half the group had lost interest." — Research Participant, Age 28
+
+            <div class="inline-quote">
+                "We spent 3 hours in a WhatsApp group just trying to decide on 5 places to visit in Goa. By the time we agreed, half the group had lost interest."
+                <cite>— Research Participant, Age 28</cite>
             </div>
 
             <h2>User Research Insights</h2>
             
             <p>I conducted interviews with 23 frequent travelers (ages 24-45) who regularly plan group trips. The research revealed three critical pain points:</p>
-            
-            <div class="key-finding">
-                <h3>Key Finding 1: Spatial Memory Matters</h3>
-                <p>Users don't just remember places by name—they remember them by location. "That place near the beach" or "the restaurant between the hotel and the fort" are common references. Current tools force users to translate spatial thinking into text, losing the visual context that makes trip planning intuitive.</p>
-            </div>
-            
-            <div class="key-finding">
-                <h3>Key Finding 2: Questions Drive Discovery</h3>
-                <p>73% of participants reported asking questions like "What are the best beer places in Goa?" or "Can you add historic spots?" during planning. These natural language queries are how people actually think about trips, but existing tools require manual searching and link sharing.</p>
-            </div>
-            
-            <div class="key-finding">
-                <h3>Key Finding 3: Collaboration Needs Visual Anchors</h3>
-                <p>When someone says "Let's go to the first one!" in a chat, others need to scroll back to understand what "first one" means. Visual anchors—seeing places on a map with comments attached—eliminate this ambiguity and make collaboration seamless.</p>
+
+            <div class="findings-grid">
+                <div class="finding-card">
+                    <h4>Spatial Memory Matters</h4>
+                    <p>Users remember places by location—"that place near the beach" or "the restaurant between the hotel and the fort." Current tools force users to translate spatial thinking into text.</p>
+                </div>
+                <div class="finding-card">
+                    <h4>Questions Drive Discovery</h4>
+                    <p>73% of participants asked natural language questions like "What are the best beer places in Goa?" during planning. This is how people actually think about trips.</p>
+                </div>
+                <div class="finding-card">
+                    <h4>Visual Anchors Needed</h4>
+                    <p>When someone says "Let's go to the first one!" others need to scroll back to understand. Visual anchors—places on a map with comments—eliminate this ambiguity.</p>
+                </div>
             </div>
 
             <h2>The Solution: A Collaborative Canvas</h2>
@@ -586,17 +972,40 @@
                 <li><strong>Real-time collaboration</strong> lets everyone see suggestions, comments, and decisions spatially</li>
                 <li><strong>Itinerary building</strong> happens visually—drag, drop, and connect places on the map</li>
             </ul>
-            
+
             <div class="image-container">
-                <img src="SCAI/googleTrips.png" alt="Google Trips collaborative canvas showing multiple users planning a trip together">
-                <p class="image-caption">The collaborative canvas interface showing real-time trip planning with multiple users, map queries, and itinerary building</p>
+                <img src="SCAI/googleTrips.png" alt="Google Trips collaborative canvas">
+                <p class="image-caption">The collaborative canvas interface showing real-time trip planning with multiple users, map queries, and itinerary building.</p>
+            </div>
+
+            <!-- Results Section - Dark Background -->
+            <div class="results-section">
+                <h2>Results & Impact</h2>
+                <p style="color: rgba(255,255,255,0.8); max-width: 600px;">User testing validated that canvas-based collaboration dramatically improves group trip planning.</p>
+                
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="result-number">60%</div>
+                        <div class="result-label">Time Savings</div>
+                        <div class="result-detail">Reduction in time spent planning group trips, from 3 hours to 1.2 hours average</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">89%</div>
+                        <div class="result-label">Better Decisions</div>
+                        <div class="result-detail">Users found it easier to make decisions with visual canvas than chat</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">Spatial</div>
+                        <div class="result-label">Understanding</div>
+                        <div class="result-detail">Better understanding of geographic relationships for efficient route planning</div>
+                    </div>
+                </div>
             </div>
 
             <h2>Design System & Visual Language</h2>
-            
-            <h3>1. Canvas-Based Layout</h3>
-            <div class="design-feature">
-                <h4>Infinite Canvas Philosophy</h4>
+
+            <div class="feature-card">
+                <h4>1. Canvas-Based Layout</h4>
                 <p>The interface uses an infinite canvas model inspired by tools like Figma and Miro. This allows users to:</p>
                 <ul>
                     <li>Pan and zoom freely across the map</li>
@@ -604,12 +1013,13 @@
                     <li>Create spatial groupings (e.g., "Day 1 activities" in one area, "Day 2" in another)</li>
                     <li>Maintain visual context even when exploring different regions</li>
                 </ul>
-                <p><strong>Design Rationale:</strong> Spatial memory is crucial for trip planning. By allowing free placement, users can organize information the way their brain naturally thinks about geography and time.</p>
+                <div class="feature-rationale">
+                    <strong>Design Rationale:</strong> Spatial memory is crucial for trip planning. By allowing free placement, users can organize information the way their brain naturally thinks about geography and time.
+                </div>
             </div>
-            
-            <h3>2. Query-to-Card Transformation</h3>
-            <div class="design-feature">
-                <h4>Natural Language → Visual Results</h4>
+
+            <div class="feature-card">
+                <h4>2. Query-to-Card Transformation</h4>
                 <p>When a user asks "Show me the best places to drink beer in Goa," the system:</p>
                 <ol>
                     <li>Processes the query through Google Maps Grounding API</li>
@@ -617,12 +1027,13 @@
                     <li>Creates a card component with details (ratings, reviews, photos)</li>
                     <li>Places the card on the canvas, connected to the map view</li>
                 </ol>
-                <p><strong>Design Rationale:</strong> Cards serve as visual anchors that persist on the canvas. Unlike chat messages that scroll away, cards remain visible and can be referenced, moved, or connected to other cards.</p>
+                <div class="feature-rationale">
+                    <strong>Design Rationale:</strong> Cards serve as visual anchors that persist on the canvas. Unlike chat messages that scroll away, cards remain visible and can be referenced, moved, or connected to other cards.
+                </div>
             </div>
-            
-            <h3>3. Collaborative Annotations</h3>
-            <div class="design-feature">
-                <h4>Comments as Visual Overlays</h4>
+
+            <div class="feature-card">
+                <h4>3. Collaborative Annotations</h4>
                 <p>Comments don't live in a separate chat panel—they appear as overlays directly on cards or map locations:</p>
                 <ul>
                     <li><strong>Card Comments:</strong> Attached to specific places, visible when hovering or clicking</li>
@@ -630,20 +1041,23 @@
                     <li><strong>User Avatars:</strong> Show who made each suggestion or comment</li>
                     <li><strong>Real-time Updates:</strong> New comments appear instantly for all collaborators</li>
                 </ul>
-                <p><strong>Design Rationale:</strong> Context is preserved spatially. When someone says "Let's go to the first one!" others can see exactly which card they're referring to without scrolling through chat history.</p>
+                <div class="feature-rationale">
+                    <strong>Design Rationale:</strong> Context is preserved spatially. When someone says "Let's go to the first one!" others can see exactly which card they're referring to without scrolling through chat history.
+                </div>
             </div>
-            
-            <h3>4. Itinerary Building Interface</h3>
-            <div class="design-feature">
-                <h4>Visual Itinerary Construction</h4>
+
+            <div class="feature-card">
+                <h4>4. Itinerary Building Interface</h4>
                 <p>The canvas supports drag-and-drop itinerary building:</p>
                 <ul>
                     <li><strong>Day Containers:</strong> Collapsible sections for each day of the trip</li>
                     <li><strong>Drag & Drop:</strong> Cards can be dragged into day containers to build the schedule</li>
-                    <li><strong>Route Visualization:</strong> When places are added to a day, the system automatically shows optimal routes on the map</li>
+                    <li><strong>Route Visualization:</strong> When places are added, the system shows optimal routes on the map</li>
                     <li><strong>Time Estimates:</strong> Travel time between locations appears as annotations</li>
                 </ul>
-                <p><strong>Design Rationale:</strong> Building an itinerary should feel like arranging puzzle pieces, not filling out a form. Visual manipulation makes the process intuitive and collaborative.</p>
+                <div class="feature-rationale">
+                    <strong>Design Rationale:</strong> Building an itinerary should feel like arranging puzzle pieces, not filling out a form. Visual manipulation makes the process intuitive and collaborative.
+                </div>
             </div>
 
             <h2>Key Design Decisions</h2>
@@ -661,10 +1075,8 @@
             <p>When someone is actively editing or commenting, their avatar appears on the card with a subtle animation. This provides awareness without being intrusive, following best practices from collaborative tools like Google Docs.</p>
 
             <h2>User Flow: Planning a Goa Trip</h2>
-            
-            <div class="workflow-diagram">
-                <h4 style="color: #1a1a1a; margin-bottom: 1rem;">Complete User Journey</h4>
-                
+
+            <div class="workflow-container">
                 <div class="workflow-step">
                     <strong>1. Initial Query</strong>
                     <p>User A asks: "Show me the best places to drink beer in Goa"</p>
@@ -699,27 +1111,9 @@
                 </div>
             </div>
 
-            <h2>Results & Impact</h2>
-            
-            <div class="solution-grid">
-                <div class="solution-card">
-                    <h4>⏱️ Time Savings</h4>
-                    <p>Users reported 60% reduction in time spent planning group trips, from average 3 hours to 1.2 hours.</p>
-                </div>
-                
-                <div class="solution-card">
-                    <h4>👥 Better Collaboration</h4>
-                    <p>89% of users found it easier to make decisions when they could see all options visually on the canvas.</p>
-                </div>
-                
-                <div class="solution-card">
-                    <h4>🗺️ Spatial Understanding</h4>
-                    <p>Users could better understand geographic relationships between places, leading to more efficient route planning.</p>
-                </div>
-            </div>
-            
-            <div class="quote">
-                "Finally, a tool that thinks the way we think about trips—visually and collaboratively. No more lost links or 'which place did you mean?'" — Beta Tester, Age 32
+            <div class="inline-quote">
+                "Finally, a tool that thinks the way we think about trips—visually and collaboratively. No more lost links or 'which place did you mean?'"
+                <cite>— Beta Tester, Age 32</cite>
             </div>
 
             <h2>Future Considerations</h2>
@@ -732,100 +1126,48 @@
             </ul>
 
             <h2>Conclusion</h2>
+
+            <p class="lede" style="margin-top: 0;">Google Trips demonstrates how combining natural language processing (via Google Maps Grounding API) with spatial canvas interfaces can transform collaborative experiences.</p>
             
-            <p>Google Trips demonstrates how combining natural language processing (via Google Maps Grounding API) with spatial canvas interfaces can transform collaborative experiences. By moving away from linear chat-based planning to a visual, persistent canvas, we've created a tool that aligns with how people actually think about trips—spatially, collaboratively, and iteratively.</p>
+            <div class="two-column">
+                <p>By moving away from linear chat-based planning to a visual, persistent canvas, we've created a tool that aligns with how people actually think about trips—spatially, collaboratively, and iteratively.</p>
             
-            <p>The key insight from this project is that <strong>collaboration tools shouldn't force users to adapt to the tool's constraints</strong>. Instead, they should adapt to how humans naturally think and communicate. For trip planning, that means preserving spatial context, enabling natural language queries, and making all information visible and referenceable—not buried in chat history.</p>
-            
-            <p style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #ddd; color: #666;">
-                <em>This case study represents a conceptual design exploration. Google Maps Grounding API is a real technology, and the design patterns explored here could be implemented using this API in combination with collaborative canvas frameworks.</em>
+                <p>The key insight from this project is that <strong>collaboration tools shouldn't force users to adapt to the tool's constraints</strong>. Instead, they should adapt to how humans naturally think and communicate. For trip planning, that means preserving spatial context, enabling natural language queries, and making all information visible and referenceable—not buried in chat history.</p>
+            </div>
+
+            <p class="note-box">
+                This case study represents a conceptual design exploration. Google Maps Grounding API is a real technology, and the design patterns explored here could be implemented using this API in combination with collaborative canvas frameworks.
             </p>
-        </div>
+
+            <!-- Skills Section -->
+            <div class="skills-section">
+                <h4>Skills & Methods Demonstrated</h4>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <strong>Research</strong>
+                        <p>User Interviews, Qualitative Analysis, Usability Testing, Persona Development</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Design</strong>
+                        <p>Interface Design, Interaction Design, Design Systems, Prototyping</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Technical</strong>
+                        <p>API Integration, Real-time Collaboration, Canvas-based UX</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Collaboration</strong>
+                        <p>Collaborative Design Patterns, Multi-user UX, Spatial Interfaces</p>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer">
+                <a href="index.html">← Back to Portfolio</a>
+            </footer>
+        </article>
     </main>
 
-    <script>
-        // Video Carousel Functionality
-        let currentSlideIndex = 0;
-        const slides = document.querySelectorAll('.carousel-slide');
-        const totalSlides = slides.length;
-        const dots = document.querySelectorAll('.carousel-dot');
-
-        function showSlide(index) {
-            slides.forEach((slide, slideIndex) => {
-                const slideDataIndex = parseInt(slide.getAttribute('data-index'));
-                const relativePosition = slideDataIndex - index;
-                
-                // Remove all classes
-                slide.classList.remove('active', 'prev', 'next', 'hidden');
-                
-                // Determine position
-                if (relativePosition === 0) {
-                    // Active slide
-                    slide.classList.add('active');
-                } else if (relativePosition === -1 || (index === 0 && slideDataIndex === totalSlides - 1)) {
-                    // Previous slide (with wraparound)
-                    slide.classList.add('prev');
-                } else if (relativePosition === 1 || (index === totalSlides - 1 && slideDataIndex === 0)) {
-                    // Next slide (with wraparound)
-                    slide.classList.add('next');
-                } else {
-                    // Hidden slides
-                    slide.classList.add('hidden');
-                }
-            });
-            
-            // Update dots
-            dots.forEach((dot, dotIndex) => {
-                if (dotIndex === index) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
-            });
-        }
-
-        function changeSlide(direction) {
-            currentSlideIndex += direction;
-            
-            // Loop around if at boundaries
-            if (currentSlideIndex >= totalSlides) {
-                currentSlideIndex = 0;
-            } else if (currentSlideIndex < 0) {
-                currentSlideIndex = totalSlides - 1;
-            }
-            
-            showSlide(currentSlideIndex);
-        }
-
-        function currentSlide(index) {
-            currentSlideIndex = index - 1;
-            showSlide(currentSlideIndex);
-        }
-
-        // Initialize carousel
-        document.addEventListener('DOMContentLoaded', function() {
-            if (slides.length > 0) {
-                showSlide(0);
-                
-                // Add click handlers for side slides
-                slides.forEach((slide, index) => {
-                    slide.addEventListener('click', function() {
-                        const slideDataIndex = parseInt(slide.getAttribute('data-index'));
-                        currentSlideIndex = slideDataIndex;
-                        showSlide(currentSlideIndex);
-                    });
-                });
-                
-                // Keyboard navigation
-                document.addEventListener('keydown', function(e) {
-                    if (e.key === 'ArrowLeft') {
-                        changeSlide(-1);
-                    } else if (e.key === 'ArrowRight') {
-                        changeSlide(1);
-                    }
-                });
-            }
-        });
-    </script>
 </body>
 </html>
+

@@ -4,8 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Chess Coach - In-Game Learning vs Post-Game Analysis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
     <style>
+        :root {
+            --ink: #1a1a1a;
+            --paper: #f8f5f0;
+            --accent: #5d4e37; /* Chess wood brown */
+            --muted: #6b6b6b;
+            --rule: #d4d0c8;
+            --serif: 'Instrument Serif', Georgia, serif;
+            --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,216 +26,867 @@
         }
         
         body {
-            background-color: #ffffff;
-            background-image: 
-                linear-gradient(rgba(200, 200, 200, 0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(200, 200, 200, 0.15) 1px, transparent 1px);
-            background-size: 40px 40px;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 1.05rem;
-            line-height: 1.6;
-            color: #1a1a1a;
-            margin: 0;
+            background-color: var(--paper);
+            font-family: var(--sans);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--ink);
             display: flex;
             min-height: 100vh;
         }
+        
+        /* --- Navigation --- */
         nav {
-            width: 220px;
-            padding: 2rem;
-            border-right: 1px solid rgba(200, 200, 200, 0.3);
+            width: 200px;
+            padding: 2.5rem 1.5rem;
+            border-right: 1px solid var(--rule);
             flex-shrink: 0;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background-color: var(--paper);
+            position: sticky;
+            top: 0;
+            height: 100vh;
         }
+        
         nav a {
             display: block;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-            text-decoration: underline;
-            cursor: pointer;
+            margin-bottom: 0.75rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
             transition: color 0.2s ease;
         }
+        
         nav a:hover {
-            text-decoration: none;
-            color: #666;
+            color: var(--ink);
         }
+        
         .nav-logo {
-            font-weight: 600;
-            margin-bottom: 2rem;
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 2.5rem;
+            color: var(--ink);
             text-decoration: none;
-            cursor: pointer;
-            font-size: 1.3rem;
-            color: #1a1a1a;
-            transition: color 0.2s ease;
+            display: block;
         }
-        .nav-logo:hover {
-            color: #666;
-        }
+        
         main {
             flex-grow: 1;
             overflow-y: auto;
-            height: 100vh;
-            background-color: transparent;
+            background-color: var(--paper);
         }
-        .container {
-            max-width: 900px;
+        
+        /* --- Hero Section --- */
+        .hero {
+            padding: 6rem 4rem 4rem;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 3rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: end;
+            border-bottom: 1px solid var(--rule);
         }
+        
+        .hero-content {
+            padding-bottom: 2rem;
+        }
+        
+        .issue-number {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+        
         h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-            line-height: 1.2;
-        }
-        h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-top: 3rem;
+            font-family: var(--serif);
+            font-size: 3.2rem;
+            font-weight: 400;
+            line-height: 1.05;
+            color: var(--ink);
             margin-bottom: 1.5rem;
-            color: #1a1a1a;
+            letter-spacing: -0.02em;
         }
-        h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
+        
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
             margin-top: 2rem;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--rule);
         }
-        h4 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-top: 1.5rem;
-            margin-bottom: 0.75rem;
-            color: #1a1a1a;
+        
+        .meta-item {
+            font-size: 0.85rem;
+            color: var(--muted);
         }
-        p {
-            margin-bottom: 1.5rem;
-            color: #333;
+        
+        .meta-item strong {
+            display: block;
+            color: var(--ink);
+            font-weight: 500;
+            margin-bottom: 0.2rem;
         }
-        .project-meta {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 2rem;
-        }
-        .badge {
+        
+        .hero-cta {
             display: inline-block;
-            padding: 0.4rem 1rem;
-            background-color: #f0f0f0;
-            border-radius: 20px;
+            margin-top: 1.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--ink);
+            color: var(--paper);
+            text-decoration: none;
             font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            transition: opacity 0.2s;
+        }
+        
+        .hero-cta:hover {
+            opacity: 0.85;
+        }
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+        }
+        
+        .stat-box {
+            background: var(--paper);
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-family: var(--serif);
+            font-size: 2.8rem;
+            font-style: italic;
+            color: var(--ink);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        
+        /* --- Article Layout --- */
+        .article-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem;
+        }
+        
+        .lede {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            line-height: 1.6;
+            color: var(--ink);
+            max-width: 800px;
+            margin-bottom: 3rem;
+        }
+        
+        .lede::first-letter {
+            font-size: 4.5rem;
+            float: left;
+            line-height: 0.8;
             margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
+            margin-top: 0.1rem;
+            color: var(--accent);
         }
-        ul {
-            margin-left: 2rem;
+        
+        .two-column {
+            column-count: 2;
+            column-gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .two-column p {
+            margin-bottom: 1.25rem;
+        }
+        
+        h2 {
+            font-family: var(--serif);
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-top: 4rem;
             margin-bottom: 1.5rem;
+            color: var(--ink);
+            padding-top: 2rem;
+            border-top: 3px solid var(--ink);
         }
-        li {
-            margin-bottom: 0.5rem;
+        
+        h3 {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
         }
-        ol {
-            margin-left: 2rem;
-            margin-bottom: 1.5rem;
+        
+        h4 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+            color: var(--ink);
         }
-        .key-finding {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 12px;
-            border-left: 4px solid #1a1a1a;
-            margin: 2rem 0;
+        
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--ink);
+            max-width: 680px;
         }
-        .card {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin: 2rem 0;
+        
+        /* --- Pull Quote --- */
+        .pull-quote {
+            float: right;
+            width: 45%;
+            margin: 0 0 2rem 3rem;
+            padding: 2rem 0 2rem 2rem;
+            border-left: 3px solid var(--accent);
         }
+        
+        .pull-quote blockquote {
+            font-family: var(--serif);
+            font-size: 1.8rem;
+            font-style: italic;
+            line-height: 1.4;
+            color: var(--ink);
+            margin-bottom: 1rem;
+        }
+        
+        .pull-quote cite {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-style: normal;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        
+        /* --- Inline Quote --- */
+        .inline-quote {
+            background: linear-gradient(to right, var(--accent), var(--accent)) no-repeat 0 0;
+            background-size: 4px 100%;
+            padding: 1.5rem 2rem;
+            margin: 2.5rem 0;
+            font-family: var(--serif);
+            font-size: 1.25rem;
+            font-style: italic;
+            line-height: 1.5;
+        }
+        
+        .inline-quote cite {
+            display: block;
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-style: normal;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 1rem;
+        }
+        
+        /* --- Problem Cards --- */
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--ink);
+            margin: 3rem 0;
+        }
+        
+        .problem-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .problem-card h4 {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .problem-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Comparison Table --- */
+        .comparison-container {
+            margin: 3rem 0;
+            overflow-x: auto;
+        }
+        
         .comparison-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 2rem 0;
+            font-size: 0.95rem;
         }
-        .comparison-table th,
+        
+        .comparison-table th {
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 1.25rem 1rem;
+            text-align: left;
+            border-bottom: 2px solid var(--ink);
+            background: transparent;
+        }
+        
         .comparison-table td {
             padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid var(--rule);
+            vertical-align: top;
         }
-        .comparison-table th {
-            background-color: #f8f9fa;
-            font-weight: 600;
+        
+        .comparison-table td:first-child {
+            font-weight: 500;
+            color: var(--ink);
         }
-        .comparison-table tr:hover {
-            background-color: #f8f9fa;
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
         }
-        .example-section {
-            background: #f8f9fa;
-            border-radius: 12px;
+        
+        /* --- Feature Cards --- */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+            margin: 3rem 0;
+        }
+        
+        .feature-card {
+            background: var(--paper);
             padding: 2rem;
-            margin: 2.5rem 0;
         }
+        
+        .feature-number {
+            font-family: var(--serif);
+            font-size: 2rem;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-card h4 {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .feature-card p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Example Section --- */
+        .example-section {
+            border: 1px solid var(--rule);
+            padding: 2.5rem;
+            margin: 3rem 0;
+            background: rgba(0,0,0,0.02);
+        }
+        
+        .example-section h4 {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .example-section > p:first-of-type {
+            max-width: none;
+        }
+        
         .example-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
-            margin-top: 1.5rem;
+            margin-top: 2rem;
         }
+        
         .example-board {
-            background: white;
-            border-radius: 8px;
+            background: var(--paper);
+            border: 1px solid var(--rule);
             padding: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
-        .example-board h4 {
-            margin-top: 0;
+        
+        .example-board h5 {
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
             margin-bottom: 1rem;
-            font-size: 1.1rem;
+            color: var(--ink);
             text-align: center;
         }
+        
         .board-container-example {
             width: 100%;
-            max-width: 350px;
+            max-width: 300px;
             margin: 0 auto 1rem auto;
         }
+        
         .coach-message-example {
-            background: #f0f4ff;
-            border-left: 4px solid #667eea;
+            background: var(--paper);
+            border-left: 3px solid var(--accent);
             padding: 1rem;
             margin-top: 1rem;
-            border-radius: 4px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             line-height: 1.6;
         }
+        
         .player-message-example {
-            background: #e6fff2;
-            border-left: 4px solid #48bb78;
+            background: var(--paper);
+            border-left: 3px solid #48bb78;
             padding: 1rem;
             margin-top: 1rem;
-            border-radius: 4px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             line-height: 1.6;
         }
+        
         .message-header-example {
-            font-weight: 600;
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+        
+        .player-message-example .message-header-example {
+            color: #48bb78;
+        }
+        
+        .example-learning {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-left: 2px solid var(--accent);
+            background: rgba(0,0,0,0.02);
+        }
+        
+        .example-learning strong {
+            display: block;
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+        
+        .example-learning p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+            max-width: none;
+        }
+        
+        /* --- Skill Cards --- */
+        .skill-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--ink);
+            margin: 3rem 0;
+        }
+        
+        .skill-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .skill-card h4 {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .skill-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Results Section --- */
+        .results-section {
+            background: var(--ink);
+            color: var(--paper);
+            margin: 4rem -4rem;
+            padding: 4rem;
+        }
+        
+        .results-section h2 {
+            color: var(--paper);
+            border-top-color: var(--paper);
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .result-item {
+            border-left: 1px solid rgba(255,255,255,0.3);
+            padding-left: 1.5rem;
+        }
+        
+        .result-number {
+            font-family: var(--serif);
+            font-size: 3.5rem;
+            font-style: italic;
+            line-height: 1;
             margin-bottom: 0.5rem;
         }
         
-        @media (max-width: 768px) {
-            .container { padding: 0 1rem; }
-            h1 { font-size: 2rem; }
-            h2 { font-size: 1.5rem; }
-            .comparison-table { font-size: 0.9rem; }
+        .result-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-detail {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        /* --- List Styling --- */
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.75rem;
+            padding-left: 0.5rem;
+            max-width: 680px;
+        }
+        
+        li strong {
+            color: var(--ink);
+        }
+        
+        /* --- Skills Section --- */
+        .skills-section {
+            margin-top: 4rem;
+            padding: 3rem;
+            border: 1px solid var(--rule);
+        }
+        
+        .skills-section h4 {
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            margin-top: 0;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+        
+        .skill-category strong {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .skill-category p {
+            font-size: 0.85rem;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 0;
+            max-width: none;
+        }
+        
+        /* --- TL;DR Section --- */
+        .tldr-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 4rem;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .tldr-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .tldr-label {
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--paper);
+            background: var(--ink);
+            padding: 0.4rem 0.8rem;
+        }
+        
+        .tldr-subtitle {
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--muted);
+        }
+        
+        .tldr-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+        
+        .tldr-main {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        
+        .tldr-item {
+            padding-left: 1rem;
+            border-left: 2px solid var(--rule);
+        }
+        
+        .tldr-item:hover {
+            border-left-color: var(--accent);
+        }
+        
+        .tldr-number {
+            font-family: var(--serif);
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 0.3rem;
+        }
+        
+        .tldr-title {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+        
+        .tldr-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--muted);
+            margin: 0;
+        }
+        
+        .tldr-sidebar {
+            padding: 2rem;
+            background: var(--ink);
+            color: var(--paper);
+        }
+        
+        .tldr-sidebar-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 1rem;
+        }
+        
+        .tldr-sidebar-text {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-style: italic;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            color: var(--paper);
+        }
+        
+        /* --- Footer --- */
+        .footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--rule);
+            text-align: center;
+        }
+        
+        .footer a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            margin: 0 1rem;
+        }
+        
+        .footer a:hover {
+            color: var(--ink);
+        }
+        
+        /* --- Responsive --- */
+        @media (max-width: 1100px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                padding: 4rem 3rem;
+            }
+            
+            .two-column {
+                column-count: 1;
+            }
+            
+            .problem-grid,
+            .feature-grid,
+            .skill-grid,
+            .results-grid,
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            
             .example-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .pull-quote {
+                float: none;
+                width: 100%;
+                margin: 2rem 0;
+            }
+            
+            .tldr-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .tldr-main {
+                grid-template-columns: 1fr;
+            }
+            
+            .tldr-section {
+                padding: 2rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column;
+            }
+            
             nav {
                 width: 100%;
-                padding: 1rem;
+                padding: 1rem 2rem;
                 border-right: none;
-                border-bottom: 1px solid #ddd;
+                border-bottom: 1px solid var(--rule);
+                height: auto;
+                position: relative;
             }
+            
+            .nav-logo {
+                display: inline-block;
+                margin-bottom: 0;
+                margin-right: 2rem;
+            }
+            
+            nav a {
+                display: inline-block;
+                margin-right: 1.5rem;
+                margin-bottom: 0;
+            }
+            
+            .article-container {
+                padding: 2rem;
+            }
+            
+            .results-section {
+                margin-left: -2rem;
+                margin-right: -2rem;
+                padding: 3rem 2rem;
+            }
+            
+            h1 {
+                font-size: 2.4rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.8rem; }
+            
+            .lede {
+                font-size: 1.25rem;
+            }
+            
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+            
+            .comparison-table {
+                font-size: 0.85rem;
+            }
+        }
+        
+        .hidden {
+            display: none;
         }
     </style>
 </head>
@@ -230,139 +894,262 @@
 
     <nav>
         <a href="index.html" class="nav-logo">Sai Maram</a>
-        <div class="nav-container">
-            <a href="index.html">Home</a>
-            <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
-        </div>
+        <a href="index.html">Home</a>
+        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
     </nav>
 
     <main>
-        <div class="container">
-            <h1>AI Chess Coach: Building Mental Models Through In-Game Visualization</h1>
-            <div class="project-meta">
-                <span class="badge">Educational Technology</span>
-                <span class="badge">Socratic Learning</span>
-                <span class="badge">In-Game Coaching</span>
-                <a href="./chess.html" style="text-decoration: underline; color: #666;">Play AI Chess Coach Now →</a>
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="hero-content">
+                <div class="issue-number">Case Study № 10 · Educational Technology</div>
+                <h1>AI Chess Coach: Building Mental Models Through In-Game Visualization</h1>
+                <p style="max-width: 100%; font-size: 1.15rem; color: var(--muted);">Real-time Socratic coaching that helps you think better—not just tells you what was wrong.</p>
+                
+                <a href="./chess.html" class="hero-cta">Play AI Chess Coach →</a>
+                
+                <div class="hero-meta">
+                    <div class="meta-item">
+                        <strong>Focus</strong>
+                        Socratic Learning
+                    </div>
+                    <div class="meta-item">
+                        <strong>Approach</strong>
+                        In-Game Coaching
+                    </div>
+                    <div class="meta-item">
+                        <strong>Method</strong>
+                        Real-Time Visualization
+                    </div>
+                </div>
             </div>
             
-            <p>Most chess training happens after your game ends. You lose, pull up Chess.com's analysis, and see that move 14 was a "mistake" or move 23 was a "blunder." The computer shows arrows and evaluations telling you what you should have done. But by then, you've forgotten what you were thinking. You can't remember why you made that move, what alternatives you considered, or what patterns you were trying to recognize. The learning opportunity is gone.</p>
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-number">Real</div>
+                    <div class="stat-label">Time Coaching</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Skills Developed</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">Visual</div>
+                    <div class="stat-label">Pattern Building</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">Socratic</div>
+                    <div class="stat-label">Method</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- TL;DR Section -->
+        <section class="tldr-section">
+            <div class="tldr-header">
+                <span class="tldr-label">Quick Read</span>
+                <span class="tldr-subtitle">The essentials in 60 seconds</span>
+            </div>
             
-            <p>AI Chess Coach takes a different approach: it coaches you <em>while you play</em>, not after. Instead of telling you what was wrong, it helps you build better mental models in real-time—asking Socratic questions, visualizing critical squares, and helping you think through positions as they happen. You learn resilience by working through tough spots with guidance. You develop planning skills by articulating your thinking out loud. And most importantly, you build pattern recognition that transfers to future games.</p>
+            <div class="tldr-grid">
+                <div class="tldr-main">
+                    <div class="tldr-item">
+                        <div class="tldr-number">01</div>
+                        <div class="tldr-title">The Problem</div>
+                        <p class="tldr-text">Post-game analysis shows what was wrong—but by then you've forgotten what you were thinking. The learning opportunity is gone.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">02</div>
+                        <div class="tldr-title">The Approach</div>
+                        <p class="tldr-text">Coach during gameplay, not after. Socratic questions, visual highlighting, and think-out-loud input.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">03</div>
+                        <div class="tldr-title">The Solution</div>
+                        <p class="tldr-text">Real-time coaching that builds mental models, resilience, planning skills, and self-questioning habits.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">04</div>
+                        <div class="tldr-title">The Shift</div>
+                        <p class="tldr-text">From "what was wrong" to "how to think better"—fundamentally different from traditional analysis.</p>
+                    </div>
+                </div>
+                
+                <aside class="tldr-sidebar">
+                    <div class="tldr-sidebar-label">Key Insight</div>
+                    <p class="tldr-sidebar-text">"You learn to ask yourself 'What squares matter here?' without needing the coach. The Socratic method becomes your internal dialogue."</p>
+                </aside>
+            </div>
+        </section>
+
+        <article class="article-container">
+            
+            <!-- Opening Lede -->
+            <p class="lede">Most chess training happens after your game ends. You lose, pull up Chess.com's analysis, and see that move 14 was a "mistake." But by then, you've forgotten what you were thinking. You can't remember why you made that move. The learning opportunity is gone.</p>
+            
+            <div class="two-column">
+                <p>AI Chess Coach takes a different approach: it coaches you <em>while you play</em>, not after. Instead of telling you what was wrong, it helps you build better mental models in real-time—asking Socratic questions, visualizing critical squares, and helping you think through positions as they happen.</p>
+                
+                <p>You learn resilience by working through tough spots with guidance. You develop planning skills by articulating your thinking out loud. And most importantly, you build pattern recognition that transfers to future games.</p>
+            </div>
 
             <h2>The Problem with Post-Game Analysis</h2>
-            <p><strong>Chess.com and similar platforms excel at showing what happened—but not why you thought it was right:</strong> After a game ends, you can review every move with computer evaluation. The system tells you move 14 was a "mistake" (evaluation drops from +1.2 to +0.3). It shows you the "best" move with an arrow. But it doesn't help you understand your thinking process. You don't learn <em>why</em> you made that mistake or <em>how</em> to recognize better patterns in future games.</p>
             
-            <p><strong>The disconnect between feedback and decision-making:</strong> By the time you're reviewing your game, you've moved on mentally. You can't remember what you were thinking at move 14. Did you see the better move and reject it? Did you miss it entirely? Were you focused on a different part of the board? Without understanding your mental model at the moment of decision, post-game analysis just shows you what you did wrong—it doesn't help you build better thinking patterns.</p>
-            
-            <p><strong>It's reactive, not proactive:</strong> Post-game analysis waits until you've lost to tell you where you went wrong. You don't learn to spot weak squares before your opponent exploits them. You don't develop the habit of asking "What is my opponent threatening?" until after you've been attacked. The coaching comes too late to build the mental habits that prevent mistakes in the first place.</p>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <h4>Shows What, Not Why</h4>
+                    <p>Chess.com tells you move 14 was a "mistake" (evaluation drops from +1.2 to +0.3). It doesn't help you understand your thinking process or why you made that mistake.</p>
+                </div>
+                <div class="problem-card">
+                    <h4>Disconnected Feedback</h4>
+                    <p>By review time, you've moved on mentally. Did you see the better move and reject it? Did you miss it entirely? Without understanding your mental model at decision-time, analysis just shows what you did wrong.</p>
+                </div>
+                <div class="problem-card">
+                    <h4>Reactive, Not Proactive</h4>
+                    <p>Post-game analysis waits until you've lost to tell you where you went wrong. You don't learn to spot weak squares before your opponent exploits them.</p>
+                </div>
+            </div>
+
+            <div class="inline-quote">
+                "The computer shows arrows and evaluations telling you what you should have done. But by then, you've forgotten what you were thinking."
+                <cite>— The core problem with post-game analysis</cite>
+            </div>
 
             <h2>The In-Game Coaching Approach</h2>
-            <p><strong>What if coaching happened while you're deciding, not after you've decided?</strong> AI Chess Coach provides guidance during gameplay. After each move exchange, the coach asks questions about the position. When you're stuck, you can think out loud and get Socratic guidance. When you're curious about a pattern, you can ask and see it visualized immediately. The coaching is tied to your actual decision-making process, building mental models in real-time.</p>
+            
+            <p><strong>What if coaching happened while you're deciding, not after you've decided?</strong> AI Chess Coach provides guidance during gameplay. After each move exchange, the coach asks questions about the position. When you're stuck, you can think out loud and get Socratic guidance.</p>
 
-            <table class="comparison-table">
-                <thead>
-                    <tr>
-                        <th>Aspect</th>
-                        <th>Post-Game Analysis (Chess.com)</th>
-                        <th>In-Game Coaching (AI Chess Coach)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>When</strong></td>
-                        <td>After the game ends</td>
-                        <td>During active gameplay</td>
-                    </tr>
-                    <tr>
-                        <td><strong>What it shows</strong></td>
-                        <td>"This move was a mistake" (computer evaluation)</td>
-                        <td>"What squares should you control?" (Socratic question)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Learning focus</strong></td>
-                        <td>What you did wrong</td>
-                        <td>How to think better</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Mental models</strong></td>
-                        <td>Doesn't capture or develop thinking process</td>
-                        <td>Builds pattern recognition through questioning</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Resilience</strong></td>
-                        <td>Shows you lost—doesn't help you recover</td>
-                        <td>Guides you through tough positions in real-time</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Planning</strong></td>
-                        <td>No support during decision-making</td>
-                        <td>Helps you think through moves before making them</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Student input</strong></td>
-                        <td>Passive review only</td>
-                        <td>Active thinking out loud encouraged</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="comparison-container">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>Post-Game Analysis</th>
+                            <th>In-Game Coaching</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>When</td>
+                            <td>After the game ends</td>
+                            <td>During active gameplay</td>
+                        </tr>
+                        <tr>
+                            <td>What it shows</td>
+                            <td>"This move was a mistake"</td>
+                            <td>"What squares should you control?"</td>
+                        </tr>
+                        <tr>
+                            <td>Learning focus</td>
+                            <td>What you did wrong</td>
+                            <td>How to think better</td>
+                        </tr>
+                        <tr>
+                            <td>Mental models</td>
+                            <td>Doesn't capture thinking process</td>
+                            <td>Builds pattern recognition</td>
+                        </tr>
+                        <tr>
+                            <td>Resilience</td>
+                            <td>Shows you lost</td>
+                            <td>Guides through tough positions</td>
+                        </tr>
+                        <tr>
+                            <td>Student input</td>
+                            <td>Passive review only</td>
+                            <td>Active thinking out loud</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-            <h2>Building Mental Models in Real-Time</h2>
-            <p>The key difference is focus. Post-game analysis tells you what moves were good or bad. In-game coaching helps you build the mental frameworks to find good moves yourself.</p>
-
-            <p><strong>What are mental models in chess?</strong> Mental models are the patterns and frameworks expert players use: "Control the center in the opening," "Look for knight forks when pieces are undefended," "Activate rooks in the endgame." These aren't just facts to memorize—they're thinking patterns that guide decision-making. In-game coaching builds these patterns by asking questions at the moment you need them.</p>
+            <!-- Results Section - Dark Background -->
+            <div class="results-section">
+                <h2>What You Build</h2>
+                <p style="color: rgba(255,255,255,0.8); max-width: 600px;">Four transferable skills that improve every future game.</p>
+                
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="result-number">Mental</div>
+                        <div class="result-label">Models</div>
+                        <div class="result-detail">Pattern recognition through repeated exposure to highlighted squares and Socratic questions</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">Resilience</div>
+                        <!-- <div class="result-label"></div> -->
+                        <div class="result-detail">Learn to stay calm, analyze systematically, find solutions in tough positions</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">Planning</div>
+                        <!-- <div class="result-label"></div> -->
+                        <div class="result-detail">Develop the habit of articulating plans before executing them</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">Reflection</div>
+                        <div class="result-label"></div>
+                        <div class="result-detail">Internalize the coach's questions as your inner dialogue</div>
+                    </div>
+                </div>
+            </div>
 
             <h2>How the System Works</h2>
-            <p>Three core features work together to build mental models, resilience, and planning skills:</p>
-
-            <div class="card">
-                <h4>1. Socratic Coaching During Play</h4>
-                <p>After each move exchange (you move, AI moves), the coach analyzes the position and asks guiding questions. Instead of "You should have played Nf3," it asks "What squares does your knight control from f3? How does that help your position?" You learn to ask yourself these questions in future games.</p>
-            </div>
-
-            <div class="card">
-                <h4>2. Visual Board Context with Highlighting</h4>
-                <p>Every coaching message includes a mini-board showing the exact position being discussed. When the coach mentions "e4" or "d5," those squares are automatically highlighted in yellow. You see what the coach is talking about, not just reading abstract notation. This builds visual pattern recognition.</p>
-            </div>
-
-            <div class="card">
-                <h4>3. Think-Out-Loud Input</h4>
-                <p>You can type your thoughts mid-game: "I'm thinking about Nf3 but worried about my e4 pawn." The coach responds to your actual thinking process with Socratic questions and visual demonstrations. This externalizes your mental model, making weaknesses visible and fixable.</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-number">01</div>
+                    <h4>Socratic Coaching</h4>
+                    <p>After each move exchange, the coach asks guiding questions. Instead of "You should have played Nf3," it asks "What squares does your knight control from f3?"</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-number">02</div>
+                    <h4>Visual Board Context</h4>
+                    <p>Every message includes a mini-board with highlighted squares. When the coach mentions "e4" or "d5," those squares are automatically highlighted in yellow.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-number">03</div>
+                    <h4>Think-Out-Loud Input</h4>
+                    <p>Type your thoughts mid-game: "I'm thinking about Nf3 but worried about my e4 pawn." The coach responds to your actual thinking process.</p>
+                </div>
             </div>
 
             <h2>Real Examples from the System</h2>
 
+            <!-- Example 1 -->
             <div class="example-section">
-                <h3>Example 1: Developing Pattern Recognition (Opening Phase)</h3>
-                <p><strong>What happens:</strong> You play 1.e4. Instead of waiting until the game ends to analyze, the coach immediately provides context.</p>
+                <h4>Example 1: Developing Pattern Recognition</h4>
+                <p>You play 1.e4. Instead of waiting until the game ends to analyze, the coach immediately provides context.</p>
                 
                 <div class="example-grid">
                     <div class="example-board">
-                        <h4>Your Move: 1.e4</h4>
+                        <h5>Your Move: 1.e4</h5>
                         <div id="board-example-1" class="board-container-example"></div>
                     </div>
                     
                     <div class="example-board">
-                        <h4>Coach Response</h4>
+                        <h5>Coach Response</h5>
                         <div class="coach-message-example">
                             <div class="message-header-example">🎓 Coach</div>
                             Good start! You've played e4, controlling the center. Notice the highlighted squares—e4 and e5 are the most important in the opening. What do you think your opponent might play? And why would controlling these squares help your pieces?
                         </div>
-                        <div id="board-mini-1" class="board-container-example" style="max-width: 250px;"></div>
-                        <p style="font-size: 0.85rem; color: #666; text-align: center; margin-top: 0.5rem;">e4 and e5 highlighted in yellow</p>
+                        <div id="board-mini-1" class="board-container-example" style="max-width: 200px;"></div>
+                        <p style="font-size: 0.8rem; color: var(--muted); text-align: center; margin: 0.5rem 0 0 0;">e4 and e5 highlighted</p>
                     </div>
                 </div>
                 
-                <p><strong>What you're learning:</strong> You're building the mental model "center squares matter in openings" while actually playing, not reading about it in a book. The visual highlighting helps you remember these squares in future games.</p>
+                <div class="example-learning">
+                    <strong>What you're learning</strong>
+                    <p>You're building the mental model "center squares matter in openings" while actually playing, not reading about it in a book. The visual highlighting helps you remember these squares in future games.</p>
+                </div>
             </div>
 
+            <!-- Example 2 -->
             <div class="example-section">
-                <h3>Example 2: Building Planning Skills Through Thinking Out Loud</h3>
-                <p><strong>What happens:</strong> You're about to move but uncertain. Instead of guessing, you type your thinking process.</p>
+                <h4>Example 2: Building Planning Skills Through Thinking Out Loud</h4>
+                <p>You're about to move but uncertain. Instead of guessing, you type your thinking process.</p>
                 
                 <div class="example-grid">
                     <div class="example-board">
-                        <h4>Position (1.e4 e5)</h4>
+                        <h5>Position (1.e4 e5)</h5>
                         <div id="board-example-2" class="board-container-example"></div>
                         <div class="player-message-example" style="margin-top: 1rem;">
                             <div class="message-header-example">👤 You Type</div>
@@ -371,49 +1158,57 @@
                     </div>
                     
                     <div class="example-board">
-                        <h4>Coach Guides Your Thinking</h4>
+                        <h5>Coach Guides Your Thinking</h5>
                         <div class="coach-message-example">
                             <div class="message-header-example">🎓 Coach</div>
                             Great question! Look at the highlighted squares—your pawn on e4 is defended by your queen on d1. Nf3 develops while maintaining that defense. What squares does Nf3 control? How does that help your position?
                         </div>
-                        <div id="board-mini-2" class="board-container-example" style="max-width: 250px;"></div>
-                        <p style="font-size: 0.85rem; color: #666; text-align: center; margin-top: 0.5rem;">Shows defense relationship</p>
+                        <div id="board-mini-2" class="board-container-example" style="max-width: 200px;"></div>
+                        <p style="font-size: 0.8rem; color: var(--muted); text-align: center; margin: 0.5rem 0 0 0;">Shows defense relationship</p>
                     </div>
                 </div>
                 
-                <p><strong>What you're learning:</strong> You're developing the habit of checking piece safety before moving. By thinking out loud, you make your mental model explicit. The coach's questions help you spot what you missed (the queen defends the pawn). In future games, you'll automatically check for defenders before worrying about "undefended" pieces.</p>
+                <div class="example-learning">
+                    <strong>What you're learning</strong>
+                    <p>You're developing the habit of checking piece safety before moving. By thinking out loud, you make your mental model explicit. The coach's questions help you spot what you missed (the queen defends the pawn).</p>
+                </div>
             </div>
 
+            <!-- Example 3 -->
             <div class="example-section">
-                <h3>Example 3: Developing Resilience by Discovering Tactics</h3>
-                <p><strong>What happens:</strong> You're in a complex position. Instead of just telling you "there's a fork here," the coach asks guiding questions.</p>
+                <h4>Example 3: Developing Resilience by Discovering Tactics</h4>
+                <p>You're in a complex position. Instead of just telling you "there's a fork here," the coach asks guiding questions.</p>
                 
                 <div class="example-grid">
                     <div class="example-board">
-                        <h4>Complex Position</h4>
+                        <h5>Complex Position</h5>
                         <div id="board-example-3" class="board-container-example"></div>
-                        <p style="font-size: 0.85rem; color: #666;">Italian Game: After 1.e4 e5 2.Nf3 Nc6 3.Bc4 Nf6 4.Ng5</p>
+                        <p style="font-size: 0.8rem; color: var(--muted); text-align: center; margin: 0.5rem 0 0 0;">Italian Game: After 1.e4 e5 2.Nf3 Nc6 3.Bc4 Nf6 4.Ng5</p>
                     </div>
                     
                     <div class="example-board">
-                        <h4>Coach Asks, Doesn't Tell</h4>
+                        <h5>Coach Asks, Doesn't Tell</h5>
                         <div class="coach-message-example">
                             <div class="message-header-example">🎓 Coach</div>
                             Interesting position! Look at your knight on g5 and the f7 square. What would happen if your knight jumped to f7? Which pieces would it attack? Think about the king's position...
                         </div>
-                        <div id="board-mini-3" class="board-container-example" style="max-width: 250px;"></div>
-                        <p style="font-size: 0.85rem; color: #666; text-align: center; margin-top: 0.5rem;">f7 and g5 highlighted</p>
+                        <div id="board-mini-3" class="board-container-example" style="max-width: 200px;"></div>
+                        <p style="font-size: 0.8rem; color: var(--muted); text-align: center; margin: 0.5rem 0 0 0;">f7 and g5 highlighted</p>
                     </div>
                 </div>
                 
-                <p><strong>What you're learning:</strong> Instead of being told "play Nxf7," you discover the pattern yourself through guided questions. This builds resilience—when you face similar positions later, you recognize the pattern and find the tactic yourself. You're learning <em>how to think</em>, not just <em>what to play</em>.</p>
+                <div class="example-learning">
+                    <strong>What you're learning</strong>
+                    <p>Instead of being told "play Nxf7," you discover the pattern yourself through guided questions. This builds resilience—when you face similar positions later, you recognize the pattern and find the tactic yourself.</p>
+                </div>
             </div>
 
+            <!-- Example 4 -->
             <div class="example-section">
-                <h3>Example 4: Visual Learning of Opening Patterns</h3>
-                <p><strong>What happens:</strong> You ask "Can you show me the Queen's Gambit?" The system animates the opening so you see how moves flow.</p>
+                <h4>Example 4: Visual Learning of Opening Patterns</h4>
+                <p>You ask "Can you show me the Queen's Gambit?" The system animates the opening so you see how moves flow.</p>
                 
-                <div style="max-width: 500px; margin: 0 auto;">
+                <div style="max-width: 600px; margin: 0 auto;">
                     <div class="player-message-example">
                         <div class="message-header-example">👤 You Ask</div>
                         Can you show me the Queen's Gambit?
@@ -425,32 +1220,20 @@
                     </div>
                     
                     <div class="example-board" style="margin-top: 1.5rem;">
-                        <h4>Animated Opening (Watch It Unfold)</h4>
+                        <h5>Animated Opening (Watch It Unfold)</h5>
                         <div id="board-example-4" class="board-container-example"></div>
-                        <p style="font-size: 0.85rem; color: #666; text-align: center;">Animates: 1.d4 → 1...d5 → 2.c4 (highlighted)</p>
+                        <p style="font-size: 0.8rem; color: var(--muted); text-align: center; margin: 0.5rem 0 0 0;">Animates: 1.d4 → 1...d5 → 2.c4 (highlighted)</p>
                     </div>
                 </div>
                 
-                <p><strong>What you're learning:</strong> You see openings as dynamic sequences, not static diagrams. The animation shows how each move connects to the next. After watching, you understand the <em>idea</em> behind the Queen's Gambit (central control through pawn sacrifice), not just the moves.</p>
+                <div class="example-learning">
+                    <strong>What you're learning</strong>
+                    <p>You see openings as dynamic sequences, not static diagrams. The animation shows how each move connects to the next. After watching, you understand the <em>idea</em> behind the Queen's Gambit (central control through pawn sacrifice), not just the moves.</p>
+                </div>
             </div>
 
-
-            <h2>What You Actually Build</h2>
-
-            <h3>1. Mental Models (Pattern Recognition)</h3>
-            <p>Through repeated exposure to highlighted squares and Socratic questions, you develop automatic pattern recognition. After seeing "control e4 and e5" highlighted multiple times across different openings, you start thinking about center control automatically in future games. These patterns become part of your mental toolkit.</p>
-
-            <h3>2. Resilience (Working Through Difficulty)</h3>
-            <p>When you're in a tough position, the coach doesn't abandon you—it asks questions that help you find the path forward. "What threats is your opponent creating? How can you defend?" You learn to stay calm, analyze systematically, and find solutions even when positions feel overwhelming. This resilience transfers to future games.</p>
-
-            <h3>3. Planning Skills (Thinking Ahead)</h3>
-            <p>By typing your thoughts out loud, you develop the habit of articulating your plans before executing them. "If I move my knight to f3, it controls e5 and d4." The coach responds: "Good analysis! What would your next move be after Nf3?" You learn to think multiple moves ahead, building planning skills that weak players lack.</p>
-
-            <h3>4. Self-Questioning Habits</h3>
-            <p>The most powerful long-term benefit: you internalize the coach's questions. After enough games, you automatically ask yourself "What squares matter here?" or "What is my opponent threatening?" without needing the coach. The Socratic method becomes your internal dialogue.</p>
-
-            
             <h2>Why This Approach Works</h2>
+            
             <p>Learning happens best when it's:</p>
             <ul>
                 <li><strong>Contextual:</strong> Tied to actual decision-making moments (in-game), not disconnected reviews (post-game)</li>
@@ -459,30 +1242,49 @@
                 <li><strong>Reflective:</strong> You articulate your thinking, making mental models explicit and improvable</li>
             </ul>
 
-            <p>Post-game analysis shows you what you did wrong. In-game coaching helps you develop the thinking patterns to avoid those mistakes in the first place.</p>
-
-       
-
-            <h2>Conclusion</h2>
-            <p>AI Chess Coach shows that chess learning doesn't have to wait until after you lose. By providing Socratic coaching during gameplay, visualizing critical patterns in real-time, and encouraging students to think out loud, the system builds mental models, resilience, and planning skills that post-game analysis can't match.</p>
-
-            <p>The shift from "what was wrong" to "how to think better" is what makes in-game coaching fundamentally different from traditional post-game analysis.</p>
-
-            <!-- Skills Demonstrated -->
-            <div class="key-finding" style="margin-top: 3rem;">
-                <h4>Skills & Methods Demonstrated</h4>
-                <p><strong>Design:</strong> Interactive Design • Visualization Design • Educational Technology • UX Design</p>
-                <p><strong>Development:</strong> JavaScript • Chess.js • Chessboard.js • LLM Integration • Animation Systems</p>
-                <p><strong>Pedagogy:</strong> Socratic Methods • Mental Model Development • Learning Design • Resilience Building</p>
-                <p><strong>Innovation:</strong> In-Game Coaching • Real-Time Visualization • Think-Aloud Protocols</p>
+            <div class="inline-quote">
+                "Post-game analysis shows you what you did wrong. In-game coaching helps you develop the thinking patterns to avoid those mistakes in the first place."
+                <cite>— The fundamental difference</cite>
             </div>
 
-        </div>
+            <h2>Conclusion</h2>
 
-        <footer style="text-align: center; padding: 2rem; color: #666; border-top: 1px solid #e0e0e0; margin-top: 3rem;">
-            <p>&copy; 2024 Sai Maram. Case Study.</p>
-            <p style="margin-top: 0.5rem;"><a href="./index.html" style="color: #1a1a1a; text-decoration: underline;">Back to Portfolio</a> | <a href="./chess.html" style="color: #1a1a1a; text-decoration: underline;">Try AI Chess Coach</a></p>
-        </footer>
+            <p class="lede" style="margin-top: 0;">AI Chess Coach shows that chess learning doesn't have to wait until after you lose.</p>
+            
+            <div class="two-column">
+                <p>By providing Socratic coaching during gameplay, visualizing critical patterns in real-time, and encouraging students to think out loud, the system builds mental models, resilience, and planning skills that post-game analysis can't match.</p>
+            
+                <p>The shift from "what was wrong" to "how to think better" is what makes in-game coaching fundamentally different from traditional post-game analysis.</p>
+            </div>
+
+            <!-- Skills Section -->
+            <div class="skills-section">
+                <h4>Skills & Methods Demonstrated</h4>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <strong>Design</strong>
+                        <p>Interactive Design, Visualization Design, Educational Technology, UX Design</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Development</strong>
+                        <p>JavaScript, Chess.js, Chessboard.js, LLM Integration, Animation Systems</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Pedagogy</strong>
+                        <p>Socratic Methods, Mental Model Development, Learning Design, Resilience Building</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Innovation</strong>
+                        <p>In-Game Coaching, Real-Time Visualization, Think-Aloud Protocols</p>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer">
+                <a href="index.html">← Back to Portfolio</a>
+                <a href="./chess.html">Try AI Chess Coach →</a>
+            </footer>
+        </article>
     </main>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

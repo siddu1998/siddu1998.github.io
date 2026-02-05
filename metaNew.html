@@ -4,8 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reinventing Facebook's Home - UX Case Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
     <style>
-        /* --- New Sidebar and Layout Styles --- */
+        :root {
+            --ink: #1a1a1a;
+            --paper: #f8f5f0;
+            --accent: #0866ff; /* Meta blue */
+            --muted: #6b6b6b;
+            --rule: #d4d0c8;
+            --serif: 'Instrument Serif', Georgia, serif;
+            --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,280 +25,982 @@
         }
         
         body {
-            background-color: #ffffff;
-            background-image: 
-                linear-gradient(rgba(200, 200, 200, 0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(200, 200, 200, 0.15) 1px, transparent 1px);
-            background-size: 40px 40px;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 1.05rem;
-            line-height: 1.6;
-            color: #1a1a1a;
-            margin: 0;
+            background-color: var(--paper);
+            font-family: var(--sans);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--ink);
             display: flex;
             min-height: 100vh;
         }
+        
+        /* --- Navigation --- */
         nav {
-            width: 220px;
-            padding: 2rem;
-            border-right: 1px solid rgba(200, 200, 200, 0.3);
+            width: 200px;
+            padding: 2.5rem 1.5rem;
+            border-right: 1px solid var(--rule);
             flex-shrink: 0;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background-color: var(--paper);
+            position: sticky;
+            top: 0;
+            height: 100vh;
         }
+        
         nav a {
             display: block;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-            text-decoration: underline;
-            cursor: pointer;
+            margin-bottom: 0.75rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
             transition: color 0.2s ease;
         }
+        
         nav a:hover {
-            text-decoration: none;
-            color: #666;
+            color: var(--ink);
         }
+        
         .nav-logo {
-            font-weight: 600;
-            margin-bottom: 2rem;
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 2.5rem;
+            color: var(--ink);
             text-decoration: none;
-            cursor: pointer;
-            font-size: 1.3rem;
-            color: #1a1a1a;
-            transition: color 0.2s ease;
+            display: block;
         }
-        .nav-logo:hover {
-            color: #666;
-        }
-        #project-links-container {
-            margin-top: 0.5rem;
-            padding-left: 1rem;
-            border-left: 1px solid #eee;
-        }
-        .project-link {
-            font-size: 1rem;
-        }
+        
         main {
             flex-grow: 1;
             overflow-y: auto;
-            height: 100vh;
-            background-color: transparent;
+            background-color: var(--paper);
         }
-        .hidden {
-            display: none;
-        }
-        @media (max-width: 992px) {
-            body {
-                flex-direction: column; 
-            }
-            main {
-                height: auto;
-            }
-            nav {
-                width: 100%; 
-                padding: 1rem;
-                border-right: none; 
-                border-bottom: 1px solid #ddd; 
-                box-sizing: border-box;
-            }
-            .nav-container {
-                display: flex;
-                justify-content: center;
-                gap: 1.5rem;
-                flex-wrap: wrap;
-            }
-            .nav-logo {
-                display: none;
-            }
-            nav a {
-                margin-bottom: 0;
-            }
-            #project-links-container {
-                width: 100%;
-                text-align: center;
-                padding-left: 0;
-                border-left: none;
-                margin-top: 1rem;
-            }
-        }
-
-        /* --- Case Study Styles --- */
-        .container {
-            max-width: 900px;
+        
+        /* --- Hero Section --- */
+        .hero {
+            padding: 6rem 4rem 4rem;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 3rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: end;
+            border-bottom: 1px solid var(--rule);
         }
+        
+        .hero-content {
+            padding-bottom: 2rem;
+        }
+        
+        .issue-number {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+        
         h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-            line-height: 1.2;
-        }
-        h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-top: 3rem;
+            font-family: var(--serif);
+            font-size: 3.4rem;
+            font-weight: 400;
+            line-height: 1.05;
+            color: var(--ink);
             margin-bottom: 1.5rem;
-            color: #1a1a1a;
+            letter-spacing: -0.02em;
         }
-        h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
+        
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
             margin-top: 2rem;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--rule);
         }
-        p {
-            margin-bottom: 1.5rem;
-            color: #333;
+        
+        .meta-item {
+            font-size: 0.85rem;
+            color: var(--muted);
         }
-        .project-meta {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 2rem;
+        
+        .meta-item strong {
+            display: block;
+            color: var(--ink);
+            font-weight: 500;
+            margin-bottom: 0.2rem;
         }
-        .badge {
-            display: inline-block;
-            padding: 0.4rem 1rem;
-            background-color: #f0f0f0;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
         }
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 12px;
-            margin: 2rem 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        
+        .stat-box {
+            background: var(--paper);
+            padding: 2rem;
+            text-align: center;
         }
-        ul {
-            margin-left: 2rem;
-            margin-bottom: 1.5rem;
-        }
-        li {
+        
+        .stat-number {
+            font-family: var(--serif);
+            font-size: 2.8rem;
+            font-style: italic;
+            color: var(--ink);
+            line-height: 1;
             margin-bottom: 0.5rem;
         }
         
+        .stat-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        
+        /* --- Article Layout --- */
+        .article-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem;
+        }
+        
+        .lede {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            line-height: 1.6;
+            color: var(--ink);
+            max-width: 800px;
+            margin-bottom: 3rem;
+        }
+        
+        .lede::first-letter {
+            font-size: 4.5rem;
+            float: left;
+            line-height: 0.8;
+            margin-right: 0.5rem;
+            margin-top: 0.1rem;
+            color: var(--accent);
+        }
+        
+        .two-column {
+            column-count: 2;
+            column-gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .two-column p {
+            margin-bottom: 1.25rem;
+        }
+        
+        h2 {
+            font-family: var(--serif);
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-top: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--ink);
+            padding-top: 2rem;
+            border-top: 3px solid var(--ink);
+        }
+        
+        h3 {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        h4 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+            color: var(--ink);
+        }
+        
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--ink);
+            max-width: 680px;
+        }
+        
+        /* --- Pull Quote --- */
+        .pull-quote {
+            float: right;
+            width: 45%;
+            margin: 0 0 2rem 3rem;
+            padding: 2rem 0 2rem 2rem;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .pull-quote blockquote {
+            font-family: var(--serif);
+            font-size: 1.8rem;
+            font-style: italic;
+            line-height: 1.4;
+            color: var(--ink);
+            margin-bottom: 1rem;
+        }
+        
+        .pull-quote cite {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-style: normal;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        
+        /* --- Inline Quote --- */
+        .inline-quote {
+            background: linear-gradient(to right, var(--accent), var(--accent)) no-repeat 0 0;
+            background-size: 4px 100%;
+            padding: 1.5rem 2rem;
+            margin: 2.5rem 0;
+            font-family: var(--serif);
+            font-size: 1.25rem;
+            font-style: italic;
+            line-height: 1.5;
+        }
+        
+        .inline-quote cite {
+            display: block;
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-style: normal;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 1rem;
+        }
+        
+        /* --- Image Styling --- */
+        .image-container {
+            margin: 2.5rem 0;
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .image-caption {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--rule);
+            max-width: 500px;
+        }
+        
+        /* --- Image with Side Caption --- */
+        .image-aside {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin: 3rem 0;
+            align-items: end;
+        }
+        
+        .image-aside img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .image-aside figcaption {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--muted);
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .image-aside figcaption strong {
+            display: block;
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* --- Key Finding Cards --- */
+        .findings-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--ink);
+            margin: 3rem 0;
+        }
+        
+        .finding-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .finding-card h4 {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .finding-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Results Section --- */
+        .results-section {
+            background: var(--ink);
+            color: var(--paper);
+            margin: 4rem -4rem;
+            padding: 4rem;
+        }
+        
+        .results-section h2 {
+            color: var(--paper);
+            border-top-color: var(--paper);
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .result-item {
+            border-left: 1px solid rgba(255,255,255,0.3);
+            padding-left: 1.5rem;
+        }
+        
+        .result-number {
+            font-family: var(--serif);
+            font-size: 3.5rem;
+            font-style: italic;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-detail {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        /* --- Method Cards --- */
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+            margin: 3rem 0;
+        }
+        
+        .method-card {
+            background: var(--paper);
+            padding: 2.5rem;
+        }
+        
+        .method-card h4 {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .method-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 1rem;
+        }
+        
+        .method-card p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .method-example {
+            font-family: var(--serif);
+            font-style: italic;
+            padding: 1rem;
+            background: rgba(0,0,0,0.03);
+            border-left: 2px solid var(--accent);
+            margin-top: 1rem;
+        }
+        
+        /* --- List Styling --- */
+        ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.75rem;
+            padding-left: 0.5rem;
+            max-width: 680px;
+        }
+        
+        li strong {
+            color: var(--ink);
+        }
+        
+        /* --- Skills Section --- */
+        .skills-section {
+            margin-top: 4rem;
+            padding: 3rem;
+            border: 1px solid var(--rule);
+        }
+        
+        .skills-section h4 {
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            margin-top: 0;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+        
+        .skill-category strong {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .skill-category p {
+            font-size: 0.85rem;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 0;
+            max-width: none;
+        }
+        
+        /* --- TL;DR Section --- */
+        .tldr-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 4rem;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .tldr-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .tldr-label {
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--paper);
+            background: var(--ink);
+            padding: 0.4rem 0.8rem;
+        }
+        
+        .tldr-subtitle {
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--muted);
+        }
+        
+        .tldr-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+        
+        .tldr-main {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        
+        .tldr-item {
+            padding-left: 1rem;
+            border-left: 2px solid var(--rule);
+        }
+        
+        .tldr-item:hover {
+            border-left-color: var(--accent);
+        }
+        
+        .tldr-number {
+            font-family: var(--serif);
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 0.3rem;
+        }
+        
+        .tldr-title {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+        
+        .tldr-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--muted);
+            margin: 0;
+        }
+        
+        .tldr-sidebar {
+            padding: 2rem;
+            background: var(--ink);
+            color: var(--paper);
+        }
+        
+        .tldr-sidebar-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 1rem;
+        }
+        
+        .tldr-sidebar-text {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-style: italic;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            color: var(--paper);
+        }
+        
+        /* --- Footer --- */
+        .footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--rule);
+            text-align: center;
+        }
+        
+        .footer a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .footer a:hover {
+            color: var(--ink);
+        }
+        
+        /* --- Responsive --- */
+        @media (max-width: 1100px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                padding: 4rem 3rem;
+            }
+            
+            .two-column {
+                column-count: 1;
+            }
+            
+            .findings-grid,
+            .results-grid,
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .method-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pull-quote {
+                float: none;
+                width: 100%;
+                margin: 2rem 0;
+            }
+            
+            .tldr-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .tldr-main {
+                grid-template-columns: 1fr;
+            }
+            
+            .tldr-section {
+                padding: 2rem;
+            }
+            
+            .image-aside {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column;
+            }
+            
+            nav {
+                width: 100%;
+                padding: 1rem 2rem;
+                border-right: none;
+                border-bottom: 1px solid var(--rule);
+                height: auto;
+                position: relative;
+            }
+            
+            .nav-logo {
+                display: inline-block;
+                margin-bottom: 0;
+                margin-right: 2rem;
+            }
+            
+            nav a {
+                display: inline-block;
+                margin-right: 1.5rem;
+                margin-bottom: 0;
+            }
+            
+            .article-container {
+                padding: 2rem;
+            }
+            
+            .results-section {
+                margin-left: -2rem;
+                margin-right: -2rem;
+                padding: 3rem 2rem;
+            }
+            
+            h1 {
+                font-size: 2.4rem;
+            }
+        }
+        
         @media (max-width: 768px) {
-            .container { padding: 0 1rem; }
             h1 { font-size: 2rem; }
-            h2 { font-size: 1.25rem; }
-            .hero-meta { flex-direction: column; gap: 0.5rem; }
-            .overview-grid, .pros-cons { grid-template-columns: 1fr; }
+            h2 { font-size: 1.8rem; }
+            
+            .lede {
+                font-size: 1.25rem;
+            }
+            
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+        
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
 
-        <nav>
-            <a href="index.html" class="nav-logo">Sai Maram</a>
-            <div class="nav-container">
-                <a href="index.html">Home</a>
-                <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
-            </div>
-        </nav>
+    <nav>
+        <a href="index.html" class="nav-logo">Sai Maram</a>
+        <a href="index.html">Home</a>
+        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+    </nav>
 
     <main>
-        <div class="container">
-            <h1>Reinventing Facebook's Home: Exploring Future Opportunities</h1>
-            <div class="project-meta">
-                <span class="badge">Meta Internship 2022</span>
-                <span class="badge">Generative Research</span>
-                <span class="badge">1B+ User Impact</span>
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="hero-content">
+                <div class="issue-number">Case Study № 03 · Meta</div>
+                <h1>Reinventing Facebook's Home</h1>
+                <p style="max-width: 100%; font-size: 1.15rem; color: var(--muted);">Exploring future opportunities for contextual and emotionally-aware feed experiences through novel generative research methods.</p>
+                
+                <div class="hero-meta">
+                    <div class="meta-item">
+                        <strong>Role</strong>
+                        UX Research Intern
+                    </div>
+                    <div class="meta-item">
+                        <strong>Duration</strong>
+                        Summer 2022
+                    </div>
+                    <div class="meta-item">
+                        <strong>Team</strong>
+                        Top of Home
+                    </div>
+                </div>
             </div>
             
-            <p>Facebook's Home feed is one of the most used interfaces in the world—billions of people start their day scrolling through it. But by 2022, younger users were reporting that it felt "out of touch" with how they lived their lives. The feed showed content randomly, without considering what users needed in different moments: commuter updates during their morning commute, connection with friends after work, or inspiration during creative blocks.</p>
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-number">1B+</div>
+                    <div class="stat-label">Users Impacted</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Novel Methods</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">21</div>
+                    <div class="stat-label">Prototypes Created</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">User Interviews</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- TL;DR Section -->
+        <section class="tldr-section">
+            <div class="tldr-header">
+                <span class="tldr-label">Quick Read</span>
+                <span class="tldr-subtitle">The essentials in 60 seconds</span>
+            </div>
             
-            <p>This case study documents my work as the sole UX Research Intern on Facebook's Top of Home team, where I led generative research to understand how the feed could evolve for the future. With limited traditional research methods available for exploring "what if" scenarios, I developed two novel research approaches that would reveal how users wanted to engage with Facebook across different moments and emotional states.</p>
+            <div class="tldr-grid">
+                <div class="tldr-main">
+                    <div class="tldr-item">
+                        <div class="tldr-number">01</div>
+                        <div class="tldr-title">The Problem</div>
+                        <p class="tldr-text">Facebook's feed felt generic to younger users—showing the same content at 8am as 8pm, ignoring temporal context and emotional state.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">02</div>
+                        <div class="tldr-title">The Challenge</div>
+                        <p class="tldr-text">Traditional research methods test what exists—but how do you research features users have never experienced?</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">03</div>
+                        <div class="tldr-title">The Solution</div>
+                        <p class="tldr-text">Created two novel methods—"Time Loop" for temporal needs and "Feeling Cues" for emotional contexts—using visual simulation.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">04</div>
+                        <div class="tldr-title">The Impact</div>
+                        <p class="tldr-text">Research informed features reaching 1B+ users including Meta-Spotify integration and Facebook Sports cards.</p>
+                    </div>
+                </div>
+                
+                <aside class="tldr-sidebar">
+                    <div class="tldr-sidebar-label">Key Insight</div>
+                    <p class="tldr-sidebar-text">"Users can't articulate needs for experiences they've never had—research must simulate future scenarios."</p>
+                </aside>
+            </div>
+        </section>
+
+        <article class="article-container">
+            
+            <!-- Opening Lede -->
+            <p class="lede">Facebook's Home feed is one of the most used interfaces in the world—billions of people start their day scrolling through it. But by 2022, younger users were reporting that it felt "out of touch" with how they lived their lives. The feed showed content randomly, without considering what users needed in different moments.</p>
+            
+            <div class="two-column">
+                <p>A commuter might want practical updates during their morning commute, connection with friends after work, or inspiration during creative blocks. But the feed treated all moments the same—missing opportunities to serve users when they needed it most.</p>
+                
+                <p>This case study documents my work as the sole UX Research Intern on Facebook's Top of Home team, where I led generative research to understand how the feed could evolve for the future. With limited traditional research methods available for exploring "what if" scenarios, I developed two novel research approaches that would reveal how users wanted to engage with Facebook across different moments and emotional states.</p>
+            </div>
+
+            <div class="image-container">
+                <img src="Group 11.png" alt="Design outcomes from the Facebook Home project">
+                <p class="image-caption">Select design outcomes informed by the generative research findings.</p>
+            </div>
 
             <h2>The Problem</h2>
-            <p><strong>Facebook needed to evolve to stay relevant with younger users:</strong> By 2022, Facebook faced a critical challenge: its core demographic was aging, while younger users (Gen Z and millennials) were spending more time on TikTok, Instagram, and other platforms. The Facebook feed felt generic, showing the same content at 8am as it did at 8pm—ignoring that users have different needs, moods, and contexts throughout their day.</p>
             
-            <p><strong>The feed lacked temporal and emotional context:</strong> Traditional feeds show content based on relevance and recency, but they don't consider <em>when</em> content is most useful or <em>how</em> users feel when they open the app. A weather update might be valuable first thing in the morning, but not at 9pm. An inspirational quote might resonate when someone's feeling unmotivated, but feel trivial when they're celebrating.</p>
+            <div class="pull-quote">
+                <blockquote>"The feed felt generic—it showed the same content at 8am as it did at 8pm, ignoring that users have different needs throughout their day."</blockquote>
+                <cite>— Research Finding</cite>
+            </div>
+            
+            <p><strong>Facebook needed to evolve to stay relevant with younger users.</strong> By 2022, Facebook faced a critical challenge: its core demographic was aging, while younger users (Gen Z and millennials) were spending more time on TikTok, Instagram, and other platforms.</p>
+            
+            <p><strong>The feed lacked temporal and emotional context.</strong> Traditional feeds show content based on relevance and recency, but they don't consider <em>when</em> content is most useful or <em>how</em> users feel when they open the app. A weather update might be valuable first thing in the morning, but not at 9pm. An inspirational quote might resonate when someone's feeling unmotivated, but feel trivial when they're celebrating.</p>
             
             <p><strong>The research challenge:</strong> Product teams wanted to understand future opportunities, but traditional user research excels at testing existing concepts, not generating new ones. How do you research something that doesn't exist yet? How do you understand what users might want before they can articulate it?</p>
 
             <h2>My Approach</h2>
-            <p><strong>As the sole UX Research Intern</strong>, I led generative research to identify future opportunities for Facebook Home:</p>
             
-            <ul>
-                <li><strong>Developed two novel research methods:</strong> Created "Time Loop" for understanding temporal needs and "Feeling Cues" for emotional contexts—approaches tailored for exploring future scenarios</li>
-                <li><strong>Conducted 15+ in-depth user interviews</strong> with diverse users (students, working professionals, parents) to uncover latent needs and desires</li>
-                <li><strong>Created 21 experience prototypes</strong> in Figma based on research insights, translating abstract needs into concrete design concepts</li>
-                <li><strong>Synthesized findings across methods</strong> to identify patterns and themes</li>
-                <li><strong>Presented insights to product teams</strong> to influence roadmap and strategic direction</li>
-            </ul>
-
-            <h2>Key Outcomes</h2>
-            <ul>
-                <li><strong>1B+ users impacted</strong> through Meta-Spotify integration and Facebook Sports cards—features directly informed by this research</li>
-                <li><strong>Two novel research methods:</strong> Time Loop and Feeling Cues became reusable frameworks for generative research</li>
-                <li><strong>21 forward-looking prototypes</strong> informed product direction beyond what ultimately shipped</li>
-                <li><strong>Strategic impact:</strong> Insights shaped Facebook's understanding of contextual and emotional engagement</li>
-                <li><strong>Methodological contribution:</strong> Published methods that other researchers could apply to future-focused projects</li>
-            </ul>
-
-            <img src="Group 11.png" alt="Some design outcomes from the project">
-
-            <h2>Why Traditional Research Methods Fell Short</h2>
-            <p>Traditional user research excels at answering questions like "Do users understand this interface?" or "Would they click this button?" But when exploring future opportunities for a product as mature and universal as Facebook Home, these methods hit limitations.</p>
+            <h3>Novel Method Development</h3>
+            <p>Created "Time Loop" for understanding temporal needs and "Feeling Cues" for emotional contexts—approaches tailored for exploring future scenarios that users couldn't yet articulate.</p>
             
-            <p><strong>The challenge:</strong> Users are anchored to their current experience. If you ask them "What do you want from Facebook Home?", they'll describe incremental improvements to what exists. But Facebook needed to understand entirely new paradigms—content organized by emotional state, feeds that adapt to time of day, features that anticipate needs rather than react to them.</p>
+            <h3>In-Depth User Research</h3>
+            <p>Conducted 15+ in-depth interviews with diverse users (students, working professionals, parents) to uncover latent needs and desires through experiential simulation.</p>
             
-            <p><strong>Why standard interviews don't work for generative research:</strong> Direct questions produce predictable answers. Users don't know what they'd want because they've never experienced it. They need to experience scenarios before they can evaluate them. This required methods that could simulate future experiences, not just ask about current ones.</p>
-
-            <h2>Developing Novel Research Methods</h2>
-            <p>Given these limitations, I needed to develop research approaches specifically designed for exploring future experiences. Drawing from temporal research, emotion mapping, and contextual inquiry, I created two complementary methods that could uncover latent needs through experiential simulation rather than direct questioning.</p>
+            <h3>Experience Prototyping</h3>
+            <p>Created 21 experience prototypes in Figma based on research insights, translating abstract needs into concrete design concepts that product teams could evaluate.</p>
             
-            <p><strong>Confidentiality note:</strong> Due to NDA requirements, I cannot share specific insights or prototypes from this work. However, this case study focuses on the methodological innovations—the research approaches I developed that could be valuable for other future-focused projects.</p>
+            <h3>Synthesis & Presentation</h3>
+            <p>Synthesized findings across methods to identify patterns and themes, then presented insights to product teams to influence roadmap and strategic direction.</p>
 
-            <h2>The Two Research Methods</h2>
+            <!-- Results Section - Dark Background -->
+            <div class="results-section">
+                <h2>Key Outcomes</h2>
+                <p style="color: rgba(255,255,255,0.8); max-width: 600px;">Research insights directly informed product development and created reusable methodological frameworks.</p>
+                
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="result-number">1B+</div>
+                        <div class="result-label">Users Impacted</div>
+                        <div class="result-detail">Through Meta-Spotify integration and Facebook Sports cards</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">2</div>
+                        <div class="result-label">Novel Methods</div>
+                        <div class="result-detail">Time Loop and Feeling Cues became reusable research frameworks</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">21</div>
+                        <div class="result-label">Prototypes</div>
+                        <div class="result-detail">Forward-looking concepts that informed product direction</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">Strategic</div>
+                        <div class="result-label">Impact</div>
+                        <div class="result-detail">Shaped Facebook's understanding of contextual engagement</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">Published</div>
+                        <div class="result-label">Methods</div>
+                        <div class="result-detail">Documented approaches other researchers could apply</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">Future</div>
+                        <div class="result-label">Roadmap</div>
+                        <div class="result-detail">Insights shaped development beyond shipped features</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Why Traditional Methods Fell Short</h2>
+            
+            <div class="two-column">
+                <p>Traditional user research excels at answering questions like "Do users understand this interface?" or "Would they click this button?" But when exploring future opportunities for a product as mature and universal as Facebook Home, these methods hit limitations.</p>
+
+                <p><strong>The challenge:</strong> Users are anchored to their current experience. If you ask them "What do you want from Facebook Home?", they'll describe incremental improvements to what exists. But Facebook needed to understand entirely new paradigms—content organized by emotional state, feeds that adapt to time of day, features that anticipate needs rather than react to them.</p>
+            </div>
+
+            <div class="inline-quote">
+                "Direct questions produce predictable answers. Users don't know what they'd want because they've never experienced it. They need to experience scenarios before they can evaluate them."
+                <cite>— Core Research Insight</cite>
+            </div>
+
+            <p>This required methods that could simulate future experiences, not just ask about current ones. I needed to develop research approaches specifically designed for exploring future experiences through experiential simulation rather than direct questioning.</p>
+
+            <h2>The Two Novel Research Methods</h2>
+            
             <p>To uncover forward-looking user needs related to context (time) and emotion, I developed and applied the following two methods:</p>
 
-            <h3>Method 1: Time Loop - Understanding Temporal Needs</h3>
-            <p><strong>The core insight:</strong> Users don't need the same content at 8am as they do at 8pm. A weather update is valuable first thing in the morning—less so at night. News updates might be important during lunch breaks—not during bedtime. The Time Loop method explored these temporal patterns in user needs.</p>
-            
-            <p><strong>How it worked:</strong> Rather than asking "What do you want from Facebook?", I used visual cues to simulate different times of day: morning alarm, commute, midday break, evening wind-down. For each scenario, participants imagined opening Facebook and described what would be most helpful.</p>
-            
-            <p><strong>Example prompt:</strong> "It's 7:30am, you just woke up, and you open Facebook before starting your day. What would you ideally like to see first?"</p>
-            
-            <p>This approach revealed patterns that direct questioning wouldn't: participants consistently wanted practical, action-oriented content in the morning (weather, commute status, calendar reminders) and emotional, connection-focused content in the evening (friend updates, shared experiences, entertainment).</p>
+            <div class="method-grid">
+                <div class="method-card">
+                    <h4>Method 1: Time Loop</h4>
+                    <p><strong>Understanding Temporal Needs</strong></p>
+                    <p>Users don't need the same content at 8am as they do at 8pm. Rather than asking "What do you want from Facebook?", I used visual cues to simulate different times of day: morning alarm, commute, midday break, evening wind-down.</p>
+                    <p>For each scenario, participants imagined opening Facebook and described what would be most helpful. This revealed patterns: users wanted practical, action-oriented content in the morning and emotional, connection-focused content in the evening.</p>
+                    <div class="method-example">
+                        "It's 7:30am, you just woke up, and you open Facebook before starting your day. What would you ideally like to see first?"
+                    </div>
+                </div>
+                <div class="method-card">
+                    <h4>Method 2: Feeling Cues</h4>
+                    <p><strong>Connecting Content to Emotion</strong></p>
+                    <p>Facebook serves emotional needs beyond information or entertainment. Users come to Facebook when feeling lonely, seeking inspiration, wanting to relax, or needing motivation.</p>
+                    <p>I presented participants with visual cues representing emotional states (connected, informed, inspired, nostalgic, motivated). For each feeling, we explored what content could evoke or support that emotion—revealing emotional content patterns that linked specific content types to specific outcomes.</p>
+                    <div class="method-example">
+                        "When you're feeling disconnected or lonely, what could Facebook Home display that would help you feel connected again?"
+                    </div>
+                </div>
+            </div>
 
-            <img src="temporary/images/time_loop.png" alt="Visual cues for different times of day used in the Time Loop method">
+            <figure class="image-aside">
+                <img src="temporary/images/time_loop.png" alt="Visual cues for different times of day">
+                <figcaption>
+                    <strong>Time Loop Visual Cues</strong>
+                    Visual cues representing different times of day helped participants imagine specific contexts without anchoring them to current Facebook experiences.
+                </figcaption>
+            </figure>
 
-            <h3>Method 2: Feeling Cues - Connecting Content to Emotion</h3>
-            <p><strong>The core insight:</strong> Facebook serves emotional needs beyond just information or entertainment. Users come to Facebook when they're feeling lonely, seeking inspiration, wanting to relax, or needing motivation. The Feeling Cues method explored how content could align with these emotional states.</p>
-            
-            <p><strong>How it worked:</strong> I presented participants with visual cues representing different emotional states or feelings (e.g., connected, informed, inspired, nostalgic, motivated). For each feeling, we explored what content on Facebook Home could evoke or support that emotion.</p>
-            
-            <p><strong>Example prompt:</strong> "When you're feeling disconnected or lonely, what could Facebook Home display that would help you feel connected again?"</p>
-            
-            <p>This revealed emotional content patterns: participants associated "connected" with close friends' updates and family photos; "informed" with news from trusted sources and educational content; "inspired" with creative content and achievement stories. These associations weren't abstract—they linked specific content types to specific emotional outcomes.</p>
-            
-            <img src="temporary/images/keyword_cues.png" alt="Visual cues for different emotional states used in the Feeling Cues method">
+            <figure class="image-aside">
+                <img src="temporary/images/keyword_cues.png" alt="Visual cues for emotional states">
+                <figcaption>
+                    <strong>Feeling Cues Visual Prompts</strong>
+                    Emotional state cues enabled participants to map content types to specific feelings—revealing associations between content and emotional outcomes.
+                </figcaption>
+            </figure>
 
             <h2>Why These Methods Worked</h2>
-            <p>Both methods shared key characteristics that made them effective for generative research:</p>
-            
-            <ul>
-                <li><strong>Visual simulation over direct questioning:</strong> Instead of asking users to describe future experiences they'd never had, these methods simulated scenarios they could evaluate</li>
-                <li><strong>Context-rich scenarios:</strong> By grounding prompts in specific contexts (time of day, emotional state), participants could imagine concrete, contextualized desires</li>
-                <li><strong>Pattern identification across users:</strong> While individual responses varied, consistent patterns emerged across participants—enabling identification of universal needs</li>
-                <li><strong>Future-focused by design:</strong> These methods broke users out of current usage patterns and invited them to imagine entirely different experiences</li>
-            </ul>
 
-            <h2>Research Impact & Outcomes</h2>
+            <div class="findings-grid">
+                <div class="finding-card">
+                    <h4>Visual Simulation</h4>
+                    <p>Instead of asking users to describe future experiences they'd never had, these methods simulated scenarios they could evaluate and react to—producing far richer insights.</p>
+                </div>
+                <div class="finding-card">
+                    <h4>Context-Rich Scenarios</h4>
+                    <p>By grounding prompts in specific contexts (time of day, emotional state), participants could imagine concrete, contextualized desires rather than abstract preferences.</p>
+                </div>
+                <div class="finding-card">
+                    <h4>Pattern Identification</h4>
+                    <p>While individual responses varied, consistent patterns emerged across participants—enabling identification of universal needs that could inform product design.</p>
+                </div>
+            </div>
+
+            <h2>Research Impact</h2>
+            
             <p>The Time Loop and Feeling Cues methods generated rich insights that directly informed product development. While specific findings remain confidential due to NDA, the research contributed to features that reached over 1 billion users.</p>
             
-            <p><strong>Features informed by this research:</strong> The Sports scorecard and Spotify connect features—currently deployed across Meta products—emerged directly from patterns identified through these methods. For example, temporal patterns revealed that users wanted sports updates during specific times of day, while emotional context research identified music as content that supported multiple emotional states (relaxation, motivation, celebration).</p>
+            <p><strong>Features informed by this research:</strong> The Sports scorecard and Spotify connect features—currently deployed across Meta products—emerged directly from patterns identified through these methods. Temporal patterns revealed users wanted sports updates during specific times of day, while emotional context research identified music as content supporting multiple emotional states (relaxation, motivation, celebration).</p>
             
             <p><strong>Beyond shipped features:</strong> The 21 prototypes created from this research informed product direction beyond what ultimately launched, shaping Facebook's understanding of contextual and emotional engagement for future development.</p>
 
             <h2>Methodological Contributions</h2>
-            <p>Beyond the immediate product impact, this work contributed methodological innovations for generative research:</p>
             
             <ul>
                 <li><strong>Time Loop method:</strong> A reusable framework for understanding temporal patterns in user needs that other researchers could apply to future-focused projects</li>
@@ -296,32 +1010,50 @@
             </ul>
 
             <h2>Key Learnings</h2>
-            <p><strong>For future-focused research:</strong> Generative research requires patience and systematic methodology. Users can't articulate needs for experiences they've never had—research methods must simulate future scenarios rather than asking about abstract possibilities.</p>
-            
-            <p><strong>Multiple perspectives matter:</strong> Combining temporal (Time Loop) and emotional (Feeling Cues) lenses revealed different aspects of user needs. Neither method alone would have provided complete understanding—together they created a comprehensive picture of how users wanted to engage with Facebook across contexts.</p>
-            
-            <p><strong>Visual simulation beats direct questioning:</strong> The visual cue approach in both methods was transformative. Rather than asking users to describe hypothetical experiences, presenting concrete scenarios allowed them to evaluate and react—producing far richer insights.</p>
 
-            <h2>Conclusion</h2>
-            <p>While specific project outcomes remain confidential, the development and application of the "Time Loop" and "Feeling Cues" methods provided valuable frameworks for exploring future-facing user needs in a nuanced way.</p>
-
-            <p>These methods allowed us to move beyond current usage patterns and delve into how Facebook Home could proactively integrate into users' lives based on temporal context and emotional state, generating rich qualitative data even when exploring abstract future possibilities. They represent adaptable techniques for generative research in product development.</p>
-
-            <!-- Skills Demonstrated -->
-            <div class="key-finding" style="margin-top: 3rem;">
-                <h4>Skills & Methods Demonstrated</h4>
-                <p><strong>Research:</strong> Generative Research • Method Development • Semi-Structured Interviews • User Research • Insight Synthesis</p>
-                <p><strong>Design:</strong> Conceptual Design • Prototyping • Figma • UX Writing • Co-Design Workshops</p>
-                <p><strong>Innovation:</strong> Novel Method Creation • Research Strategy • Future-Focused Research • Pattern Recognition</p>
-                <p><strong>Impact:</strong> Stakeholder Presentation • Product Strategy • Cross-Functional Collaboration</p>
+            <div class="two-column">
+                <p><strong>For future-focused research:</strong> Generative research requires patience and systematic methodology. Users can't articulate needs for experiences they've never had—research methods must simulate future scenarios rather than asking about abstract possibilities.</p>
+                
+                <p><strong>Multiple perspectives matter:</strong> Combining temporal (Time Loop) and emotional (Feeling Cues) lenses revealed different aspects of user needs. Neither method alone would have provided complete understanding—together they created a comprehensive picture of how users wanted to engage with Facebook across contexts.</p>
             </div>
 
-        </div>
+            <h2>Conclusion</h2>
 
-        <footer class="footer">
-            <p>&copy; 2024 Sai Maram. Case Study.</p>
-            <p><a href="./index.html">Back to Portfolio</a></p>
-        </footer>
+            <p class="lede" style="margin-top: 0;">While specific project outcomes remain confidential, the development and application of the "Time Loop" and "Feeling Cues" methods provided valuable frameworks for exploring future-facing user needs in a nuanced way.</p>
+            
+            <div class="two-column">
+                <p>These methods allowed us to move beyond current usage patterns and delve into how Facebook Home could proactively integrate into users' lives based on temporal context and emotional state, generating rich qualitative data even when exploring abstract future possibilities.</p>
+            
+                <p>They represent adaptable techniques for generative research in product development—approaches that other researchers and teams could apply when traditional methods fall short of revealing what users might want from experiences they've never had.</p>
+            </div>
+
+            <!-- Skills Section -->
+            <div class="skills-section">
+                <h4>Skills & Methods Demonstrated</h4>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <strong>Research</strong>
+                        <p>Generative Research, Method Development, Semi-Structured Interviews, Insight Synthesis</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Design</strong>
+                        <p>Conceptual Design, Prototyping, Figma, UX Writing, Co-Design Workshops</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Innovation</strong>
+                        <p>Novel Method Creation, Research Strategy, Future-Focused Research, Pattern Recognition</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Impact</strong>
+                        <p>Stakeholder Presentation, Product Strategy, Cross-Functional Collaboration</p>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer">
+                <a href="index.html">← Back to Portfolio</a>
+            </footer>
+        </article>
     </main>
 
     <script>
@@ -341,14 +1073,6 @@
                 });
             }
         });
-
-        function showLockedMessage() {
-            alert("This case study is under NDA and cannot be shared publicly. Please contact me directly for more information about my work at Microsoft/Xbox.");
-        }
-
-        function showComingSoon() {
-            alert("This project case study is currently being developed. Please check back soon!");
-        }
     </script>
 </body>
 </html>

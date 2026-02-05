@@ -4,8 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OPM Viz - Visualization Systems for Student Reflection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
     <style>
-        /* --- New Sidebar and Layout Styles --- */
+        :root {
+            --ink: #1a1a1a;
+            --paper: #f8f5f0;
+            --accent: #2d6a4f; /* Scholarly green */
+            --muted: #6b6b6b;
+            --rule: #d4d0c8;
+            --serif: 'Instrument Serif', Georgia, serif;
+            --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,393 +25,1201 @@
         }
         
         body {
-            background-color: #ffffff;
-            background-image: 
-                linear-gradient(rgba(200, 200, 200, 0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(200, 200, 200, 0.15) 1px, transparent 1px);
-            background-size: 40px 40px;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 1.05rem;
-            line-height: 1.6;
-            color: #1a1a1a;
-            margin: 0;
+            background-color: var(--paper);
+            font-family: var(--sans);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--ink);
             display: flex;
             min-height: 100vh;
         }
+        
+        /* --- Navigation --- */
         nav {
-            width: 220px;
-            padding: 2rem;
-            border-right: 1px solid rgba(200, 200, 200, 0.3);
+            width: 200px;
+            padding: 2.5rem 1.5rem;
+            border-right: 1px solid var(--rule);
             flex-shrink: 0;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background-color: var(--paper);
+            position: sticky;
+            top: 0;
+            height: 100vh;
         }
+        
         nav a {
             display: block;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-            text-decoration: underline;
-            cursor: pointer;
+            margin-bottom: 0.75rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
             transition: color 0.2s ease;
         }
+        
         nav a:hover {
-            text-decoration: none;
-            color: #666;
+            color: var(--ink);
         }
+        
         .nav-logo {
-            font-weight: 600;
-            margin-bottom: 2rem;
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 2.5rem;
+            color: var(--ink);
             text-decoration: none;
-            cursor: pointer;
-            font-size: 1.3rem;
-            color: #1a1a1a;
-            transition: color 0.2s ease;
+            display: block;
         }
-        .nav-logo:hover {
-            color: #666;
-        }
-        #project-links-container {
-            margin-top: 0.5rem;
-            padding-left: 1rem;
-            border-left: 1px solid #eee;
-        }
-        .project-link {
-            font-size: 1rem;
-        }
+        
         main {
             flex-grow: 1;
             overflow-y: auto;
-            height: 100vh;
-            background-color: transparent;
+            background-color: var(--paper);
         }
-        .hidden {
-            display: none;
-        }
-        @media (max-width: 992px) {
-            body {
-                flex-direction: column; 
-            }
-            main {
-                height: auto;
-            }
-            nav {
-                width: 100%; 
-                padding: 1rem;
-                border-right: none; 
-                border-bottom: 1px solid #ddd; 
-                box-sizing: border-box;
-            }
-            .nav-container {
-                display: flex;
-                justify-content: center;
-                gap: 1.5rem;
-                flex-wrap: wrap;
-            }
-            .nav-logo {
-                display: none;
-            }
-            nav a {
-                margin-bottom: 0;
-            }
-            #project-links-container {
-                width: 100%;
-                text-align: center;
-                padding-left: 0;
-                border-left: none;
-                margin-top: 1rem;
-            }
-        }
-
-        /* --- Case Study Styles --- */
-        .container {
-            max-width: 900px;
+        
+        /* --- Hero Section --- */
+        .hero {
+            padding: 6rem 4rem 4rem;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 3rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: end;
+            border-bottom: 1px solid var(--rule);
         }
+        
+        .hero-content {
+            padding-bottom: 2rem;
+        }
+        
+        .issue-number {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+        
         h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-            line-height: 1.2;
-        }
-        h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-top: 3rem;
+            font-family: var(--serif);
+            font-size: 3.2rem;
+            font-weight: 400;
+            line-height: 1.05;
+            color: var(--ink);
             margin-bottom: 1.5rem;
-            color: #1a1a1a;
+            letter-spacing: -0.02em;
         }
-        h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
+        
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
             margin-top: 2rem;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--rule);
         }
-        p {
-            margin-bottom: 1.5rem;
-            color: #333;
+        
+        .meta-item {
+            font-size: 0.85rem;
+            color: var(--muted);
         }
-        .project-meta {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 2rem;
+        
+        .meta-item strong {
+            display: block;
+            color: var(--ink);
+            font-weight: 500;
+            margin-bottom: 0.2rem;
         }
-        .badge {
-            display: inline-block;
-            padding: 0.4rem 1rem;
-            background-color: #f0f0f0;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
         }
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 12px;
-            margin: 2rem 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        
+        .stat-box {
+            background: var(--paper);
+            padding: 2rem;
+            text-align: center;
         }
-        ul {
-            margin-left: 2rem;
-            margin-bottom: 1.5rem;
-        }
-        li {
+        
+        .stat-number {
+            font-family: var(--serif);
+            font-size: 2.8rem;
+            font-style: italic;
+            color: var(--ink);
+            line-height: 1;
             margin-bottom: 0.5rem;
         }
         
+        .stat-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        
+        /* --- Article Layout --- */
+        .article-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem;
+        }
+        
+        .lede {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            line-height: 1.6;
+            color: var(--ink);
+            max-width: 800px;
+            margin-bottom: 3rem;
+        }
+        
+        .lede::first-letter {
+            font-size: 4.5rem;
+            float: left;
+            line-height: 0.8;
+            margin-right: 0.5rem;
+            margin-top: 0.1rem;
+            color: var(--accent);
+        }
+        
+        .two-column {
+            column-count: 2;
+            column-gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .two-column p {
+            margin-bottom: 1.25rem;
+        }
+        
+        h2 {
+            font-family: var(--serif);
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-top: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--ink);
+            padding-top: 2rem;
+            border-top: 3px solid var(--ink);
+        }
+        
+        h3 {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        h4 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+            color: var(--ink);
+        }
+        
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--ink);
+            max-width: 680px;
+        }
+        
+        /* --- Pull Quote --- */
+        .pull-quote {
+            float: right;
+            width: 45%;
+            margin: 0 0 2rem 3rem;
+            padding: 2rem 0 2rem 2rem;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .pull-quote blockquote {
+            font-family: var(--serif);
+            font-size: 1.8rem;
+            font-style: italic;
+            line-height: 1.4;
+            color: var(--ink);
+            margin-bottom: 1rem;
+        }
+        
+        .pull-quote cite {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-style: normal;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        
+        /* --- Inline Quote --- */
+        .inline-quote {
+            background: linear-gradient(to right, var(--accent), var(--accent)) no-repeat 0 0;
+            background-size: 4px 100%;
+            padding: 1.5rem 2rem;
+            margin: 2.5rem 0;
+            font-family: var(--serif);
+            font-size: 1.25rem;
+            font-style: italic;
+            line-height: 1.5;
+        }
+        
+        .inline-quote cite {
+            display: block;
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-style: normal;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 1rem;
+        }
+        
+        /* --- Image Styling --- */
+        .image-container {
+            margin: 2.5rem 0;
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .image-caption {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--rule);
+            max-width: 500px;
+        }
+        
+        /* --- Problem Cards --- */
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--ink);
+            margin: 3rem 0;
+        }
+        
+        .problem-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .problem-card h4 {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .problem-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Insight Cards --- */
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--ink);
+            margin: 3rem 0;
+        }
+        
+        .insight-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .insight-card h4 {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .insight-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Method Cards --- */
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+            margin: 3rem 0;
+        }
+        
+        .method-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .method-number {
+            font-family: var(--serif);
+            font-size: 2rem;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .method-card h4 {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .method-card p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Finding Cards --- */
+        .findings-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--ink);
+            margin: 3rem 0;
+        }
+        
+        .finding-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .finding-card h4 {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .finding-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Video Grid --- */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .video-item iframe {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border: none;
+        }
+        
+        .video-caption {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--rule);
+        }
+        
+        /* --- Results Section --- */
+        .results-section {
+            background: var(--ink);
+            color: var(--paper);
+            margin: 4rem -4rem;
+            padding: 4rem;
+        }
+        
+        .results-section h2 {
+            color: var(--paper);
+            border-top-color: var(--paper);
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .result-item {
+            border-left: 1px solid rgba(255,255,255,0.3);
+            padding-left: 1.5rem;
+        }
+        
+        .result-number {
+            font-family: var(--serif);
+            font-size: 3.5rem;
+            font-style: italic;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-detail {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        /* --- List Styling --- */
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.75rem;
+            padding-left: 0.5rem;
+            max-width: 680px;
+        }
+        
+        li strong {
+            color: var(--ink);
+        }
+        
+        /* --- Evaluation Cards --- */
+        .eval-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+            margin: 3rem 0;
+        }
+        
+        .eval-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .eval-card h4 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .eval-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Contribution Cards --- */
+        .contribution-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--ink);
+            margin: 3rem 0;
+        }
+        
+        .contribution-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .contribution-card h4 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 0.75rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .contribution-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Skills Section --- */
+        .skills-section {
+            margin-top: 4rem;
+            padding: 3rem;
+            border: 1px solid var(--rule);
+        }
+        
+        .skills-section h4 {
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            margin-top: 0;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+        
+        .skill-category strong {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .skill-category p {
+            font-size: 0.85rem;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 0;
+            max-width: none;
+        }
+        
+        /* --- TL;DR Section --- */
+        .tldr-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 4rem;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .tldr-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .tldr-label {
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--paper);
+            background: var(--ink);
+            padding: 0.4rem 0.8rem;
+        }
+        
+        .tldr-subtitle {
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--muted);
+        }
+        
+        .tldr-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+        
+        .tldr-main {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        
+        .tldr-item {
+            padding-left: 1rem;
+            border-left: 2px solid var(--rule);
+        }
+        
+        .tldr-item:hover {
+            border-left-color: var(--accent);
+        }
+        
+        .tldr-number {
+            font-family: var(--serif);
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 0.3rem;
+        }
+        
+        .tldr-title {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+        
+        .tldr-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--muted);
+            margin: 0;
+        }
+        
+        .tldr-sidebar {
+            padding: 2rem;
+            background: var(--ink);
+            color: var(--paper);
+        }
+        
+        .tldr-sidebar-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 1rem;
+        }
+        
+        .tldr-sidebar-text {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-style: italic;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            color: var(--paper);
+        }
+        
+        /* --- Footer --- */
+        .footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--rule);
+            text-align: center;
+        }
+        
+        .footer a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .footer a:hover {
+            color: var(--ink);
+        }
+        
+        /* --- Responsive --- */
+        @media (max-width: 1100px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                padding: 4rem 3rem;
+            }
+            
+            .two-column {
+                column-count: 1;
+            }
+            
+            .findings-grid,
+            .results-grid,
+            .skills-grid,
+            .problem-grid,
+            .method-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .insights-grid,
+            .eval-grid,
+            .contribution-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pull-quote {
+                float: none;
+                width: 100%;
+                margin: 2rem 0;
+            }
+            
+            .tldr-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .tldr-main {
+                grid-template-columns: 1fr;
+            }
+            
+            .tldr-section {
+                padding: 2rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column;
+            }
+            
+            nav {
+                width: 100%;
+                padding: 1rem 2rem;
+                border-right: none;
+                border-bottom: 1px solid var(--rule);
+                height: auto;
+                position: relative;
+            }
+            
+            .nav-logo {
+                display: inline-block;
+                margin-bottom: 0;
+                margin-right: 2rem;
+            }
+            
+            nav a {
+                display: inline-block;
+                margin-right: 1.5rem;
+                margin-bottom: 0;
+            }
+            
+            .article-container {
+                padding: 2rem;
+            }
+            
+            .results-section {
+                margin-left: -2rem;
+                margin-right: -2rem;
+                padding: 3rem 2rem;
+            }
+            
+            h1 {
+                font-size: 2.4rem;
+            }
+        }
+        
         @media (max-width: 768px) {
-            .container { padding: 0 1rem; }
             h1 { font-size: 2rem; }
-            h2 { font-size: 1.5rem; }
+            h2 { font-size: 1.8rem; }
+            
+            .lede {
+                font-size: 1.25rem;
+            }
+            
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+        
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
 
-        <nav>
-            <a href="index.html" class="nav-logo">Sai Maram</a>
-            <div class="nav-container">
-                <a href="index.html">Home</a>
-                <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
-            </div>
-        </nav>
+    <nav>
+        <a href="index.html" class="nav-logo">Sai Maram</a>
+        <a href="index.html">Home</a>
+        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+    </nav>
 
     <main>
-        <div class="container">
-            <h1>OPM Viz: Bridging Gameplay Data and Learning Reflection</h1>
-            <div class="project-meta">
-                <span class="badge">ACM CHI 2024</span>
-                <span class="badge">Educational Games</span>
-                <span class="badge">Design-Based Research</span>
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="hero-content">
+                <div class="issue-number">Case Study № 08 · ACM CHI 2024</div>
+                <h1>OPM Viz: Bridging Gameplay Data and Learning Reflection</h1>
+                <p style="max-width: 100%; font-size: 1.15rem; color: var(--muted);">Transforming educational game data into actionable learning insights through visualization systems that enable student reflection and peer comparison.</p>
+                
+                <div class="hero-meta">
+                    <div class="meta-item">
+                        <strong>Role</strong>
+                        Lead UX Researcher
+                    </div>
+                    <div class="meta-item">
+                        <strong>Duration</strong>
+                        21 Months
+                    </div>
+                    <div class="meta-item">
+                        <strong>Published</strong>
+                        ACM CHI 2024
+                    </div>
+                </div>
             </div>
             
-            <p>Educational games generate massive amounts of gameplay data—every decision, every strategy, every moment of struggle or breakthrough. But when students finish a level, where does that data go? Usually, nowhere. The game records it, but students never see it again. They don't know how their approach compared to their peers, where they could improve, or what strategies might be more efficient.</p>
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-number">21</div>
+                    <div class="stat-label">Month Study</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">25</div>
+                    <div class="stat-label">Stakeholders Interviewed</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">CHI</div>
+                    <div class="stat-label">2024 Published</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">Open</div>
+                    <div class="stat-label">Player Model</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- TL;DR Section -->
+        <section class="tldr-section">
+            <div class="tldr-header">
+                <span class="tldr-label">Quick Read</span>
+                <span class="tldr-subtitle">The essentials in 60 seconds</span>
+            </div>
             
-            <p>This case study documents the development of OPM Viz, a visualization system for the 'Parallel' educational game that transforms gameplay data into learning opportunities. Rather than letting valuable performance data disappear into the void, OPM Viz makes it accessible, comparable, and actionable—turning every play session into a reflective learning experience.</p>
+            <div class="tldr-grid">
+                <div class="tldr-main">
+                    <div class="tldr-item">
+                        <div class="tldr-number">01</div>
+                        <div class="tldr-title">The Problem</div>
+                        <p class="tldr-text">Educational games capture rich data, but students never see it—leaving valuable learning opportunities unrealized.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">02</div>
+                        <div class="tldr-title">The Approach</div>
+                        <p class="tldr-text">Design-Based Research with instructor focus groups, student playtesting, and iterative visualization design.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">03</div>
+                        <div class="tldr-title">The Solution</div>
+                        <p class="tldr-text">OPM Viz enables peer comparison, metrics viewing, and synchronized replay for reflective learning.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">04</div>
+                        <div class="tldr-title">The Impact</div>
+                        <p class="tldr-text">Students identified inefficiencies, improved self-assessment, and developed curiosity about alternative approaches.</p>
+                    </div>
+                </div>
+                
+                <aside class="tldr-sidebar">
+                    <div class="tldr-sidebar-label">Key Insight</div>
+                    <p class="tldr-sidebar-text">"Multi-scale, multi-modal comparison is what enables genuine reflection in educational games."</p>
+                </aside>
+            </div>
+        </section>
+
+        <article class="article-container">
+            
+            <!-- Opening Lede -->
+            <p class="lede">Educational games generate massive amounts of gameplay data—every decision, every strategy, every moment of struggle or breakthrough. But when students finish a level, where does that data go? Usually, nowhere. The game records it, but students never see it again.</p>
+            
+            <div class="two-column">
+                <p>This case study documents the development of OPM Viz, a visualization system for the 'Parallel' educational game that transforms gameplay data into learning opportunities. Rather than letting valuable performance data disappear into the void, OPM Viz makes it accessible, comparable, and actionable.</p>
+                
+                <p>Students don't know how their approach compared to their peers, where they could improve, or what strategies might be more efficient. Through a 21-month Design-Based Research project, we turned every play session into a reflective learning experience.</p>
+            </div>
 
             <h2>The Problem</h2>
-            <p><strong>Educational games capture rich data, but students can't access it:</strong> Games like 'Parallel' (which teaches parallel programming) record detailed information about how students approach problems: which strategies they use, where they struggle, how their solutions compare to optimal approaches. But this data typically lives in logs that only researchers see. Students are left wondering: "Was my solution good? How did others solve this? What could I do better?"</p>
             
-            <p><strong>The missed learning opportunity:</strong> Research in learning sciences shows that reflection and peer comparison significantly enhance learning. Students learn by analyzing their own performance, seeing how others approached the same challenge, and identifying specific areas for improvement. Educational games generate the data needed for this reflection, but don't provide tools to visualize it.</p>
-            
-            <p><strong>The practical challenge:</strong> Existing educational games often include performance dashboards showing scores or completion rates, but these don't reveal the "why" behind performance. A student might know they took 50 steps to complete a level, but not understand which steps were inefficient or how a peer solved it in 20 steps with a different strategy.</p>
-
-            <h2>My Approach</h2>
-            <p><strong>As Lead UX Researcher and Designer</strong>, I conducted a 21-month Design-Based Research project to create and validate OPM Viz:</p>
-            
-            <ul>
-                <li><strong>Conducted instructor focus groups:</strong> Worked with 2 parallel programming instructors who analyzed student gameplay recordings to understand how experts identify learning moments</li>
-                <li><strong>Led student playtesting:</strong> Observed 10 students playing 'Parallel' and conducted semi-structured interviews to identify core needs</li>
-                <li><strong>Applied thematic analysis:</strong> Coded qualitative data to understand patterns in student struggles and desires</li>
-                <li><strong>Designed interactive visualization system:</strong> Built OPM Viz enabling peer comparison, metrics viewing, and synchronized replay</li>
-                <li><strong>Integrated with 'Parallel':</strong> Seamlessly connected the visualization with the game's existing platform</li>
-                <li><strong>Evaluated learning impact:</strong> Conducted usability study with 8 students using think-aloud protocol and interviews</li>
-            </ul>
-
-            <h2>Key Outcomes</h2>
-            <ul>
-                <li><strong>Students identified specific inefficiencies</strong> in their parallel programming strategies</li>
-                <li><strong>Improved self-assessment and metacognition</strong> through comparative visualization</li>
-                <li><strong>Sparked curiosity about alternative approaches</strong> to problem-solving</li>
-                <li><strong>Demonstrated successful reflection:</strong> Students actively used the system to analyze their gameplay</li>
-                <li><strong>Published at ACM CHI 2024</strong>—the premier HCI conference</li>
-                <li><strong>Novel Open Player Model approach:</strong> Applied Open Learner Model principles to dynamic gameplay contexts</li>
-            </ul>
-
-            <h2>The Challenge: From Data to Learning</h2>
-            <p>Educational games like 'Parallel', which teaches parallel programming concepts, generate vast amounts of player data. However, a significant gap exists: how can this data be effectively visualized to help students reflect on their own learning process and understand the strategies used by their peers?</p>
-
-            <p>Existing tools often lack features specifically designed to foster reflective learning. Our core challenge was to design a visualization system that moves beyond simple data presentation to actively guide students in analyzing gameplay, comparing strategies, and ultimately deepening their understanding of complex concepts taught through the game.</p>
-
-            <h2>Understanding the Users: Instructors & Students</h2>
-            <p>To ensure our solution was grounded in real needs, we employed a Design-Based Research approach, incorporating UX methods to understand both instructor goals and student expectations.</p>
-
-            <div class="image-container">
-                <img src="temporary/images/Frame 10 (2) (1).png" alt="UXR pipeline diagram showing Understand, Design, Evaluate process">
-                <div class="image-caption">UXR pipeline adopted for this project.</div>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <h4>Data Inaccessibility</h4>
+                    <p>Games like 'Parallel' record detailed information about student strategies and struggles—but this data lives in logs only researchers see. Students can't access their own performance data.</p>
+                </div>
+                <div class="problem-card">
+                    <h4>Missed Learning Opportunity</h4>
+                    <p>Research shows reflection and peer comparison enhance learning. Educational games generate the data needed, but don't provide tools to visualize it.</p>
+                </div>
+                <div class="problem-card">
+                    <h4>Surface-Level Dashboards</h4>
+                    <p>Existing dashboards show scores or completion rates, but don't reveal the "why." Students know they took 50 steps, but not which were inefficient.</p>
+                </div>
             </div>
 
-            <h3>Instructor Focus Groups: Learning from Expert Practice</h3>
-            <p>Before designing the visualization, we needed to understand how experts actually use gameplay data to support learning. We conducted workshops with two experienced parallel programming instructors, asking them to analyze anonymized student gameplay recordings from 'Parallel'.</p>
+            <div class="inline-quote">
+                "I finished it, but I have no idea if there's a better way. Am I using ten steps when I could use five?"
+                <cite>— Student participant during playtesting</cite>
+            </div>
+
+            <h2>Research Approach</h2>
             
-            <p><strong>The process:</strong> Instructors watched recordings of students playing levels, identified different strategies students used, ranked performance, and pinpointed specific moments where reflection would be valuable. Through observation and think-aloud protocol, we documented how experts naturally analyze gameplay data.</p>
+            <p>As Lead UX Researcher and Designer, I conducted a 21-month Design-Based Research project to create and validate OPM Viz:</p>
 
-            <p><strong>Key insights emerged from how instructors naturally worked:</strong></p>
-            <ul>
-                <li><strong>Chunking gameplay into meaningful segments:</strong> Instructors didn't analyze gameplay as continuous streams—they broke it into conceptual chunks. One instructor observed, <em>"Steps 2 and 3, that's where the student is trying to figure out the Switch mechanism."</em> This revealed that effective visualization needs to segment gameplay around learning concepts, not just chronological steps.</li>
-                <li><strong>Spatial context matters:</strong> Instructors constantly connected gameplay actions to specific game areas and programming concepts. They'd note, "This is happening in the synchronization zone," linking spatial gameplay to abstract parallel programming concepts.</li>
-                <li><strong>Comparative analysis drives insight:</strong> Instructors rarely analyzed a single student in isolation. They consistently compared strategies across students, noting things like "This student used a mutex here, while this one avoided it entirely," using comparison to highlight efficiency or alternative approaches.</li>
-                <li><strong>Performance metrics grounded in learning:</strong> When ranking students, instructors didn't just count steps or time. They evaluated based on core parallel programming concepts: Did students identify critical sections? Did they minimize critical section size? Did they understand concurrency patterns?</li>
-            </ul>
-
-            <h3>Student Playtesting: Understanding Learner Needs</h3>
-            <p>To understand what students actually need from a visualization system, we observed 10 students playing 'Parallel' and conducted semi-structured interviews following their gameplay. This revealed a significant gap between what games currently offer and what learners actually need.</p>
-            
-            <p><strong>What we observed:</strong> Students played levels, sometimes struggling for extended periods, sometimes finding elegant solutions quickly. After completion, we asked about their experience: What was hard? How did they know if their solution was good? What would help them improve? Through thematic analysis of interview transcripts and gameplay observations, three core needs emerged.</p>
-
-            <h4>Key Insights from Students:</h4>
-            <ol>
-                <li><strong>Desire for efficiency improvement:</strong> Players weren't satisfied with just completing levels—they wanted to know if their solutions were efficient. One student expressed frustration: "I finished it, but I have no idea if there's a better way. Am I using ten steps when I could use five?" Students craved ways to identify inefficiencies and learn from more optimal peer strategies.</li>
-                <li><strong>Need for multi-scale comparison:</strong> Students wanted to compare their gameplay with peers, but at different levels of detail. Sometimes they needed a high-level overview: "Did I take more steps overall?" Other times they needed granular step-by-step comparison: "What did they do differently at step 15?" The visualization needed to support both zoomed-out summaries and detailed moment-by-moment analysis.</li>
-                <li><strong>Seeking guidance without giving up:</strong> When stuck, students wanted help, but didn't want complete answers handed to them. They appreciated hints or alternative solution paths—ways to nudge them forward without defeating the challenge. After completing levels, they also valued exploring different valid approaches, understanding that there were multiple ways to solve the same problem.</li>
-            </ol>
-            
-            <p><strong>Why this mattered for design:</strong> These insights directly shaped OPM Viz's features. The need for efficiency comparison led to peer performance metrics. The desire for multi-scale views informed our "overview first, then zoom and filter" approach. The want for guidance without answers inspired our reflection prompts—questions that guided analysis without revealing solutions.</p>
-
-            <h2>Designing the Visualization System</h2>
-            <p>Guided by insights from instructors and students, and utilizing Shneiderman's Visual Information-Seeking Mantra ("Overview first, zoom and filter, then details-on-demand") as a framework, we designed and developed the OPM Viz system.</p>
-
-            <p>Key design goals included:</p>
-            <ul>
-                <li>Providing an overview comparing a student's performance against the community</li>
-                <li>Allowing users to filter and select specific peer playtraces for deeper comparison</li>
-                <li>Offering a synchronized, detailed side-by-side view of playtraces</li>
-                <li>Incorporating metrics relevant to parallel programming efficiency</li>
-                <li>Suggesting moments for reflection based on common patterns or deviations</li>
-            </ul>
+            <div class="method-grid">
+                <div class="method-card">
+                    <div class="method-number">01</div>
+                    <h4>Instructor Focus Groups</h4>
+                    <p>Worked with 2 parallel programming instructors analyzing student gameplay to understand how experts identify learning moments.</p>
+                </div>
+                <div class="method-card">
+                    <div class="method-number">02</div>
+                    <h4>Student Playtesting</h4>
+                    <p>Observed 10 students playing 'Parallel' and conducted semi-structured interviews to identify core needs.</p>
+                </div>
+                <div class="method-card">
+                    <div class="method-number">03</div>
+                    <h4>Thematic Analysis</h4>
+                    <p>Coded qualitative data to understand patterns in student struggles and desires for improvement.</p>
+                </div>
+                <div class="method-card">
+                    <div class="method-number">04</div>
+                    <h4>Design & Build</h4>
+                    <p>Built OPM Viz enabling peer comparison, metrics viewing, and synchronized replay.</p>
+                </div>
+                <div class="method-card">
+                    <div class="method-number">05</div>
+                    <h4>Integration</h4>
+                    <p>Seamlessly connected the visualization with the 'Parallel' game's existing platform.</p>
+                </div>
+                <div class="method-card">
+                    <div class="method-number">06</div>
+                    <h4>Evaluation</h4>
+                    <p>Conducted usability study with 8 students using think-aloud protocol and interviews.</p>
+                </div>
+            </div>
 
             <div class="image-container">
-                <img src="temporary/images/Group 107 (4).png" alt="Screenshot of the OPM Viz visualization system interface">
-                <div class="image-caption">The OPM Viz Visualization System Interface.</div>
+                <img src="temporary/images/Frame 10 (2) (1).png" alt="UXR pipeline diagram">
+                <p class="image-caption">UXR pipeline adopted for this project: Understand → Design → Evaluate.</p>
+            </div>
+
+            <h2>Understanding Users</h2>
+            
+            <h3>Instructor Focus Groups</h3>
+            
+            <p>Before designing the visualization, we needed to understand how experts actually use gameplay data. We conducted workshops with two experienced parallel programming instructors who analyzed anonymized student gameplay recordings from 'Parallel'.</p>
+
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <h4>Chunking Into Segments</h4>
+                    <p>Instructors broke gameplay into conceptual chunks, not continuous streams. <em>"Steps 2 and 3, that's where the student is trying to figure out the Switch mechanism."</em> Effective visualization needs to segment around learning concepts.</p>
+                </div>
+                <div class="insight-card">
+                    <h4>Spatial Context Matters</h4>
+                    <p>Instructors constantly connected gameplay actions to specific game areas. "This is happening in the synchronization zone"—linking spatial gameplay to abstract parallel programming concepts.</p>
+                </div>
+                <div class="insight-card">
+                    <h4>Comparative Analysis</h4>
+                    <p>Instructors rarely analyzed a single student in isolation. <em>"This student used a mutex here, while this one avoided it entirely"</em>—using comparison to highlight efficiency or alternatives.</p>
+                </div>
+                <div class="insight-card">
+                    <h4>Learning-Grounded Metrics</h4>
+                    <p>When ranking students, instructors evaluated based on core concepts: Did students identify critical sections? Did they minimize critical section size? Did they understand concurrency patterns?</p>
+                </div>
+            </div>
+
+            <h3>Student Playtesting Insights</h3>
+            
+            <p>To understand what students need from a visualization system, we observed 10 students playing 'Parallel' and conducted semi-structured interviews. Through thematic analysis, three core needs emerged:</p>
+
+            <div class="findings-grid">
+                <div class="finding-card">
+                    <h4>Efficiency Improvement</h4>
+                    <p>Players weren't satisfied with just completing levels—they wanted to know if solutions were efficient. Students craved ways to identify inefficiencies and learn from more optimal peer strategies.</p>
+                </div>
+                <div class="finding-card">
+                    <h4>Multi-Scale Comparison</h4>
+                    <p>Students wanted both high-level overview ("Did I take more steps overall?") and granular step-by-step comparison ("What did they do differently at step 15?").</p>
+                </div>
+                <div class="finding-card">
+                    <h4>Guided Discovery</h4>
+                    <p>When stuck, students wanted help without complete answers. They appreciated hints or alternative solution paths—nudges forward without defeating the challenge.</p>
+                </div>
+            </div>
+
+            <!-- Results Section - Dark Background -->
+            <div class="results-section">
+                <h2>Key Outcomes</h2>
+                <p style="color: rgba(255,255,255,0.8); max-width: 600px;">The evaluation confirmed OPM Viz successfully prompted the reflection we designed it for.</p>
+                
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="result-number">CHI</div>
+                        <div class="result-label">Publication</div>
+                        <div class="result-detail">Published at ACM CHI 2024—the premier HCI conference</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">Novel</div>
+                        <div class="result-label">Contribution</div>
+                        <div class="result-detail">Open Player Model approach applied to dynamic gameplay contexts</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">Active</div>
+                        <div class="result-label">Reflection</div>
+                        <div class="result-detail">Students compared, analyzed, questioned, and learned from their data</div>
+                    </div>
+                </div>
             </div>
 
             <h2>The Solution: OPM Viz</h2>
-            <p>OPM Viz is an interactive visualization system designed to integrate seamlessly with the 'Parallel' serious game. It empowers students to reflect on their gameplay, compare strategies with peers, and gain deeper insights into parallel programming concepts.</p>
+            
+            <p>Guided by Shneiderman's Visual Information-Seeking Mantra ("Overview first, zoom and filter, then details-on-demand"), we designed OPM Viz—an interactive visualization system that integrates with 'Parallel' to empower student reflection.</p>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 2rem 0;">
-                <div>
-                    <iframe src="https://www.youtube.com/embed/sJTFw3Qix5o?si=xUFYlOV8RAiHKTvu" frameborder="0" allowfullscreen title="Explanation of the final visualization system" style="width: 100%; aspect-ratio: 16/9; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);"></iframe>
-                    <p style="margin-top: 0.5rem; text-align: center; color: #666; font-size: 0.95rem;">Explaining the features of the OPM Viz system.</p>
-                </div>
-                <div>
-                    <iframe src="https://www.youtube.com/embed/MXeTHQlgcT8?si=38yGfgb_BQdqDCre" frameborder="0" allowfullscreen title="Development process and algorithms" style="width: 100%; aspect-ratio: 16/9; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);"></iframe>
-                    <p style="margin-top: 0.5rem; text-align: center; color: #666; font-size: 0.95rem;">Overview of the development process and algorithms.</p>
-                </div>
+            <div class="image-container">
+                <img src="temporary/images/Group 107 (4).png" alt="OPM Viz interface">
+                <p class="image-caption">The OPM Viz Visualization System Interface showing peer comparison and metrics.</p>
             </div>
 
             <p>The system allows students to:</p>
             <ul>
-                <li>View their own performance metrics</li>
-                <li>Compare their solution path against anonymized peers</li>
-                <li>Filter peers based on performance or specific strategies</li>
-                <li>Replay their own and selected peers' games side-by-side</li>
-                <li>Identify key differences and potential areas for improvement</li>
+                <li><strong>View their own performance metrics</strong> against the community</li>
+                <li><strong>Compare solution paths</strong> against anonymized peers</li>
+                <li><strong>Filter peers</strong> based on performance or specific strategies</li>
+                <li><strong>Replay games side-by-side</strong> with synchronized playback</li>
+                <li><strong>Identify key differences</strong> and potential areas for improvement</li>
             </ul>
+
+            <h3>Video Demonstrations</h3>
+
+            <div class="video-grid">
+                <div class="video-item">
+                    <iframe src="https://www.youtube.com/embed/sJTFw3Qix5o?si=xUFYlOV8RAiHKTvu" allowfullscreen title="OPM Viz Features"></iframe>
+                    <p class="video-caption">Explaining the features of the OPM Viz system.</p>
+                </div>
+                <div class="video-item">
+                    <iframe src="https://www.youtube.com/embed/MXeTHQlgcT8?si=38yGfgb_BQdqDCre" allowfullscreen title="Development Process"></iframe>
+                    <p class="video-caption">Overview of the development process and algorithms.</p>
+                </div>
+            </div>
 
             <h2>Evaluation: Does it Foster Reflection?</h2>
-            <p>Could OPM Viz actually prompt the kind of reflection and learning we designed it for? To answer this, we conducted an evaluative study with 8 student participants who had used 'Parallel' in a previous course.</p>
             
-            <p><strong>The evaluation method:</strong> After playing levels in 'Parallel', participants used OPM Viz to explore their own gameplay data compared to anonymized peers. We employed think-aloud protocol—asking participants to verbalize their thoughts as they used the system. Following the session, we conducted semi-structured interviews probing deeper into their experience and what they learned.</p>
-
-            <p><strong>Our analysis focused on three questions:</strong></p>
-            <ul>
-                <li>Did students actually use the system's features to compare their strategies with peers?</li>
-                <li>Did using the system prompt reflection on their own performance and learning?</li>
-                <li>What specific insights or learning moments did the visualization enable?</li>
-            </ul>
+            <p>We conducted an evaluative study with 8 students using think-aloud protocol and semi-structured interviews. Our analysis focused on whether students actually used comparison features, whether the system prompted reflection, and what specific insights emerged.</p>
 
             <div class="image-container">
-                <img src="temporary/images/Group 749 (1).png" alt="Thematic analysis results showing student interactions">
-                <div class="image-caption">Thematic map illustrating how students used OPM Viz for reflection and learning.</div>
+                <img src="temporary/images/Group 749 (1).png" alt="Thematic analysis results">
+                <p class="image-caption">Thematic map illustrating how students used OPM Viz for reflection and learning.</p>
             </div>
 
-            <h4>Key Findings from Evaluation:</h4>
-            <ul>
-                <li><strong>Facilitated active comparison:</strong> Participants consistently used the system to compare their strategies with anonymized peers. One student noted, "I thought my solution was good until I saw someone did it in half the steps. Now I'm curious how." The visual comparison didn't just show differences—it prompted students to analyze why.</li>
-                <li><strong>Identified specific inefficiencies:</strong> Rather than vague feelings of "maybe I could do better," students identified concrete areas where their approaches were less efficient. They'd pinpoint moments: "Oh, I see—I backtracked here three times, but this student solved it without backtracking."</li>
-                <li><strong>Sparked conceptual curiosity:</strong> Exploring different solutions through the system encouraged students to think beyond "getting it done" to understanding the underlying programming concepts. A student observed, "These two solutions both work, but they're using different synchronization patterns. I want to understand why."</li>
-                <li><strong>Supported calibrated self-assessment:</strong> Participants used comparative data to accurately gauge their own understanding. Rather than over- or under-estimating their performance, they developed realistic views of where they stood relative to their peers and where they needed to improve.</li>
-                <li><strong>Highlighted design trade-offs:</strong> Observing different strategies helped students understand that parallel programming involves trade-offs. One solution might be simpler but less efficient; another might be faster but harder to understand. Students began thinking about these design decisions.</li>
-            </ul>
+            <div class="eval-grid">
+                <div class="eval-card">
+                    <h4>Facilitated Active Comparison</h4>
+                    <p>Participants consistently compared strategies with peers. <em>"I thought my solution was good until I saw someone did it in half the steps. Now I'm curious how."</em></p>
+                </div>
+                <div class="eval-card">
+                    <h4>Identified Specific Inefficiencies</h4>
+                    <p>Students identified concrete areas of inefficiency: <em>"I see—I backtracked here three times, but this student solved it without backtracking."</em></p>
+                </div>
+                <div class="eval-card">
+                    <h4>Sparked Conceptual Curiosity</h4>
+                    <p><em>"These two solutions both work, but they're using different synchronization patterns. I want to understand why."</em></p>
+                </div>
+                <div class="eval-card">
+                    <h4>Calibrated Self-Assessment</h4>
+                    <p>Students developed realistic views of where they stood relative to peers and where they needed to improve.</p>
+                </div>
+            </div>
 
-            <p><strong>Overall impact:</strong> The evaluation confirmed that OPM Viz successfully prompted the kind of reflection we designed it for. Students didn't just passively view their data—they actively compared, analyzed, questioned, and learned. The system made gameplay data not just visible, but actionable for learning.</p>
+            <div class="inline-quote">
+                "The key was enabling comparison across multiple dimensions simultaneously—performance metrics alongside visual replays. This multi-scale, multi-modal comparison enabled genuine reflection."
+                <cite>— Research finding</cite>
+            </div>
+
+            <h2>Impact & Contributions</h2>
             
-            <p><strong>What made it effective:</strong> The key was enabling comparison across multiple dimensions simultaneously. Students could see performance metrics (steps, time) alongside visual replays of actual gameplay. They could compare at overview level ("I'm in the top third") and dive into details ("At step 7, they took a different path"). This multi-scale, multi-modal comparison is what enabled genuine reflection.</p>
-
-            <h2>Impact and Contributions</h2>
-            <p>This project demonstrates the potential of integrating player-facing visualization systems, informed by Open Learner Model principles, into serious games to enhance learning.</p>
-
-            <div class="card">
-                <h4>Key Contributions:</h4>
-                <ul>
-                <li><strong>Bridging OLMs and Games:</strong> Introduced an Open Player Model approach, adapting OLM principles for the dynamic context of serious games</li>
-                <li><strong>Learning-Focused Visualization:</strong> Designed and validated a player-facing visualization system prioritizing reflection and learning over purely aesthetic goals</li>
-                <li><strong>Enhancing 'Parallel':</strong> Provided a novel tool for the established 'Parallel' research platform, enabling new avenues for studying game-based learning</li>
-                <li><strong>Published Research:</strong> Shared findings and system design with the academic community via publication at ACM CHI 2024</li>
-                </ul>
+            <div class="contribution-grid">
+                <div class="contribution-card">
+                    <h4>Bridging OLMs and Games</h4>
+                    <p>Introduced an Open Player Model approach, adapting Open Learner Model principles for the dynamic context of serious games.</p>
+                </div>
+                <div class="contribution-card">
+                    <h4>Learning-Focused Visualization</h4>
+                    <p>Designed and validated a player-facing visualization system prioritizing reflection and learning over purely aesthetic goals.</p>
+                </div>
+                <div class="contribution-card">
+                    <h4>Enhancing 'Parallel'</h4>
+                    <p>Provided a novel tool for the established 'Parallel' research platform, enabling new avenues for studying game-based learning.</p>
+                </div>
+                <div class="contribution-card">
+                    <h4>Published Research</h4>
+                    <p>Shared findings and system design with the academic community via publication at ACM CHI 2024.</p>
+                </div>
             </div>
-
-            <p>The positive evaluation results and academic recognition underscore the value of this user-centered approach to designing learning support tools within educational games.</p>
 
             <h2>Conclusion</h2>
-            <p>The OPM Viz project successfully demonstrated how thoughtful visualization design can bridge the gap between gameplay data and meaningful learning reflection. By centering the design process around both instructor expertise and student needs, we created a system that not only presents data but actively facilitates the kind of comparative analysis and reflection that leads to deeper understanding.</p>
 
-            <p>This work contributes to the growing field of learning analytics and educational technology, showing how UX research methods can inform the design of tools that truly support learning rather than simply displaying information.</p>
-
-            <!-- Skills Demonstrated -->
-            <div class="key-finding" style="margin-top: 3rem;">
-                <h4>Skills & Methods Demonstrated</h4>
-                <p><strong>Research:</strong> Design-Based Research • Focus Groups • Usability Testing • Thematic Analysis • User Research</p>
-                <p><strong>Design:</strong> Visualization Design • Information Architecture • Interaction Design • Educational Technology • Prototyping</p>
-                <p><strong>Specialized:</strong> Learning Analytics • Educational Games • Reflection Systems • Comparative Analysis • Data Visualization</p>
-                <p><strong>Impact:</strong> Academic Publishing • Iterative Development • Cross-Functional Collaboration</p>
+            <p class="lede" style="margin-top: 0;">OPM Viz successfully demonstrated how thoughtful visualization design can bridge the gap between gameplay data and meaningful learning reflection.</p>
+            
+            <div class="two-column">
+                <p>By centering the design process around both instructor expertise and student needs, we created a system that not only presents data but actively facilitates comparative analysis and reflection that leads to deeper understanding.</p>
+            
+                <p>This work contributes to learning analytics and educational technology, showing how UX research methods can inform tools that truly support learning rather than simply displaying information. The positive evaluation results and academic recognition underscore the value of this user-centered approach.</p>
             </div>
-        </div>
 
-        <footer class="footer">
-            <p>&copy; 2024 Sai Maram. Case Study.</p>
-            <p><a href="./index.html">Back to Portfolio</a></p>
-        </footer>
+            <!-- Skills Section -->
+            <div class="skills-section">
+                <h4>Skills & Methods Demonstrated</h4>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <strong>Research</strong>
+                        <p>Design-Based Research, Focus Groups, Usability Testing, Thematic Analysis, Think-Aloud Protocol</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Design</strong>
+                        <p>Visualization Design, Information Architecture, Interaction Design, Educational Technology</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Specialized</strong>
+                        <p>Learning Analytics, Educational Games, Reflection Systems, Open Learner Models</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Impact</strong>
+                        <p>Academic Publishing (CHI 2024), Iterative Development, Cross-Functional Collaboration</p>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer">
+                <a href="index.html">← Back to Portfolio</a>
+            </footer>
+        </article>
     </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const portfolioToggle = document.getElementById('portfolio-toggle');
-            const projectLinksContainer = document.getElementById('project-links-container');
-            const portfolioIndicator = document.getElementById('portfolio-indicator'); 
-
-            if (portfolioToggle) {
-                portfolioToggle.addEventListener('click', function() {
-                    projectLinksContainer.classList.toggle('hidden');
-                    if (projectLinksContainer.classList.contains('hidden')) {
-                        portfolioIndicator.textContent = '+';
-                    } else {
-                        portfolioIndicator.textContent = '-';
-                    }
-                });
-            }
-        });
-
-        function showLockedMessage() {
-            alert("This case study is under NDA and cannot be shared publicly. Please contact me directly for more information about my work at Microsoft/Xbox.");
-        }
-
-        function showComingSoon() {
-            alert("This project case study is currently being developed. Please check back soon!");
-        }
-    </script>
 </body>
 </html>

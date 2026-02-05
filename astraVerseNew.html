@@ -4,8 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AstraVerse - Culturally Sensitive Character Design</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
     <style>
-        /* --- New Sidebar and Layout Styles --- */
+        :root {
+            --ink: #1a1a1a;
+            --paper: #f8f5f0;
+            --accent: #8b2942; /* Deep burgundy - cultural/heritage inspired */
+            --muted: #6b6b6b;
+            --rule: #d4d0c8;
+            --serif: 'Instrument Serif', Georgia, serif;
+            --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,466 +25,1203 @@
         }
         
         body {
-            background-color: #ffffff;
-            background-image: 
-                linear-gradient(rgba(200, 200, 200, 0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(200, 200, 200, 0.15) 1px, transparent 1px);
-            background-size: 40px 40px;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 1.05rem;
-            line-height: 1.6;
-            color: #1a1a1a;
-            margin: 0;
+            background-color: var(--paper);
+            font-family: var(--sans);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--ink);
             display: flex;
             min-height: 100vh;
         }
+        
+        /* --- Navigation --- */
         nav {
-            width: 220px;
-            padding: 2rem;
-            border-right: 1px solid rgba(200, 200, 200, 0.3);
+            width: 200px;
+            padding: 2.5rem 1.5rem;
+            border-right: 1px solid var(--rule);
             flex-shrink: 0;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background-color: var(--paper);
+            position: sticky;
+            top: 0;
+            height: 100vh;
         }
+        
         nav a {
             display: block;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-            text-decoration: underline;
-            cursor: pointer;
+            margin-bottom: 0.75rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
             transition: color 0.2s ease;
         }
+        
         nav a:hover {
-            text-decoration: none;
-            color: #666;
+            color: var(--ink);
         }
+        
         .nav-logo {
-            font-weight: 600;
-            margin-bottom: 2rem;
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 2.5rem;
+            color: var(--ink);
             text-decoration: none;
-            cursor: pointer;
-            font-size: 1.3rem;
-            color: #1a1a1a;
-            transition: color 0.2s ease;
+            display: block;
         }
-        .nav-logo:hover {
-            color: #666;
-        }
-        #project-links-container {
-            margin-top: 0.5rem;
-            padding-left: 1rem;
-            border-left: 1px solid #eee;
-        }
-        .project-link {
-            font-size: 1rem;
-        }
+        
         main {
             flex-grow: 1;
             overflow-y: auto;
-            height: 100vh;
-            background-color: transparent;
+            background-color: var(--paper);
         }
-        .hidden {
-            display: none;
-        }
-        @media (max-width: 992px) {
-            body {
-                flex-direction: column; 
-            }
-            main {
-                height: auto;
-            }
-            nav {
-                width: 100%; 
-                padding: 1rem;
-                border-right: none; 
-                border-bottom: 1px solid #ddd; 
-                box-sizing: border-box;
-            }
-            .nav-container {
-                display: flex;
-                justify-content: center;
-                gap: 1.5rem;
-                flex-wrap: wrap;
-            }
-            .nav-logo {
-                display: none;
-            }
-            nav a {
-                margin-bottom: 0;
-            }
-            #project-links-container {
-                width: 100%;
-                text-align: center;
-                padding-left: 0;
-                border-left: none;
-                margin-top: 1rem;
-            }
-        }
-
-        /* --- Case Study Styles --- */
-        .container {
-            max-width: 900px;
+        
+        /* --- Hero Section --- */
+        .hero {
+            padding: 6rem 4rem 4rem;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 3rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: end;
+            border-bottom: 1px solid var(--rule);
         }
+        
+        .hero-content {
+            padding-bottom: 2rem;
+        }
+        
+        .issue-number {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+        
         h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-            line-height: 1.2;
-        }
-        h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-top: 3rem;
+            font-family: var(--serif);
+            font-size: 3.2rem;
+            font-weight: 400;
+            line-height: 1.05;
+            color: var(--ink);
             margin-bottom: 1.5rem;
-            color: #1a1a1a;
+            letter-spacing: -0.02em;
         }
-        h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
+        
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
             margin-top: 2rem;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--rule);
         }
-        p {
-            margin-bottom: 1.5rem;
-            color: #333;
+        
+        .meta-item {
+            font-size: 0.85rem;
+            color: var(--muted);
         }
-        .project-meta {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 2rem;
+        
+        .meta-item strong {
+            display: block;
+            color: var(--ink);
+            font-weight: 500;
+            margin-bottom: 0.2rem;
         }
-        .badge {
-            display: inline-block;
-            padding: 0.4rem 1rem;
-            background-color: #f0f0f0;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
         }
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 12px;
-            margin: 2rem 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        
+        .stat-box {
+            background: var(--paper);
+            padding: 2rem;
+            text-align: center;
         }
-        ul {
-            margin-left: 2rem;
-            margin-bottom: 1.5rem;
-        }
-        li {
+        
+        .stat-number {
+            font-family: var(--serif);
+            font-size: 2.8rem;
+            font-style: italic;
+            color: var(--ink);
+            line-height: 1;
             margin-bottom: 0.5rem;
         }
         
+        .stat-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        
+        /* --- Article Layout --- */
+        .article-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem;
+        }
+        
+        .lede {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            line-height: 1.6;
+            color: var(--ink);
+            max-width: 800px;
+            margin-bottom: 3rem;
+        }
+        
+        .lede::first-letter {
+            font-size: 4.5rem;
+            float: left;
+            line-height: 0.8;
+            margin-right: 0.5rem;
+            margin-top: 0.1rem;
+            color: var(--accent);
+        }
+        
+        .two-column {
+            column-count: 2;
+            column-gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .two-column p {
+            margin-bottom: 1.25rem;
+        }
+        
+        h2 {
+            font-family: var(--serif);
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-top: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--ink);
+            padding-top: 2rem;
+            border-top: 3px solid var(--ink);
+        }
+        
+        h3 {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        h4 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+            color: var(--ink);
+        }
+        
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--ink);
+            max-width: 680px;
+        }
+        
+        /* --- Pull Quote --- */
+        .pull-quote {
+            float: right;
+            width: 45%;
+            margin: 0 0 2rem 3rem;
+            padding: 2rem 0 2rem 2rem;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .pull-quote blockquote {
+            font-family: var(--serif);
+            font-size: 1.8rem;
+            font-style: italic;
+            line-height: 1.4;
+            color: var(--ink);
+            margin-bottom: 1rem;
+        }
+        
+        .pull-quote cite {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-style: normal;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        
+        /* --- Inline Quote --- */
+        .inline-quote {
+            background: linear-gradient(to right, var(--accent), var(--accent)) no-repeat 0 0;
+            background-size: 4px 100%;
+            padding: 1.5rem 2rem;
+            margin: 2.5rem 0;
+            font-family: var(--serif);
+            font-size: 1.25rem;
+            font-style: italic;
+            line-height: 1.5;
+        }
+        
+        .inline-quote cite {
+            display: block;
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-style: normal;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 1rem;
+        }
+        
+        /* --- Image Styling --- */
+        .image-container {
+            margin: 2.5rem 0;
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .image-caption {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--rule);
+            max-width: 500px;
+        }
+        
+        /* --- Audio Container --- */
+        .audio-container {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid var(--rule);
+            background: rgba(0,0,0,0.02);
+        }
+        
+        .audio-caption {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+        
+        .audio-container audio {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        /* --- Problem Cards --- */
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--ink);
+            margin: 3rem 0;
+        }
+        
+        .problem-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .problem-card h4 {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .problem-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Method Cards --- */
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+            margin: 3rem 0;
+        }
+        
+        .method-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .method-number {
+            font-family: var(--serif);
+            font-size: 2rem;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .method-card h4 {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .method-card p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Findings Grid --- */
+        .findings-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--ink);
+            margin: 3rem 0;
+        }
+        
+        .finding-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .finding-card h4 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .finding-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Framework Box --- */
+        .framework-box {
+            border: 1px solid var(--rule);
+            padding: 2.5rem;
+            margin: 3rem 0;
+            background: rgba(0,0,0,0.02);
+        }
+        
+        .framework-box h4 {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .framework-item {
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--accent);
+        }
+        
+        .framework-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .framework-item strong {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+            color: var(--ink);
+        }
+        
+        .framework-item p {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-bottom: 0;
+            max-width: none;
+        }
+        
+        /* --- Evaluation Cards --- */
+        .eval-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+            margin: 3rem 0;
+        }
+        
+        .eval-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .eval-card h4 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .eval-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Results Section --- */
+        .results-section {
+            background: var(--ink);
+            color: var(--paper);
+            margin: 4rem -4rem;
+            padding: 4rem;
+        }
+        
+        .results-section h2 {
+            color: var(--paper);
+            border-top-color: var(--paper);
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .result-item {
+            border-left: 1px solid rgba(255,255,255,0.3);
+            padding-left: 1.5rem;
+        }
+        
+        .result-number {
+            font-family: var(--serif);
+            font-size: 3.5rem;
+            font-style: italic;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-detail {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        /* --- List Styling --- */
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.75rem;
+            padding-left: 0.5rem;
+            max-width: 680px;
+        }
+        
+        li strong {
+            color: var(--ink);
+        }
+        
+        /* --- Skills Section --- */
+        .skills-section {
+            margin-top: 4rem;
+            padding: 3rem;
+            border: 1px solid var(--rule);
+        }
+        
+        .skills-section h4 {
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            margin-top: 0;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+        
+        .skill-category strong {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .skill-category p {
+            font-size: 0.85rem;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 0;
+            max-width: none;
+        }
+        
+        /* --- TL;DR Section --- */
+        .tldr-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 4rem;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .tldr-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .tldr-label {
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--paper);
+            background: var(--ink);
+            padding: 0.4rem 0.8rem;
+        }
+        
+        .tldr-subtitle {
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--muted);
+        }
+        
+        .tldr-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+        
+        .tldr-main {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        
+        .tldr-item {
+            padding-left: 1rem;
+            border-left: 2px solid var(--rule);
+        }
+        
+        .tldr-item:hover {
+            border-left-color: var(--accent);
+        }
+        
+        .tldr-number {
+            font-family: var(--serif);
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 0.3rem;
+        }
+        
+        .tldr-title {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+        
+        .tldr-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--muted);
+            margin: 0;
+        }
+        
+        .tldr-sidebar {
+            padding: 2rem;
+            background: var(--ink);
+            color: var(--paper);
+        }
+        
+        .tldr-sidebar-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 1rem;
+        }
+        
+        .tldr-sidebar-text {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-style: italic;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            color: var(--paper);
+        }
+        
+        /* --- Footer --- */
+        .footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--rule);
+            text-align: center;
+        }
+        
+        .footer a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .footer a:hover {
+            color: var(--ink);
+        }
+        
+        /* --- Responsive --- */
+        @media (max-width: 1100px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                padding: 4rem 3rem;
+            }
+            
+            .two-column {
+                column-count: 1;
+            }
+            
+            .findings-grid,
+            .results-grid,
+            .skills-grid,
+            .problem-grid,
+            .method-grid,
+            .eval-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pull-quote {
+                float: none;
+                width: 100%;
+                margin: 2rem 0;
+            }
+            
+            .tldr-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .tldr-main {
+                grid-template-columns: 1fr;
+            }
+            
+            .tldr-section {
+                padding: 2rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column;
+            }
+            
+            nav {
+                width: 100%;
+                padding: 1rem 2rem;
+                border-right: none;
+                border-bottom: 1px solid var(--rule);
+                height: auto;
+                position: relative;
+            }
+            
+            .nav-logo {
+                display: inline-block;
+                margin-bottom: 0;
+                margin-right: 2rem;
+            }
+            
+            nav a {
+                display: inline-block;
+                margin-right: 1.5rem;
+                margin-bottom: 0;
+            }
+            
+            .article-container {
+                padding: 2rem;
+            }
+            
+            .results-section {
+                margin-left: -2rem;
+                margin-right: -2rem;
+                padding: 3rem 2rem;
+            }
+            
+            h1 {
+                font-size: 2.4rem;
+            }
+        }
+        
         @media (max-width: 768px) {
-            .container { padding: 0 1rem; }
             h1 { font-size: 2rem; }
-            h2 { font-size: 1.5rem; }
+            h2 { font-size: 1.8rem; }
+            
+            .lede {
+                font-size: 1.25rem;
+            }
+            
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+        
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
 
-        <nav>
-            <a href="index.html" class="nav-logo">Sai Maram</a>
-            <div class="nav-container">
-                <a href="index.html">Home</a>
-                <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
-            </div>
-        </nav>
+    <nav>
+        <a href="index.html" class="nav-logo">Sai Maram</a>
+        <a href="index.html">Home</a>
+        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+    </nav>
 
     <main>
-        <div class="container">
-            <h1>AstraVerse: Designing Culturally-Sensitive Video Game Characters</h1>
-            <div class="project-meta">
-                <span class="badge">Research Project</span>
-                <span class="badge">ACM FDG 2023</span>
-                <span class="badge">IFIP-ICEC 2023</span>
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="hero-content">
+                <div class="issue-number">Case Study № 09 · ACM FDG 2023 · IFIP-ICEC 2023</div>
+                <h1>AstraVerse: Designing Culturally-Sensitive Video Game Characters</h1>
+                <p style="max-width: 100%; font-size: 1.15rem; color: var(--muted);">A systematic framework for creating culturally-inspired game characters that honor traditions without copying sacred figures.</p>
+                
+                <div class="hero-meta">
+                    <div class="meta-item">
+                        <strong>Role</strong>
+                        Project Lead
+                    </div>
+                    <div class="meta-item">
+                        <strong>Focus</strong>
+                        Cultural Research
+                    </div>
+                    <div class="meta-item">
+                        <strong>Published</strong>
+                        ACM FDG 2023
+                    </div>
+                </div>
             </div>
             
-            <p>When gods from Hindu mythology appeared in the popular MOBA game <em>SMITE</em>, the Hindu American Foundation filed a complaint with the FCC. When <em>Age of Mythology</em> included Hindu deities as playable characters, cultural organizations protested the trivialization of sacred figures. These incidents highlight a fundamental tension: game developers want to draw from rich mythological traditions, but when they directly copy religious figures, they risk cultural appropriation and community backlash.</p>
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-number">97%</div>
+                    <div class="stat-label">Novelty Rate</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Cultural Sensitivity</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">429</div>
+                    <div class="stat-label">Artifacts Collected</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">141</div>
+                    <div class="stat-label">Design Elements</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- TL;DR Section -->
+        <section class="tldr-section">
+            <div class="tldr-header">
+                <span class="tldr-label">Quick Read</span>
+                <span class="tldr-subtitle">The essentials in 60 seconds</span>
+            </div>
             
-            <p>This case study documents the development of AstraVerse, a framework for creating culturally-inspired game characters that are both novel and respectful. Rather than transplanting gods wholesale into games, AstraVerse enables designers to remix cultural elements systematically—creating original characters that honor traditions without copying sacred figures.</p>
+            <div class="tldr-grid">
+                <div class="tldr-main">
+                    <div class="tldr-item">
+                        <div class="tldr-number">01</div>
+                        <div class="tldr-title">The Problem</div>
+                        <p class="tldr-text">Directly copying religious figures into games leads to cultural appropriation protests and community backlash.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">02</div>
+                        <div class="tldr-title">The Approach</div>
+                        <p class="tldr-text">Visual ethnography at temples, grounded theory analysis, and card-based design toolkit development.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">03</div>
+                        <div class="tldr-title">The Solution</div>
+                        <p class="tldr-text">A modular framework of 141 remixable cultural elements enabling original character creation.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">04</div>
+                        <div class="tldr-title">The Impact</div>
+                        <p class="tldr-text">97% novelty rate with 100% cultural sensitivity validation from temple priests.</p>
+                    </div>
+                </div>
+                
+                <aside class="tldr-sidebar">
+                    <div class="tldr-sidebar-label">Key Insight</div>
+                    <p class="tldr-sidebar-text">"Rather than asking 'How do we copy gods respectfully?', we asked 'How do we create original characters inspired by cultural aesthetics?'"</p>
+                </aside>
+            </div>
+        </section>
+
+        <article class="article-container">
+            
+            <!-- Opening Lede -->
+            <p class="lede">When gods from Hindu mythology appeared in the popular MOBA game SMITE, the Hindu American Foundation filed a complaint with the FCC. When Age of Mythology included Hindu deities as playable characters, cultural organizations protested the trivialization of sacred figures.</p>
+            
+            <div class="two-column">
+                <p>These incidents highlight a fundamental tension: game developers want to draw from rich mythological traditions, but when they directly copy religious figures, they risk cultural appropriation and community backlash.</p>
+                
+                <p>This case study documents the development of AstraVerse, a framework for creating culturally-inspired game characters that are both novel and respectful. Rather than transplanting gods wholesale into games, AstraVerse enables designers to remix cultural elements systematically—creating original characters that honor traditions without copying sacred figures.</p>
+            </div>
 
             <h2>The Problem</h2>
-            <p>Mythology and cultural heritage offer game designers a treasure trove of inspiration. Hindu mythology alone contains thousands of deities, each with complex narratives, symbolic attributes, and visual characteristics. But the common industry practice of "god transplantation"—directly copying religious figures into games as playable characters—creates significant ethical, creative, and business challenges.</p>
             
-            <p><strong>Why this matters:</strong> When gods like Kali or Ganesha appear in combat games, they're often reduced to combat stats and special abilities. Their sacred significance—worshipped by millions—becomes secondary to gameplay mechanics. Cultural communities react strongly: protests, FCC complaints, and boycotts have followed games that misrepresent sacred figures.</p>
-            
-            <p>This puts designers in an impossible bind: Do they avoid cultural themes entirely and miss out on rich creative opportunities? Or do they risk community backlash by directly copying figures? Neither option serves games, players, or cultural communities well.</p>
-            
-            <p><strong>Our goal:</strong> Develop a systematic framework that allows designers to draw from cultural aesthetics respectfully while creating novel, original characters that don't replicate or misrepresent sacred figures.</p>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <h4>God Transplantation</h4>
+                    <p>The common industry practice of directly copying religious figures into games creates ethical, creative, and business challenges. Sacred significance becomes secondary to gameplay mechanics.</p>
+                </div>
+                <div class="problem-card">
+                    <h4>Community Backlash</h4>
+                    <p>When gods like Kali or Ganesha appear in combat games, cultural communities react strongly—protests, FCC complaints, and boycotts follow misrepresentation of sacred figures.</p>
+                </div>
+                <div class="problem-card">
+                    <h4>The Designer's Dilemma</h4>
+                    <p>Avoid cultural themes entirely and miss creative opportunities? Or risk backlash by copying figures? Neither option serves games, players, or cultural communities.</p>
+                </div>
+            </div>
 
-            <h2>My Approach</h2>
-            <p><strong>As Project Lead and Primary Researcher</strong>, I developed AstraVerse through a rigorous UX research process combining ethnography, design systems thinking, and participatory validation:</p>
-            
-            <ul>
-                <li><strong>Conducted visual ethnography</strong> at 4 Hindu temples in California, collecting 429 cultural artifacts to understand authentic visual language</li>
-                <li><strong>Applied grounded theory analysis</strong> to systematically identify 141 granular cultural elements (syntagms) organized into 22 categories (paradigms)</li>
-                <li><strong>Developed card-based design toolkit</strong> enabling designers to remix cultural elements like building blocks</li>
-                <li><strong>Validated through participatory workshops</strong> with game designers from UCSC's Game Design program</li>
-                <li><strong>Evaluated novelty quantitatively</strong> using vector embeddings and statistical analysis</li>
-                <li><strong>Assessed cultural sensitivity qualitatively</strong> through interviews with Hindu temple priests and cultural experts</li>
-            </ul>
+            <div class="inline-quote">
+                "When you show Kali fighting other gods, you're showing something that isn't just wrong—it's upsetting to those who worship her."
+                <cite>— Temple Priest during stakeholder interviews</cite>
+            </div>
 
-            <h2>Key Outcomes</h2>
-            <ul>
-                <li><strong>97% novelty rate</strong> for created characters</li>
-                <li><strong>100% cultural sensitivity</strong> validation from temple priests</li>
-                <li><strong>37 character concepts</strong> generated by designers</li>
-                <li><strong>Published at ACM FDG 2023 & IFIP-ICEC 2023</strong></li>
-                <li><strong>Systematic framework:</strong> Card-based design toolkit for cultural inspiration</li>
-                <li><strong>Cultural respect:</strong> Avoids direct deity copying while maintaining authenticity</li>
-                <li><strong>Designer empowerment:</strong> Enables creative exploration with cultural guardrails</li>
-                <li><strong>Replicable process:</strong> Can apply methodology to other cultures and traditions</li>
-            </ul>
+            <h2>Research Approach</h2>
+            
+            <p>As Project Lead and Primary Researcher, I developed AstraVerse through a rigorous UX research process combining ethnography, design systems thinking, and participatory validation:</p>
 
-            <img src="temporary/images/Group 101 (2).png" alt="Game designers participating in a design workshop using card-based system">
-
-            <h2>Visual Ethnography in Cultural Spaces</h2>
-            <p>To understand authentic cultural visual language—not stereotypes or Western representations—we conducted visual ethnography at four Hindu temples in Sunnyvale, California. This wasn't tourism or superficial observation; we systematically documented the actual visual elements, rituals, and objects present in these sacred spaces.</p>
-            
-            <p><strong>Why temples matter:</strong> Hindu temples are living repositories of visual culture where traditions are preserved and practiced. Each idol, ritual object, and architectural detail carries centuries of symbolic meaning. To create culturally grounded characters, we needed to understand these authentic visual vocabularies, not market stereotypes.</p>
-            
-            <p>Over multiple visits, we collected 429 photographs systematically categorized as:</p>
-            <ul>
-                <li><strong>248 Images of Idols:</strong> Sculptures of deities showing canonical poses (mudras), clothing styles, ornaments, weapons, and symbolic attributes</li>
-                <li><strong>63 Images of Ongoing Rituals:</strong> Live ceremonies revealing contextual uses of objects, gestures, and spatial arrangements</li>
-                <li><strong>45 Images of Miscellaneous Objects:</strong> Ritual implements, ceremonial items, architectural elements, and symbolic objects</li>
-            </ul>
-            
-            <p><strong>The methodology:</strong> We didn't just photograph and leave. We spent time in each temple, observing multiple worship sessions, speaking with priests about symbolic meanings, and understanding the cultural context of each element. This ethnographic grounding ensured our design framework drew from authentic cultural practice, not surface-level aesthetics.</p>
+            <div class="method-grid">
+                <div class="method-card">
+                    <div class="method-number">01</div>
+                    <h4>Visual Ethnography</h4>
+                    <p>Conducted fieldwork at 4 Hindu temples in California, collecting 429 cultural artifacts to understand authentic visual language.</p>
+                </div>
+                <div class="method-card">
+                    <div class="method-number">02</div>
+                    <h4>Grounded Theory</h4>
+                    <p>Applied systematic analysis to identify 141 granular cultural elements (syntagms) organized into 22 categories (paradigms).</p>
+                </div>
+                <div class="method-card">
+                    <div class="method-number">03</div>
+                    <h4>Card-Based Toolkit</h4>
+                    <p>Developed a design toolkit enabling designers to remix cultural elements like building blocks.</p>
+                </div>
+                <div class="method-card">
+                    <div class="method-number">04</div>
+                    <h4>Designer Workshops</h4>
+                    <p>Validated through participatory workshops with game designers from UCSC's Game Design program.</p>
+                </div>
+                <div class="method-card">
+                    <div class="method-number">05</div>
+                    <h4>Quantitative Analysis</h4>
+                    <p>Evaluated novelty using vector embeddings and statistical analysis across 141 dimensions.</p>
+                </div>
+                <div class="method-card">
+                    <div class="method-number">06</div>
+                    <h4>Cultural Validation</h4>
+                    <p>Assessed sensitivity through interviews with Hindu temple priests and cultural experts.</p>
+                </div>
+            </div>
 
             <div class="image-container">
-                <img src="temporary/images/astraVerse/Group 98.png" alt="Collage of photos taken during visual ethnography at temples">
-                <div class="image-caption">Collecting visual data from Hindu temples: idols, rituals, and cultural objects.</div>
+                <img src="temporary/images/Group 101 (2).png" alt="Design workshop">
+                <p class="image-caption">Game designers participating in a design workshop using the card-based system.</p>
+            </div>
+
+            <!-- Results Section - Dark Background -->
+            <div class="results-section">
+                <h2>Key Outcomes</h2>
+                <p style="color: rgba(255,255,255,0.8); max-width: 600px;">The framework successfully balances creative freedom with cultural respect.</p>
+                
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="result-number">97%</div>
+                        <div class="result-label">Novelty Rate</div>
+                        <div class="result-detail">Characters statistically distinct from original deities</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">100%</div>
+                        <div class="result-label">Sensitivity</div>
+                        <div class="result-detail">Cultural validation from temple priests and experts</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">37</div>
+                        <div class="result-label">Characters</div>
+                        <div class="result-detail">Original concepts generated by workshop participants</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">2</div>
+                        <div class="result-label">Publications</div>
+                        <div class="result-detail">ACM FDG 2023 & IFIP-ICEC 2023</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Visual Ethnography</h2>
+            
+            <p>To understand authentic cultural visual language—not stereotypes or Western representations—we conducted visual ethnography at four Hindu temples in Sunnyvale, California. This wasn't tourism; we systematically documented actual visual elements, rituals, and objects in these sacred spaces.</p>
+
+            <p>Over multiple visits, we collected 429 photographs systematically categorized:</p>
+            <ul>
+                <li><strong>248 Images of Idols:</strong> Sculptures showing canonical poses (mudras), clothing styles, ornaments, weapons, and symbolic attributes</li>
+                <li><strong>63 Images of Rituals:</strong> Live ceremonies revealing contextual uses of objects, gestures, and spatial arrangements</li>
+                <li><strong>45 Images of Objects:</strong> Ritual implements, ceremonial items, architectural elements, and symbolic objects</li>
+            </ul>
+
+            <div class="image-container">
+                <img src="temporary/images/astraVerse/Group 98.png" alt="Visual ethnography at temples">
+                <p class="image-caption">Collecting visual data from Hindu temples: idols, rituals, and cultural objects.</p>
             </div>
 
             <h3>Understanding Cultural Stakeholder Concerns</h3>
-            <p>Early in the research process, we showed temple priests examples of how Hindu gods appeared in existing games like <em>SMITE</em> and <em>Age of Mythology</em>. These conversations were critical for understanding what cultural appropriation actually looks like from the community's perspective—not just academic critique, but lived experience.</p>
             
-            <p><strong>What we learned:</strong> The priests' concerns weren't merely about inaccurate representation—they were about sacred figures being reduced to combat stats, sacred narratives being trivialized into game mechanics, and deities worshipped by millions becoming entertainment commodities. These aren't abstract deities in mythology books; they're living figures of devotion.</p>
+            <p>We showed temple priests examples of how Hindu gods appeared in existing games like SMITE and Age of Mythology. These conversations were critical for understanding what cultural appropriation actually looks like from the community's perspective.</p>
 
             <div class="audio-container">
                 <div class="audio-caption">Audio Clip: Priest discussing concerns about game narratives (Shared with Permission)</div>
                 <audio controls preload="metadata">
-                    <source src="temporary/images/astraVerse/E El Camino Real 8.m4a" type="audio/mp4" />
+                    <source src="temporary/images/astraVerse/E El Camino Real 8.m4a" type="audio/mp4">
                     Your browser does not support the audio element.
                 </audio>
             </div>
 
             <div class="image-container">
-                <img src="temporary/images/astraVerse/temple_priest.png" alt="Quotes from temple priests expressing concerns">
-                <div class="image-caption">Key concerns from cultural stakeholders included misrepresentation, trivialization, and manipulation of sacred narratives.</div>
+                <img src="temporary/images/astraVerse/temple_priest.png" alt="Priest concerns">
+                <p class="image-caption">Key concerns from cultural stakeholders: misrepresentation, trivialization, and manipulation of sacred narratives.</p>
             </div>
-            
-            <p>One priest explained, "When you show Kali fighting other gods, you're showing something that isn't just wrong—it's upsetting to those who worship her." Another clarified the distinction between inspiration and copying: "We respect creative work, but when you directly copy our gods into games, that's different from creating something inspired by our culture."</p>
-            
-            <p><strong>This insight shaped our framework:</strong> Rather than asking "How do we copy gods respectfully?", we asked "How do we create original characters inspired by cultural aesthetics?" This reframing became foundational to AstraVerse.</p>
 
-            <h2>Phase 2: Building the Design System</h2>
-            <p>Having collected rich ethnographic data, we faced a critical challenge: How do we transform hundreds of photographs of idols, rituals, and objects into a usable design system that enables creativity rather than copying?</p>
-            
-            <p><strong>The breakthrough:</strong> Rather than treating whole gods as units, we identified their component elements—ornaments, postures, symbolic attributes, color palettes. By making these elements modular and remixable, designers could create new combinations while staying culturally grounded.</p>
+            <div class="inline-quote">
+                "We respect creative work, but when you directly copy our gods into games, that's different from creating something inspired by our culture."
+                <cite>— Temple Priest, clarifying inspiration vs. copying</cite>
+            </div>
 
-            <h3>Grounded Theory Analysis</h3>
-            <p>Using constructivist Grounded Theory, we systematically analyzed the visual data through iterative coding. This wasn't surface-level categorization—we identified patterns, relationships, and structural elements that defined the cultural visual language.</p>
-            
-            <p><strong>The process:</strong> We began with open coding, identifying every visual element present in the ethnographic data: headwear styles, hand gestures, weapons, clothing patterns, symbolic objects, color schemes, postures. Through axial coding, we grouped these into thematic categories. Finally, selective coding revealed the high-level pillars organizing the entire design space.</p>
+            <p><strong>This insight shaped our framework:</strong> Rather than asking "How do we copy gods respectfully?", we asked "How do we create original characters inspired by cultural aesthetics?"</p>
 
-            <div class="key-finding">
+            <h2>Building the Design System</h2>
+            
+            <p>The breakthrough: Rather than treating whole gods as units, we identified their component elements—ornaments, postures, symbolic attributes, color palettes. By making these elements modular and remixable, designers could create new combinations while staying culturally grounded.</p>
+
+            <div class="image-container">
+                <img src="temporary/images/astraVerse/Group 97.png" alt="Research approach diagram">
+                <p class="image-caption">From ethnographic data to a structured design space using Grounded Theory analysis.</p>
+            </div>
+
+            <div class="framework-box">
                 <h4>The Final Design Space Structure</h4>
-                <ul>
-                    <li><strong>141 Syntagms:</strong> Granular, remixable elements—the "building blocks" (e.g., "trident with flames," "lotus mudra," "golden crown with peacock feather," "saffron-colored robes")</li>
-                    <li><strong>22 Paradigms:</strong> Thematic categories organizing syntagms (e.g., 'Headwear', 'Hand Gestures/Mudras', 'Handheld Objects', 'Mounts/Vehicles', 'Postures', 'Color Palettes', 'Symbolic Animals')</li>
-                    <li><strong>4 Selective Codes:</strong> High-level conceptual pillars defining the complete design space:
-                        <ol>
-                            <li><strong>Character Features:</strong> Physical attributes, postures, gestures</li>
-                            <li><strong>Weapon Design:</strong> Tools, weapons, handheld objects</li>
-                            <li><strong>Fashion:</strong> Clothing, ornaments, adornments</li>
-                            <li><strong>Game Mechanics:</strong> Symbolic associations suggesting gameplay roles</li>
-                        </ol>
-                    </li>
-                </ul>
-                <p>This structure enables designers to mix-and-match elements across categories. For example, a character might combine Ganesha's elephant head with Shiva's trident and Lakshmi's lotus gesture—creating an original character that's culturally grounded but wholly new.</p>
+                
+                <div class="framework-item">
+                    <strong>141 Syntagms</strong>
+                    <p>Granular, remixable elements—the "building blocks" (e.g., "trident with flames," "lotus mudra," "golden crown with peacock feather," "saffron-colored robes")</p>
+                </div>
+                
+                <div class="framework-item">
+                    <strong>22 Paradigms</strong>
+                    <p>Thematic categories organizing syntagms (e.g., 'Headwear', 'Hand Gestures/Mudras', 'Handheld Objects', 'Mounts/Vehicles', 'Postures', 'Color Palettes', 'Symbolic Animals')</p>
+                </div>
+                
+                <div class="framework-item">
+                    <strong>4 Selective Codes</strong>
+                    <p>High-level conceptual pillars: Character Features (physical attributes, postures), Weapon Design (tools, weapons), Fashion (clothing, ornaments), Game Mechanics (symbolic associations)</p>
+                </div>
             </div>
 
-            <div class="image-container">
-                <img src="temporary/images/astraVerse/Group 97.png" alt="Diagram illustrating the research approach">
-                <div class="image-caption">Our research approach: from ethnographic data to a structured design space using Grounded Theory.</div>
-            </div>
-
-            <h2>Phase 3: The AstraVerse Design Toolkit</h2>
-            <p>The framework was translated into a tangible design tool: a set of cards representing the identified cultural elements. This allows designers to search for specific elements they are looking for, similar to how Character Creation Interfaces in games present structured choices.</p>
-
-            <h3>How the Toolkit Works</h3>
-            <ul>
-                <li><strong>Paradigms</strong> help navigate the design space</li>
-                <li>Designers select <strong>Syntagm cards</strong> from various Paradigms</li>
-                <li>By combining selected cards, designers can construct new, unique characters rooted in cultural aesthetics but not directly copying existing figures</li>
-            </ul>
-
-            <div class="image-container">
-                <img src="temporary/images/astraVerse/Group 65 (4).png" alt="Image of the card-based design system">
-                <div class="image-caption">The AstraVerse card system: Paradigms structure the choice of granular Syntagm elements for character creation.</div>
-            </div>
-
-            <h2>Phase 4: Validation</h2>
-            <p>A design system is only effective if it meets its goals. We conducted a multi-faceted evaluation focusing on our key research questions.</p>
-
-            <div class="image-container">
-                <img src="temporary/images/astraVerse/Group 100.png" alt="Diagram outlining the three-pronged evaluation strategy">
-                <div class="image-caption">Our evaluation strategy assessing usability, novelty, and sensitivity.</div>
-            </div>
-
-            <h3>Evaluation 1: Participatory Design Workshop</h3>
-            <p>Could game designers actually use the AstraVerse system to create original characters? To answer this, we invited three game designers from UCSC's Game Design and Development graduate program to a hands-on workshop.</p>
+            <h2>The AstraVerse Toolkit</h2>
             
-            <p><strong>The task:</strong> Designers were given the card-based toolkit and asked to create two characters each, tasked with saving a fictional planet called "Vritra." They had full access to all 141 syntagm cards organized across 22 paradigms, with no restrictions on combinations.</p>
-            
-            <p><strong>What we observed:</strong> Within minutes, designers were actively mixing elements across paradigms. One designer created a character combining a "multi-armed posture" with "trident weapon" and "blue skin tone"—elements from different original gods, but combined into something new. Another paired "lotus mudra" with "armor made of ancient scripts" and "airship mount"—creating a character that felt rooted in cultural aesthetics but was entirely original.</p>
-
-            <div class="key-finding">
-                <h4>Workshop Findings</h4>
-                <ul>
-                    <li><strong>Intuitive and engaging:</strong> Designers found the card-based system easy to navigate without training</li>
-                    <li><strong>Stimulated creativity:</strong> The systematic structure actually facilitated more experimental combinations than free-form brainstorming</li>
-                    <li><strong>Coherent concepts:</strong> Designers consistently created characters with cohesive visual languages despite mixing diverse elements</li>
-                    <li><strong>Designer feedback:</strong> "This gives me a starting point when I don't know what to design," said one participant</li>
-                </ul>
-            </div>
-            
-            <p><strong>Why this matters:</strong> The workshop confirmed that designers could use the framework to generate original characters. But were these characters actually novel, or just remixes that felt new? That's where quantitative evaluation came in.</p>
+            <p>The framework was translated into a tangible design tool: cards representing identified cultural elements. Designers can search for specific elements similar to how Character Creation Interfaces in games present structured choices.</p>
 
             <div class="image-container">
-                <img src="temporary/images/astraVerse/Group 101 (1).png" alt="Game designers creating characters using the AstraVerse card system">
-                <div class="image-caption">Designers actively using the toolkit in the participatory workshop.</div>
+                <img src="temporary/images/astraVerse/Group 65 (4).png" alt="Card-based design system">
+                <p class="image-caption">The AstraVerse card system: Paradigms structure the choice of granular Syntagm elements.</p>
             </div>
 
-            <h3>Evaluation 2: Quantitative Novelty Analysis</h3>
-            <p>Designers might <em>feel</em> like they're creating novel characters, but are they actually different from traditional "god transplantation"? To answer this objectively, we developed a quantitative framework to measure character novelty using vector embeddings.</p>
-            
-            <p><strong>The method:</strong> Each character (both participant-created and original gods) was represented as a 141-dimensional vector based on which syntagms they contained. For example, Shiva might be represented as [1, 0, 1, 0, 1...] where 1 indicates presence of a specific element. Participant characters were similarly encoded based on their selected cards.</p>
-            
-            <p>We then calculated Canberra distance—a metric accounting for the relative differences between vectors. Lower distances meant characters shared more elements; higher distances indicated greater novelty.</p>
+            <h2>Validation</h2>
 
             <div class="image-container">
-                <img src="temporary/images/astraVerse/Group 65 (5).png" alt="Diagram showing character representation as a vector of syntagms">
-                <div class="image-caption">Every character (participant-created or original god) represented as a vector across 141 dimensions.</div>
+                <img src="temporary/images/astraVerse/Group 100.png" alt="Evaluation strategy">
+                <p class="image-caption">Three-pronged evaluation: usability, novelty, and cultural sensitivity.</p>
             </div>
 
-            <p><strong>The comparison:</strong> We compared participant-generated characters against all original Hindu gods from our ethnographic data. We also broke down comparisons by category (Physical Features, Weapon Design, Fashion, etc.) to understand where novelty manifested.</p>
+            <h3>Participatory Design Workshop</h3>
+            
+            <p>We invited three game designers from UCSC's Game Design program to create two characters each using the toolkit, tasked with saving a fictional planet called "Vritra."</p>
 
-            <div class="image-container">
-                <img src="temporary/images/astraVerse/Group 68.png" alt="Radar chart comparing distances of participant characters vs original gods">
-                <div class="image-caption">Visualizing character novelty: Participant characters demonstrate clear distances from original gods across multiple dimensions.</div>
+            <div class="findings-grid">
+                <div class="finding-card">
+                    <h4>Intuitive & Engaging</h4>
+                    <p>Designers found the card-based system easy to navigate without training. The systematic structure facilitated more experimental combinations than free-form brainstorming.</p>
+                </div>
+                <div class="finding-card">
+                    <h4>Coherent Concepts</h4>
+                    <p>Designers consistently created characters with cohesive visual languages despite mixing diverse elements. "This gives me a starting point when I don't know what to design."</p>
+                </div>
             </div>
 
             <div class="image-container">
-                <img src="temporary/images/astraVerse/Group 102.png" alt="Table showing statistical test results">
-                <div class="image-caption">Statistical analysis confirming significant differences between participant characters and original gods.</div>
+                <img src="temporary/images/astraVerse/Group 101 (1).png" alt="Workshop participants">
+                <p class="image-caption">Designers actively using the toolkit in the participatory workshop.</p>
             </div>
 
-            <div class="key-finding">
-                <h4>Key Findings (Novelty)</h4>
-                <ul>
-                    <li><strong>Statistically significant novelty:</strong> Participant-generated characters were statistically distinct from directly copied gods across the entire design space (p &lt; 0.05, Cohen's d = 1.57—a large effect size)</li>
-                    <li><strong>Strongest in physical features:</strong> Highest novelty observed in Character Features category (p &lt; 0.05, d = 1.8)—designers created new physical combinations</li>
-                    <li><strong>Significant in weapon design:</strong> Novelty also measured in Weapon Design (p &lt; 0.05, d = 1.1)</li>
-                    <li><strong>Pattern across dimensions:</strong> The statistical differences weren't isolated to one area—they spanned multiple categories, indicating comprehensive novelty rather than minor variations</li>
-                </ul>
-            </div>
+            <h3>Quantitative Novelty Analysis</h3>
             
-            <p><strong>What this means:</strong> The quantitative analysis confirmed that character creation using AstraVerse produced statistically distinct characters from traditional god transplantation. But numbers alone don't prove cultural sensitivity—that required evaluation by cultural experts.</p>
+            <p>Each character was represented as a 141-dimensional vector based on syntagms. We calculated Canberra distance to measure novelty—comparing participant characters against all original Hindu gods from our data.</p>
 
-            <h3>Evaluation 3: Cultural Sensitivity</h3>
-            <p>We interviewed three cultural experts (two Hindu temple priests, one with a diploma in Hindu scriptures). They evaluated participant-generated characters alongside gods transplanted into games.</p>
-
-            <div class="quote">
-                "These gods are an identity for lots of us, Devi (Kali) is my primary deity and it is upsetting to see her reduced to such a representation."
-                <span class="quote-author">— Evaluator 1 (Temple Priest, on Kali from SMITE)</span>
+            <div class="image-container">
+                <img src="temporary/images/astraVerse/Group 65 (5).png" alt="Vector representation">
+                <p class="image-caption">Every character represented as a vector across 141 dimensions.</p>
             </div>
 
-            <div class="quote">
-                "I understand why you would be concerned if game characters can offend people, but I think these [participant-generated characters] are not my gods or any gods that anyone would identify or worship... The reason I might be okay with it is, it does not touch the source gods."
-                <span class="quote-author">— Evaluator 2 (Scriptural Expert) on participant-generated characters</span>
+            <div class="image-container">
+                <img src="temporary/images/astraVerse/Group 68.png" alt="Novelty radar chart">
+                <p class="image-caption">Participant characters demonstrate clear distances from original gods across multiple dimensions.</p>
             </div>
 
-            <div class="key-finding">
-                <h4>Key Findings (Sensitivity)</h4>
-                <ul>
-                    <li>Participant-generated characters were received positively</li>
-                    <li>Stakeholders recognized mythological elements but perceived generated characters as fictional creations inspired by, not copies of, mythology</li>
-                    <li>Creative liberty could be taken with narratives for these fictional characters, unlike for original sacred figures</li>
-                </ul>
+            <div class="image-container">
+                <img src="temporary/images/astraVerse/Group 102.png" alt="Statistical results">
+                <p class="image-caption">Statistical analysis confirming significant differences (p < 0.05, Cohen's d = 1.57).</p>
             </div>
 
-            <h2>Key Outcomes & Impact</h2>
-            <div class="key-finding">
-                <h4>Summary of Impact</h4>
-                <ul>
-                    <li><strong>Culturally Sensitive Creations:</strong> Generated characters were perceived by cultural experts as unique, fictional beings inspired by mythology rather than direct copies</li>
-                    <li><strong>Measurable Novelty:</strong> Statistical analysis confirmed that characters created with AstraVerse are significantly more novel than traditional "god transplantation" methods</li>
-                    <li><strong>Empowered Designers:</strong> Game designers found the card-based toolkit intuitive and effective, providing a structured pathway to overcome ideation challenges</li>
-                </ul>
+            <div class="eval-grid">
+                <div class="eval-card">
+                    <h4>Statistically Significant</h4>
+                    <p>Participant characters were distinct from copied gods across the entire design space (p < 0.05, Cohen's d = 1.57—a large effect size).</p>
+                </div>
+                <div class="eval-card">
+                    <h4>Comprehensive Novelty</h4>
+                    <p>Differences spanned multiple categories—Character Features (d = 1.8), Weapon Design (d = 1.1)—indicating comprehensive novelty, not minor variations.</p>
+                </div>
+            </div>
+
+            <h3>Cultural Sensitivity Validation</h3>
+            
+            <p>Three cultural experts (two temple priests, one scriptural scholar) evaluated participant-generated characters alongside gods transplanted into games.</p>
+
+            <div class="inline-quote">
+                "These gods are an identity for lots of us. Devi (Kali) is my primary deity and it is upsetting to see her reduced to such a representation."
+                <cite>— Temple Priest, on Kali from SMITE</cite>
+            </div>
+
+            <div class="inline-quote">
+                "I understand why you would be concerned if game characters can offend people, but I think these [participant-generated characters] are not my gods... The reason I might be okay with it is, it does not touch the source gods."
+                <cite>— Scriptural Expert, on participant-generated characters</cite>
+            </div>
+
+            <div class="findings-grid">
+                <div class="finding-card">
+                    <h4>Positive Reception</h4>
+                    <p>Stakeholders recognized mythological elements but perceived generated characters as fictional creations inspired by—not copies of—mythology.</p>
+                </div>
+                <div class="finding-card">
+                    <h4>Creative Freedom</h4>
+                    <p>Cultural experts affirmed that creative liberty could be taken with narratives for these fictional characters, unlike for original sacred figures.</p>
+                </div>
             </div>
 
             <h2>Conclusion</h2>
-            <p>The AstraVerse project successfully demonstrated that it's possible to move beyond direct appropriation in culturally inspired character design. Through a rigorous UX research and design process, we developed and validated a system that:</p>
-            <ul>
-                <li>Provides designers with a structured yet flexible tool for creative exploration grounded in cultural aesthetics</li>
-                <li>Enables the generation of characters perceived as statistically novel and visually unique</li>
-                <li>Produces character concepts deemed culturally sensitive and acceptable by cultural stakeholders</li>
-            </ul>
 
-            <!-- Skills Demonstrated -->
-            <div class="key-finding" style="margin-top: 3rem;">
-                <h4>Skills & Methods Demonstrated</h4>
-                <p><strong>Research:</strong> Visual Ethnography • Grounded Theory • Participatory Design • Statistical Analysis • Cultural Research</p>
-                <p><strong>Design:</strong> Game Design • Character Design • Design Systems • Framework Development • Workshop Facilitation</p>
-                <p><strong>Analysis:</strong> Qualitative Coding • Vector Embeddings • Novelty Assessment • Cultural Validation</p>
-                <p><strong>Impact:</strong> Academic Publishing • Cross-Cultural Design • Ethical Design Practice • Community Engagement</p>
+            <p class="lede" style="margin-top: 0;">AstraVerse demonstrates that it's possible to move beyond direct appropriation in culturally inspired character design.</p>
+            
+            <div class="two-column">
+                <p>Through rigorous UX research and design, we created a system that provides designers with structured yet flexible tools for creative exploration grounded in cultural aesthetics.</p>
+            
+                <p>The framework enables generation of characters perceived as statistically novel and visually unique, while producing concepts deemed culturally sensitive by cultural stakeholders. The methodology is replicable—applicable to other cultures and traditions seeking respectful creative engagement.</p>
             </div>
 
-        </div>
+            <!-- Skills Section -->
+            <div class="skills-section">
+                <h4>Skills & Methods Demonstrated</h4>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <strong>Research</strong>
+                        <p>Visual Ethnography, Grounded Theory, Participatory Design, Statistical Analysis, Cultural Research</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Design</strong>
+                        <p>Game Design, Character Design, Design Systems, Framework Development, Workshop Facilitation</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Analysis</strong>
+                        <p>Qualitative Coding, Vector Embeddings, Novelty Assessment, Cultural Validation</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Impact</strong>
+                        <p>Academic Publishing (FDG, ICEC), Cross-Cultural Design, Ethical Design Practice</p>
+                    </div>
+                </div>
+            </div>
 
-        <footer class="footer">
-            <p>&copy; 2024 Sai Maram. Case Study.</p>
-            <p><a href="./index.html">Back to Portfolio</a></p>
-        </footer>
+            <footer class="footer">
+                <a href="index.html">← Back to Portfolio</a>
+            </footer>
+        </article>
     </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const portfolioToggle = document.getElementById('portfolio-toggle');
-            const projectLinksContainer = document.getElementById('project-links-container');
-            const portfolioIndicator = document.getElementById('portfolio-indicator'); 
-
-            if (portfolioToggle) {
-                portfolioToggle.addEventListener('click', function() {
-                    projectLinksContainer.classList.toggle('hidden');
-                    if (projectLinksContainer.classList.contains('hidden')) {
-                        portfolioIndicator.textContent = '+';
-                    } else {
-                        portfolioIndicator.textContent = '-';
-                    }
-                });
-            }
-        });
-
-        function showLockedMessage() {
-            alert("This case study is under NDA and cannot be shared publicly. Please contact me directly for more information about my work at Microsoft/Xbox.");
-        }
-
-        function showComingSoon() {
-            alert("This project case study is currently being developed. Please check back soon!");
-        }
-    </script>
 </body>
 </html>

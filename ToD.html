@@ -3,9 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tales of Dharma: Designing Community-Driven Games for Cultural Education</title>
+    <title>Tales of Dharma - UX Case Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
     <style>
-        /* --- Sidebar and Layout Styles --- */
+        :root {
+            --ink: #1a1a1a;
+            --paper: #f8f5f0;
+            --accent: #b8860b; /* Golden/amber for cultural/mythological theme */
+            --muted: #6b6b6b;
+            --rule: #d4d0c8;
+            --serif: 'Instrument Serif', Georgia, serif;
+            --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,305 +25,943 @@
         }
         
         body {
-            background-color: #ffffff;
-            background-image: 
-                linear-gradient(rgba(200, 200, 200, 0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(200, 200, 200, 0.15) 1px, transparent 1px);
-            background-size: 40px 40px;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 1.05rem;
-            line-height: 1.6;
-            color: #1a1a1a;
-            margin: 0;
+            background-color: var(--paper);
+            font-family: var(--sans);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--ink);
             display: flex;
             min-height: 100vh;
         }
+        
+        /* --- Navigation --- */
         nav {
-            width: 220px;
-            padding: 2rem;
-            border-right: 1px solid rgba(200, 200, 200, 0.3);
+            width: 200px;
+            padding: 2.5rem 1.5rem;
+            border-right: 1px solid var(--rule);
             flex-shrink: 0;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background-color: var(--paper);
+            position: sticky;
+            top: 0;
+            height: 100vh;
         }
+        
         nav a {
             display: block;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-            text-decoration: underline;
-            cursor: pointer;
+            margin-bottom: 0.75rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
             transition: color 0.2s ease;
         }
+        
         nav a:hover {
-            text-decoration: none;
-            color: #666;
+            color: var(--ink);
         }
+        
         .nav-logo {
-            font-weight: 600;
-            margin-bottom: 2rem;
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 2.5rem;
+            color: var(--ink);
             text-decoration: none;
-            cursor: pointer;
-            font-size: 1.3rem;
-            color: #1a1a1a;
-            transition: color 0.2s ease;
+            display: block;
         }
-        .nav-logo:hover {
-            color: #666;
-        }
-        #project-links-container {
-            margin-top: 0.5rem;
-            padding-left: 1rem;
-            border-left: 1px solid #eee;
-        }
-        .project-link {
-            font-size: 1rem;
-        }
+        
         main {
             flex-grow: 1;
             overflow-y: auto;
-            height: 100vh;
-            background-color: transparent;
-        }
-        .hidden {
-            display: none;
-        }
-        @media (max-width: 992px) {
-            body {
-                flex-direction: column;
-            }
-            main {
-                height: auto;
-            }
-            nav {
-                width: 100%;
-                padding: 1rem;
-                border-right: none;
-                border-bottom: 1px solid #ddd;
-                box-sizing: border-box;
-            }
-            .nav-container {
-                display: flex;
-                justify-content: center;
-                gap: 1.5rem;
-                flex-wrap: wrap;
-            }
-            .nav-logo {
-                display: none;
-            }
-            nav a {
-                margin-bottom: 0;
-            }
-            #project-links-container {
-                width: 100%;
-                text-align: center;
-                padding-left: 0;
-                border-left: none;
-                margin-top: 1rem;
-            }
-        }
-
-        /* --- Case Study Styles --- */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-        }
-        h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-            line-height: 1.2;
-        }
-        h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-top: 3rem;
-            margin-bottom: 1.5rem;
-            color: #1a1a1a;
-        }
-        h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-        }
-        p {
-            margin-bottom: 1.5rem;
-            color: #333;
-        }
-        .project-meta {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 2rem;
-        }
-        .badge {
-            display: inline-block;
-            padding: 0.4rem 1rem;
-            background-color: #f0f0f0;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 12px;
-            margin: 2rem 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: var(--paper);
         }
         
-        /* Card Display Section */
-        .cards-showcase {
+        /* --- Hero Section --- */
+        .hero {
+            padding: 6rem 4rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: end;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .hero-content {
+            padding-bottom: 2rem;
+        }
+        
+        .issue-number {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+        
+        h1 {
+            font-family: var(--serif);
+            font-size: 3.2rem;
+            font-weight: 400;
+            line-height: 1.05;
+            color: var(--ink);
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--rule);
+        }
+        
+        .meta-item {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+        
+        .meta-item strong {
+            display: block;
+            color: var(--ink);
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+        }
+        
+        .stat-box {
+            background: var(--paper);
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-family: var(--serif);
+            font-size: 2.8rem;
+            font-style: italic;
+            color: var(--ink);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        
+        /* --- Article Layout --- */
+        .article-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem;
+        }
+        
+        .lede {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            line-height: 1.6;
+            color: var(--ink);
+            max-width: 800px;
+            margin-bottom: 3rem;
+        }
+        
+        .lede::first-letter {
+            font-size: 4.5rem;
+            float: left;
+            line-height: 0.8;
+            margin-right: 0.5rem;
+            margin-top: 0.1rem;
+            color: var(--accent);
+        }
+        
+        .two-column {
+            column-count: 2;
+            column-gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .two-column p {
+            margin-bottom: 1.25rem;
+        }
+        
+        h2 {
+            font-family: var(--serif);
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-top: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--ink);
+            padding-top: 2rem;
+            border-top: 3px solid var(--ink);
+        }
+        
+        h3 {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        h4 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+            color: var(--ink);
+        }
+        
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--ink);
+            max-width: 680px;
+        }
+        
+        /* --- Pull Quote --- */
+        .pull-quote {
+            float: right;
+            width: 45%;
+            margin: 0 0 2rem 3rem;
+            padding: 2rem 0 2rem 2rem;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .pull-quote blockquote {
+            font-family: var(--serif);
+            font-size: 1.8rem;
+            font-style: italic;
+            line-height: 1.4;
+            color: var(--ink);
+            margin-bottom: 1rem;
+        }
+        
+        .pull-quote cite {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-style: normal;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        
+        /* --- Inline Quote --- */
+        .inline-quote {
+            background: linear-gradient(to right, var(--accent), var(--accent)) no-repeat 0 0;
+            background-size: 4px 100%;
+            padding: 1.5rem 2rem;
+            margin: 2.5rem 0;
+            font-family: var(--serif);
+            font-size: 1.25rem;
+            font-style: italic;
+            line-height: 1.5;
+        }
+        
+        .inline-quote cite {
+            display: block;
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-style: normal;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 1rem;
+        }
+        
+        /* --- Image Styling --- */
+        .image-container {
+            margin: 2.5rem 0;
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .image-caption {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--rule);
+            max-width: 500px;
+        }
+        
+        /* --- Card Gallery --- */
+        .card-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .card-gallery img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 12px;
+        }
+        
+        .gallery-caption {
+            grid-column: 1 / -1;
+            font-size: 0.85rem;
+            color: var(--muted);
+            text-align: center;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--rule);
+        }
+        
+        /* --- Key Finding Cards --- */
+        .findings-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--ink);
             margin: 3rem 0;
         }
         
-        .tales-cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .card-container {
-            width: 100%;
-        }
-
-        .card-content {
-            width: 100%;
-        }
-
-        .card-image {
-            width: 100%;
-            height: auto;
-            border-radius: 25px;
+        .finding-card {
+            background: var(--paper);
+            padding: 2rem;
         }
         
+        .finding-card h4 {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .finding-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Design Principle Card --- */
+        .principle-card {
+            border: 1px solid var(--rule);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .principle-card h4 {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .principle-card p {
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Results Section --- */
+        .results-section {
+            background: var(--ink);
+            color: var(--paper);
+            margin: 4rem -4rem;
+            padding: 4rem;
+        }
+        
+        .results-section h2 {
+            color: var(--paper);
+            border-top-color: var(--paper);
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .result-item {
+            border-left: 1px solid rgba(255,255,255,0.3);
+            padding-left: 1.5rem;
+        }
+        
+        .result-number {
+            font-family: var(--serif);
+            font-size: 3.5rem;
+            font-style: italic;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-detail {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        /* --- Finding Cards with Quotes --- */
+        .finding-with-quote {
+            border: 1px solid var(--rule);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .finding-with-quote h4 {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .finding-with-quote p {
+            max-width: none;
+            margin-bottom: 1rem;
+        }
+        
+        .finding-quote {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: var(--muted);
+            padding: 1rem;
+            background: rgba(0,0,0,0.03);
+            border-left: 2px solid var(--accent);
+            margin-top: 1rem;
+        }
+        
+        .finding-quote cite {
+            display: block;
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            font-style: normal;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 0.75rem;
+        }
+        
+        /* --- List Styling --- */
         ul {
-            margin-left: 2rem;
+            margin-left: 1.5rem;
             margin-bottom: 1.5rem;
         }
         
         li {
+            margin-bottom: 0.75rem;
+            padding-left: 0.5rem;
+            max-width: 680px;
+        }
+        
+        li strong {
+            color: var(--ink);
+        }
+        
+        /* --- Skills Section --- */
+        .skills-section {
+            margin-top: 4rem;
+            padding: 3rem;
+            border: 1px solid var(--rule);
+        }
+        
+        .skills-section h4 {
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            margin-top: 0;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+        
+        .skill-category strong {
+            display: block;
+            font-size: 0.9rem;
             margin-bottom: 0.5rem;
         }
         
-        .quote {
-            background-color: #fff176;
-            padding: 1.2rem 1.5rem;
-            border-radius: 8px;
-            margin: 2rem 0;
+        .skill-category p {
+            font-size: 0.85rem;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 0;
+            max-width: none;
+        }
+        
+        /* --- TL;DR Section --- */
+        .tldr-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 4rem;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .tldr-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .tldr-label {
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--paper);
+            background: var(--ink);
+            padding: 0.4rem 0.8rem;
+        }
+        
+        .tldr-subtitle {
+            font-family: var(--serif);
+            font-size: 1.1rem;
             font-style: italic;
-            line-height: 1.7;
-            color: #1a1a1a;
-            border-left: 4px solid #fbc02d;
+            color: var(--muted);
         }
         
-        .key-finding {
-            background-color: #f9f9f9;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 2rem 0;
-            border-left: 4px solid #1a1a1a;
+        .tldr-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
         }
         
-        .quote-author {
-            display: block;
-            margin-top: 0.5rem;
+        .tldr-main {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        
+        .tldr-item {
+            padding-left: 1rem;
+            border-left: 2px solid var(--rule);
+        }
+        
+        .tldr-item:hover {
+            border-left-color: var(--accent);
+        }
+        
+        .tldr-number {
+            font-family: var(--serif);
             font-size: 0.9rem;
-            font-style: normal;
-            color: #666;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 0.3rem;
+        }
+        
+        .tldr-title {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+        
+        .tldr-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--muted);
+            margin: 0;
+        }
+        
+        .tldr-sidebar {
+            padding: 2rem;
+            background: var(--ink);
+            color: var(--paper);
+        }
+        
+        .tldr-sidebar-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 1rem;
+        }
+        
+        .tldr-sidebar-text {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-style: italic;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            color: var(--paper);
+        }
+        
+        /* --- Footer --- */
+        .footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--rule);
+            text-align: center;
+        }
+        
+        .footer a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .footer a:hover {
+            color: var(--ink);
+        }
+        
+        /* --- Responsive --- */
+        @media (max-width: 1100px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                padding: 4rem 3rem;
+            }
+            
+            .two-column {
+                column-count: 1;
+            }
+            
+            .findings-grid,
+            .results-grid,
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .pull-quote {
+                float: none;
+                width: 100%;
+                margin: 2rem 0;
+            }
+            
+            .tldr-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .tldr-main {
+                grid-template-columns: 1fr;
+            }
+            
+            .tldr-section {
+                padding: 2rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column;
+            }
+            
+            nav {
+                width: 100%;
+                padding: 1rem 2rem;
+                border-right: none;
+                border-bottom: 1px solid var(--rule);
+                height: auto;
+                position: relative;
+            }
+            
+            .nav-logo {
+                display: inline-block;
+                margin-bottom: 0;
+                margin-right: 2rem;
+            }
+            
+            nav a {
+                display: inline-block;
+                margin-right: 1.5rem;
+                margin-bottom: 0;
+            }
+            
+            .article-container {
+                padding: 2rem;
+            }
+            
+            .results-section {
+                margin-left: -2rem;
+                margin-right: -2rem;
+                padding: 3rem 2rem;
+            }
+            
+            h1 {
+                font-size: 2.4rem;
+            }
         }
         
         @media (max-width: 768px) {
-            .container { padding: 0 1rem; }
             h1 { font-size: 2rem; }
-            h2 { font-size: 1.5rem; }
+            h2 { font-size: 1.8rem; }
+            
+            .lede {
+                font-size: 1.25rem;
+            }
+            
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+            
+            .card-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <!-- Sidebar Navigation -->
+
     <nav>
         <a href="index.html" class="nav-logo">Sai Maram</a>
-        <div class="nav-container">
-            <a href="index.html">Home</a>
-            <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
-        </div>
+        <a href="index.html">Home</a>
+        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
     </nav>
 
-    <!-- Main Content -->
     <main>
-        <div class="container">
-            <h1>Tales of Dharma: Designing Community-Driven Games for Cultural Education</h1>
-            <div class="project-meta">
-                <span class="badge">Game Design Research</span>
-                <span class="badge">Qualitative Study</span>
-                <span class="badge">10 Playtests</span>
-                <span class="badge">1000+ Copies Sold</span>
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="hero-content">
+                <div class="issue-number">Case Study № 06 · Game Design</div>
+                <h1>Tales of Dharma: Community-Driven Cultural Education</h1>
+                <p style="max-width: 100%; font-size: 1.15rem; color: var(--muted);">Designing a card game that fosters collective storytelling and intergenerational knowledge transfer around Hindu mythology.</p>
+                
+                <div class="hero-meta">
+                    <div class="meta-item">
+                        <strong>Role</strong>
+                        Lead Designer & Researcher
+                    </div>
+                    <div class="meta-item">
+                        <strong>Methods</strong>
+                        Qualitative Playtesting
+                    </div>
+                    <div class="meta-item">
+                        <strong>Players</strong>
+                        2–6 per session
+                    </div>
+                </div>
             </div>
             
-            <p>Most serious games teaching religion and culture are designed as single-player experiences, focusing on individual learning through structured gameplay. But religion and culture are fundamentally community-driven—built on collective storytelling, shared rituals, and intergenerational knowledge transfer. Single-player religious games often fail because they teach to individuals in isolation rather than fostering the communal storytelling essential to authentic religious experience.</p>
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-number">1000+</div>
+                    <div class="stat-label">Copies Sold</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">10</div>
+                    <div class="stat-label">Playtests</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">Best</div>
+                    <div class="stat-label">Seller</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">Amazon</div>
+                    <div class="stat-label">Top 10 Games</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- TL;DR Section -->
+        <section class="tldr-section">
+            <div class="tldr-header">
+                <span class="tldr-label">Quick Read</span>
+                <span class="tldr-subtitle">The essentials in 60 seconds</span>
+            </div>
             
-            <p>This case study documents Tales of Dharma, a card game designed to address this fundamental misalignment. Rather than another educational game about Hindu mythology, Tales of Dharma creates a space for collective storytelling where 2-6 players share personal memories, family traditions, and cultural knowledge sparked by mythological cards. Through 10 qualitative playtesting sessions analyzing video footage of participants playing together, we discovered how community-driven gameplay can foster deeper connections to faith and culture than single-player religious games.</p>
+            <div class="tldr-grid">
+                <div class="tldr-main">
+                    <div class="tldr-item">
+                        <div class="tldr-number">01</div>
+                        <div class="tldr-title">The Problem</div>
+                        <p class="tldr-text">Single-player religious games isolate learners from community—but religion is fundamentally about collective storytelling and shared rituals.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">02</div>
+                        <div class="tldr-title">The Solution</div>
+                        <p class="tldr-text">A card game where mythological cards serve as storytelling prompts, encouraging players to share personal memories and family traditions.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">03</div>
+                        <div class="tldr-title">The Insight</div>
+                        <p class="tldr-text">Incomplete information on cards creates "knowledge gaps" that naturally prompt players to fill in details from their own lived experiences.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">04</div>
+                        <div class="tldr-title">The Impact</div>
+                        <p class="tldr-text">1000+ copies sold, participants reported feeling more connected to faith and culture through collective gameplay than solo content.</p>
+                    </div>
+                </div>
+                
+                <aside class="tldr-sidebar">
+                    <div class="tldr-sidebar-label">Design Principle</div>
+                    <p class="tldr-sidebar-text">"Create mechanics that reward collective participation over individual achievement."</p>
+                </aside>
+            </div>
+        </section>
+
+        <article class="article-container">
+            
+            <!-- Opening Lede -->
+            <p class="lede">Most serious games teaching religion and culture are designed as single-player experiences, focusing on individual learning through structured gameplay. But religion and culture are fundamentally community-driven—built on collective storytelling, shared rituals, and intergenerational knowledge transfer.</p>
+            
+            <div class="two-column">
+                <p>Single-player religious games often fail because they teach to individuals in isolation rather than fostering the communal storytelling essential to authentic religious experience. A player might learn that Lakshmi is the goddess of wealth or that Diwali celebrates light over darkness, but this knowledge remains isolated—individual facts learned in solitude rather than living wisdom shared within community.</p>
+                
+                <p>This case study documents Tales of Dharma, a card game designed to address this fundamental misalignment. Rather than another educational game about Hindu mythology, Tales of Dharma creates a space for collective storytelling where 2-6 players share personal memories, family traditions, and cultural knowledge sparked by mythological cards.</p>
+            </div>
 
             <h2>The Problem</h2>
-            <p><strong>Single-player religious games isolate learners from community:</strong> Traditional educational games about religion focus on teaching individuals facts about deities, texts, or practices through structured gameplay. A player might learn that Lakshmi is the goddess of wealth or that Diwali celebrates light over darkness, but this knowledge remains isolated—individual facts learned in solitude rather than living wisdom shared within community.</p>
             
-            <p><strong>Culture requires storytelling and collective knowledge:</strong> Religious and cultural understanding isn't just about knowing information—it's about participating in ongoing traditions, sharing stories across generations, and feeling connected to a community of practitioners. When a parent shares how their family celebrates a festival differently than their neighbor, or when someone explains why a particular temple holds personal significance, authentic cultural transmission happens. Single-player games can't facilitate this communal storytelling.</p>
+            <div class="pull-quote">
+                <blockquote>"Players learn information but don't develop the personal connections that make religion meaningful beyond academic knowledge."</blockquote>
+                <cite>— Research Gap</cite>
+            </div>
             
-            <p><strong>The disconnect:</strong> Parents and educators want games that help youth engage with their religious culture, but existing single-player religious games feel sterile—like quizzes with mythological themes rather than authentic cultural experiences. Players learn information but don't develop the personal connections, family stories, or community relationships that make religion meaningful beyond academic knowledge.</p>
+            <p><strong>Single-player religious games isolate learners from community.</strong> Traditional educational games about religion focus on teaching individuals facts about deities, texts, or practices through structured gameplay. This knowledge remains isolated—individual facts learned in solitude rather than living wisdom shared within community.</p>
             
-            <p><strong>Design opportunity:</strong> What if a game could create space for community-driven storytelling rather than solo learning? What if gameplay mechanics encouraged players to share personal experiences, family memories, and local interpretations rather than regurgitating facts? Tales of Dharma emerged from this design question.</p>
+            <p><strong>Culture requires storytelling and collective knowledge.</strong> Religious and cultural understanding isn't just about knowing information—it's about participating in ongoing traditions, sharing stories across generations, and feeling connected to a community of practitioners. When a parent shares how their family celebrates a festival differently than their neighbor, authentic cultural transmission happens.</p>
+            
+            <p><strong>The disconnect:</strong> Parents and educators want games that help youth engage with their religious culture, but existing single-player religious games feel sterile—like quizzes with mythological themes rather than authentic cultural experiences.</p>
+            
+            <p><strong>Design opportunity:</strong> What if a game could create space for community-driven storytelling rather than solo learning? What if gameplay mechanics encouraged players to share personal experiences, family memories, and local interpretations rather than regurgitating facts?</p>
 
             <h2>My Approach</h2>
-            <p><strong>As Lead Designer and Researcher</strong>, I designed, playtested, and iterated on Tales of Dharma through multiple phases:</p>
             
-            <ul>
-                <li><strong>Design phase:</strong> Created card game mechanics that incentivize storytelling and community participation rather than individual achievement</li>
-                <li><strong>Iterative development:</strong> Refined card designs through multiple iterations based on playtesting feedback</li>
-                <li><strong>Qualitative evaluation:</strong> Conducted 10 playtesting sessions with 2-6 players each, analyzing video footage to understand how gameplay facilitated community storytelling</li>
-                <li><strong>Packaging refinement:</strong> Iterated from single-box to corrugated material packaging based on durability and user feedback</li>
-                <li><strong>Community validation:</strong> Launched commercially, with over 1000 copies sold, confirming market demand for community-driven religious games</li>
-            </ul>
+            <h3>Design Phase</h3>
+            <p>Created card game mechanics that incentivize storytelling and community participation rather than individual achievement.</p>
+            
+            <h3>Iterative Development</h3>
+            <p>Refined card designs through multiple iterations based on playtesting feedback—discovering that less information encouraged more storytelling.</p>
+            
+            <h3>Qualitative Evaluation</h3>
+            <p>Conducted 10 playtesting sessions with 2-6 players each, analyzing video footage to understand how gameplay facilitated community storytelling.</p>
+            
+            <h3>Packaging Refinement</h3>
+            <p>Iterated from single-box to corrugated material packaging based on durability and user feedback from real-world usage patterns.</p>
+            
+            <h3>Commercial Launch</h3>
+            <p>Launched commercially with over 1000 copies sold, confirming market demand for community-driven religious games.</p>
 
-            <h2>Key Outcomes</h2>
-            <ul>
-                <li><strong>Fostered community storytelling:</strong> Playtest analysis revealed participants sharing personal stories, family memories, and visits to places of worship triggered by cards</li>
-                <li><strong>Enhanced cultural connection:</strong> Participants reported feeling more connected to their faith and culture through collective gameplay rather than solo educational content</li>
-                <li><strong>Validated design hypothesis:</strong> Community-driven gameplay proved more effective for religious education than single-player approaches</li>
-                <li><strong>Commercial validation:</strong> 1000+ copies sold demonstrated market demand for community-oriented religious games</li>
-                <li><strong>Design framework developed:</strong> Created reusable principles for designing games that facilitate communal cultural transmission</li>
-            </ul>
+            <!-- Results Section - Dark Background -->
+            <div class="results-section">
+                <h2>Key Outcomes</h2>
+                <p style="color: rgba(255,255,255,0.8); max-width: 600px;">Community-driven gameplay proved more effective for religious education than single-player approaches.</p>
+                
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="result-number">1000+</div>
+                        <div class="result-label">Copies Sold</div>
+                        <div class="result-detail">Commercial validation demonstrating market demand</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">Community</div>
+                        <div class="result-label">Storytelling</div>
+                        <div class="result-detail">Participants shared personal stories, family memories, and cultural knowledge</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">Enhanced</div>
+                        <div class="result-label">Connection</div>
+                        <div class="result-detail">Players felt more connected to faith through collective gameplay</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">Validated</div>
+                        <div class="result-label">Hypothesis</div>
+                        <div class="result-detail">Community-driven design outperforms solo educational content</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">Design</div>
+                        <div class="result-label">Framework</div>
+                        <div class="result-detail">Reusable principles for communal cultural transmission</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">Market</div>
+                        <div class="result-label">Demand</div>
+                        <div class="result-detail">Families actively seek community-oriented religious games</div>
+                    </div>
+                </div>
+            </div>
 
             <h2>Designing for Community Storytelling</h2>
+            
             <p>The core design challenge was creating gameplay mechanics that incentivize community participation rather than individual achievement. Most card games reward competitive optimization or strategic decision-making—mechanics that encourage players to focus on winning rather than sharing stories. Tales of Dharma needed different mechanics.</p>
-            
-            <h3>Card Design Philosophy</h3>
-            <p>Each card in Tales of Dharma features mythological characters, deities, and narrative elements from Hindu traditions. Rather than providing complete background information, cards serve as <strong>storytelling prompts</strong> that encourage players to share their own knowledge, memories, and interpretations. When a player draws a card featuring Hanuman, they might share their family's tradition of visiting a particular Hanuman temple, or explain how their grandmother told stories about Hanuman's devotion to Rama.</p>
-            
-            <div class="key-finding">
+
+            <div class="principle-card">
                 <h4>Design Principle: Incomplete Information as Invitation</h4>
                 <p>By providing evocative illustrations and minimal text rather than comprehensive encyclopedia entries, cards create "knowledge gaps" that naturally prompt players to fill in details from their own experiences. This isn't bad design—it's intentional design to facilitate collective sense-making rather than passive reception of information.</p>
             </div>
-            
-            <section id="cards" class="cards-showcase">
-                <h3>Card Design Iterations</h3>
-                <p>The card designs underwent multiple iterations based on playtesting feedback. Early versions included more text and background information, but we discovered that less information on cards encouraged more storytelling during gameplay. The final designs balance visual appeal with narrative flexibility.</p>
-                
-                <div class="tales-cards-grid">
-                    <img src="Group 814.png" alt="Vayu" class="card-image">
-                    <img src="Border Extension Frame (5).png" alt="Garuda" class="card-image">
-                    <img src="Border Extension Frame-3.png" alt="Sita" class="card-image">
-                </div>
-                <p style="text-align: center; color: #666; font-size: 0.9rem; margin-top: 1rem;">Iterative card designs and final designs measuring 2.5 inches by 3.5 inches.</p>
-            </section>
 
-            <h2>Qualitative Playtesting: Understanding Community Impact</h2>
-            <p>To evaluate whether community-driven gameplay effectively fosters cultural connection, I conducted 10 qualitative playtesting sessions with 2-6 players each. Each session was video-recorded to enable detailed analysis of how gameplay facilitated storytelling and cultural engagement.</p>
+            <h3>Card Design Philosophy</h3>
             
+            <p>Each card in Tales of Dharma features mythological characters, deities, and narrative elements from Hindu traditions. Rather than providing complete background information, cards serve as <strong>storytelling prompts</strong> that encourage players to share their own knowledge, memories, and interpretations.</p>
+            
+            <p>When a player draws a card featuring Hanuman, they might share their family's tradition of visiting a particular Hanuman temple, or explain how their grandmother told stories about Hanuman's devotion to Rama. The card becomes a catalyst for personal narrative, not just information transfer.</p>
+
+            <h3>Card Design Iterations</h3>
+            
+            <p>The card designs underwent multiple iterations based on playtesting feedback. Early versions included more text and background information, but we discovered that less information on cards encouraged more storytelling during gameplay. The final designs balance visual appeal with narrative flexibility.</p>
+
+            <div class="card-gallery">
+                <img src="Group 814.png" alt="Vayu card design">
+                <img src="Border Extension Frame (5).png" alt="Garuda card design">
+                <img src="Border Extension Frame-3.png" alt="Sita card design">
+                <p class="gallery-caption">Iterative card designs and final designs measuring 2.5 inches by 3.5 inches.</p>
+            </div>
+
+            <h2>Qualitative Playtesting</h2>
+            
+            <p>To evaluate whether community-driven gameplay effectively fosters cultural connection, I conducted 10 qualitative playtesting sessions with 2-6 players each. Each session was video-recorded to enable detailed analysis of how gameplay facilitated storytelling and cultural engagement.</p>
+
             <h3>Study Design</h3>
             <ul>
                 <li><strong>10 playtesting sessions:</strong> Groups of 2-6 participants playing Tales of Dharma together</li>
@@ -319,88 +969,108 @@
                 <li><strong>Qualitative analysis:</strong> Thematic analysis of transcripts identifying patterns in storytelling behaviors and cultural engagement</li>
                 <li><strong>Participant diversity:</strong> Sessions included family groups, friend circles, and intergenerational players to understand varied community contexts</li>
             </ul>
-            
-            <h3>Playtest Sessions</h3>
-            <p>The following images capture moments from our playtesting sessions, showing participants engaged in collective storytelling, sharing personal memories, and building community connections through gameplay.</p>
-            
-            <div class="tales-cards-grid" style="margin: 2rem 0;">
-                <!-- Add your playtest images here -->
-                <img src="Group 17.png" alt="Playtest session showing family group engaged in storytelling" class="card-image" onerror="this.style.display='none';">
-                <img src="Group 18.png" alt="Participants discussing cards and sharing cultural stories" class="card-image" onerror="this.style.display='none';">
-                <img src="Group 16.png" alt="Intergenerational players connecting through gameplay" class="card-image" onerror="this.style.display='none';">
+
+            <div class="card-gallery">
+                <img src="Group 17.png" alt="Playtest session showing family engagement">
+                <img src="Group 18.png" alt="Participants discussing cultural stories">
+                <img src="Group 16.png" alt="Intergenerational players connecting">
+                <p class="gallery-caption">Scenes from playtesting sessions showing community engagement and storytelling.</p>
             </div>
-            <p style="text-align: center; color: #666; font-size: 0.9rem; margin-top: 1rem;">Scenes from playtesting sessions showing community engagement and storytelling</p>
-            
+
             <h3>Key Findings from Playtest Analysis</h3>
-            
-            <h4>Finding 1: Cards Triggered Personal Storytelling</h4>
-            <p>Analysis of video footage revealed that participants frequently shared personal stories when specific cards appeared. A card featuring a temple prompted players to describe places of worship they'd visited, while character cards sparked family memories of mythological stories heard in childhood.</p>
-            
-            <div class="quote">
-                "When I saw the Vayu card, I remembered my grandfather telling me about wind gods and how we always worship them before traveling. I shared this with the group, and then others started sharing their family traditions too."
-                <span class="quote-author">— Playtest Participant</span>
-            </div>
-            
-            <h4>Finding 2: Collective Storytelling Enhanced Cultural Connection</h4>
-            <p>Participants consistently reported feeling more connected to their faith and culture through shared gameplay than through solo learning. The act of collaboratively exploring mythological narratives created a sense of community engagement that individual educational games couldn't replicate.</p>
-            
-            <div class="quote">
-                "Playing together made me realize how much I know about these stories from my family. I never thought about it as knowledge before, but sharing it with the group made me feel proud of my cultural background."
-                <span class="quote-author">— Playtest Participant</span>
-            </div>
-            
-            <h4>Finding 3: Places of Worship Became Central to Discussions</h4>
-            <p>Cards featuring deities and mythological places frequently prompted discussions about real-world locations: temples visited during pilgrimages, local celebrations, family traditions at specific shrines. This connection between mythological narratives and lived experience proved crucial for authentic cultural engagement.</p>
-            
-            <h3>Design Implications</h3>
-            <p>The playtesting revealed that game mechanics encouraging collective participation (rather than individual competition) were essential for fostering community storytelling. When gameplay rewarded sharing knowledge and collaborating on narrative construction, participants naturally engaged in cultural transmission behaviors—behaviors that single-player religious games could never facilitate.</p>
 
-            <h2>Packaging Iteration: From Single Box to Corrugated Materials</h2>
+            <div class="finding-with-quote">
+                <h4>Finding 1: Cards Triggered Personal Storytelling</h4>
+                <p>Analysis of video footage revealed that participants frequently shared personal stories when specific cards appeared. A card featuring a temple prompted players to describe places of worship they'd visited, while character cards sparked family memories of mythological stories heard in childhood.</p>
+                <div class="finding-quote">
+                    "When I saw the Vayu card, I remembered my grandfather telling me about wind gods and how we always worship them before traveling. I shared this with the group, and then others started sharing their family traditions too."
+                    <cite>— Playtest Participant</cite>
+                </div>
+            </div>
+
+            <div class="finding-with-quote">
+                <h4>Finding 2: Collective Storytelling Enhanced Cultural Connection</h4>
+                <p>Participants consistently reported feeling more connected to their faith and culture through shared gameplay than through solo learning. The act of collaboratively exploring mythological narratives created a sense of community engagement that individual educational games couldn't replicate.</p>
+                <div class="finding-quote">
+                    "Playing together made me realize how much I know about these stories from my family. I never thought about it as knowledge before, but sharing it with the group made me feel proud of my cultural background."
+                    <cite>— Playtest Participant</cite>
+                </div>
+            </div>
+
+            <div class="finding-with-quote">
+                <h4>Finding 3: Places of Worship Became Central to Discussions</h4>
+                <p>Cards featuring deities and mythological places frequently prompted discussions about real-world locations: temples visited during pilgrimages, local celebrations, family traditions at specific shrines. This connection between mythological narratives and lived experience proved crucial for authentic cultural engagement.</p>
+            </div>
+
+            <div class="inline-quote">
+                "When gameplay rewarded sharing knowledge and collaborating on narrative construction, participants naturally engaged in cultural transmission behaviors—behaviors that single-player religious games could never facilitate."
+                <cite>— Design Insight</cite>
+            </div>
+
+            <h2>Packaging Iteration</h2>
+            
             <p>Packaging became a critical design consideration as we moved from prototypes to commercial production. Initial designs used single-box packaging, but playtesting revealed durability and usability issues that required iteration.</p>
-            
-            <h3>Initial Packaging: Single Box</h3>
-            <p>The first production run used standard cardboard box packaging containing all cards in a single container. While functional, players reported that the box didn't withstand repeated opening and closing during family gameplay sessions. Cards became difficult to organize and the box showed wear quickly.</p>
-            
-            <h3>Iteration: Corrugated Material Packaging</h3>
-            <p>Based on user feedback and durability testing, subsequent production runs used corrugated material boxes with dividers for card organization. This improved storage, protected cards better during transportation, and maintained structural integrity through extended use. The packaging evolution demonstrated responsiveness to real-world usage patterns.</p>
-            
-            <div class="tales-cards-grid">
-                <!-- Placeholder for initial single box packaging -->
-                <img src="todold.png" alt="Initial single box packaging" class="card-image">
-                <!-- Placeholder for first corrugated box iteration -->
-                <img src="tod old box.png" alt="First corrugated material box iteration" class="card-image">
-                <!-- Placeholder for final corrugated box design -->
-                <img src="todbox.png" alt="Final corrugated material box design" class="card-image">
-            </div>
-            <p style="text-align: center; color: #666; font-size: 0.9rem; margin-top: 1rem;">Packaging iterations: From single box to corrugated material boxes</p>
 
-            <h2>Commercial Success and Validation</h2>
-            <p>Over 1000 copies of Tales of Dharma have been sold, demonstrating market demand for community-driven religious games. The commercial success validates that there's appetite for games that facilitate communal cultural engagement rather than individual learning. Buyers included families, educational institutions, and cultural organizations seeking ways to transmit religious knowledge through collective play.</p>
+            <div class="two-column">
+                <p><strong>Initial Packaging:</strong> The first production run used standard cardboard box packaging containing all cards in a single container. While functional, players reported that the box didn't withstand repeated opening and closing during family gameplay sessions. Cards became difficult to organize and the box showed wear quickly.</p>
+                
+                <p><strong>Iteration:</strong> Based on user feedback and durability testing, subsequent production runs used corrugated material boxes with dividers for card organization. This improved storage, protected cards better during transportation, and maintained structural integrity through extended use.</p>
+            </div>
+
+            <div class="card-gallery">
+                <img src="todold.png" alt="Initial single box packaging">
+                <img src="tod old box.png" alt="First corrugated box iteration">
+                <img src="todbox.png" alt="Final corrugated material box design">
+                <p class="gallery-caption">Packaging iterations: From single box to corrugated material boxes with improved durability.</p>
+            </div>
+
+            <h2>Commercial Validation</h2>
             
-            <div class="key-finding">
+            <p>Over 1000 copies of Tales of Dharma have been sold, demonstrating market demand for community-driven religious games. The commercial success validates that there's appetite for games that facilitate communal cultural engagement rather than individual learning.</p>
+
+            <div class="principle-card">
                 <h4>Market Validation</h4>
                 <p>The sales success indicates that the problem we identified—single-player religious games failing to foster community connection—resonates with real families and educators. Parents and religious educators actively seek games that bring families together for shared cultural experiences rather than isolating youth with educational content.</p>
             </div>
 
             <h2>Conclusion</h2>
-            <p>Tales of Dharma demonstrates that designing religious educational games requires fundamentally different approaches than designing solo learning games. When games encourage community participation, collective storytelling, and shared knowledge-building, they can foster deeper connections to faith and culture than individual learning experiences. The qualitative research revealed that players don't just learn information—they engage in living cultural transmission behaviors that strengthen community bonds and personal religious identity.</p>
+
+            <p class="lede" style="margin-top: 0;">Tales of Dharma demonstrates that designing religious educational games requires fundamentally different approaches than designing solo learning games. When games encourage community participation, collective storytelling, and shared knowledge-building, they can foster deeper connections to faith and culture.</p>
             
-            <p><strong>Design principles for community-driven religious games:</strong> The research suggests several key principles: create mechanics that reward collective participation over individual achievement, use incomplete information that invites sharing rather than complete information that requires memorization, design for spaces where personal stories can emerge naturally, and facilitate connections between mythological narratives and lived religious experiences.</p>
+            <div class="two-column">
+                <p><strong>Design principles for community-driven religious games:</strong> Create mechanics that reward collective participation over individual achievement, use incomplete information that invites sharing rather than complete information requiring memorization, design for spaces where personal stories can emerge naturally, and facilitate connections between mythological narratives and lived religious experiences.</p>
             
-            <p><strong>Future directions:</strong> Tales of Dharma represents a proof-of-concept for community-driven religious education. The framework of collective storytelling, community participation, and lived experience connection could extend to other religious traditions and cultural contexts. As interest in culturally-grounded games grows, designers have opportunities to create experiences that strengthen community bonds rather than isolating learners.</p>
-            
-            <div class="key-finding" style="margin-top: 3rem;">
-                <h4>Skills & Methods Demonstrated</h4>
-                <p><strong>Design:</strong> Game Design • Card Game Mechanics • Iterative Design • Playtesting</p>
-                <p><strong>Research:</strong> Qualitative Methods • Video Analysis • Thematic Analysis • User-Centered Design</p>
-                <p><strong>Development:</strong> Product Iteration • Packaging Design • Commercial Launch</p>
-                <p><strong>Impact:</strong> Community Engagement • Cultural Education • Market Validation</p>
+                <p><strong>Future directions:</strong> Tales of Dharma represents a proof-of-concept for community-driven religious education. The framework of collective storytelling, community participation, and lived experience connection could extend to other religious traditions and cultural contexts. As interest in culturally-grounded games grows, designers have opportunities to create experiences that strengthen community bonds rather than isolating learners.</p>
             </div>
 
-        </div>
-    </main>
+            <!-- Skills Section -->
+            <div class="skills-section">
+                <h4>Skills & Methods Demonstrated</h4>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <strong>Design</strong>
+                        <p>Game Design, Card Game Mechanics, Iterative Design, Playtesting</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Research</strong>
+                        <p>Qualitative Methods, Video Analysis, Thematic Analysis, User-Centered Design</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Development</strong>
+                        <p>Product Iteration, Packaging Design, Commercial Launch</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Impact</strong>
+                        <p>Community Engagement, Cultural Education, Market Validation</p>
+                    </div>
+                </div>
+            </div>
 
+            <footer class="footer">
+                <a href="index.html">← Back to Portfolio</a>
+            </footer>
+        </article>
+    </main>
 
 </body>
 </html>
-

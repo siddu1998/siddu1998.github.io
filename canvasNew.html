@@ -4,8 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ooha - UX Case Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
     <style>
-        /* --- New Sidebar and Layout Styles --- */
+        :root {
+            --ink: #1a1a1a;
+            --paper: #f8f5f0;
+            --accent: #c41e3a;
+            --muted: #6b6b6b;
+            --rule: #d4d0c8;
+            --serif: 'Instrument Serif', Georgia, serif;
+            --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,339 +25,686 @@
         }
         
         body {
-            background-color: #ffffff;
-            background-image: 
-                linear-gradient(rgba(200, 200, 200, 0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(200, 200, 200, 0.15) 1px, transparent 1px);
-            background-size: 40px 40px;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 1.05rem;
-            line-height: 1.6;
-            color: #1a1a1a;
-            margin: 0;
-            display: flex; /* Use flexbox for the main layout */
+            background-color: var(--paper);
+            font-family: var(--sans);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--ink);
+            display: flex;
             min-height: 100vh;
         }
+        
+        /* --- Navigation --- */
         nav {
-            width: 220px;
-            padding: 2rem;
-            border-right: 1px solid rgba(200, 200, 200, 0.3);
+            width: 200px;
+            padding: 2.5rem 1.5rem;
+            border-right: 1px solid var(--rule);
             flex-shrink: 0;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background-color: var(--paper);
+            position: sticky;
+            top: 0;
+            height: 100vh;
         }
+        
         nav a {
             display: block;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-            text-decoration: underline;
-            cursor: pointer;
+            margin-bottom: 0.75rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
             transition: color 0.2s ease;
         }
+        
         nav a:hover {
-            text-decoration: none;
-            color: #666;
+            color: var(--ink);
         }
+        
         .nav-logo {
-            font-weight: 600;
-            margin-bottom: 2rem;
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 2.5rem;
+            color: var(--ink);
             text-decoration: none;
-            cursor: pointer;
-            font-size: 1.3rem;
-            color: #1a1a1a;
-            transition: color 0.2s ease;
+            display: block;
         }
-        .nav-logo:hover {
-            color: #666;
-        }
-        #project-links-container {
-            margin-top: 0.5rem;
-            padding-left: 1rem;
-            border-left: 1px solid #eee;
-        }
-        .project-link {
-            font-size: 1rem;
-        }
+        
         main {
             flex-grow: 1;
             overflow-y: auto;
-            height: 100vh;
-            background-color: transparent;
+            background-color: var(--paper);
         }
-        .hidden {
-            display: none;
+        
+        /* --- Hero Section --- */
+        .hero {
+            padding: 6rem 4rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: end;
+            border-bottom: 1px solid var(--rule);
         }
+        
+        .hero-content {
+            padding-bottom: 2rem;
+        }
+        
+        .issue-number {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+        
+        h1 {
+            font-family: var(--serif);
+            font-size: 3.8rem;
+            font-weight: 400;
+            line-height: 1.05;
+            color: var(--ink);
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--rule);
+        }
+        
+        .meta-item {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+        
+        .meta-item strong {
+            display: block;
+            color: var(--ink);
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+        }
+        
+        .stat-box {
+            background: var(--paper);
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-family: var(--serif);
+            font-size: 3rem;
+            font-style: italic;
+            color: var(--ink);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        
+        /* --- Article Layout --- */
+        .article-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem;
+        }
+        
+        .lede {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            line-height: 1.6;
+            color: var(--ink);
+            max-width: 800px;
+            margin-bottom: 3rem;
+        }
+        
+        .lede::first-letter {
+            font-size: 4.5rem;
+            float: left;
+            line-height: 0.8;
+            margin-right: 0.5rem;
+            margin-top: 0.1rem;
+            color: var(--accent);
+        }
+        
+        .two-column {
+            column-count: 2;
+            column-gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .two-column p {
+            margin-bottom: 1.25rem;
+        }
+        
+        h2 {
+            font-family: var(--serif);
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-top: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--ink);
+            padding-top: 2rem;
+            border-top: 3px solid var(--ink);
+        }
+        
+        h3 {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--ink);
+            max-width: 680px;
+        }
+        
+        /* --- Pull Quote --- */
+        .pull-quote {
+            float: right;
+            width: 45%;
+            margin: 0 0 2rem 3rem;
+            padding: 2rem 0 2rem 2rem;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .pull-quote blockquote {
+            font-family: var(--serif);
+            font-size: 1.8rem;
+            font-style: italic;
+            line-height: 1.4;
+            color: var(--ink);
+            margin-bottom: 1rem;
+        }
+        
+        .pull-quote cite {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-style: normal;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        
+        /* --- Inline Quote (smaller) --- */
+        .inline-quote {
+            background: linear-gradient(to right, var(--accent), var(--accent)) no-repeat 0 0;
+            background-size: 4px 100%;
+            padding: 1.5rem 2rem;
+            margin: 2.5rem 0;
+            font-family: var(--serif);
+            font-size: 1.25rem;
+            font-style: italic;
+            line-height: 1.5;
+        }
+        
+        .inline-quote cite {
+            display: block;
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-style: normal;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 1rem;
+        }
+        
+        /* --- Full Bleed Image --- */
+        .full-bleed {
+            margin: 4rem -4rem;
+            position: relative;
+        }
+        
+        .full-bleed img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .full-bleed figcaption {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            background: var(--paper);
+            padding: 0.75rem 1rem;
+            font-size: 0.8rem;
+            max-width: 350px;
+            line-height: 1.4;
+        }
+        
+        /* --- Image with Side Caption --- */
+        .image-aside {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin: 3rem 0;
+            align-items: end;
+        }
+        
+        .image-aside img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .image-aside figcaption {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--muted);
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .image-aside figcaption strong {
+            display: block;
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* --- Standard Image --- */
+        .image-container {
+            margin: 2.5rem 0;
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .image-caption {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--rule);
+            max-width: 500px;
+        }
+        
+        /* --- Key Finding Cards --- */
+        .findings-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--ink);
+            margin: 3rem 0;
+        }
+        
+        .finding-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .finding-card h4 {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            color: var(--ink);
+        }
+        
+        .finding-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Results Section --- */
+        .results-section {
+            background: var(--ink);
+            color: var(--paper);
+            margin: 4rem -4rem;
+            padding: 4rem;
+        }
+        
+        .results-section h2 {
+            color: var(--paper);
+            border-top-color: var(--paper);
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .result-item {
+            border-left: 1px solid rgba(255,255,255,0.3);
+            padding-left: 1.5rem;
+        }
+        
+        .result-number {
+            font-family: var(--serif);
+            font-size: 3.5rem;
+            font-style: italic;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-detail {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        /* --- List Styling --- */
+        ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.75rem;
+            padding-left: 0.5rem;
+        }
+        
+        li strong {
+            color: var(--ink);
+        }
+        
+        /* --- Skills Section --- */
+        .skills-section {
+            margin-top: 4rem;
+            padding: 3rem;
+            border: 1px solid var(--rule);
+        }
+        
+        .skills-section h4 {
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+        
+        .skill-category strong {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .skill-category p {
+            font-size: 0.85rem;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 0;
+            max-width: none;
+        }
+        
+        /* --- CTA Link --- */
+        .cta-link {
+            display: inline-block;
+            font-family: var(--sans);
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid var(--accent);
+            padding-bottom: 0.2rem;
+            transition: all 0.2s ease;
+        }
+        
+        .cta-link:hover {
+            color: var(--ink);
+            border-color: var(--ink);
+        }
+        
+        /* --- Video Gallery --- */
+        .video-gallery {
+            margin: 3rem 0;
+        }
+        
+        .video-featured {
+            position: relative;
+            margin-bottom: 0.5rem;
+        }
+        
+        .video-featured video {
+            width: 100%;
+            display: block;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            background: var(--ink);
+        }
+        
+        .video-featured-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 3rem 1.5rem 1.5rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: var(--paper);
+        }
+        
+        .video-featured-caption span {
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        
+        .video-filmstrip {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.5rem;
+        }
+        
+        .video-thumb {
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        
+        .video-thumb video {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            display: block;
+            background: var(--ink);
+            transition: opacity 0.2s ease;
+        }
+        
+        .video-thumb:hover video {
+            opacity: 0.8;
+        }
+        
+        .video-thumb.active {
+            outline: 2px solid var(--accent);
+            outline-offset: -2px;
+        }
+        
+        .video-thumb-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem 0.5rem 0.5rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            font-size: 0.65rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--paper);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        
+        .video-thumb:hover .video-thumb-label {
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .video-filmstrip {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .video-filmstrip {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* --- Footer --- */
+        .footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--rule);
+            text-align: center;
+        }
+        
+        .footer a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .footer a:hover {
+            color: var(--ink);
+        }
+        
+        /* --- Responsive --- */
+        @media (max-width: 1100px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                padding: 4rem 3rem;
+            }
+            
+            .two-column {
+                column-count: 1;
+            }
+            
+            .findings-grid,
+            .results-grid,
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pull-quote {
+                float: none;
+                width: 100%;
+                margin: 2rem 0;
+            }
+        }
+        
         @media (max-width: 992px) {
             body {
-                flex-direction: column; 
+                flex-direction: column;
             }
-            main {
-                height: auto;
-            }
+            
             nav {
-                width: 100%; 
-                padding: 1rem;
-                border-right: none; 
-                border-bottom: 1px solid #ddd; 
-                box-sizing: border-box;
+                width: 100%;
+                padding: 1rem 2rem;
+                border-right: none;
+                border-bottom: 1px solid var(--rule);
+                height: auto;
+                position: relative;
             }
-            .nav-container {
-                display: flex;
-                justify-content: center;
-                gap: 1.5rem;
-                flex-wrap: wrap;
-            }
+            
             .nav-logo {
-                display: none;
+                display: inline-block;
+                margin-bottom: 0;
+                margin-right: 2rem;
             }
+            
             nav a {
+                display: inline-block;
+                margin-right: 1.5rem;
                 margin-bottom: 0;
             }
-            #project-links-container {
-                width: 100%;
-                text-align: center;
-                padding-left: 0;
-                border-left: none;
-                margin-top: 1rem;
+            
+            .article-container {
+                padding: 2rem;
+            }
+            
+            .full-bleed,
+            .results-section {
+                margin-left: -2rem;
+                margin-right: -2rem;
+            }
+            
+            .results-section {
+                padding: 3rem 2rem;
+            }
+            
+            h1 {
+                font-size: 2.8rem;
             }
         }
-
-        /* --- Case Study Styles --- */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-        }
-        h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-            line-height: 1.2;
-        }
-        h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-top: 3rem;
-            margin-bottom: 1.5rem;
-            color: #1a1a1a;
-        }
-        h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-        }
-        p {
-            margin-bottom: 1.5rem;
-            color: #333;
-        }
-        .project-meta {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 2rem;
-        }
-        .badge {
-            display: inline-block;
-            padding: 0.4rem 1rem;
-            background-color: #f0f0f0;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 12px;
-            margin: 2rem 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        ul {
-            margin-left: 2rem;
-            margin-bottom: 1.5rem;
-        }
-        li {
-            margin-bottom: 0.5rem;
-        }
-        /* 3D Video Carousel Styles */
-        .video-carousel {
-            position: relative;
-            max-width: 100%;
-            margin: 2rem 0;
-            perspective: 1000px;
-            overflow: visible;
-        }
         
-        .carousel-container {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            height: 0;
-            overflow: visible;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .carousel-track {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .carousel-slide {
-            position: absolute;
-            width: 80%;
-            height: 80%;
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-            cursor: pointer;
-        }
-        
-        .carousel-slide.prev {
-            transform: translateX(-60%) scale(0.8) rotateY(15deg);
-            opacity: 0.7;
-            z-index: 1;
-        }
-        
-        .carousel-slide.active {
-            transform: translateX(0) scale(1) rotateY(0deg);
-            opacity: 1;
-            z-index: 3;
-        }
-        
-        .carousel-slide.next {
-            transform: translateX(60%) scale(0.8) rotateY(-15deg);
-            opacity: 0.7;
-            z-index: 1;
-        }
-        
-        .carousel-slide.hidden {
-            transform: translateX(0) scale(0.6) rotateY(0deg);
-            opacity: 0;
-            z-index: 0;
-        }
-        
-        .carousel-slide video,
-        .carousel-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 20px;
-        }
-        
-        /* Error message styling for unsupported video formats */
-        .carousel-slide video::after {
-            content: "Video format not supported";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 1rem;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            text-align: center;
-            z-index: 10;
-        }
-        
-        /* Hover effects for side slides */
-        .carousel-slide.prev:hover {
-            transform: translateX(-30%) scale(0.9) rotateY(5deg);
-            opacity: 0.9;
-            z-index: 4;
-        }
-        
-        .carousel-slide.next:hover {
-            transform: translateX(30%) scale(0.9) rotateY(-5deg);
-            opacity: 0.9;
-            z-index: 4;
-        }
-        
-        .carousel-nav {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 12px;
-            z-index: 10;
-        }
-        
-        .carousel-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .carousel-dot.active {
-            background: rgba(255, 255, 255, 0.9);
-            transform: scale(1.2);
-        }
-        
-        .carousel-dot:hover {
-            background: rgba(255, 255, 255, 0.8);
-            transform: scale(1.1);
-        }
-        
-        .carousel-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            color: #333;
-            transition: all 0.3s ease;
-            z-index: 10;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-        }
-        
-        .carousel-arrow:hover {
-            background: rgba(255, 255, 255, 1);
-            transform: translateY(-50%) scale(1.1);
-        }
-        
-        .carousel-arrow.prev {
-            left: 20px;
-        }
-        
-        .carousel-arrow.next {
-            right: 20px;
-        }
-        
-        .carousel-arrow:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-        
-        .carousel-arrow:disabled:hover {
-            transform: translateY(-50%);
-        }
-        
-        /* Responsive adjustments */
         @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.8rem; }
+            
+            .lede {
+                font-size: 1.25rem;
+            }
+            
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+            
+            .image-aside {
+                grid-template-columns: 1fr;
+            }
+            
             .carousel-slide {
                 width: 90%;
                 height: 90%;
@@ -362,603 +721,564 @@
             .carousel-arrow {
                 width: 40px;
                 height: 40px;
-                font-size: 14px;
-            }
-            
-            .carousel-arrow.prev {
-                left: 10px;
-            }
-            
-            .carousel-arrow.next {
-                right: 10px;
-            }
-            
-            .carousel-nav {
-                bottom: 15px;
-            }
-            
-            .carousel-dot {
-                width: 10px;
-                height: 10px;
             }
         }
         
-        @media (max-width: 480px) {
-            .carousel-slide.prev {
-                transform: translateX(-40%) scale(0.6) rotateY(25deg);
-            }
-            
-            .carousel-slide.next {
-                transform: translateX(40%) scale(0.6) rotateY(-25deg);
-            }
-            
-            .carousel-slide.prev:hover {
-                transform: translateX(-25%) scale(0.75) rotateY(10deg);
-                z-index: 4;
-            }
-            
-            .carousel-slide.next:hover {
-                transform: translateX(25%) scale(0.75) rotateY(-10deg);
-                z-index: 4;
-            }
+        .hidden {
+            display: none;
         }
         
-        .quote {
-            background-color: #fff176;
-            padding: 1.2rem 1.5rem;
-            border-radius: 8px;
-            margin: 2rem 0;
+        /* --- TL;DR Section --- */
+        .tldr-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 4rem;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .tldr-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .tldr-label {
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--paper);
+            background: var(--ink);
+            padding: 0.4rem 0.8rem;
+        }
+        
+        .tldr-subtitle {
+            font-family: var(--serif);
+            font-size: 1.1rem;
             font-style: italic;
-            line-height: 1.7;
-            color: #1a1a1a;
-            border-left: 4px solid #fbc02d;
+            color: var(--muted);
         }
         
-        .key-finding {
-            background-color: #f9f9f9;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 2rem 0;
-            border-left: 4px solid #1a1a1a;
-        }
-        
-        .image-container {
-            margin: 2rem 0;
-        }
-        
-        .image-caption {
-            text-align: center;
-            color: #666;
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-            font-style: italic;
-        }
-        
-        .results-grid {
+        .tldr-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
         }
         
-        .result-card {
-            background-color: #f9f9f9;
-            padding: 1.5rem;
-            border-radius: 12px;
-            border-left: 4px solid #1a1a1a;
+        .tldr-main {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
         }
         
-        .result-card h4 {
+        .tldr-item {
+            padding-left: 1rem;
+            border-left: 2px solid var(--rule);
+        }
+        
+        .tldr-item:hover {
+            border-left-color: var(--accent);
+        }
+        
+        .tldr-number {
+            font-family: var(--serif);
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 0.3rem;
+        }
+        
+        .tldr-title {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--ink);
             margin-bottom: 0.5rem;
-            color: #1a1a1a;
         }
         
-        .result-card p {
-            margin-bottom: 0;
-            color: #333;
+        .tldr-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--muted);
+            margin: 0;
         }
         
-        @media (max-width: 768px) {
-            .container { padding: 0 1rem; }
-            h1 { font-size: 2rem; }
-            h2 { font-size: 1.5rem; }
+        .tldr-sidebar {
+            padding: 2rem;
+            background: var(--ink);
+            color: var(--paper);
+        }
+        
+        .tldr-sidebar-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 1rem;
+        }
+        
+        .tldr-sidebar-text {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-style: italic;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            color: var(--paper);
+        }
+        
+        .tldr-sidebar .cta-link {
+            color: var(--paper);
+            border-color: rgba(255,255,255,0.5);
+        }
+        
+        .tldr-sidebar .cta-link:hover {
+            border-color: var(--paper);
+        }
+        
+        @media (max-width: 1100px) {
+            .tldr-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .tldr-main {
+                grid-template-columns: 1fr;
+            }
+            
+            .tldr-section {
+                padding: 2rem;
+            }
         }
     </style>
 </head>
 <body>
 
-        <nav>
-            <a href="index.html" class="nav-logo">Sai Maram</a>
-            <div class="nav-container">
-                <a href="index.html">Home</a>
-                <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
-            </div>
-        </nav>
+    <nav>
+        <a href="index.html" class="nav-logo">Sai Maram</a>
+        <a href="index.html">Home</a>
+        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+    </nav>
 
     <main>
-        <div class="container">
-            <h1>Ooha: A Spatial LLM Interface for Multi-Path Creative Exploration</h1>
-            <div class="project-meta">
-                <span class="badge">LLM × AI</span>
-                <span class="badge">Open Source</span>
-                <span class="badge">1000+ Active Users</span>
-                <a href="https://ooha-creator.github.io/" style="text-decoration: underline;">Try Ooha Now →</a>
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="hero-content">
+                <div class="issue-number">Case Study № 01</div>
+                <h1>Ooha: A Spatial Canvas for Creative AI</h1>
+                <p style="max-width: 100%; font-size: 1.15rem; color: var(--muted);">Reimagining how creative professionals interact with AI through branching, spatial exploration.</p>
+                
+                <div class="hero-meta">
+                    <div class="meta-item">
+                        <strong>Role</strong>
+                        Lead Researcher, Designer & Developer
+                    </div>
+                    <div class="meta-item">
+                        <strong>Duration</strong>
+                        6 months
+                    </div>
+                    <div class="meta-item">
+                        <strong>Status</strong>
+                        <a href="https://ooha-creator.github.io/" class="cta-link">Try Ooha Live →</a>
+                    </div>
+                </div>
             </div>
             
-            <p>ChatGPT changed how we interact with AI, but its linear chat interface fundamentally misaligns with how creative professionals actually think and work. Designers, artists, writers, and researchers don't move forward in straight lines—they explore multiple parallel paths, compare variations side-by-side, revisit abandoned ideas, and build on creative branches that lead nowhere initially but prove valuable later.</p>
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-number">340%</div>
+                    <div class="stat-label">More Variations</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">62%</div>
+                    <div class="stat-label">Faster Solutions</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">43%</div>
+                    <div class="stat-label">Less Cognitive Load</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">1K+</div>
+                    <div class="stat-label">Active Users</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- TL;DR Section -->
+        <section class="tldr-section">
+            <div class="tldr-header">
+                <span class="tldr-label">Quick Read</span>
+                <span class="tldr-subtitle">The essentials in 60 seconds</span>
+            </div>
             
-            <p>This case study documents Ooha, a spatial canvas interface that reimagines AI interaction as non-linear exploration. Rather than fighting against sequential chat conversations, Ooha enables creative professionals to generate multiple response branches from a single prompt, visually compare variations across different AI models (GPT-4, Claude, Gemini), and navigate their entire creative exploration spatially. Through rigorous co-design workshops and evaluation studies with UCSC creative professionals, we proved that spatial interfaces dramatically enhance AI-assisted creativity.</p>
+            <div class="tldr-grid">
+                <div class="tldr-main">
+                    <div class="tldr-item">
+                        <div class="tldr-number">01</div>
+                        <div class="tldr-title">The Problem</div>
+                        <p class="tldr-text">Chat interfaces force linear thinking. Creative professionals think spatially—but AI tools make them choose one path and lose everything else.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">02</div>
+                        <div class="tldr-title">The Solution</div>
+                        <p class="tldr-text">Ooha is a spatial canvas where you can branch prompts, compare AI models side-by-side, and explore multiple creative directions simultaneously.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">03</div>
+                        <div class="tldr-title">The Process</div>
+                        <p class="tldr-text">Co-designed with 10 UCSC creative professionals through workshops, then validated with a week-long study comparing against traditional chat.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">04</div>
+                        <div class="tldr-title">The Impact</div>
+                        <p class="tldr-text">340% more creative variations, 62% faster solutions, 43% less cognitive load. Now open-source with 1000+ active users.</p>
+                    </div>
+                </div>
+                
+                <aside class="tldr-sidebar">
+                    <div class="tldr-sidebar-label">Key Insight</div>
+                    <p class="tldr-sidebar-text">"Spatial interfaces for creative AI must prioritize flexibility over structure."</p>
+                    <a href="https://ooha-creator.github.io/" class="cta-link">Try Ooha Now →</a>
+                </aside>
+            </div>
+        </section>
+
+        <article class="article-container">
+            
+            <!-- Opening Lede -->
+            <p class="lede">ChatGPT changed how we interact with AI, but its linear chat interface fundamentally misaligns with how creative professionals actually think and work. Designers, artists, writers, and researchers don't move forward in straight lines—they explore multiple parallel paths, compare variations side-by-side, revisit abandoned ideas, and build on creative branches that lead nowhere initially but prove valuable later.</p>
+            
+            <div class="two-column">
+                <p>This case study documents Ooha, a spatial canvas interface that reimagines AI interaction as non-linear exploration. Rather than fighting against sequential chat conversations, Ooha enables creative professionals to generate multiple response branches from a single prompt, visually compare variations across different AI models (GPT-4, Claude, Gemini), and navigate their entire creative exploration spatially.</p>
+                
+                <p>Through rigorous co-design workshops and evaluation studies with UCSC creative professionals, we proved that spatial interfaces dramatically enhance AI-assisted creativity—yielding 340% more creative variations, 62% faster solutions, and 43% reduced cognitive load compared to traditional chat interfaces.</p>
+            </div>
 
             <h2>The Problem</h2>
-            <p><strong>Current AI interfaces force creative professionals into sequential conversations:</strong> Every interaction requires choosing one path, abandoning others, and losing the ability to compare what-if scenarios simultaneously. A designer exploring color schemes for a logo can't see ChatGPT's suggestions compared to Claude's responses—they must choose one conversation, generate one variation, then start over to see alternatives. This linear constraint fundamentally misaligns with how creative thinking actually works.</p>
             
-            <p><strong>Visual thinkers lose spatial context:</strong> Creative professionals rely on spatial memory—they remember ideas by their position on a page, in a sketchbook, across a wall of sticky notes. Linear chat interfaces remove this spatial anchoring, forcing users to rely entirely on conversation history that scrolls into oblivion. Without spatial reference, even generating the same idea twice feels disconnected from previous exploration.</p>
+            <div class="pull-quote">
+                <blockquote>"My students are creating incredible work with AI, but they're fighting against the interface every step of the way."</blockquote>
+                <cite>— Experimental Media Instructor, UCSC</cite>
+            </div>
             
-            <p><strong>The data tells the story:</strong> Our initial survey of 87 creative professionals revealed that 76% reported chat interfaces "significantly hindered" their creative process. An experimental media instructor at UCSC explained it vividly: "My students are creating incredible work with AI, but they're fighting against the interface every step of the way." This isn't an AI capability problem—it's an interface paradigm problem.</p>
+            <p><strong>Current AI interfaces force creative professionals into sequential conversations.</strong> Every interaction requires choosing one path, abandoning others, and losing the ability to compare what-if scenarios simultaneously. A designer exploring color schemes for a logo can't see ChatGPT's suggestions compared to Claude's responses—they must choose one conversation, generate one variation, then start over to see alternatives.</p>
+            
+            <p><strong>Visual thinkers lose spatial context.</strong> Creative professionals rely on spatial memory—they remember ideas by their position on a page, in a sketchbook, across a wall of sticky notes. Linear chat interfaces remove this spatial anchoring, forcing users to rely entirely on conversation history that scrolls into oblivion.</p>
+            
+            <p><strong>The data tells the story:</strong> Our initial survey of 87 creative professionals revealed that 76% reported chat interfaces "significantly hindered" their creative process. This isn't an AI capability problem—it's an interface paradigm problem.</p>
 
             <h2>My Approach</h2>
-            <p><strong>As Lead Researcher, Designer, and Developer</strong>, I conceived, designed, built, and studied Ooha from concept to deployed open-source product:</p>
             
-            <ul>
-                <li><strong>Phase 1 - Co-design workshops:</strong> Three iterative workshops with 10 creative professionals from UCSC to map spatial thinking patterns and design the branching interface paradigm</li>
-                <li><strong>Phase 2 - Prototype development:</strong> Built a full-stack application integrating GPT-4, Claude, and Gemini APIs with a spatial canvas interface enabling multi-path exploration</li>
-                <li><strong>Phase 3 - Rigorous evaluation:</strong> Week-long study with 20 participants comparing Ooha against traditional chat interfaces across quantitative metrics (creative output, cognitive load, efficiency) and qualitative insights</li>
-                <li><strong>Phase 4 - Open-source launch:</strong> Deployed at ooha-creator.github.io and maintained active community engagement with ongoing feature development</li>
-            </ul>
-
-            <h2>Key Outcomes</h2>
-            <ul>
-                <li><strong>340% more creative variations</strong> generated compared to ChatGPT—participants explored far more possibilities when they could branch without losing context</li>
-                <li><strong>62% faster time to solution</strong>—spatial comparison accelerated decision-making versus sequential exploration</li>
-                <li><strong>43% reduced cognitive load</strong> measured through NASA-TLX scale—spatial memory reduced mental effort</li>
-                <li><strong>92% user satisfaction</strong> with 9/10 participants expressing intent to adopt Ooha for real creative projects</li>
-                <li><strong>1000+ active users</strong> using the open-source tool for diverse creative work</li>
-                <li><strong>Academic contribution:</strong> First systematic study of spatial interfaces for LLM interaction, contributing design principles for next-generation AI tools</li>
-            </ul>
+            <h3>Phase 1 — Co-Design Workshops</h3>
+            <p>Three iterative workshops with 10 creative professionals from UCSC to map spatial thinking patterns and design the branching interface paradigm.</p>
             
-            <div class="video-carousel">
-                <div class="carousel-container">
-                    <div class="carousel-track">
-                        <!-- Slide 1: Main Demo Video -->
-                        <div class="carousel-slide" data-index="0">
-                            <video controls loop>
-                                <source src="OOHA with CTA.mp4" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                        
-                        <!-- Slide 2: Feature Demo 1 -->
-                        <div class="carousel-slide" data-index="1">
-                            <video controls loop>
-                                <source src="SpotifyOoha.mp4" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                        
-                        <!-- Slide 3: Feature Demo 2 -->
-                        <div class="carousel-slide" data-index="2">
-                            <video controls loop>
-                                <source src="Ooha 3D Momentum.mp4" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                        
-                        <!-- Slide 4: Feature Demo 3 -->
-                        <div class="carousel-slide" data-index="3">
-                            <video controls loop>
-                                <source src="momentum.mp4" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                        
-                        <!-- Slide 5: Feature Demo 4 -->
-                        <div class="carousel-slide" data-index="4">
-                            <video controls loop>
-                                <source src="Day 3.mp4" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                        <div class="carousel-slide" data-index="5">
-                            <video controls loop>
-                                <source src="ipad.mp4" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
+            <h3>Phase 2 — Prototype Development</h3>
+            <p>Built a full-stack application integrating GPT-4, Claude, and Gemini APIs with a spatial canvas interface enabling multi-path exploration.</p>
+            
+            <h3>Phase 3 — Rigorous Evaluation</h3>
+            <p>Week-long study with 20 participants comparing Ooha against traditional chat interfaces across quantitative metrics and qualitative insights.</p>
+            
+            <h3>Phase 4 — Open-Source Launch</h3>
+            <p>Deployed at ooha-creator.github.io with active community engagement and ongoing feature development.</p>
+            
+            <!-- Video Gallery -->
+            <div class="video-gallery">
+                <div class="video-featured">
+                    <video id="featured-video" controls loop>
+                        <source src="OOHA with CTA.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-featured-caption">
+                        <span id="featured-label">Main Demo</span>
                     </div>
-                    
-                    <!-- Navigation Arrows -->
-                    <button class="carousel-arrow prev" onclick="changeSlide(-1)">‹</button>
-                    <button class="carousel-arrow next" onclick="changeSlide(1)">›</button>
-                    
-                    <!-- Navigation Dots -->
-                    <div class="carousel-nav">
-                        <span class="carousel-dot active" onclick="currentSlide(1)"></span>
-                        <span class="carousel-dot" onclick="currentSlide(2)"></span>
-                        <span class="carousel-dot" onclick="currentSlide(3)"></span>
-                        <span class="carousel-dot" onclick="currentSlide(4)"></span>
-                        <span class="carousel-dot" onclick="currentSlide(5)"></span>
+                </div>
+                <div class="video-filmstrip">
+                    <div class="video-thumb active" data-src="OOHA with CTA.mp4" data-label="Main Demo">
+                        <video muted>
+                            <source src="OOHA with CTA.mp4" type="video/mp4">
+                        </video>
+                        <span class="video-thumb-label">Main Demo</span>
+                    </div>
+                    <div class="video-thumb" data-src="SpotifyOoha.mp4" data-label="Spotify Use Case">
+                        <video muted>
+                            <source src="SpotifyOoha.mp4" type="video/mp4">
+                        </video>
+                        <span class="video-thumb-label">Spotify</span>
+                    </div>
+                    <div class="video-thumb" data-src="Ooha 3D Momentum.mp4" data-label="3D Momentum">
+                        <video muted>
+                            <source src="Ooha 3D Momentum.mp4" type="video/mp4">
+                        </video>
+                        <span class="video-thumb-label">3D Momentum</span>
+                    </div>
+                    <div class="video-thumb" data-src="momentum.mp4" data-label="Momentum">
+                        <video muted>
+                            <source src="momentum.mp4" type="video/mp4">
+                        </video>
+                        <span class="video-thumb-label">Momentum</span>
+                    </div>
+                    <div class="video-thumb" data-src="ipad.mp4" data-label="iPad Version">
+                        <video muted>
+                            <source src="ipad.mp4" type="video/mp4">
+                        </video>
+                        <span class="video-thumb-label">iPad</span>
                     </div>
                 </div>
             </div>
            
-            <h2>Understanding the Creative Process Through Co-Design</h2>
+            <h2>Understanding the Creative Process</h2>
             
-            <p>The UCSC HCI program, with its emphasis on experimental and computational arts, provided an ideal context for exploring alternative AI interaction paradigms. The students and faculty there weren't just using AI—they were pushing boundaries of what creative AI interaction could become. Their feedback became the foundation for understanding spatial thinking in creative work.</p>
+            <div class="two-column">
+                <p>The UCSC HCI program, with its emphasis on experimental and computational arts, provided an ideal context for exploring alternative AI interaction paradigms. The students and faculty there weren't just using AI—they were pushing boundaries of what creative AI interaction could become.</p>
 
-            <p>Our research began with a simple question: if creative professionals naturally work spatially—sketching thumbnails across pages, pinning inspiration to walls, arranging concepts in design software—why would we force them into linear chat conversations? The answer wasn't just about interface design; it was about fundamental cognitive misalignment between how AI interfaces work and how creative thinking functions.</p>
+                <p>Our research began with a simple question: if creative professionals naturally work spatially—sketching thumbnails across pages, pinning inspiration to walls, arranging concepts in design software—why would we force them into linear chat conversations? The answer wasn't just about interface design; it was about fundamental cognitive misalignment.</p>
+            </div>
 
-            <h2>Research Approach</h2>
+            <h2>Research Methodology</h2>
 
-            <h3>Phase 1: Co-Design Workshops</h3>
+            <h3>Co-Design Workshops</h3>
             
-            <p>We recruited 10 participants from the UCSC HCI community for a series of three co-design workshops held over two weeks in June 2025.Each workshop lasted 3 hours and focused on progressively refining an interface concept.</p>
+            <p>We recruited 10 participants from the UCSC HCI community for a series of three co-design workshops held over two weeks in June 2025. Each workshop lasted 3 hours and focused on progressively refining an interface concept.</p>
 
-            <p>The first workshop began with participants mapping their current AI workflows using large sheets of paper and colored markers. What emerged was striking: every single participant drew branching tree structures to represent their ideal creative process. A participant elaborated "This is how my brain works," she explained, pointing to the interconnected web of ideas. "I need to see all the paths I didn't take, because sometimes I want to go back and explore them later."</p>
+            <div class="image-aside">
+                <figure>
+                    <img src="Group 11 (1).png" alt="Users trying out the Ooha Branching Canvas">
+                </figure>
+                <figcaption>
+                    <strong>Workshop in Action</strong>
+                    Participants mapping their AI workflows using large sheets of paper and colored markers. Every participant drew branching tree structures to represent their ideal creative process.
+                </figcaption>
+            </div>
 
-            <p>During the second workshop, we introduced low-fidelity prototypes based on the participants' diagrams. Using a combination of paper prototypes and a basic digital mockup, participants could physically arrange and rearrange nodes representing AI interactions. The session revealed critical insights about spatial memory in creative work. Participants consistently placed related concepts in proximity to each other and developed personal organizational systems—some preferring vertical hierarchies, others favoring radial arrangements around central themes.</p>
+            <p>The first workshop began with participants mapping their current AI workflows. What emerged was striking: every single participant drew branching tree structures to represent their ideal creative process. "This is how my brain works," one participant explained, pointing to the interconnected web of ideas. "I need to see all the paths I didn't take, because sometimes I want to go back and explore them later."</p>
 
-            <div class="quote">
+            <div class="inline-quote">
                 "When I can see all my explorations laid out spatially, it's like having a conversation with my past creative decisions. Each node isn't just an output; it's a decision point, a moment where my creative process branched."
-                <span class="quote-author">— A participant who is also a Creative Artist</span>
+                <cite>— Creative Artist, Workshop Participant</cite>
             </div>
 
-            <div class="image-container">
-                <img src="Group 11 (1).png" alt="Users trying out the Ooha Branching Canvas, to test and iterate on ideas as they solve their tasks.">
-                <div class="image-caption">Users trying out the Ooha Branching Canvas, to test and iterate on ideas as they solve their tasks.</div>
-            </div>
+            <p>During the second workshop, we introduced low-fidelity prototypes based on the participants' diagrams. Participants could physically arrange and rearrange nodes representing AI interactions. The session revealed critical insights about spatial memory in creative work—participants consistently placed related concepts in proximity and developed personal organizational systems.</p>
 
-            <p>The third workshop introduced a functional prototype of the AI Branching Canvas. Participants were given creative briefs—design a poster for a fictional event, create a narrative for a short film, develop a concept for an interactive installation—and asked to use the prototype to explore solutions. We employed think-aloud protocol, recording both screen activity and verbal commentary as participants worked.</p>
+            <p>The third workshop introduced a functional prototype of the AI Branching Canvas. Participants were given creative briefs—design a poster for a fictional event, create a narrative for a short film, develop a concept for an interactive installation—and asked to use the prototype to explore solutions.</p>
 
-            <h3>Phase 2: Evaluation Study</h3>
+            <h3>Evaluation Study</h3>
 
-            <p>Following the co-design phase, we recruited 10 new participants from UCSC for a formal evaluation study conducted over one week in September 2025. This group included 3 self-identified Artists, 4 graduate students, and 3 advanced undergraduates, none of whom had participated in the co-design workshops.</p>
+            <p>Following the co-design phase, we recruited 10 new participants from UCSC for a formal evaluation study conducted over one week in September 2025. This group included 3 self-identified Artists, 4 graduate students, and 3 advanced undergraduates.</p>
 
-            <p>Each participant attended two 90-minute sessions. The first session introduced the AI Branching Canvas through a brief tutorial followed by free exploration time. We used a minimal instruction approach, providing only essential information about basic interactions, to observe how intuitive users found the interface. The second session, conducted 2-3 days later, involved structured creative tasks designed to test specific aspects of the system.</p>
+            <p>Each participant attended two 90-minute sessions. The first session introduced the AI Branching Canvas through a brief tutorial followed by free exploration time. We used a minimal instruction approach to observe how intuitive users found the interface. The second session involved structured creative tasks designed to test specific aspects of the system.</p>
 
        
 
             <h2>Key Findings</h2>
 
-            <div class="key-finding">
-                <h4>Finding 1: Spatial Memory Enhances Creative Recall</h4>
-                <p>Participants demonstrated remarkable ability to remember and navigate to specific nodes based on spatial position alone. During recall tasks, 8 out of 10 participants could accurately describe content from nodes they had created 48 hours earlier by referencing their spatial location. A student shared, "I don't remember the exact prompt I used, but I know it's in the upper left area where I was exploring color variations. The spatial layout becomes a map of my creative journey."</p>
-            </div>
-
-            <div class="key-finding">
-                <h4>Finding 2: Parallel Exploration Changes Creative Strategy</h4>
-                <p>When given the ability to generate responses from multiple AI models simultaneously, participants fundamentally changed their prompting strategies. Instead of carefully crafting a single "perfect" prompt, they adopted a more experimental approach, using initial prompts as starting points for divergent exploration. Analysis of prompt logs showed that participants using the branching interface generated 67% more prompt variations compared to traditional interfaces, but each individual prompt was 34% shorter on average.</p>
-            </div>
-
-            <div class="key-finding">
-                <h4>Finding 3: Visual Comparison Accelerates Decision-Making</h4>
-                <p>A student explained, "When I see all the options together, I immediately know which direction feels right. It's intuitive, like choosing between sketches on a wall."</p>
+            <div class="findings-grid">
+                <div class="finding-card">
+                    <h4>Spatial Memory Enhances Recall</h4>
+                    <p>8 out of 10 participants could accurately describe content from nodes they had created 48 hours earlier by referencing their spatial location. "The spatial layout becomes a map of my creative journey."</p>
+                </div>
+                <div class="finding-card">
+                    <h4>Parallel Exploration Changes Strategy</h4>
+                    <p>Participants generated 67% more prompt variations but each prompt was 34% shorter. Instead of crafting "perfect" prompts, they adopted a more experimental, divergent approach.</p>
+                </div>
+                <div class="finding-card">
+                    <h4>Visual Comparison Accelerates Decisions</h4>
+                    <p>"When I see all the options together, I immediately know which direction feels right. It's intuitive, like choosing between sketches on a wall."</p>
+                </div>
             </div>
 
             <h2>Design Evolution</h2>
 
-            <p>The feedback from UCSC participants directly influenced several critical design decisions. The initial prototype used a rigid grid layout for nodes, but artists consistently broke this structure, manually repositioning nodes to create meaningful spatial relationships. This led us to implement a fully free-form canvas where users have complete control over spatial organization.</p>
+            <div class="two-column">
+                <p>The feedback from UCSC participants directly influenced several critical design decisions. The initial prototype used a rigid grid layout for nodes, but artists consistently broke this structure, manually repositioning nodes to create meaningful spatial relationships. This led us to implement a fully free-form canvas.</p>
 
-            <p>The branching mechanism underwent significant refinement based on participant behavior. Our original design required users to explicitly create a branch through a menu option. However, we observed that 7 out of 10 participants instinctively tried to click or drag from existing nodes to create connections. This led to the implementation of the hover-based branch button, which appears contextually when users pause on a node.</p>
+                <p>The branching mechanism underwent significant refinement. Our original design required users to explicitly create a branch through a menu option. However, 7 out of 10 participants instinctively tried to click or drag from existing nodes to create connections—leading to the hover-based branch button.</p>
 
-            <p>Color and visual hierarchy proved more contentious than expected. Artists in our study had strong, often conflicting preferences about color usage. Some wanted rich, customizable color coding for different exploration threads, while others preferred minimal visual distinction to avoid influencing creative decisions. Our solution was a subtle, monochromatic design with optional color customization hidden in advanced settings.</p>
+                <p>Color and visual hierarchy proved more contentious than expected. Artists had strong, conflicting preferences. Our solution: a subtle, monochromatic design with optional color customization hidden in advanced settings.</p>
+            </div>
 
             <h2>Design Iteration</h2>
 
-            <p>The journey from initial concept to the final Ooha interface involved multiple design iterations, each informed by user feedback and technical constraints. Our early sketches explored fundamentally different interaction paradigms, revealing both promising directions and dead ends that ultimately shaped the final design.</p>
+            <p>The journey from initial concept to the final Ooha interface involved multiple design iterations, each informed by user feedback and technical constraints. Our early sketches explored fundamentally different interaction paradigms.</p>
 
-            <div class="image-container">
-                <img src="SCAI/IMG_0144.JPG" alt="Early design iteration exploring dropdown-based use case selection and credit management">
-                <div class="image-caption">Iteration 1: Early exploration of dropdown-based use case selection (text, video, images, Maps, Google Search) with integrated credit management system. This version emphasized organized use case categorization but lacked the spatial freedom that creative professionals needed.</div>
-            </div>
+            <figure class="image-aside">
+                <img src="SCAI/IMG_0144.JPG" alt="Early design iteration exploring dropdown-based use case selection">
+                <figcaption>
+                    <strong>Iteration 1: Categorical Approach</strong>
+                    Dropdown-based use case selection (text, video, images, Maps). Provided clear organization but lacked the spatial freedom creative professionals needed.
+                </figcaption>
+            </figure>
 
-            <p>Our first major iteration focused on structured use case organization through a dropdown interface. This design attempted to categorize different interaction types (text, video, images, Maps, Google Search) into a hierarchical menu system. While this approach provided clear organization, co-design workshop participants immediately identified a critical limitation: the rigid categorization conflicted with how creative professionals actually think. Artists don't work in discrete categories—they blend text, images, and video in fluid exploration. The dropdown paradigm also introduced friction, requiring users to pre-select their interaction type before exploring possibilities.</p>
+            <p>Our first major iteration focused on structured use case organization through a dropdown interface. While this approach provided clear organization, co-design participants immediately identified a critical limitation: artists don't work in discrete categories—they blend text, images, and video in fluid exploration.</p>
 
-            <div class="image-container">
-                <img src="SCAI/IMG_0145.JPG" alt="Second iteration exploring horizontal growth patterns and video/image branching">
-                <div class="image-caption">Iteration 2: Exploration of horizontal growth patterns with separate video and image processing paths. This iteration emphasized "neat progression and branching" and easier merging of image and video content for selection.</div>
-            </div>
+            <figure class="image-aside">
+                <img src="SCAI/IMG_0145.JPG" alt="Second iteration exploring horizontal growth patterns">
+                <figcaption>
+                    <strong>Iteration 2: Horizontal Branching</strong>
+                    Separate video and image processing paths. Established the importance of "neat progression and branching" but the media separation felt artificial.
+                </figcaption>
+            </figure>
 
-            <p>The second iteration shifted toward a more spatial approach, exploring horizontal growth patterns with distinct processing paths for video and image content. This design recognized the importance of branching and progression, but still maintained separate tracks for different media types. Workshop participants appreciated the visual branching concept but noted that the separation between video and image paths felt artificial. Creative professionals wanted to explore all content types within a unified spatial context, not switch between parallel systems. This iteration's key contribution was establishing the importance of "neat progression and branching"—a principle that would become central to the final design.</p>
+            <p>The second iteration shifted toward horizontal growth patterns with distinct processing paths. Participants appreciated the visual branching concept but noted that the separation between video and image paths felt artificial. Creative professionals wanted to explore all content types within a unified spatial context.</p>
 
-            <div class="image-container">
+            <figure class="full-bleed">
                 <img src="SCAI/finalOOHA.png" alt="Final Ooha interface design with unified spatial canvas">
-                <div class="image-caption">Final Design: The unified spatial canvas interface that emerged from iterative refinement. This version combines the branching principles from earlier iterations with a free-form canvas that supports all content types (text, video, images) in a single, flexible spatial context.</div>
+                <figcaption>
+                    <strong>Final Design:</strong> Unified spatial canvas combining branching principles with free-form organization for all content types.
+                </figcaption>
+            </figure>
+
+            <p>The final design synthesized insights from earlier iterations while addressing their limitations. We created a unified spatial canvas where text, video, and images coexist naturally. The branching mechanism supports multi-directional exploration while maintaining the "neat progression" principle.</p>
+
+            <div class="inline-quote">
+                Spatial interfaces for creative AI must prioritize flexibility over structure. Each iteration that imposed organizational constraints was rejected by users who needed the freedom to explore without predefined categories.
+                <cite>— Core Design Principle</cite>
             </div>
 
-            <p>The final design synthesized insights from both earlier iterations while addressing their limitations. We eliminated the dropdown categorization system, recognizing that creative exploration doesn't fit into predefined categories. Instead, we created a unified spatial canvas where text, video, and images coexist naturally. The branching mechanism evolved from the second iteration's horizontal growth concept, but became more flexible—supporting not just linear progression but multi-directional exploration. The final interface maintains the "neat progression" principle while allowing complete spatial freedom, enabling users to organize their creative exploration in whatever pattern feels natural to their thinking process.</p>
-
-            <p>This iterative process revealed a fundamental design principle: <strong>spatial interfaces for creative AI must prioritize flexibility over structure</strong>. Each iteration that imposed organizational constraints—whether through dropdowns or separate media paths—was rejected by users who needed the freedom to explore without predefined categories. The final design succeeded because it provided structure (branching, spatial organization) without constraining how that structure is used.</p>
-
-            <h2>Quantitative Results</h2>
-
-            <p>We collected comprehensive metrics during the evaluation phase to quantify the impact of the spatial interface on creative workflows. Participants completed identical creative tasks using both the AI Branching Canvas and a traditional chat interface (randomized order to control for learning effects).</p>
-
-            <div class="results-grid">
-                <div class="result-card">
-                    <h4>Creative Output</h4>
-                    <p><strong>340% increase</strong> in unique variations generated per session</p>
-                </div>
-                <div class="result-card">
-                    <h4>Task Efficiency</h4>
-                    <p><strong>62% reduction</strong> in time from brief to final output</p>
-                </div>
-                <div class="result-card">
-                    <h4>Cognitive Load</h4>
-                    <p><strong>43% decrease</strong> in reported mental effort (NASA-TLX)</p>
-                </div>
-                <div class="result-card">
-                    <h4>Exploration Depth</h4>
-                    <p><strong>Average 4.7 branches</strong> explored per creative task</p>
-                </div>
-                <div class="result-card">
-                    <h4>Model Comparison</h4>
-                    <p><strong>89% of decisions</strong> involved comparing multiple models</p>
-                </div>
-                <div class="result-card">
-                    <h4>Return Rate</h4>
-                    <p><strong>73% of branches</strong> were revisited during sessions</p>
+            <!-- Results Section - Dark Background -->
+            <div class="results-section">
+                <h2>Quantitative Results</h2>
+                <p style="color: rgba(255,255,255,0.8); max-width: 600px;">We collected comprehensive metrics during the evaluation phase. Participants completed identical creative tasks using both the AI Branching Canvas and a traditional chat interface.</p>
+                
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="result-number">340%</div>
+                        <div class="result-label">Creative Output</div>
+                        <div class="result-detail">Increase in unique variations generated per session</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">62%</div>
+                        <div class="result-label">Task Efficiency</div>
+                        <div class="result-detail">Reduction in time from brief to final output</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">43%</div>
+                        <div class="result-label">Cognitive Load</div>
+                        <div class="result-detail">Decrease in reported mental effort (NASA-TLX)</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">4.7</div>
+                        <div class="result-label">Exploration Depth</div>
+                        <div class="result-detail">Average branches explored per creative task</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">89%</div>
+                        <div class="result-label">Model Comparison</div>
+                        <div class="result-detail">Of decisions involved comparing multiple AI models</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">73%</div>
+                        <div class="result-label">Return Rate</div>
+                        <div class="result-detail">Of branches were revisited during sessions</div>
+                    </div>
                 </div>
             </div>
 
             <h2>Qualitative Insights</h2>
 
-            <p>Beyond the quantitative metrics, the qualitative feedback from UCSC participants revealed profound shifts in how they conceptualized AI-assisted creation. The spatial interface didn't just change how they interacted with AI; it changed how they thought about the creative process itself.</p>
-
-      
-            <p>The visual nature of the interface particularly resonated with artists accustomed to working with spatial media. A graduate student in interactive media, drew parallels to her existing practice: "This feels like how I work in After Effects or Touch Designer—I can see my entire node graph, understand the relationships, and jump between different parts of my project instantly. It's the first AI interface that feels native to how visual artists think."</p>
-
-            <div class="quote">
-                "The branching canvas turned my creative process from a linear march toward a single goal into a genuine exploration. I'm not trying to get the 'right' answer anymore; I'm discovering possibilities I didn't know existed."
-                <span class="quote-author">— MFA Student, Digital Arts</span>
+            <div class="pull-quote">
+                <blockquote>"The branching canvas turned my creative process from a linear march toward a single goal into a genuine exploration."</blockquote>
+                <cite>— MFA Student, Digital Arts</cite>
             </div>
 
-            <h2>Challenges and Limitations</h2>
+            <p>Beyond the quantitative metrics, qualitative feedback revealed profound shifts in how participants conceptualized AI-assisted creation. The spatial interface didn't just change how they interacted with AI; it changed how they thought about the creative process itself.</p>
 
-            <p>The study also revealed several challenges that warrant further investigation. Three participants initially felt overwhelmed by the freedom of the spatial interface, expressing nostalgia for the simplicity of linear chat. "Sometimes constraints are helpful," noted an undergraduate student. "With infinite space and infinite branches, I sometimes don't know where to start or when to stop."</p>
+            <p>A graduate student in interactive media drew parallels to her existing practice: "This feels like how I work in After Effects or Touch Designer—I can see my entire node graph, understand the relationships, and jump between different parts of my project instantly. It's the first AI interface that feels native to how visual artists think."</p>
 
-            <p>Technical limitations also emerged during intensive use. When participants created more than 100 nodes in a single session, performance degradation became noticeable on older hardware. While this affected only 2 participants during our study, it highlights the need for optimization as users engage in increasingly complex explorations.</p>
+            <h2>Challenges & Limitations</h2>
+
+            <p>Three participants initially felt overwhelmed by the freedom of the spatial interface. "Sometimes constraints are helpful," noted an undergraduate student. "With infinite space and infinite branches, I sometimes don't know where to start or when to stop."</p>
+
+            <p>Technical limitations also emerged during intensive use. When participants created more than 100 nodes in a single session, performance degradation became noticeable on older hardware—highlighting the need for optimization as users engage in increasingly complex explorations.</p>
 
             <h2>Future Directions</h2>
 
-            <p>The success of the UCSC study has opened several avenues for future development. Participants consistently requested collaborative features, envisioning shared canvases where multiple artists could explore together in real-time. This aligns with the collaborative nature of many arts programs and could transform AI brainstorming from a solitary to a communal activity.</p>
+            <div class="two-column">
+                <p>Participants consistently requested collaborative features, envisioning shared canvases where multiple artists could explore together in real-time. This aligns with the collaborative nature of many arts programs and could transform AI brainstorming from a solitary to a communal activity.</p>
 
-            <p>Integration with existing creative tools emerged as another priority. Seven participants explicitly requested the ability to export their branching explorations to tools like Figma, Adobe Creative Suite, or code repositories. The canvas could serve as a creative preprocessing layer that feeds into established production workflows.</p>
+                <p>Integration with existing creative tools emerged as another priority. Seven participants explicitly requested the ability to export branching explorations to Figma, Adobe Creative Suite, or code repositories—the canvas serving as a creative preprocessing layer.</p>
+            </div>
 
-            <h2>Design Principles & Key Takeaways</h2>
+            <h2>Design Principles</h2>
             
-            <h3>For AI Tool Designers</h3>
-            <p><strong>Spatial interfaces align naturally with creative cognition:</strong> When designing tools for creative professionals, consider how spatial organization can reduce cognitive load and enhance exploration. The 43% reduction in cognitive load we measured wasn't just about feature efficiency—it was about matching the interface to how visual thinkers naturally process information.</p>
-            
-            <p><strong>Enable parallel comparison:</strong> The 340% increase in creative variations came from eliminating the "fear of losing context." Users generate more possibilities when they can see all branches simultaneously rather than committing to one path.</p>
-
-            <h3>For Educators</h3>
-            <p><strong>The branching paradigm offers pedagogical value:</strong> Students using Ooha could visualize decision paths and understand how different prompts lead to different outcomes. Rather than abstractly learning about prompt engineering, they saw concrete results of their prompt variations mapped spatially. Several participants explicitly noted they learned more about AI capabilities through visual comparison than through text tutorials.</p>
-
-            <h3>For Researchers</h3>
-            <p><strong>Interface paradigms significantly impact AI utility:</strong> The dramatic improvements in creative output metrics (340% increase) suggest that AI capability alone doesn't determine effectiveness—interface design matters enormously. Further research into spatial interfaces could unlock new forms of human-AI collaboration beyond creative domains.</p>
-            
-            <p><strong>Co-design reveals fundamental design requirements:</strong> Starting with co-design workshops rather than assuming user needs allowed us to discover that creative professionals fundamentally think spatially. Had we designed based on chat interface patterns, we would have created an optimization of existing paradigms rather than a new paradigm entirely.</p>
+            <div class="findings-grid">
+                <div class="finding-card">
+                    <h4>For AI Tool Designers</h4>
+                    <p>Spatial interfaces align naturally with creative cognition. The 43% reduction in cognitive load was about matching the interface to how visual thinkers naturally process information. Enable parallel comparison—the 340% increase came from eliminating the "fear of losing context."</p>
+                </div>
+                <div class="finding-card">
+                    <h4>For Educators</h4>
+                    <p>The branching paradigm offers pedagogical value. Students could visualize decision paths and understand how different prompts lead to different outcomes. They learned more through visual comparison than through text tutorials.</p>
+                </div>
+                <div class="finding-card">
+                    <h4>For Researchers</h4>
+                    <p>Interface paradigms significantly impact AI utility. The dramatic improvements suggest that AI capability alone doesn't determine effectiveness—interface design matters enormously. Co-design reveals fundamental design requirements that assumptions would miss.</p>
+                </div>
+            </div>
 
             <h2>Conclusion</h2>
 
-            <p>Ooha demonstrated that reimagining AI interface paradigms can fundamentally transform how humans interact with AI systems. By aligning the interface with natural creative processes—branching exploration, spatial organization, and parallel comparison—we enabled artists to work with AI rather than against it. The quantitative results were striking (340% more variations, 62% faster solutions, 43% reduced cognitive load), but the qualitative insights were more profound: users described feeling liberated from constraints they didn't realize were constraining them.</p>
+            <p class="lede" style="margin-top: 0;">Ooha demonstrated that reimagining AI interface paradigms can fundamentally transform how humans interact with AI systems. By aligning the interface with natural creative processes—branching exploration, spatial organization, and parallel comparison—we enabled artists to work <em>with</em> AI rather than against it.</p>
             
-            <p><strong>Beyond metrics:</strong> The project's open-source launch has yielded diverse use cases we didn't anticipate—academic researchers using Ooha for literature review exploration, educators teaching prompt engineering through visual comparison, entrepreneurs using it for rapid business concept exploration. This organic expansion validates that the spatial paradigm addresses fundamental needs beyond our initial scope.</p>
+            <div class="two-column">
+                <p><strong>Beyond metrics:</strong> The project's open-source launch has yielded diverse use cases we didn't anticipate—academic researchers using Ooha for literature review exploration, educators teaching prompt engineering through visual comparison, entrepreneurs using it for rapid business concept exploration.</p>
             
-            <p><strong>Future implications:</strong> As AI capabilities continue advancing, interface design will become an even more critical differentiator. Companies competing on AI features alone will discover what we learned: paradigm-level thinking about interaction design can create leaps in effectiveness that incremental feature improvements cannot match. Ooha points toward a future where AI interfaces adapt to human cognitive patterns rather than forcing humans to adapt to AI constraints.</p>
-
-            <!-- Skills Demonstrated -->
-            <div class="key-finding" style="margin-top: 3rem;">
-                <h4>Skills & Methods Demonstrated</h4>
-                <p><strong>Research:</strong> UX Research • Co-Design Workshops • Usability Testing • Qualitative Analysis • Mixed-Methods Research</p>
-                <p><strong>Design:</strong> Interaction Design • Interface Design • User-Centered Design • Prototyping • Information Architecture</p>
-                <p><strong>Development:</strong> Full-Stack Development • React & Node.js • LLM Integration • API Development • Open Source</p>
-                <p><strong>Evaluation:</strong> Quantitative Analysis • Think-Aloud Protocol • NASA-TLX • Statistical Analysis</p>
+                <p><strong>Future implications:</strong> As AI capabilities continue advancing, interface design will become an even more critical differentiator. Paradigm-level thinking about interaction design can create leaps in effectiveness that incremental feature improvements cannot match.</p>
             </div>
 
-            <div class="footer">
-                <div class="container">
-                    <p style="margin-top: 1rem; font-size: 0.9rem;">
-                        <a href="index.html">Back to Portfolio</a>
-                    </p>
+            <!-- Skills Section -->
+            <div class="skills-section">
+                <h4>Skills & Methods Demonstrated</h4>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <strong>Research</strong>
+                        <p>UX Research, Co-Design Workshops, Usability Testing, Qualitative Analysis, Mixed-Methods</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Design</strong>
+                        <p>Interaction Design, Interface Design, User-Centered Design, Prototyping, Information Architecture</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Development</strong>
+                        <p>Full-Stack Development, React & Node.js, LLM Integration, API Development, Open Source</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Evaluation</strong>
+                        <p>Quantitative Analysis, Think-Aloud Protocol, NASA-TLX, Statistical Analysis</p>
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <footer class="footer">
+                <a href="index.html">← Back to Portfolio</a>
+            </footer>
+        </article>
     </main>
 
     <script>
-        // 3D Carousel functionality
-        let currentSlideIndex = 0;
-        const slides = document.querySelectorAll('.carousel-slide');
-        const dots = document.querySelectorAll('.carousel-dot');
-        const totalSlides = slides.length;
-
-        function showSlide(index) {
-            // Remove all classes from slides
-            slides.forEach(slide => {
-                slide.classList.remove('active', 'prev', 'next', 'hidden');
-            });
-            dots.forEach(dot => dot.classList.remove('active'));
-            
-            // Position slides based on their relationship to current slide
-            slides.forEach((slide, slideIndex) => {
-                const slideDataIndex = parseInt(slide.getAttribute('data-index'));
-                const relativePosition = slideDataIndex - index;
-                const video = slide.querySelector('video');
-                
-                if (relativePosition === 0) {
-                    // Current slide
-                    slide.classList.add('active');
-                    if (video) {
-                        video.pause();
-                    }
-                } else if (relativePosition === -1 || (index === 0 && slideDataIndex === totalSlides - 1)) {
-                    // Previous slide (with wraparound)
-                    slide.classList.add('prev');
-                    if (video) {
-                        video.pause();
-                    }
-                } else if (relativePosition === 1 || (index === totalSlides - 1 && slideDataIndex === 0)) {
-                    // Next slide (with wraparound)
-                    slide.classList.add('next');
-                    if (video) {
-                        video.pause();
-                    }
-                } else {
-                    // Hidden slides
-                    slide.classList.add('hidden');
-                    if (video) {
-                        video.pause();
-                    }
-                }
-            });
-            
-            // Update dots
-            if (dots[index]) {
-                dots[index].classList.add('active');
-            }
-            
-            // Update arrow states (optional - remove if you want infinite loop)
-            const prevArrow = document.querySelector('.carousel-arrow.prev');
-            const nextArrow = document.querySelector('.carousel-arrow.next');
-            
-            if (prevArrow && nextArrow) {
-                // Uncomment these lines if you want to disable arrows at boundaries
-                // prevArrow.disabled = index === 0;
-                // nextArrow.disabled = index === totalSlides - 1;
-            }
-        }
-
-        function changeSlide(direction) {
-            // Stop current auto-play
-            clearTimeout(autoPlayTimeout);
-            
-            currentSlideIndex += direction;
-            
-            // Loop around if at boundaries
-            if (currentSlideIndex >= totalSlides) {
-                currentSlideIndex = 0;
-            } else if (currentSlideIndex < 0) {
-                currentSlideIndex = totalSlides - 1;
-            }
-            
-            showSlide(currentSlideIndex);
-            
-            // Restart auto-play for the new slide
-            if (isAutoPlaying) {
-                startAutoPlay();
-            }
-        }
-
-        function currentSlide(index) {
-            // Stop current auto-play
-            clearTimeout(autoPlayTimeout);
-            
-            currentSlideIndex = index - 1;
-            showSlide(currentSlideIndex);
-            
-            // Restart auto-play for the new slide
-            if (isAutoPlaying) {
-                startAutoPlay();
-            }
-        }
-
-        // Auto-play functionality based on video duration
-        let autoPlayTimeout;
-        let isAutoPlaying = true;
-        
-        function startAutoPlay() {
-            if (!isAutoPlaying) return;
-            
-            const currentVideo = slides[currentSlideIndex].querySelector('video');
-            if (currentVideo) {
-                // Wait for video to finish playing
-                currentVideo.addEventListener('ended', function onVideoEnd() {
-                    if (isAutoPlaying) {
-                        changeSlide(1);
-                    }
-                    currentVideo.removeEventListener('ended', onVideoEnd);
-                }, { once: true });
-                
-                // If video is already playing, check its current time
-                if (!currentVideo.paused && currentVideo.currentTime > 0) {
-                    const remainingTime = currentVideo.duration - currentVideo.currentTime;
-                    if (remainingTime > 0) {
-                        autoPlayTimeout = setTimeout(() => {
-                            if (isAutoPlaying) {
-                                changeSlide(1);
-                            }
-                        }, remainingTime * 1000);
-                    }
-                }
-            } else {
-                // Fallback to 5 seconds if no video
-                autoPlayTimeout = setTimeout(() => {
-                    if (isAutoPlaying) {
-                        changeSlide(1);
-                    }
-                }, 5000);
-            }
-        }
-        
-        function stopAutoPlay() {
-            isAutoPlaying = false;
-            clearTimeout(autoPlayTimeout);
-        }
-        
-        function resumeAutoPlay() {
-            isAutoPlaying = true;
-            startAutoPlay();
-        }
-
-        // Initialize carousel
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize carousel
-            showSlide(0);
+            const featuredVideo = document.getElementById('featured-video');
+            const featuredLabel = document.getElementById('featured-label');
+            const thumbs = document.querySelectorAll('.video-thumb');
             
-            // Add click handlers for side slides
-            slides.forEach((slide, index) => {
-                slide.addEventListener('click', function() {
-                    const slideDataIndex = parseInt(slide.getAttribute('data-index'));
-                    currentSlideIndex = slideDataIndex;
-                    showSlide(currentSlideIndex);
+            thumbs.forEach(thumb => {
+                thumb.addEventListener('click', function() {
+                    // Update active state
+                    thumbs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update featured video
+                    const src = this.dataset.src;
+                    const label = this.dataset.label;
+                    
+                    featuredVideo.pause();
+                    featuredVideo.querySelector('source').src = src;
+                    featuredVideo.load();
+                    featuredLabel.textContent = label;
                 });
             });
-            
-            // Auto-play disabled by default - videos start paused
-            // startAutoPlay();
-            
-            // Pause auto-play on hover
-            const carousel = document.querySelector('.video-carousel');
-            if (carousel) {
-                carousel.addEventListener('mouseenter', stopAutoPlay);
-                carousel.addEventListener('mouseleave', resumeAutoPlay);
-            }
-            
-            // Keyboard navigation
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'ArrowLeft') {
-                    changeSlide(-1);
-                } else if (e.key === 'ArrowRight') {
-                    changeSlide(1);
-                }
-            });
-
-            // Portfolio toggle functionality
-            const portfolioToggle = document.getElementById('portfolio-toggle');
-            const projectLinksContainer = document.getElementById('project-links-container');
-            const portfolioIndicator = document.getElementById('portfolio-indicator'); 
-
-            if (portfolioToggle) {
-                portfolioToggle.addEventListener('click', function() {
-                    projectLinksContainer.classList.toggle('hidden');
-                    if (projectLinksContainer.classList.contains('hidden')) {
-                        portfolioIndicator.textContent = '+';
-                    } else {
-                        portfolioIndicator.textContent = '-';
-                    }
-                });
-            }
         });
 
         function showLockedMessage() {

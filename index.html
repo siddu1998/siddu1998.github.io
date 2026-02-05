@@ -3,9 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sai Siddartha Maram's Portfolio</title>
+    <title>Sai Siddartha Maram — UX Researcher & Designer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
     <style>
-        /* Base styles */
+        :root {
+            --ink: #1a1a1a;
+            --paper: #faf9f7;
+            --muted: #888;
+            --serif: 'Instrument Serif', Georgia, serif;
+            --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,1804 +23,320 @@
         }
         
         body {
-            background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
-            background-image: 
-                linear-gradient(rgba(200, 200, 200, 0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(200, 200, 200, 0.08) 1px, transparent 1px);
-            background-size: 60px 60px;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #1a1a1a;
-            margin: 0;
-            min-height: 100vh;
-            font-feature-settings: "ss01", "cv02", "cv03", "cv04";
-        }
-        
-        /* Smooth animations globally */
-        a, button, .nav-pill, .project-card, .social-links a {
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Header */
-        header {
-            padding: 0.75rem 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px) saturate(180%);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
-        }
-        
-        .logo {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #1a1a1a;
-        }
-        
-        .contact-btn {
-            background-color: #1a1a1a;
-            color: white;
-            padding: 0.6rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: background-color 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .contact-btn:hover {
-            background-color: #333;
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 1400px;
+            background-color: var(--paper);
+            font-family: var(--sans);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--ink);
+            padding: 4rem 2rem;
+            max-width: 600px;
             margin: 0 auto;
-            padding: 3rem 2rem;
-        }
-
-        /* Profile Section */
-        .profile-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 4rem;
-            padding: 0;
-            align-items: start;
-            max-width: 1400px;
-            margin-left: auto;
-            margin-right: auto;
         }
         
-        .profile-left {
+        a {
+            color: var(--muted);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: color 0.2s ease;
+        }
+        
+        a:hover {
+            color: var(--ink);
+        }
+        
+        /* Logo/Icon */
+        .logo {
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        /* Name Section */
+        .name-section {
+            margin-bottom: 3.5rem;
+        }
+        
+        .name {
+            font-family: var(--serif);
+            font-size: 1.75rem;
+            font-weight: 400;
+            margin-bottom: 0.25rem;
+        }
+        
+        .role {
+            color: var(--muted);
+        }
+        
+        .role a {
+            color: var(--muted);
+        }
+        
+        /* Connect Links (horizontal) */
+        .connect-links {
             display: flex;
-            align-items: flex-start;
-            gap: 2.5rem;
+            gap: 1.25rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
         }
         
-        .contributions-card {
-            background-color: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 
-                0 1px 3px rgba(0, 0, 0, 0.04),
-                0 1px 2px rgba(0, 0, 0, 0.02);
-            border: 1px solid rgba(0, 0, 0, 0.06);
-            min-height: 400px;
-            position: relative;
-        }
-        
-        .contributions-card h3 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: #1a1a1a;
-        }
-        
-        .contributions-card ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .contributions-card li {
-            margin-bottom: 1.25rem;
+        .connect-links a {
+            color: var(--muted);
             font-size: 0.95rem;
-            line-height: 1.6;
-            color: #333;
         }
         
-        .contributions-card li:last-child {
+        /* Generic Section */
+        section {
+            margin-bottom: 3.5rem;
+        }
+        
+        section h2 {
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 0.75rem;
+            color: var(--ink);
+        }
+        
+        section p {
+            color: var(--muted);
+            margin-bottom: 0.5rem;
+        }
+        
+        section p:last-child {
             margin-bottom: 0;
         }
         
-        .contributions-card strong {
-            color: #1a1a1a;
-            font-weight: 600;
+        /* Link Lists */
+        .link-list {
+            list-style: none;
         }
-
-        /* Pac-Man Game Styles */
-        .game-button {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: #FFD700;
-            color: #1a1a1a;
-            border: 2px solid #1a1a1a;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
+        
+        .link-list li {
+            margin-bottom: 0.35rem;
+        }
+        
+        .link-list a {
+            color: var(--muted);
+        }
+        
+        /* Case Studies with subtle meta */
+        .case-study-item {
+            margin-bottom: 0.5rem;
+        }
+        
+        .case-study-item a {
+            color: var(--muted);
+        }
+        
+        .case-study-meta {
             font-size: 0.85rem;
-            font-weight: 700;
+            color: #bbb;
+            margin-left: 0.5rem;
+        }
+        
+        /* About Panel */
+        .about-trigger {
             cursor: pointer;
-            transition: all 0.2s ease;
-            z-index: 10;
-            font-family: 'Courier New', monospace;
-            text-transform: uppercase;
-        }
-
-        .game-button:hover {
-            background: #FFC700;
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        #pacmanGame {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            background: #000000;
-            border-radius: 20px;
-            overflow: hidden;
-            display: none;
-            image-rendering: pixelated;
-        }
-
-        #gameCanvas {
-            width: 100%;
-            height: 100%;
-            image-rendering: pixelated;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: crisp-edges;
-            display: block;
-            background: #000000;
-            transition: opacity 0.2s ease;
-            object-fit: fill;
-        }
-
-        .pixel-popup {
-            position: absolute;
-            background: #FFD700;
-            border: 4px solid #1a1a1a;
-            padding: 1.5rem;
-            border-radius: 0;
-            max-width: 400px;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 100;
-            font-family: 'Courier New', monospace;
-            box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.3);
-            animation: pixelPop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        @keyframes pixelPop {
-            0% {
-                transform: translate(-50%, -50%) scale(0);
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(1);
-            }
-        }
-
-        .pixel-popup h4 {
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-            color: #1a1a1a;
-            text-transform: uppercase;
-        }
-
-        .pixel-popup p {
-            font-size: 0.85rem;
-            line-height: 1.5;
-            color: #333;
-        }
-
-        .pixel-popup button {
-            margin-top: 1rem;
-            background: #1a1a1a;
-            color: #FFD700;
-            border: none;
-            padding: 0.5rem 1rem;
-            font-family: 'Courier New', monospace;
-            font-weight: 700;
-            cursor: pointer;
-            text-transform: uppercase;
-        }
-
-        .pixel-popup button:hover {
-            background: #333;
-        }
-
-        .game-score {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #FFD700;
-            font-family: 'Courier New', monospace;
-            font-size: 1.2rem;
-            font-weight: 700;
-            z-index: 50;
-            text-shadow: 2px 2px 0 #1a1a1a;
         }
         
-        .profile-image {
-            width: 200px;
-            height: 200px;
-            border-radius: 20px;
-            object-fit: cover;
-            flex-shrink: 0;
-            border: 1px solid rgba(0, 0, 0, 0.06);
-            box-shadow: 
-                0 8px 24px rgba(0, 0, 0, 0.08),
-                0 2px 8px rgba(0, 0, 0, 0.04);
-        }
-        
-        .profile-info {
-            flex: 1;
-        }
-        
-        .profile-info h1 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: #1a1a1a;
-            letter-spacing: 0;
-            line-height: 1.3;
-        }
-        
-        .profile-info .role {
-            font-size: 1rem;
-            font-weight: 400;
-            color: #666;
-            margin-bottom: 0.25rem;
-            line-height: 1.6;
-        }
-        
-        .location {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-            color: #999;
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-        }
-
-        /* Navigation Pills */
-        .nav-pills {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 4rem;
-            flex-wrap: wrap;
-            padding: 0;
-            max-width: 1400px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .nav-pill {
-            padding: 0.9rem 2rem;
-            background-color: rgba(255, 255, 255, 0.9);
-            border: 1.5px solid #e5e7eb;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            font-size: 0.95rem;
-            font-weight: 600;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            color: #333;
-            text-decoration: none;
-            display: inline-block;
-        }
-        
-        .nav-pill:hover {
-            background-color: #f9fafb;
-            border-color: #d1d5db;
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-        }
-        
-        .nav-pill.active {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            color: white;
-            border-color: #1a1a1a;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Projects Grid */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            padding: 0 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        @media (max-width: 1200px) {
-            .projects-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .project-card {
-            background-color: white;
-            border-radius: 20px;
-            padding: 2.5rem;
-            min-height: 300px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 
-                0 1px 3px rgba(0, 0, 0, 0.04),
-                0 1px 2px rgba(0, 0, 0, 0.02);
-            border: 1px solid rgba(0, 0, 0, 0.06);
-        }
-        
-        .project-card:hover {
-            transform: translateY(-8px) scale(1.01);
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.08),
-                0 8px 16px rgba(0, 0, 0, 0.04),
-                0 0 0 1px rgba(0, 0, 0, 0.04);
-        }
-        
-        .project-tag {
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 1rem;
-            padding: 0.3rem 0.8rem;
-            background: rgba(0, 0, 0, 0.06);
-            border-radius: 6px;
-            display: inline-block;
-            width: fit-content;
-        }
-        
-        .project-card h3 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            line-height: 1.3;
-        }
-        
-        .project-card p {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            opacity: 0.85;
-        }
-        
-        /* Color variants for project cards */
-        .card-blue {
-            background: linear-gradient(135deg, #EEF2FF 0%, #DBEAFE 100%);
-            color: #1a1a1a;
-            border: 1px solid rgba(59, 130, 246, 0.1);
-        }
-        
-        .card-green {
-            background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
-            color: #1a1a1a;
-            border: 1px solid rgba(34, 197, 94, 0.1);
-        }
-        
-        .card-orange {
-            background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%);
-            color: #1a1a1a;
-            border: 1px solid rgba(249, 115, 22, 0.1);
-        }
-        
-        .card-red {
-            background: linear-gradient(135deg, #FFF1F2 0%, #FFE4E6 100%);
-            color: #1a1a1a;
-            border: 1px solid rgba(244, 63, 94, 0.1);
-        }
-        
-        .card-purple {
-            background: linear-gradient(135deg, #FAF5FF 0%, #F3E8FF 100%);
-            color: #1a1a1a;
-            border: 1px solid rgba(168, 85, 247, 0.1);
-        }
-        
-        .card-yellow {
-            background: linear-gradient(135deg, #FEFCE8 0%, #FEF9C3 100%);
-            color: #1a1a1a;
-            border: 1px solid rgba(234, 179, 8, 0.1);
-        }
-        
-        .card-white {
-            background: white;
-            border: 1px solid #e5e7eb;
-            color: #1a1a1a;
-        }
-        
-        .card-dark {
-            background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .card-tokinezu {
-            background: linear-gradient(135deg, #f7c6b4 0%, #f5b199 50%, #ea9f84 100%);
-            color: #1a1a1a;
-            border: 1px solid rgba(0, 0, 0, 0.06);
-        }
-
-        /* Utility class to hide content */
-        .hidden {
-            display: none;
-        }
-
-        /* Social Links */
-        .social-links {
-            display: flex;
-            gap: 1.5rem;
-            margin-top: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .social-links a {
-            color: #999;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s ease;
-        }
-
-        .social-links a:hover {
-            color: #666;
-            text-decoration: underline;
-        }
-
-        /* Research Section */
-        .research-section {
-            padding: 2rem;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 20px;
-        }
-        
-        .research-section h2 {
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            font-weight: 700;
-        }
-        
-        .research-table-wrapper {
-            margin-top: 2rem;
-        }
-        .research-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .research-table th {
-            text-align: left;
-            padding: 1rem 0;
-            border-bottom: 2px solid #333;
-            font-weight: bold;
-            font-size: 1rem;
-            color: #333;
-        }
-        .research-table td {
-            padding: 1rem 0;
-            border-bottom: 1px solid #e0e0e0;
-            vertical-align: top;
-        }
-        .paper-title {
-            color: #333;
-            text-decoration: none;
-            font-size: 1rem;
-        }
-        .paper-title:hover {
-            text-decoration: underline;
-        }
-        .conference-badge {
-            background-color: #f0f0f0;
-            padding: 0.2rem 0.5rem;
-            border-radius: 3px;
-            font-size: 0.8rem;
-            color: #333;
-            font-weight: bold;
-        }
-        .research-table tr:last-child td {
-            border-bottom: none;
-        }
-        
-        /* Fade-in animations for project cards */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .project-card {
-            animation: fadeInUp 0.6s ease backwards;
-        }
-
-        .project-card:nth-child(1) { animation-delay: 0.1s; }
-        .project-card:nth-child(2) { animation-delay: 0.15s; }
-        .project-card:nth-child(3) { animation-delay: 0.2s; }
-        .project-card:nth-child(4) { animation-delay: 0.25s; }
-        .project-card:nth-child(5) { animation-delay: 0.3s; }
-        .project-card:nth-child(6) { animation-delay: 0.35s; }
-        .project-card:nth-child(7) { animation-delay: 0.4s; }
-        .project-card:nth-child(8) { animation-delay: 0.45s; }
-        .project-card:nth-child(9) { animation-delay: 0.5s; }
-        .project-card:nth-child(10) { animation-delay: 0.55s; }
-        
-        /* Card Deck Styles - Tales of Dharma */
-        .tales-of-dharma {
-            grid-column: 1 / -1;
-            background-color: white;
-            border-radius: 20px;
-            padding: 3rem;
-            box-shadow: 
-                0 1px 3px rgba(0, 0, 0, 0.04),
-                0 1px 2px rgba(0, 0, 0, 0.02);
-            border: 1px solid rgba(0, 0, 0, 0.06);
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .tales-of-dharma:hover {
-            transform: translateY(-8px) scale(1.01);
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.08),
-                0 8px 16px rgba(0, 0, 0, 0.04),
-                0 0 0 1px rgba(0, 0, 0, 0.04);
-        }
-
-        .tales-of-dharma .project-tag {
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 1rem;
-            padding: 0.3rem 0.8rem;
-            background: rgba(0, 0, 0, 0.06);
-            border-radius: 6px;
-            display: inline-block;
-            width: fit-content;
-        }
-
-        .tales-of-dharma h3 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            line-height: 1.3;
-        }
-
-        .tales-of-dharma .description {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            opacity: 0.85;
-            margin-bottom: 2rem;
-        }
-
-        .tales-cards-grid {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .card-container {
-            perspective: 1000px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .card-content {
-            width: 200px;
-            transform-style: preserve-3d;
-            transition: transform 0.25s cubic-bezier(0.23, 1, 0.32, 1);
-            position: relative;
-            overflow: hidden;
-            border-radius: 16px;
-            box-shadow: 
-                0 2px 8px rgba(0, 0, 0, 0.06),
-                0 1px 3px rgba(0, 0, 0, 0.04);
-            border: 1px solid rgba(0, 0, 0, 0.08);
-        }
-
-        .card-image {
-            width: calc(100% + 20px);
-            height: auto;
-            transform: translateZ(30px);
-            display: block;
-            margin: -10px;
-        }
-
-        .card-content::before {
-            content: "";
-            position: absolute;
+        .about-overlay {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(
-                circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-                rgba(255, 255, 255, 0.4),
-                rgba(255, 255, 255, 0) 60%
-            );
+            background: rgba(26, 26, 26, 0.3);
             opacity: 0;
-            transition: opacity 0.25s;
-            transform: translateZ(31px);
-            pointer-events: none;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 100;
         }
-
-        .card-container:hover .card-content::before {
+        
+        .about-overlay.active {
             opacity: 1;
+            visibility: visible;
         }
-
-        .card-container:hover .card-content {
-            box-shadow: 
-                0 16px 32px rgba(0, 0, 0, 0.12),
-                0 6px 12px rgba(0, 0, 0, 0.08),
-                0 0 0 1px rgba(0, 0, 0, 0.04);
+        
+        .about-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: min(480px, 90vw);
+            height: 100%;
+            background: var(--paper);
+            border-left: 1px solid #e0e0e0;
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 101;
+            overflow-y: auto;
+            padding: 3rem 2.5rem;
         }
-
-        /* --- Mobile Friendly Styles --- */
-        @media (max-width: 992px) {
-            header {
-                padding: 0.75rem 1.5rem;
+        
+        .about-panel.active {
+            transform: translateX(0);
+        }
+        
+        .about-panel-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--muted);
+            cursor: pointer;
+            transition: color 0.2s ease;
+            line-height: 1;
+        }
+        
+        .about-panel-close:hover {
+            color: var(--ink);
+        }
+        
+        .about-panel-image {
+            width: 100%;
+            max-width: 200px;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            filter: grayscale(20%);
+        }
+        
+        .about-panel h2 {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            font-weight: 400;
+            font-style: italic;
+            color: var(--ink);
+            margin-bottom: 1.75rem;
+            line-height: 1.35;
+        }
+        
+        .about-panel p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.25rem;
+            line-height: 1.7;
+        }
+        
+        .about-panel p:last-of-type {
+            margin-bottom: 0;
+        }
+        
+        .about-panel a {
+            color: var(--muted);
+        }
+        
+        /* Responsive */
+        @media (max-width: 600px) {
+            body {
+                padding: 3rem 1.5rem;
             }
             
-            .logo {
-                font-size: 1rem;
+            .name {
+                font-size: 1.5rem;
             }
             
-            .contact-btn {
-                padding: 0.5rem 1rem;
-                font-size: 0.85rem;
+            .about-panel {
+                padding: 2.5rem 1.5rem;
             }
             
-            .container {
-                padding: 2rem 1.5rem;
-            }
-            
-            .profile-section {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-                padding: 2rem 1.5rem;
-            }
-            
-            .profile-left {
-                flex-direction: column;
-                text-align: center;
-                gap: 2rem;
-            }
-            
-            .profile-image {
-                width: 160px;
-                height: 160px;
-                border-radius: 16px;
-            }
-            
-            .profile-info h1 {
-                font-size: 1.4rem;
-            }
-            
-            .profile-info .role {
-                font-size: 0.95rem;
-            }
-            
-            .location {
-                justify-content: center;
-            }
-            
-            .social-links {
-                flex-wrap: wrap;
-                gap: 0.8rem;
-                justify-content: center;
-            }
-            
-            .nav-pills {
-                padding: 0 1rem;
-                justify-content: center;
-            }
-            
-            .nav-pill {
-                padding: 0.7rem 1.5rem;
-                font-size: 0.9rem;
-            }
-            
-            .projects-grid {
-                grid-template-columns: 1fr;
-                gap: 1.2rem;
-                padding: 0 1rem;
-            }
-            
-            .project-card {
-                padding: 2rem;
-                min-height: 240px;
-            }
-            
-            .project-card h3 {
-                font-size: 1.2rem;
-            }
-            
-            .research-section {
-                padding: 1.5rem;
-            }
-            
-            .research-table {
-                font-size: 0.9rem;
-            }
-            
-            .research-table th, .research-table td {
-                padding: 0.75rem 0;
-            }
-            
-            .tales-of-dharma {
-                padding: 1.5rem;
-            }
-            
-            .tales-cards-grid {
-                gap: 1rem;
-            }
-            
-            .card-container .card-content {
-                width: 160px;
+            .about-panel h2 {
+                font-size: 1.3rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header>
-        <div class="logo">Sai Maram</div>
-        <a href="https://siddu1998.github.io/cv.pdf" target="_blank" class="contact-btn">
-            Resume →
-        </a>
-    </header>
+    <div class="logo">◆</div>
 
-    <!-- Main Container -->
-    <div class="container">
-        <!-- Profile Section -->
-        <div class="profile-section">
-            <div class="profile-left">
-                <img src="temporary/sai_4.jpg" alt="Sai Maram" class="profile-image" onerror="this.onerror=null;this.src='https://placehold.co/400x400/e0e0e0/333333?text=SM';">
-                <div class="profile-info">
-                    <h1>Sai Siddartha Maram</h1>
-                    <div class="role">UX Researcher & Designer</div>
-                    <div class="role">PhD Candidate at UCSC</div>
-                    <div class="role">Previously @ Microsoft, Xbox, Meta</div>
-                    <div class="location">📍 San Francisco, CA</div>
-                    
-                    <div class="social-links">
-                        <a href="https://linkedin.com/in/sid-maram" target="_blank">LinkedIn</a>
-                        <a href="https://scholar.google.com/citations?user=0eShD5EAAAAJ&hl=en" target="_blank">Google Scholar</a>
-                        <a href="https://x.com/ADesiHCI" target="_blank">Twitter</a>
-                        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="contributions-card">
-                <button class="game-button" onclick="togglePacmanGame()">Click here!</button>
-                
-                <div id="contributionsContent">
-                    <h3>Key Contributions</h3>
-                    <ul>
-                        <li>• My research at Meta contributed to the Meta-Spotify integration and Facebook Sports cards, leading to <strong>over a billion users sharing Spotify content on Instagram.</strong></li>
-                        <li>• My ethnographic research towards understanding how cultural narratives drive environmental behavior change won <strong>best paper at ACM DIS 2025.</strong></li>
+    <div class="name-section">
+        <h1 class="name">Sai Siddartha Maram</h1>
+        <p class="role">PhD Candidate at <a href="https://www.ucsc.edu" target="_blank">UC Santa Cruz</a></p>
+        <p class="role">Previously at Meta, Xbox/Microsoft, Invento Robotics</p>
+        <p class="role">If you want to know a bit more about me, read <a href="#" class="about-trigger" id="aboutTrigger">here</a>.</p>
 
-                        <li>• My work has contributed to award-winning video games, including <strong>Halo</strong> and <strong>Perfect Dark.</strong></li>
-
-                        <!-- <li>• My research at Meta contributed to the Meta-Spotify integration and Facebook Sports cards, leading to <strong>over a billion users sharing Spotify content on Instagram.</strong></li> -->
-                        
-                        <li>• At Xbox, I designed and developed Xbox AURA, an agentic approach towards analyzing playtest data, conducting unmoderated interviews resulting in an average of <strong>8 hours saved per study.</strong></li>
-
-                    </ul>
-                </div>
-
-                <div id="pacmanGame">
-                    <canvas id="gameCanvas"></canvas>
-                    <div class="game-score">Score: <span id="score">0</span></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Navigation Pills -->
-        <div class="nav-pills">
-            <div class="nav-pill active" data-section="projects">Selected Work</div>
-            <div class="nav-pill" data-section="about">About Me</div>
-            <div class="nav-pill" data-section="research">Publications</div>
-            <div class="nav-pill" data-section="resources">UI Tools</div>
-        </div>
-
-        <!-- Projects Section (Default View) -->
-        <div id="projects" class="projects-grid">
-            <a href="./canvasNew.html" class="project-card card-blue">
-                <div>
-                    <div class="project-tag">LLM × UX</div>
-                    <div class="project-tag">UX Case Study</div>
-                    <h3>Ooha: AI Canvas for Visual Thinkers</h3>
-                    <p>An interactive canvas leveraging AI to enhance creative workflows and design iterations.</p>
-                </div>
-            </a>
-
-            <a href="./googleTrips.html" class="project-card card-green">
-                <div>
-                    <div class="project-tag">Google Maps API</div>
-                    <div class="project-tag">UX Case Study</div>
-                    <h3>Google Trips: Collaborative Trip Planning</h3>
-                    <p>A shared canvas for collaborative trip planning using Google Maps Grounding API to transform natural language queries into visual itineraries.</p>
-                </div>
-            </a>
-            <a href="./Xbox2.html" class="project-card card-purple">
-                <div>
-                    <div class="project-tag">Microsoft 2025</div>
-                    <div class="project-tag">UX Case Study</div>
-                    <h3>AURA: Agentic User Research Approach 🔒</h3>
-                    <p>Designed and developed Xbox AURA: an agentic approach towards running playtests and data analysis, resulting in ~$200K in annual savings.</p>
-                </div>
-            </a>
-
-
-            <a href="./religionVideoGamesNew.html" class="project-card card-purple">
-                <div>
-                    <div class="project-tag">CHI PLAY 2024</div>
-                    <div class="project-tag">UX Case Study</div>
-                    <h3>Religious Inclusivity in Games</h3>
-                    <p>Digital ethnography analyzing 10,000+ Reddit posts to understand religious representation in gaming.</p>
-                </div>
-            </a>
-            <a href="./shlokaNew.html" class="project-card card-green">
-                <div>
-                    <div class="project-tag">ACM DIS 2025 🏆</div>
-                    <div class="project-tag">UX Case Study</div>
-                    <h3>Shloka: Climate Action through LLMs and Cultural Games</h3>
-                    <p>Ethnographic research exploring how religious narratives drive environmental behavior change.</p>
-                </div>
-            </a>
-
-           
-            <a href="./metaNew.html" class="project-card card-orange">
-                <div>
-                    <div class="project-tag">Meta 2022</div>
-                    <div class="project-tag">UX Case Study</div>
-                    <h3>Facebook Home Redesign</h3>
-                    <p>Generative research identifying user needs and prototyping 21 new experiences. Contributed to Meta-Spotify integration reaching over a billion users.</p>
-                </div>
-            </a>
-
-            <!-- Tales of Dharma Card Deck -->
-            <a href="./ToD.html" class="tales-of-dharma">
-                <div class="project-tag">UX/UI Case Study</div>
-                <div class="project-tag">Game Design 2025</div>
-                <h3>Tales of Dharma - Over 1000 copies sold!</h3>
-                <p class="description">A Card Game for fostering storytelling, family time, reflection and community engagement.</p>
-                
-                <div class="tales-cards-grid">
-                    <div class="card-container">
-                        <div class="card-content">
-                            <img src="monsta.png" alt="Ravana" class="card-image">
-                        </div>
-                    </div>
-                    
-                    <div class="card-container">
-                        <div class="card-content">
-                            <img src="Border Extension Frame-1.png" alt="Vayu" class="card-image">
-                        </div>
-                    </div>
-
-                    <div class="card-container">
-                        <div class="card-content">
-                            <img src="Border Extension Frame (5).png" alt="Garuda" class="card-image">
-                        </div>
-                    </div>
-
-                    <div class="card-container">
-                        <div class="card-content">
-                            <img src="Border Extension Frame-3.png" alt="Sita" class="card-image">
-                        </div>
-                    </div>
-
-                    <div class="card-container">
-                        <div class="card-content">
-                            <img src="Border Extension Frame.png" alt="Shakuni" class="card-image">
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-            
-
-            <a href="./opmNew.html" class="project-card card-yellow">
-                <div>
-                    <div class="project-tag">CHI 2024</div>
-                    <div class="project-tag">UX Case Study</div>
-                    <h3>Game Play Reflection Systems</h3>
-                    <p>Design research developing visualization systems to enhance learning in educational games.</p>
-                </div>
-            </a>
-
-            <a href="./astraVerseNew.html" class="project-card card-red">
-                <div>
-                    <div class="project-tag">IFIP-ICEC 2022</div>
-                    <div class="project-tag">UX Case Study</div>
-                    <h3>AstraVerse Character Design</h3>
-                    <p>AstraVerse is a culturally-sensitive game character framework that is used to create characters for video games. Through Ethnography and Grounded Theory, I created a design space of character creation artifacts.</p>
-                </div>
-            </a>
-
-            <a href="./moveNew.html" class="project-card card-blue">
-                <div>
-                    <div class="project-tag">Invento 2022</div>
-                    <div class="project-tag">UX Case Study</div>
-                    <h3>Move: Robotics Workflow Optimization</h3>
-                    <p>Ethnographic research identifying 5 critical communication bottlenecks across robotics startup teams.</p>
-                </div>
-            </a>
-
-            <div class="project-card card-red" onclick="showLockedMessage()">
-                <div>
-                    <div class="project-tag">Upcoming</div>
-                    <div class="project-tag">UX Case Study</div>
-                    <h3>Xbox Family Safety 🚧</h3>
-                    <p>Unified 6 disparate parental control endpoints through 13 usability studies.</p>
-                </div>
-            </div>
-
-            <div class="project-card card-green" onclick="showComingSoon()">
-                <div>
-                    <div class="project-tag">Upcoming</div>
-                    <div class="project-tag">UX Case Study</div>
-                    <h3>LLM Games Research 🚧</h3>
-                    <p>Exploring the intersection of large language models and game design.</p>
-                </div>
-            </div>
-
-            <a href="./chessNew.html" class="project-card card-blue">
-                <div>
-                    <div class="project-tag">Educational</div>
-                    <div class="project-tag">UX Case Study</div>
-                    <h3>AI Chess Coach</h3>
-                    <p>In-game visualization and Socratic coaching system that transforms abstract chess concepts into concrete learning moments.</p>
-                </div>
-            </a>
-
-            <a href="./currencyShowcase.html" class="project-card card-orange">
-                <div>
-                    <div class="project-tag">UI Showcase</div>
-                    <h3>Currency Design Showcase</h3>
-                    <p>A modern UI showcase featuring layered currency notes with bold typography and elegant composition.</p>
-                </div>
-            </a>
-        </div>
-
-        <!-- About Section (Hidden by default) -->
-        <div id="about" class="hidden" style="padding: 2rem; background-color: rgba(255, 255, 255, 0.8); border-radius: 20px;">
-            <h2 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem; line-height: 1.3;">Crafting intuitive experiences,<br>solving complex problems.</h2>
-            
-            <div style="font-size: 1.05rem; line-height: 1.8; color: #333; max-width: 900px;">
-                <p style="margin-bottom: 1.5rem;">
-                    My path into UX research has been shaped by a mix of hands-on work, academic exploration, and a deep interest in how people interact with technology in everyday life. From designing conversational robots at Invento Robotics to studying digital communities during my internship at Meta, I've had the chance to work at the crossroads of AI, software, and human behavior. These experiences have taught me to approach problems with care, curiosity, and a focus on real-world impact.
-                </p>
-                
-                <p style="margin-bottom: 1.5rem;">
-                    As a PhD student in Human-Computer Interaction, I explore how design, AI, and community insights can come together to support meaningful learning and reflection. Whether I'm studying how families play games together, helping students engage with educational chatbots, or building tools for collaborative inquiry, my goal is to design systems that feel thoughtful and grounded. I value clarity over complexity and people over features.
-                </p>
-                
-                <p style="margin-bottom: 2.5rem;">
-                    If you'd like to connect or collaborate, feel free to reach out at <a href="mailto:msaisiddartha1@gmail.com" style="color: #0066cc; text-decoration: underline;">msaisiddartha1@gmail.com</a>
-                </p>
-                
-
-            </div>
-        </div>
-
-        <!-- Research Section (Hidden by default) -->
-        <div id="research" class="research-section hidden">
-            <h2>Publications</h2>
-            <div class="research-table-wrapper">
-                <table class="research-table">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Venue</th>
-                            <th>Year</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><a href="#" class="paper-title">"Pray For Green, Play For Green": Integrating Religion into Climate Change Serious Games</a></td>
-                            <td><span class="conference-badge">ACM DIS'25</span></td>
-                            <td>2025</td>
-                        </tr>
-                        <tr>
-                            <td><a href="#" class="paper-title">A Topic Modeling Approach Towards Understanding the Discourse between Religion and Videogames on Reddit</a></td>
-                            <td><span class="conference-badge">ACM CHI'24</span></td>
-                            <td>2024</td>
-                        </tr>
-                        <tr>
-                            <td><a href="#" class="paper-title">Shloka: Developing Climate Change interventions through a lens of Religion and Videogames</a></td>
-                            <td><span class="conference-badge">ACM CHI'24</span></td>
-                            <td>2024</td>
-                        </tr>
-                        <tr>
-                            <td><a href="#" class="paper-title">"Ah! I see" - Facilitating Process Reflection in Gameplay through a Novel Spatio-Temporal Visualization System</a></td>
-                            <td><span class="conference-badge">ACM CHI'24</span></td>
-                            <td>2024</td>
-                        </tr>
-                        <tr>
-                            <td><a href="#" class="paper-title">Open Player Modeling - Using AI to help Reflection and Learning in Serious Games</a></td>
-                            <td><span class="conference-badge">ACM SAC'24</span></td>
-                            <td>2024</td>
-                        </tr>
-                        <tr>
-                            <td><a href="#" class="paper-title">Designing Religious Games for Climate Action</a></td>
-                            <td><span class="conference-badge">ACM CSCW'24</span></td>
-                            <td>2023</td>
-                        </tr>
-                        <tr>
-                            <td><a href="https://ieeexplore.ieee.org/abstract/document/10333224" target="_blank" class="paper-title">Mining Player Behavior Patterns from Domain-Based Spatial Abstraction in Games</a></td>
-                            <td><span class="conference-badge">IEEE CoG'23</span></td>
-                            <td>2023</td>
-                        </tr>
-                        <tr>
-                            <td><a href="https://dl.acm.org/doi/10.1145/3582437.3582445" target="_blank" class="paper-title">A Visual Ethnographic Study at Cultural Spaces to Identify Character Creation Opportunities</a></td>
-                            <td><span class="conference-badge">ACM FDG'23</span></td>
-                            <td>2023</td>
-                        </tr>
-                        <tr>
-                            <td><a href="https://www.springerprofessional.de/astraverse-establishing-a-culturally-sensitive-framework-for-int/23634780" target="_blank" class="paper-title">AstraVerse: Establishing a Culturally Sensitive Framework for Integrating Elements from Mythological Backgrounds</a></td>
-                            <td><span class="conference-badge">IFIP-ICEC'22</span></td>
-                            <td>2022</td>
-                        </tr>
-                        <tr>
-                            <td><a href="https://dl.acm.org/doi/abs/10.1145/3505270.3558340" target="_blank" class="paper-title">Player Segmentation with INSPECT: Revealing Systematic Behavior Differences</a></td>
-                            <td><span class="conference-badge">ACM FDG'23</span></td>
-                            <td>2022</td>
-                        </tr>
-                        <tr>
-                            <td><a href="https://link.springer.com/chapter/10.1007/978-3-031-05637-6_38" target="_blank" class="paper-title">A Data-driven Design of AR Alternate Reality Games to Measure Resilience</a></td>
-                            <td><span class="conference-badge">ACM HCII'22</span></td>
-                            <td>2022</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Resources Section (Hidden by default) -->
-        <div id="resources" class="hidden" style="padding: 2rem; background-color: rgba(255, 255, 255, 0.8); border-radius: 20px;">
-            <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 2rem;">Tools I Build for Designers and Developers</h2>
-            
-            <div class="projects-grid" style="padding: 0;">
-                <a href="https://ooha-creator.github.io/" target="_blank" class="project-card card-blue">
-                    <div>
-                        <div class="project-tag">Open Source Tool</div>
-                        <h3>Ooha Canvas</h3>
-                        <p>An open-source LLM interface for visual chaining. Build and iterate on AI prompts visually.</p>
-                    </div>
-                </a>
-
-                <a href="./gradientGenerator.html" class="project-card card-purple">
-                    <div>
-                        <div class="project-tag">Design Tool</div>
-                        <h3>Gradient Generator</h3>
-                        <p>Create beautiful gradients with custom colors, textures, and effects. Download as PNG or copy CSS.</p>
-                    </div>
-                </a>
-            </div>
+        <div class="connect-links">
+            <a href="https://linkedin.com/in/sid-maram" target="_blank">LinkedIn</a>
+            <a href="https://scholar.google.com/citations?user=0eShD5EAAAAJ&hl=en" target="_blank">Scholar</a>
+            <a href="https://x.com/ADesiHCI" target="_blank">Twitter</a>
+            <a href="mailto:msaisiddartha1@gmail.com">Email</a>
+            <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
         </div>
     </div>
-    <a href="https://info.flagcounter.com/AdSQ"><img src="https://s01.flagcounter.com/count2/AdSQ/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Free counters!" border="0"></a>
+
+    
+
+    <section>
+        <h2>Selected Case studies</h2>
+        <ul class="link-list">
+            <li class="case-study-item"><a href="./Xbox2.html">AURA: Agentic User Research</a><span class="case-study-meta">Xbox</span></li>
+            <li class="case-study-item"><a href="./metaNew.html">Facebook Home Redesign</a><span class="case-study-meta">Meta</span></li>
+            <li class="case-study-item"><a href="./shlokaNew.html">Shloka: Climate Action Games</a><span class="case-study-meta">ACM DIS '25 🏆</span></li>
+            <li class="case-study-item"><a href="./canvasNew.html">Ooha: AI Canvas</a><span class="case-study-meta">LLM × Design</span></li>
+            <li class="case-study-item"><a href="./religionVideoGamesNew.html">Religious Inclusivity in Games</a><span class="case-study-meta">CHI PLAY '24</span></li>
+            <li class="case-study-item"><a href="./ToD.html">Tales of Dharma</a><span class="case-study-meta">1000+ sold</span></li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>More Case Studies</h2>
+        <ul class="link-list">
+            <li><a href="./googleTrips.html">Google Trips</a></li>
+            <li><a href="./opmNew.html">Game Play Reflection Systems</a></li>
+            <li><a href="./astraVerseNew.html">AstraVerse Character Design</a></li>
+            <li><a href="./chessNew.html">AI Chess Coach</a></li>
+            <li><a href="./moveNew.html">Move: Workflow Optimization</a></li>
+        </ul>
+    </section>
+
+    <a href="https://info.flagcounter.com/AdSQ" style="display: none;"><img src="https://s01.flagcounter.com/count2/AdSQ/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Free counters!" border="0"></a>
+
+    <!-- About Panel -->
+    <div class="about-overlay" id="aboutOverlay"></div>
+    <aside class="about-panel" id="aboutPanel">
+        <button class="about-panel-close" id="aboutClose" aria-label="Close">&times;</button>
+        <img src="IMG_7021 (1).jpg" alt="Sai Siddartha Maram" class="about-panel-image">
+        <h2>Crafting intuitive experiences, solving complex problems.</h2>
+        <p>
+            My path into UX research has been shaped by a mix of hands-on work, academic exploration, and a deep interest in how people interact with technology in everyday life. From designing conversational robots at Invento Robotics to studying digital communities during my internship at Meta, I've had the chance to work at the crossroads of AI, software, and human behavior.
+        </p>
+        <p>
+            As a PhD student in Human-Computer Interaction, I explore how design, AI, and community insights can come together to support meaningful learning and reflection. Whether I'm studying how families play games together, helping students engage with educational chatbots, or building tools for collaborative inquiry, my goal is to design systems that feel thoughtful and grounded.
+        </p>
+        <p>
+            Feel free to reach out at <a href="mailto:msaisiddartha1@gmail.com">msaisiddartha1@gmail.com</a>
+        </p>
+    </aside>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const navPills = document.querySelectorAll('.nav-pill');
-            const sections = {
-                'projects': document.getElementById('projects'),
-                'about': document.getElementById('about'),
-                'research': document.getElementById('research'),
-                'resources': document.getElementById('resources')
-            };
+        const aboutTrigger = document.getElementById('aboutTrigger');
+        const aboutPanel = document.getElementById('aboutPanel');
+        const aboutOverlay = document.getElementById('aboutOverlay');
+        const aboutClose = document.getElementById('aboutClose');
 
-            function hideAllSections() {
-                Object.values(sections).forEach(section => {
-                    if (section) section.classList.add('hidden');
-                });
-            }
-
-            function showSection(sectionName) {
-                hideAllSections();
-                if (sections[sectionName]) {
-                    sections[sectionName].classList.remove('hidden');
-                }
-                
-                // Update active pill
-                navPills.forEach(pill => {
-                    pill.classList.remove('active');
-                });
-                event.target.classList.add('active');
-            }
-
-            navPills.forEach(pill => {
-                pill.addEventListener('click', function(event) {
-                    const sectionName = this.getAttribute('data-section');
-                    if (sectionName) {
-                        showSection(sectionName);
-                    }
-                });
-            });
-        });
-
-        // Functions for locked/upcoming project alerts
-        function showLockedMessage() {
-            alert("This case study is under NDA and cannot be shared publicly. Please contact me directly for more information about my work at Microsoft/Xbox.");
+        function openAbout(e) {
+            e.preventDefault();
+            aboutPanel.classList.add('active');
+            aboutOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
-        function showComingSoon() {
-            alert("This project case study is currently being developed. Please check back soon!");
+        function closeAbout() {
+            aboutPanel.classList.remove('active');
+            aboutOverlay.classList.remove('active');
+            document.body.style.overflow = '';
         }
 
-        // Pac-Man Game Implementation
-        let gameActive = false;
-        let animationFrameId = null;
-        let gameKeys = {};
-        let keyDownHandler = null;
-        let keyUpHandler = null;
+        aboutTrigger.addEventListener('click', openAbout);
+        aboutClose.addEventListener('click', closeAbout);
+        aboutOverlay.addEventListener('click', closeAbout);
 
-        const contributions = [
-            {
-                title: "Award winning UX Research",
-                text: "My ethnographic research towards understanding how cultural narratives drive environmental behavior change won best paper at ACM DIS 2025."
-            },
-            {
-                title: "Xbox AURA",
-                text: "At Xbox, I designed and developed Xbox AURA, an agentic approach towards analyzing playtest data, conducting unmoderated interviews resulting in an average of 8 hours saved per study."
-            },
-            {
-                title: "Gaming Success",
-                text: "My work has contributed to award-winning video games, including Halo and Perfect Dark."
-            },
-            {
-                title: "Koret Mentor",
-                text: "I am an award winning Koret Mentor for my mentorship contributions to the HCI community at UCSC."
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && aboutPanel.classList.contains('active')) {
+                closeAbout();
             }
-        ];
-
-        function togglePacmanGame() {
-            const gameContainer = document.getElementById('pacmanGame');
-            const contributionsContent = document.getElementById('contributionsContent');
-            
-            if (!gameActive) {
-                gameActive = true; // Set this BEFORE starting the game
-                contributionsContent.style.display = 'none';
-                gameContainer.style.display = 'block';
-                
-                // Small delay to ensure display is updated
-                setTimeout(() => {
-                    startPacmanGame();
-                }, 50);
-            } else {
-                gameActive = false;
-                stopPacmanGame();
-                contributionsContent.style.display = 'block';
-                gameContainer.style.display = 'none';
-            }
-        }
-
-        function startPacmanGame() {
-            const canvas = document.getElementById('gameCanvas');
-            if (!canvas) {
-                console.error('Canvas element not found!');
-                return;
-            }
-            
-            const ctx = canvas.getContext('2d');
-            if (!ctx) {
-                console.error('Could not get canvas context!');
-                return;
-            }
-            
-            // Set canvas size - use parent container dimensions
-            const container = document.getElementById('pacmanGame');
-            const containerWidth = container.clientWidth || 800;
-            const containerHeight = container.clientHeight || 500;
-            
-            const tileSize = 20;
-            const cols = Math.floor(containerWidth / tileSize);
-            const rows = Math.floor(containerHeight / tileSize);
-            
-            // Set canvas to exact tile dimensions (no gaps)
-            canvas.width = cols * tileSize;
-            canvas.height = rows * tileSize;
-            
-            console.log('Canvas initialized:', canvas.width, 'x', canvas.height);
-            console.log('Grid:', cols, 'x', rows, 'tiles');
-            console.log('Canvas context valid:', !!ctx);
-            
-            // Create maze (1 = wall, 0 = path with dot)
-            const maze = [];
-            const tunnelRow = Math.floor(rows / 2); // Middle row for tunnel
-            
-            for (let y = 0; y < rows; y++) {
-                maze[y] = [];
-                for (let x = 0; x < cols; x++) {
-                    // Create tunnels on left and right sides (middle rows)
-                    if ((x === 0 || x === cols - 1) && (y >= tunnelRow - 1 && y <= tunnelRow + 1)) {
-                        maze[y][x] = 0; // Open tunnel
-                    }
-                    // Create walls around the border (except tunnels)
-                    else if (x === 0 || x === cols - 1 || y === 0 || y === rows - 1) {
-                        maze[y][x] = 1;
-                    }
-                    // Create 2x2 wall blocks in a grid pattern (every 5 tiles)
-                    else if (x % 5 === 2 && y % 5 === 2 && x < cols - 2 && y < rows - 2) {
-                        // Create 2x2 wall blocks
-                        if ((x % 5 === 2 || x % 5 === 3) && (y % 5 === 2 || y % 5 === 3)) {
-                            maze[y][x] = 1;
-                        } else {
-                            maze[y][x] = 0;
-                        }
-                    }
-                    // Add some horizontal wall segments
-                    else if (y % 10 === 5 && x % 4 === 1 && x > 5 && x < cols - 5) {
-                        if (x % 8 !== 4) { // Leave gaps
-                            maze[y][x] = 1;
-                        } else {
-                            maze[y][x] = 0;
-                        }
-                    }
-                    // Add some vertical wall segments
-                    else if (x % 10 === 7 && y % 4 === 1 && y > 5 && y < rows - 5) {
-                        if (y % 8 !== 4) { // Leave gaps
-                            maze[y][x] = 1;
-                        } else {
-                            maze[y][x] = 0;
-                        }
-                    }
-                    else {
-                        maze[y][x] = 0; // Path with dot
-                    }
-                }
-            }
-            
-            // Clear starting area for Pac-Man
-            maze[2][2] = 0;
-            maze[2][3] = 0;
-            maze[3][2] = 0;
-            maze[1][2] = 0;
-            
-            // Track collected dots
-            const dots = [];
-            for (let y = 0; y < rows; y++) {
-                dots[y] = [];
-                for (let x = 0; x < cols; x++) {
-                    dots[y][x] = (maze[y][x] === 0); // Dot exists if it's a path
-                }
-            }
-            
-            // Pac-Man
-            const pacman = {
-                x: 2,
-                y: 2,
-                direction: 0, // 0: right, 1: down, 2: left, 3: up
-                mouthOpen: 0,
-                speed: 150
-            };
-            
-            // Power-ups (one for each contribution) - place on non-wall tiles
-            const powerups = [];
-            const powerupPositions = [
-                { xRatio: 0.7, yRatio: 0.3, contribution: 0, color: '#FF1493' },
-                { xRatio: 0.3, yRatio: 0.7, contribution: 1, color: '#00FF00' },
-                { xRatio: 0.8, yRatio: 0.8, contribution: 2, color: '#FF6347' },
-                { xRatio: 0.5, yRatio: 0.5, contribution: 3, color: '#1E90FF' }
-            ];
-            
-            powerupPositions.forEach(pos => {
-                let x = Math.floor(cols * pos.xRatio);
-                let y = Math.floor(rows * pos.yRatio);
-                
-                // Find nearest non-wall position
-                while (maze[y] && maze[y][x] === 1) {
-                    x = Math.max(1, x - 1);
-                }
-                
-                powerups.push({ 
-                    x, y, 
-                    active: true, 
-                    contribution: pos.contribution, 
-                    color: pos.color 
-                });
-                
-                // Clear dots around powerup
-                if (dots[y]) {
-                    dots[y][x] = false;
-                    if (dots[y][x-1]) dots[y][x-1] = false;
-                    if (dots[y][x+1]) dots[y][x+1] = false;
-                    if (dots[y-1] && dots[y-1][x]) dots[y-1][x] = false;
-                    if (dots[y+1] && dots[y+1][x]) dots[y+1][x] = false;
-                }
-            });
-            
-            // Enemies (Ghosts) - place on non-wall tiles
-            const enemies = [];
-            const enemyPositions = [
-                { xRatio: 0.8, yRatio: 0.15, color: '#FF0000', speed: 200 },
-                { xRatio: 0.2, yRatio: 0.8, color: '#FF69B4', speed: 250 },
-                { xRatio: 0.5, yRatio: 0.2, color: '#00CED1', speed: 220 }
-            ];
-            
-            enemyPositions.forEach(pos => {
-                let x = Math.floor(cols * pos.xRatio);
-                let y = Math.floor(rows * pos.yRatio);
-                
-                // Find nearest non-wall position
-                while (maze[y] && maze[y][x] === 1) {
-                    x = Math.max(1, x - 1);
-                    if (x === 1) {
-                        y = Math.max(1, y - 1);
-                    }
-                }
-                
-                enemies.push({ 
-                    x, y, 
-                    color: pos.color, 
-                    direction: Math.floor(Math.random() * 4), 
-                    speed: pos.speed, 
-                    lastMove: Date.now() 
-                });
-            });
-            
-            console.log('Game started! Cols:', cols, 'Rows:', rows);
-            console.log('Powerups:', powerups);
-            console.log('Enemies:', enemies.length);
-            console.log('Pacman at:', pacman.x, pacman.y);
-            
-            let score = 0;
-            let lastUpdate = Date.now();
-            
-            // Remove old event listeners if they exist
-            if (keyDownHandler) {
-                document.removeEventListener('keydown', keyDownHandler);
-            }
-            if (keyUpHandler) {
-                document.removeEventListener('keyup', keyUpHandler);
-            }
-            
-            // Reset keys
-            gameKeys = {};
-            
-            // Handle keyboard input
-            keyDownHandler = (e) => {
-                if (!gameActive) return;
-                gameKeys[e.key] = true;
-                if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'w', 'a', 's', 'd'].includes(e.key)) {
-                    e.preventDefault();
-                }
-            };
-            
-            keyUpHandler = (e) => {
-                gameKeys[e.key] = false;
-            };
-            
-            document.addEventListener('keydown', keyDownHandler);
-            document.addEventListener('keyup', keyUpHandler);
-            
-            function drawPixelatedCircle(x, y, radius, color) {
-                ctx.fillStyle = color;
-                const pixelSize = 4;
-                for (let i = -radius; i <= radius; i += pixelSize) {
-                    for (let j = -radius; j <= radius; j += pixelSize) {
-                        if (i * i + j * j <= radius * radius) {
-                            ctx.fillRect(x + i, y + j, pixelSize, pixelSize);
-                        }
-                    }
-                }
-            }
-            
-            function drawPacman() {
-                const centerX = pacman.x * tileSize + tileSize / 2;
-                const centerY = pacman.y * tileSize + tileSize / 2;
-                const radius = tileSize / 2 - 2;
-                
-                // Draw Pac-Man body
-                ctx.fillStyle = '#FFD700';
-                ctx.beginPath();
-                
-                const mouthAngle = Math.abs(Math.sin(pacman.mouthOpen)) * 0.3;
-                const startAngle = mouthAngle + (pacman.direction * Math.PI / 2);
-                const endAngle = -mouthAngle + (pacman.direction * Math.PI / 2);
-                
-                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-                ctx.lineTo(centerX, centerY);
-                ctx.fill();
-                
-                // Draw eye
-                const eyeX = centerX + Math.cos(pacman.direction * Math.PI / 2 + Math.PI / 4) * radius / 3;
-                const eyeY = centerY + Math.sin(pacman.direction * Math.PI / 2 + Math.PI / 4) * radius / 3;
-                ctx.fillStyle = '#000';
-                ctx.beginPath();
-                ctx.arc(eyeX, eyeY, 2, 0, Math.PI * 2);
-                ctx.fill();
-                
-                pacman.mouthOpen += 0.2;
-            }
-            
-            function drawPowerups() {
-                powerups.forEach(powerup => {
-                    if (powerup.active) {
-                        const centerX = powerup.x * tileSize + tileSize / 2;
-                        const centerY = powerup.y * tileSize + tileSize / 2;
-                        
-                        // Pulsing effect
-                        const pulse = Math.sin(Date.now() / 200) * 2 + 8;
-                        drawPixelatedCircle(centerX, centerY, pulse, powerup.color);
-                    }
-                });
-            }
-            
-            function drawGhost(enemy) {
-                const centerX = enemy.x * tileSize + tileSize / 2;
-                const centerY = enemy.y * tileSize + tileSize / 2;
-                const radius = tileSize / 2 - 2;
-                
-                // Ghost body (rounded top)
-                ctx.fillStyle = enemy.color;
-                ctx.beginPath();
-                ctx.arc(centerX, centerY - radius / 3, radius, Math.PI, 0);
-                ctx.lineTo(centerX + radius, centerY + radius);
-                
-                // Wavy bottom
-                const waveTime = Date.now() / 200;
-                for (let i = 0; i < 3; i++) {
-                    const waveX = centerX + radius - (i * radius * 2 / 3);
-                    const waveY = centerY + radius - Math.sin(waveTime + i) * 2;
-                    ctx.lineTo(waveX, waveY);
-                }
-                ctx.lineTo(centerX - radius, centerY + radius);
-                ctx.closePath();
-                ctx.fill();
-                
-                // Eyes
-                const eyeSize = 3;
-                const eyeOffset = radius / 3;
-                
-                // White part of eyes
-                ctx.fillStyle = '#FFFFFF';
-                ctx.fillRect(centerX - eyeOffset - eyeSize, centerY - eyeOffset, eyeSize * 2, eyeSize * 2);
-                ctx.fillRect(centerX + eyeOffset - eyeSize, centerY - eyeOffset, eyeSize * 2, eyeSize * 2);
-                
-                // Black pupils
-                ctx.fillStyle = '#000000';
-                ctx.fillRect(centerX - eyeOffset - eyeSize / 2, centerY - eyeOffset + eyeSize / 2, eyeSize, eyeSize);
-                ctx.fillRect(centerX + eyeOffset - eyeSize / 2, centerY - eyeOffset + eyeSize / 2, eyeSize, eyeSize);
-            }
-            
-            function drawEnemies() {
-                enemies.forEach(enemy => {
-                    drawGhost(enemy);
-                });
-            }
-            
-            let drawCount = 0;
-            function drawGrid() {
-                // Full black background
-                ctx.fillStyle = '#000000';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                
-                // Draw maze walls
-                ctx.fillStyle = '#0000FF'; // Blue walls like classic Pac-Man
-                for (let y = 0; y < rows; y++) {
-                    for (let x = 0; x < cols; x++) {
-                        if (maze[y][x] === 1) {
-                            // Draw wall with slight inset for visual effect
-                            ctx.fillRect(
-                                x * tileSize + 1, 
-                                y * tileSize + 1, 
-                                tileSize - 2, 
-                                tileSize - 2
-                            );
-                        }
-                    }
-                }
-                
-                // Draw dots
-                ctx.fillStyle = '#FFFFFF';
-                for (let y = 0; y < rows; y++) {
-                    for (let x = 0; x < cols; x++) {
-                        if (dots[y][x]) {
-                            const centerX = x * tileSize + tileSize / 2;
-                            const centerY = y * tileSize + tileSize / 2;
-                            ctx.beginPath();
-                            ctx.arc(centerX, centerY, 2, 0, Math.PI * 2);
-                            ctx.fill();
-                        }
-                    }
-                }
-                
-                drawCount++;
-                if (drawCount === 1) {
-                    console.log('Grid drawn successfully!');
-                }
-            }
-            
-            function updateEnemies() {
-                const now = Date.now();
-                
-                enemies.forEach(enemy => {
-                    if (now - enemy.lastMove < enemy.speed) {
-                        return;
-                    }
-                    enemy.lastMove = now;
-                    
-                    // Random direction change (30% chance)
-                    if (Math.random() < 0.3) {
-                        enemy.direction = Math.floor(Math.random() * 4);
-                    }
-                    
-                    // Calculate new position
-                    let newX = enemy.x;
-                    let newY = enemy.y;
-                    
-                    if (enemy.direction === 0) { // right
-                        newX = enemy.x + 1;
-                    } else if (enemy.direction === 1) { // down
-                        newY = enemy.y + 1;
-                    } else if (enemy.direction === 2) { // left
-                        newX = enemy.x - 1;
-                    } else if (enemy.direction === 3) { // up
-                        newY = enemy.y - 1;
-                    }
-                    
-                    // Wraparound for tunnels
-                    if (newX < 0) {
-                        newX = cols - 1;
-                    } else if (newX >= cols) {
-                        newX = 0;
-                    }
-                    
-                    // Check if new position is valid (not a wall)
-                    if (newY >= 0 && newY < rows && maze[newY][newX] === 0) {
-                        enemy.x = newX;
-                        enemy.y = newY;
-                    } else {
-                        // Hit a wall, change direction
-                        enemy.direction = Math.floor(Math.random() * 4);
-                    }
-                });
-            }
-            
-            function checkCollisions() {
-                // Check collision with dots
-                if (dots[pacman.y] && dots[pacman.y][pacman.x]) {
-                    dots[pacman.y][pacman.x] = false; // Eat the dot
-                    score += 2;
-                    document.getElementById('score').textContent = score;
-                }
-                
-                // Check collision with enemies
-                enemies.forEach(enemy => {
-                    if (pacman.x === enemy.x && pacman.y === enemy.y) {
-                        // Game over - reset Pac-Man position
-                        pacman.x = 2;
-                        pacman.y = 2;
-                        score = Math.max(0, score - 50);
-                        document.getElementById('score').textContent = score;
-                        
-                        // Flash effect
-                        const canvas = document.getElementById('gameCanvas');
-                        canvas.style.opacity = '0.3';
-                        setTimeout(() => {
-                            canvas.style.opacity = '1';
-                        }, 200);
-                    }
-                });
-                
-                // Check collision with powerups
-                powerups.forEach(powerup => {
-                    if (powerup.active && pacman.x === powerup.x && pacman.y === powerup.y) {
-                        powerup.active = false;
-                        score += 100;
-                        document.getElementById('score').textContent = score;
-                        showContributionPopup(powerup.contribution);
-                    }
-                });
-            }
-            
-            function update() {
-                const now = Date.now();
-                if (now - lastUpdate < pacman.speed) {
-                    return;
-                }
-                lastUpdate = now;
-                
-                // Update Pac-Man position
-                let newX = pacman.x;
-                let newY = pacman.y;
-                
-                if (gameKeys['ArrowRight'] || gameKeys['d']) {
-                    pacman.direction = 0;
-                    newX = pacman.x + 1;
-                }
-                if (gameKeys['ArrowDown'] || gameKeys['s']) {
-                    pacman.direction = 1;
-                    newY = pacman.y + 1;
-                }
-                if (gameKeys['ArrowLeft'] || gameKeys['a']) {
-                    pacman.direction = 2;
-                    newX = pacman.x - 1;
-                }
-                if (gameKeys['ArrowUp'] || gameKeys['w']) {
-                    pacman.direction = 3;
-                    newY = pacman.y - 1;
-                }
-                
-                // Wraparound for tunnels
-                if (newX < 0) {
-                    newX = cols - 1; // Wrap to right side
-                } else if (newX >= cols) {
-                    newX = 0; // Wrap to left side
-                }
-                
-                // Only move if new position is valid (not a wall)
-                if (newY >= 0 && newY < rows && maze[newY][newX] === 0) {
-                    pacman.x = newX;
-                    pacman.y = newY;
-                }
-                
-                // Update enemies
-                updateEnemies();
-                
-                // Check all collisions
-                checkCollisions();
-            }
-            
-            function gameLoop() {
-                if (!gameActive) {
-                    console.log('Game loop stopped - gameActive is false');
-                    return;
-                }
-                
-                update();
-                
-                // Draw everything
-                try {
-                    drawGrid();
-                    drawPowerups();
-                    drawEnemies();
-                    drawPacman();
-                } catch (error) {
-                    console.error('Drawing error:', error);
-                }
-                
-                animationFrameId = requestAnimationFrame(gameLoop);
-            }
-            
-            console.log('Starting game loop, gameActive:', gameActive);
-            gameLoop();
-        }
-        
-        function stopPacmanGame() {
-            gameActive = false;
-            if (animationFrameId) {
-                cancelAnimationFrame(animationFrameId);
-                animationFrameId = null;
-            }
-            
-            // Clean up event listeners
-            if (keyDownHandler) {
-                document.removeEventListener('keydown', keyDownHandler);
-                keyDownHandler = null;
-            }
-            if (keyUpHandler) {
-                document.removeEventListener('keyup', keyUpHandler);
-                keyUpHandler = null;
-            }
-            
-            gameKeys = {};
-            document.getElementById('score').textContent = '0';
-        }
-        
-        function showContributionPopup(contributionIndex) {
-            const popup = document.createElement('div');
-            popup.className = 'pixel-popup';
-            
-            const contribution = contributions[contributionIndex];
-            popup.innerHTML = `
-                <h4>Achievement Unlocked!</h4>
-                <h4>${contribution.title}</h4>
-                <p>${contribution.text}</p>
-                <button onclick="this.parentElement.remove()">Continue</button>
-            `;
-            
-            document.getElementById('pacmanGame').appendChild(popup);
-            
-            // Auto remove after 8 seconds
-            setTimeout(() => {
-                if (popup.parentElement) {
-                    popup.remove();
-                }
-            }, 8000);
-        }
-
-        // Tales of Dharma Card Tilt Effect
-        const cardContainers = document.querySelectorAll('.card-container');
-        const maxRotation = 12;
-
-        cardContainers.forEach(container => {
-            const card = container.querySelector('.card-content');
-
-            container.addEventListener('mousemove', (e) => {
-                e.stopPropagation(); // Prevent parent link from triggering
-                const { left, top, width, height } = container.getBoundingClientRect();
-                
-                const x = (e.clientX - left - width / 2);
-                const y = (e.clientY - top - height / 2);
-
-                const rotateY = (x / width) * (maxRotation * 2);
-                const rotateX = -(y / height) * (maxRotation * 2);
-
-                const mouseXPercent = ((e.clientX - left) / width) * 100;
-                const mouseYPercent = ((e.clientY - top) / height) * 100;
-
-                card.style.transform = `
-                    perspective(1000px) 
-                    rotateX(${rotateX}deg) 
-                    rotateY(${rotateY}deg) 
-                    scale3d(1.05, 1.05, 1.05)
-                `;
-
-                card.style.setProperty('--mouse-x', `${mouseXPercent}%`);
-                card.style.setProperty('--mouse-y', `${mouseYPercent}%`);
-            });
-
-            container.addEventListener('mouseleave', () => {
-                card.style.transform = `
-                    perspective(1000px) 
-                    rotateX(0deg) 
-                    rotateY(0deg) 
-                    scale3d(1, 1, 1)
-                `;
-            });
         });
     </script>
-
 </body>
 </html>

@@ -3,9 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shloka: When Faith Meets Climate Action</title>
+    <title>Shloka: When Faith Meets Climate Action - UX Case Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
     <style>
-        /* Base styles from portfolio */
+        :root {
+            --ink: #1a1a1a;
+            --paper: #f8f5f0;
+            --accent: #c45e2c; /* Warm saffron/ochre for spiritual theme */
+            --muted: #6b6b6b;
+            --rule: #d4d0c8;
+            --serif: 'Instrument Serif', Georgia, serif;
+            --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,213 +25,814 @@
         }
         
         body {
-            background-color: #ffffff;
-            background-image: 
-                linear-gradient(rgba(200, 200, 200, 0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(200, 200, 200, 0.15) 1px, transparent 1px);
-            background-size: 40px 40px;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 1.05rem;
-            line-height: 1.6;
-            color: #1a1a1a;
-            margin: 0;
-            display: flex; /* Use flexbox for the main layout */
+            background-color: var(--paper);
+            font-family: var(--sans);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--ink);
+            display: flex;
             min-height: 100vh;
         }
-
-        /* Sidebar Navigation */
+        
+        /* --- Navigation --- */
         nav {
-            width: 220px;
-            padding: 2rem;
-            border-right: 1px solid rgba(200, 200, 200, 0.3);
+            width: 200px;
+            padding: 2.5rem 1.5rem;
+            border-right: 1px solid var(--rule);
             flex-shrink: 0;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background-color: var(--paper);
+            position: sticky;
+            top: 0;
+            height: 100vh;
         }
+        
         nav a {
             display: block;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-            text-decoration: underline;
-            cursor: pointer;
+            margin-bottom: 0.75rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
             transition: color 0.2s ease;
         }
+        
         nav a:hover {
-            text-decoration: none;
-            color: #666;
+            color: var(--ink);
         }
+        
         .nav-logo {
-            font-weight: 600;
-            margin-bottom: 2rem;
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 2.5rem;
+            color: var(--ink);
             text-decoration: none;
-            cursor: pointer;
-            font-size: 1.3rem;
-            color: #1a1a1a;
-            transition: color 0.2s ease;
+            display: block;
         }
-        .nav-logo:hover {
-            color: #666;
-        }
-
-        /* Styles for the portfolio dropdown container */
-        #project-links-container {
-            margin-top: 0.5rem;
-            padding-left: 1rem; /* Indent the project links */
-            border-left: 1px solid #eee;
-        }
-        .project-link {
-            font-size: 1rem; /* Make project links slightly smaller */
-        }
-
-        /* Main Content Area */
+        
         main {
             flex-grow: 1;
             overflow-y: auto;
-            height: 100vh;
-            background-color: transparent;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        /* --- Mobile Friendly Styles for Layout --- */
-        @media (max-width: 992px) {
-            body {
-                flex-direction: column; 
-            }
-            
-            main {
-                height: auto;
-            }
-
-            nav {
-                width: 100%; 
-                padding: 1rem;
-                border-right: none; 
-                border-bottom: 1px solid #ddd; 
-                box-sizing: border-box;
-            }
-            
-            .nav-container {
-                display: flex;
-                justify-content: center;
-                gap: 1.5rem;
-                flex-wrap: wrap;
-            }
-            
-            .nav-logo {
-                display: none;
-            }
-
-            nav a {
-                margin-bottom: 0;
-            }
-
-            #project-links-container {
-                width: 100%;
-                text-align: center;
-                padding-left: 0;
-                border-left: none;
-                margin-top: 1rem;
-            }
+            background-color: var(--paper);
         }
         
-        /* --- Case Study Styles --- */
-        .container {
-            max-width: 900px;
+        /* --- Hero Section --- */
+        .hero {
+            padding: 6rem 4rem 4rem;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 3rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: end;
+            border-bottom: 1px solid var(--rule);
         }
+        
+        .hero-content {
+            padding-bottom: 2rem;
+        }
+        
+        .issue-number {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+        
         h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-            line-height: 1.2;
-        }
-        h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-top: 3rem;
+            font-family: var(--serif);
+            font-size: 3.4rem;
+            font-weight: 400;
+            line-height: 1.05;
+            color: var(--ink);
             margin-bottom: 1.5rem;
-            color: #1a1a1a;
+            letter-spacing: -0.02em;
         }
-        h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
+        
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
             margin-top: 2rem;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-        }
-        p {
-            margin-bottom: 1.5rem;
-            color: #333;
-        }
-        .project-meta {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 2rem;
-        }
-        .badge {
-            display: inline-block;
-            padding: 0.4rem 1rem;
-            background-color: #f0f0f0;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 12px;
-            margin: 2rem 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        ul {
-            margin-left: 2rem;
-            margin-bottom: 1.5rem;
-        }
-        li {
-            margin-bottom: 0.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--rule);
         }
         
-        .quote {
-            background-color: #fff176;
-            padding: 1.2rem 1.5rem;
-            border-radius: 8px;
-            margin: 2rem 0;
+        .meta-item {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+        
+        .meta-item strong {
+            display: block;
+            color: var(--ink);
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+        }
+        
+        .stat-box {
+            background: var(--paper);
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-family: var(--serif);
+            font-size: 2.8rem;
             font-style: italic;
-            line-height: 1.7;
-            color: #1a1a1a;
-            border-left: 4px solid #fbc02d;
+            color: var(--ink);
+            line-height: 1;
+            margin-bottom: 0.5rem;
         }
         
-        .key-finding {
-            background-color: #f9f9f9;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 2rem 0;
-            border-left: 4px solid #1a1a1a;
+        .stat-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
         }
         
+        /* --- CTA Link --- */
+        .cta-link {
+            display: inline-block;
+            font-family: var(--sans);
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid var(--accent);
+            padding-bottom: 0.2rem;
+            transition: all 0.2s ease;
+        }
+        
+        .cta-link:hover {
+            color: var(--ink);
+            border-color: var(--ink);
+        }
+        
+        /* --- Article Layout --- */
+        .article-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem;
+        }
+        
+        .lede {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            line-height: 1.6;
+            color: var(--ink);
+            max-width: 800px;
+            margin-bottom: 3rem;
+        }
+        
+        .lede::first-letter {
+            font-size: 4.5rem;
+            float: left;
+            line-height: 0.8;
+            margin-right: 0.5rem;
+            margin-top: 0.1rem;
+            color: var(--accent);
+        }
+        
+        .two-column {
+            column-count: 2;
+            column-gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .two-column p {
+            margin-bottom: 1.25rem;
+        }
+        
+        h2 {
+            font-family: var(--serif);
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-top: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--ink);
+            padding-top: 2rem;
+            border-top: 3px solid var(--ink);
+        }
+        
+        h3 {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        h4 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+            color: var(--ink);
+        }
+        
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--ink);
+            max-width: 680px;
+        }
+        
+        /* --- Pull Quote --- */
+        .pull-quote {
+            float: right;
+            width: 45%;
+            margin: 0 0 2rem 3rem;
+            padding: 2rem 0 2rem 2rem;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .pull-quote blockquote {
+            font-family: var(--serif);
+            font-size: 1.8rem;
+            font-style: italic;
+            line-height: 1.4;
+            color: var(--ink);
+            margin-bottom: 1rem;
+        }
+        
+        .pull-quote cite {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-style: normal;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        
+        /* --- Inline Quote --- */
+        .inline-quote {
+            background: linear-gradient(to right, var(--accent), var(--accent)) no-repeat 0 0;
+            background-size: 4px 100%;
+            padding: 1.5rem 2rem;
+            margin: 2.5rem 0;
+            font-family: var(--serif);
+            font-size: 1.25rem;
+            font-style: italic;
+            line-height: 1.5;
+        }
+        
+        .inline-quote cite {
+            display: block;
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-style: normal;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 1rem;
+        }
+        
+        /* --- Image Styling --- */
         .image-container {
-            margin: 2rem 0;
+            margin: 2.5rem 0;
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
         
         .image-caption {
-            text-align: center;
-            color: #666;
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--rule);
+            max-width: 500px;
+        }
+        
+        /* --- Image with Side Caption --- */
+        .image-aside {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin: 3rem 0;
+            align-items: end;
+        }
+        
+        .image-aside img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .image-aside figcaption {
             font-size: 0.9rem;
-            margin-top: 0.5rem;
+            line-height: 1.5;
+            color: var(--muted);
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .image-aside figcaption strong {
+            display: block;
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* --- Key Finding Cards --- */
+        .findings-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--ink);
+            margin: 3rem 0;
+        }
+        
+        .finding-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .finding-card h4 {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .finding-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Discovery Cards --- */
+        .discovery-card {
+            border: 1px solid var(--rule);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .discovery-card h4 {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .discovery-card p {
+            max-width: none;
+            margin-bottom: 1rem;
+        }
+        
+        .discovery-card p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .discovery-implication {
+            font-size: 0.9rem;
+            padding: 1rem;
+            background: rgba(0,0,0,0.03);
+            border-left: 2px solid var(--accent);
+            margin-top: 1rem;
+        }
+        
+        /* --- Results Section --- */
+        .results-section {
+            background: var(--ink);
+            color: var(--paper);
+            margin: 4rem -4rem;
+            padding: 4rem;
+        }
+        
+        .results-section h2 {
+            color: var(--paper);
+            border-top-color: var(--paper);
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .result-item {
+            border-left: 1px solid rgba(255,255,255,0.3);
+            padding-left: 1.5rem;
+        }
+        
+        .result-number {
+            font-family: var(--serif);
+            font-size: 3.5rem;
             font-style: italic;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-detail {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        /* --- Principle Cards --- */
+        .principle-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+            margin: 3rem 0;
+        }
+        
+        .principle-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .principle-number {
+            font-family: var(--serif);
+            font-size: 2rem;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .principle-card h4 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .principle-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- List Styling --- */
+        ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.75rem;
+            padding-left: 0.5rem;
+            max-width: 680px;
+        }
+        
+        li strong {
+            color: var(--ink);
+        }
+        
+        /* --- Technical Cards --- */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .tech-card {
+            padding: 1.5rem;
+            border: 1px solid var(--rule);
+        }
+        
+        .tech-card h4 {
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+            margin-top: 0;
+        }
+        
+        .tech-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Skills Section --- */
+        .skills-section {
+            margin-top: 4rem;
+            padding: 3rem;
+            border: 1px solid var(--rule);
+        }
+        
+        .skills-section h4 {
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            margin-top: 0;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+        
+        .skill-category strong {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .skill-category p {
+            font-size: 0.85rem;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 0;
+            max-width: none;
+        }
+        
+        /* --- TL;DR Section --- */
+        .tldr-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 4rem;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .tldr-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .tldr-label {
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--paper);
+            background: var(--ink);
+            padding: 0.4rem 0.8rem;
+        }
+        
+        .tldr-subtitle {
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--muted);
+        }
+        
+        .tldr-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+        
+        .tldr-main {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        
+        .tldr-item {
+            padding-left: 1rem;
+            border-left: 2px solid var(--rule);
+        }
+        
+        .tldr-item:hover {
+            border-left-color: var(--accent);
+        }
+        
+        .tldr-number {
+            font-family: var(--serif);
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 0.3rem;
+        }
+        
+        .tldr-title {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+        
+        .tldr-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--muted);
+            margin: 0;
+        }
+        
+        .tldr-sidebar {
+            padding: 2rem;
+            background: var(--ink);
+            color: var(--paper);
+        }
+        
+        .tldr-sidebar-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 1rem;
+        }
+        
+        .tldr-sidebar-text {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-style: italic;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            color: var(--paper);
+        }
+        
+        .tldr-sidebar .cta-link {
+            color: var(--paper);
+            border-color: rgba(255,255,255,0.5);
+        }
+        
+        .tldr-sidebar .cta-link:hover {
+            border-color: var(--paper);
+        }
+        
+        /* --- Footer --- */
+        .footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--rule);
+            text-align: center;
+        }
+        
+        .footer a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .footer a:hover {
+            color: var(--ink);
+        }
+        
+        /* --- Responsive --- */
+        @media (max-width: 1100px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                padding: 4rem 3rem;
+            }
+            
+            .two-column {
+                column-count: 1;
+            }
+            
+            .findings-grid,
+            .results-grid,
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .principle-grid,
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pull-quote {
+                float: none;
+                width: 100%;
+                margin: 2rem 0;
+            }
+            
+            .tldr-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .tldr-main {
+                grid-template-columns: 1fr;
+            }
+            
+            .tldr-section {
+                padding: 2rem;
+            }
+            
+            .image-aside {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column;
+            }
+            
+            nav {
+                width: 100%;
+                padding: 1rem 2rem;
+                border-right: none;
+                border-bottom: 1px solid var(--rule);
+                height: auto;
+                position: relative;
+            }
+            
+            .nav-logo {
+                display: inline-block;
+                margin-bottom: 0;
+                margin-right: 2rem;
+            }
+            
+            nav a {
+                display: inline-block;
+                margin-right: 1.5rem;
+                margin-bottom: 0;
+            }
+            
+            .article-container {
+                padding: 2rem;
+            }
+            
+            .results-section {
+                margin-left: -2rem;
+                margin-right: -2rem;
+                padding: 3rem 2rem;
+            }
+            
+            h1 {
+                font-size: 2.4rem;
+            }
         }
         
         @media (max-width: 768px) {
-            .container { padding: 0 1rem; }
             h1 { font-size: 2rem; }
-            h2 { font-size: 1.5rem; }
+            h2 { font-size: 1.8rem; }
+            
+            .lede {
+                font-size: 1.25rem;
+            }
+            
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+        
+        .hidden {
+            display: none;
         }
     </style>
 </head>
@@ -227,282 +840,395 @@
 
     <nav>
         <a href="index.html" class="nav-logo">Sai Maram</a>
-        <div class="nav-container">
-            <a href="index.html">Home</a>
-            <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
-        </div>
+        <a href="index.html">Home</a>
+        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
     </nav>
 
     <main>
-        <div class="container">
-            <h1>Shloka: When LLMs, Faith Meet Climate Action</h1>
-            <div class="project-meta">
-                <span class="badge">ACM DIS 2025 (Best Paper)</span>
-                <span class="badge">Faith-Based Design</span>
-                <span class="badge">Ethnographic Research</span>
-                <a href="https://siddu1998.github.io/Shloka/" style="text-decoration: underline; color: #666;">Play Shloka Now →</a>
-
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="hero-content">
+                <div class="issue-number">Case Study № 04 · Research</div>
+                <h1>Shloka: When Faith Meets Climate Action</h1>
+                <p style="max-width: 100%; font-size: 1.15rem; color: var(--muted);">The first academically-researched climate game integrating authentic Hindu religious practices to teach environmental responsibility.</p>
+                
+                <div class="hero-meta">
+                    <div class="meta-item">
+                        <strong>Role</strong>
+                        Lead Researcher & Game Designer
+                    </div>
+                    <div class="meta-item">
+                        <strong>Duration</strong>
+                        4 Months Fieldwork
+                    </div>
+                    <div class="meta-item">
+                        <strong>Play</strong>
+                        <a href="https://siddu1998.github.io/Shloka/" class="cta-link">Try Shloka Now →</a>
+                    </div>
+                </div>
             </div>
             
-            <p>Climate change games exist, but they face a fundamental problem: they preach to audiences who don't see themselves in the narrative. Most climate games use generic messaging about polar bears and melting ice caps—content that feels distant and irrelevant to players from diverse cultural and religious backgrounds. Meanwhile, religious communities represent billions of people with strong environmental values rooted in their traditions, yet climate games rarely engage these values.</p>
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-number">87%</div>
+                    <div class="stat-label">Higher Immersion</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">84%</div>
+                    <div class="stat-label">Better Guidance</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Temples Piloting</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">Best</div>
+                    <div class="stat-label">Paper Award</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- TL;DR Section -->
+        <section class="tldr-section">
+            <div class="tldr-header">
+                <span class="tldr-label">Quick Read</span>
+                <span class="tldr-subtitle">The essentials in 60 seconds</span>
+            </div>
             
-            <p>This case study documents Shloka, a climate game that integrates authentic Hindu religious practices to teach environmental responsibility. Rather than asking players to adopt new values, Shloka connects climate action to existing cultural frameworks—turning environmental responsibility from abstract civic duty into sacred obligation. Through 4 months of ethnographic fieldwork in India, I created the first academically-researched climate game that authentically integrates religious practices rather than just aesthetic references.</p>
+            <div class="tldr-grid">
+                <div class="tldr-main">
+                    <div class="tldr-item">
+                        <div class="tldr-number">01</div>
+                        <div class="tldr-title">The Problem</div>
+                        <p class="tldr-text">Climate games preach to audiences who don't see themselves in the narrative—generic polar bear messaging ignores billions with environmental values rooted in religious traditions.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">02</div>
+                        <div class="tldr-title">The Approach</div>
+                        <p class="tldr-text">4 months ethnographic fieldwork at Tirumala and Sabarimala, co-design with religious scholars, then built a game using real Hindu rituals digitized through computer vision.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">03</div>
+                        <div class="tldr-title">The Insight</div>
+                        <p class="tldr-text">Players reframed climate action as "sacred duty" rather than abstract responsibility—connecting environmental protection to existing cultural values they already held.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">04</div>
+                        <div class="tldr-title">The Impact</div>
+                        <p class="tldr-text">87% higher immersion than traditional climate games, ACM DIS 2025 Best Paper Award, 5 temples now piloting for youth education programs.</p>
+                    </div>
+                </div>
+                
+                <aside class="tldr-sidebar">
+                    <div class="tldr-sidebar-label">Key Insight</div>
+                    <p class="tldr-sidebar-text">"Treating the climate as holy transforms environmental responsibility from civic duty to sacred obligation."</p>
+                    <a href="https://siddu1998.github.io/Shloka/" class="cta-link">Play Shloka →</a>
+                </aside>
+            </div>
+        </section>
+
+        <article class="article-container">
+            
+            <!-- Opening Lede -->
+            <p class="lede">Climate change games exist, but they face a fundamental problem: they preach to audiences who don't see themselves in the narrative. Most climate games use generic messaging about polar bears and melting ice caps—content that feels distant and irrelevant to players from diverse cultural and religious backgrounds.</p>
+            
+            <div class="two-column">
+                <p>Meanwhile, religious communities represent billions of people with strong environmental values rooted in their traditions, yet climate games rarely engage these values. Hinduism, Buddhism, Christianity, Islam, and other religions all have teachings about environmental stewardship—but these remain untapped.</p>
+                
+                <p>This case study documents Shloka, a climate game that integrates authentic Hindu religious practices to teach environmental responsibility. Rather than asking players to adopt new values, Shloka connects climate action to existing cultural frameworks—turning environmental responsibility from abstract civic duty into sacred obligation.</p>
+            </div>
 
             <h2>The Problem</h2>
-            <p><strong>Climate games have low engagement and limited impact:</strong> Research shows that serious games focused on climate change struggle with player engagement and behavior change. Many climate games fail because they present generic messages disconnected from players' cultural values and lived experiences. When players don't see themselves in the narrative, they don't engage.</p>
+            
+            <div class="pull-quote">
+                <blockquote>"When players don't see themselves in the narrative, they don't engage."</blockquote>
+                <cite>— Research Finding</cite>
+            </div>
+            
+            <p><strong>Climate games have low engagement and limited impact.</strong> Research shows that serious games focused on climate change struggle with player engagement and behavior change. Many climate games fail because they present generic messages disconnected from players' cultural values and lived experiences.</p>
             
             <p><strong>The disconnect:</strong> Climate games often assume universal values about environmental protection, but motivation is cultural. A game about saving polar bears might resonate with one demographic, but fall flat with another that values different approaches to environmental responsibility rooted in their own traditions.</p>
             
-            <p><strong>The untapped opportunity:</strong> Religious communities worldwide hold billions of adherents, many with strong environmental values embedded in their faith traditions. Hinduism, Buddhism, Christianity, Islam, and other religions all have teachings about environmental stewardship. Yet climate games rarely engage these deeply-held values, missing opportunities to connect with audiences who already care about environmental protection through a different lens.</p>
+            <p><strong>The untapped opportunity:</strong> Religious communities worldwide hold billions of adherents, many with strong environmental values embedded in their faith traditions. Yet climate games rarely engage these deeply-held values, missing opportunities to connect with audiences who already care about environmental protection through a different lens.</p>
 
             <h2>My Approach</h2>
-            <p><strong>As Lead Researcher and Game Designer</strong>, I conducted deep ethnographic research to create the first climate game integrating authentic religious practices:</p>
             
-            <ul>
-                <li><strong>4-month fieldwork in India:</strong> Visual ethnography at Tirumala and Sabarimala pilgrimage sites (412 photos, 43 videos) documenting real ritual practices and environmental contexts</li>
-                <li><strong>Participant observation:</strong> Engaged in pilgrimages and rituals as a practicing Hindu to understand embodied experience</li>
-                <li><strong>Co-design with religious scholars:</strong> Worked with temple priests and Hindu scholars to ensure theological accuracy and cultural respect</li>
-                <li><strong>Built Shloka in Unity:</strong> Created a climate game using real Hindu rituals (mudras, mantras, breathing exercises) digitized through computer vision and audio recognition</li>
-                <li><strong>Comparative evaluation study:</strong> Tested Shloka against 9 other climate games with 24 participants, measuring engagement, immersion, and climate attitudes</li>
-            </ul>
-
-            <h2>Key Outcomes</h2>
-            <ul>
-                <li><strong>87% higher immersion</strong> than traditional climate games based on standardized measurements</li>
-                <li><strong>84% better guidance scores</strong>—players found deity mentors more helpful than traditional tutorial systems</li>
-                <li><strong>Players reframed climate action as "sacred duty"</strong> rather than abstract responsibility</li>
-                <li><strong>First academically-researched faith-based climate game</strong>—published at top-tier conferences</li>
-                <li><strong>Real-world adoption:</strong> 5 temples piloting Shloka for youth education programs</li>
-                <li><strong>ACM DIS 2025 Best Paper Award</strong>—recognized by the HCI community</li>
-            </ul>
-
-            <h2>Research Strategy: Going Beyond Surface-Level Understanding</h2>
+            <h3>Ethnographic Fieldwork</h3>
+            <p>4-month visual ethnography at Tirumala and Sabarimala pilgrimage sites (412 photos, 43 videos) documenting real ritual practices and environmental contexts firsthand.</p>
             
-            <h3>Defining the Research Questions</h3>
-            <p>After extensive literature review, I identified a critical gap: while researchers had studied religion and climate change from theological perspectives, no one had deeply explored how to integrate authentic religious practices into interactive climate education.</p>
+            <h3>Participant Observation</h3>
+            <p>Engaged in pilgrimages and rituals as a practicing Hindu to understand embodied experience—not just observing, but participating in the practices I would later digitize.</p>
+            
+            <h3>Co-Design with Scholars</h3>
+            <p>Worked with temple priests and Hindu scholars to ensure theological accuracy and cultural respect in every design decision.</p>
+            
+            <h3>Game Development</h3>
+            <p>Built Shloka in Unity using real Hindu rituals (mudras, mantras, breathing exercises) digitized through computer vision and audio recognition.</p>
+            
+            <h3>Comparative Evaluation</h3>
+            <p>Tested Shloka against 9 other climate games with 24 participants, measuring engagement, immersion, and climate attitudes through rigorous mixed-methods study.</p>
 
-            <div class="key-finding">
-                <h4>Research Questions</h4>
-                <p><strong>RQ1:</strong> How does the integration of religious rituals and narratives in a serious game enhance players' reflection and interest in climate change?</p>
-                <p><strong>RQ2:</strong> How does this integration influence engagement and player experience?</p>
+            <!-- Results Section - Dark Background -->
+            <div class="results-section">
+                <h2>Key Outcomes</h2>
+                <p style="color: rgba(255,255,255,0.8); max-width: 600px;">Shloka demonstrated that culturally-authentic design dramatically outperforms generic approaches.</p>
+                
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="result-number">87%</div>
+                        <div class="result-label">Higher Immersion</div>
+                        <div class="result-detail">Than traditional climate games based on standardized measurements</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">84%</div>
+                        <div class="result-label">Better Guidance</div>
+                        <div class="result-detail">Players found deity mentors more helpful than traditional tutorials</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">Sacred</div>
+                        <div class="result-label">Reframing</div>
+                        <div class="result-detail">Players reframed climate action as "sacred duty" rather than abstract responsibility</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">First</div>
+                        <div class="result-label">Of Its Kind</div>
+                        <div class="result-detail">Academically-researched faith-based climate game</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">5</div>
+                        <div class="result-label">Temple Pilots</div>
+                        <div class="result-detail">Real-world adoption for youth education programs</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">Best</div>
+                        <div class="result-label">Paper Award</div>
+                        <div class="result-detail">ACM DIS 2025—recognized by the HCI community</div>
+                    </div>
+                </div>
             </div>
 
-            <h2>Phase 1: Ethnographic Discovery - Understanding Sacred Spaces</h2>
+            <h2>Phase 1: Ethnographic Discovery</h2>
             
-            <h3>The Journey to Sacred Sites</h3>
             <p>Rather than relying on secondary sources or theoretical knowledge, I conducted firsthand ethnographic fieldwork at two of India's most significant pilgrimage sites: <strong>Tirumala</strong> (the world's most visited temple, home to Venkateswara) and <strong>Sabarimala</strong> (dedicated to Ayyappa, located in a forest reserve).</p>
             
             <p>This fieldwork was essential because religious practice isn't just about texts or beliefs—it's about embodied experience in specific places. I needed to understand how climate change actually manifested in sacred spaces, how environmental protection was conceptualized within ritual contexts, and how pilgrims engaged with nature as part of their spiritual practice.</p>
 
-            <div class="image-container">
-                <img src="Group844.png" alt="Climate elements and efforts being noted at different religious sites">
-                <div class="image-caption">Climate elements and climate efforts being documented at different religious sites.</div>
-            </div>
+            <figure class="image-aside">
+                <img src="Group844.png" alt="Climate elements and efforts at religious sites">
+                <figcaption>
+                    <strong>Field Documentation</strong>
+                    Climate elements and climate efforts being documented at different religious sites through visual ethnography.
+                </figcaption>
+            </figure>
 
             <h3>Why These Sites Matter</h3>
             <ul>
-                <li><strong>Scale and significance:</strong> Tirumala receives 50,000+ visitors daily (over 40 million annually), Sabarimala hosts 40+ million pilgrims during the annual pilgrimage season alone—these aren't niche sites but centers of mass religious practice</li>
-                <li><strong>Environmental vulnerability:</strong> Both temples are located in ecologically sensitive mountain regions (Tirumala in the Eastern Ghats, Sabarimala in the Western Ghats) facing visible climate change impacts including landslides, altered rainfall patterns, and deforestation</li>
-                <li><strong>Active climate response:</strong> Both temple authorities have implemented substantial environmental initiatives—solar power, water conservation, forest protection programs—making them ideal sites to study how environmental action is conceptualized within religious frameworks</li>
-                <li><strong>Diverse practices:</strong> The two sites represent different types of pilgrimage (daily temple worship vs. annual forest pilgrimage) providing broader understanding of how environmental contexts shape ritual practice</li>
-            </ul>
-
-            <h3>Research Methodology</h3>
-            <p>I employed a multi-method ethnographic approach to capture both observable behaviors and deeper cultural meanings:</p>
-            
-            <ul>
-                <li><strong>Visual ethnography (412 photos, 43 videos):</strong> Documented ritual performances, environmental practices, temple signage about climate action, and visible climate impacts like deforestation or water scarcity. Photography was crucial for capturing spatial relationships, ritual gestures, and environmental contexts.</li>
-                <li><strong>Participant observation:</strong> Participated in pilgrimages, morning prayers, offerings, and community practices as a practicing Hindu. This wasn't just observation—I engaged in the same embodied experiences I hoped to digitize in the game.</li>
-                <li><strong>Field sketching:</strong> In areas where photography was restricted (some inner sanctums prohibit cameras), I documented observations through detailed sketches of spatial layouts, ritual objects, and environmental features.</li>
-                <li><strong>Informal conversations:</strong> Natural interactions with pilgrims, temple staff, forest officers, and local community members yielded insights into how environmental concerns were discussed within religious contexts.</li>
+                <li><strong>Scale and significance:</strong> Tirumala receives 50,000+ visitors daily (over 40 million annually), Sabarimala hosts 40+ million pilgrims during the annual pilgrimage season alone</li>
+                <li><strong>Environmental vulnerability:</strong> Both temples are in ecologically sensitive mountain regions facing visible climate change impacts including landslides, altered rainfall, and deforestation</li>
+                <li><strong>Active climate response:</strong> Both temple authorities have implemented substantial environmental initiatives—solar power, water conservation, forest protection programs</li>
+                <li><strong>Diverse practices:</strong> The two sites represent different types of pilgrimage providing broader understanding of how environmental contexts shape ritual practice</li>
             </ul>
 
             <h3>Key Discoveries from Fieldwork</h3>
-
+            
             <p>Three critical insights emerged from the ethnographic work that fundamentally shaped the game's design approach:</p>
 
-            <div class="key-finding">
-                <h4>Discovery 1: Nature as Living Deities, Not Inanimate Objects</h4>
-                <p>I observed consistent personification of natural elements—not as mere symbols, but as active spiritual beings requiring respect and care. The Ganges River wasn't just a water source; she was Goddess Ganga. The mountains weren't just landscapes; they were divine manifestations of specific deities requiring protection. This personification meant environmental harm wasn't abstract damage to ecosystems—it was direct disrespect to sentient spiritual beings.</p>
-                <p><strong>Game design implication:</strong> The game should treat natural elements as characters with agency and consciousness, not just game objects. Players engage with Ganga or the sacred mountain as respectful interaction with beings, not just resource management.</p>
+            <div class="discovery-card">
+                <h4>Discovery 1: Nature as Living Deities</h4>
+                <p>I observed consistent personification of natural elements—not as mere symbols, but as active spiritual beings requiring respect and care. The Ganges River wasn't just a water source; she was Goddess Ganga. The mountains weren't just landscapes; they were divine manifestations requiring protection.</p>
+                <div class="discovery-implication">
+                    <strong>Design implication:</strong> The game should treat natural elements as characters with agency and consciousness, not just game objects. Players engage with Ganga as respectful interaction with a being, not resource management.
+                </div>
             </div>
 
-            <div class="key-finding">
-                <h4>Discovery 2: Climate Change as Religious Crisis, Not Just Environmental Problem</h4>
-                <p>Climate impacts weren't abstract global issues—they were tangible disruptions to sacred practices. Heavy monsoon rains washed out roads to temples, preventing devotees from completing pilgrimages. Deforestation meant losing sacred groves where specific deities resided. Water scarcity in sacred tanks meant inability to perform required ablutions. Each climate impact had immediate religious consequences, making environmental protection spiritually urgent rather than morally optional.</p>
-                <p><strong>Game design implication:</strong> Show climate change through localized impacts on familiar sacred places rather than distant Arctic ice caps. Make environmental threats feel like direct barriers to spiritual fulfillment, creating motivation based on existing cultural values.</p>
+            <div class="discovery-card">
+                <h4>Discovery 2: Climate Change as Religious Crisis</h4>
+                <p>Climate impacts weren't abstract global issues—they were tangible disruptions to sacred practices. Heavy monsoon rains washed out roads to temples, preventing devotees from completing pilgrimages. Deforestation meant losing sacred groves where specific deities resided. Each climate impact had immediate religious consequences.</p>
+                <div class="discovery-implication">
+                    <strong>Design implication:</strong> Show climate change through localized impacts on familiar sacred places rather than distant Arctic ice caps. Make environmental threats feel like direct barriers to spiritual fulfillment.
+                </div>
             </div>
 
-            <div class="key-finding">
-                <h4>Discovery 3: Environmental Action Framed as Religious Duty, Not Civic Responsibility</h4>
-                <p>Temple authorities weren't promoting environmental protection through secular arguments about sustainability or resource conservation. Instead, they framed environmental action as dharma (religious duty). Signs throughout the pilgrimage paths read: "This forest is the abode of Lord Ayyappa—protecting it is your spiritual duty." Environmental action wasn't recommended behavior—it was obligatory religious practice.</p>
-                <p><strong>Game design implication:</strong> Connect climate actions to existing religious obligations rather than introducing new value frameworks. Frame behaviors as completing required duties to deities rather than adopting new environmental consciousness.</p>
+            <div class="discovery-card">
+                <h4>Discovery 3: Environmental Action as Religious Duty</h4>
+                <p>Temple authorities weren't promoting environmental protection through secular arguments about sustainability. Instead, they framed environmental action as dharma (religious duty). Signs throughout pilgrimage paths read: "This forest is the abode of Lord Ayyappa—protecting it is your spiritual duty."</p>
+                <div class="discovery-implication">
+                    <strong>Design implication:</strong> Connect climate actions to existing religious obligations rather than introducing new value frameworks. Frame behaviors as completing required duties to deities.
+                </div>
             </div>
 
             <h2>Phase 2: Co-Design & Cultural Navigation</h2>
-
-            <h3>The Sensitivity Challenge</h3>
-            <p>Moving from ethnographic insights to game design required navigating complex theological considerations. Good intentions aren't enough when working with sacred content—design decisions needed alignment with religious principles, not just aesthetic appeal. I worked with Hindu scholars, temple priests, and practicing game designers to ensure theological accuracy while maintaining engaging gameplay.</p>
-
-            <h3>Initial Design Failure: The God-Player Problem</h3>
-            <p><strong>First Prototype Concept:</strong> Players would directly control Hindu deities like Ganesha or Shiva, using divine powers to combat pollution and climate change. This seemed logical from a game design perspective—players control powerful characters to solve problems.</p>
             
-            <p><strong>Critical Community Feedback:</strong> "This is theologically problematic. Deities are omnipotent and don't need to 'level up' or become more powerful. Allowing players to control gods reduces divine agency—you're making the divine subservient to player actions. This could be seen as disrespectful to the tradition."</p>
-            
-            <p><strong>Key Learning:</strong> Representation isn't just about including cultural content—it requires theological accuracy and cultural respect. Game mechanics that make sense from a design perspective might violate cultural principles when applied to sacred content.</p>
+            <p>Moving from ethnographic insights to game design required navigating complex theological considerations. Good intentions aren't enough when working with sacred content—design decisions needed alignment with religious principles, not just aesthetic appeal.</p>
 
-            <div class="image-container">
-                <img src="Group864.png" alt="Discussing with stakeholders and iterative process during development">
-                <div class="image-caption">Stakeholder discussions and iterative development process for Shloka.</div>
+            <h3>The God-Player Problem</h3>
+            
+            <p><strong>First Prototype Concept:</strong> Players would directly control Hindu deities like Ganesha or Shiva, using divine powers to combat pollution and climate change. This seemed logical from a game design perspective.</p>
+
+            <div class="inline-quote">
+                "This is theologically problematic. Deities are omnipotent and don't need to 'level up' or become more powerful. Allowing players to control gods reduces divine agency—you're making the divine subservient to player actions."
+                <cite>— Critical Community Feedback</cite>
             </div>
 
+            <p><strong>Key Learning:</strong> Representation isn't just about including cultural content—it requires theological accuracy and cultural respect. Game mechanics that make sense from a design perspective might violate cultural principles when applied to sacred content.</p>
+
+            <figure class="image-aside">
+                <img src="Group864.png" alt="Stakeholder discussions during development">
+                <figcaption>
+                    <strong>Iterative Co-Design</strong>
+                    Stakeholder discussions and iterative development process ensured theological accuracy throughout the design process.
+                </figcaption>
+            </figure>
+
             <h3>Design Iteration: From Control to Collaboration</h3>
-            <p>Based on this feedback, I redesigned the core player-deity relationship:</p>
             
-            <p><strong>Revised Approach:</strong> Players don't control deities—they embody "Shloka," a chosen child who receives guidance and powers from climate deities through proper ritual practice. Rather than wielding divine power directly, players perform authentic rituals (mudras, mantras, breathing exercises) correctly, and deities respond by granting abilities or assistance.</p>
+            <p><strong>Revised Approach:</strong> Players don't control deities—they embody "Shloka," a chosen child who receives guidance and powers from climate deities through proper ritual practice. Rather than wielding divine power directly, players perform authentic rituals correctly, and deities respond by granting abilities or assistance.</p>
             
-            <p><strong>Why This Worked Theologically:</strong></p>
             <ul>
                 <li><strong>Preserved divine agency:</strong> Gods remain omnipotent mentors who choose when and how to respond—they're not subservient to player commands</li>
                 <li><strong>Maintained ritual meaning:</strong> Players must perform real ritual actions correctly to receive divine assistance, preserving the significance of proper religious practice</li>
-                <li><strong>Authentic to Hindu concepts:</strong> Aligned with concepts of divine grace and the relationship between devotees and deities—worship isn't transactional control but devotional relationship</li>
+                <li><strong>Authentic to Hindu concepts:</strong> Aligned with concepts of divine grace and the devotee-deity relationship</li>
                 <li><strong>Created game design opportunities:</strong> Ritual performance accuracy became the skill challenge, making proper practice rewarding and educational</li>
             </ul>
 
             <h3>Technical Innovation: Digitizing Sacred Practices</h3>
-            <p>Creating the game required translating embodied religious practices into interactive digital systems. This wasn't just about recognizing gestures—I needed systems that could validate spiritual performance with the same rigor players would experience in physical ritual practice.</p>
             
-            <h4>Mudra Recognition System</h4>
-            <p>I used Google Teachable Machine to create computer vision models trained on 500+ images of correct mudra formations from multiple hand positions. The system achieves 92% accuracy in gesture recognition, meaning players must actually form precise hand positions rather than approximating them. This precision matters because mudras have specific spiritual meanings—getting the gesture right isn't just a game mechanic, it's learning authentic ritual practice.</p>
+            <p>Creating the game required translating embodied religious practices into interactive digital systems. This wasn't just about recognizing gestures—I needed systems that could validate spiritual performance with the same rigor players would experience in physical ritual practice.</p>
 
-            <h4>Chanting Recognition</h4>
-            <p>Integrated OpenAI Whisper API for speech recognition with custom Sanskrit pronunciation validation. The system doesn't just detect that the player spoke—it evaluates pronunciation accuracy against proper mantra chanting, including rhythm and tonal patterns. This technical challenge became a teaching opportunity: players receive feedback on how to correctly pronounce Sanskrit mantras, learning both the climate science content and the religious practice.</p>
-
-            <h4>Breathing Detection</h4>
-            <p>Built a microphone-based system that captures breathing patterns and provides real-time visual feedback to guide users through traditional Pranayama (breathing exercises). The system detects inhalation/exhalation rhythm and duration, providing biofeedback that helps players master breathing techniques used in actual religious practice. These breathing exercises form part of the game's meditation sequences that teach environmental awareness.</p>
-
-            <h4>Fire Worship Recognition</h4>
-            <p>Developed computer vision systems to detect light sources and track circular motion patterns for proper Arati (fire worship) ceremony performance. Players hold a physical light source and perform circular motions that the camera tracks, creating embodied interaction with sacred fire worship. This connects physical ritual practice to game progression—proper ritual performance unlocks environmental problem-solving abilities.</p>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <h4>Mudra Recognition</h4>
+                    <p>Computer vision models trained on 500+ images of correct mudra formations. 92% accuracy means players must actually form precise hand positions—learning authentic ritual practice through gameplay.</p>
+                </div>
+                <div class="tech-card">
+                    <h4>Chanting Recognition</h4>
+                    <p>OpenAI Whisper API with custom Sanskrit pronunciation validation. The system evaluates pronunciation accuracy against proper mantra chanting, including rhythm and tonal patterns.</p>
+                </div>
+                <div class="tech-card">
+                    <h4>Breathing Detection</h4>
+                    <p>Microphone-based system capturing breathing patterns with real-time visual feedback to guide users through traditional Pranayama breathing exercises.</p>
+                </div>
+                <div class="tech-card">
+                    <h4>Fire Worship Recognition</h4>
+                    <p>Computer vision detecting light sources and tracking circular motion patterns for proper Arati ceremony performance—embodied interaction with sacred fire worship.</p>
+                </div>
+            </div>
 
             <div class="image-container">
-                <img src="Group 848 (2).png" alt="Different stages in a level showing specific climate change objectives">
-                <div class="image-caption">Different stages in a Shloka level, each teaching specific climate change concepts.</div>
+                <img src="Group 848 (2).png" alt="Different stages in a Shloka level">
+                <p class="image-caption">Different stages in a Shloka level, each teaching specific climate change concepts through culturally-authentic gameplay.</p>
             </div>
 
-            <h2>Phase 3: Rigorous Evaluation - Measuring Cultural Resonance</h2>
-
-            <h3>Comparative Study Design</h3>
-            <p>To validate Shloka's effectiveness, I designed a comprehensive comparative evaluation against 9 existing climate games. This study wasn't just about proving our game performed better—it was about understanding what specific elements of cultural integration drive engagement and learning. By comparing Shloka against diverse approaches (simulation games, narrative adventures, puzzle games, etc.), I could identify whether religious integration was genuinely transformative or just interesting theming.</p>
+            <h2>Phase 3: Rigorous Evaluation</h2>
             
-            <p><strong>Study Scope:</strong></p>
+            <p>To validate Shloka's effectiveness, I designed a comprehensive comparative evaluation against 9 existing climate games. This study wasn't just about proving our game performed better—it was about understanding what specific elements of cultural integration drive engagement and learning.</p>
+            
             <ul>
                 <li><strong>24 participants:</strong> Hindu practitioners who played all 10 games (Shloka + 9 comparison games)</li>
-                <li><strong>10 games total:</strong> Diverse approaches including simulation games (Civilization), narrative games, puzzle games, and other climate-focused titles</li>
-                <li><strong>2+ hour sessions:</strong> Each participant played every game, providing standardized ratings and detailed interviews</li>
+                <li><strong>10 games total:</strong> Diverse approaches including simulation games, narrative games, puzzle games, and other climate-focused titles</li>
+                <li><strong>2+ hour sessions:</strong> Each participant played every game in randomized order using Latin Square design</li>
+                <li><strong>Mixed methods:</strong> Standardized questionnaires measuring immersion, interest, guidance quality, and climate concern, plus in-depth interviews</li>
             </ul>
 
-            <h3>Study Protocol</h3>
-            <p>I designed a rigorous protocol to minimize order effects and capture both quantitative and qualitative data:</p>
-            
-            <ul>
-                <li><strong>Opening interview (20 min):</strong> Assessed baseline climate attitudes, religious practice frequency, gaming experience, and prior exposure to climate games. This established individual differences that might affect engagement patterns.</li>
-                
-                <li><strong>Game rotation (2+ hours):</strong> Participants played all 10 games in randomized order using Latin Square design to control for learning and fatigue effects. Each participant experienced games in a unique sequence.</li>
-                
-                <li><strong>Post-game surveys (10 min per game):</strong> After each game, participants completed standardized questionnaires measuring immersion, interest, guidance quality, and climate concern. These quantitative measures allowed statistical comparison across games.</li>
-                
-                <li><strong>Neutral reset (3 min per game):</strong> Between each game, participants watched a standardized neutral video to clear their mental palate and prevent carryover effects from one game to the next.</li>
-                
-                <li><strong>Closing interview (30 min):</strong> After completing all games, participants engaged in comparative reflection—discussing which games were most engaging, why, and how Shloka compared to others. This captured deeper qualitative insights about cultural resonance.</li>
-            </ul>
+            <h3>Qualitative Insights</h3>
 
-            <h3>Key Qualitative Insights</h3> 
-            <p>Through thematic analysis of 14 in-depth interviews, three major themes emerged:</p>
-
-            <div class="key-finding">
-                <h4>Climate Ethics Through Religious Lens</h4>
-                <p>Players reframed environmental responsibility from civic duty to sacred obligation.</p>
-                <div class="quote">
-                    "What I can see is a reminder for myself or maybe any player to treat the climate as holy... Ganesha in the game is right, the Ganges is holy and devotees, the government, should treat it that way."
-                    <span class="quote-author">— Participant 2</span>
+            <div class="findings-grid">
+                <div class="finding-card">
+                    <h4>Climate Ethics Through Religious Lens</h4>
+                    <p>"What I can see is a reminder for myself to treat the climate as holy... Ganesha in the game is right, the Ganges is holy and devotees should treat it that way."</p>
                 </div>
-            </div>
-
-            <div class="key-finding">
-                <h4>Relating to Climate Consequences</h4>
-                <p>Localized climate scenarios affecting familiar sacred places created emotional urgency that abstract global impacts couldn't match.</p>
-                <div class="quote">
-                    "Shloka shows places I know, I have visited, and it's sad to know not 100 years but actually now these holy places are being destroyed."
-                    <span class="quote-author">— Participant 1</span>
+                <div class="finding-card">
+                    <h4>Relating to Climate Consequences</h4>
+                    <p>"Shloka shows places I know, I have visited, and it's sad to know not 100 years but actually now these holy places are being destroyed."</p>
                 </div>
-            </div>
-
-            <div class="key-finding">
-                <h4>Motivation Through Granular Climate Actions</h4>
-                <p>Culturally-specific, achievable actions felt more motivating than generic environmental advice.</p>
-                <div class="quote">
-                    "Disposing of fireworks carefully after Diwali, or not spilling oil in the river when I put my diya—these are things I can work on. These are workable stuff."
-                    <span class="quote-author">— Participant 2</span>
+                <div class="finding-card">
+                    <h4>Motivation Through Granular Actions</h4>
+                    <p>"Disposing of fireworks carefully after Diwali, or not spilling oil in the river when I put my diya—these are things I can work on. These are workable stuff."</p>
                 </div>
             </div>
 
             <h2>Design Principles Discovered</h2>
-            <p>Through this comparative research, I identified five key principles for culturally-responsive UX design that apply beyond games:</p>
-
-            <h3>1. Cultural Authenticity Over Cultural Aesthetics</h3>
-            <p>Surface-level cultural elements (colors, symbols, music) don't create engagement—authentic cultural practices and values do. Shloka's authentic ritual interactions created 87% higher immersion than culturally-themed games that used Hindu aesthetics but generic mechanics. <strong>Design implication:</strong> Deep engagement requires integrating cultural practices, not just cultural appearance.</p>
-
-            <h3>2. Values-Based Motivation Over Feature-Based Persuasion</h3>
-            <p>Connect new behaviors to existing moral frameworks rather than creating new value systems. Participants reframed climate action as religious duty (dharma) using existing concepts they already valued, rather than adopting new environmental consciousness. <strong>Design implication:</strong> Find how new behaviors align with existing cultural values rather than persuading users to adopt new values.</p>
-
-            <h3>3. Localized Relevance Over Universal Impact</h3>
-            <p>Personal/local consequences motivate more than global/abstract impacts. Participants showed higher emotional engagement with threats to familiar temples (Tirumala, Ganges) than global climate statistics. Seeing climate impacts on sacred spaces they'd visited created urgency. <strong>Design implication:</strong> Make consequences concrete and personally meaningful within users' cultural context.</p>
-
-            <h3>4. Embodied Interaction Over Cognitive Processing</h3>
-            <p>Physical/ritual interactions create deeper engagement than purely mental tasks. Ritual performance created "dual achievement"—players felt accomplishment from both cultural practice (performing mudras correctly) and learning goals (understanding climate science). <strong>Design implication:</strong> Incorporate physical practices that users already value, making learning feel like natural cultural expression.</p>
-
-            <h3>5. Mentorship-Based Guidance Over System-Based Instruction</h3>
-            <p>Guidance from culturally-respected figures feels more supportive than system tutorials. Deity mentors scored 84% higher on "guidance" than traditional tutorial systems, even though they provided identical information. Authority and respect came from cultural context, not just clarity. <strong>Design implication:</strong> Identify culturally-respected figures who can serve as mentors, not just information sources.</p>
-
-            <h2>Impact & Professional Growth</h2>
-
-            <h3>Academic Impact</h3>
-            <ul>
-                <li>ACM DIS 2025 - Full Paper and Best Paper (Top-tier HCI Conference)</li>
-                <li>ACM CHI PLAY 2024 - WiP paper</li>
-
-            </ul>
-
-            <h3>Real-World Application</h3>
-            <ul>
-                <li><strong>Temple Education Programs:</strong> 5 temples piloting Shloka for youth climate education</li>
-                <li><strong>Academic Curriculum:</strong> Framework adopted in 2 game design courses</li>
-                <li><strong>Open Source Release:</strong> Code and design documents available for community adaptation</li>
-            </ul>
             
-            <h2>Conclusion</h2>
-            <p>The Shloka project demonstrated that culturally-responsive design isn't just about representation—it's about deeply understanding and integrating the cultural practices and values that actually drive human behavior. By moving beyond surface-level aesthetics (Hindu symbols, Indian music) to authentic cultural integration (real rituals, theological accuracy, localized climate scenarios), we created an experience that resonated with players and motivated genuine climate engagement.</p>
+            <p>Through this comparative research, I identified five key principles for culturally-responsive design that apply beyond games:</p>
 
-            <p><strong>Beyond this specific game:</strong> This work provides a reusable framework for how UX practitioners can approach culturally-sensitive design challenges across domains. The five design principles discovered (cultural authenticity over aesthetics, values-based motivation, localized relevance, embodied interaction, mentorship-based guidance) apply broadly to designing for any cultural community.</p>
-            
-            <p><strong>Methodological contribution:</strong> The research demonstrates how ethnographic fieldwork, participatory design with cultural stakeholders, and rigorous comparative evaluation can work together to create culturally-grounded interactive experiences. Rather than making assumptions about what cultural communities want, I engaged deeply in the lived practices of religious communities and co-designed with cultural authorities—ensuring the final product served both game design goals and theological respect.</p>
-            
-            <p><strong>Real-world impact:</strong> Shloka is currently being piloted at 5 temples for youth education programs, has been published at top-tier HCI conferences, and is available open-source for adaptation by other developers. The framework has been adopted in game design courses and influenced how researchers think about faith-based serious games.</p>
-
-            <!-- Skills Demonstrated -->
-            <div class="key-finding" style="margin-top: 3rem;">
-                <h4>Skills & Methods Demonstrated</h4>
-                <p><strong>Research:</strong> Ethnographic Research • Visual Ethnography • Participatory Design • Comparative Studies • Qualitative Analysis</p>
-                <p><strong>Design:</strong> Game Design • Interaction Design • Cultural Design • Narrative Design • Unity Development</p>
-                <p><strong>Specialized:</strong> Religious Studies • Environmental Science • Cross-Cultural Design • Embodied Interaction</p>
-                <p><strong>Impact:</strong> Academic Publishing • Framework Development • Community Engagement • Accessibility Design</p>
+            <div class="principle-grid">
+                <div class="principle-card">
+                    <div class="principle-number">1</div>
+                    <h4>Cultural Authenticity Over Aesthetics</h4>
+                    <p>Surface-level cultural elements don't create engagement—authentic cultural practices and values do. Deep engagement requires integrating cultural practices, not just cultural appearance.</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-number">2</div>
+                    <h4>Values-Based Motivation</h4>
+                    <p>Connect new behaviors to existing moral frameworks rather than creating new value systems. Find how new behaviors align with existing cultural values rather than persuading users to adopt new values.</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-number">3</div>
+                    <h4>Localized Relevance</h4>
+                    <p>Personal/local consequences motivate more than global/abstract impacts. Make consequences concrete and personally meaningful within users' cultural context.</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-number">4</div>
+                    <h4>Embodied Interaction</h4>
+                    <p>Physical/ritual interactions create deeper engagement than purely mental tasks. Incorporate physical practices that users already value, making learning feel like natural cultural expression.</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-number">5</div>
+                    <h4>Mentorship-Based Guidance</h4>
+                    <p>Guidance from culturally-respected figures feels more supportive than system tutorials. Authority and respect come from cultural context, not just clarity of instruction.</p>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-number">→</div>
+                    <h4>Beyond Games</h4>
+                    <p>These principles apply broadly to designing for any cultural community—connecting new behaviors to existing values, localizing impact, and respecting cultural authorities.</p>
+                </div>
             </div>
-        </div>
 
-        <footer class="footer">
-            <p>&copy; 2024 Sai Maram. Case Study.</p>
-            <p><a href="index.html">Back to Portfolio</a></p>
-        </footer>
+            <h2>Impact & Adoption</h2>
+
+            <div class="two-column">
+                <p><strong>Academic Impact:</strong> ACM DIS 2025 Full Paper with Best Paper Award (Top-tier HCI Conference), plus ACM CHI PLAY 2024 Work-in-Progress paper. The research has been recognized as a methodological contribution to faith-based design.</p>
+                
+                <p><strong>Real-World Application:</strong> 5 temples are now piloting Shloka for youth climate education. The framework has been adopted in 2 game design courses. Code and design documents are available open-source for community adaptation.</p>
+            </div>
+
+            <h2>Conclusion</h2>
+
+            <p class="lede" style="margin-top: 0;">The Shloka project demonstrated that culturally-responsive design isn't just about representation—it's about deeply understanding and integrating the cultural practices and values that actually drive human behavior.</p>
+            
+            <div class="two-column">
+                <p>By moving beyond surface-level aesthetics (Hindu symbols, Indian music) to authentic cultural integration (real rituals, theological accuracy, localized climate scenarios), we created an experience that resonated with players and motivated genuine climate engagement.</p>
+            
+                <p><strong>Beyond this specific game:</strong> This work provides a reusable framework for how UX practitioners can approach culturally-sensitive design challenges across domains. Rather than making assumptions about what cultural communities want, I engaged deeply in the lived practices of religious communities and co-designed with cultural authorities—ensuring the final product served both game design goals and theological respect.</p>
+            </div>
+
+            <!-- Skills Section -->
+            <div class="skills-section">
+                <h4>Skills & Methods Demonstrated</h4>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <strong>Research</strong>
+                        <p>Ethnographic Research, Visual Ethnography, Participatory Design, Comparative Studies, Qualitative Analysis</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Design</strong>
+                        <p>Game Design, Interaction Design, Cultural Design, Narrative Design, Unity Development</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Specialized</strong>
+                        <p>Religious Studies, Environmental Science, Cross-Cultural Design, Embodied Interaction</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Impact</strong>
+                        <p>Academic Publishing, Framework Development, Community Engagement, Best Paper Award</p>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer">
+                <a href="index.html">← Back to Portfolio</a>
+            </footer>
+        </article>
     </main>
 
     <script>
@@ -522,15 +1248,6 @@
                 });
             }
         });
-
-        // Functions for NDA-locked or upcoming projects
-        function showLockedMessage() {
-            alert("This case study is under NDA and cannot be shared publicly. Please contact me directly for more information about my work at Microsoft/Xbox.");
-        }
-
-        function showComingSoon() {
-            alert("This project case study is currently being developed. Please check back soon!");
-        }
     </script>
 
 </body>
