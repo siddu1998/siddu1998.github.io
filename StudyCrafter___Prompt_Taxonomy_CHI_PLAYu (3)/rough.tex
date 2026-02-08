@@ -1,0 +1,604 @@
+%%
+%% This is file `sample-acmsmall.tex',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% samples.dtx  (with options: `acmsmall')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from sample-acmsmall.tex.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file samples.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%%
+%% Commands for TeXCount
+%TC:macro \cite [option:text,text]
+%TC:macro \citep [option:text,text]
+%TC:macro \citet [option:text,text]
+%TC:envir table 0 1
+%TC:envir table* 0 1
+%TC:envir tabular [ignore] word
+%TC:envir displaymath 0 word
+%TC:envir math 0 word
+%TC:envir comment 0 0
+%%
+%%
+%% The first command in your LaTeX source must be the \documentclass command.
+\documentclass[manuscript,screen]{acmart}
+%% NOTE that a single column version is required for 
+%% submission and peer review. This can be done by changing
+%% the \doucmentclass[...]{acmart} in this template to 
+%% \documentclass[manuscript,screen]{acmart}
+%% 
+%% To ensure 100% compatibility, please check the white list of
+%% approved LaTeX packages to be used with the Master Article Template at
+%% https://www.acm.org/publications/taps/whitelist-of-latex-packages 
+%% before creating your document. The white list page provides 
+%% information on how to submit additional LaTeX packages for 
+%% review and adoption.
+%% Fonts used in the template cannot be substituted; margin 
+%% adjustments are not allowed.
+%%
+%% \BibTeX command to typeset BibTeX logo in the docs
+\AtBeginDocument{%
+  \providecommand\BibTeX{{%
+    \normalfont B\kern-0.5em{\scshape i\kern-0.25em b}\kern-0.8em\TeX}}}
+
+%% Rights management information.  This information is sent to you
+%% when you complete the rights form.  These commands have SAMPLE
+%% values in them; it is your responsibility as an author to replace
+%% the commands and values with those provided to you when you
+%% complete the rights form.
+\setcopyright{acmcopyright}
+\copyrightyear{2018}
+\acmYear{2018}
+\acmDOI{XXXXXXX.XXXXXXX}
+
+
+%%
+%% These commands are for a JOURNAL article.
+\acmJournal{JACM}
+\acmVolume{37}
+\acmNumber{4}
+\acmArticle{111}
+\acmMonth{8}
+
+%%
+%% Submission ID.
+%% Use this when submitting an article to a sponsored event. You'll
+%% receive a unique submission ID from the organizers
+%% of the event, and this ID should be used as the parameter to this command.
+%%\acmSubmissionID{123-A56-BU3}
+
+%%
+%% For managing citations, it is recommended to use bibliography
+%% files in BibTeX format.
+%%
+%% You can then either use BibTeX with the ACM-Reference-Format style,
+%% or BibLaTeX with the acmnumeric or acmauthoryear sytles, that include
+%% support for advanced citation of software artefact from the
+%% biblatex-software package, also separately available on CTAN.
+%%
+%% Look at the sample-*-biblatex.tex files for templates showcasing
+%% the biblatex styles.
+%%
+
+%%
+%% The majority of ACM publications use numbered citations and
+%% references.  The command \citestyle{authoryear} switches to the
+%% "author year" style.
+%%
+%% If you are preparing content for an event
+%% sponsored by ACM SIGGRAPH, you must use the "author year" style of
+%% citations and references.
+%% Uncommenting
+%% the next command will enable that style.
+%%\citestyle{acmauthoryear}
+
+%%
+%% end of the preamble, start of the body of the document source.
+\begin{document}
+
+%%
+%% The "title" command has an optional parameter,
+%% allowing the author to define a "short title" to be used in page headers.
+\title{Sacred Games: An Investigation into the Relationship between Game Mechanics and Religiosity}
+
+%%
+%% The "author" command and its associated commands are used to define
+%% the authors and their affiliations.
+%% Of note is the shared affiliation of the first two authors, and the
+%% "authornote" and "authornotemark" commands
+%% used to denote shared contribution to the research.
+
+\author{Sai Siddartha Maram}
+\affiliation{%
+  \institution{University of California, Santa Cruz}
+  \streetaddress{}
+  \city{Santa Cruz}
+  \country{USA}}
+\email{samaram@ucsc.edu}
+
+\author{Johannes Pfau}
+\affiliation{%
+  \institution{University of California, Santa Cruz}
+  \streetaddress{}
+  \city{Santa Cruz}
+  \country{USA}}
+\email{jopfau@ucsc.edu}
+
+
+\author{Olayinka Iyinolakan}
+\affiliation{%
+  \institution{University of California, Santa Cruz}
+  \streetaddress{}
+  \city{Santa Cruz}
+  \country{USA}}
+\email{yinka.iyinolakan@gmail.com}
+
+\author{Jai Dodechani}
+\affiliation{%
+  \institution{University of California, Santa Cruz}
+  \streetaddress{}
+  \city{Santa Cruz}
+  \country{USA}}
+\email{jdodecha@ucsc.edu}
+
+\author{Mansi Rajendra Kasar}
+\affiliation{%
+  \institution{Indiana University}
+  \streetaddress{}
+  \city{Indianpolis}
+  \country{USA}}
+\email{mkasar@iu.edu}
+
+\author{Magy Seif El-Nasr}
+\affiliation{%
+  \institution{University of California, Santa Cruz}
+  \streetaddress{}
+  \city{Santa Cruz}
+  \country{USA}}
+\email{mseifeln@ucsc.edu}
+
+
+%%
+%% By default, the full list of authors will be used in the page
+%% headers. Often, this list is too long, and will overlap
+%% other information printed in the page headers. This command allows
+%% the author to define a more concise list
+%% of authors' names for this purpose.
+\renewcommand{\shortauthors}{Maram et al.}
+
+%%
+%% The abstract is a short summary of the work to be presented in the
+%% article.
+\begin{abstract}
+This study explores using various input modalities and game mechanics in video games to foster religiosity. We conduct a literature review of existing research on the intersection of gaming and religion and qualitatively analyze several popular video games that incorporate religious themes and gameplay elements. Qualitatively coding existing literature and video games, we present game mechanics currently used in games that incorporate religious themes. Through ethnographic studies at cultural places, we propose a  set of new game mechanics to foster religiosity. We qualitatively and quantitatively compare the effect of current game mechanics and existing game mechanics on fostering religiosity. Our findings suggest that specific game mechanics can enhance players' immersive and spiritual experiences through video games. 
+\end{abstract}
+
+%%
+%% The code below is generated by the tool at http://dl.acm.org/ccs.cfm.
+%% Please copy and paste the code instead of the example below.
+%%
+\begin{CCSXML}
+<ccs2012>
+ <concept>
+  <concept_id>10010520.10010553.10010562</concept_id>
+  <concept_desc>Computer systems organization~Embedded systems</concept_desc>
+  <concept_significance>500</concept_significance>
+ </concept>
+ <concept>
+  <concept_id>10010520.10010575.10010755</concept_id>
+  <concept_desc>Computer systems organization~Redundancy</concept_desc>
+  <concept_significance>300</concept_significance>
+ </concept>
+ <concept>
+  <concept_id>10010520.10010553.10010554</concept_id>
+  <concept_desc>Computer systems organization~Robotics</concept_desc>
+  <concept_significance>100</concept_significance>
+ </concept>
+ <concept>
+  <concept_id>10003033.10003083.10003095</concept_id>
+  <concept_desc>Networks~Network reliability</concept_desc>
+  <concept_significance>100</concept_significance>
+ </concept>
+</ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Computer systems organization~Embedded systems}
+\ccsdesc[300]{Computer systems organization~Redundancy}
+\ccsdesc{Computer systems organization~Robotics}
+\ccsdesc[100]{Networks~Network reliability}
+
+%%
+%% Keywords. The author(s) should pick words that accurately describe
+%% the work being presented. Separate the keywords with commas.
+\keywords{datasets, neural networks, gaze detection, text tagging}
+
+\received{20 February 2007}
+\received[revised]{12 March 2009}
+\received[accepted]{5 June 2009}
+
+%%
+%% This command processes the author and affiliation, and title
+%% information and builds the first part of the formatted document.
+\maketitle
+
+\section{Introduction}
+Religion and spirituality play a significant role in many people's lives and can impact their behavior and decision-making. 
+
+As technology becomes increasingly intertwined with all aspects of our lives, it is important for HCI researchers to consider the role that religion and spirituality may play in designing and using technology.
+
+Examining the intersection of religion and spirituality with HCI can also help researchers identify and address potential ethical concerns related to the use of technology in religious contexts, such as the use of technology in religious worship or the potential impact of technology on spiritual beliefs and practices.
+
+There are several reasons why it may be important to build games that foster religiosity:
+
+Religion and spirituality can play a significant role in people's lives and can provide a sense of meaning and purpose. Games that incorporate elements of religion or spirituality may be able to provide players with a sense of connection to their faith and help them practice and strengthen their beliefs.
+
+Games can be a powerful tool for education and learning, and building games that foster religiosity can provide players with a way to learn about and engage with their faith in a fun and interactive way.
+
+Games that foster religiosity may also be able to provide players with a sense of community and connection to others who share their faith. This can be particularly important for individuals who may not have access to in-person religious communities.
+
+Finally, building games that foster religiosity can help to break down stereotypes and prejudices about religion and spirituality, as players may be exposed to beliefs and practices that are different from their own. This can help promote understanding and tolerance among players of different faith traditions.
+
+
+
+\section{Previous Work}
+
+\subsection{Theology, Religion, Divinity and Video Games}
+In the same way, religion is referred to in other forms of media, such as movie blockbusters, bestseller books, and cartoons. It should not come as a surprise why the reference to religion is prevalent in video games. The most recent and popular reference is James Cameron's recent Avatar 2, having a reference to \textit{Amrita} a potion for immortality, and Marvel's Black Panther tribe devoted to Hanuman, both derived from South Asian Mythology. 
+
+
+\subsection{New media and Invoking Religiosity}
+\subsection{Ethnography for Game Design}
+
+1. Refer to the previous work sections in AstraVerse, and cite My own papers.
+
+There have been a number of research studies that have used ethnography to inform the design of games. Some examples of research that has used ethnography in game design include:
+
+"Beyond Fun: Ethnographic Approaches to Game Studies" by Katie Salen (2004): This study used ethnographic techniques, including participant observation and interviews, to understand the motivations and behaviors of game players. The study found that players were motivated by a variety of factors, including social connections, competition, and the desire for self-expression. The study also identified common patterns in how players approached challenges and used in-game resources.
+
+"An Ethnographic Study of Casual Digital Game Players" by Chen and Chiu (2012): This study used an ethnographic approach to understand the motivations and behaviors of casual game players, defined as individuals who play games for short periods of time on a regular basis. The study found that casual game players were motivated by a desire for relaxation and entertainment, and that they preferred games that were easy to learn and had clear goals.
+
+"Ethnographic Approaches to Game Design: Case Studies and Practical Applications" by Cassell and Jenkins (2000): This study used ethnographic techniques, including interviews and participant observation, to understand the cultural and social contexts in which games are played. The study found that cultural and social factors, such as gender and social class, influenced players' experiences and behaviors. The study also identified common patterns in how players approached challenges and used in-game resources.
+
+
+
+\subsection{Religiosity, Spirituality Measures and Hope Measures }
+
+
+1. Refer to the paper at Chapter 19 - Measures of Religiosity
+
+2. Refer to Chapter 3 - Measures of Hope 
+
+
+There are a number of quantitative scales that have been developed to measure religiosity, or the degree to which an individual is religious. Some examples of quantitative scales to measure religiosity include:
+
+Religious Involvement Scale (RIS): This is a self-report scale that measures an individual's level of involvement in religious activities and the importance of religion in their life. The scale consists of 10 items that assess an individual's participation in religious activities, such as attendance at religious services and involvement in religious organizations, as well as their belief in God and the importance of religion in their life.
+
+Duke University Religion Index (DUREL): This is a self-report scale that measures an individual's level of religiosity across four dimensions: private religious practices, organizational religious activities, belief in God, and religious coping. The scale consists of 23 items that assess an individual's participation in religious activities, such as prayer and Bible study, as well as their belief in God and the role that religion plays in their coping with stress and adversity.
+
+Multidimensional Measure of Religiousness/Spirituality (MMRS): This is a self-report scale that measures an individual's level of religiosity across five dimensions: intrinsic religiosity, extrinsic religiosity, spiritual well-being, spiritual dissatisfaction, and spiritual quest. The scale consists of 23 items that assess an individual's personal belief in and commitment to their faith, as well as their involvement in religious activities and the role that spirituality plays in their life.
+
+Spirituality Index of Well-being (SIWB): This is a self-report scale that measures an individual's level of spiritual well-being. The scale consists of 12 items that assess an individual's sense of purpose and meaning in life, their positive relationships with others, and their connection to something larger than themselves.
+
+Religious Fundamentalism Scale (RFS): This is a self-report scale that measures an individual's level of religious fundamentalism, or the degree to which they adhere to traditional religious beliefs and practices. The scale consists of 20 items that assess an individual's belief in the literal truth of their religious texts, their belief in the inherent superiority of their religious group, and their willingness to impose their religious beliefs on others.
+ 
+
+\section{Content Analysis of Religion-Themed Video Games and Game Research}
+\subsection{Game Mechanics from Existing Religion-Themed Video Games and Game Research}
+\section{Ethnographic Studies of Cultural Spaces}
+\subsection{Identified Game Mechanics From Cultural Spaces}
+\section{Methodology}
+\section{Proposed Game Design, Narrative}
+\section{Playtest and Experiments}
+\section{Results}
+\section{Discussion and Limitations}
+\section{Future Work}
+\section{Conclusion}
+
+
+% \subsection{Play in Classrooms}
+% Games which are designed to impart educational value or learning are often termed as Serious games \cite{susi2007serious}. The ability to impart learning along with capturing interest via the ludic aspect of games, has made serious games a potent medium of education, finding wide adoption in classrooms \cite{mctigue2019getting,papanastasiou2017serious}.
+
+% \subsubsection{Pedagogy with Serious Games}
+% Serious games have increasingly been integrated into classrooms to support learning across various subjects and disciplines. Christopoulos et al. \cite{christopoulos2023escaping} describe how a digital escape room game significantly improved students’ understanding of enzyme-related concepts. Similarly, Nunes et al. \cite{nunes2016mobile} developed a serious game designed to foster environmental awareness among students. The versatility of serious games has allowed their use in diverse educational contexts, ranging from teaching complex programming tasks \cite{maram2024ah,villareale2023integrating} to subjects such as history \cite{baxter2021teaching} and mathematics \cite{riconscente2013results}. Connolly et al. \cite{connolly2012systematic} conducted a comprehensive literature review of serious games, highlighting how the goal-oriented nature of these games enhances student involvement and motivation, ultimately contributing to better learning outcomes.
+
+% The widespread adoption of serious games in classrooms naturally raises the question: What features make serious games effective educational tools? Byun et al. \cite{byun2018digital} argue that the visual elements in serious games play a crucial role in helping students grasp abstract concepts, particularly in subjects like mathematics. Visual aids enable learners to better understand complex relationships through representations such as diagrams, dynamic visualizations, and animated models. Young et al. \cite{young2012our} emphasize that the interactive nature of serious games enhances retention by actively engaging players in problem-solving tasks. By embedding learning objectives directly into game mechanics, students are encouraged to learn through experience rather than passive instruction. This active involvement is particularly beneficial for developing higher-order thinking skills and improving knowledge retention.
+
+% The incorporation of emerging technologies such as augmented reality (AR) and virtual reality (VR) has further enhanced the immersive qualities of serious games. Studies by Playfoot et al. \cite{playfoot2018evaluating} and Habibi et al. \cite{habibi2022data} demonstrate how AR/VR-based serious games can deepen student engagement by allowing them to interact with learning content in immersive, spatially dynamic environments. This heightened sense of presence enables students to feel more connected to the content, improving comprehension and fostering curiosity.
+
+% The effectiveness of serious games is closely tied to their grounding in established pedagogical principles. Bellotti et al. \cite{bellotti2013assessment} emphasize that successful serious games intentionally align game mechanics with cognitive learning strategies. Modern learning theories emphasize that effective learning occurs when students actively construct knowledge, engage in experiential learning, and receive immediate feedback — all of which are naturally supported by serious game environments \cite{bellotti2011designing}. Arnab et al. \cite{arnab2015mapping} highlight how serious games effectively promote "learning by doing," aligning with constructivist learning theories \cite{klob}. Unlike passive instruction, serious games encourage players to manipulate variables, experiment with systems, and solve problems in controlled, rule-based environments. This hands-on engagement allows students to develop mental models and better understand the underlying principles behind complex topics.
+
+% Narrative-driven serious games further support student engagement by immersing learners in storylines that connect abstract concepts to relatable scenarios. Connolly et al. \cite{connolly2013psychology} highlight that storytelling elements in serious games promote active experimentation by encouraging students to explore challenges and make decisions within meaningful contexts. Through these narratives, students engage in problem-solving while gaining a deeper understanding of cause-and-effect relationships, enhancing their ability to connect theoretical knowledge with practical applications.
+
+% Another critical feature contributing to the effectiveness of serious games is the presence of feedback loops. Van Eck et al. \cite{van2014system} argue that immediate feedback is crucial for reinforcing learning outcomes. In well-designed serious games, feedback mechanisms such as scores, visual cues, or narrative consequences provide students with real-time insights into their performance. Westera et al. \cite{westera2015cybernetic} further emphasize that timely feedback enables learners to identify errors, correct misconceptions, and adapt their strategies in subsequent attempts. However, Connolly et al. \cite{connolly2012systematic} caution that some serious games rely heavily on superficial feedback, such as points, scores, or completion markers. This limited form of feedback may inadvertently encourage students to focus on progressing in the game rather than fully understanding the underlying concepts.
+
+% Visualization systems have emerged as a valuable tool to reinforce learning in serious games. Maram et al. \cite{maram2024ah, maram2023parallel} and Kleinman et al. \cite{kleinman2022towards, kleinman2023else} showcase how visual analytics integrated into serious games allow students to reflect on their gameplay patterns. By analyzing performance trends, decision-making processes, and areas of improvement, visualization tools can provide deeper insights, reinforcing learning and supporting metacognitive skills.
+
+% Serious games are also effective because they align closely with the principles of Self-Determination Theory (SDT), which emphasizes intrinsic motivation through autonomy, competence, and relatedness. Farrell et al. \cite{farrell2014applying} argue that serious games promote competence by providing achievable goals and gradually increasing difficulty. Points, levels, and badges act as progress markers that reinforce a sense of mastery as learners advance through the game \cite{grasse2022using}. Unlike traditional lectures, serious games often provide players with meaningful choices, such as selecting strategies, customizing characters, or choosing alternative story paths. Tyack et al. \cite{tyack2020self} highlight that this freedom to make decisions fosters a sense of autonomy and ownership over the learning process.
+
+% Moreover, serious games often integrate social elements that enhance the need for relatedness, further supporting sustained engagement. Multiplayer teamwork scenarios \cite{wendel2016multiplayer}, leaderboard competitions \cite{park2021leaderboard}, and collaborative visualization systems \cite{maram2023mining} create opportunities for students to engage with peers. By working together or competing in structured environments, students build stronger social connections, reinforcing both knowledge retention and collaboration skills. Additionally, narrative-driven serious games that feature relatable characters and moral dilemmas can further cultivate empathy and social engagement \cite{ravyse2017success,6932891}. This ability to build social connections aligns with SDT’s emphasis on fostering meaningful relationships as part of the learning process.
+
+% By leveraging these principles, serious games effectively balance motivation, engagement, and learning outcomes. Cardona et al. \cite{cardona2024meaningful} argue that by combining compelling narratives, adaptive feedback, and social dynamics, serious games have the potential to create sustained engagement while supporting long-term knowledge retention.
+
+
+
+% \subsubsection{Disadvantages of Serious Games}
+
+% Despite their potential to enhance learning, serious games present several challenges that can hinder their effectiveness. While serious games offer immersive and engaging learning experiences, they often require significant investments in both time and financial resources. Ravyse et al. \cite{Ravyse2017} highlight that developing serious games demands extensive design, programming, and content creation expertise, making the process labor-intensive and costly. Susi et al. \cite{susi2007serious} further emphasize that this development process often requires collaboration between educators, designers, and developers, further driving up costs. These financial and time constraints present a barrier for smaller institutions or educators with limited resources, restricting the broader adoption of serious games.
+
+% Another major challenge lies in the inflexibility of serious games. Once developed, these games are often difficult to modify or adapt to accommodate changes in teaching methodologies or curriculum updates \cite{Laamarti2014}. As educational content evolves, serious games may become misaligned with learning objectives, reducing their instructional effectiveness. Moreover, modifying a serious game’s narrative, mechanics, or content frequently requires extensive redesign, making updates both time-consuming and expensive.
+
+% Serious games also struggle with adaptivity and personalization. Bellotti et al. \cite{Bellotti2009} discuss how mismatched content or difficulty levels can negatively impact students by either overwhelming less advanced learners or disengaging more capable students. Unlike adaptive learning systems that tailor content dynamically to individual needs, serious games often follow pre-defined difficulty curves, limiting their ability to accommodate diverse learning paces. Al-Smadi et al. \cite{AlSmadi2012} reinforce this issue, noting that serious games often fail to provide personalized feedback. Even when feedback is present, the absence of interactive dialogue limits opportunities for students to clarify doubts or reflect on their learning, which can impede educational outcomes.
+
+% In addition to personalization challenges, serious games frequently suffer from issues related to replayability. Frattesi et al. \cite{Frattesi2011} highlight that once a serious game has been completed, the lack of new narratives, characters, or challenges can diminish students' motivation to re-engage with the content. Mustaro et al. \cite{mustaro2012immersion} argue that without dynamic content generation or branching narratives, serious games risk becoming static experiences, reducing their long-term educational value. Replayability is particularly important in educational contexts, where repeated practice reinforces learning; yet many serious games struggle to offer incentives for revisiting content.
+
+% Finally, certain game mechanics within serious games can inadvertently introduce negative psychological effects. Papastergiou et al. \cite{papastergiou2009digital} warn that competitive elements, such as leaderboards and scoring systems, may induce anxiety or foster unhealthy competition among students. Such features may undermine collaboration and increase stress, which can ultimately reduce the educational value of the game. Additionally, excessive reliance on points, badges, or rewards may encourage surface-level engagement, where students prioritize winning rather than achieving deeper understanding.
+
+% In addition to these issues, poorly designed serious games can introduce excessive cognitive load, overwhelming students with complex game mechanics, visual clutter, or overly demanding objectives. Wouters et al. \cite{wouters2013meta} emphasize that while engagement is critical, overwhelming complexity in serious games can impair learning by diverting students' attention away from core educational content.
+
+
+
+% \subsubsection{Chatbots as Serious Games}
+% Serious games today are experienced through a variety of mediums, including AR/VR, mobile games, card games, board games, and web-based platforms. However, one rapidly emerging yet understudied medium for serious games is chatbots or conversational agents. The recent advancements in AI and large language models (LLMs) have made it increasingly feasible to present chatbots as engaging educational games.
+
+% Gobl et al. \cite{gobl2021conversational} developed a chatbot-based game designed to educate students about digital privacy. Similarly, Fadhil et al. \cite{fadhil2017adaptive} created a chatbot-styled serious game to promote healthy eating practices among students. Earlier chatbot-based serious games often relied on systems like Dialogflow or custom-trained models on specific datasets \cite{othlinghaus2017supporting}. However, these systems faced limitations, such as providing fixed responses, struggling with natural language communication, and being restricted by their training data \cite{jeuring2015communicate}.
+
+% With the advancement of LLMs, chatbot-based games have gained increased attention and usage \cite{bonetti2024using}. For instance, Chen et al. \cite{chen2025characterizing} introduced a chatbot-based platform that supports student learning through interactive storytelling. In addition to generating narratives, this chatbot provides visual content to enhance the storytelling experience. LLMs, with their extensive knowledge bases, have also simplified the creation of quiz games \cite{sreekanth2023quiz}. These quiz-games facilitate interactive narratives, allowing students to advance through levels or respond to progressively challenging questions while actively engaging with the chatbot \cite{sweetser2024large}.
+
+% Steenstra et al. \cite{steenstra2024engaging} presented a system that teaches adolescents about health education through an interactive narrative, where both the storyline and visual elements are generated by LLMs. Students are asked to select the right answer for questions generated by the LLM. Likewise, Caraco et al. \cite{caraco2025scaffolding} developed a chatbot-style game in which the LLM assigns programming and IT design tasks to help students enhance their system architecture skills. These studies collectively demonstrate promising results, illustrating how LLM-based chatbot games can support student learning.
+
+% A common feature across these LLM-based chatbot games is the use of prompts to guide the chatbot’s behavior. This observation informs the core objective of this paper: designing LLM prompts that enable chatbots to function as serious games — what we term gamified prompts.
+
+% Our argument builds on the observation (Figure \ref{fig:argument-set-up}) that while AI is becoming increasingly integrated into classrooms, it often struggles to engage students in immersive and captivating ways. Conversely, serious games excel at creating immersive and engaging experiences but are often challenging to develop, requiring extensive design and implementation efforts. LLM-powered chatbots present a promising middle ground, enabling instructors to quickly set up serious games that facilitate student interaction.
+
+% Although numerous taxonomies, templates, and databases exist for AI prompts that allow chatbots to function as tutors, mentors, or quiz generators, there is currently no established design space, template set, or database specifically dedicated to developing gamified prompts for chatbot-based serious games. This paper addresses that gap by introducing a database and set of templates that instructors can use to design gamified prompts, thereby expanding the possibilities for LLM-driven chatbots in serious games.
+
+
+
+
+A prominent strategy identified was immersive storytelling and role-playing, explicitly positioning learners as active protagonists/actors within narrative-driven contexts. We identified, three strategies in which gamified prompts aim to onboard players:
+
+\begin{itemize}
+    \item \textbf{Collect Information and Assign Characters: } In this method, the LLM collects information from the users, these include their preferences, name etc, and assigns roles to the participants. For example in a bot named \textit{Ethical Conandrum}, the prompt guides the LLM to collect player information and assignm them into roles: \textit{``Collect player information such as name and give them roles. For instance if the player is XXX and their role is a Doctor, refer to them as Dr.XXX".}  
+
+    \item \textbf{Character Creation Interfaces:} Players were first greeted with a text based character interface, where the player can choose the attributes of their character. In a game called \textit{Financial Duels}, the prompt explicitly encourages to create characters with various spending and earning habits: \textit{``Provide the following options to choose from - earning - high/low/middle-class, spending - frugal/high-spending, rent - own house/expensive rent/cheap"}
+
+    \item \textbf{Default Onboarding:} In this approach, no user information is collected or preferences are collected but instead the player is directly onboarded into a role as determined by the creator. For example, the prompt for \textit{LitQuestBot} instructs learners to explicitly \textit{``Step into the protagonist’s shoes,"} further emphasizing that \textit{“players become the main character and experience key story moments, making choices that affect how they interpret and analyze the text.”} Similarly, the prompt for \textit{Climate Quest} explicitly addresses learners as “Explorer” and invites them directly into a heroic narrative: \textit{“Welcome, Explorer! \emoji{star} You have been chosen to join the Guardians of Earth, a secret league dedicated to protecting the planet from climate disasters.”} Such explicit narrative invitations provide clear contexts and motivations for learner tasks. 
+    
+\end{itemize}
+
+Similarly, the game world was another aspect of that that prompt dictated. There were several approaches to this.
+
+\begin{itemize}
+    \item \textbf{Choose Your World:} Some prompts explicitly provided learners with the agency to choose their preferred game worlds, significantly enhancing learner autonomy and personalized engagement. By explicitly offering multiple narrative options, these prompts allowed learners to select contexts that resonated most strongly with their interests. For example, the \textit{Statistics Quest} explicitly invited learners to select from diverse thematic worlds, asking: \textit{``Would you like to explore EcoVille \emoji{cactus}, Space Station X \emoji{rocket}, Futuristic Science Lab \emoji{microscope}, Jurassic Park \emoji{t-rex}, or Ancient Civilization \emoji{amphora}?''} This explicit inclusion of choices aim to provide agency to players. 
+
+    \item \textbf{Fictional Fantasy:} Fictional fantasy worlds offered imaginative freedom, allowing abstract concepts to be metaphorically represented. For example, the \textit{Math Maze} created a fantasy world of a player stuck in Matho world which you can exit only via solving math problems: \textit{Place the users in a math world, where buildings, are made out of Math functions, numbers etc. Each time while the player is given a question, generate an image corresponding to situate the player.} 
+    
+
+    \item \textbf{Shift in Time:} Historical and literary settings provided culturally rich contexts, anchoring interactions in established narratives. For instance, in the  \textit{Physics Dungeon-Craw} the prompt provides an opportunity for players to test their learning in historical war by acting as a space traveler: \textit{``If the player chooses Ancient Wars, based on the information collected choose a war the player might be familiar with and continue with the game"}
+        
+    \item \textbf{Contemporary Scenarios: } Contemporary real-world settings increased authenticity by connecting tasks directly with tangible actions. For instance, the \textit{Earth’s Guardians ARG} instructed learners explicitly to \textit{``Climate change is impacting everyone, the game should help students reflect on their climate choices and provide opportunities to contribute to climate change'' }linking digital tasks to real-world impact. Similarly, \textit{Label Detectives} guided learners to engage with everyday food choices by explicitly instructing, \textit{``The goal of this game is to make students familiar with food labels and bring awareness into their food choices.''}
+\end{itemize}
+
+
+The next component we identified in the gamified prompts was the use of visuals and illustrations to create a sense of immersion and provide more context to the players apart from mere passages of text. We identified three strategies through which gamified prompts, incorporated visuals and illustrations:
+
+
+\begin{itemize}
+    \item \textbf{Emojis for Expression and Tone:} Emojis were explicitly used to add emotional nuance to narratives and reinforce feedback. They served both as expressive tools and thematic embellishments. In the \textit{Statistics Quest}, the prompt encouraged their use for motivational feedback: \textit{``Motivate students when they provide right answers, use emojis to show excitement and also reinforce what the student did right, for example - \emoji{student} Great explanation! The Independent Samples T-Test is indeed appropriate here.''}. Similarly while players achieved certain milestones in the game, they were awarded badges which were represented by emojis.
+
+    \item \textbf{ASCII Illustrations:} Prompts used ASCII to add intensity to their text passage, and create simple illustrations. For instance, in the prompt \textit{Historical Game} we see, \textit{``Create various scenes, historical forts, and monuments, using ASCII to enhance the visual aspect of the learner."} For games involving spatial progression or maze-like structures, ASCII art was used to provide players with a clear visual reference of their environment. The prompt for \textit{Physics Dungeon-Crawl} specified: \textit{``Use the 10×10 ASCII maze (represented by '\#' for walls, '.' for open paths) to navigate the dungeon.''} This approach allowed for lightweight yet effective visual game boards that supported memory and strategy.
+
+    \item \textbf{Progress Indicators:} Progress indicators such as progress bars and health meters provided explicit, immediate visual feedback, reinforcing learner progression and consequences of actions. The \textit{Physics Dungeon-Crawl} clearly instructed: \textit{``Always place the Health Bar (10 hearts) at the start of the message and the Progress Bar at the end... Health: \emoji{heart}\emoji{heart}\emoji{heart}\emoji{heart}\emoji{heart}\emoji{heart}\emoji{heart}\emoji{heart}\emoji{heart}.''} Similarly, the \textit{Statistics Quest} explicitly encouraged visual tracking of player progress: \textit{``Highlight progress of players using emojis and a progress bar like Progress: [\emoji{rocket}\#\#\#\#\#] 10\%.''} These visuals clarified learner status and achievements, sustaining motivation and engagement.
+
+
+
+    \item \textbf{Chatbot-Generated Images for Immersion:} In some cases, prompts encouraged the chatbot to generate visual scenes to enhance atmosphere and reinforce historical or thematic immersion. For example, in a history-themed game, the prompt directed the chatbot to provide images: \textit{``Each time a new historical event is introduced, generate an image that illustrates the setting—castles, battlefields, maps, or artifacts—to help learners visualize and reflect.''} This served to increase narrative coherence and deepen learners’ sense of presence within the scenario. Similarly, the \textit{StatsQuest} bot prompted the LLM to generate images when new NPCs are introduced: \textit{For the themes users select, generate images for the NPCs that are introduced. Make sure the image captures the world the players choose.}
+\end{itemize}
+
+
+Our analysis next highlighted how various prompts, prompted various styles of interactions. Varied interaction styles were explicitly employed across prompts to enrich learner engagement and promote autonomy. These interaction modes shaped how learners responded to the chatbot and engaged with learning material. We identified three primary input styles:
+
+\begin{itemize}
+    \item \textbf{Quiz/Option-Based Input:} Many prompts used structured numeric or multiple-choice style inputs to offer clear, directed decision-making paths. For example, \textit{Climate Quest} instructed learners: \textit{``Choose Your First Destination: \emoji{keycap-1} The Disappearing Forests \emoji{cactus}, \emoji{keycap-2}. The Sinking City \emoji{ocean}... Type the number of your choice to begin!''} This strategy guided learners through branching narratives while keeping the interface lightweight and accessible.
+
+    \item \textbf{Image Uploads and Hand-Drawn Submissions:} Some prompts required learners to interact with the physical world and upload evidence of their actions or understanding. \textit{Label Detectives} asked learners to engage with their environment: \textit{``Find and upload an image of a food or drink with zero added sugar.''} Similarly, \textit{Bio-Draw} prompted visual expression through drawing: \textit{``Draw a quick sketch of a plant cell \emoji{seedling}, label at least five organelles, and upload a clear image of your drawing to help Dr. Reddy diagnose the issue.''} These approaches connected virtual gameplay with hands-on, creative activity.
+
+    \item \textbf{Dialogue-Based Input:} Several prompts employed conversation mechanics, encouraging learners to persuade, question, or collaborate with non-player characters (NPCs). In \textit{Climate Sages}, players influenced characters through dialogue, as detailed: \textit{``The player gains Trust Points through their actions, dialogue choices, and problem-solving in different civilizations,''} allowing relationships to evolve dynamically based on how the learner engaged with characters. This input style supported strategic thinking, empathy, and role-based learning. Similarly in the game \textit{Ethical Conundrum}, the prompt required players to type convincing argument or deceitful arguments based on context and NPCs: \textit{Encourage the player to type long and detailed responses on how they would deal with the situation.}
+\end{itemize}
+
+
+% Progress indicators such as progress bars and health meters were explicitly defined to provide immediate visual feedback, helping learners clearly understand their status within the game. For example, the \textit{Physics Dungeon-Crawl} explicitly detailed these indicators, instructing: \textit{``Always place the Health Bar (10 hearts) at the start of the message and the Progress Bar at the end of the message... Health: ♥♥♥♥♥♥♥♥♥♥.''} Similarly, the \textit{Statistics Quest} integrated explicit visual progress bars to reflect learners’ incremental advancement through statistical scenarios: `\textit{`Highlight progress of players, using emojis and a progress bar like, Progress: [\emoji{rocket}\#\#\#\#\#] 10\%,''} clearly displaying how each correct response contributed directly to their overall progression in the quest. 
+
+
+Game design elements such as inventory systems, and resource management were also found as part of the analysis. These inventories were closely tied with achievements and progress in the game. 
+
+\begin{itemize}
+    \item \textbf{Inventory, Resources and Loot Boxes:} Certain prompts introduced strategic complexity through resource management mechanics such as mystery boxes and loot inventories. For instance, \textit{Climate Quest} explicitly embedded mystery boxes into its gameplay, encouraging careful decision-making: \textit{``You found a Mystery Box! Do you want to open it? (Yes/No)... You unlocked a Wind Turbine!''} These choices compelled learners to critically evaluate resource use and anticipate potential outcomes, deepening strategic engagement.
+
+     \item \textbf{Achievements and Reward Systems:} Achievement structures and reward systems explicitly recognized learner milestones and strategic accomplishments. For example, In the \textit{Climate Exodus} bot we see: \textit{At the conclusion, players receive a Survival Score based on their choices: \emoji{sports-medal} Eco-Visionary – You restored a sustainable future for humanity! \emoji{2nd-place-medal} Pragmatic Leader – Your city survived, but at a cost. \emoji{3rd-place-medal} Doomed Civilization – Your decisions led to the fall of New Horizon. \emoji{classical-building} Political Mastermind – You successfully managed both environmental and political crises.} Additionally, the \textit{Physics Dungeon-Crawl} explicitly rewarded puzzle victories with abilities and special powers: \textit{``Players unlock magic spells after major victories... The Circle of Power grants a 50\% Logic Meter Boost.''} These reward mechanisms reinforced positive gameplay experiences, enhancing sustained engagement.
+\end{itemize}
+
+
+To ensure the games are engaging and help students learn harder concepts, prompts guided the LLMs to increase difficulty gradually and provide various extra quests.
+
+\begin{itemize}
+    \item \textbf{Incremental Difficulty and Scaffolding:} Structured increases in difficulty explicitly maintained learner engagement through progressive cognitive challenge. The \textit{LitQuestBot} clearly outlined incremental scaffolding strategies: \textit{``Early Stages: The bot provides full guidance with explanations... Mid-Game: gives hints... End-Game: provides no hints.''} Such explicit structuring ensured learners gradually built skills and confidence without overwhelming cognitive load.
+
+    \item \textbf{Boss Levels and Special Challenges:} Boss interactions and special challenges explicitly tested cumulative learner knowledge, adding excitement and higher stakes. For example, \textit{The Trigonometric Trials} described intense, puzzle-based boss interactions explicitly: \textit{``Lord Tanthar challenges you: ‘Solve this to weaken me: The shadow of a tower is 10 meters, angle of elevation is 60°. What's the height?’ Correct answers deal damage to the enemy.''} Similarly, the \textit{Financial Literacy Bot} explicitly included challenging endgame interactions like confronting ``Reverse Buffet,'' who strategically tested learners' resolve: \textit{``In the final stage, the player meets Reverse Buffet, who aims to sabotage your portfolio by tempting you with Hype stocks.''} These explicit boss encounters reinforced mastery, creating memorable learning climaxes.
+
+\end{itemize}
+
+Taken together, these gamification strategies—immersive storytelling, expressive visual elements, diverse input mechanisms, clear progress indicators, strategic resource management, incremental scaffolding, and explicit vertical slices—provide practical and effective methodologies that instructors can adopt when designing engaging and pedagogically robust LLM-based learning interactions.
+
+
+
+
+\subsection{RQ2: Learner Perspectives on Gamified Prompts}
+
+To investigate the impact of gamified AI-based learning compared to traditional Question-and-Answer (QnA) and Socratic-styled Large Language Models (LLMs), we conducted a within-subject, mixed-methods study involving XX university students. 
+
+Our evaluation framework drew upon existing literature, notably Liu et al.'s findings on the efficacy of Socratic-styled LLMs in enhancing cognitive skills \cite{liu2024socraticlm}. As illustrated in Figure \ref{}, participants engaged in three distinct LLM interactions focused on learning Python programming. To prevent bias, students were not informed of the prompt type powering their LLM interaction. Each participant interacted with each LLM for a minimum duration of 15 minutes, with interaction order randomized. The overall duration of the study was approximately two hours per participant.
+
+A central methodological challenge involved capturing both cognitive and affective dimensions of the learning experience. We therefore selected validated instruments to measure key constructs: \textit{engagement}—the degree of learner investment in the task—and \textit{situational learning motivation}—the learners’ immediate motivational and attentional states during each interaction.
+
+We employed the Situational Interest (SI) scale by Chen et al.~\cite{chen1999constitutes} to measure learners' motivational engagement. This scale is well-suited to short-term interventions that introduce learners to novel educational technologies, as it captures immediate task-specific responses such as novelty perception, challenge level, attention quality, instant enjoyment, and desire for further exploration. These dimensions align closely with gamified design principles intended to enhance novelty and sustained attention.
+
+To complement motivational engagement, we assessed cognitive-affective immersion using Rheinberg et al.’s Flow Short Scale (FSS)~\cite{rheinberg2003erfassung}. Flow theory has consistently served as a reliable predictor of deep engagement in educational contexts, particularly for evaluating gamified learning experiences. The FSS measures critical indicators such as absorption, fluency, perceived challenge, and anxiety, enabling us to determine whether learners experienced an optimal balance between skill and challenge ("flow channel") or whether the gamification elements led to cognitive overload or disengagement.
+
+Additionally, we measured critical thinking outcomes using the validated Cambridge Self-Assessment Critical Thinking Questionnaire after each LLM interaction. This allowed us to empirically assess the extent to which gamified prompts promoted critical analytical engagement relative to traditional QnA and Socratic methods.
+
+Complementing quantitative data, qualitative data were collected immediately following each LLM interaction through open-ended reflections. Subsequently, we conducted short semi-structured interviews, prompting participants to explicitly compare their experiences with all three LLM interaction types and to articulate their perceptions regarding engagement, efficacy, and educational value.
+
+
+
+
+
+
+Critical thinking (CT) represents a foundational educational objective, requiring learners to analyze, evaluate, and synthesize information to make reasoned judgments, solve problems, and act independently \cite{abrami2015strategies,pithers2000critical,enciso2017critical}. Critical thinking encompasses, actively questioning, synthesizing, and applying knowledge to solve problems and make informed decisions \cite{facione1990critical,halpern2013thought}. Its value extends beyond academic achievement to prepare students for the complexity of real-world decision-making \cite{franco2018educating}. Educational literature identifies three core strategies for cultivating CT: engaging students in structured dialogues that explore diverse perspectives \cite{abrami2015strategies,mcpeck2016critical}; challenging them with context-rich, real-world problems \cite{alsaleh2020teaching,behar2011teaching}; and providing mentorship or scaffolding that supports reflective reasoning \cite{favero2024enhancing,snyder2008teaching}. The onus of helping students develop CT often falls on the teachers, and the strategies they adopt to foster critical thinking. However, literature often points out that it is difficult for teachers \cite{portelli1994challenge, rane1996issues,davidson1995critical}, to be involved in dialogues  with students, provide individual support and present a range of perspectives, challenges to students. With LLMs rapidly taking the roles of tutors, mentors and coaches \cite{mollick2023assigning}, instiutions, faculty and students are rapidly turning towards LLMs to support the development of CT. 
+
+\subsection*{The Promise and Limitations of Educational LLMs for Critical Thinking}
+
+The increasing integration of Large Language Models (LLMs) into educational settings as tools for personalized instruction \cite{maram2024instructor, villareale2023integrating} presents both unprecedented opportunities and concerning limitations for CT development \cite{parsakia2023effect, favero2024enhancing}. While their interactive, adaptive, and on-demand nature offers strong potential to support critical thinking \cite{meyer2024using}, current implementations remain trapped in a problematic paradigm \cite{guo2023leveraging}. Currently, the dominant usage pattern centers on direct question-answer exchanges, where LLMs supply solutions with minimal cognitive effort required from learners \cite{kooli2023chatbots,williams2024ethical} as illustrated in Figure \ref{fig:LLMtypes}. This approach, though efficient, fundamentally contradicts the pedagogical principles underlying CT development by reducing learning to a passive consumption task \cite{kooli2023chatbots,xiao2024review}, effectively bypassing the intellectual struggle and sustained reasoning that are essential for developing critical thinking skills \cite{huang2022chatbots,hellas2024experiences}. LLMs when presented in the form of a Question and Answer system fail to instill problem solving abilities, and rather tend to push students to find answers, or seek answers directly from the LLMs \cite{vcerny2023educational}.
+
+\subsection*{The Socratic Solution and Its Remaining Challenges}
+
+Recognizing these limitations, recent research advocates for Socratic LLMs i.e. conversational agents that guide learners through carefully structured questioning sequences to deepen reasoning \cite{degen2025resurrecting,favero2024enhancing,liu2024socraticlm,chang2023prompting,blasco2024impact}. This approach aligns with scaffolding theory \cite{gunawardena2021scaffolding,anderson2014conversations}, which demonstrates that learning occurs most effectively when learners receive support just beyond their current competence level. By systematically prompting learners to consider alternatives, justify claims, and synthesize competing viewpoints, Socratic LLMs represent a significant pedagogical advancement over traditional QA-based LLMs. Researchers primarily develop Socratic LLMs through either prompting \cite{favero2024enhancing, chang2023prompting} or fine-tuning models \cite{liu2024socraticlm}. Given the effectiveness of LLMs to behave as Socratic questioning agents through prompting, we use LLMs prompted to take the Socratic approach in teaching a particular topic.  
+
+However, literature suggests that even though pedagogically sound LLMs which prompt CT often fail to maintain the sustained attention and emotional investment necessary for deep cognitive exploration \cite{kooli2023chatbots, xiao2024review, vcerny2023educational,zhang2024impact,lehmann2025ai}. The abstract nature of most Socratic questioning, while intellectually rigorous, can feel disconnected from learners' interests and motivations, leading to superficial engagement or premature abandonment of challenging reasoning tasks. This limitation points to a fundamental gap between cognitive rigor and motivational design in current educational LLM approaches.
+
+\subsection*{Play as a Bridge Between Rigor and Engagement}
+
+To address this engagement deficit while preserving pedagogical depth, we turn to `playful learning', a strategy with deep roots in constructivist and experiential learning traditions \cite{rice2009playful}. Play naturally promotes the autonomy, intrinsic motivation, and cognitive flexibility that critical thinking requires \cite{hirsh2020new,morocho2025role}. More specifically, gamified learning environments demonstrate how structured play can foster goal-directed behavior, sustained reflection, and strategic decision-making without sacrificing educational objectives \cite{susi2007serious,park2021leaderboard}. This convergence suggests that integrating Socratic inquiry within game-inspired contexts could amplify both cognitive engagement and learning depth.
+
+\subsection*{Introducing Gamified Prompts}
+
+Building on this insight, we introduce \textbf{Gamified Prompts}. We define gamified prompts as, LLM prompts intentionally designed to embed rigorous pedagogical objectives within game-like structures that include (but not limited to) narrative roles, feedback mechanics, meaningful rewards, and progressive challenges. Rather than asking students abstract questions in isolation, gamified prompts situate learning within what Huizinga describes as the magic circle \cite{huizinga2014homo}—a bounded space where an immersive boundary elevates engagement through play.
+
+To illustrate the pedagogical progression from traditional instructional prompts to gamified interactions, Figure \ref{fig:LLMtypes} compares three LLM prompting styles through a common learning task: helping students identify appropriate statistical tests based on study design and data type. The leftmost column represents a traditional question-and-answer LLM that provides direct instruction with minimal learner reflection. The center column demonstrates a Socratic-style LLM that scaffolds reasoning by asking targeted follow-up questions, prompting the learner to articulate key distinctions such as group independence and data type. The rightmost column introduces a gamified prompt based LLM using an Attack on Titan narrative, which embeds the same pedagogical inquiry within a playful and immersive scenario. Here, game elements—such as role-based identity (“Young Scout”), mission framing, and in-world stakes—are layered atop Socratic questioning to maintain cognitive engagement while increasing emotional investment. This comparison highlights how shifting from didactic prompts to narrative-infused, question-driven exchanges can support both critical thinking and learner motivation.
+
+Crucially, Gamified Prompts are not standalone games but rather, Socratic-influenced interactions that maintain learners' cognitive activity and emotional investment simultaneously. They fundamentally reframe educational tasks from answering questions to thinking through meaningful situations, preserving the intellectual rigor of inquiry while inviting the intrinsic motivation that characterize effective play-based learning. 
+
+
+\subsection*{Research Approach and Contributions}
+To systematically investigate this approach, our research proceeds through two complementary phases. First, we co-design a diverse corpus of gamified prompts through participatory workshops with educators, students, and HCI researchers. From this corpus, we construct a comprehensive taxonomy of gamified prompt elements—a crucial contribution given that educators, while possessing deep pedagogical expertise, are not necessarily game designers and often lack the specialized knowledge required to effectively integrate game mechanics into educational contexts. This need for structured guidance aligns with the growing body of prompt taxonomy research that supports faculty in leveraging LLM capabilities for education \cite{mollick2023assigning,mollick2024instructors,mollick2023using}; our work extends this important research direction by providing systematic frameworks for incorporating principles of play into educational prompting. We evaluate the taxonomy on three constructs: (a) \textbf{Coverage}: Does the taxonaomy cover a wide range of gamified prompts, (b) \textbf{Usability}: Does the gamified prompt taxonomy help users create gamified prompts, and improve the quality of the prompts and finally (c) \textbf{Impact}: Are the gamified prompts built using the taxonomy better in quality compared to prompts generated without the taxonomy.
+
+The impact of gamified prompts leads us to the second aspect of the evaluation, where we conduct a rigorous mixed-methods evaluation comparing three distinct instructional conditions: (a) traditional instructional LLMs that provide direct answers, (b) Socratic LLMs that prompt reasoning through structured inquiry, and (c) Gamified Prompt LLMs that combine systematic inquiry with game mechanics such as narrative, role-play, progression systems, points and other elements of play identified in the taxonomy.
+
+\subsection*{Research Questions}
+
+
+\begin{enumerate}
+    \item \textbf{RQ1:} 
+    What game design elements can be effectively embedded into prompts to support LLM-based learning environments and How can it be presented as a Taxonomy?
+    
+    \item \textbf{RQ2:} How do different stakeholders experience and evaluate gamified Socratic prompts?
+
+    \begin{itemize}
+        \item \textbf{RQ2a:} How do instructors and faculty perceive the usefulness and usability of the proposed gamified prompts, the taxonomy and the pedagogical benefit?
+
+        \item \textbf{RQ2b:} How do learners engage with gamified prompts compared to traditional and Socratic LLMs, in terms of critical thinking, motivation, and situational interest?
+    \end{itemize}
+\end{enumerate}
+
+
+\begin{teaserfigure}
+    \centering
+  \includegraphics[width=\linewidth]{images/Group 195 (2).png}
+  \caption{Different approaches of using LLMs for teaching a particular statistical concept. (left) LLM with a Question and Answer approach, (middle) LLMs with a Socratic questioning approach. Lines marked in red prompt critical thinking by engaging the user in dialogue, providing support and creating new scenarios. (right) LLM supported with a gamified prompt, promoting a playful and Socratic questioning approach. Lines marked in red support Socratic questioning, while lines marked in purple are elements of gameplay.}
+  \Description{}
+  \label{fig:LLMtypes}
+\end{teaserfigure}
+
+
+
+The first iteration of the rubric was categorized into 6 primary categories with a total of 18 elements in it. We conducted a face validity study, with researchers and adjusted the rubric to 10 items distributed across three categories. To ensure the final rubric is validated we conducted a content validation step. The rubric was presented to the SME's who marked each item as "Essential", "Useful, but not essential" and "Not Necessary". SME's also provided reasoning for their ratings, and suggestions to adjust the rubric to ensure items in the rubric evaluate a gamified learning prompt accurately. No items, in the rubric were deemed "Not Necessary", however 4 elements were treated as "Useful, but not Essential". In a typical content validiation exercise, such items would have been discarded, however given the nature of games, where creators can choose to include or not include an item, we still keep the item in the rubric. For instance, consider the "NPC integration" as a item in the rubric as illustrated in Table \ref{tab:rubric1}. While having a defined strategy for how to integrate NPCs in the gamified learning prompt is nice to have, it is not absolutely necessary for users to have a NPCs in their game, or might even want AI to create their own NPC with its own tone, and style. In Table \ref{tab:rubric1}, we highlight items agreed by users as "Essential" (i.e. CVI > 0.99, 0.99 is the agreed critical value for 7 SMEs), and also highlight items determined "Useful, but not necessary". 
+
+
+
+\subsection*{Contributions}
+
+\begin{enumerate}
+
+    \item \textbf{C1: A Taxonomy of Gamified Prompt Elements.} We develop a taxonomy that systematically codifies key game design dimensions—including narrative framing, feedback mechanisms, choice scaffolding, and symbolic reward systems—to guide the creation of effective, playful educational prompts. We evalute the taxonomy with regards to its usability, coverage and impact. 
+
+    \item \textbf{C2: An Empirical Evaluation of Gamified Prompting.} We conduct a within-subjects, mixed-methods study comparing traditional, Socratic, and gamified LLM prompts. We assess their relative impact on learners’ critical thinking development, sustained engagement, and situational interest, offering empirical evidence to inform the design of future educational LLM systems.
+    
+\end{enumerate}
+
+
+
+
+
+\subsection{Implications to Game Based Learning Literature and LLM for Education Literature}
+
+
+
+DGBL has long asked how mechanics, fiction, and feedback scaffold learning; the LLM-for-education community asks how prompts elicit personalization, timely feedback, and reflection. Our taxonomy sits at this intersection by turning familiar DGBL constructs into prompt-level clauses that LLMs can reliably enact in chat. We focus on authoring patterns and exemplars that make intended behaviors observable in dialogue, so designers and instructors can reason about when, where, and how game structures and pedagogical moves are invoked.
+
+\subsubsection{From classic DGBL constructs to prompt-level specifications}
+
+
+
+Traditional DGBL emphasizes progression and rules of the game; in chat-native experiences those become explicit sentences that control start/stop conditions, levels, and win/loss states. In our corpus, stronger prompts replaced vague adventure talk (“start your adventure”) with well-specified sequences featuring checkpoints, level names, and graceful exit conditions if the learner stops—language we repeatedly observed in higher-quality prompts (e.g., “Quest game, levels, progress bar, If student types STOP, gracefully end the session,” “Quest Completion Celebration”).
+
+DGBL also centers mechanics and feedback. In text-first play, designers made these visible by instructing the model to show progress bars, emojis, and randomness, and by stating how mechanics interact (e.g., how points relate to badges, or when hints are consumed), moving from isolated “points” to a coherent system of mechanics.
+
+Finally, DGBL’s fiction/world and characters appear as a named setting with consistent artifacts and NPCs who carry instructional work. Prompts ranged from a minimal “Physics Dungeon” to richer worlds like “ClimateQuest: The Guardians of Earth” with named locations; stronger designs assigned NPCs specific roles (e.g., “a suspicious mayor,” “an eccentric scientist”) and used them to present problems or hints within the narrative.
+
+Beyond text, many prompt designers leveraged lightweight visuals—ASCII layouts, emoji-based HUDs, simple progress meters—made state and feedback legible without external tools (e.g., “10×10 ASCII dungeon,” “Health Bar (10 hearts) at the start … Progress Bar at the end,” “Progress: [\emoji{rocket}\#\#\#\#\#] 10\%”). These choices are not decorative; they implement DGBL’s visibility and guidance principles in a medium the model can consistently produce.
+
+
+
+
+\subsubsection{Coupling game structure with pedagogy in LLM prompts}
+On the instructional side, our taxonomy foregrounds three recurring needs in LLM-for-education and turns them into authoring moves: specific learning objectives, a learning pathway, and metacognitive reflection. We saw prompts move from generic aims (“teach programming”) to enumerated outcomes (e.g., t-tests, ANOVA, p-values) and from unstructured conversation to either sequenced or adaptive pathways (e.g., “cover topics in sequence” vs. “allow multiple questions in any order; ask if they want more; provide hints”). Brief learner reflection (e.g., “summarize what you learned” or force a choice among methods), created short, check-your-understanding turns before progression. These clauses complement well-documented LLM affordances for personalization, formative feedback, and Socratic scaffolding reported in prior classroom work. We synthesize these differences in Table~\ref{tab:llm_ed_compare}
+
+
+
+
+\subsubsection{Implications for research and practice}
+For research, the taxonomy offers an operational vocabulary for chat-native DGBL that enables like-for-like comparisons at the level of prompt design, not just “gameful use of AI.” Because prior work has demonstrated LLMs’ strengths in personalization and formative feedback \cite{meyer2024using,guo2024prompting,zha2024designing}, interactive storytelling and quiz-style progression \cite{sreekanth2023quiz,sweetser2024large,steenstra2024engaging}, and task-specific tutoring in STEM domains \cite{ma2024teach,jin2024teach,tu2023should}, a taxonomy that names the game elements and their pedagogical counterparts supports controlled studies where mechanics, pathways, and reflection clauses can be held constant or varied systematically. It also provides a common language to analyze existing classroom chatbots and tutoring interactions \cite{olla2024ask,bonetti2024using}, addressing the gap that extensive prompt use in LLM+education has not been accompanied by a structured account of how to encode game mechanics within prompts \cite{you2025enhancing,cain2024prompting}.  
+
+
+For practice, the contribution is a set of authoring patterns that integrate what LLM systems already do well (e.g., adapt, explain, question) with what DGBL expects (e.g., clear progression, coherent worlds, purposeful NPCs, and visible feedback). Instructors and designers can bind structure to the interaction by declaring start/stop conditions and level logic (e.g., “Quest game,” “levels,” “progress bar,” “If student types STOP, gracefully end the session,” followed by a completion celebration), make mechanics and feedback legible with simple textual state displays and controlled randomness, and ground activity in a coherent world with roleful NPCs, and interleave short reflections before advancement. Objectives move from topic labels to enumerated skills; learning pathways fix sequencing or adaptivity and hint policies; brief reflective prompts secure self-explanations before advancement; and output-style constraints cap verbosity and stabilize interaction flow. Together, these clauses yield chat experiences that are both pedagogically aligned and methodologically auditable, enabling instructors to iterate with clear levers and researchers to trace observed outcomes back to specific prompt designs.
+
+% https://kathleenmariekelly.com/papers/LLMsEdGamification.pdf
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%% The next two lines define the bibliography style to be used, and
+%% the bibliography file.
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{sample-base}
+
+%%
+%% If your work has an appendix, this is the place to put it.
+
+\end{document}
+\endinput
+%%
+%% End of file `sample-acmsmall.tex'.

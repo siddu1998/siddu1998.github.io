@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TGP: Taxonomy of Gamified Prompts — UX Case Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1a1a1a;
+            --paper: #f8f5f0;
+            --accent: #7c3aed; /* Gamification purple */
+            --muted: #6b6b6b;
+            --rule: #d4d0c8;
+            --serif: 'Instrument Serif', Georgia, serif;
+            --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--paper);
+            font-family: var(--sans);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--ink);
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* --- Navigation --- */
+        nav {
+            width: 200px;
+            padding: 2.5rem 1.5rem;
+            border-right: 1px solid var(--rule);
+            flex-shrink: 0;
+            background-color: var(--paper);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+        
+        nav a {
+            display: block;
+            margin-bottom: 0.75rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            transition: color 0.2s ease;
+        }
+        
+        nav a:hover {
+            color: var(--ink);
+        }
+        
+        .nav-logo {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 2.5rem;
+            color: var(--ink);
+            text-decoration: none;
+            display: block;
+        }
+        
+        main {
+            flex-grow: 1;
+            overflow-y: auto;
+            background-color: var(--paper);
+        }
+        
+        /* --- Hero Section --- */
+        .hero {
+            padding: 6rem 4rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: end;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .hero-content {
+            padding-bottom: 2rem;
+        }
+        
+        .issue-number {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+        
+        h1 {
+            font-family: var(--serif);
+            font-size: 3.2rem;
+            font-weight: 400;
+            line-height: 1.05;
+            color: var(--ink);
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--rule);
+        }
+        
+        .meta-item {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+        
+        .meta-item strong {
+            display: block;
+            color: var(--ink);
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+        }
+        
+        .stat-box {
+            background: var(--paper);
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-family: var(--serif);
+            font-size: 2.8rem;
+            font-style: italic;
+            color: var(--ink);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        
+        /* --- Article Layout --- */
+        .article-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem;
+        }
+        
+        .lede {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            line-height: 1.6;
+            color: var(--ink);
+            max-width: 800px;
+            margin-bottom: 3rem;
+        }
+        
+        .lede::first-letter {
+            font-size: 4.5rem;
+            float: left;
+            line-height: 0.8;
+            margin-right: 0.5rem;
+            margin-top: 0.1rem;
+            color: var(--accent);
+        }
+        
+        .two-column {
+            column-count: 2;
+            column-gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .two-column p {
+            margin-bottom: 1.25rem;
+        }
+        
+        h2 {
+            font-family: var(--serif);
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-top: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--ink);
+            padding-top: 2rem;
+            border-top: 3px solid var(--ink);
+        }
+        
+        h3 {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        h4 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+            color: var(--ink);
+        }
+        
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--ink);
+            max-width: 680px;
+        }
+        
+        /* --- Participant Quotes --- */
+        .participant-quote {
+            background-color: rgba(124, 58, 237, 0.1);
+            padding: 0.15em 0.4em;
+            border-radius: 3px;
+            font-style: italic;
+        }
+        
+        /* --- Inline Quote --- */
+        .inline-quote {
+            background: linear-gradient(to right, var(--accent), var(--accent)) no-repeat 0 0;
+            background-size: 4px 100%;
+            padding: 1.5rem 2rem;
+            margin: 2.5rem 0;
+            font-family: var(--serif);
+            font-size: 1.25rem;
+            font-style: italic;
+            line-height: 1.5;
+        }
+        
+        .inline-quote cite {
+            display: block;
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-style: normal;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 1rem;
+        }
+        
+        /* --- Image Styling --- */
+        .image-container {
+            margin: 2.5rem 0;
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .image-caption {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--rule);
+            max-width: 500px;
+        }
+
+        .image-container-wide {
+            margin: 3rem -2rem;
+        }
+
+        .image-container-wide img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .image-container-wide .image-caption {
+            padding-left: 2rem;
+        }
+        
+        /* --- Method Cards --- */
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+            margin: 3rem 0;
+        }
+        
+        .method-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .method-number {
+            font-family: var(--serif);
+            font-size: 2rem;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .method-card h4 {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .method-card p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Finding Cards --- */
+        .finding-section {
+            border: 1px solid var(--rule);
+            padding: 2.5rem;
+            margin: 2rem 0;
+        }
+        
+        .finding-header {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .finding-number {
+            font-family: var(--serif);
+            font-size: 2.5rem;
+            font-style: italic;
+            color: var(--accent);
+            line-height: 1;
+        }
+        
+        .finding-title {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--ink);
+        }
+        
+        .finding-section p {
+            max-width: none;
+        }
+        
+        .finding-impact {
+            margin-top: 1.5rem;
+            padding: 1rem 1.5rem;
+            background: rgba(0,0,0,0.03);
+            border-left: 2px solid var(--accent);
+        }
+        
+        .finding-impact strong {
+            display: block;
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+        
+        .finding-impact p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+        
+        /* --- Solution Cards --- */
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--ink);
+            margin: 3rem 0;
+        }
+        
+        .solution-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .solution-number {
+            font-family: var(--serif);
+            font-size: 2rem;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .solution-card h4 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .solution-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        
+        /* --- Results Section --- */
+        .results-section {
+            background: var(--ink);
+            color: var(--paper);
+            margin: 4rem -4rem;
+            padding: 4rem;
+        }
+        
+        .results-section h2 {
+            color: var(--paper);
+            border-top-color: var(--paper);
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .result-item {
+            border-left: 1px solid rgba(255,255,255,0.3);
+            padding-left: 1.5rem;
+        }
+        
+        .result-number {
+            font-family: var(--serif);
+            font-size: 3.5rem;
+            font-style: italic;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-detail {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        /* --- Learnings Grid --- */
+        .learnings-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--ink);
+            margin: 3rem 0;
+        }
+        
+        .learning-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+        
+        .learning-card h4 {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+        
+        .learning-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+
+        /* --- Data Table --- */
+        .data-table-container {
+            margin: 2.5rem 0;
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+        }
+
+        .data-table th {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border-bottom: 2px solid var(--ink);
+        }
+
+        .data-table td {
+            padding: 0.65rem 1rem;
+            border-bottom: 1px solid var(--rule);
+            color: var(--ink);
+            vertical-align: top;
+        }
+
+        .data-table tbody tr:hover {
+            background: rgba(124, 58, 237, 0.04);
+        }
+
+        .data-table .sig {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .data-table .construct-label {
+            font-weight: 500;
+            color: var(--accent);
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* --- Taxonomy Dimension Cards --- */
+        .taxonomy-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+            margin: 3rem 0;
+        }
+
+        .taxonomy-card {
+            background: var(--paper);
+            padding: 1.75rem;
+            text-align: center;
+        }
+
+        .taxonomy-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .taxonomy-card h4 {
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+            margin-top: 0;
+            color: var(--ink);
+        }
+
+        .taxonomy-card p {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: var(--muted);
+            max-width: none;
+            margin-bottom: 0;
+        }
+
+        .taxonomy-subcodes {
+            margin-top: 0.75rem;
+            font-size: 0.78rem;
+            color: var(--accent);
+            font-style: italic;
+        }
+        
+        /* --- Skills Section --- */
+        .skills-section {
+            margin-top: 4rem;
+            padding: 3rem;
+            border: 1px solid var(--rule);
+        }
+        
+        .skills-section h4 {
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            margin-top: 0;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+        
+        .skill-category strong {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .skill-category p {
+            font-size: 0.85rem;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 0;
+            max-width: none;
+        }
+        
+        /* --- TL;DR Section --- */
+        .tldr-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 4rem;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .tldr-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .tldr-label {
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--paper);
+            background: var(--ink);
+            padding: 0.4rem 0.8rem;
+        }
+        
+        .tldr-subtitle {
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--muted);
+        }
+        
+        .tldr-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+        
+        .tldr-main {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        
+        .tldr-item {
+            padding-left: 1rem;
+            border-left: 2px solid var(--rule);
+        }
+        
+        .tldr-item:hover {
+            border-left-color: var(--accent);
+        }
+        
+        .tldr-number {
+            font-family: var(--serif);
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 0.3rem;
+        }
+        
+        .tldr-title {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+        
+        .tldr-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--muted);
+            margin: 0;
+        }
+        
+        .tldr-sidebar {
+            padding: 2rem;
+            background: var(--ink);
+            color: var(--paper);
+        }
+        
+        .tldr-sidebar-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 1rem;
+        }
+        
+        .tldr-sidebar-text {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-style: italic;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            color: var(--paper);
+        }
+        
+        /* --- List Styling --- */
+        ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.75rem;
+            padding-left: 0.5rem;
+            max-width: 680px;
+        }
+        
+        li strong {
+            color: var(--ink);
+        }
+        
+        /* --- Footer --- */
+        .footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--rule);
+            text-align: center;
+        }
+        
+        .footer a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .footer a:hover {
+            color: var(--ink);
+        }
+        
+        /* --- Responsive --- */
+        @media (max-width: 1100px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                padding: 4rem 3rem;
+            }
+            
+            .two-column {
+                column-count: 1;
+            }
+            
+            .method-grid,
+            .learnings-grid,
+            .results-grid,
+            .skills-grid,
+            .solution-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .taxonomy-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .results-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .tldr-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .tldr-main {
+                grid-template-columns: 1fr;
+            }
+            
+            .tldr-section {
+                padding: 2rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column;
+            }
+            
+            nav {
+                width: 100%;
+                padding: 1rem 2rem;
+                border-right: none;
+                border-bottom: 1px solid var(--rule);
+                height: auto;
+                position: relative;
+            }
+            
+            .nav-logo {
+                display: inline-block;
+                margin-bottom: 0;
+                margin-right: 2rem;
+            }
+            
+            nav a {
+                display: inline-block;
+                margin-right: 1.5rem;
+                margin-bottom: 0;
+            }
+            
+            .article-container {
+                padding: 2rem;
+            }
+            
+            .results-section {
+                margin-left: -2rem;
+                margin-right: -2rem;
+                padding: 3rem 2rem;
+            }
+            
+            h1 {
+                font-size: 2.4rem;
+            }
+
+            .taxonomy-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.8rem; }
+            
+            .lede {
+                font-size: 1.25rem;
+            }
+            
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+
+            .taxonomy-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .solution-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* --- CTA Link --- */
+        .cta-link {
+            display: inline-block;
+            font-family: var(--sans);
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid var(--accent);
+            padding-bottom: 0.2rem;
+            transition: all 0.2s ease;
+        }
+        
+        .cta-link:hover {
+            color: var(--ink);
+            border-color: var(--ink);
+        }
+
+        .tldr-sidebar .cta-link {
+            color: var(--paper);
+            border-color: rgba(255,255,255,0.5);
+        }
+        
+        .tldr-sidebar .cta-link:hover {
+            border-color: var(--paper);
+        }
+
+        /* --- Research Rationale Callout --- */
+        .research-rationale {
+            margin: 2rem 0;
+            padding: 1.5rem 2rem;
+            background: rgba(124, 58, 237, 0.05);
+            border: 1px solid rgba(124, 58, 237, 0.15);
+            border-radius: 2px;
+        }
+
+        .research-rationale-label {
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .research-rationale p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--ink);
+            max-width: none;
+            margin-bottom: 0;
+        }
+
+        .research-rationale p + p {
+            margin-top: 0.75rem;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-logo">Sai Maram</a>
+        <a href="index.html">Home</a>
+        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="hero-content">
+                <div class="issue-number">Research Case Study · CHI PLAY · 2026</div>
+                <h1>Turning Chatbots into Game Engines for Learning</h1>
+                <p style="max-width: 100%; font-size: 1.15rem; color: var(--muted);">A taxonomy for embedding game mechanics directly into LLM prompts, transforming transactional AI interactions into immersive, playful learning experiences.</p>
+                
+                <div class="hero-meta">
+                    <div class="meta-item">
+                        <strong>Role</strong>
+                        Lead Researcher
+                    </div>
+                    <div class="meta-item">
+                        <strong>Methods</strong>
+                        Participatory Design, Grounded Theory
+                    </div>
+                    <div class="meta-item">
+                        <strong>Venue</strong>
+                        CHI PLAY 2026
+                    </div>
+                    <div class="meta-item">
+                        <strong>Live Tool</strong>
+                        <a href="https://siddu1998.github.io/SCAI/StudyCrafterAI.html" class="cta-link" target="_blank">Try StudyCrafter AI →</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-number">60</div>
+                    <div class="stat-label">Co-designed Prompts</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">960</div>
+                    <div class="stat-label">Coded Units Analyzed</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">2.4×</div>
+                    <div class="stat-label">Immersion Lift (L0→L2)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">97%</div>
+                    <div class="stat-label">Taxonomy Coverage</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- TL;DR Section -->
+        <section class="tldr-section">
+            <div class="tldr-header">
+                <span class="tldr-label">Quick Read</span>
+                <span class="tldr-subtitle">The essentials in 60 seconds</span>
+            </div>
+            
+            <div class="tldr-grid">
+                <div class="tldr-main">
+                    <div class="tldr-item">
+                        <div class="tldr-number">01</div>
+                        <div class="tldr-title">The Problem</div>
+                        <p class="tldr-text">LLM interactions in education are transactional and inert. Students become passive consumers, outsourcing thinking to the AI instead of engaging deeply with material.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">02</div>
+                        <div class="tldr-title">The Approach</div>
+                        <p class="tldr-text">Participatory design with educators, students, and game researchers to co-create 60 gamified prompts, then grounded theory analysis to derive a formal taxonomy.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">03</div>
+                        <div class="tldr-title">The Taxonomy</div>
+                        <p class="tldr-text">5 primary dimensions and 19 sub-dimensions mapping the design space of gamified prompts: Game Director, Game Mechanics, The Teacher, AI Control, and NPCs.</p>
+                    </div>
+                    <div class="tldr-item">
+                        <div class="tldr-number">04</div>
+                        <div class="tldr-title">The Impact</div>
+                        <p class="tldr-text">Taxonomy-guided prompts significantly increased immersion (2.2→5.2), enjoyment (3.8→5.4), and reduced designer cognitive load by 63%.</p>
+                    </div>
+                </div>
+                
+                <aside class="tldr-sidebar">
+                    <div class="tldr-sidebar-label">Core Thesis</div>
+                    <p class="tldr-sidebar-text">"By orchestrating game mechanics through natural language, we capture the immersive benefits of game-based learning while retaining the accessibility of standard AI tools."</p>
+                    <a href="https://siddu1998.github.io/SCAI/StudyCrafterAI.html" class="cta-link" target="_blank">Try the Taxonomy →</a>
+                </aside>
+            </div>
+        </section>
+
+        <article class="article-container">
+            
+            <!-- Opening Lede -->
+            <p class="lede">Large Language Models have become central infrastructure in education, yet their interactions remain stubbornly transactional—students ask, the AI answers, learning stays shallow. We asked: what if the chatbot wasn't a tutor, but a game engine?</p>
+            
+            <div class="two-column">
+                <p>Despite the rise of orchestration platforms like Playlab.ai, CircleIn, and Magic School AI, the resulting AI interactions are frequently linear and inert. Without deliberate pedagogical structuring, these assistants default to efficient information delivery—inadvertently encouraging the very passivity educators seek to avoid.</p>
+                
+                <p>We define <em>gameful prompting</em> as the strategic embedding of game mechanics—such as narrative roles, resource constraints, and rule-based feedback—directly into the system instructions of an LLM. This approach transforms the general-purpose chatbot into a lightweight game engine, democratizing the creation of educational games.</p>
+            </div>
+
+            <!-- Teaser Figure -->
+            <div class="image-container">
+                <img src="StudyCrafter___Prompt_Taxonomy_CHI_PLAYu (3)/images/Group 245 (1).png" alt="Examples of gamified prompts: ARG game with food labels, image generation on world shifts, and ASCII point visualization">
+                <p class="image-caption">Examples from the corpus: (a) An ARG-styled game where participants upload food labels; (b) LLM-generated images on game world shifts; (c) Point systems visualized through ASCII characters.</p>
+            </div>
+
+            <h2>Identifying the Research Gap</h2>
+            
+            <p>Recent studies warn of <strong>cognitive offloading</strong>—a phenomenon where learners outsource mental effort to the AI, treating it as an "answer engine" rather than a thinking partner. The central challenge is no longer providing access to AI, but designing interactions that resist passivity and sustain the "productive struggle" essential for deep learning.</p>
+
+            <p>Historically, achieving deep cognitive engagement required <strong>Game-Based Learning (GBL)</strong>—standalone video games or complex simulations. While pedagogically effective, traditional GBL is hindered by specialized development, substantial budgets, and extensive teacher training. Furthermore, once built, these games are static artifacts, difficult for educators to customize.</p>
+
+            <p>A critical literature review revealed that established serious games frameworks—the LM-GM model, Game Object Model, Four-Dimensional Framework—all assume a <em>deterministic</em> game engine where rules are hard-coded. None provide guidance for orchestrating mechanics in the probabilistic, unstructured environment of a Large Language Model. Meanwhile, existing prompt engineering frameworks (Lo et al.'s four-step framework, the GPEI model) excel at clarity and functional utility, but never address the motivational or immersive dynamics required to counter student disengagement.</p>
+
+            <div class="research-rationale">
+                <div class="research-rationale-label">Research Gap → Research Question</div>
+                <p>There is no formal design language that bridges static prompt engineering with dynamic gameplay. Educators have a powerful engine (the LLM) but no manual for constructing game-like experiences. This gap led to our research question: <strong>What game design elements and strategies can be embedded into LLM prompts to enhance student engagement?</strong></p>
+                <p>We deliberately framed this as a <em>design</em> question rather than an <em>efficacy</em> question because the field first needs a shared vocabulary before it can systematically study optimization. You can't measure what you can't name.</p>
+            </div>
+
+            <h2>Research Methodology</h2>
+            
+            <p>Our research followed a three-phase approach: (1) constructing a corpus of gamified prompts through participatory activities, (2) building the taxonomy through grounded theory, and (3) evaluating the taxonomy for coverage, usability, and impact.</p>
+
+            <!-- Methodology Figure -->
+            <div class="image-container">
+                <img src="StudyCrafter___Prompt_Taxonomy_CHI_PLAYu (3)/images/Group 96.png" alt="Participant involvement across taxonomy development and evaluation phases">
+                <p class="image-caption">Participant involvement across taxonomy development and evaluation phases spanning generative co-design, prompt collection, taxonomy construction, and evaluative studies.</p>
+            </div>
+
+            <div class="research-rationale">
+                <div class="research-rationale-label">Why Participatory Design → Grounded Theory?</div>
+                <p>We considered two approaches: (a) starting from existing serious games theory and deductively mapping mechanics to prompts, or (b) starting from real artifacts created by real stakeholders and letting categories emerge inductively. We chose (b) because the LLM context is fundamentally different from traditional game engines—we needed to discover what practitioners <em>actually do</em> when they gamify prompts, not what they <em>theoretically should</em> do. A top-down framework would inherit the deterministic assumptions of existing models.</p>
+                <p>Participatory design ensured the taxonomy was grounded in the creative practices of its intended users, while grounded theory (Charmaz, 2006) ensured the categories emerged from data rather than preconceptions.</p>
+            </div>
+
+            <h3>Building the Research Tool: StudyHelper</h3>
+            <p>Before data collection could begin, we needed a controlled environment where participants could create, test, and iterate gamified prompts without the confounds of different LLM interfaces. We built <strong>StudyHelper</strong>, a custom platform with two modes: Playground for open-ended prompt creation, and Taxonomy Mode that overlays our taxonomy as an interactive design aid. This dual-mode architecture was crucial for our later within-subjects evaluation—the same interface, with and without the taxonomy layer.</p>
+
+            <div class="image-container">
+                <img src="StudyCrafter___Prompt_Taxonomy_CHI_PLAYu (3)/images/Group 247.png" alt="StudyHelper platform architecture and interface">
+                <p class="image-caption">StudyHelper: (a) Architecture and API calls; (b) Playground mode for creating and testing prompts; (c) Taxonomy Mode for exploring the taxonomy; (d) How designers apply taxonomy elements while creating prompts.</p>
+            </div>
+
+            <h3>Phase 1: Corpus Generation — Why Three Stakeholder Groups?</h3>
+
+            <p>We deliberately triangulated prompt generation across three stakeholder types—each contributing a different perspective that a single group couldn't provide alone.</p>
+
+            <div class="method-grid">
+                <div class="method-card">
+                    <div class="method-number">01</div>
+                    <h4>Co-Design with Instructors</h4>
+                    <p><strong>Why:</strong> Instructors bring pedagogical intentionality—they think about learning objectives, scaffolding, and assessment. Their prompts established the "floor" of pedagogical rigor. 3 instructors with GBL expertise co-designed 4 prompts with interdisciplinary support (engineers, learning scientists, game researchers).</p>
+                </div>
+                <div class="method-card">
+                    <div class="method-number">02</div>
+                    <h4>Gamified Hackathon</h4>
+                    <p><strong>Why:</strong> Students are the other key stakeholder—understanding their vision for gamified learning is equally essential. Senior HCI and Game Design graduate students brought creative ambition and player empathy. The competitive format ($100 prize pool) ensured high-quality outputs. 16 prompts across diverse topics.</p>
+                </div>
+                <div class="method-card">
+                    <div class="method-number">03</div>
+                    <h4>Course Assignments</h4>
+                    <p><strong>Why:</strong> To reach saturation, we needed volume and diversity. Embedding prompt creation into two game design courses (45 + 6 students) produced 40 additional prompts while ensuring ecological validity—students applied real game design coursework to the task.</p>
+                </div>
+                <div class="method-card">
+                    <div class="method-number">04</div>
+                    <h4>Grounded Theory Analysis</h4>
+                    <p><strong>Why:</strong> With 60 prompts, we needed a systematic bottom-up approach. Two researchers segmented prompts into 960 units of analysis (each answering "This part of the prompt asks the LLM to..."), then used constant comparison to derive 75 open codes → 19 axial codes → 5 selective codes. Inter-rater reliability (κ = 0.78) was established on 30% of the dataset before independent coding.</p>
+                </div>
+            </div>
+
+            <div class="research-rationale">
+                <div class="research-rationale-label">Why This Unit of Analysis?</div>
+                <p>A key methodological decision was how to segment prompts. We rejected word-level and sentence-level coding as too granular, and prompt-level coding as too coarse. Instead, we adopted a functional unit: every segment that instructs the LLM to behave in a specific way. This gave us 960 analyzable units across 60 prompts—enough granularity to capture distinct design patterns while preserving the instructional intent of each segment.</p>
+            </div>
+
+            <!-- Methods Illustration -->
+            <div class="image-container">
+                <img src="StudyCrafter___Prompt_Taxonomy_CHI_PLAYu (3)/images/Group 239 (2).png" alt="Hackathon poster, participants interacting with prompts, and assignment instructions">
+                <p class="image-caption">(Left) Poster advertising the Bot-a-thon hackathon; (Middle) Participants comparing gamified prompts; (Right) Assignment instructions for course-embedded prompt creation.</p>
+            </div>
+
+            <h2>Contribution 1: The Gamified Prompts Corpus</h2>
+            
+            <p>Through our generative activities, we obtained a corpus of <strong>60 gamified learning prompts</strong>—the first available corpus of its kind. The average prompt was 394 words, distributed across diverse topics including programming, STEM, life skills, humanities, climate science, and more.</p>
+
+            <div class="image-container">
+                <img src="StudyCrafter___Prompt_Taxonomy_CHI_PLAYu (3)/images/Group 241.png" alt="Distribution of prompts across topics and taxonomy element density">
+                <p class="image-caption">(Left) Distribution of gamified prompts across learning topics; (Right) Density of taxonomy elements across the corpus.</p>
+            </div>
+
+            <div class="image-container">
+                <img src="StudyCrafter___Prompt_Taxonomy_CHI_PLAYu (3)/images/Group 243 (1).png" alt="An annotated prompt from the corpus with highlighted codes and resulting interactions">
+                <p class="image-caption">A prompt from the corpus with taxonomy codes highlighted. The corpus allows users to search, query prompts based on tags, and interact with them directly.</p>
+            </div>
+
+            <h2>Contribution 2: The Taxonomy of Gamified Prompts</h2>
+
+            <p>Through grounded theory analysis of the 960 coded units, we derived the <strong>TGP</strong>—a taxonomy with 5 primary dimensions and 19 sub-dimensions that maps the full design space of gamified LLM prompts.</p>
+
+            <!-- Full Taxonomy Figure -->
+            <div class="image-container">
+                <img src="StudyCrafter___Prompt_Taxonomy_CHI_PLAYu (3)/images/Group 229 (1).png" alt="The complete Gamified Prompts Taxonomy with all dimensions, sub-dimensions, and examples">
+                <p class="image-caption">The complete TGP taxonomy illustrated with examples across all levels of codes—5 selective codes, 19 axial codes, and 75 open codes.</p>
+            </div>
+
+            <!-- Taxonomy Dimension Cards -->
+            <div class="taxonomy-grid">
+                <div class="taxonomy-card">
+                    <div class="taxonomy-icon">🎮</div>
+                    <h4>Game Director</h4>
+                    <p>Structural elements: game type, conditions, pathways, and world-building.</p>
+                    <div class="taxonomy-subcodes">Game Type · Conditions · Pathway · World</div>
+                </div>
+                <div class="taxonomy-card">
+                    <div class="taxonomy-icon">⚙️</div>
+                    <h4>Game Mechanics</h4>
+                    <p>Reward systems, survival mechanics, inventory management, and randomization.</p>
+                    <div class="taxonomy-subcodes">Points · Survival · Inventory · Randomization</div>
+                </div>
+                <div class="taxonomy-card">
+                    <div class="taxonomy-icon">📚</div>
+                    <h4>The Teacher</h4>
+                    <p>Pedagogical goals, learning pathways, hints/feedback, and metacognitive reflection.</p>
+                    <div class="taxonomy-subcodes">Goals · Pathways · Hints · Metacognition</div>
+                </div>
+                <div class="taxonomy-card">
+                    <div class="taxonomy-icon">🤖</div>
+                    <h4>AI Control</h4>
+                    <p>Output restrictions, input mechanics, visual elements, and emoji systems.</p>
+                    <div class="taxonomy-subcodes">Output · Input · Visuals · Emojis</div>
+                </div>
+                <div class="taxonomy-card">
+                    <div class="taxonomy-icon">🧙</div>
+                    <h4>NPCs</h4>
+                    <p>Character creation, personality, customization, and interaction patterns.</p>
+                    <div class="taxonomy-subcodes">Establishing · Interaction Patterns</div>
+                </div>
+            </div>
+
+            <h3>Game Director</h3>
+            <p>The Game Director encompasses structural elements that define how gamified learning experiences unfold over time—ranging from single-player to multiplayer and ARG framings, win/loss conditions, level progressions, and immersive game worlds.</p>
+            
+            <div class="inline-quote">
+                "You have been chosen to join the Guardians of Earth, a secret league dedicated to protecting our planet. In the first level [...], in the next habitat [...]"
+                <cite>— Climate change prompt demonstrating Game Pathway design</cite>
+            </div>
+
+            <h3>Game Mechanics</h3>
+            <p>Reward systems, survival mechanics (health, lives, stamina), inventory management, and randomization (dice rolls, loot boxes) transform educational interactions into engaging game-like experiences where progress is tracked and stakes feel real.</p>
+
+            <div class="inline-quote">
+                "A weighted point system, where players are awarded more points for deeper analysis of the character, rather than surface level observations."
+                <cite>— Literature teaching prompt with pedagogically-aligned rewards</cite>
+            </div>
+
+            <h3>The Teacher</h3>
+            <p>The Teacher dimension contains the educational elements that make these prompts effective learning tools—pedagogical goals (what to teach and what to avoid), structured learning pathways, adaptive hints and feedback, and metacognitive reflection prompts.</p>
+
+            <h3>AI Control &amp; NPCs</h3>
+            <p>AI Control governs output length, language restrictions, choice-based input, and visual elements (ASCII art, generated images, emojis). NPCs create companions, mentors, and adversaries with distinct personalities that students interact with through conflict, persuasion, and collaboration.</p>
+
+            <!-- Multiplayer Example -->
+            <div class="image-container">
+                <img src="StudyCrafter___Prompt_Taxonomy_CHI_PLAYu (3)/images/Group 244 (2).png" alt="Multiplayer prompt examples showing name collection, achievements, and dice-based randomization">
+                <p class="image-caption">(a) A multiplayer prompt collecting user names and roles; (b) A programming prompt using titles and achievements; (c) A D&D-styled prompt using dice rolls for randomization.</p>
+            </div>
+
+            <!-- Results Section - Dark Background -->
+            <div class="results-section">
+                <h2>Key Results at a Glance</h2>
+                <p style="color: rgba(255,255,255,0.8); max-width: 700px;">Taxonomy-guided prompts (L2) consistently outperformed both standard prompts (L0) and non-taxonomy gamified prompts (L1) across all engagement dimensions.</p>
+                
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="result-number">5.2</div>
+                        <div class="result-label">Immersion (L2)</div>
+                        <div class="result-detail">Up from 2.2 (L0). Significant at p &lt; 0.001 across all measures.</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">5.4</div>
+                        <div class="result-label">Enjoyment (L2)</div>
+                        <div class="result-detail">Up from 3.8 (L0). Strongest statistical effects with χ²=16.8.</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">7.0</div>
+                        <div class="result-label">Ease of Use (Med.)</div>
+                        <div class="result-detail">Taxonomy tool rated 7/7 vs. 4/7 for non-taxonomy. p &lt; 0.001.</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">68%</div>
+                        <div class="result-label">Frustration Reduction</div>
+                        <div class="result-detail">NASA-TLX frustration dropped from 4 to 2 (median). r = 0.68.</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Evaluation Strategy</h2>
+
+            <div class="research-rationale">
+                <div class="research-rationale-label">Why These Three Constructs?</div>
+                <p>Drawing on established principles from taxonomy evaluation literature in information systems (Nickerson et al., 2013; Kaplan et al., 2022) and HCI (Tabassi et al., 2023), we operationalized our assessment through three constructs: <strong>Coverage</strong>, <strong>Usability</strong>, and <strong>Impact</strong>. These aren't arbitrary—they map to the lifecycle of a taxonomy: it must first be comprehensive enough to classify the domain (Coverage), then practical enough for its intended users (Usability), and finally demonstrably beneficial in improving outcomes (Impact). Evaluating only one or two would leave critical gaps in our validation.</p>
+            </div>
+
+            <h3>Coverage — Can It Classify Any Gamified Prompt?</h3>
+            <p>The strongest test of coverage is classification of artifacts created <em>without knowledge of the taxonomy</em>. We invited game designers to a Game-AI workshop and asked them to create gamified prompts with no exposure to our categories. This approach prevents confirmation bias—if participants had seen the taxonomy, they might unconsciously design toward its categories.</p>
+
+            <p>From 21 prompts, we identified 103 granular units. <strong>100 were successfully categorized</strong> within our taxonomy (97% coverage). Only 3 units fell outside: voice input, real-time timers, and video generation—all tied to emerging LLM modalities not yet widely available.</p>
+
+            <div class="image-container">
+                <img src="StudyCrafter___Prompt_Taxonomy_CHI_PLAYu (3)/images/Group 231.png" alt="Distribution of taxonomy codes in coverage analysis">
+                <p class="image-caption">Distribution of selective and axial codes on gamified learning prompts analyzed as part of testing the taxonomy for coverage. The Teacher (31) and Game Director (27) were most frequent.</p>
+            </div>
+
+            <h3>Usability Study Design</h3>
+
+            <div class="research-rationale">
+                <div class="research-rationale-label">Why Within-Subjects? Why These Instruments?</div>
+                <p><strong>Study design:</strong> We chose a within-subjects, repeated-measures design (N=33, randomized order) over between-subjects because prompt creation ability varies enormously across individuals. A within-subjects design lets each participant serve as their own control, dramatically reducing noise from individual differences in creativity, game design experience, and AI familiarity.</p>
+                <p><strong>Why TAM + NASA-TLX together:</strong> These instruments measure complementary dimensions. The NASA-TLX captures the <em>cost</em> of the creative task itself—how mentally demanding, frustrating, and effortful it felt. The TAM captures the <em>perceived value</em> of the taxonomy as a tool—is it useful? Is it easy? Would you use it again? Together, they answer: does the taxonomy reduce the burden while increasing the perceived quality? One without the other tells an incomplete story.</p>
+                <p><strong>Why Wilcoxon signed-rank test:</strong> Our data is ordinal (7-point Likert scales), paired (same participants in both conditions), and we cannot assume normality with N=33. The Wilcoxon signed-rank test is the appropriate non-parametric alternative to a paired t-test for exactly this scenario—it tests whether the distribution of differences is symmetric around zero without requiring interval-scale or normally distributed data.</p>
+            </div>
+
+            <h4>TAM Results: Perceived Ease of Use &amp; Usefulness</h4>
+
+            <p>All four Perceived Ease of Use items showed significant positive shifts with large effect sizes. Notably, "prompt creation flow was straightforward" moved from a median of 4 (neutral) to 7 (strongly agree)—the largest single shift (r = 0.71). The improvements in ease-of-use translated directly into higher perceived usefulness: designers rated prompts created with the taxonomy as significantly better and faster to produce.</p>
+
+            <!-- TAM Table -->
+            <div class="data-table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Construct</th>
+                            <th>Survey Question</th>
+                            <th>No-Tax Med.</th>
+                            <th>Tax Med.</th>
+                            <th>p-value</th>
+                            <th>Effect (r)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="construct-label">PEOU</td>
+                            <td>Prompt creation flow was straightforward</td>
+                            <td>4</td>
+                            <td>7</td>
+                            <td class="sig">&lt; 0.001</td>
+                            <td class="sig">0.71</td>
+                        </tr>
+                        <tr>
+                            <td class="construct-label">PEOU</td>
+                            <td>Easy to generate ideas</td>
+                            <td>5</td>
+                            <td>7</td>
+                            <td class="sig">&lt; 0.001</td>
+                            <td class="sig">0.75</td>
+                        </tr>
+                        <tr>
+                            <td class="construct-label">PEOU</td>
+                            <td>Easy to learn how to use</td>
+                            <td>5</td>
+                            <td>7</td>
+                            <td class="sig">&lt; 0.01</td>
+                            <td class="sig">0.58</td>
+                        </tr>
+                        <tr>
+                            <td class="construct-label">PEOU</td>
+                            <td>Easy to interact with</td>
+                            <td>5</td>
+                            <td>7</td>
+                            <td class="sig">&lt; 0.01</td>
+                            <td class="sig">0.64</td>
+                        </tr>
+                        <tr>
+                            <td class="construct-label">PU</td>
+                            <td>Helped create prompts more quickly</td>
+                            <td>5</td>
+                            <td>7</td>
+                            <td class="sig">&lt; 0.01</td>
+                            <td class="sig">0.61</td>
+                        </tr>
+                        <tr>
+                            <td class="construct-label">PU</td>
+                            <td>Helped create a better gamified prompt</td>
+                            <td>5</td>
+                            <td>7</td>
+                            <td class="sig">&lt; 0.01</td>
+                            <td class="sig">0.56</td>
+                        </tr>
+                        <tr>
+                            <td class="construct-label">PU</td>
+                            <td>Improved ability to think of gamification strategies</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td class="sig">&lt; 0.05</td>
+                            <td>0.45</td>
+                        </tr>
+                        <tr>
+                            <td class="construct-label">Attitude</td>
+                            <td>Felt confident using this tool</td>
+                            <td>5</td>
+                            <td>7</td>
+                            <td class="sig">&lt; 0.01</td>
+                            <td class="sig">0.58</td>
+                        </tr>
+                        <tr>
+                            <td class="construct-label">Intention</td>
+                            <td>Would like to use this in the future</td>
+                            <td>5</td>
+                            <td>7</td>
+                            <td class="sig">&lt; 0.001</td>
+                            <td class="sig">0.68</td>
+                        </tr>
+                        <tr>
+                            <td class="construct-label">Intention</td>
+                            <td>Would prefer this version over other tools</td>
+                            <td>4</td>
+                            <td>7</td>
+                            <td class="sig">&lt; 0.001</td>
+                            <td class="sig">0.69</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--muted); margin-top: -1rem;">Wilcoxon signed-rank test (non-parametric, paired, ordinal data). N=33. Effect size: r = Z/√N. Conventions: 0.1=small, 0.3=medium, 0.5=large.</p>
+
+            <p>The only non-significant result was "made the process more effective" (median 6→6, p > 0.05). We interpret this as a ceiling effect—participants already rated the baseline tool as effective, leaving little room for improvement on this general measure. The more <em>specific</em> usefulness questions showed clear gains.</p>
+
+            <h4>NASA-TLX: Workload Reduction</h4>
+            <p>The NASA-TLX corroborated the TAM findings from the cost side: the taxonomy reduced what designers had to invest, not just what they got out.</p>
+
+            <div class="data-table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>NASA-TLX Dimension</th>
+                            <th>No-Tax Median</th>
+                            <th>Tax Median</th>
+                            <th>p-value</th>
+                            <th>Effect (r)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Mental Demand</td>
+                            <td>5</td>
+                            <td>3</td>
+                            <td class="sig">&lt; 0.01</td>
+                            <td class="sig">0.63</td>
+                        </tr>
+                        <tr>
+                            <td>Temporal Demand</td>
+                            <td>4</td>
+                            <td>2</td>
+                            <td class="sig">&lt; 0.01</td>
+                            <td class="sig">0.52</td>
+                        </tr>
+                        <tr>
+                            <td>Performance ↑</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td class="sig">&lt; 0.05</td>
+                            <td>0.46</td>
+                        </tr>
+                        <tr>
+                            <td>Effort</td>
+                            <td>4</td>
+                            <td>3</td>
+                            <td class="sig">&lt; 0.01</td>
+                            <td class="sig">0.57</td>
+                        </tr>
+                        <tr>
+                            <td>Frustration</td>
+                            <td>4</td>
+                            <td>2</td>
+                            <td class="sig">&lt; 0.001</td>
+                            <td class="sig">0.68</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>Frustration showed the largest effect (r = 0.68, large)—dropping from median 4 to 2. This aligns with qualitative data: without the taxonomy, participants described feeling "stuck" or "overwhelmed by possibilities." The taxonomy converted open-ended creative paralysis into structured exploration.</p>
+
+            <h3>Impact — Designer Perspective</h3>
+            <p>Open-ended responses from the usability study revealed three themes in how the taxonomy changed the design process:</p>
+
+            <div class="inline-quote">
+                "I just prefer this new library version over the first one by a lot. Coming up with ideas took me a while for the first one. I felt like I was firing off ideas so much faster with this because it was easier to translate my ideas into a game with the library."
+                <cite>— P19, Prompt Designer</cite>
+            </div>
+
+            <div class="inline-quote">
+                "I saw 'inventory,' 'NPCs,' and realized I could actually organize the chaos... I wouldn't have thought of resource management at all without the library."
+                <cite>— P29, Prompt Designer</cite>
+            </div>
+
+            <!-- With/Without Taxonomy Distribution -->
+            <div class="image-container">
+                <img src="StudyCrafter___Prompt_Taxonomy_CHI_PLAYu (3)/images/Group 246.png" alt="Distribution of taxonomy elements before and after taxonomy use">
+                <p class="image-caption">Distribution of taxonomy elements before and after the use of taxonomy (n=16). Total coded instances jumped from 118 to 213, with Game Director showing the largest increase (27→54).</p>
+            </div>
+
+            <h3>Impact — Learner Engagement</h3>
+
+            <div class="research-rationale">
+                <div class="research-rationale-label">Study Design: Why Three Levels? Why These Instruments?</div>
+                <p><strong>Three-level comparison (L0/L1/L2):</strong> Rather than a simple with/without test, we designed three conditions to isolate the taxonomy's contribution. L0 (standard instructional prompt, no gamification) serves as baseline. L1 (gamified by an instructor <em>without</em> the taxonomy) tests whether any gamification helps. L2 (gamified <em>with</em> the taxonomy) tests whether the taxonomy produces measurably better gamification. This design lets us distinguish "does gamification help?" from "does <em>structured</em> gamification help more?"</p>
+                <p><strong>Instrument selection:</strong> We selected specific subscales from three validated instruments, each targeting a distinct engagement dimension: <strong>PENS</strong> (Player Experience of Need Satisfaction) for immersion and emotional engagement—designed specifically for game-like experiences; <strong>IMI</strong> (Intrinsic Motivation Inventory) Interest/Enjoyment subscale for intrinsic motivation; and the <strong>Situational Interest Survey</strong> Attention Quality subscale for cognitive focus. Using game-specific instruments (PENS) rather than general UX scales (e.g., SUS) was a deliberate choice—we're evaluating play experiences, not software usability.</p>
+                <p><strong>Why Friedman test + post-hoc Wilcoxon:</strong> With three repeated conditions (L0, L1, L2) and ordinal data from 10 participants, the Friedman test is the appropriate non-parametric alternative to repeated-measures ANOVA. Where Friedman showed significance, we ran post-hoc Wilcoxon signed-rank tests with <strong>Bonferroni correction</strong> (α = 0.017) to control for the inflated Type I error from multiple pairwise comparisons.</p>
+            </div>
+
+            <p>Ten students interacted with prompts at all three levels across two topics (climate change and basic math), providing both quantitative ratings and qualitative interview data.</p>
+
+            <!-- Engagement Scores Table -->
+            <div class="data-table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Dimension</th>
+                            <th>L0 (Standard)</th>
+                            <th>L1 (No Tax)</th>
+                            <th>L2 (With Tax)</th>
+                            <th>Friedman χ²</th>
+                            <th>L0–L2 (Z)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Immersion</strong></td>
+                            <td>2.2</td>
+                            <td>3.6</td>
+                            <td class="sig">5.2</td>
+                            <td class="sig">18.4***</td>
+                            <td class="sig">−2.8**</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Emotional Engagement</strong></td>
+                            <td>2.3</td>
+                            <td>3.8</td>
+                            <td class="sig">4.6</td>
+                            <td class="sig">16.1***</td>
+                            <td class="sig">−2.8**</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Attention</strong></td>
+                            <td>3.5</td>
+                            <td>4.3</td>
+                            <td class="sig">4.4</td>
+                            <td class="sig">11.2**</td>
+                            <td class="sig">−2.6**</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Enjoyment</strong></td>
+                            <td>3.8</td>
+                            <td>5.1</td>
+                            <td class="sig">5.4</td>
+                            <td class="sig">16.8***</td>
+                            <td class="sig">−2.8**</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--muted); margin-top: -1rem;">Composite medians on 7-point Likert scale (n=10). Friedman test for overall effects; post-hoc Wilcoxon signed-rank with Bonferroni correction (α = 0.017). *p&lt;0.017, **p&lt;0.01, ***p&lt;0.001.</p>
+
+            <div class="research-rationale">
+                <div class="research-rationale-label">Reading the Data: What the Pattern Tells Us</div>
+                <p><strong>Immersion and enjoyment</strong> showed the strongest effects and continued improving from L1 to L2 (both significant), suggesting the taxonomy's structured game mechanics—progression systems, NPCs, inventory—add measurable value beyond basic gamification.</p>
+                <p><strong>Attention</strong> improved significantly from L0→L1 but <em>plateaued</em> between L1→L2 (not significant). This is a meaningful null result: it suggests that basic narrative framing captures most of the attention benefit, while the taxonomy's additional mechanics contribute more to immersion and emotional engagement than sustained focus.</p>
+                <p><strong>Cross-domain consistency:</strong> The pattern held across both topics (climate change and basic math), suggesting the taxonomy captures fundamental engagement mechanisms rather than domain-specific effects.</p>
+            </div>
+
+            <div class="inline-quote">
+                "I think the points actually cheered me up. I use a lot of ChatGPT in general, but this AI session felt more exciting."
+                <cite>— P6, Student Participant</cite>
+            </div>
+
+            <div class="inline-quote">
+                "Because of the character, I feel I can learn a little bit better, like my retention is increased... maybe not just retention, but my ability to stay focused on it for a little longer."
+                <cite>— P5, Student Participant</cite>
+            </div>
+
+            <div class="inline-quote">
+                "Here I am not just answering, instead I am talking to a person. We're thinking, brainstorming together... It's like a small community. Talking to these characters and then taking decisions in the chat."
+                <cite>— P7, on how NPC interactions shifted their role from answerer to participant</cite>
+            </div>
+
+            <!-- Prompt Levels Comparison -->
+            <div class="image-container">
+                <img src="StudyCrafter___Prompt_Taxonomy_CHI_PLAYu (3)/images/Screenshot 2025-08-29 115404.png" alt="Comparison of Level 0, Level 1, and Level 2 prompts showing increasing sophistication">
+                <p class="image-caption">Illustration of Level 0 (standard), Level 1 (gamified without taxonomy), and Level 2 (gamified with taxonomy) prompts, showing progressive design sophistication.</p>
+            </div>
+
+            <h2>Research Reflections &amp; Theoretical Contribution</h2>
+
+            <p>Beyond the taxonomy itself, this work surfaced important methodological insights about studying AI-mediated learning experiences and the relationship between game design theory and generative AI.</p>
+
+            <h3>Why Existing Frameworks Didn't Work</h3>
+            <p>A natural question is: why not just apply the LM-GM model or MDA framework directly to LLM prompts? We initially considered this. The critical realization was that existing frameworks share a <strong>deterministic assumption</strong>—the game engine is fixed code. In GOM or LM-GM, a designer "selects" a mechanic and "implements" it. The relationship between rule and outcome is rigid. In LLM environments, we must <em>persuade</em> the model to simulate mechanics. This shifts the design challenge from implementation to orchestration—and existing frameworks have no vocabulary for orchestration.</p>
+
+            <div class="learnings-grid">
+                <div class="learning-card">
+                    <h4>The Orchestration Layer</h4>
+                    <p>Our taxonomy doesn't replace LM-GM or MDA—it provides the missing translation layer. For example, where LM-GM maps "Guidance → Tutor," our taxonomy specifies <em>how</em> to make the LLM maintain that mapping: through "NPC Establishing" codes to create the tutor character, "Interaction Patterns" to define how student and tutor exchange, and "AI Control" to prevent the tutor from breaking character.</p>
+                </div>
+                <div class="learning-card">
+                    <h4>The Prompt as Game Engine</h4>
+                    <p>Through "AI Control" (output/input restrictions) and "Game Conditions" (win/loss states), the prompt functions as the game engine described in MDA—ensuring mechanics generate the desired dynamics. Without these controls, the learner can easily "break" the game by forcing the LLM to behave differently, making the boundary between designer intent and player experience porous.</p>
+                </div>
+                <div class="learning-card">
+                    <h4>Meaningful Null Results</h4>
+                    <p>The attention plateau (L1≈L2) was as informative as the positive results. It suggests designers should prioritize NPC development and visual feedback for maximum engagement impact, while basic narrative framing is sufficient for sustained attention. This kind of differential insight is only possible because we measured multiple engagement dimensions independently.</p>
+                </div>
+                <div class="learning-card">
+                    <h4>Secondary Prompt Analysis</h4>
+                    <p>We limited the before/after taxonomy comparison to 16 participants who created prompts <em>without</em> the taxonomy first. This was deliberate—including participants who saw the taxonomy first would introduce carryover effects, inflating the "without" condition. This methodological choice reduced our N but increased the validity of the comparison (118→213 coded instances).</p>
+                </div>
+            </div>
+
+            <h3>Implications for Stakeholders</h3>
+
+            <div class="solution-grid">
+                <div class="solution-card">
+                    <div class="solution-number">01</div>
+                    <h4>For Educators</h4>
+                    <p>The taxonomy serves as an accessible "creative checklist," lowering the barrier to designing rich game-like learning activities without code. Participants described it as a "catalyst" that let them "fire off ideas faster"—it scaffolds rather than constrains creativity.</p>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-number">02</div>
+                    <h4>For HCI Practitioners</h4>
+                    <p>A structured vocabulary for designing and critiquing LLM-based educational interfaces. The statistically significant reductions in cognitive load (NASA-TLX) and improvements in perceived usefulness (TAM) suggest value as a design aid integrated into authoring environments.</p>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-number">03</div>
+                    <h4>For Researchers</h4>
+                    <p>An analytical tool to code and compare educational chatbots, and a basis for generative research questions: How do different combinations of Game Mechanics and NPC Interaction Patterns affect specific learning outcomes? Can we train a meta-LLM to auto-generate prompts from learning objectives?</p>
+                </div>
+            </div>
+
+            <!-- Codebook Development -->
+            <div class="image-container">
+                <img src="StudyCrafter___Prompt_Taxonomy_CHI_PLAYu (3)/images/Group 199.png" alt="Researchers developing taxonomy dimensions through iterative process">
+                <p class="image-caption">Researchers developing the dimensions of the taxonomy through an iterative grounded theory process with constant comparison.</p>
+            </div>
+
+            <h2>Limitations &amp; What I'd Do Differently</h2>
+
+            <ul>
+                <li><strong>Engagement ≠ Learning:</strong> Our evaluation deliberately measured engagement, immersion, and attention—not learning outcomes. This was a scoping decision: we first needed to establish that the taxonomy produces <em>more engaging</em> experiences before investing in learning transfer studies. Future work will incorporate pre/post assessments and measure knowledge retention.</li>
+                <li><strong>Sample size trade-offs:</strong> The impact study (n=10) used a mixed-methods approach precisely because the sample size limits statistical power. The qualitative interview data carries the primary weight; the quantitative results serve as supporting triangulation, not standalone evidence. A larger-scale validation is planned.</li>
+                <li><strong>Carryover in within-subjects design:</strong> While we randomized condition order in the usability study, the creative task itself may have a learning effect—participants might generate better prompts simply from having done it once. We mitigated this by analyzing before/after only for participants who completed the no-taxonomy condition first (n=16), but a between-subjects replication would strengthen the finding.</li>
+                <li><strong>Coverage blind spots:</strong> The three uncovered units (voice, timers, video) all relate to emerging LLM modalities. As these capabilities mature, the taxonomy will need continuous refinement—it's a living framework, not a fixed standard.</li>
+                <li><strong>Mechanic combinations:</strong> This work maps the design space but doesn't optimize within it. We don't yet know which combinations of taxonomy elements produce maximum benefit. A rubric for prompt quality assessment is a key next step.</li>
+            </ul>
+
+            <!-- Skills Section -->
+            <div class="skills-section">
+                <h4>Skills &amp; Methods Demonstrated</h4>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <strong>Research</strong>
+                        <p>Participatory Design, Co-Design Workshops, Grounded Theory, Within-Subjects Experiments, Semi-Structured Interviews</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Analysis</strong>
+                        <p>Qualitative Coding, Constant Comparison, Inter-Rater Reliability, Wilcoxon Signed-Rank, Friedman Tests, NASA-TLX, TAM</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Design</strong>
+                        <p>Taxonomy Development, Prompt Engineering, Game Mechanics Design, Educational Platform (StudyHelper) Design</p>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Domain</strong>
+                        <p>Game-Based Learning, Serious Games Frameworks (LM-GM, MDA, DPE), LLM Orchestration, Educational Technology</p>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer">
+                <a href="index.html">← Back to Portfolio</a>
+            </footer>
+        </article>
+    </main>
+
+</body>
+</html>
