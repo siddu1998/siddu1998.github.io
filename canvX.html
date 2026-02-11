@@ -1,0 +1,2357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>CanvX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&family=Caveat&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000000;
+            --bg-dots: #2F3336;
+            --surface: #16181C;
+            --surface-hover: #1D1F23;
+            --border: #2F3336;
+            --border-focus: #1D9BF0;
+            --text-primary: #E7E9EA;
+            --text-secondary: #71767B;
+            --accent: #1D9BF0;
+            --accent-hover: #1A8CD8;
+            --accent-dim: rgba(29, 155, 240, 0.12);
+            --green: #00BA7C;
+            --red: #F4212E;
+            --yellow: #FFD400;
+            --orange: #F97316;
+            --pink: #EC4899;
+            --purple: #A855F7;
+            --cyan: #06B6D4;
+            --shadow: 0 2px 8px rgba(0,0,0,0.5);
+            --shadow-hover: 0 6px 16px rgba(0,0,0,0.6);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-hand: 'Caveat', cursive;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--bg);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            overflow: hidden;
+            overscroll-behavior: none;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* === Sidebar === */
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 320px;
+            height: 100vh;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+        #sidebar.collapsed { transform: translateX(-320px); }
+
+        #sidebar-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 60px;
+        }
+        #sidebar-header h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .sidebar-brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        #sidebar-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .sidebar-icon-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 50%;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+        .sidebar-icon-btn:hover {
+            background: var(--accent-dim);
+            color: var(--accent);
+        }
+
+        #bookmarks-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 0;
+        }
+        .bookmark-item {
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .bookmark-item:hover { background: var(--surface-hover); }
+        .bookmark-author {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .bookmark-author strong { color: var(--text-primary); font-weight: 600; }
+        .bookmark-text {
+            font-size: 0.875rem;
+            line-height: 1.4;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .bookmark-metrics {
+            display: flex;
+            gap: 16px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        .bookmark-metrics span { display: flex; align-items: center; gap: 4px; }
+        .bookmark-empty {
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        #sidebar-footer {
+            padding: 12px 20px;
+            border-top: 1px solid var(--border);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        /* === Sidebar Toggle === */
+        #sidebar-toggle {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 101;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+        #sidebar-toggle:hover { background: var(--surface-hover); }
+        #sidebar.collapsed ~ #sidebar-toggle { left: 16px; }
+        #sidebar:not(.collapsed) ~ #sidebar-toggle { left: 336px; }
+
+        /* === Canvas === */
+        #canvas {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            cursor: grab;
+            background-image: radial-gradient(circle, var(--bg-dots) 1px, transparent 1px);
+            background-size: 24px 24px;
+            touch-action: none;
+            transition: margin-left 0.3s ease;
+        }
+        #canvas.sidebar-open { margin-left: 320px; width: calc(100vw - 320px); }
+
+        #lines-container, #world {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: 0 0;
+        }
+        #lines-container {
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: visible;
+        }
+
+        /* === Nodes === */
+        .node {
+            position: absolute;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            width: 380px;
+            min-height: 80px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            cursor: default;
+        }
+        .node:hover {
+            box-shadow: var(--shadow-hover);
+            border-color: #3E4144;
+        }
+        .node.selected-for-combine {
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-dim);
+        }
+
+        .node-header {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: move;
+            border-radius: 16px 16px 0 0;
+        }
+        .node-header .model-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .model-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .node-content {
+            padding: 16px;
+            flex-grow: 1;
+            overflow-y: auto;
+            max-height: 400px;
+            line-height: 1.6;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+        }
+        .node-content pre {
+            background: var(--bg);
+            padding: 12px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            border: 1px solid var(--border);
+        }
+        .node-content code {
+            font-family: var(--font-mono);
+            background: var(--bg);
+            color: var(--accent);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+        .node-content p { margin-bottom: 0.75rem; }
+        .node-content p:last-child { margin-bottom: 0; }
+
+        .node-actions {
+            padding: 8px 16px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 40px;
+            border-radius: 0 0 16px 16px;
+        }
+        .node-actions .icon {
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 6px;
+            border-radius: 50%;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+        }
+        .node-actions .icon:hover { color: var(--accent); background: var(--accent-dim); }
+        .node-actions .icon.starred { color: var(--yellow); }
+        .node-actions .icon.starred:hover { color: var(--yellow); background: rgba(255, 212, 0, 0.1); }
+
+        /* Branch button - RIGHT side for horizontal growth */
+        .branch-button {
+            position: absolute;
+            right: -18px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            background: var(--surface);
+            color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            z-index: 10;
+        }
+        .branch-button:hover {
+            transform: translateY(-50%) scale(1.15);
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        /* Prompt node (user's query text) */
+        .node.prompt-node {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            min-height: 40px;
+            padding: 12px 16px;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            cursor: move;
+            font-family: var(--font-mono);
+            display: flex;
+            align-items: center;
+        }
+
+        /* Image / Video response node */
+        .node.image-response .node-content,
+        .node.video-response .node-content {
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg);
+            position: relative;
+            min-height: 0;
+        }
+        .node.image-response img,
+        .node.video-response video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0;
+        }
+        .media-prompt-display {
+            padding: 10px 16px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            background: var(--bg);
+            border-top: 1px solid var(--border);
+            font-family: var(--font-mono);
+        }
+
+        /* Post-it */
+        .node.post-it {
+            background: #2C2B1A;
+            border-color: #3B3A22;
+            width: 200px;
+            height: 200px;
+            transform: rotate(-1deg);
+        }
+        .node.post-it:hover { transform: rotate(0deg); border-color: var(--yellow); }
+        .post-it-textarea, .text-node-textarea {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            color: var(--text-primary);
+        }
+        .post-it-textarea { font-family: var(--font-hand); font-size: 1.25rem; line-height: 1.5; padding: 8px 12px; }
+        .text-node-textarea { padding: 10px; }
+
+        .node.text-node {
+            background: transparent;
+            border: 1px dashed transparent;
+            min-height: 40px;
+            min-width: 100px;
+        }
+        .node.text-node:hover { border-color: var(--accent); }
+        .node.selected { border: 2px solid var(--accent) !important; box-shadow: 0 0 0 3px var(--accent-dim); }
+        .node.shape-node {
+            min-width: 50px;
+            min-height: 50px;
+            width: 150px;
+            height: 150px;
+        }
+        .node.shape-node:hover { border-color: var(--accent); }
+
+        .resize-handle {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 20px;
+            height: 20px;
+            cursor: nwse-resize;
+            z-index: 20;
+        }
+        .resize-handle::after {
+            content: '';
+            position: absolute;
+            bottom: 6px;
+            right: 6px;
+            width: 6px;
+            height: 6px;
+            border-bottom: 2px solid var(--border);
+            border-right: 2px solid var(--border);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .node:hover .resize-handle::after { opacity: 1; }
+
+        .loader {
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+        }
+        .video-loading-text {
+            color: var(--text-secondary);
+            position: absolute;
+            z-index: 10;
+            text-align: center;
+            font-size: 0.875rem;
+        }
+
+        /* === Prompt Dialog (on canvas) === */
+        #prompt-dialog {
+            position: absolute;
+            z-index: 50;
+            animation: promptPopIn 0.2s ease;
+        }
+        #prompt-dialog.hidden { display: none; }
+
+        @keyframes promptPopIn {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .prompt-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            width: 480px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+        }
+        .prompt-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px 0;
+        }
+        .prompt-card-header h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+        }
+        .prompt-close-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 50%;
+            transition: var(--transition);
+            display: flex;
+        }
+        .prompt-close-btn:hover { background: var(--surface-hover); color: var(--text-primary); }
+
+        #prompt-textarea {
+            margin: 16px 24px 8px;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-family: var(--font-sans);
+            resize: none;
+            min-height: 80px;
+            line-height: 1.5;
+        }
+        #prompt-textarea::placeholder { color: var(--text-secondary); }
+
+        .prompt-chips-area {
+            padding: 8px 24px 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+        .model-chip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: default;
+            border: 1px solid transparent;
+            transition: var(--transition);
+        }
+        .model-chip .chip-remove {
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.15s;
+            display: flex;
+            align-items: center;
+        }
+        .model-chip .chip-remove:hover { opacity: 1; }
+
+        #add-model-chip {
+            background: transparent;
+            border: 1px dashed var(--border);
+            color: var(--text-secondary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font-sans);
+        }
+        #add-model-chip:hover { border-color: var(--accent); color: var(--accent); }
+
+        .prompt-footer {
+            padding: 12px 24px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        #mode-selector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 8px 16px;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            cursor: pointer;
+            flex: 1;
+            font-family: var(--font-sans);
+        }
+        #mode-selector select {
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            outline: none;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        #mode-selector option { background: var(--surface); }
+
+        #send-prompt-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+        #send-prompt-btn:hover { background: var(--accent-hover); transform: scale(1.05); }
+        #send-prompt-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+        /* Model Picker Dropdown */
+        #model-picker-dropdown {
+            position: fixed;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            z-index: 300;
+            min-width: 240px;
+            padding: 8px 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        #model-picker-dropdown.hidden { display: none; }
+        .picker-group-title {
+            padding: 8px 16px 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .picker-item {
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+        }
+        .picker-item:hover { background: var(--accent-dim); }
+        .picker-item.selected { color: var(--accent); }
+        .picker-item .picker-price {
+            margin-left: auto;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        /* === UI Controls === */
+        .ui-controls {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            display: flex;
+            gap: 6px;
+            z-index: 100;
+        }
+        .ui-button {
+            cursor: pointer;
+            padding: 10px;
+            background: var(--surface);
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            color: var(--text-secondary);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .ui-button:hover { color: var(--text-primary); background: var(--surface-hover); }
+
+        /* === Combination Bar === */
+        #combination-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 10px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 150;
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.3s;
+        }
+        #combination-bar.hidden { transform: translate(-50%, 150%); opacity: 0; pointer-events: none; }
+        .combo-thumbnail { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); }
+        .combo-action-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: var(--transition);
+        }
+        #combine-images-btn { background: var(--accent); color: white; }
+        #combine-images-btn:hover { background: var(--accent-hover); }
+        #stitch-btn { background: var(--green); color: white; }
+        #stitch-btn:hover { opacity: 0.9; }
+
+        /* === Modals === */
+        .modal {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 250;
+            animation: fadeIn 0.15s ease;
+        }
+        .modal.hidden { display: none; }
+        .modal-content {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 480px;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            animation: slideUp 0.25s ease;
+        }
+        .modal-content h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .modal-content label { display: block; margin-bottom: 0.5rem; font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); }
+        .modal-content input[type="password"],
+        .modal-content input[type="text"],
+        .modal-content input[type="number"],
+        .modal-content input[type="color"],
+        .modal-content select,
+        .modal-content textarea {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 14px;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            font-family: var(--font-sans);
+            transition: var(--transition);
+        }
+        .modal-content input:focus,
+        .modal-content textarea:focus,
+        .modal-content select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-dim);
+        }
+        .modal-buttons { display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem; }
+        .modal-buttons button {
+            padding: 10px 20px;
+            border-radius: 24px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .cancel-btn { background: var(--bg); color: var(--text-secondary); }
+        .cancel-btn:hover { background: var(--surface-hover); color: var(--text-primary); }
+        .save-btn { background: var(--accent); color: white; }
+        .save-btn:hover { background: var(--accent-hover); }
+
+        /* Sketch */
+        #sketch-canvas { border: 1px solid var(--border); border-radius: 8px; cursor: crosshair; touch-action: none; }
+        .sketch-toolbar { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .sketch-toolbar label { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; }
+        .sketch-toolbar input[type="color"] { width: 32px; height: 32px; padding: 0; border: none; border-radius: 6px; cursor: pointer; }
+        .sketch-toolbar input[type="range"] { width: 120px; }
+        .sketch-toolbar button { background: var(--bg); border: 1px solid var(--border); padding: 8px; border-radius: 8px; cursor: pointer; transition: var(--transition); display: flex; color: var(--text-primary); }
+        .sketch-toolbar button:hover { background: var(--surface-hover); }
+        .sketch-toolbar button.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-secondary); }
+        * { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+
+        /* Delete button */
+        .delete-postit-btn, .delete-btn {
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 50%;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+        .delete-postit-btn:hover, .delete-btn:hover { background: rgba(244, 33, 46, 0.15); color: var(--red); }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Autofill fix */
+        input:-webkit-autofill { -webkit-text-fill-color: var(--text-primary); -webkit-box-shadow: 0 0 0px 1000px var(--surface) inset; }
+
+        /* Style modal extras */
+        .style-section { margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside id="sidebar" class="collapsed">
+    <div id="sidebar-header">
+        <h2><span style="font-size:1.3rem;">𝕏</span> <span class="sidebar-brand">Bookmarks</span></h2>
+        <div id="sidebar-actions">
+            <button class="sidebar-icon-btn" id="refresh-bookmarks-btn" title="Refresh bookmarks">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+            </button>
+        </div>
+    </div>
+    <div id="bookmarks-list">
+        <div class="bookmark-empty">
+            <p style="font-size:1.5rem; margin-bottom:8px;">🔖</p>
+            <p>Enter your X Bearer Token & User ID in Settings to view your bookmarks.</p>
+        </div>
+    </div>
+    <div id="sidebar-footer">CanvX — Powered by xAI</div>
+</aside>
+
+<!-- Sidebar Toggle -->
+<button id="sidebar-toggle" title="Toggle bookmarks">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+</button>
+
+<!-- Canvas -->
+<div id="canvas">
+    <svg id="lines-container"></svg>
+    <div id="world">
+        <!-- Prompt Dialog lives on the canvas -->
+        <div id="prompt-dialog" class="hidden">
+            <div class="prompt-card">
+                <div class="prompt-card-header">
+                    <h3>Prompt</h3>
+                    <button class="prompt-close-btn" id="prompt-close-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                </div>
+                <textarea id="prompt-textarea" placeholder="Enter prompt..." rows="3"></textarea>
+                <div class="prompt-chips-area" id="prompt-chips-area">
+                    <button id="add-model-chip">+ Add Model</button>
+                </div>
+                <div class="prompt-footer">
+                    <div id="mode-selector">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                        <select id="mode-select">
+                            <option value="chat">Chat</option>
+                            <option value="image">Image</option>
+                            <option value="video">Video</option>
+                        </select>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <button id="send-prompt-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Combination Bar -->
+<div id="combination-bar" class="hidden">
+    <div id="combo-thumbnails" style="display:flex; gap:8px;"></div>
+    <button id="combine-images-btn" class="combo-action-btn" title="Combine images">Combine</button>
+    <button id="stitch-btn" class="combo-action-btn" title="Stitch media into video">Stitch Video</button>
+</div>
+
+<!-- Model Picker Dropdown (stays fixed/screen-level) -->
+<div id="model-picker-dropdown" class="hidden"></div>
+
+<!-- UI Controls -->
+<div class="ui-controls">
+    <button id="save-btn" class="ui-button" title="Save Canvas"></button>
+    <button id="load-btn" class="ui-button" title="Load Canvas"></button>
+    <input type="file" id="load-input" style="display:none" accept=".json">
+    <button id="add-sketch-btn" class="ui-button" title="Add Sketch"></button>
+    <button id="add-text-btn" class="ui-button" title="Add Text"></button>
+    <button id="add-postit-btn" class="ui-button" title="Add Note"></button>
+    <button id="settings-btn" class="ui-button" title="Settings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+    </button>
+</div>
+
+<!-- Settings Modal -->
+<div id="settings-modal" class="modal hidden">
+    <div class="modal-content">
+        <h2>⚙️ Settings</h2>
+        <div style="margin-bottom:1rem;">
+            <label for="xai-key">xAI API Key</label>
+            <input type="password" id="xai-key" placeholder="xai-...">
+        </div>
+        <p style="font-size:0.8rem; font-weight:600; color:var(--text-secondary); margin:1.25rem 0 0.75rem; padding-top:0.75rem; border-top:1px solid var(--border);">𝕏 Bookmarks (OAuth 1.0a)</p>
+        <div style="margin-bottom:0.75rem;">
+            <label for="x-api-key">API Key <span style="font-size:0.7rem;opacity:0.6">(Consumer Key)</span></label>
+            <input type="password" id="x-api-key" placeholder="Your API Key">
+        </div>
+        <div style="margin-bottom:0.75rem;">
+            <label for="x-api-secret">API Secret <span style="font-size:0.7rem;opacity:0.6">(Consumer Secret)</span></label>
+            <input type="password" id="x-api-secret" placeholder="Your API Secret">
+        </div>
+        <div style="margin-bottom:0.75rem;">
+            <label for="x-access-token">Access Token</label>
+            <input type="password" id="x-access-token" placeholder="Your Access Token">
+        </div>
+        <div style="margin-bottom:0.75rem;">
+            <label for="x-access-secret">Access Token Secret</label>
+            <input type="password" id="x-access-secret" placeholder="Your Access Token Secret">
+        </div>
+        <div style="margin-bottom:0.75rem;">
+            <label for="x-user-id">𝕏 User ID</label>
+            <input type="text" id="x-user-id" placeholder="e.g. 123456789">
+        </div>
+        <div style="margin-bottom:1rem;">
+            <label for="cors-proxy">CORS Proxy URL</label>
+            <input type="text" id="cors-proxy" placeholder="https://your-worker.workers.dev">
+            <p style="font-size:0.7rem; color:var(--text-secondary); margin-top:6px; line-height:1.4;">
+                Deploy <code style="color:var(--accent);background:var(--bg);padding:1px 4px;border-radius:3px;">x-proxy-worker.js</code> as a Cloudflare Worker.
+            </p>
+        </div>
+        <div style="margin-bottom:1rem;">
+            <label for="max-words">Max Response Words</label>
+            <input type="number" id="max-words-input" value="150" min="50" max="2000">
+        </div>
+        <div class="modal-buttons">
+            <button class="cancel-btn" id="settings-cancel">Close</button>
+            <button class="save-btn" id="settings-save">Save</button>
+        </div>
+    </div>
+</div>
+
+<!-- Comment Modal -->
+<div id="comment-modal" class="modal hidden">
+    <div class="modal-content">
+        <h2>Comments</h2>
+        <div id="comment-list" style="margin-bottom:1rem; max-height:200px; overflow-y:auto;"></div>
+        <textarea id="comment-input" rows="3" placeholder="Add a comment..."></textarea>
+        <div class="modal-buttons">
+            <button class="cancel-btn" id="comment-cancel">Close</button>
+            <button class="save-btn" id="comment-save">Add</button>
+        </div>
+    </div>
+</div>
+
+<!-- Style Modal -->
+<div id="style-modal" class="modal hidden">
+    <div class="modal-content">
+        <h2>Edit Style</h2>
+        <div class="style-section" id="style-color-section">
+            <label for="style-node-color">Color</label>
+            <input type="color" id="style-node-color">
+        </div>
+        <div class="style-section" id="style-font-section">
+            <label for="style-node-font">Font</label>
+            <select id="style-node-font">
+                <option value="'Inter', sans-serif">Inter</option>
+                <option value="'JetBrains Mono', monospace">JetBrains Mono</option>
+                <option value="'Caveat', cursive">Caveat</option>
+            </select>
+        </div>
+        <div class="modal-buttons">
+            <button class="cancel-btn" id="style-close-btn">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Sketch Modal -->
+<div id="sketch-modal" class="modal hidden">
+    <div class="modal-content" style="max-width:680px;">
+        <h2>Create a Sketch</h2>
+        <div class="sketch-toolbar">
+            <label>Color: <input type="color" id="sketch-color" value="#E7E9EA"></label>
+            <label>Size: <input type="range" id="sketch-size" min="1" max="50" value="5"><span id="sketch-size-label">5</span></label>
+            <button id="sketch-eraser-btn" title="Eraser">🧹</button>
+            <button id="sketch-clear-btn" title="Clear">🗑</button>
+        </div>
+        <canvas id="sketch-canvas" width="600" height="400"></canvas>
+        <div class="modal-buttons">
+            <button class="cancel-btn" id="sketch-cancel-btn">Cancel</button>
+            <button class="save-btn" id="sketch-finish-btn">Finish</button>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+// ─── Icons ────────────────────────────────────────────────────
+const ICONS = {
+    plus: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+    arrowRight: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`,
+    star: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+    comment: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`,
+    download: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`,
+    select: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><polyline points="9 11 12 14 22 4"/></svg>`,
+    x: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
+    save: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>`,
+    folder: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>`,
+    sketch: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`,
+    text: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>`,
+    postit: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z"/><polyline points="14 3 14 8 21 8"/></svg>`,
+    edit: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`,
+    bringToFront: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`,
+    sendToBack: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>`,
+};
+
+// ─── Model Definitions ────────────────────────────────────────
+const MODEL_CATALOG = {
+    chat: [
+        { id: 'grok-4-1-fast-reasoning', name: 'Grok 4.1 Fast ⚡', color: '#F97316', price: '$0.20 / $0.50' },
+        { id: 'grok-4-1-fast-non-reasoning', name: 'Grok 4.1 Fast NR', color: '#22C55E', price: '$0.20 / $0.50' },
+        { id: 'grok-4-fast-reasoning', name: 'Grok 4 Fast ⚡', color: '#F59E0B', price: '$0.20 / $0.50' },
+        { id: 'grok-4-fast-non-reasoning', name: 'Grok 4 Fast NR', color: '#10B981', price: '$0.20 / $0.50' },
+        { id: 'grok-3-mini', name: 'Grok 3 Mini', color: '#A855F7', price: '$0.30 / $0.50' },
+        { id: 'grok-3', name: 'Grok 3', color: '#1D9BF0', price: '$3.00 / $15.00' },
+        { id: 'grok-code-fast-1', name: 'Grok Code Fast', color: '#06B6D4', price: '$0.20 / $1.50' },
+    ],
+    image: [
+        { id: 'grok-imagine-image', name: 'Grok Imagine', color: '#EC4899', price: '$0.02 / img' },
+        { id: 'grok-imagine-image-pro', name: 'Grok Imagine Pro', color: '#F43F5E', price: '$0.07 / img' },
+    ],
+    video: [
+        { id: 'grok-imagine-video', name: 'Grok Video', color: '#06B6D4', price: '$0.05 / sec' },
+    ]
+};
+
+// ─── State ────────────────────────────────────────────────────
+let nodes = [];
+let pan = { x: 300, y: window.innerHeight / 2, active: false, start: { x: 0, y: 0 } };
+let zoom = 1;
+let activeDrag = { node: null, element: null, offset: { x: 0, y: 0 } };
+let isResizing = { active: false, node: null, element: null, startX: 0, startY: 0, startWidth: 0, startHeight: 0 };
+let selectedNodeId = null;
+let selectedNodesForCombine = new Set();
+let zIndexCounter = 1;
+let initialPinchDistance = null;
+let activeCommentNodeId = null;
+
+// Prompt dialog state
+let promptContext = { parentNodeId: null, worldX: 0, worldY: 0 };
+let selectedModels = [];
+let currentMode = 'chat';
+
+// API keys & settings
+let xaiKey = localStorage.getItem('xai_api_key') || '';
+let xApiKey = localStorage.getItem('x_api_key') || '';
+let xApiSecret = localStorage.getItem('x_api_secret') || '';
+let xAccessToken = localStorage.getItem('x_access_token') || '';
+let xAccessSecret = localStorage.getItem('x_access_secret') || '';
+let xUserId = localStorage.getItem('x_user_id') || '';
+let corsProxy = localStorage.getItem('cors_proxy') || '';
+let maxResponseWords = localStorage.getItem('max_response_words') || 150;
+
+// ─── DOM References ───────────────────────────────────────────
+const canvas = document.getElementById('canvas');
+const world = document.getElementById('world');
+const linesContainer = document.getElementById('lines-container');
+const sidebar = document.getElementById('sidebar');
+const sidebarToggle = document.getElementById('sidebar-toggle');
+const bookmarksList = document.getElementById('bookmarks-list');
+const refreshBookmarksBtn = document.getElementById('refresh-bookmarks-btn');
+const promptDialog = document.getElementById('prompt-dialog');
+const promptTextarea = document.getElementById('prompt-textarea');
+const promptChipsArea = document.getElementById('prompt-chips-area');
+const addModelChip = document.getElementById('add-model-chip');
+const modeSelect = document.getElementById('mode-select');
+const sendPromptBtn = document.getElementById('send-prompt-btn');
+const promptCloseBtn = document.getElementById('prompt-close-btn');
+const modelPickerDropdown = document.getElementById('model-picker-dropdown');
+const combinationBar = document.getElementById('combination-bar');
+const comboThumbnails = document.getElementById('combo-thumbnails');
+const combineImagesBtn = document.getElementById('combine-images-btn');
+const stitchBtn = document.getElementById('stitch-btn');
+const settingsModal = document.getElementById('settings-modal');
+const commentModal = document.getElementById('comment-modal');
+const styleModal = document.getElementById('style-modal');
+const sketchModal = document.getElementById('sketch-modal');
+const sketchCanvas = document.getElementById('sketch-canvas');
+const sketchCtx = sketchCanvas.getContext('2d');
+let isSketching = false, isErasing = false, lastSketchX, lastSketchY;
+
+// ─── Init Icons ───────────────────────────────────────────────
+document.getElementById('save-btn').innerHTML = ICONS.save;
+document.getElementById('load-btn').innerHTML = ICONS.folder;
+document.getElementById('add-sketch-btn').innerHTML = ICONS.sketch;
+document.getElementById('add-text-btn').innerHTML = ICONS.text;
+document.getElementById('add-postit-btn').innerHTML = ICONS.postit;
+
+// ─── Sidebar ──────────────────────────────────────────────────
+sidebarToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('collapsed');
+    canvas.classList.toggle('sidebar-open', !sidebar.classList.contains('collapsed'));
+});
+
+refreshBookmarksBtn.addEventListener('click', fetchBookmarks);
+
+// ─── OAuth 1.0a Signing ───────────────────────────────────────
+function percentEncode(str) {
+    return encodeURIComponent(str).replace(/[!'()*]/g, c => '%' + c.charCodeAt(0).toString(16).toUpperCase());
+}
+
+function generateNonce() {
+    const arr = new Uint8Array(16);
+    crypto.getRandomValues(arr);
+    return Array.from(arr, b => b.toString(36)).join('').substring(0, 32);
+}
+
+async function hmacSha1(key, data) {
+    const enc = new TextEncoder();
+    const cryptoKey = await crypto.subtle.importKey('raw', enc.encode(key), { name: 'HMAC', hash: 'SHA-1' }, false, ['sign']);
+    const sig = await crypto.subtle.sign('HMAC', cryptoKey, enc.encode(data));
+    return btoa(String.fromCharCode(...new Uint8Array(sig)));
+}
+
+async function buildOAuth1Header(method, url, params, consumerKey, consumerSecret, token, tokenSecret) {
+    const timestamp = Math.floor(Date.now() / 1000).toString();
+    const nonce = generateNonce();
+
+    const oauthParams = {
+        oauth_consumer_key: consumerKey,
+        oauth_nonce: nonce,
+        oauth_signature_method: 'HMAC-SHA1',
+        oauth_timestamp: timestamp,
+        oauth_token: token,
+        oauth_version: '1.0'
+    };
+
+    // Combine all params (oauth + query)
+    const allParams = { ...oauthParams, ...params };
+    const sortedKeys = Object.keys(allParams).sort();
+    const paramString = sortedKeys.map(k => `${percentEncode(k)}=${percentEncode(allParams[k])}`).join('&');
+
+    // Signature base string
+    const baseString = `${method.toUpperCase()}&${percentEncode(url)}&${percentEncode(paramString)}`;
+
+    // Signing key
+    const signingKey = `${percentEncode(consumerSecret)}&${percentEncode(tokenSecret)}`;
+
+    // Generate signature
+    const signature = await hmacSha1(signingKey, baseString);
+
+    // Build Authorization header
+    oauthParams.oauth_signature = signature;
+    const headerParts = Object.keys(oauthParams).sort().map(k => `${percentEncode(k)}="${percentEncode(oauthParams[k])}"`);
+    return `OAuth ${headerParts.join(', ')}`;
+}
+
+async function fetchBookmarks() {
+    if (!xApiKey || !xApiSecret || !xAccessToken || !xAccessSecret || !xUserId) {
+        bookmarksList.innerHTML = `<div class="bookmark-empty"><p style="font-size:1.5rem; margin-bottom:8px;">🔑</p><p>Fill in all OAuth 1.0a keys and your User ID in Settings.</p></div>`;
+        return;
+    }
+    if (!corsProxy) {
+        bookmarksList.innerHTML = `<div class="bookmark-empty"><p style="color:var(--yellow);">⚠️ CORS Proxy URL not set.</p><p style="font-size:0.75rem;margin-top:8px;">Deploy the Cloudflare Worker and add the URL in Settings.</p></div>`;
+        return;
+    }
+    bookmarksList.innerHTML = `<div class="bookmark-empty"><div class="loader" style="margin:0 auto 12px;"></div><p>Loading bookmarks...</p></div>`;
+    try {
+        const baseUrl = `https://api.x.com/2/users/${xUserId}/bookmarks`;
+        const queryParams = {
+            'tweet.fields': 'created_at,author_id,public_metrics,text',
+            'max_results': '20'
+        };
+        const fullUrl = `${baseUrl}?${Object.entries(queryParams).map(([k,v]) => `${k}=${encodeURIComponent(v)}`).join('&')}`;
+
+        // Build OAuth 1.0a signature
+        const authHeader = await buildOAuth1Header('GET', baseUrl, queryParams, xApiKey, xApiSecret, xAccessToken, xAccessSecret);
+
+        const resp = await fetch(corsProxy, {
+            headers: {
+                'X-Target-URL': fullUrl,
+                'X-Auth-Header': authHeader
+            }
+        });
+        if (!resp.ok) {
+            const body = await resp.text().catch(() => '');
+            throw new Error(`${resp.status}: ${body.substring(0, 300)}`);
+        }
+        const data = await resp.json();
+        if (!data.data || data.data.length === 0) {
+            bookmarksList.innerHTML = `<div class="bookmark-empty"><p>No bookmarks found.</p></div>`;
+            return;
+        }
+        bookmarksList.innerHTML = '';
+        data.data.forEach(tweet => {
+            const item = document.createElement('div');
+            item.className = 'bookmark-item';
+            const metrics = tweet.public_metrics || {};
+            item.innerHTML = `
+                <div class="bookmark-author"><strong>@${tweet.author_id}</strong></div>
+                <div class="bookmark-text">${tweet.text}</div>
+                <div class="bookmark-metrics">
+                    <span>❤️ ${metrics.like_count || 0}</span>
+                    <span>🔁 ${metrics.retweet_count || 0}</span>
+                    <span>💬 ${metrics.reply_count || 0}</span>
+                </div>`;
+            item.addEventListener('click', () => {
+                const cx = (window.innerWidth / 2 - pan.x) / zoom;
+                const cy = (window.innerHeight / 2 - pan.y) / zoom;
+                const node = createNode(`tweet-${Date.now()}`, null, cx - 100, cy - 100, 'post-it', {});
+                node.content = tweet.text;
+                const el = document.getElementById(`node-${node.id}`);
+                if (el) el.querySelector('textarea').value = tweet.text;
+            });
+            bookmarksList.appendChild(item);
+        });
+    } catch (err) {
+        console.error('Bookmarks fetch error:', err);
+        bookmarksList.innerHTML = `<div class="bookmark-empty"><p style="color:var(--red);">Failed to load bookmarks.</p><p style="font-size:0.75rem;margin-top:8px;opacity:0.7;line-height:1.5;">${err.message}</p><p style="font-size:0.7rem;margin-top:12px;color:var(--text-secondary);line-height:1.5;">Tips:<br>• Check all 4 OAuth keys are correct<br>• Make sure your app has Read permissions<br>• Verify your User ID</p></div>`;
+    }
+}
+
+// ─── Canvas Interaction ───────────────────────────────────────
+function updateWorldTransform() {
+    const t = `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`;
+    world.style.transform = t;
+    linesContainer.style.transform = t;
+}
+
+function getEventCoords(e) {
+    return e.touches ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : { x: e.clientX, y: e.clientY };
+}
+
+function handleInteractionStart(e) {
+    if (e.target.closest('.node') || e.target.closest('#prompt-dialog')) return;
+    if (e.touches && e.touches.length > 1) {
+        initialPinchDistance = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+        pan.active = false;
+        return;
+    }
+    const coords = getEventCoords(e);
+    pan.active = true;
+    pan.start.x = coords.x - pan.x;
+    pan.start.y = coords.y - pan.y;
+    canvas.style.cursor = 'grabbing';
+}
+
+function handleInteractionMove(e) {
+    if (e.touches && e.touches.length > 1 && initialPinchDistance) {
+        const d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+        const cx = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+        const cy = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+        const wx = (cx - pan.x) / zoom, wy = (cy - pan.y) / zoom;
+        const nz = Math.max(0.1, Math.min(5, zoom * (d / initialPinchDistance)));
+        pan.x = cx - wx * nz; pan.y = cy - wy * nz; zoom = nz;
+        updateWorldTransform();
+        initialPinchDistance = d;
+        return;
+    }
+    if (pan.active) {
+        const coords = getEventCoords(e);
+        pan.x = coords.x - pan.start.x;
+        pan.y = coords.y - pan.start.y;
+        updateWorldTransform();
+    }
+}
+
+function handleInteractionEnd() { pan.active = false; initialPinchDistance = null; canvas.style.cursor = 'grab'; }
+
+canvas.addEventListener('mousedown', handleInteractionStart);
+canvas.addEventListener('touchstart', handleInteractionStart, { passive: false });
+canvas.addEventListener('mousemove', handleInteractionMove);
+canvas.addEventListener('touchmove', handleInteractionMove, { passive: false });
+canvas.addEventListener('mouseup', handleInteractionEnd);
+canvas.addEventListener('mouseleave', handleInteractionEnd);
+canvas.addEventListener('touchend', handleInteractionEnd);
+
+canvas.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    const wx = (mx - pan.x) / zoom, wy = (my - pan.y) / zoom;
+    const nz = Math.max(0.1, Math.min(5, zoom * (e.deltaY < 0 ? 1.1 : 0.9)));
+    pan.x = mx - wx * nz; pan.y = my - wy * nz; zoom = nz;
+    updateWorldTransform();
+});
+
+// Double-click canvas → open prompt dialog
+canvas.addEventListener('dblclick', (e) => {
+    if (e.target.closest('.node') || e.target.closest('#prompt-dialog')) return;
+    e.preventDefault();
+    // Close existing dialog first if open
+    if (!promptDialog.classList.contains('hidden')) closePromptDialog();
+    const wx = (e.clientX - pan.x) / zoom;
+    const wy = (e.clientY - pan.y) / zoom;
+    openPromptDialog(null, wx, wy);
+});
+
+// Drag nodes on canvas
+canvas.addEventListener('mousemove', (e) => {
+    if (activeDrag.node) {
+        const { node, element } = activeDrag;
+        node.x = (e.clientX - pan.x) / zoom - activeDrag.offset.x;
+        node.y = (e.clientY - pan.y) / zoom - activeDrag.offset.y;
+        element.style.left = `${node.x}px`; element.style.top = `${node.y}px`;
+        requestAnimationFrame(drawLines);
+    }
+});
+canvas.addEventListener('touchmove', (e) => {
+    if (activeDrag.node && e.touches.length === 1) {
+        const coords = getEventCoords(e);
+        const { node, element } = activeDrag;
+        node.x = (coords.x - pan.x) / zoom - activeDrag.offset.x;
+        node.y = (coords.y - pan.y) / zoom - activeDrag.offset.y;
+        element.style.left = `${node.x}px`; element.style.top = `${node.y}px`;
+        requestAnimationFrame(drawLines);
+    }
+}, { passive: false });
+canvas.addEventListener('mouseup', () => { activeDrag.node = null; });
+canvas.addEventListener('touchend', () => { activeDrag.node = null; });
+
+// ─── Resize Logic ─────────────────────────────────────────────
+function initResize(e, node, element) {
+    e.stopPropagation();
+    isResizing = { active: true, node, element, startX: e.clientX, startY: e.clientY,
+        startWidth: parseInt(getComputedStyle(element).width, 10),
+        startHeight: parseInt(getComputedStyle(element).height, 10) };
+    document.addEventListener('mousemove', handleResize);
+    document.addEventListener('mouseup', stopResize);
+}
+function handleResize(e) {
+    if (!isResizing.active) return;
+    const w = Math.max(50, isResizing.startWidth + (e.clientX - isResizing.startX) / zoom);
+    const h = Math.max(50, isResizing.startHeight + (e.clientY - isResizing.startY) / zoom);
+    isResizing.node.width = w; isResizing.node.height = h;
+    isResizing.element.style.width = `${w}px`; isResizing.element.style.height = `${h}px`;
+    requestAnimationFrame(drawLines);
+}
+function stopResize() { isResizing.active = false; document.removeEventListener('mousemove', handleResize); document.removeEventListener('mouseup', stopResize); }
+
+// ─── Node Management ──────────────────────────────────────────
+function createNode(id, parentId, x, y, type, data, content = 'Loading...') {
+    const nd = { id, parentId, x, y, type, data, content, isStarred: false, comments: [], zIndex: zIndexCounter++ };
+    if (type === 'image-response' || type === 'video-response') { nd.width = 380; nd.height = 440; }
+    else if (type === 'post-it') { nd.width = 200; nd.height = 200; nd.content = 'New note...'; }
+    else if (type === 'shape') { nd.width = 150; nd.height = 150; nd.data.color = '#2F3336'; }
+    else if (type === 'text-node') { nd.width = 200; nd.height = 50; nd.content = 'New Text'; nd.data.color = '#E7E9EA'; nd.data.font = "'Inter', sans-serif"; }
+    nodes.push(nd);
+    renderNode(nd);
+    if (parentId) requestAnimationFrame(drawLines);
+    return nd;
+}
+
+function renderNode(node) {
+    const el = document.createElement('div');
+    el.id = `node-${node.id}`;
+    el.className = 'node';
+    el.style.left = `${node.x}px`; el.style.top = `${node.y}px`; el.style.zIndex = node.zIndex;
+
+    if (node.type === 'ai-response') {
+        const dotColor = getModelColor(node.data.model);
+        el.innerHTML = `
+            <div class="branch-button">${ICONS.arrowRight}</div>
+            <div class="node-header"><span class="model-label"><span class="model-dot" style="background:${dotColor}"></span>${node.data.model}</span></div>
+            <div class="node-content"><div class="response-text">${marked.parse(node.content)}</div></div>
+            <div class="node-actions">
+                <div style="display:flex;align-items:center;gap:4px;">
+                    <span class="icon star-btn ${node.isStarred ? 'starred' : ''}">${ICONS.star}</span>
+                    <span class="icon comment-btn">${ICONS.comment}</span>
+                </div>
+                <span style="font-size:0.7rem;color:var(--text-secondary);">ID: ${node.id.substring(0, 6)}</span>
+            </div>`;
+    } else if (node.type === 'user-prompt') {
+        el.classList.add('prompt-node');
+        el.innerHTML = `<div class="branch-button">${ICONS.arrowRight}</div><span>${node.data.prompt}</span>`;
+    } else if (node.type === 'image-response' || node.type === 'video-response') {
+        el.style.width = `${node.width}px`; el.style.height = `${node.height}px`;
+        const isImg = node.type === 'image-response';
+        el.classList.add(isImg ? 'image-response' : 'video-response');
+        let contentHTML;
+        if (isImg && (node.content.startsWith('data:image') || node.content.startsWith('blob:'))) contentHTML = `<img src="${node.content}">`;
+        else if (!isImg && node.content.startsWith('blob:')) contentHTML = `<video controls autoplay loop muted src="${node.content}"></video>`;
+        else contentHTML = `<div class="video-loading-text">${node.data.progressText || (isImg ? 'Generating image...' : 'Generating video...')}</div><div class="loader"></div>`;
+        const href = (node.content.startsWith('data:image') || node.content.startsWith('blob:')) ? node.content : '#';
+        const show = (node.content.startsWith('data:image') || node.content.startsWith('blob:')) ? 'inline-flex' : 'none';
+        el.innerHTML = `
+            <div class="branch-button">${ICONS.arrowRight}</div>
+            <div class="node-header"><span class="model-label"><span class="model-dot" style="background:${getModelColor(node.data.model)}"></span>${node.data.model}</span></div>
+            <div class="node-content">${contentHTML}</div>
+            <div class="media-prompt-display">${node.data.originalPrompt || ''}</div>
+            <div class="node-actions">
+                <div style="display:flex;align-items:center;gap:4px;">
+                    <span class="icon star-btn ${node.isStarred ? 'starred' : ''}">${ICONS.star}</span>
+                    <span class="icon comment-btn">${ICONS.comment}</span>
+                    <a class="icon download-btn" href="${href}" download="canvx-${isImg ? 'img.png' : 'video.mp4'}" style="display:${show}">${ICONS.download}</a>
+                    <span class="icon select-for-combine-btn" title="Select for Combine/Stitch">${ICONS.select}</span>
+                </div>
+                <span style="font-size:0.7rem;color:var(--text-secondary);">ID: ${node.id.substring(0, 6)}</span>
+            </div>
+            <div class="resize-handle"></div>`;
+    } else if (node.type === 'post-it') {
+        el.classList.add('post-it');
+        el.style.width = `${node.width}px`; el.style.height = `${node.height}px`;
+        el.innerHTML = `
+            <div class="node-header"><span style="font-size:0.75rem;color:var(--text-secondary);">Note</span><span class="delete-postit-btn">${ICONS.x}</span></div>
+            <div class="node-content" style="padding:0;"><textarea class="post-it-textarea" spellcheck="false">${node.content}</textarea></div>
+            <div class="resize-handle"></div>`;
+    } else if (node.type === 'shape') {
+        el.classList.add('shape-node');
+        el.style.width = `${node.width}px`; el.style.height = `${node.height}px`;
+        el.style.backgroundColor = node.data.color;
+        if (node.data.shape === 'circle') el.style.borderRadius = '50%';
+        el.innerHTML = `
+            <div class="node-header" style="background:transparent;border:none;justify-content:flex-end;position:absolute;width:100%;top:0;">
+                <span class="icon bringToFront-btn" title="Bring to Front">${ICONS.bringToFront}</span>
+                <span class="icon sendToBack-btn" title="Send to Back">${ICONS.sendToBack}</span>
+                <span class="icon style-btn" title="Edit Style">${ICONS.edit}</span>
+                <span class="icon delete-btn" title="Delete">${ICONS.x}</span>
+            </div><div class="resize-handle"></div>`;
+    } else if (node.type === 'text-node') {
+        el.classList.add('text-node');
+        el.style.width = `${node.width}px`; el.style.height = `${node.height}px`;
+        el.innerHTML = `
+            <div class="node-header" style="background:transparent;border:none;justify-content:flex-end;height:30px;">
+                <span class="icon bringToFront-btn">${ICONS.bringToFront}</span>
+                <span class="icon sendToBack-btn">${ICONS.sendToBack}</span>
+                <span class="icon style-btn">${ICONS.edit}</span>
+                <span class="icon delete-btn">${ICONS.x}</span>
+            </div>
+            <textarea class="text-node-textarea" style="font-family:${node.data.font};color:${node.data.color};height:calc(100% - 30px);" spellcheck="false">${node.content}</textarea>
+            <div class="resize-handle"></div>`;
+    }
+
+    world.appendChild(el);
+    addNodeEventListeners(el, node);
+}
+
+function getModelColor(modelName) {
+    for (const cat of Object.values(MODEL_CATALOG)) {
+        const m = cat.find(m => m.id === modelName || m.name === modelName);
+        if (m) return m.color;
+    }
+    return '#1D9BF0';
+}
+
+function updateNodeContent(id, newContent) {
+    const node = nodes.find(n => n.id === id);
+    if (!node) return;
+    node.content = newContent;
+    const el = document.getElementById(`node-${id}`);
+    if (el) {
+        const ce = el.querySelector('.node-content');
+        if (ce) ce.innerHTML = `<div class="response-text">${marked.parse(newContent)}</div>`;
+    }
+    requestAnimationFrame(drawLines);
+}
+
+function updateNodeImage(id, src) {
+    const node = nodes.find(n => n.id === id), el = document.getElementById(`node-${id}`);
+    if (!node || !el) return;
+    node.content = src;
+    const ce = el.querySelector('.node-content'), dl = el.querySelector('.download-btn');
+    if (src.startsWith('data:image') || src.startsWith('http')) {
+        ce.innerHTML = `<img src="${src}" alt="Generated">`;
+        if (dl) { dl.href = src; dl.style.display = 'inline-flex'; }
+    } else {
+        ce.innerHTML = `<p style="padding:1rem;color:var(--text-secondary);">${src}</p>`;
+    }
+    requestAnimationFrame(drawLines);
+}
+
+function updateNodeVideo(id, videoUrl, text = null) {
+    const node = nodes.find(n => n.id === id), el = document.getElementById(`node-${id}`);
+    if (!node || !el) return;
+    node.content = videoUrl;
+    if (text) node.data.progressText = text;
+    const ce = el.querySelector('.node-content'), dl = el.querySelector('.download-btn'), lt = el.querySelector('.video-loading-text');
+    if (videoUrl.startsWith('blob:')) {
+        ce.innerHTML = `<video controls autoplay loop muted src="${videoUrl}"></video>`;
+        if (dl) { dl.href = videoUrl; dl.style.display = 'inline-flex'; }
+    } else if (lt && text) {
+        lt.textContent = text;
+    } else if (videoUrl !== 'loading') {
+        ce.innerHTML = `<p style="padding:1rem;color:var(--text-secondary);">${videoUrl}</p>`;
+    }
+    requestAnimationFrame(drawLines);
+}
+
+function addNodeEventListeners(el, node) {
+    const header = el.querySelector('.node-header');
+    function startDrag(e) {
+        if (e.target.closest('textarea') || e.target.closest('.icon') || e.target.closest('.delete-postit-btn') || e.target.closest('.delete-btn')) return;
+        const coords = getEventCoords(e);
+        activeDrag = { node, element: el, offset: { x: (coords.x - pan.x) / zoom - node.x, y: (coords.y - pan.y) / zoom - node.y } };
+        if (node.type === 'shape' || node.type === 'text-node') selectNode(node.id);
+    }
+
+    if (header && node.type !== 'shape' && node.type !== 'text-node') {
+        header.addEventListener('mousedown', startDrag);
+        header.addEventListener('touchstart', startDrag, { passive: false });
+    }
+    if (node.type === 'user-prompt' || node.type === 'shape' || node.type === 'text-node') {
+        el.addEventListener('mousedown', startDrag);
+        el.addEventListener('touchstart', startDrag, { passive: false });
+    }
+
+    // Branch button → open prompt dialog
+    const branchBtn = el.querySelector('.branch-button');
+    if (branchBtn) branchBtn.addEventListener('click', () => openPromptDialog(node.id, node.x + (el.offsetWidth || 380) + 120, node.y));
+
+    // Star
+    const starBtn = el.querySelector('.star-btn');
+    if (starBtn) starBtn.addEventListener('click', () => { node.isStarred = !node.isStarred; starBtn.classList.toggle('starred', node.isStarred); });
+
+    // Comment
+    const commentBtn = el.querySelector('.comment-btn');
+    if (commentBtn) commentBtn.addEventListener('click', () => openCommentModal(node.id));
+
+    // Select for combine
+    const selectBtn = el.querySelector('.select-for-combine-btn');
+    if (selectBtn) selectBtn.addEventListener('click', () => toggleNodeSelection(node.id));
+
+    // Resize
+    const rh = el.querySelector('.resize-handle');
+    if (rh) rh.addEventListener('mousedown', (e) => initResize(e, node, el));
+
+    // Style, delete, z-order
+    el.querySelector('.style-btn')?.addEventListener('click', (e) => { e.stopPropagation(); openStyleModal(node.id); });
+    el.querySelector('.delete-btn')?.addEventListener('click', (e) => { e.stopPropagation(); removeNode(node.id); });
+    el.querySelector('.delete-postit-btn')?.addEventListener('click', () => removeNode(node.id));
+    el.querySelector('.bringToFront-btn')?.addEventListener('click', (e) => { e.stopPropagation(); node.zIndex = zIndexCounter++; el.style.zIndex = node.zIndex; });
+    el.querySelector('.sendToBack-btn')?.addEventListener('click', (e) => { e.stopPropagation(); const minZ = Math.min(...nodes.map(n => n.zIndex || 0)); node.zIndex = minZ - 1; el.style.zIndex = node.zIndex; });
+
+    // Post-it textarea
+    if (node.type === 'post-it') el.querySelector('.post-it-textarea')?.addEventListener('input', (e) => { node.content = e.target.value; });
+    if (node.type === 'text-node') el.querySelector('.text-node-textarea')?.addEventListener('input', (e) => { node.content = e.target.value; });
+}
+
+function removeNode(id) {
+    nodes = nodes.filter(n => n.id !== id);
+    document.getElementById(`node-${id}`)?.remove();
+    requestAnimationFrame(drawLines);
+    if (selectedNodeId === id) selectNode(null);
+}
+
+function selectNode(id) {
+    if (selectedNodeId) document.getElementById(`node-${selectedNodeId}`)?.classList.remove('selected');
+    selectedNodeId = id;
+    if (id) document.getElementById(`node-${id}`)?.classList.add('selected');
+}
+
+// ─── Line Drawing (Horizontal) ───────────────────────────────
+function drawLine(x1, y1, x2, y2, opts = {}) {
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    const cp = Math.max(60, Math.abs(x2 - x1) * 0.4);
+    line.setAttribute('d', `M ${x1} ${y1} C ${x1 + cp} ${y1}, ${x2 - cp} ${y2}, ${x2} ${y2}`);
+    line.setAttribute('stroke', opts.stroke || 'var(--text-secondary)');
+    line.setAttribute('stroke-width', opts.width || '2');
+    line.setAttribute('fill', 'none');
+    line.setAttribute('opacity', opts.opacity || '0.25');
+    if (opts.dash) line.setAttribute('stroke-dasharray', opts.dash);
+    linesContainer.appendChild(line);
+}
+
+function drawLines() {
+    linesContainer.innerHTML = '';
+
+    // Draw lines between nodes
+    nodes.forEach(node => {
+        if (!node.parentId) return;
+        const parentIds = Array.isArray(node.parentId) ? node.parentId : [node.parentId];
+        const nodeEl = document.getElementById(`node-${node.id}`);
+        parentIds.forEach(pid => {
+            const pn = nodes.find(n => n.id === pid), pe = document.getElementById(`node-${pid}`);
+            if (pn && nodeEl && pe && pe.offsetWidth > 0) {
+                const x1 = pn.x + pe.offsetWidth;
+                const y1 = pn.y + pe.offsetHeight / 2;
+                const x2 = node.x;
+                const y2 = node.y + nodeEl.offsetHeight / 2;
+                drawLine(x1, y1, x2, y2);
+            }
+        });
+    });
+
+    // Draw line from parent node → prompt dialog (if open and has a parent)
+    if (!promptDialog.classList.contains('hidden') && promptContext.parentNodeId && !Array.isArray(promptContext.parentNodeId)) {
+        const pid = promptContext.parentNodeId;
+        const pn = nodes.find(n => n.id === pid);
+        const pe = document.getElementById(`node-${pid}`);
+        if (pn && pe && pe.offsetWidth > 0) {
+            const x1 = pn.x + pe.offsetWidth;
+            const y1 = pn.y + pe.offsetHeight / 2;
+            const dlgX = parseFloat(promptDialog.style.left) || 0;
+            const dlgY = parseFloat(promptDialog.style.top) || 0;
+            const x2 = dlgX;
+            const y2 = dlgY + (promptDialog.offsetHeight || 200) / 2;
+            drawLine(x1, y1, x2, y2, { stroke: 'var(--accent)', opacity: '0.4', dash: '6 4' });
+        }
+    }
+}
+
+// ─── Prompt Dialog (on canvas) ────────────────────────────────
+function openPromptDialog(parentNodeId, worldX, worldY) {
+    promptContext = { parentNodeId, worldX, worldY };
+    promptTextarea.value = '';
+    // Position the dialog at the world coordinates
+    promptDialog.style.left = `${worldX}px`;
+    promptDialog.style.top = `${worldY - 100}px`;
+    promptDialog.classList.remove('hidden');
+    // Set default models for current mode
+    if (selectedModels.length === 0) {
+        const defaults = { chat: ['grok-4-1-fast-reasoning'], image: ['grok-imagine-image'], video: ['grok-imagine-video'] };
+        selectedModels = [...(defaults[currentMode] || defaults.chat)];
+    }
+    renderModelChips();
+    requestAnimationFrame(drawLines);
+    setTimeout(() => promptTextarea.focus(), 100);
+}
+
+function closePromptDialog() {
+    promptDialog.classList.add('hidden');
+    modelPickerDropdown.classList.add('hidden');
+    requestAnimationFrame(drawLines);
+}
+
+promptCloseBtn.addEventListener('click', closePromptDialog);
+
+// Escape key closes prompt
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !promptDialog.classList.contains('hidden')) closePromptDialog();
+});
+
+// Make the prompt dialog header draggable on canvas
+{
+    let promptDrag = { active: false, offsetX: 0, offsetY: 0 };
+    const promptHeader = promptDialog.querySelector('.prompt-card-header');
+    promptHeader.style.cursor = 'move';
+    promptHeader.addEventListener('mousedown', (e) => {
+        if (e.target.closest('button')) return;
+        e.stopPropagation();
+        const dlgX = parseFloat(promptDialog.style.left) || 0;
+        const dlgY = parseFloat(promptDialog.style.top) || 0;
+        promptDrag = { active: true, offsetX: (e.clientX - pan.x) / zoom - dlgX, offsetY: (e.clientY - pan.y) / zoom - dlgY };
+    });
+    document.addEventListener('mousemove', (e) => {
+        if (!promptDrag.active) return;
+        const nx = (e.clientX - pan.x) / zoom - promptDrag.offsetX;
+        const ny = (e.clientY - pan.y) / zoom - promptDrag.offsetY;
+        promptDialog.style.left = `${nx}px`;
+        promptDialog.style.top = `${ny}px`;
+        requestAnimationFrame(drawLines);
+    });
+    document.addEventListener('mouseup', () => { promptDrag.active = false; });
+}
+
+modeSelect.addEventListener('change', () => {
+    currentMode = modeSelect.value;
+    // Reset to defaults for this mode
+    const defaults = { chat: ['grok-4-1-fast-reasoning'], image: ['grok-imagine-image'], video: ['grok-imagine-video'] };
+    selectedModels = [...(defaults[currentMode] || [])];
+    renderModelChips();
+});
+
+function renderModelChips() {
+    // Remove existing chips (keep the add button)
+    promptChipsArea.querySelectorAll('.model-chip').forEach(c => c.remove());
+    selectedModels.forEach(modelId => {
+        const info = findModelInfo(modelId);
+        if (!info) return;
+        const chip = document.createElement('div');
+        chip.className = 'model-chip';
+        chip.style.background = info.color + '22';
+        chip.style.color = info.color;
+        chip.style.borderColor = info.color + '44';
+        chip.innerHTML = `<span>${info.name}</span><span class="chip-remove" data-model="${modelId}">${ICONS.x}</span>`;
+        chip.querySelector('.chip-remove').addEventListener('click', () => {
+            selectedModels = selectedModels.filter(m => m !== modelId);
+            renderModelChips();
+        });
+        promptChipsArea.insertBefore(chip, addModelChip);
+    });
+}
+
+function findModelInfo(id) {
+    for (const cat of Object.values(MODEL_CATALOG)) {
+        const m = cat.find(m => m.id === id);
+        if (m) return m;
+    }
+    return null;
+}
+
+// Model picker dropdown
+addModelChip.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const rect = addModelChip.getBoundingClientRect();
+    modelPickerDropdown.style.top = `${rect.bottom + 8}px`;
+    modelPickerDropdown.style.left = `${rect.left}px`;
+    modelPickerDropdown.classList.toggle('hidden');
+    renderModelPicker();
+});
+
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('#model-picker-dropdown') && !e.target.closest('#add-model-chip'))
+        modelPickerDropdown.classList.add('hidden');
+});
+
+function renderModelPicker() {
+    const models = MODEL_CATALOG[currentMode] || [];
+    modelPickerDropdown.innerHTML = `<div class="picker-group-title">${currentMode.toUpperCase()} MODELS</div>`;
+    models.forEach(m => {
+        const isSelected = selectedModels.includes(m.id);
+        const item = document.createElement('div');
+        item.className = `picker-item ${isSelected ? 'selected' : ''}`;
+        item.innerHTML = `<span class="model-dot" style="background:${m.color}"></span><span>${m.name}</span><span class="picker-price">${m.price}</span>`;
+        item.addEventListener('click', () => {
+            if (isSelected) {
+                selectedModels = selectedModels.filter(id => id !== m.id);
+            } else {
+                selectedModels.push(m.id);
+            }
+            renderModelChips();
+            renderModelPicker();
+        });
+        modelPickerDropdown.appendChild(item);
+    });
+}
+
+// Send prompt
+sendPromptBtn.addEventListener('click', submitPrompt);
+promptTextarea.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitPrompt(); }
+});
+
+function submitPrompt() {
+    const prompt = promptTextarea.value.trim();
+    if (!prompt && currentMode === 'chat') return;
+    if (selectedModels.length === 0) return;
+
+    // Grab position from where dialog sits on canvas
+    const { parentNodeId } = promptContext;
+    const worldX = parseFloat(promptDialog.style.left) || promptContext.worldX;
+    const worldY = parseFloat(promptDialog.style.top) || promptContext.worldY;
+
+    closePromptDialog();
+
+    // Create prompt node
+    const promptNodeId = `prompt-${Date.now()}`;
+    const promptNode = createNode(promptNodeId, parentNodeId, worldX, worldY, 'user-prompt', { prompt });
+
+    const promptEl = document.getElementById(`node-${promptNodeId}`);
+    const pw = promptEl?.offsetWidth || 380;
+    const xOffset = pw + 120;
+
+    if (currentMode === 'chat') {
+        generateChatResponses(prompt, promptNodeId, worldX + xOffset, worldY);
+    } else if (currentMode === 'image') {
+        generateImageResponses(prompt, promptNodeId, worldX + xOffset, worldY);
+    } else if (currentMode === 'video') {
+        generateVideoResponses(prompt, promptNodeId, worldX + xOffset, worldY);
+    }
+}
+
+// ─── Chat History Builder ─────────────────────────────────────
+function buildHistory(leafNodeId) {
+    let history = [];
+    let cur = nodes.find(n => n.id === leafNodeId);
+    while (cur) {
+        if (cur.type === 'user-prompt') history.unshift({ role: 'user', content: cur.data.prompt });
+        else if (cur.type === 'ai-response') history.unshift({ role: 'assistant', content: cur.content });
+        cur = cur.parentId && !Array.isArray(cur.parentId) ? nodes.find(n => n.id === cur.parentId) : null;
+    }
+    return history;
+}
+
+// ─── xAI API Calls ────────────────────────────────────────────
+
+// Check if parent is an image node (for vision)
+function getParentImageData(parentNodeId) {
+    const parent = nodes.find(n => n.id === parentNodeId);
+    if (parent && parent.type === 'image-response' && parent.content.startsWith('data:image')) {
+        return parent.content;
+    }
+    // Walk up
+    if (parent && parent.parentId && !Array.isArray(parent.parentId)) {
+        return getParentImageData(parent.parentId);
+    }
+    return null;
+}
+
+async function generateChatResponses(prompt, promptNodeId, startX, startY) {
+    if (!xaiKey) { createNode(`err-${Date.now()}`, promptNodeId, startX, startY, 'ai-response', { model: 'Error' }, '**Error:** xAI API key not set. Open Settings to add it.'); return; }
+
+    const history = buildHistory(promptNodeId);
+    const constrainedHistory = [...history];
+    const lastMsg = constrainedHistory[constrainedHistory.length - 1];
+    if (lastMsg) lastMsg.content += `\n\n(Keep response around ${maxResponseWords} words.)`;
+
+    // Check if parent chain has an image for vision
+    const parentImageData = promptContext.parentNodeId ? getParentImageData(promptContext.parentNodeId) : null;
+
+    const nodeHeight = 180;
+    const spacing = 30;
+    const totalH = selectedModels.length * (nodeHeight + spacing);
+    const baseY = startY - totalH / 2 + nodeHeight / 2;
+
+    selectedModels.forEach((modelId, i) => {
+        const nodeId = `chat-${modelId}-${Date.now()}-${i}`;
+        const ny = baseY + i * (nodeHeight + spacing);
+        createNode(nodeId, promptNodeId, startX, ny, 'ai-response', { model: modelId });
+
+        if (parentImageData) {
+            // Use vision/responses endpoint
+            callXAIVision(modelId, prompt, parentImageData, xaiKey)
+                .then(text => updateNodeContent(nodeId, text))
+                .catch(err => updateNodeContent(nodeId, `**Error:** ${err.message}`));
+        } else {
+            callXAIChat(modelId, constrainedHistory, xaiKey)
+                .then(text => updateNodeContent(nodeId, text))
+                .catch(err => updateNodeContent(nodeId, `**Error:** ${err.message}`));
+        }
+    });
+}
+
+// Build a context-enriched prompt by walking the conversation tree
+function buildContextPrompt(prompt, promptNodeId) {
+    const history = buildHistory(promptNodeId);
+    // If there's conversation history before this prompt, summarize it into context
+    // (exclude the last message which is the current prompt itself)
+    const priorMessages = history.slice(0, -1);
+    if (priorMessages.length === 0) return prompt;
+
+    // Build a context string from the conversation
+    const contextParts = priorMessages.map(m => {
+        const role = m.role === 'user' ? 'User' : 'Assistant';
+        // Truncate very long messages to keep prompt reasonable
+        const text = m.content.length > 300 ? m.content.substring(0, 300) + '...' : m.content;
+        return `${role}: ${text}`;
+    });
+    const context = contextParts.join('\n');
+    return `Based on this conversation:\n${context}\n\nNow: ${prompt}`;
+}
+
+// Find the nearest ancestor image for edit operations (walks up the tree)
+function findAncestorImage(nodeId) {
+    let cur = nodes.find(n => n.id === nodeId);
+    while (cur) {
+        if (cur.type === 'image-response' && cur.content && cur.content.startsWith('data:image')) {
+            return cur;
+        }
+        cur = cur.parentId && !Array.isArray(cur.parentId) ? nodes.find(n => n.id === cur.parentId) : null;
+    }
+    return null;
+}
+
+async function generateImageResponses(prompt, promptNodeId, startX, startY) {
+    if (!xaiKey) { createNode(`err-${Date.now()}`, promptNodeId, startX, startY, 'ai-response', { model: 'Error' }, '**Error:** xAI API key not set.'); return; }
+
+    // Find nearest ancestor image for edit mode
+    const ancestorImage = promptContext.parentNodeId ? findAncestorImage(promptContext.parentNodeId) : null;
+    const isEdit = !!ancestorImage;
+
+    // Build a context-enriched prompt from conversation history
+    const enrichedPrompt = buildContextPrompt(prompt, promptNodeId);
+
+    const nodeHeight = 440;
+    const spacing = 30;
+    const totalH = selectedModels.length * (nodeHeight + spacing);
+    const baseY = startY - totalH / 2 + nodeHeight / 2;
+
+    selectedModels.forEach((modelId, i) => {
+        const nodeId = `img-${modelId}-${Date.now()}-${i}`;
+        const ny = baseY + i * (nodeHeight + spacing);
+        createNode(nodeId, promptNodeId, startX, ny, 'image-response', { model: modelId, originalPrompt: prompt });
+
+        if (isEdit) {
+            // Edit the ancestor image with the new prompt
+            callXAIImageEdit(modelId, prompt, ancestorImage.content, xaiKey)
+                .then(src => updateNodeImage(nodeId, src))
+                .catch(err => updateNodeImage(nodeId, `**Error:** ${err.message}`));
+        } else {
+            // Use enriched prompt that includes conversation context
+            callXAIImageGen(modelId, enrichedPrompt, xaiKey)
+                .then(src => updateNodeImage(nodeId, src))
+                .catch(err => updateNodeImage(nodeId, `**Error:** ${err.message}`));
+        }
+    });
+}
+
+async function generateVideoResponses(prompt, promptNodeId, startX, startY) {
+    if (!xaiKey) { createNode(`err-${Date.now()}`, promptNodeId, startX, startY, 'ai-response', { model: 'Error' }, '**Error:** xAI API key not set.'); return; }
+
+    // Find nearest ancestor image for image-to-video
+    const ancestorImage = promptContext.parentNodeId ? findAncestorImage(promptContext.parentNodeId) : null;
+    const isFromImage = !!ancestorImage;
+
+    // Build a context-enriched prompt from conversation history
+    const enrichedPrompt = buildContextPrompt(prompt, promptNodeId);
+
+    const nodeHeight = 440;
+    const spacing = 30;
+    const totalH = selectedModels.length * (nodeHeight + spacing);
+    const baseY = startY - totalH / 2 + nodeHeight / 2;
+
+    selectedModels.forEach((modelId, i) => {
+        const nodeId = `vid-${modelId}-${Date.now()}-${i}`;
+        const ny = baseY + i * (nodeHeight + spacing);
+        createNode(nodeId, promptNodeId, startX, ny, 'video-response', { model: modelId, originalPrompt: prompt });
+
+        const apiCall = isFromImage
+            ? callXAIVideoFromImage(modelId, enrichedPrompt, ancestorImage.content, xaiKey, nodeId)
+            : callXAIVideoGen(modelId, enrichedPrompt, xaiKey, nodeId);
+
+        apiCall
+            .then(url => updateNodeVideo(nodeId, url))
+            .catch(err => updateNodeVideo(nodeId, `**Error:** ${err.message}`));
+    });
+}
+
+// --- API Call Functions ---
+
+async function callXAIChat(model, messages, key) {
+    const resp = await fetch('https://api.x.ai/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+        body: JSON.stringify({ model, messages, stream: false, temperature: 0.7 })
+    });
+    if (!resp.ok) {
+        const err = await resp.json().catch(() => ({}));
+        throw new Error(err.error?.message || `${resp.status} ${resp.statusText}`);
+    }
+    const data = await resp.json();
+    return data.choices[0].message.content;
+}
+
+async function callXAIVision(model, prompt, imageDataUrl, key) {
+    const resp = await fetch('https://api.x.ai/v1/responses', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+        body: JSON.stringify({
+            model,
+            input: [{
+                role: 'user',
+                content: [
+                    { type: 'input_image', image_url: imageDataUrl, detail: 'high' },
+                    { type: 'input_text', text: prompt }
+                ]
+            }]
+        })
+    });
+    if (!resp.ok) {
+        const err = await resp.json().catch(() => ({}));
+        throw new Error(err.error?.message || `${resp.status} ${resp.statusText}`);
+    }
+    const data = await resp.json();
+    // Handle responses API format
+    if (data.output) {
+        const textPart = data.output.find(o => o.type === 'message');
+        if (textPart) {
+            const contentPart = textPart.content?.find(c => c.type === 'output_text');
+            return contentPart?.text || JSON.stringify(data.output);
+        }
+    }
+    return data.choices?.[0]?.message?.content || JSON.stringify(data);
+}
+
+async function callXAIImageGen(model, prompt, key) {
+    const resp = await fetch('https://api.x.ai/v1/images/generations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+        body: JSON.stringify({ model, prompt, response_format: 'b64_json', n: 1 })
+    });
+    if (!resp.ok) {
+        const err = await resp.json().catch(() => ({}));
+        throw new Error(err.error?.message || `${resp.status} ${resp.statusText}`);
+    }
+    const data = await resp.json();
+    if (data.data?.[0]?.b64_json) return `data:image/png;base64,${data.data[0].b64_json}`;
+    if (data.data?.[0]?.url) return data.data[0].url;
+    throw new Error('No image in response');
+}
+
+async function callXAIImageEdit(model, prompt, imageDataUrl, key) {
+    const resp = await fetch('https://api.x.ai/v1/images/edits', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+        body: JSON.stringify({
+            model,
+            prompt,
+            image: { url: imageDataUrl, type: 'image_url' },
+            response_format: 'b64_json',
+            n: 1
+        })
+    });
+    if (!resp.ok) {
+        const err = await resp.json().catch(() => ({}));
+        throw new Error(err.error?.message || `${resp.status} ${resp.statusText}`);
+    }
+    const data = await resp.json();
+    if (data.data?.[0]?.b64_json) return `data:image/png;base64,${data.data[0].b64_json}`;
+    if (data.data?.[0]?.url) return data.data[0].url;
+    throw new Error('No image in response');
+}
+
+async function callXAIVideoGen(model, prompt, key, nodeId) {
+    const resp = await fetch('https://api.x.ai/v1/videos/generations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+        body: JSON.stringify({ model, prompt })
+    });
+    if (!resp.ok) {
+        const err = await resp.json().catch(() => ({}));
+        throw new Error(err.error?.message || `${resp.status} ${resp.statusText}`);
+    }
+    const data = await resp.json();
+    const requestId = data.request_id;
+    if (!requestId) throw new Error('No request_id in response');
+    return pollXAIVideo(requestId, key, nodeId);
+}
+
+async function callXAIVideoFromImage(model, prompt, imageDataUrl, key, nodeId) {
+    const resp = await fetch('https://api.x.ai/v1/videos/generations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+        body: JSON.stringify({ model, prompt, image: { url: imageDataUrl } })
+    });
+    if (!resp.ok) {
+        const err = await resp.json().catch(() => ({}));
+        throw new Error(err.error?.message || `${resp.status} ${resp.statusText}`);
+    }
+    const data = await resp.json();
+    const requestId = data.request_id;
+    if (!requestId) throw new Error('No request_id in response');
+    return pollXAIVideo(requestId, key, nodeId);
+}
+
+async function pollXAIVideo(requestId, key, nodeId) {
+    const url = `https://api.x.ai/v1/videos/generations/${requestId}`;
+    while (true) {
+        await new Promise(r => setTimeout(r, 8000));
+        try {
+            const resp = await fetch(url, { headers: { 'Authorization': `Bearer ${key}` } });
+            if (!resp.ok) {
+                const err = await resp.json().catch(() => ({}));
+                throw new Error(err.error?.message || `Polling: ${resp.status}`);
+            }
+            const data = await resp.json();
+            const progress = data.progress ? `${Math.round(data.progress)}%` : '';
+            updateNodeVideo(nodeId, 'loading', `${data.state || data.status || 'Processing'} ${progress}`);
+
+            if (data.state === 'completed' || data.status === 'completed') {
+                const videoUrl = data.video_url || data.url || data.output?.url;
+                if (videoUrl) {
+                    const vr = await fetch(videoUrl);
+                    const blob = await vr.blob();
+                    return URL.createObjectURL(blob);
+                }
+                throw new Error('Video completed but no URL found');
+            }
+            if (data.state === 'failed' || data.status === 'failed') {
+                throw new Error(`Video generation failed: ${data.error || 'Unknown'}`);
+            }
+        } catch (err) {
+            if (err.message.includes('failed')) throw err;
+            console.error('Poll error:', err);
+            throw err;
+        }
+    }
+}
+
+// ─── Combination & Stitching ──────────────────────────────────
+function toggleNodeSelection(nodeId) {
+    const el = document.getElementById(`node-${nodeId}`);
+    if (selectedNodesForCombine.has(nodeId)) { selectedNodesForCombine.delete(nodeId); el?.classList.remove('selected-for-combine'); }
+    else { selectedNodesForCombine.add(nodeId); el?.classList.add('selected-for-combine'); }
+    updateCombinationBar();
+}
+
+function updateCombinationBar() {
+    if (selectedNodesForCombine.size < 1) { combinationBar.classList.add('hidden'); return; }
+    combinationBar.classList.remove('hidden');
+    comboThumbnails.innerHTML = '';
+    const arr = Array.from(selectedNodesForCombine).map(id => nodes.find(n => n.id === id)).filter(Boolean);
+    arr.forEach(n => {
+        if (n.type === 'image-response' && n.content.startsWith('data:image')) {
+            const img = document.createElement('img'); img.src = n.content; img.className = 'combo-thumbnail';
+            comboThumbnails.appendChild(img);
+        } else if (n.type === 'video-response' && n.content.startsWith('blob:')) {
+            const v = document.createElement('video'); v.src = n.content; v.className = 'combo-thumbnail'; v.muted = true;
+            comboThumbnails.appendChild(v);
+        }
+    });
+    const allImg = arr.every(n => n.type === 'image-response');
+    combineImagesBtn.style.display = allImg && selectedNodesForCombine.size >= 2 ? 'block' : 'none';
+    stitchBtn.style.display = selectedNodesForCombine.size >= 1 ? 'block' : 'none';
+}
+
+combineImagesBtn.addEventListener('click', () => {
+    const ids = Array.from(selectedNodesForCombine);
+    const objs = ids.map(id => nodes.find(n => n.id === id)).filter(Boolean);
+    const avgX = objs.reduce((s, n) => s + n.x, 0) / objs.length;
+    const avgY = objs.reduce((s, n) => s + n.y, 0) / objs.length;
+    openPromptDialog(ids, avgX + 400, avgY);
+    ids.forEach(id => document.getElementById(`node-${id}`)?.classList.remove('selected-for-combine'));
+    selectedNodesForCombine.clear();
+    updateCombinationBar();
+});
+
+stitchBtn.addEventListener('click', stitchSelectedMedia);
+
+async function stitchSelectedMedia() {
+    const ids = Array.from(selectedNodesForCombine);
+    const mediaNodes = ids.map(id => nodes.find(n => n.id === id)).filter(Boolean);
+    if (mediaNodes.length === 0) return;
+
+    const avgX = mediaNodes.reduce((s, n) => s + n.x, 0) / mediaNodes.length;
+    const avgY = mediaNodes.reduce((s, n) => s + n.y, 0) / mediaNodes.length;
+    const sid = `stitch-${Date.now()}`;
+    createNode(sid, ids, avgX + 400, avgY, 'video-response', { model: 'Stitched', originalPrompt: `Combined ${mediaNodes.length} clips`, progressText: 'Stitching...' });
+    ids.forEach(id => document.getElementById(`node-${id}`)?.classList.remove('selected-for-combine'));
+    selectedNodesForCombine.clear();
+    updateCombinationBar();
+
+    try {
+        const cv = document.createElement('canvas'); cv.width = 1280; cv.height = 720;
+        const ctx = cv.getContext('2d');
+        const stream = cv.captureStream(30);
+        const rec = new MediaRecorder(stream, { mimeType: 'video/webm; codecs=vp9' });
+        const chunks = [];
+        rec.ondataavailable = e => chunks.push(e.data);
+        const done = new Promise(r => { rec.onstop = () => r(URL.createObjectURL(new Blob(chunks, { type: 'video/webm' }))); });
+        rec.start();
+        for (let i = 0; i < mediaNodes.length; i++) {
+            updateNodeVideo(sid, 'loading', `Clip ${i + 1}/${mediaNodes.length}`);
+            const n = mediaNodes[i];
+            if (n.type === 'image-response') await renderImageToCanvas(n.content, ctx, cv, 3);
+            else if (n.type === 'video-response') await renderVideoToCanvas(n.content, ctx, cv);
+        }
+        rec.stop();
+        updateNodeVideo(sid, await done);
+    } catch (err) {
+        updateNodeVideo(sid, `**Error:** ${err.message}`);
+    }
+}
+
+function renderImageToCanvas(src, ctx, cv, dur) {
+    return new Promise((res, rej) => {
+        const img = new Image(); img.onload = () => { drawFit(img, ctx, cv); setTimeout(res, dur * 1000); }; img.onerror = rej; img.src = src;
+    });
+}
+function renderVideoToCanvas(src, ctx, cv) {
+    return new Promise((res, rej) => {
+        const v = document.createElement('video'); v.muted = true;
+        const frame = () => { if (v.paused || v.ended) return; drawFit(v, ctx, cv); requestAnimationFrame(frame); };
+        v.addEventListener('ended', res); v.addEventListener('error', rej);
+        v.addEventListener('canplay', () => { v.play(); requestAnimationFrame(frame); });
+        v.src = src;
+    });
+}
+function drawFit(media, ctx, cv) {
+    ctx.fillStyle = '#000'; ctx.fillRect(0, 0, cv.width, cv.height);
+    const mw = media.videoWidth || media.width, mh = media.videoHeight || media.height;
+    const ma = mw / mh, ca = cv.width / cv.height;
+    let dw, dh, ox, oy;
+    if (ma > ca) { dw = cv.width; dh = dw / ma; ox = 0; oy = (cv.height - dh) / 2; }
+    else { dh = cv.height; dw = dh * ma; oy = 0; ox = (cv.width - dw) / 2; }
+    ctx.drawImage(media, ox, oy, dw, dh);
+}
+
+// ─── Modals ───────────────────────────────────────────────────
+function openModal(m) { document.querySelectorAll('.modal').forEach(x => x.classList.add('hidden')); m.classList.remove('hidden'); }
+function closeModal(m) { m.classList.add('hidden'); }
+
+// Settings
+document.getElementById('settings-btn').addEventListener('click', () => {
+    document.getElementById('xai-key').value = xaiKey;
+    document.getElementById('x-api-key').value = xApiKey;
+    document.getElementById('x-api-secret').value = xApiSecret;
+    document.getElementById('x-access-token').value = xAccessToken;
+    document.getElementById('x-access-secret').value = xAccessSecret;
+    document.getElementById('x-user-id').value = xUserId;
+    document.getElementById('cors-proxy').value = corsProxy;
+    document.getElementById('max-words-input').value = maxResponseWords;
+    openModal(settingsModal);
+});
+document.getElementById('settings-save').addEventListener('click', () => {
+    xaiKey = document.getElementById('xai-key').value;
+    xApiKey = document.getElementById('x-api-key').value;
+    xApiSecret = document.getElementById('x-api-secret').value;
+    xAccessToken = document.getElementById('x-access-token').value;
+    xAccessSecret = document.getElementById('x-access-secret').value;
+    xUserId = document.getElementById('x-user-id').value;
+    corsProxy = document.getElementById('cors-proxy').value.trim();
+    maxResponseWords = document.getElementById('max-words-input').value;
+    localStorage.setItem('xai_api_key', xaiKey);
+    localStorage.setItem('x_api_key', xApiKey);
+    localStorage.setItem('x_api_secret', xApiSecret);
+    localStorage.setItem('x_access_token', xAccessToken);
+    localStorage.setItem('x_access_secret', xAccessSecret);
+    localStorage.setItem('x_user_id', xUserId);
+    localStorage.setItem('cors_proxy', corsProxy);
+    localStorage.setItem('max_response_words', maxResponseWords);
+    closeModal(settingsModal);
+});
+document.getElementById('settings-cancel').addEventListener('click', () => closeModal(settingsModal));
+
+// Comments
+function openCommentModal(nodeId) {
+    activeCommentNodeId = nodeId;
+    const node = nodes.find(n => n.id === nodeId);
+    if (!node) return;
+    const cl = document.getElementById('comment-list');
+    cl.innerHTML = node.comments.length > 0
+        ? node.comments.map(c => `<p style="background:var(--bg);padding:8px;border-radius:8px;margin-bottom:6px;font-size:0.85rem;">${c}</p>`).join('')
+        : '<p style="color:var(--text-secondary);font-size:0.85rem;">No comments yet.</p>';
+    document.getElementById('comment-input').value = '';
+    openModal(commentModal);
+}
+document.getElementById('comment-save').addEventListener('click', () => {
+    const text = document.getElementById('comment-input').value.trim();
+    if (text && activeCommentNodeId) {
+        const n = nodes.find(n => n.id === activeCommentNodeId);
+        if (n) n.comments.push(text);
+    }
+    closeModal(commentModal);
+});
+document.getElementById('comment-cancel').addEventListener('click', () => closeModal(commentModal));
+
+// Style
+function openStyleModal(nodeId) {
+    selectNode(nodeId);
+    const node = nodes.find(n => n.id === nodeId);
+    if (!node) return;
+    const cs = document.getElementById('style-color-section');
+    const fs = document.getElementById('style-font-section');
+    if (node.type === 'shape') { cs.style.display = 'block'; fs.style.display = 'none'; document.getElementById('style-node-color').value = node.data.color; }
+    else if (node.type === 'text-node') { cs.style.display = 'block'; fs.style.display = 'block'; document.getElementById('style-node-color').value = node.data.color; document.getElementById('style-node-font').value = node.data.font; }
+    else return;
+    openModal(styleModal);
+}
+document.getElementById('style-close-btn').addEventListener('click', () => closeModal(styleModal));
+document.getElementById('style-node-color').addEventListener('input', (e) => {
+    if (!selectedNodeId) return;
+    const n = nodes.find(n => n.id === selectedNodeId); if (!n) return;
+    n.data.color = e.target.value;
+    const el = document.getElementById(`node-${selectedNodeId}`);
+    if (n.type === 'shape') el.style.backgroundColor = e.target.value;
+    else if (n.type === 'text-node') el.querySelector('textarea').style.color = e.target.value;
+});
+document.getElementById('style-node-font').addEventListener('input', (e) => {
+    if (!selectedNodeId) return;
+    const n = nodes.find(n => n.id === selectedNodeId); if (!n || n.type !== 'text-node') return;
+    n.data.font = e.target.value;
+    document.getElementById(`node-${selectedNodeId}`).querySelector('textarea').style.fontFamily = e.target.value;
+});
+
+// Canvas tools
+document.getElementById('add-postit-btn').addEventListener('click', () => {
+    const cx = (window.innerWidth / 2 - pan.x) / zoom, cy = (window.innerHeight / 2 - pan.y) / zoom;
+    createNode(`postit-${Date.now()}`, null, cx - 100, cy - 100, 'post-it', {});
+});
+document.getElementById('add-text-btn').addEventListener('click', () => {
+    const cx = (window.innerWidth / 2 - pan.x) / zoom, cy = (window.innerHeight / 2 - pan.y) / zoom;
+    createNode(`text-${Date.now()}`, null, cx - 100, cy - 25, 'text-node', {});
+});
+
+// ─── Sketch ───────────────────────────────────────────────────
+function initSketchCanvas() {
+    sketchCtx.fillStyle = '#16181C';
+    sketchCtx.fillRect(0, 0, sketchCanvas.width, sketchCanvas.height);
+    sketchCtx.lineCap = 'round'; sketchCtx.lineJoin = 'round';
+    isErasing = false;
+    document.getElementById('sketch-eraser-btn').classList.remove('active');
+}
+function getSketchCoords(e) {
+    const r = sketchCanvas.getBoundingClientRect();
+    return e.touches?.length > 0 ? { x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top } : { x: e.clientX - r.left, y: e.clientY - r.top };
+}
+function startSketching(e) { e.preventDefault(); isSketching = true; const { x, y } = getSketchCoords(e); [lastSketchX, lastSketchY] = [x, y]; }
+function drawSketch(e) {
+    if (!isSketching) return; e.preventDefault();
+    const { x, y } = getSketchCoords(e);
+    sketchCtx.beginPath();
+    sketchCtx.globalCompositeOperation = isErasing ? 'destination-out' : 'source-over';
+    if (!isErasing) sketchCtx.strokeStyle = document.getElementById('sketch-color').value;
+    sketchCtx.lineWidth = document.getElementById('sketch-size').value;
+    sketchCtx.moveTo(lastSketchX, lastSketchY); sketchCtx.lineTo(x, y); sketchCtx.stroke();
+    [lastSketchX, lastSketchY] = [x, y];
+}
+function stopSketching() { isSketching = false; sketchCtx.beginPath(); }
+
+document.getElementById('add-sketch-btn').addEventListener('click', () => { openModal(sketchModal); initSketchCanvas(); });
+document.getElementById('sketch-cancel-btn').addEventListener('click', () => closeModal(sketchModal));
+document.getElementById('sketch-finish-btn').addEventListener('click', () => {
+    const dataUrl = sketchCanvas.toDataURL('image/png');
+    const cx = (window.innerWidth / 2 - pan.x) / zoom, cy = (window.innerHeight / 2 - pan.y) / zoom;
+    createNode(`sketch-${Date.now()}`, null, cx - 190, cy - 220, 'image-response', { model: 'SKETCH', originalPrompt: 'User Sketch' }, dataUrl);
+    closeModal(sketchModal);
+});
+sketchCanvas.addEventListener('mousedown', startSketching);
+sketchCanvas.addEventListener('mousemove', drawSketch);
+sketchCanvas.addEventListener('mouseup', stopSketching);
+sketchCanvas.addEventListener('mouseleave', stopSketching);
+sketchCanvas.addEventListener('touchstart', startSketching, { passive: false });
+sketchCanvas.addEventListener('touchmove', drawSketch, { passive: false });
+sketchCanvas.addEventListener('touchend', stopSketching);
+document.getElementById('sketch-size').addEventListener('input', (e) => { document.getElementById('sketch-size-label').textContent = e.target.value; });
+document.getElementById('sketch-eraser-btn').addEventListener('click', () => { isErasing = !isErasing; document.getElementById('sketch-eraser-btn').classList.toggle('active', isErasing); });
+document.getElementById('sketch-clear-btn').addEventListener('click', initSketchCanvas);
+
+// ─── Save / Load ──────────────────────────────────────────────
+async function saveState() {
+    try {
+        const nodesToSave = JSON.parse(JSON.stringify(nodes));
+        for (const n of nodesToSave) {
+            if (n.type === 'video-response' && n.content.startsWith('blob:')) {
+                const r = await fetch(n.content);
+                const b = await r.blob();
+                n.content = await new Promise((res, rej) => { const fr = new FileReader(); fr.onloadend = () => res(fr.result); fr.onerror = rej; fr.readAsDataURL(b); });
+            }
+        }
+        const state = JSON.stringify({ nodes: nodesToSave, pan, zoom, zIndexCounter }, null, 2);
+        const blob = new Blob([state], { type: 'application/json' });
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'canvx-state.json';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    } catch (err) { console.error('Save error:', err); alert('Save failed.'); }
+}
+
+async function loadState(file) {
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+        try {
+            const state = JSON.parse(e.target.result);
+            world.innerHTML = ''; linesContainer.innerHTML = ''; nodes = [];
+            pan = state.pan; zoom = state.zoom; zIndexCounter = state.zIndexCounter || 1;
+            for (const n of state.nodes) {
+                if (n.type === 'video-response' && n.content.startsWith('data:video/')) {
+                    const r = await fetch(n.content); const b = await r.blob();
+                    n.content = URL.createObjectURL(b);
+                }
+            }
+            nodes = state.nodes;
+            nodes.forEach(n => renderNode(n));
+            updateWorldTransform();
+            requestAnimationFrame(drawLines);
+        } catch (err) { console.error('Load error:', err); alert('Load failed.'); }
+    };
+    reader.readAsText(file);
+}
+
+document.getElementById('save-btn').addEventListener('click', saveState);
+document.getElementById('load-btn').addEventListener('click', () => document.getElementById('load-input').click());
+document.getElementById('load-input').addEventListener('change', (e) => { const f = e.target.files[0]; if (f) loadState(f); e.target.value = null; });
+
+// ─── Init ─────────────────────────────────────────────────────
+function init() {
+    updateWorldTransform();
+    // Show the prompt dialog at center of visible canvas
+    setTimeout(() => {
+        const cx = (window.innerWidth / 2 - pan.x) / zoom - 240;
+        const cy = (window.innerHeight / 2 - pan.y) / zoom - 100;
+        openPromptDialog(null, cx, cy);
+    }, 300);
+}
+init();
+</script>
+</body>
+</html>

@@ -1,149 +1,489 @@
 <!DOCTYPE html>
-<html>
-<head profile="http://www.w3.org/2005/10/profile">
-    <link rel="icon" 
-    type="image/png" 
-    href="./img/me.jpg">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>telecomsteve</title>
-<link rel="stylesheet" href="./stylesheet.css">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog — Sai Siddartha Maram</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1a1a1a;
+            --paper: #faf9f7;
+            --muted: #888;
+            --serif: 'Instrument Serif', Georgia, serif;
+            --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--paper);
+            font-family: var(--sans);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--ink);
+            padding: 4rem 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        a {
+            color: var(--muted);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--ink);
+        }
+
+        /* Logo/Icon */
+        .logo {
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .logo a {
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .home-link {
+            font-size: 0.9rem;
+            color: var(--muted) !important;
+            text-decoration: underline !important;
+            text-underline-offset: 3px;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+
+        .home-link:hover {
+            color: var(--ink) !important;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-family: var(--serif);
+            font-size: 1.75rem;
+            font-weight: 400;
+            margin-bottom: 0.25rem;
+        }
+
+        .page-header p {
+            color: var(--muted);
+        }
+
+        /* Blog Post List */
+        .blog-list {
+            list-style: none;
+        }
+
+        .blog-list li {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .blog-list li:last-child {
+            border-bottom: none;
+        }
+
+        .blog-post-link {
+            display: block;
+            text-decoration: none;
+            color: var(--ink);
+            transition: opacity 0.2s ease;
+        }
+
+        .blog-post-link:hover {
+            opacity: 0.7;
+        }
+
+        .blog-post-title {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 0.35rem;
+            color: var(--ink);
+        }
+
+        .blog-post-date {
+            font-size: 0.85rem;
+            color: #bbb;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-post-excerpt {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        /* Individual Blog Post Styles */
+        .blog-post {
+            display: none;
+        }
+
+        .blog-post.active {
+            display: block;
+        }
+
+        .blog-post h1 {
+            font-family: var(--serif);
+            font-size: 1.6rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-post .post-date {
+            font-size: 0.85rem;
+            color: #bbb;
+            margin-bottom: 2rem;
+        }
+
+        .blog-post h2 {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+            color: var(--ink);
+        }
+
+        .blog-post p {
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+
+        .blog-post iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: none;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+
+        .blog-post .resource-link {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            color: var(--muted);
+        }
+
+        .back-link:hover {
+            color: var(--ink);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            body {
+                padding: 3rem 1.5rem;
+            }
+
+            .page-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .blog-post h1 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<div class="sidenav">
-    <div class="navblock">
-        <div class="navblock_text">
-            <a href="./index.html">About</a>
-            <a href="./resume.html">Resume</a>
-            <a href="./research.html">Academic Papers</a>
-            <a href="./portfolio.html">Portfolio</a>
-            <a style="color:#3498DB" href="./blog.html">Blog</a>
+    <div class="logo"><a href="./index.html">◆</a> <a href="./index.html" class="home-link">Home</a></div>
+
+    <!-- Blog Index View -->
+    <div id="blogIndex">
+        <div class="page-header">
+            <h1>Blog</h1>
+            <p>Thoughts, reflections, and writings.</p>
         </div>
+
+        <ul class="blog-list">
+            <li>
+                <a href="#" class="blog-post-link" data-post="higher-studies">
+                    <div class="blog-post-title">The Only Guide You'll Ever Need for Masters/Ph.D. Admissions</div>
+                    <div class="blog-post-date">2021</div>
+                    <div class="blog-post-excerpt">A comprehensive guide covering everything from GRE/TOEFL prep to picking universities, writing SOPs, and navigating the entire graduate admissions process — based on admits from Cornell, Georgia Tech, USC, UCSC, and more.</div>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="blog-post-link" data-post="meta-interview">
+                    <div class="blog-post-title">Meta Interview — UX Research (Ph.D. Position)</div>
+                    <div class="blog-post-date">2022</div>
+                    <div class="blog-post-excerpt">A reflection on my interview experience for a Summer UX Researcher internship at Meta's Menlo Park HQ — strategies, resources, and lessons learned.</div>
+                </a>
+            </li>
+        </ul>
     </div>
-    <div class="footer">
-    </div>
-</div>
 
-<!-- 
+    <!-- Individual Post: Higher Studies Guide -->
+    <div id="higher-studies" class="blog-post">
+        <a href="#" class="back-link back-to-index">&larr; Back to all posts</a>
+        <h1>The Only Guide You'll Ever Need for Masters/Ph.D. Admissions</h1>
+        <p class="post-date">2021</p>
 
-For more information aboput flexbox CSS centering of blog posts
-https://www.w3schools.com/css/css3_flexbox_container.asp 
-
--->
-
-<div class="main">
-  <h2 style="color: orangered;">Scribble Pad.</h2>
-  <p>A Text, Audio and Video Playground of my thoughts and life.</p><br>
-
-  <!-- <div class="blog-container">
-    <div>
-        <p class="blog_date">Apr 27 2021</p>
-        <a href="blog_posts/post_04_27_2021.html" class="blog_text">How to deploy a static website to Amazon S3</a>
-    </div>
-    <div>
-        <p class="blog_date">Jun 7 2020</p>
-        <a href="blog_posts/post_04_27_2021.html" class="blog_text">Placeholder</a>
-    </div>
-    <div>
-        <p class="blog_date">Jan 2 2020</p>
-        <a href="blog_posts/post_04_27_2021.html" class="blog_text">Placeholder</a>
-    </div>   -->
-  <!-- </div> -->
-  <div class="w3-row-padding">
-
-
-  
-
-    <h1>Meta Interview UX Research (Ph.D. Position)</h1>
-    
-    <iframe src="https://www.youtube.com/embed/BKnl_euJdPk"></iframe>
-  </p>
-    
-    <p>
-
-        Disclaimer : I recently recived and accepted a summer internship offer for the role of a Qualitative UX Researcher.
-        This article is a pure reflection of my opinions, strategies and a collection of material that helped me. This does
-        not reflect the opinions of any other individual or organization. Details I will be sharing would be general in nature 
-        and will not revel specifics about reserach, product features 
-    </p>
-    <h2>A Little Background!</h2>
-
-    <p >
-      I did my Undergraduate in Computer Engineering at Thapar Institute of Engineering and Technology. During my undergraduate, I have had my internships at GeorgiaTech,
-      Indian Institute of Science, Invento Robotics and National Innovation Foundation, India. I am an avid coder and love building products, making robots (check out my projects page), and regularly making hobby projects.
-      I have my interests in research and have always emphasized "people first" development. My first experience with UX was at NIF India with Dr.Anil Gupta (IIM-A). 
-      Professor Gupta really introduced me to User Experience, Empathy based development. Fast forward today, I am a Ph.D. student at UCSC under the Department of Computational Media. 
-      This article primarily discusses my interview experience with Meta for a Summer UX Researcher at Melon Park HQ.
-
-    </p>
-
-    <h2 >CV Preparation!</h2>
-
-    <p >
-      During my undergraduate time, I used to spend applying for jobs, I was primarily applying for Software Engineering roles.
-      My CV was heavily Software, Robotics, and AI-focused. Though we performed a lot of UX research work at my previous workplaces
-      I made my CV highly inclined to Software roles. After I came down for a Ph.D. I had multiple copies of my CV, each dedicated to
-      different roles I could apply to. I have shared the CV I used for the Meta internship application in the NavBar on this page.
-    </p>
-
-    <h2>Interview Round 1</h2>
-
-    <p>
-      I had initial email conversations about the interests roles I would be interested in. 
-      After a series of emails, the recruiter scheduled my first round of interviews (for a Qualitative Research Intern Role).
-      The interview was a one-hour interview. The interview tested my UX research skills. 
-      The questions had nothing much to do with my research or previous work. 
-      The questions tested the fundamentals of UX research. Preparing for this interview, I would recommend understanding your research methods perfectly. Learn the pros and cons of every research method. Try to talk to yourself about validating your choice of research method. The interviewer will be really friendly and try to assess your options for given situations. You would be put into situations and asked to pick a research method to handle the situation. The interviewer is looking to understand why you choose that research method over other research methods. Here are a few resources to brush up on your UX research methods and better understand the pros and cons of each research method. 
-
- 
-    </p>
-      <br>
-      <br>
-      <a href="https://www.nngroup.com/articles/which-ux-research-methods/">NN Group</a>     
-    <p>
-        This is possibly the best resource on the internet for developing a solid foundation for UX research. The NNGroup has tons of things
-        for you to study about both Qualitative and Quantitative Research. I would recommend making notes and keep revising.
+        <p>
+            If you are here you possibly are planning for your higher studies or at least considering it.
+            I have donned the exact same hat you have right now in 2019, 2020 and this hat comes with a lot of questions and
+            uncertainties. I have taken weeks to put this blog together to answer most possible questions and also open up directions for you to think upon.
+            <strong>Warning:</strong> This blog is going to be super long because I have decided to cover from ground zero (from "What is Masters?") to the final Visa process. So get a coffee to sip while you read along!
+        </p>
+        <p>
+            Oh! Why bother to read? Like who is this stranger throwing all his advice! Well — I have received my admits from Cornell, Georgia Tech, USC, UCSC, and the University of Adelaide! I got waitlisted at Columbia and Brown before they turned to rejections. So going through all this, I am sure I can offer some advice on how you can improve your chances in acing the process.
         </p>
 
-      <a  href="http://guidetouxr.com/">Guide to UX Research</a>     
-      <p >
-        This is a fantastic resource that organizes multiple resources for each research method. I used this resource frequently to revise and develop an overall perspective of things.
-      </p>
+        <h2>What All Can I Do?</h2>
+        <p>
+            I have come across many people who want to pursue a Masters program to enhance their skills but have second thoughts since they are not interested in research or writing a Masters thesis.
+            Well, there is good news. You can choose not to write a thesis and instead work on a capstone project. Yes! You heard me right. Most universities give you the opportunity to work on a capstone
+            project instead of a thesis.
+        </p>
+        <p>
+            The term Masters is analogous to Bachelors. You might receive a Bachelors in Technology (B.Tech) or Bachelors in Engineering (B.Eng) — similarly almost every university has
+            an M.S. (Masters in Science) and an M.Eng (Masters in Engineering) program. The M.S. program might compel you to have a thesis and have some research component involved (but you can always talk to the Department Chair and work on a capstone). While the M.Eng program is more industry-oriented
+            and does not require a research contribution from your end. So next time you are searching for programs, make sure you know what kind of programs you want to go for!
+        </p>
+        <p>
+            Other degrees within the scope of Masters are M.Phil and M.Math — these are popular in Canada and Europe. The crux: check out other Masters programs also and don't blindly run behind the M.S. program.
+        </p>
+        <p>
+            The Ph.D. program or the Doctoral Program is a research-intensive program and definitely not recommended to people who are not interested in research.
+            That said, universities in Australia and Europe have recently come up with Industry-Oriented Ph.D.s where you would be working closely with a company and solving their problems.
+            It is a common myth that you need to have a Masters degree before going for a Ph.D. — well guess what! You do not need it for most Ph.D. programs in the United States.
+            It is very common for universities and professors to recruit Ph.D. students straight from their Bachelors! (I got into a direct Ph.D. without my Masters program.)
+        </p>
 
-      <a  href="https://www.userinterviews.com/">userinterviews.com</a>     
-      <p >
-        Do not get confused by the misleading name! This resource contains a whole lot more than just User Interviews! The Field guides on this website are amazingly written.
-    </p>
+        <h2>What Exams Do I Need to Give?</h2>
+        <p>
+            Most universities have a set of examination scores you must provide in your application package. The most common exams accepted by universities are
+            GRE (to evaluate your analytical and language skills) followed by TOEFL/IELTS (testing your communication skills).
+            Students mostly choose the GRE+TOEFL or GRE+IELTS path since TOEFL and IELTS are accepted almost everywhere.
+        </p>
+        <p>
+            Most universities never set hard-coded cut-offs for the GRE and promise a holistic evaluation. But having a higher GRE score
+            is a big plus. On the other hand, universities do set cut-offs for TOEFL and IELTS — most even
+            go ahead to set section-wise cut-offs. If you are looking for scholarships, RAships, or TAships, make sure you clear all the cut-offs for these language exams.
+        </p>
+        <p>
+            Honestly, these are not tough exams. The preparation required is extremely hyped.
+            There is an entire industry minting money with the hype. After discussing with a lot of people, this is all you will ever need
+            to sail through your GRE exam:
+        </p>
+        <p>
+            • Coffee (well you can go with Tea too)<br>
+            • The Three Official ETS-GRE guides<br>
+            • Manhattan 5lb<br>
+            • Subscribe to Greg Mat's YouTube Channel<br>
+            • A test series of your choice (I had the Manhattan Test Series)<br>
+            • Quiz card-based app for memorizing GRE vocabulary (Barrons 800, Magoosh Word App, Galvanize Word App, Mnemonics)
+        </p>
+        <p>
+            Start with a mock test. Understand areas you screwed up. Do not enter panic mode if you see a super low verbal score in your mock. The ideal target is to aim for a full score in the quantitative section and stretch your limit in the verbal section.
+            The key to getting a good score is being consistent in your preparation. A 10-day gap in your preparation will pull you back to ground zero. The best way to start preparing after the mock test is to book an examination date — only if you book a date are you most likely to be consistent.
+            Set aside 3–4 hours a day. Keep memorizing words daily and regularly keep giving mock tests. Never ignore the AWA part — there are plenty of cases where students scored 320+ but failed to qualify for the minimum AWA score set by some universities.
+        </p>
+        <p>
+            For TOEFL: it is a four-section exam — Reading, Listening, Speaking, and Writing. Your preparation for Reading and Writing is covered when you prepare for GRE.
+            A great resource for preparing for TOEFL is "NOTEFULL". Do not go behind other expensive material and coaching — spending time on NOTEFULL should put you on track to score a very competitive score.
+        </p>
 
-    <h2 >Interview Round 2 (Final Round)</h2>
-    <p >
-      The recruiter reached out nearly 1 month after the first interview (Honestly, I lost all hope by then). 
-      The email said they would like to have one final round of interviews. The format of this interview was shared. 
-      The interview would be one hour in time, where the first 30 minutes I could present one of my research projects, and the next 30 minutes would be Questions from the Panel. 
-      I am not allowed to share my research presentation because it is currently under review for acceptance at ACM CHI Play 2022. 
-      BUT! I will be sharing some insights into what I think goes behind choosing which research project to present and what you should consider while presenting.
-    </p>
-    <p >
-      1) Understand the role you are applying for. Students in UX research often find it tempting to bring their most colorful and prettiest-looking project to showcase. But this ideally would not work. Established firms have their design principles established, so it ideally would make less significance if your project is aesthetically well designed. Instead, focus on presenting projects with a variety of research methods. For example, "In this project, I developed "
-      <br>
-      <br>
-      2) Share the product's story with joy and happiness instead of giving a lecture about it. 
-      <br><br>
-      3) Show how each research method you used came out with a good or bad tangible outcome. For example, "I conducted a Card Sorting exercise with my internal stakeholders and realized that ___ and ___ were essential. This resulted in ___ and ___."
-      <br><br>      
-      4) Be very transparent in how you would have improved if you had another chance at the same product. For example, "If I had more time, I would have performed a Diary Study for ___ and ___ reasons."
-      <br><br>
-      5) If you have worked in a team, be clear on your role and explain how you are a good team player. 
-      <br><br>
-      6) Make the slides simple, so most of the attention is on you instead of your slides. 
-      <br><br>
-      7) The questions after your interview mainly assess how you would fit into the work environment and execute different research methods based on other constraints. The questions would also be on the project you presented. The timeline of your project, alternative approaches you would have taken to execute the same project with different restrictions or unlimited resources. 
-    </p>
-      
-  </div>
+        <h2>What is an Ideal Timeline?</h2>
+        <p>
+            There is definitely no deadline-based checklist you need to keep following for the entire process. But knowing the whole process helps you plan ahead. Having the complete set of requirements ahead of your preparation should help you see the bigger picture and prepare well.
+        </p>
 
+        <h2>What Do I Apply For — M.Eng or M.S.?</h2>
+        <p>
+            The answer to this question lies in your objectives. The M.Eng program allows you to take more subjects and prepares you well for work. The M.Eng does not have a research component, but you can always talk to the department and connect with a professor to pick up research projects.
+            It is possible to take the M.S. program and forfeit the thesis and take extra electives or pick up a capstone project — you would need to check with the academic section of your university.
+            Going to a research-based program increases your chances of funding in the form of RAship. If your future goals are a Ph.D., it is highly recommended you go for the M.S. program and take part in the research.
+        </p>
 
-</div>
+        <h2>How to Pick Universities?</h2>
+        <p>
+            Picking the right set of universities and programs is tough. Going through the admissions process twice and getting better admits in the second session, here are some pointers:
+        </p>
+        <p>
+            1) Apply to universities and programs where you make a strong case. For example, if you are a student in Robotics who has worked in healthcare and assistive robotics — instead of applying for UPenn Robotics, I would recommend applying for the Georgia Tech Robotics Program (which has amazing people for assistive robotics) or the Cornell Health Tech + IT program. This allows you to make a strong case in your SOP.
+        </p>
+        <p>
+            2) Find people who passed out from the university on LinkedIn and check what they are doing currently — evaluate if this is where you see yourself in a few years.
+        </p>
+        <p>
+            3) If you want to get into the industry immediately, a good internship always helps. Check if the university has a mandatory Co-Op program or at least allows students to go for internships in the summer.
+        </p>
+        <p>
+            4) University websites generally mention that they do not offer financial support for MS students. This might not always be the case. Check for current student profiles on LinkedIn and see if they have taken up RAship or TAship opportunities.
+        </p>
+        <p>
+            5) Another factor I like to consider is the ROI. When universities in your choice are similarly ranked, go for the university with a lower fee. This helps you recover your investment quickly.
+        </p>
+        <p>
+            Despite all the points, I still believe Point #1 is the most essential when it comes to picking a university for Masters. For a Ph.D., it is highly recommended you go by the professor — reach out to them, check if they are hiring Ph.D. students, and then apply. Professors generally set up a meeting with prospective students to understand your interests and how they might benefit the lab.
+        </p>
+        <p>
+            Students typically apply to around 10 universities. It is common to categorize universities into 3 sets: <strong>Ambitious</strong>, <strong>Moderate</strong>, and <strong>Safe</strong>. Now which category a university belongs to is solely dependent on your profile. Evaluate your profile, see where you make a strong case, and group universities based on that.
+        </p>
+    </div>
 
+    <!-- Individual Post: Meta Interview -->
+    <div id="meta-interview" class="blog-post">
+        <a href="#" class="back-link back-to-index">&larr; Back to all posts</a>
+        <h1>Meta Interview — UX Research (Ph.D. Position)</h1>
+        <p class="post-date">2022</p>
+
+        <iframe src="https://www.youtube.com/embed/BKnl_euJdPk"></iframe>
+
+        <p>
+            Disclaimer: I recently received and accepted a summer internship offer for the role of a Qualitative UX Researcher.
+            This article is a pure reflection of my opinions, strategies, and a collection of material that helped me. This does
+            not reflect the opinions of any other individual or organization. Details I will be sharing would be general in nature
+            and will not reveal specifics about research or product features.
+        </p>
+
+        <h2>A Little Background</h2>
+        <p>
+            I did my Undergraduate in Computer Engineering at Thapar Institute of Engineering and Technology. During my undergraduate, I have had my internships at Georgia Tech,
+            Indian Institute of Science, Invento Robotics, and National Innovation Foundation, India. I am an avid coder and love building products, making robots, and regularly making hobby projects.
+            My interests are in research and I have always emphasized "people first" development. My first experience with UX was at NIF India with Dr. Anil Gupta (IIM-A).
+            Professor Gupta really introduced me to User Experience and empathy-based development. Fast forward today, I am a Ph.D. student at UCSC under the Department of Computational Media.
+            This article primarily discusses my interview experience with Meta for a Summer UX Researcher at Menlo Park HQ.
+        </p>
+
+        <h2>CV Preparation</h2>
+        <p>
+            During my undergraduate time, I used to spend applying for jobs, I was primarily applying for Software Engineering roles.
+            My CV was heavily Software, Robotics, and AI-focused. Though we performed a lot of UX research work at my previous workplaces,
+            I made my CV highly inclined to Software roles. After I came down for a Ph.D. I had multiple copies of my CV, each dedicated to
+            different roles I could apply to. I have shared the CV I used for the Meta internship application in the NavBar on this page.
+        </p>
+
+        <h2>Interview Round 1</h2>
+        <p>
+            I had initial email conversations about the roles I would be interested in.
+            After a series of emails, the recruiter scheduled my first round of interviews (for a Qualitative Research Intern Role).
+            The interview was a one-hour interview that tested my UX research skills.
+            The questions had nothing much to do with my research or previous work.
+            The questions tested the fundamentals of UX research. Preparing for this interview, I would recommend understanding your research methods perfectly. Learn the pros and cons of every research method. Try to talk to yourself about validating your choice of research method. The interviewer will be really friendly and try to assess your options for given situations. You would be put into situations and asked to pick a research method to handle the situation. The interviewer is looking to understand why you choose that research method over other research methods. Here are a few resources to brush up on your UX research methods:
+        </p>
+
+        <a href="https://www.nngroup.com/articles/which-ux-research-methods/" target="_blank" class="resource-link">NN Group</a>
+        <p>
+            This is possibly the best resource on the internet for developing a solid foundation for UX research. The NNGroup has tons of things
+            for you to study about both Qualitative and Quantitative Research. I would recommend making notes and keep revising.
+        </p>
+
+        <a href="http://guidetouxr.com/" target="_blank" class="resource-link">Guide to UX Research</a>
+        <p>
+            This is a fantastic resource that organizes multiple resources for each research method. I used this resource frequently to revise and develop an overall perspective of things.
+        </p>
+
+        <a href="https://www.userinterviews.com/" target="_blank" class="resource-link">userinterviews.com</a>
+        <p>
+            Do not get confused by the misleading name! This resource contains a whole lot more than just User Interviews! The Field guides on this website are amazingly written.
+        </p>
+
+        <h2>Interview Round 2 (Final Round)</h2>
+        <p>
+            The recruiter reached out nearly 1 month after the first interview (honestly, I lost all hope by then).
+            The email said they would like to have one final round of interviews. The format of this interview was shared.
+            The interview would be one hour in time, where the first 30 minutes I could present one of my research projects, and the next 30 minutes would be questions from the panel.
+            I am not allowed to share my research presentation because it is currently under review for acceptance at ACM CHI Play 2022.
+            BUT! I will be sharing some insights into what I think goes behind choosing which research project to present and what you should consider while presenting.
+        </p>
+        <p>
+            1) Understand the role you are applying for. Students in UX research often find it tempting to bring their most colorful and prettiest-looking project to showcase. But this ideally would not work. Established firms have their design principles established, so it ideally would make less significance if your project is aesthetically well designed. Instead, focus on presenting projects with a variety of research methods.
+        </p>
+        <p>
+            2) Share the product's story with joy and happiness instead of giving a lecture about it.
+        </p>
+        <p>
+            3) Show how each research method you used came out with a good or bad tangible outcome. For example, "I conducted a Card Sorting exercise with my internal stakeholders and realized that ___ and ___ were essential. This resulted in ___ and ___."
+        </p>
+        <p>
+            4) Be very transparent in how you would have improved if you had another chance at the same product. For example, "If I had more time, I would have performed a Diary Study for ___ and ___ reasons."
+        </p>
+        <p>
+            5) If you have worked in a team, be clear on your role and explain how you are a good team player.
+        </p>
+        <p>
+            6) Make the slides simple, so most of the attention is on you instead of your slides.
+        </p>
+        <p>
+            7) The questions after your interview mainly assess how you would fit into the work environment and execute different research methods based on other constraints. The questions would also be on the project you presented — the timeline of your project, alternative approaches you would have taken to execute the same project with different restrictions or unlimited resources.
+        </p>
+    </div>
+
+    <script>
+        const blogIndex = document.getElementById('blogIndex');
+        const postLinks = document.querySelectorAll('.blog-post-link');
+        const backLinks = document.querySelectorAll('.back-to-index');
+
+        function showPost(postId) {
+            blogIndex.style.display = 'none';
+            document.querySelectorAll('.blog-post').forEach(p => p.classList.remove('active'));
+            const post = document.getElementById(postId);
+            if (post) post.classList.add('active');
+            window.scrollTo(0, 0);
+            history.pushState({ post: postId }, '', '#' + postId);
+        }
+
+        function showIndex() {
+            document.querySelectorAll('.blog-post').forEach(p => p.classList.remove('active'));
+            blogIndex.style.display = 'block';
+            window.scrollTo(0, 0);
+            history.pushState({}, '', './blog.html');
+        }
+
+        postLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showPost(link.dataset.post);
+            });
+        });
+
+        backLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showIndex();
+            });
+        });
+
+        // Handle browser back/forward
+        window.addEventListener('popstate', (e) => {
+            if (e.state && e.state.post) {
+                showPost(e.state.post);
+            } else {
+                showIndex();
+            }
+        });
+
+        // Handle direct link to a post via hash
+        if (window.location.hash) {
+            const postId = window.location.hash.substring(1);
+            const post = document.getElementById(postId);
+            if (post && post.classList.contains('blog-post')) {
+                showPost(postId);
+            }
+        }
+    </script>
 </body>
-</html> 
+</html>

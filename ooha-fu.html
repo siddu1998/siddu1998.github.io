@@ -1,0 +1,3091 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Ooha</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono&family=Caveat&family=Poppins:wght@700&family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Light Theme */
+            --bg-light: #fafafa;
+            --bg-dots-light: #e5e5e5;
+            --node-bg-light: #ffffff;
+            --border-light: #e5e5e5;
+            --text-primary-light: #171717;
+            --text-secondary-light: #737373;
+            --accent-light: #2563eb;
+            --accent-hover-light: #1d4ed8;
+            --prompt-bg-light: #f5f5f5;
+            --postit-bg-light: #fffeca;
+            --shadow-light: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-hover-light: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.04);
+
+            /* Dark Theme */
+            --bg-dark: #0a0a0a;
+            --bg-dots-dark: #262626;
+            --node-bg-dark: #171717;
+            --border-dark: #262626;
+            --text-primary-dark: #fafafa;
+            --text-secondary-dark: #a3a3a3;
+            --accent-dark: #3b82f6;
+            --accent-hover-dark: #60a5fa;
+            --prompt-bg-dark: #262626;
+            --postit-bg-dark: #4a4a28;
+            --shadow-dark: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+            --shadow-hover-dark: 0 4px 6px rgba(0,0,0,0.4), 0 2px 4px rgba(0,0,0,0.3);
+            
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+            --font-hand: 'Caveat', cursive;
+            --font-display: 'Poppins', sans-serif;
+            --font-body: 'Roboto', sans-serif;
+            --transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Apply theme variables */
+        html.light {
+            --bg-color: var(--bg-light);
+            --bg-dots: var(--bg-dots-light);
+            --node-bg: var(--node-bg-light);
+            --border-color: var(--border-light);
+            --text-primary: var(--text-primary-light);
+            --text-secondary: var(--text-secondary-light);
+            --accent-color: var(--accent-light);
+            --accent-hover: var(--accent-hover-light);
+            --prompt-bg: var(--prompt-bg-light);
+            --postit-bg: var(--postit-bg-light);
+            --shadow: var(--shadow-light);
+            --shadow-hover: var(--shadow-hover-light);
+        }
+
+        html.dark {
+            --bg-color: var(--bg-dark);
+            --bg-dots: var(--bg-dots-dark);
+            --node-bg: var(--node-bg-dark);
+            --border-color: var(--border-dark);
+            --text-primary: var(--text-primary-dark);
+            --text-secondary: var(--text-secondary-dark);
+            --accent-color: var(--accent-dark);
+            --accent-hover: var(--accent-hover-dark);
+            --prompt-bg: var(--prompt-bg-dark);
+            --postit-bg: var(--postit-bg-dark);
+            --shadow: var(--shadow-dark);
+            --shadow-hover: var(--shadow-hover-dark);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            overflow: hidden;
+            overscroll-behavior: none;
+            transition: var(--transition-base);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Fix for browser autofill styles */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus,
+        textarea:-webkit-autofill,
+        textarea:-webkit-autofill:hover,
+        textarea:-webkit-autofill:focus {
+          -webkit-text-fill-color: var(--text-primary);
+          -webkit-box-shadow: 0 0 0px 1000px var(--node-bg) inset;
+          transition: background-color 5000s ease-in-out 0s;
+        }
+
+      #canvas {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    cursor: grab;
+    background-image: radial-gradient(circle, var(--bg-dots) 1px, transparent 1px);
+    background-size: 24px 24px;
+    background-position: 0 0;
+      background-position: 0 0;
+    touch-action: none; /* Add this line */
+    }
+        
+        #lines-container, #world {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: 0 0;
+        }
+
+        #lines-container {
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: visible;
+        }
+
+        .node {
+            position: absolute;
+            background-color: var(--node-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            width: 350px;
+            min-height: 100px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition-base);
+            cursor: default;
+            backdrop-filter: blur(10px);
+        }
+        
+        .node.perplexity-response {
+            width: 600px;
+        }
+
+        .node:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-1px);
+        }
+
+        .node.selected-for-combine {
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+        
+        .node.prompt-node {
+            background-color: var(--prompt-bg);
+            min-height: 50px;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            cursor: move;
+            font-family: var(--font-mono);
+        }
+        
+        .node.input-node {
+            background-color: transparent;
+            border: none;
+            box-shadow: none;
+            padding: 0;
+            height: 48px;
+        }
+
+        .node.input-node:hover {
+            transform: none;
+        }
+        
+        .node.shape-node {
+            min-width: 50px;
+            min-height: 50px;
+            width: 150px;
+            height: 150px;
+        }
+
+        .node.text-node {
+            background: transparent;
+            border: 1px dashed transparent;
+            min-height: 40px;
+            min-width: 100px;
+        }
+        .node.text-node:hover, .node.shape-node:hover {
+            border-color: var(--accent-color);
+        }
+        .node.selected {
+            border: 2px solid var(--accent-color) !important;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+        .node.text-node.selected {
+            border-style: dashed !important;
+        }
+
+
+        .node-header {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: move;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .node-header span {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .node-content {
+            padding: 14px;
+            flex-grow: 1;
+            overflow-y: auto;
+            max-height: 400px;
+            position: relative;
+            line-height: 1.6;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+        }
+        
+        .node-content.perplexity-content {
+            padding: 0;
+            display: flex;
+            max-height: 350px;
+        }
+        
+        .perplexity-main {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            min-width: 0;
+        }
+        
+        .perplexity-sources {
+            width: 220px;
+            padding: 0;
+            overflow: hidden;
+            background-color: var(--prompt-bg);
+            border-left: 1px solid var(--border-color);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .perplexity-sources.collapsed {
+            width: 42px;
+            cursor: pointer;
+        }
+        
+        .perplexity-sources.collapsed .source-list {
+            display: none;
+        }
+        
+        .perplexity-sources.collapsed .sources-title {
+            display: none;
+        }
+        
+        .sources-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--prompt-bg);
+            min-height: 40px;
+        }
+        
+        .sources-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+        
+        .collapse-btn {
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 6px;
+            transition: var(--transition-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--node-bg);
+            border: 1px solid var(--border-color);
+            margin-left: auto;
+        }
+        
+        .collapse-btn:hover {
+            background-color: var(--border-color);
+            transform: scale(1.05);
+        }
+        
+        .source-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+        }
+        
+        .source-list a {
+            display: flex;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--accent-color);
+            text-decoration: none;
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 6px;
+            transition: var(--transition-base);
+            background-color: var(--node-bg);
+            border: 1px solid var(--border-color);
+            word-break: break-word;
+        }
+        
+        .source-list a:hover {
+            background-color: var(--accent-color);
+            color: white;
+            transform: translateX(2px);
+        }
+        
+        .source-number {
+            font-weight: 600;
+            margin-right: 8px;
+            flex-shrink: 0;
+            background-color: var(--accent-color);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+        }
+        
+        .source-list a:hover .source-number {
+            background-color: white;
+            color: var(--accent-color);
+        }
+        
+        .citation-ref {
+            color: var(--accent-color);
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition-base);
+            font-size: 0.85em;
+            vertical-align: super;
+            padding: 0 2px;
+        }
+        
+        .citation-ref:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+            background-color: rgba(37, 99, 235, 0.1);
+            border-radius: 2px;
+        }
+        
+        .node-content pre { 
+            background-color: var(--prompt-bg); 
+            padding: 0.75rem; 
+            border-radius: 8px; 
+            white-space: pre-wrap; 
+            word-wrap: break-word;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .node-content code { 
+            font-family: var(--font-mono); 
+            background-color: var(--prompt-bg); 
+            color: var(--accent-color); 
+            padding: 2px 6px; 
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+
+        .node-content p {
+            margin-bottom: 0.75rem;
+        }
+
+        .node-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .citations-container {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .citations-container h4 {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .citations-container a {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--accent-color);
+            text-decoration: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 4px;
+            max-width: 100%;
+            transition: var(--transition-base);
+        }
+        
+        .citations-container a:hover {
+            text-decoration: underline;
+            color: var(--accent-hover);
+        }
+        
+        .node-actions {
+            padding: 8px 14px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 40px;
+            border-radius: 0 0 12px 12px;
+        }
+        
+        .node-actions .icon {
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 6px;
+            border-radius: 8px;
+            transition: var(--transition-base);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .node-actions .icon:hover {
+            color: var(--text-primary);
+            background-color: var(--prompt-bg);
+        }
+
+        .node-actions .icon.starred {
+            color: #facc15;
+        }
+        .node-actions .icon.starred:hover {
+            color: #fbbf24;
+            background-color: rgba(250, 204, 21, 0.1);
+        }
+
+        .branch-button {
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 32px;
+            height: 32px;
+            background-color: var(--node-bg);
+            color: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            transition: var(--transition-base);
+            z-index: 10;
+        }
+        
+        .branch-button:hover {
+            transform: translateX(-50%) scale(1.1);
+            box-shadow: var(--shadow-hover);
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .ui-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+            z-index: 100;
+        }
+        
+        .ui-button {
+            cursor: pointer;
+            padding: 10px;
+            background-color: var(--node-bg);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            color: var(--text-secondary);
+            transition: var(--transition-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .ui-button:hover {
+            color: var(--text-primary);
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-1px);
+        }
+        
+        .modal {
+            position: fixed; 
+            top: 0; 
+            left: 0;
+            width: 100%; 
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            z-index: 200;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: var(--node-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 480px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-content h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .modal-content label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .modal-content input[type="password"],
+        .modal-content input[type="number"],
+        .modal-content input[type="color"],
+        .modal-content select,
+        .modal-content textarea {
+            width: 100%;
+            background-color: var(--prompt-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.5rem 0.75rem;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            transition: var(--transition-base);
+            font-family: var(--font-sans);
+        }
+
+        .modal-content input:focus,
+        .modal-content textarea:focus,
+        .modal-content select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .modal-buttons button {
+            padding: 0.5rem 1.25rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+
+        .modal-buttons .cancel-btn {
+            background-color: var(--prompt-bg);
+            color: var(--text-secondary);
+        }
+
+        .modal-buttons .cancel-btn:hover {
+            background-color: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .modal-buttons .save-btn {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .modal-buttons .save-btn:hover {
+            background-color: var(--accent-hover);
+        }
+        
+        .node.image-response .node-content, 
+        .node.video-response .node-content {
+            padding: 0;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--prompt-bg);
+            position: relative;
+            min-height: 0;
+        }
+        
+        .node.image-response img, 
+        .node.video-response video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0;
+        }
+        
+        .image-prompt-display, 
+        .video-prompt-display {
+            padding: 10px 14px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            background-color: var(--prompt-bg);
+            border-top: 1px solid var(--border-color);
+            font-family: var(--font-mono);
+        }
+
+        .input-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            background-color: var(--node-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            overflow: visible;
+        }
+
+        .input-container input {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            height: 100%;
+            padding: 0 14px;
+            outline: none;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            font-family: var(--font-sans);
+        }
+        
+        .input-container button {
+            height: 100%;
+            border: none;
+            border-left: 1px solid var(--border-color);
+            background: transparent;
+            cursor: pointer;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            color: var(--text-secondary);
+            padding: 0 10px;
+            transition: var(--transition-base);
+            min-width: 40px;
+        }
+
+        .input-container button:last-of-type { 
+            border-radius: 0 11px 11px 0; 
+        }
+        
+        .input-container button:hover { 
+            color: var(--accent-color); 
+            background-color: var(--prompt-bg); 
+        }
+        
+        .loader {
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--accent-color);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+        }
+        
+        .edit-loader-container { 
+            position: relative; 
+            width: 100%; 
+            height: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        
+        .edit-loader-container .loader { 
+            position: absolute; 
+            z-index: 1; 
+        }
+        
+        .edit-loader-container img { 
+            filter: blur(4px) brightness(0.7); 
+        }
+        
+        .video-loading-text { 
+            color: var(--text-secondary); 
+            position: absolute; 
+            z-index: 10; 
+            text-align: center;
+            font-size: 0.875rem;
+        }
+
+        #combination-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--node-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 14px;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 5px 10px -5px rgba(0,0,0,0.04);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 150;
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.3s ease;
+        }
+        
+        #combination-bar.hidden { 
+            transform: translate(-50%, 150%); 
+            opacity: 0; 
+            pointer-events: none; 
+        }
+        
+        #combo-thumbnails { 
+            display: flex; 
+            gap: 8px; 
+        }
+        
+        .combo-thumbnail-container {
+            position: relative;
+            width: 48px;
+            height: 48px;
+        }
+        
+        .combo-thumbnail { 
+            width: 100%; 
+            height: 100%; 
+            border-radius: 8px; 
+            object-fit: cover; 
+            border: 1px solid var(--border-color); 
+        }
+        
+        .duration-input {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 30px;
+            padding: 2px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 0.65rem;
+            font-family: var(--font-mono);
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        .duration-input::-webkit-outer-spin-button,
+        .duration-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        .duration-input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        #combine-images-btn, 
+        #stitch-btn {
+            padding: 8px 16px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: var(--transition-base);
+        }
+        
+        #combine-images-btn:hover, 
+        #stitch-btn:hover { 
+            background-color: var(--accent-hover); 
+        }
+        
+        #stitch-btn { 
+            background-color: #16a34a; 
+        }
+        
+        html.dark #stitch-btn { 
+            background-color: #22c55e; 
+        }
+        
+        #stitch-btn:hover { 
+            background-color: #15803d; 
+        }
+        
+        html.dark #stitch-btn:hover { 
+            background-color: #16a34a; 
+        }
+
+        /* Resize Handle */
+        .resize-handle {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 20px;
+            height: 20px;
+            cursor: nwse-resize;
+            z-index: 20;
+        }
+        
+        .resize-handle::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 6px;
+            height: 6px;
+            border-bottom: 2px solid var(--border-color);
+            border-right: 2px solid var(--border-color);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .node:hover .resize-handle::after {
+            opacity: 1;
+        }
+
+        /* Post-it Note Styles */
+        .node.post-it {
+            background-color: var(--postit-bg);
+            border-color: #e6e0b4;
+            transform: rotate(-1.5deg);
+            width: 200px; /* default size */
+            height: 200px;
+        }
+
+        .node.post-it:hover {
+             transform: translateY(-1px) rotate(0deg);
+        }
+
+        html.dark .node.post-it {
+            border-color: #3b3a22;
+        }
+
+        .post-it .node-header {
+            border-bottom: 1px dashed rgba(0,0,0,0.1);
+        }
+        html.dark .post-it .node-header {
+             border-bottom: 1px dashed rgba(255,255,255,0.1);
+        }
+
+        .post-it .node-content {
+            padding: 8px 12px;
+        }
+        
+        .post-it-textarea {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            font-family: var(--font-hand);
+            font-size: 1.25rem;
+            line-height: 1.5;
+            color: var(--text-primary);
+        }
+        
+        .text-node-textarea {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            padding: 10px;
+            color: var(--text-primary);
+        }
+
+
+        .delete-postit-btn {
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 50%;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+        .delete-postit-btn:hover, .delete-btn:hover {
+            background-color: rgba(0,0,0,0.1);
+            color: var(--text-primary);
+        }
+
+
+        @keyframes spin { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { 
+            width: 6px; 
+        }
+        
+        ::-webkit-scrollbar-track { 
+            background: transparent; 
+        }
+        
+        ::-webkit-scrollbar-thumb { 
+            background: var(--border-color); 
+            border-radius: 3px; 
+        }
+        
+        ::-webkit-scrollbar-thumb:hover { 
+            background: var(--text-secondary); 
+        }
+
+        /* Hide scrollbar for Firefox */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--border-color) transparent;
+        }
+
+        /* Sketch Modal Styles */
+        #sketch-canvas {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: crosshair;
+            touch-action: none;
+        }
+        .sketch-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .sketch-toolbar label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+        .sketch-toolbar input[type="color"] {
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .sketch-toolbar input[type="range"] {
+            width: 120px;
+        }
+        .sketch-toolbar button {
+            background: var(--prompt-bg);
+            border: 1px solid var(--border-color);
+            padding: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition-base);
+            display: flex;
+            align-items: center;
+        }
+        .sketch-toolbar button:hover {
+            background-color: var(--border-color);
+        }
+        .sketch-toolbar button.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="canvas">
+        <svg id="lines-container"></svg>
+        <div id="world"></div>
+    </div>
+
+    <div id="combination-bar" class="hidden">
+        <div id="combo-thumbnails"></div>
+        <button id="combine-images-btn" title="Combine selected images with a prompt">Combine Images</button>
+        <button id="stitch-btn" title="Stitch selected media into a video">Stitch to Video</button>
+    </div>
+
+    <div class="ui-controls">
+            <button id="save-btn" class="ui-button" title="Save Canvas"></button>
+            <button id="load-btn" class="ui-button" title="Load Canvas"></button>
+            <input type="file" id="load-input" style="display: none;" accept=".json">
+            <button id="add-sketch-btn" class="ui-button" title="Add Sketch"></button>
+            <button id="add-text-btn" class="ui-button" title="Add Text"></button>
+            <button id="add-rect-btn" class="ui-button" title="Add Rectangle"></button>
+            <button id="add-circle-btn" class="ui-button" title="Add Circle"></button>
+            <button id="add-postit-btn" class="ui-button" title="Add Post-it Note"></button>
+            <button id="theme-toggle-btn" class="ui-button" title="Toggle Theme"></button>
+            <button id="settings-btn" class="ui-button" title="Settings">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </button>
+    </div>
+
+    <div id="settings-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>API Keys & Settings</h2>
+            <div style="margin-bottom: 1rem;">
+                <label for="gemini-key">Gemini API Key</label>
+                <input type="password" id="gemini-key" placeholder="Enter your API key">
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <label for="openai-key">OpenAI API Key</label>
+                <input type="password" id="openai-key" placeholder="Enter your API key">
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <label for="perplexity-key">Perplexity API Key</label>
+                <input type="password" id="perplexity-key" placeholder="Enter your API key">
+            </div>
+              <div style="margin-bottom: 1rem;">
+                <label for="max-words">Max Response Words</label>
+                <input type="number" id="max-words" value="100" min="50" max="1000">
+            </div>
+            
+            <div class="modal-buttons">
+                <button id="settings-cancel" class="cancel-btn">Close</button>
+                <button id="settings-save" class="save-btn">Save</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="comment-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Comments</h2>
+            <div id="comment-list" style="margin-bottom: 1rem; max-height: 200px; overflow-y: auto;"></div>
+            <textarea id="comment-input" rows="3" placeholder="Add a comment..."></textarea>
+            <div class="modal-buttons">
+                <button id="comment-cancel" class="cancel-btn">Close</button>
+                <button id="comment-save" class="save-btn">Add Comment</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="style-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Edit Style</h2>
+            <div id="style-settings-panel">
+                <div style="margin-bottom: 1rem;" id="style-color-section">
+                    <label for="style-node-color">Color</label>
+                    <input type="color" id="style-node-color">
+                </div>
+                <div style="margin-bottom: 1rem;" id="style-font-section">
+                    <label for="style-node-font">Font</label>
+                    <select id="style-node-font">
+                        <option value="'Inter', sans-serif">Inter</option>
+                        <option value="'Poppins', sans-serif">Poppins</option>
+                        <option value="'Roboto', sans-serif">Roboto</option>
+                        <option value="'Caveat', cursive">Caveat</option>
+                        <option value="'JetBrains Mono', monospace">JetBrains Mono</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button id="style-close-btn" class="cancel-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="sketch-modal" class="modal hidden">
+        <div class="modal-content" style="max-width: 680px;">
+            <h2>Create a Sketch</h2>
+            <div class="sketch-toolbar">
+                <label>Color: <input type="color" id="sketch-color" value="#171717"></label>
+                <label>Size: <input type="range" id="sketch-size" min="1" max="50" value="5"><span id="sketch-size-label">5</span></label>
+                <button id="sketch-eraser-btn" title="Eraser"></button>
+                <button id="sketch-clear-btn" title="Clear Canvas"></button>
+            </div>
+            <canvas id="sketch-canvas" width="600" height="400"></canvas>
+            <div class="modal-buttons">
+                <button id="sketch-cancel-btn" class="cancel-btn">Cancel</button>
+                <button id="sketch-finish-btn" class="save-btn">Finish</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // --- Icon Definitions ---
+        const ICONS = {
+            plus: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>`,
+            star: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`,
+            comment: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>`,
+            download: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>`,
+            select: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><polyline points="9 11 12 14 22 4"></polyline></svg>`,
+            image: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>`,
+            video: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>`,
+            upload: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>`,
+            sun: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`,
+            moon: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`,
+            search: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>`,
+            chevronLeft: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>`,
+            chevronRight: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>`,
+            postit: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 7.5c0-1.07-.64-1.9-1.5-1.9H12v11h8.5c.86 0 1.5-.83 1.5-1.9v-7.2z"></path><path d="M12 16.5V5.56c0-1.1.9-2 2-2h4.5v13h-6.5a2 2 0 0 1-2-2z"></path><path d="M12 16.5a2.5 2.5 0 0 1-5 0V5.56a2 2 0 0 1 2-2h3"></path><path d="M7 14.5v-9"></path></svg>`,
+            x: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`,
+            rect: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>`,
+            circle: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>`,
+            text: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg>`,
+            edit: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>`,
+            bringToFront: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>`,
+            sendToBack: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2" ry="2"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg>`,
+            save: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>`,
+            folder: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>`,
+            sketch: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>`,
+            eraser: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a1.5 1.5 0 0 0 2.12 2.12l10.26-10.26a1.5 1.5 0 0 0-2.12-2.12Z"></path><path d="m9 15 5-5"></path><path d="M13.5 6.5 18 2"></path><path d="m21.29 11.29-2.58-2.58a1.5 1.5 0 0 0-2.12 0L2 21.29a1.5 1.5 0 0 0 0 2.12l2.58 2.58a1.5 1.5 0 0 0 2.12 0L21.29 11.29Z"></path></svg>`,
+            trash: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>`
+        };
+
+        const canvas = document.getElementById('canvas');
+        const world = document.getElementById('world');
+        const linesContainer = document.getElementById('lines-container');
+        let nodes = [], pan = { x: window.innerWidth / 2, y: window.innerHeight, active: false, start: { x: 0, y: 0 } }, zoom = 1;
+        let activeDrag = { node: null, element: null, offset: { x: 0, y: 0 } }, geminiKey = localStorage.getItem('gemini_api_key') || '';
+        let openaiKey = localStorage.getItem('openai_api_key') || '', perplexityKey = localStorage.getItem('perplexity_api_key') || '', maxResponseWords = localStorage.getItem('max_response_words') || 100;
+        let activeCommentNodeId = null, selectedNodesForCombine = new Set();
+        let isResizing = { active: false, node: null, element: null, startX: 0, startY: 0, startWidth: 0, startHeight: 0 };
+        let selectedNodeId = null;
+        let zIndexCounter = 1;
+        let initialPinchDistance = null; // Add this line
+
+        const settingsBtn = document.getElementById('settings-btn'), settingsModal = document.getElementById('settings-modal');
+        const settingsSaveBtn = document.getElementById('settings-save'), settingsCancelBtn = document.getElementById('settings-cancel');
+        const geminiKeyInput = document.getElementById('gemini-key'), openaiKeyInput = document.getElementById('openai-key'), perplexityKeyInput = document.getElementById('perplexity-key'), maxWordsInput = document.getElementById('max-words');
+        const commentModal = document.getElementById('comment-modal'), commentSaveBtn = document.getElementById('comment-save'), commentCancelBtn = document.getElementById('comment-cancel');
+        const commentInput = document.getElementById('comment-input'), commentList = document.getElementById('comment-list');
+        const combinationBar = document.getElementById('combination-bar'), comboThumbnails = document.getElementById('combo-thumbnails');
+        const combineImagesBtn = document.getElementById('combine-images-btn'), stitchBtn = document.getElementById('stitch-btn');
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        const addPostitBtn = document.getElementById('add-postit-btn');
+        const addRectBtn = document.getElementById('add-rect-btn');
+        const addCircleBtn = document.getElementById('add-circle-btn');
+        const addTextBtn = document.getElementById('add-text-btn');
+        const saveBtn = document.getElementById('save-btn');
+        const loadBtn = document.getElementById('load-btn');
+        const loadInput = document.getElementById('load-input');
+        const addSketchBtn = document.getElementById('add-sketch-btn');
+        
+        const styleModal = document.getElementById('style-modal');
+        const styleColorSection = document.getElementById('style-color-section');
+        const styleFontSection = document.getElementById('style-font-section');
+        const styleNodeColorInput = document.getElementById('style-node-color');
+        const styleNodeFontInput = document.getElementById('style-node-font');
+        const styleCloseBtn = document.getElementById('style-close-btn');
+
+        // --- Sketch Modal ---
+        const sketchModal = document.getElementById('sketch-modal');
+        const sketchCanvas = document.getElementById('sketch-canvas');
+        const sketchCtx = sketchCanvas.getContext('2d');
+        const sketchColorInput = document.getElementById('sketch-color');
+        const sketchSizeInput = document.getElementById('sketch-size');
+        const sketchSizeLabel = document.getElementById('sketch-size-label');
+        const sketchEraserBtn = document.getElementById('sketch-eraser-btn');
+        const sketchClearBtn = document.getElementById('sketch-clear-btn');
+        const sketchCancelBtn = document.getElementById('sketch-cancel-btn');
+        const sketchFinishBtn = document.getElementById('sketch-finish-btn');
+        let isSketching = false, isErasing = false, lastSketchX, lastSketchY;
+
+        // --- Theme Management ---
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+                themeToggleBtn.innerHTML = ICONS.sun;
+            } else {
+                document.documentElement.classList.add('light');
+                document.documentElement.classList.remove('dark');
+                themeToggleBtn.innerHTML = ICONS.moon;
+            }
+        }
+        themeToggleBtn.addEventListener('click', () => {
+            const newTheme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+            localStorage.setItem('canvas-theme', newTheme);
+            applyTheme(newTheme);
+        });
+
+        // --- Canvas Interaction ---
+        function updateWorldTransform() {
+            const transform = `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`;
+            world.style.transform = transform;
+            linesContainer.style.transform = transform;
+        }
+
+        
+
+function getEventCoords(e) {
+    return e.touches ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : { x: e.clientX, y: e.clientY };
+}
+
+function handleInteractionStart(e) {
+    if (e.target.closest('.node-header') || e.target.closest('.prompt-node') || e.target.closest('.node')) return;
+    
+    if (e.touches && e.touches.length > 1) {
+        // Start of a pinch
+        initialPinchDistance = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+        pan.active = false; // Disable panning during pinch
+        return;
+    }
+
+    if (nodes.length > 1) {
+        const inputNodesToRemove = nodes.filter(n => n.type === 'input-prompt' && !Array.isArray(n.parentId));
+        if (inputNodesToRemove.length > 0) {
+            inputNodesToRemove.forEach(node => document.getElementById(`node-${node.id}`)?.remove());
+            nodes = nodes.filter(n => !(n.type === 'input-prompt' && !Array.isArray(n.parentId)));
+        }
+    }
+
+    const coords = getEventCoords(e);
+    pan.active = true;
+    pan.start.x = coords.x - pan.x;
+    pan.start.y = coords.y - pan.y;
+    canvas.style.cursor = 'grabbing';
+}
+
+function handleInteractionMove(e) {
+    if (e.touches && e.touches.length > 1 && initialPinchDistance) {
+        // Pinch-to-zoom
+        const currentPinchDistance = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+        const zoomFactor = currentPinchDistance / initialPinchDistance;
+        
+        const rect = canvas.getBoundingClientRect();
+        const centerX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
+        const centerY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top;
+
+        const worldX = (centerX - pan.x) / zoom;
+        const worldY = (centerY - pan.y) / zoom;
+        
+        const newZoom = Math.max(0.1, Math.min(5, zoom * zoomFactor));
+        
+        pan.x = centerX - worldX * newZoom;
+        pan.y = centerY - worldY * newZoom;
+        zoom = newZoom;
+        
+        updateWorldTransform();
+        initialPinchDistance = currentPinchDistance;
+        return;
+    }
+
+    if (pan.active) {
+        const coords = getEventCoords(e);
+        pan.x = coords.x - pan.start.x;
+        pan.y = coords.y - pan.start.y;
+        updateWorldTransform();
+    }
+}
+
+function handleInteractionEnd() {
+    pan.active = false;
+    initialPinchDistance = null;
+    canvas.style.cursor = 'grab';
+}
+
+        
+        canvas.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect(), mouseX = e.clientX - rect.left, mouseY = e.clientY - rect.top;
+            const worldX = (mouseX - pan.x) / zoom, worldY = (mouseY - pan.y) / zoom;
+            const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9, newZoom = Math.max(0.1, Math.min(5, zoom * zoomFactor));
+            pan.x = mouseX - worldX * newZoom; pan.y = mouseY - worldY * newZoom; zoom = newZoom;
+            updateWorldTransform();
+        });
+
+        canvas.addEventListener('dblclick', (e) => {
+           if (e.target !== canvas && !e.target.closest('.node')) return;
+           if (e.target.closest('.node')) {
+               const nodeId = e.target.closest('.node').id.replace('node-', '');
+               const node = nodes.find(n => n.id === nodeId);
+               if (node && (node.type === 'text-node' || node.type === 'post-it')) {
+                   const textarea = document.querySelector(`#node-${nodeId} textarea`);
+                   if (textarea) textarea.focus();
+               }
+               return;
+            }
+            e.preventDefault();
+            const worldX = (e.clientX - pan.x) / zoom;
+            const worldY = (e.clientY - pan.y) / zoom;
+            createNode(`input-${Date.now()}`, null, worldX, worldY, 'input-prompt', {});
+        });
+        
+        canvas.addEventListener('mousedown', handleInteractionStart);
+        canvas.addEventListener('touchstart', handleInteractionStart, { passive: false });
+
+        canvas.addEventListener('mousemove', handleInteractionMove);
+        canvas.addEventListener('touchmove', handleInteractionMove, { passive: false });
+
+        canvas.addEventListener('mouseup', handleInteractionEnd);
+        canvas.addEventListener('mouseleave', handleInteractionEnd);
+        canvas.addEventListener('touchend', handleInteractionEnd);
+
+        // --- Node Management ---
+        function createNode(id, parentId, x, y, type, data, content = "Loading...") {
+            const nodeData = { id, parentId, x, y, type, data, content, isStarred: false, comments: [] };
+            if(type === 'image-response' || type === 'video-response'){
+                nodeData.width = 350;
+                nodeData.height = 438;
+            } else if (type === 'post-it') {
+                nodeData.width = 200;
+                nodeData.height = 200;
+                nodeData.content = "New note...";
+            } else if (type === 'shape') {
+                nodeData.width = 150;
+                nodeData.height = 150;
+                nodeData.data.color = '#e0e0e0';
+            } else if (type === 'text-node') {
+                nodeData.width = 200;
+                nodeData.height = 50;
+                nodeData.content = "New Text";
+                nodeData.data.color = '#171717';
+                nodeData.data.font = "'Inter', sans-serif";
+            }
+            if (type === 'ai-response') {
+                nodeData.data.citations = [];
+            }
+            nodeData.zIndex = zIndexCounter++;
+            nodes.push(nodeData);
+            renderNode(nodeData);
+            if(parentId) requestAnimationFrame(drawLines); 
+            return nodeData;
+        }
+
+        function renderNode(node) {
+            const nodeEl = document.createElement('div');
+            nodeEl.id = `node-${node.id}`;
+            nodeEl.className = 'node';
+            nodeEl.style.left = `${node.x}px`;
+            nodeEl.style.top = `${node.y}px`;
+            nodeEl.style.zIndex = node.zIndex;
+
+            if (node.type === 'ai-response') {
+                const isPerplexity = node.data.model === 'Perplexity';
+                if (isPerplexity) {
+                    nodeEl.classList.add('perplexity-response');
+                    if (node.data.citations && node.data.citations.length > 0) {
+                        // Format content with clickable citations
+                        let formattedContent = node.content;
+                        node.data.citations.forEach((citation, index) => {
+                            const citationNum = `[${index + 1}]`;
+                            formattedContent = formattedContent.replace(
+                                new RegExp(`\\${citationNum}`, 'g'),
+                                `<a href="${citation}" target="_blank" class="citation-ref">${citationNum}</a>`
+                            );
+                        });
+                        
+                        nodeEl.innerHTML = `<div class="branch-button">${ICONS.plus}</div>
+                            <div class="node-header"><span>${node.data.model}</span></div>
+                            <div class="node-content perplexity-content">
+                                <div class="perplexity-main">
+                                    <div class="response-text">${marked.parse(formattedContent)}</div>
+                                </div>
+                                <div class="perplexity-sources" id="sources-${node.id}">
+                                    <div class="sources-header">
+                                        <span class="sources-title">Sources</span>
+                                        <span class="collapse-btn" onclick="toggleSources('${node.id}')">${ICONS.chevronLeft}</span>
+                                    </div>
+                                    <div class="source-list">
+                                        ${node.data.citations.map((c, i) => {
+                                            try {
+                                                const hostname = new URL(c).hostname.replace('www.', '');
+                                                return `<a href="${c}" target="_blank" title="${c}">
+                                                    <span class="source-number">${i+1}</span>
+                                                    <span>${hostname}</span>
+                                                </a>`;
+                                            } catch {
+                                                return `<a href="${c}" target="_blank">
+                                                    <span class="source-number">${i+1}</span>
+                                                    <span>Source ${i+1}</span>
+                                                </a>`;
+                                            }
+                                        }).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="node-actions">
+                                <div style="display: flex; align-items: center; gap: 4px;">
+                                    <span class="icon star-btn ${node.isStarred ? 'starred' : ''}">${ICONS.star}</span>
+                                    <span class="icon comment-btn">${ICONS.comment}</span>
+                                </div>
+                                <span style="font-size: 0.7rem; color: var(--text-secondary);">ID: ${node.id.substring(0,6)}</span>
+                            </div>`;
+                } else {
+                    // Perplexity response without citations
+                    nodeEl.innerHTML = `<div class="branch-button">${ICONS.plus}</div>
+                            <div class="node-header"><span>${node.data.model}</span></div>
+                            <div class="node-content"><div class="response-text">${marked.parse(node.content)}</div></div>
+                            <div class="node-actions">
+                                <div style="display: flex; align-items: center; gap: 4px;">
+                                    <span class="icon star-btn ${node.isStarred ? 'starred' : ''}">${ICONS.star}</span>
+                                    <span class="icon comment-btn">${ICONS.comment}</span>
+                                </div>
+                                <span style="font-size: 0.7rem; color: var(--text-secondary);">ID: ${node.id.substring(0,6)}</span>
+                            </div>`;
+                }
+            } else {
+                // Regular AI response (Gemini/OpenAI)
+                nodeEl.innerHTML = `<div class="branch-button">${ICONS.plus}</div>
+                            <div class="node-header"><span>${node.data.model}</span></div>
+                            <div class="node-content"><div class="response-text">${marked.parse(node.content)}</div></div>
+                            <div class="node-actions">
+                                <div style="display: flex; align-items: center; gap: 4px;">
+                                    <span class="icon star-btn ${node.isStarred ? 'starred' : ''}">${ICONS.star}</span>
+                                    <span class="icon comment-btn">${ICONS.comment}</span>
+                                </div>
+                                <span style="font-size: 0.7rem; color: var(--text-secondary);">ID: ${node.id.substring(0,6)}</span>
+                            </div>`;
+            }
+            } else if (node.type === 'user-prompt') {
+                nodeEl.classList.add('prompt-node');
+                nodeEl.textContent = node.data.prompt;
+            } else if (node.type === 'input-prompt') {
+                 nodeEl.classList.add('input-node');
+                 const hasImageParents = node.data.parentIds;
+                 nodeEl.innerHTML = `<div class="input-container">
+                                         <input type="text" placeholder="${hasImageParents ? 'Describe combination...' : 'Enter prompt...'}">
+                                         <button class="perplexity-gen-btn" title="Search with Perplexity">${ICONS.search}</button>
+                                         <button class="image-gen-btn" title="Generate Image">${ICONS.image}</button>
+                                         <button class="video-gen-btn" title="Generate Video">${ICONS.video}</button>
+                                         <button class="upload-img-btn" title="Upload Image">${ICONS.upload}</button>
+                                     </div>
+                                     <input type="file" class="hidden-file-input" accept="image/*" style="display: none;">`;
+                 setTimeout(() => nodeEl.querySelector('input').focus(), 0);
+            } else if (node.type === 'image-response' || node.type === 'video-response') {
+                nodeEl.style.width = `${node.width}px`;
+                nodeEl.style.height = `${node.height}px`;
+                const isImage = node.type === 'image-response';
+                nodeEl.classList.add(isImage ? 'image-response' : 'video-response');
+                
+                let contentHTML = '';
+                if (isImage && (node.content.startsWith('data:image') || node.content.startsWith('blob:'))) contentHTML = `<img src="${node.content}">`;
+                else if (!isImage && node.content.startsWith('blob:')) contentHTML = `<video controls autoplay loop muted src="${node.content}"></video>`;
+                else contentHTML = `<div class="video-loading-text">${node.data.progressText || (isImage ? 'Generating image...' : 'Generating video...')}</div><div class="loader"></div>`;
+                
+                const downloadHref = (node.content.startsWith('data:image') || node.content.startsWith('blob:')) ? node.content : '#';
+                const downloadDisplay = (node.content.startsWith('data:image') || node.content.startsWith('blob:')) ? 'inline-flex' : 'none';
+
+                nodeEl.innerHTML = `<div class="branch-button">${ICONS.plus}</div>
+                            <div class="node-header"><span>${node.data.model}</span></div>
+                            <div class="node-content">${contentHTML}</div>
+                            <div class="${isImage ? 'image' : 'video'}-prompt-display">${node.data.originalPrompt || ''}</div>
+                            <div class="node-actions">
+                                <div style="display: flex; align-items: center; gap: 4px;">
+                                     <span class="icon star-btn ${node.isStarred ? 'starred' : ''}">${ICONS.star}</span>
+                                     <span class="icon comment-btn">${ICONS.comment}</span>
+                                     <a class="icon download-btn" href="${downloadHref}" download="generated-${isImage?'image.png':'video.mp4'}" style="display:${downloadDisplay};">${ICONS.download}</a>
+                                     <span class="icon select-for-combine-btn" title="Select for Combine/Stitch">${ICONS.select}</span>
+                                </div>
+                                <span style="font-size: 0.7rem; color: var(--text-secondary);">ID: ${node.id.substring(0,6)}</span>
+                            </div>
+                            <div class="resize-handle"></div>`;
+            } else if (node.type === 'post-it') {
+                nodeEl.classList.add('post-it');
+                nodeEl.style.width = `${node.width}px`;
+                nodeEl.style.height = `${node.height}px`;
+                nodeEl.innerHTML = `
+                    <div class="node-header">
+                        <span>Note</span>
+                        <span class="delete-postit-btn">${ICONS.x}</span>
+                    </div>
+                    <div class="node-content">
+                        <textarea class="post-it-textarea" spellcheck="false">${node.content}</textarea>
+                    </div>
+                    <div class="resize-handle"></div>`;
+            } else if (node.type === 'shape') {
+                nodeEl.classList.add('shape-node');
+                nodeEl.style.width = `${node.width}px`;
+                nodeEl.style.height = `${node.height}px`;
+                nodeEl.style.backgroundColor = node.data.color;
+                if (node.data.shape === 'circle') {
+                    nodeEl.style.borderRadius = '50%';
+                }
+                nodeEl.innerHTML = `
+                    <div class="node-header" style="background: transparent; border: none; justify-content: flex-end; position: absolute; width: 100%; top: 0; right: 0;">
+                        <span class="icon bring-to-front-btn" title="Bring to Front">${ICONS.bringToFront}</span>
+                        <span class="icon send-to-back-btn" title="Send to Back">${ICONS.sendToBack}</span>
+                        <span class="icon style-btn" title="Edit Style">${ICONS.edit}</span>
+                        <span class="icon delete-btn" title="Delete">${ICONS.x}</span>
+                    </div>
+                    <div class="resize-handle"></div>`;
+            } else if (node.type === 'text-node') {
+                nodeEl.classList.add('text-node');
+                nodeEl.style.width = `${node.width}px`;
+                nodeEl.style.height = `${node.height}px`;
+                nodeEl.innerHTML = `
+                    <div class="node-header" style="background: transparent; border: none; justify-content: flex-end; height: 30px;">
+                         <span class="icon bring-to-front-btn" title="Bring to Front">${ICONS.bringToFront}</span>
+                         <span class="icon send-to-back-btn" title="Send to Back">${ICONS.sendToBack}</span>
+                         <span class="icon style-btn" title="Edit Style">${ICONS.edit}</span>
+                         <span class="icon delete-btn" title="Delete">${ICONS.x}</span>
+                    </div>
+                    <textarea class="text-node-textarea" style="font-family: ${node.data.font}; color: ${node.data.color}; height: calc(100% - 30px);" spellcheck="false">${node.content}</textarea>
+                    <div class="resize-handle"></div>`;
+            }
+
+
+            world.appendChild(nodeEl);
+            addNodeEventListeners(nodeEl, node);
+        }
+        
+        // Add global function for toggling sources panel
+        window.toggleSources = function(nodeId) {
+            const sourcesEl = document.getElementById(`sources-${nodeId}`);
+            if (sourcesEl) {
+                sourcesEl.classList.toggle('collapsed');
+                const btn = sourcesEl.querySelector('.collapse-btn');
+                btn.innerHTML = sourcesEl.classList.contains('collapsed') ? ICONS.chevronRight : ICONS.chevronLeft;
+                
+                // Make the entire collapsed panel clickable to expand
+                if (sourcesEl.classList.contains('collapsed')) {
+                    sourcesEl.style.cursor = 'pointer';
+                    sourcesEl.onclick = function(e) {
+                        if (e.target === sourcesEl || e.target.classList.contains('sources-header')) {
+                            toggleSources(nodeId);
+                        }
+                    };
+                } else {
+                    sourcesEl.style.cursor = 'default';
+                    sourcesEl.onclick = null;
+                }
+            }
+        };
+        
+        function updateNodeContent(id, newContent, citations = []) {
+            const node = nodes.find(n => n.id === id);
+            if (node) {
+                node.content = newContent;
+                node.data.citations = citations;
+                const nodeEl = document.getElementById(`node-${id}`);
+                if(nodeEl) {
+                    const isPerplexity = node.data.model === 'Perplexity';
+                    if (isPerplexity) {
+                        nodeEl.classList.add('perplexity-response');
+                        if (citations && citations.length > 0) {
+                            // Format content with clickable citations
+                            let formattedContent = newContent;
+                            citations.forEach((citation, index) => {
+                                const citationNum = `[${index + 1}]`;
+                                formattedContent = formattedContent.replace(
+                                    new RegExp(`\\${citationNum}`, 'g'),
+                                    `<a href="${citation}" target="_blank" class="citation-ref">${citationNum}</a>`
+                                );
+                            });
+                            
+                            const contentEl = nodeEl.querySelector('.node-content');
+                            contentEl.className = 'node-content perplexity-content';
+                            contentEl.innerHTML = `
+                                <div class="perplexity-main">
+                                    <div class="response-text">${marked.parse(formattedContent)}</div>
+                                </div>
+                                <div class="perplexity-sources" id="sources-${id}">
+                                    <div class="sources-header">
+                                        <span class="sources-title">Sources</span>
+                                        <span class="collapse-btn" onclick="toggleSources('${id}')">${ICONS.chevronLeft}</span>
+                                    </div>
+                                    <div class="source-list">
+                                        ${citations.map((c, i) => {
+                                            try {
+                                                const hostname = new URL(c).hostname.replace('www.', '');
+                                                return `<a href="${c}" target="_blank" title="${c}">
+                                                    <span class="source-number">${i+1}</span>
+                                                    <span>${hostname}</span>
+                                                </a>`;
+                                            } catch {
+                                                return `<a href="${c}" target="_blank">
+                                                    <span class="source-number">${i+1}</span>
+                                                    <span>Source ${i+1}</span>
+                                                </a>`;
+                                            }
+                                        }).join('')}
+                                    </div>
+                                </div>`;
+                        } else {
+                            const contentEl = nodeEl.querySelector('.node-content');
+                            contentEl.className = 'node-content';
+                            contentEl.innerHTML = `<div class="response-text">${marked.parse(newContent)}</div>`;
+                        }
+                    } else {
+                        const contentEl = nodeEl.querySelector('.node-content');
+                        contentEl.className = 'node-content';
+                        contentEl.innerHTML = `<div class="response-text">${marked.parse(newContent)}</div>`;
+                    }
+                }
+                requestAnimationFrame(drawLines); 
+            }
+        }
+        
+        function updateNodeImage(id, base64Image) {
+            const node = nodes.find(n => n.id === id), nodeEl = document.getElementById(`node-${id}`);
+            if (!node || !nodeEl) return;
+            node.content = base64Image;
+            const contentEl = nodeEl.querySelector('.node-content'), downloadBtn = nodeEl.querySelector('.download-btn');
+            if (base64Image.startsWith('data:image')) {
+                contentEl.innerHTML = `<img src="${base64Image}" alt="AI Generated Image">`;
+                downloadBtn.href = base64Image; downloadBtn.style.display = 'inline-flex';
+            } else { contentEl.innerHTML = `<p style="padding: 1rem; color: var(--text-secondary);">${base64Image}</p>`; }
+            requestAnimationFrame(drawLines);
+        }
+        
+        function updateNodeVideo(id, videoUrl, text = null) {
+            const node = nodes.find(n => n.id === id), nodeEl = document.getElementById(`node-${id}`);
+            if (!node || !nodeEl) return;
+            node.content = videoUrl;
+            if(text) node.data.progressText = text;
+            const contentEl = nodeEl.querySelector('.node-content'), downloadBtn = nodeEl.querySelector('.download-btn'), loadingTextEl = nodeEl.querySelector('.video-loading-text');
+            if (videoUrl.startsWith('blob:')) {
+                contentEl.innerHTML = `<video controls autoplay loop muted src="${videoUrl}"></video>`;
+                downloadBtn.href = videoUrl; downloadBtn.style.display = 'inline-flex';
+            } else {
+                if (loadingTextEl && text) loadingTextEl.textContent = text;
+                else if(videoUrl !== 'loading') contentEl.innerHTML = `<p style="padding: 1rem; color: var(--text-secondary);">${videoUrl}</p>`;
+            }
+            requestAnimationFrame(drawLines);
+        }
+        
+        function addNodeEventListeners(element, node) {
+            const header = element.querySelector('.node-header');
+          if(header && !node.type.includes('shape') && !node.type.includes('text')) {
+                header.addEventListener('mousedown', startDrag);
+                header.addEventListener('touchstart', startDrag, { passive: false }); // Add this
+            }
+            else if (node.type === 'user-prompt' || node.type === 'shape' || node.type === 'text-node') {
+                element.addEventListener('mousedown', startDrag);
+                element.addEventListener('touchstart', startDrag, { passive: false }); // Add this
+            }
+
+
+        function startDrag(e){
+            if (e.target.closest('textarea') || e.target.closest('.icon')) return;
+            const coords = getEventCoords(e);
+            activeDrag = { node, element, offset: { x: (coords.x - pan.x) / zoom - node.x, y: (coords.y - pan.y) / zoom - node.y } };
+            if(node.type === 'shape' || node.type === 'text-node') {
+                selectNode(node.id);
+            }
+        }
+            const branchBtn = element.querySelector('.branch-button');
+            if (branchBtn) branchBtn.addEventListener('click', () => createInputNode(node.id));
+            
+            const starBtn = element.querySelector('.star-btn');
+            if (starBtn) starBtn.addEventListener('click', () => {
+                node.isStarred = !node.isStarred;
+                starBtn.classList.toggle('starred', node.isStarred);
+                starBtn.style.fill = node.isStarred ? 'currentColor' : 'none';
+            });
+
+            const commentBtn = element.querySelector('.comment-btn');
+            if(commentBtn) commentBtn.addEventListener('click', () => openCommentModal(node.id));
+
+            const selectBtn = element.querySelector('.select-for-combine-btn');
+            if (selectBtn) selectBtn.addEventListener('click', () => toggleNodeSelection(node.id));
+
+            const resizeHandle = element.querySelector('.resize-handle');
+            if (resizeHandle) {
+                resizeHandle.addEventListener('mousedown', (e) => initResize(e, node, element));
+            }
+
+            const styleBtn = element.querySelector('.style-btn');
+            if (styleBtn) styleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openStyleModal(node.id);
+            });
+
+            const deleteBtn = element.querySelector('.delete-btn');
+            if (deleteBtn) deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                nodes = nodes.filter(n => n.id !== node.id);
+                element.remove();
+                requestAnimationFrame(drawLines);
+                if (selectedNodeId === node.id) {
+                    selectNode(null); 
+                }
+            });
+
+            const bringToFrontBtn = element.querySelector('.bring-to-front-btn');
+            if (bringToFrontBtn) {
+                bringToFrontBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    bringNodeToFront(node.id);
+                });
+            }
+
+            const sendToBackBtn = element.querySelector('.send-to-back-btn');
+            if (sendToBackBtn) {
+                sendToBackBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    sendNodeToBack(node.id);
+                });
+            }
+
+            if (node.type === 'input-prompt') {
+                const input = element.querySelector('input'), imageBtn = element.querySelector('.image-gen-btn'), perplexityBtn = element.querySelector('.perplexity-gen-btn');
+                const videoBtn = element.querySelector('.video-gen-btn'), uploadBtn = element.querySelector('.upload-img-btn'), fileInput = element.querySelector('.hidden-file-input');
+                const handleGeneration = (type) => {
+                    const prompt = input.value.trim();
+                    if (prompt === '' && !node.data.parentIds && type !== 'video') return;
+                    const parentIds = node.parentId, posX = node.x, posY = node.y;
+                    element.remove();
+                    nodes = nodes.filter(n => n.id !== node.id);
+                    const userPromptNode = createNode(`prompt-${Date.now()}`, parentIds, posX, posY, 'user-prompt', { prompt });
+                    if (type === 'image') Array.isArray(parentIds) ? generateCombinedImage(prompt, userPromptNode.id) : generateImages(prompt, userPromptNode.id);
+                    else if (type === 'video') generateVideos(prompt, userPromptNode.id);
+                    else if (type === 'perplexity') generatePerplexityResponse(prompt, userPromptNode.id);
+                    else generateResponses(prompt, userPromptNode.id);
+                };
+                input.addEventListener('keydown', (e) => e.key === 'Enter' && handleGeneration('text'));
+                imageBtn.addEventListener('click', () => handleGeneration('image'));
+                perplexityBtn.addEventListener('click', () => handleGeneration('perplexity'));
+                videoBtn.addEventListener('click', () => handleGeneration('video'));
+                uploadBtn.addEventListener('click', () => fileInput.click());
+                fileInput.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    if (!file || !file.type.startsWith('image/')) return;
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        const img = new Image();
+                        img.onload = () => {
+                            const canvas = document.createElement('canvas'), ctx = canvas.getContext('2d');
+                            canvas.width = img.width; canvas.height = img.height;
+                            ctx.drawImage(img, 0, 0);
+                            const base64ImageAsPng = canvas.toDataURL('image/png');
+                            const posX = node.x, posY = node.y, parentId = node.parentId;
+                            element.remove();
+                            nodes = nodes.filter(n => n.id !== node.id);
+                            const uploadedNode = createNode(`uploaded-${Date.now()}`, parentId, posX, posY, 'image-response', { model: 'UPLOAD', originalPrompt: `Uploaded: ${file.name}` }, base64ImageAsPng);
+                            createInputNode(uploadedNode.id);
+                        };
+                        img.src = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                });
+            } else if (node.type === 'post-it') {
+                const textarea = element.querySelector('.post-it-textarea');
+                textarea.addEventListener('input', (e) => {
+                    node.content = e.target.value;
+                });
+
+                const deleteBtn = element.querySelector('.delete-postit-btn');
+                deleteBtn.addEventListener('click', () => {
+                    nodes = nodes.filter(n => n.id !== node.id);
+                    element.remove();
+                    requestAnimationFrame(drawLines);
+                });
+            } else if (node.type === 'text-node') {
+                const textarea = element.querySelector('.text-node-textarea');
+                 textarea.addEventListener('input', (e) => {
+                    node.content = e.target.value;
+                });
+            }
+        }
+        
+        function createInputNode(parentId) {
+            const parentNode = nodes.find(n => n.id === parentId);
+            createNode(`input-${Date.now()}`, parentId, parentNode.x, parentNode.y - 70, 'input-prompt', {});
+        }
+        
+        canvas.addEventListener('mousemove', (e) => {
+            if (activeDrag.node) {
+                const {node, element} = activeDrag;
+                node.x = (e.clientX - pan.x) / zoom - activeDrag.offset.x;
+                node.y = (e.clientY - pan.y) / zoom - activeDrag.offset.y;
+                element.style.left = `${node.x}px`;
+                element.style.top = `${node.y}px`;
+                requestAnimationFrame(drawLines);
+            }
+        });
+        canvas.addEventListener('mouseup', () => { activeDrag.node = null; });
+
+        // --- Resizing Logic ---
+        function initResize(e, node, element) {
+            e.stopPropagation(); 
+            isResizing.active = true;
+            isResizing.node = node;
+            isResizing.element = element;
+            isResizing.startX = e.clientX;
+            isResizing.startY = e.clientY;
+            isResizing.startWidth = parseInt(document.defaultView.getComputedStyle(element).width, 10);
+            isResizing.startHeight = parseInt(document.defaultView.getComputedStyle(element).height, 10);
+
+            document.addEventListener('mousemove', handleResize);
+            document.addEventListener('mouseup', stopResize);
+        }
+
+        function handleResize(e) {
+            if (!isResizing.active) return;
+            
+            const dx = e.clientX - isResizing.startX;
+            const dy = e.clientY - isResizing.startY;
+
+            const newWidth = Math.max(50, isResizing.startWidth + dx / zoom);
+            const newHeight = Math.max(50, isResizing.startHeight + dy / zoom);
+
+            isResizing.node.width = newWidth;
+            isResizing.node.height = newHeight;
+            isResizing.element.style.width = `${newWidth}px`;
+            isResizing.element.style.height = `${newHeight}px`;
+
+            requestAnimationFrame(drawLines);
+        }
+
+        function stopResize() {
+            isResizing.active = false;
+            document.removeEventListener('mousemove', handleResize);
+            document.removeEventListener('mouseup', stopResize);
+        }
+
+
+        // --- Line Drawing ---
+        function drawLines() {
+            linesContainer.innerHTML = '';
+            nodes.forEach(node => {
+                if (!node.parentId) return;
+                const parentIds = Array.isArray(node.parentId) ? node.parentId : [node.parentId];
+                const nodeEl = document.getElementById(`node-${node.id}`);
+                parentIds.forEach(pid => {
+                    const parentNode = nodes.find(n => n.id === pid), parentEl = document.getElementById(`node-${pid}`);
+                    if (parentNode && nodeEl && parentEl && parentEl.offsetWidth > 0) {
+                        const line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                        const x1 = parentNode.x + parentEl.offsetWidth / 2, y1 = parentNode.y;
+                        const x2 = node.x + nodeEl.offsetWidth / 2, y2 = node.y + nodeEl.offsetHeight;
+                        const pathData = `M ${x1} ${y1} C ${x1} ${y1 - 70}, ${x2} ${y2 + 70}, ${x2} ${y2}`;
+                        line.setAttribute('d', pathData);
+                        line.setAttribute('stroke', 'var(--text-secondary)');
+                        line.setAttribute('stroke-width', '2');
+                        line.setAttribute('fill', 'none');
+                        line.setAttribute('opacity', '0.3');
+                        linesContainer.appendChild(line);
+                    }
+                });
+            });
+        }
+        
+        // --- AI API Calls ---
+        function buildHistory(leafNodeId) {
+            let history = [];
+            let currentNode = nodes.find(n => n.id === leafNodeId);
+
+            while(currentNode) {
+                if (currentNode.type === 'user-prompt') {
+                    history.unshift({ role: 'user', parts: [{text: currentNode.data.prompt }] });
+                } else if (currentNode.type === 'ai-response') {
+                     history.unshift({ role: 'model', parts: [{text: currentNode.content }] });
+                }
+                if(currentNode.parentId && !Array.isArray(currentNode.parentId)) {
+                    currentNode = nodes.find(n => n.id === currentNode.parentId);
+                } else {
+                    currentNode = null;
+                }
+            }
+            return history;
+        }
+
+        // --- UPDATED: Perplexity now uses history for context ---
+        async function generatePerplexityResponse(prompt, userPromptNodeId) {
+            const userPromptNode = nodes.find(n => n.id === userPromptNodeId);
+            if (!userPromptNode) return;
+
+            const history = buildHistory(userPromptNode.id); // Build history
+            
+            // Convert Gemini history format to Perplexity (OpenAI) format
+            const perplexityHistory = history.map(h => ({
+                role: h.role === 'model' ? 'assistant' : 'user',
+                content: h.parts[0].text
+            }));
+
+            const parentHeight = document.getElementById(`node-${userPromptNode.id}`).offsetHeight;
+            const yOffset = parentHeight + 350;
+            const nodeId = `perplexity-${Date.now()}`;
+            
+            createNode(nodeId, userPromptNode.id, userPromptNode.x, userPromptNode.y - yOffset, 'ai-response', { model: 'Perplexity' });
+            
+            if (perplexityKey) {
+                callPerplexity(perplexityHistory, perplexityKey) // Pass history to API call
+                    .then(({ content, citations }) => updateNodeContent(nodeId, content, citations))
+                    .catch(error => {
+                        console.error("Perplexity API Error:", error);
+                        updateNodeContent(nodeId, `**Error:** ${error.message}`);
+                    });
+            } else {
+                updateNodeContent(nodeId, `**Error:** Perplexity API key not set.`);
+            }
+        }
+
+        async function generateResponses(prompt, userPromptNodeId) {
+            const userPromptNode = nodes.find(n => n.id === userPromptNodeId);
+            if (!userPromptNode) return;
+            
+            const history = buildHistory(userPromptNode.id);
+
+            const parentX = userPromptNode.x;
+            const parentY = userPromptNode.y;
+            const parentHeight = document.getElementById(`node-${userPromptNode.id}`).offsetHeight; 
+
+            const timestamp = Date.now();
+            const geminiNodeId = `gemini-${timestamp}`;
+            const openaiNodeId = `openai-${timestamp}`;
+            
+            const yOffset = parentHeight + 350;
+
+            let geminiX = parentX - 200;
+            let geminiY = parentY - yOffset;
+            let openaiX = parentX + 200;
+            let openaiY = parentY - yOffset;
+            
+            const constrainedHistory = [...history];
+            constrainedHistory[constrainedHistory.length-1].parts[0].text += `\n\n(Please keep your response to around ${maxResponseWords} words.)`;
+
+
+            createNode(geminiNodeId, userPromptNode.id, geminiX, geminiY, 'ai-response', { model: 'Gemini' });
+            createNode(openaiNodeId, userPromptNode.id, openaiX, openaiY, 'ai-response', { model: 'OpenAI' });
+
+            if (geminiKey) {
+                callGemini(constrainedHistory, geminiKey)
+                    .then(responseText => updateNodeContent(geminiNodeId, responseText))
+                    .catch(error => {
+                        console.error("Gemini API Error:", error);
+                        updateNodeContent(geminiNodeId, `**Error:** ${error.message}`);
+                    });
+            } else {
+                updateNodeContent(geminiNodeId, `**Error:** Gemini API key not set.`);
+            }
+
+            if (openaiKey) {
+                const openaiHistory = constrainedHistory.map(h => ({
+                    role: h.role === 'model' ? 'assistant' : 'user',
+                    content: h.parts[0].text
+                }));
+                callOpenAI(openaiHistory, openaiKey)
+                    .then(responseText => updateNodeContent(openaiNodeId, responseText))
+                    .catch(error => {
+                        console.error("OpenAI API Error:", error);
+                        updateNodeContent(openaiNodeId, `**Error:** ${error.message}`);
+                    });
+            } else {
+                updateNodeContent(openaiNodeId, `**Error:** OpenAI API key not set.`);
+            }
+        }
+        
+        async function generateCombinedImage(prompt, userPromptNodeId) {
+            const userPromptNode = nodes.find(n => n.id === userPromptNodeId);
+            if (!userPromptNode || !Array.isArray(userPromptNode.parentId)) return;
+
+            const parentImageNodes = userPromptNode.parentId.map(id => nodes.find(n => n.id === id)).filter(Boolean);
+            const base64Images = parentImageNodes.map(n => n.content);
+
+            const parentX = userPromptNode.x;
+            const parentY = userPromptNode.y;
+            const parentHeight = document.getElementById(`node-${userPromptNode.id}`).offsetHeight;
+            const yOffset = parentHeight + 450;
+            const timestamp = Date.now();
+
+            // Create Gemini Node
+            const geminiNodeId = `gemini-img-${timestamp}`;
+            createNode(geminiNodeId, userPromptNode.id, parentX - 200, parentY - yOffset, 'image-response', { model: 'Gemini Combine', originalPrompt: prompt });
+            if (geminiKey) {
+                callGeminiImageCombine(prompt, base64Images, geminiKey)
+                    .then(base64Image => updateNodeImage(geminiNodeId, base64Image))
+                    .catch(error => {
+                        console.error("Gemini Image Combine Error:", error);
+                        updateNodeImage(geminiNodeId, `**Error:** ${error.message}`);
+                    });
+            } else {
+                updateNodeImage(geminiNodeId, `**Error:** Gemini API key not set.`);
+            }
+        }
+
+        async function generateImages(prompt, userPromptNodeId) {
+            const userPromptNode = nodes.find(n => n.id === userPromptNodeId);
+            if (!userPromptNode) return;
+            
+            const parentNode = nodes.find(n => n.id === userPromptNode.parentId);
+
+            const parentX = userPromptNode.x;
+            const parentY = userPromptNode.y;
+            const parentHeight = document.getElementById(`node-${userPromptNode.id}`).offsetHeight;
+
+            const timestamp = Date.now();
+            const geminiNodeId = `gemini-img-${timestamp}`;
+            const openaiNodeId = `openai-img-${timestamp}`;
+            
+            const yOffset = parentHeight + 450;
+
+            let geminiX = parentX - 200;
+            let geminiY = parentY - yOffset;
+            let openaiX = parentX + 200;
+            let openaiY = parentY - yOffset;
+            
+            const isEdit = parentNode && parentNode.type === 'image-response';
+            const newPrompt = isEdit ? `${parentNode.data.originalPrompt}, then ${prompt}` : prompt;
+            const parentImage = isEdit ? parentNode.content : null;
+
+            createNode(geminiNodeId, userPromptNode.id, geminiX, geminiY, 'image-response', { model: 'Gemini', originalPrompt: newPrompt, parentImage });
+            createNode(openaiNodeId, userPromptNode.id, openaiX, openaiY, 'image-response', { model: 'OpenAI', originalPrompt: newPrompt, parentImage });
+
+            // Handle Gemini
+            if (geminiKey) {
+                if (isEdit) {
+                    const base64Data = parentNode.content.split(',')[1];
+                    const editPrompt = `Based on the provided image, apply the following edit: ${prompt}`;
+                    callGeminiImageEdit(editPrompt, base64Data, geminiKey)
+                        .then(base64Image => updateNodeImage(geminiNodeId, base64Image))
+                        .catch(error => {
+                            console.error("Gemini Image Edit Error:", error);
+                            updateNodeImage(geminiNodeId, `**Error:** ${error.message}`);
+                        });
+                } else {
+                    callGeminiImage(prompt, geminiKey)
+                        .then(base64Image => updateNodeImage(geminiNodeId, base64Image))
+                        .catch(error => {
+                            console.error("Gemini Image API Error:", error);
+                            updateNodeImage(geminiNodeId, `**Error:** ${error.message}`);
+                        });
+                }
+            } else {
+                updateNodeImage(geminiNodeId, `**Error:** Gemini API key not set.`);
+            }
+
+            // Handle OpenAI
+            if (openaiKey) {
+                if(isEdit) {
+                    ensureRgbaFormat(parentNode.content)
+                          .then(rgbaBase64Image => {
+                              const base64Data = rgbaBase64Image.split(',')[1];
+                              return callOpenAIImageEdit(prompt, base64Data, openaiKey);
+                          })
+                            .then(base64Image => updateNodeImage(openaiNodeId, base64Image))
+                            .catch(error => {
+                                console.error("OpenAI Image Edit Error:", error);
+                                updateNodeImage(openaiNodeId, `**Error:** ${error.message}`);
+                            });
+                } else {
+                    callOpenAIImage(prompt, openaiKey)
+                        .then(base64Image => updateNodeImage(openaiNodeId, base64Image))
+                        .catch(error => {
+                            console.error("OpenAI Image API Error:", error);
+                            updateNodeImage(openaiNodeId, `**Error:** ${error.message}`);
+                        });
+                }
+            } else {
+                updateNodeImage(openaiNodeId, `**Error:** OpenAI API key not set.`);
+            }
+        }
+        
+        async function generateVideos(prompt, userPromptNodeId) {
+            const userPromptNode = nodes.find(n => n.id === userPromptNodeId);
+            if (!userPromptNode) return;
+
+            const parentNode = nodes.find(n => n.id === userPromptNode.parentId);
+
+            const parentX = userPromptNode.x;
+            const parentY = userPromptNode.y;
+            const parentHeight = document.getElementById(`node-${userPromptNode.id}`).offsetHeight;
+
+            const timestamp = Date.now();
+            const geminiVideoNodeId = `gemini-video-${timestamp}`;
+            const openaiVideoNodeId = `openai-video-${timestamp}`;
+            
+            const yOffset = parentHeight + 450;
+            let geminiX = parentX - 200;
+            let openaiX = parentX + 200;
+            
+            const isFromImage = parentNode && parentNode.type === 'image-response';
+            const parentImage = isFromImage ? parentNode.content : null;
+
+            // Create Gemini video node
+            createNode(geminiVideoNodeId, userPromptNode.id, geminiX, parentY - yOffset, 'video-response', { model: 'Gemini VEO', originalPrompt: prompt });
+            // Create OpenAI video node
+            createNode(openaiVideoNodeId, userPromptNode.id, openaiX, parentY - yOffset, 'video-response', { model: 'OpenAI Sora', originalPrompt: prompt });
+
+            // --- Call Gemini VEO ---
+            if (geminiKey) {
+                const geminiCall = isFromImage 
+                    ? callGeminiVideoFromImage(prompt, parentImage.split(',')[1], geminiKey)
+                    : callGeminiVideo(prompt, geminiKey);
+                
+                geminiCall
+                    .then(videoUrl => updateNodeVideo(geminiVideoNodeId, videoUrl))
+                    .catch(error => {
+                        console.error("Gemini Video Error:", error);
+                        updateNodeVideo(geminiVideoNodeId, `**Error:** ${error.message}`);
+                    });
+            } else {
+                updateNodeVideo(geminiVideoNodeId, `**Error:** Gemini API key not set.`);
+            }
+
+            // --- Call OpenAI Sora ---
+            if (openaiKey) {
+                //TODO: Change to video from image when available.
+                const openaiCall = isFromImage
+                    ? callOpenAIVideo(prompt, openaiKey, openaiVideoNodeId)
+                    : callOpenAIVideo(prompt, openaiKey, openaiVideoNodeId);
+
+                openaiCall
+                    .then(videoUrl => updateNodeVideo(openaiVideoNodeId, videoUrl))
+                    .catch(error => {
+                        console.error("OpenAI Video Error:", error);
+                        updateNodeVideo(openaiVideoNodeId, `**Error:** ${error.message}`);
+                    });
+            } else {
+                updateNodeVideo(openaiVideoNodeId, `**Error:** OpenAI API key not set.`);
+            }
+        }
+
+        async function callApiWithRetry(apiUrl, options, maxRetries = 3) {
+            let attempt = 0;
+            while (attempt < maxRetries) {
+                try {
+                    const response = await fetch(apiUrl, options);
+                    if (!response.ok) {
+                        const errorBody = await response.json();
+                        throw new Error(`API Error: ${response.status} ${response.statusText} - ${errorBody.error ? errorBody.error.message : 'Unknown error format'}`);
+                    }
+                    return await response.json();
+                } catch (error) {
+                    attempt++;
+                    if (attempt >= maxRetries) throw error;
+                    const delay = Math.pow(2, attempt) * 1000;
+                    console.log(`Retrying API call... attempt ${attempt}`);
+                    await new Promise(res => setTimeout(res, delay));
+                }
+            }
+        }
+        
+        function ensureRgbaFormat(base64Image) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    try {
+                        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                        ctx.putImageData(imageData, 0, 0);
+                        resolve(canvas.toDataURL('image/png'));
+                    } catch (e) {
+                        console.error("Error converting image to RGBA:", e);
+                        reject(e);
+                    }
+                };
+                img.onerror = (err) => {
+                    console.error("Image load error for RGBA conversion:", err);
+                    reject(err);
+                };
+                img.src = base64Image;
+            });
+        }
+
+        function base64ToBlob(base64, mimeType) {
+            const byteCharacters = atob(base64);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            return new Blob([byteArray], {type: mimeType});
+        }
+        
+        // --- UPDATED: callPerplexity now accepts full history ---
+        async function callPerplexity(history, key) {
+            const apiUrl = 'https://api.perplexity.ai/chat/completions';
+            const payload = {
+                model: "sonar",
+                messages: history // Use the full history array for context
+            };
+            const result = await callApiWithRetry(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+                body: JSON.stringify(payload)
+            });
+            return {
+                content: result.choices[0].message.content,
+                citations: result.citations || []
+            };
+        }
+
+        async function callGemini(history, key) {
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`;
+            const payload = { contents: history };
+            const result = await callApiWithRetry(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            return result.candidates[0].content.parts[0].text;
+        }
+
+        async function callOpenAI(history, key) {
+            const apiUrl = 'https://api.openai.com/v1/chat/completions';
+            const payload = { model: "gpt-4-turbo", messages: history };
+            const result = await callApiWithRetry(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+                body: JSON.stringify(payload)
+            });
+            return result.choices[0].message.content;
+        }
+        
+        
+        async function callGeminiImage(prompt, key) {
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${key}`;
+            const payload = { instances: [{ prompt: prompt }], parameters: { "sampleCount": 1 } };
+            const result = await callApiWithRetry(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (result.predictions && result.predictions[0].bytesBase64Encoded) {
+                return `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
+            }
+            throw new Error("Invalid response from Gemini Image API.");
+        }
+
+        async function callGeminiImageCombine(prompt, base64Images, key) {
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image-preview:generateContent?key=${key}`;
+            
+            const parts = base64Images.map(b64 => ({
+                inlineData: { mimeType: "image/png", data: b64.split(',')[1] }
+            }));
+            parts.push({ text: prompt });
+
+            const payload = {
+                contents: [{ parts: parts }],
+                generationConfig: { responseModalities: ['IMAGE'] }
+            };
+            
+            const result = await callApiWithRetry(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const base64Data = result?.candidates?.[0]?.content?.parts?.find(p => p.inlineData)?.inlineData?.data;
+            if (base64Data) {
+                return `data:image/png;base64,${base64Data}`;
+            }
+            throw new Error("Invalid response from Gemini Image Combine API.");
+        }
+
+        async function callGeminiImageEdit(prompt, base64ImageData, key) {
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image-preview:generateContent?key=${key}`;
+            const payload = {
+                contents: [{
+                    parts: [
+                        { text: prompt },
+                        { inlineData: { mimeType: "image/png", data: base64ImageData } }
+                    ]
+                }],
+                generationConfig: { responseModalities: ['IMAGE'] }
+            };
+
+            const result = await callApiWithRetry(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const base64Data = result?.candidates?.[0]?.content?.parts?.find(p => p.inlineData)?.inlineData?.data;
+            if (base64Data) {
+                return `data:image/png;base64,${base64Data}`;
+            }
+            throw new Error("Invalid response from Gemini Image Edit API.");
+        }
+
+        async function callOpenAIImage(prompt, key) {
+            const apiUrl = 'https://api.openai.com/v1/images/generations';
+            const payload = {
+                model: "gpt-image-1",
+                prompt: prompt,
+                n: 1,
+                size: "1024x1024",
+                
+            };
+
+            const result = await callApiWithRetry(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+                body: JSON.stringify(payload)
+            });
+
+            if (result.data && result.data[0].b64_json) {
+                return `data:image/png;base64,${result.data[0].b64_json}`;
+            }
+            throw new Error("Invalid response from OpenAI Image API.");
+        }
+
+        async function callOpenAIImageEdit(prompt, base64ImageData, key) {
+            const apiUrl = 'https://api.openai.com/v1/images/edits';
+            
+            const imageBlob = base64ToBlob(base64ImageData, 'image/png');
+            
+            const formData = new FormData();
+            formData.append('image', imageBlob, 'image.png');
+            formData.append('prompt', prompt);
+            formData.append('model', 'gpt-image-1'); 
+            formData.append('n', 1);
+            formData.append('size', '1024x1024');
+            
+   
+            
+            // Cannot use callApiWithRetry because it stringifies the body
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${key}` },
+                body: formData
+            });
+
+            if (!response.ok) {
+                const errorBody = await response.json();
+                throw new Error(`API Error: ${response.status} ${response.statusText} - ${errorBody.error.message}`);
+            }
+            const result = await response.json();
+
+            if (result.data && result.data[0].b64_json) {
+                return `data:image/png;base64,${result.data[0].b64_json}`;
+            }
+            throw new Error("Invalid response from OpenAI Image Edit API.");
+        }
+
+        
+async function callGeminiVideo(prompt, key) {
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/veo-2.0-generate-001:predictLongRunning?key=${key}`;
+            const payload = { 
+                instances: [{ prompt: prompt }],
+                parameters: { "sampleCount": 1 } 
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok) {
+                    const errorBody = await response.json().catch(() => response.text());
+                    throw new Error(`API Error: ${response.status} ${response.statusText} - ${JSON.stringify(errorBody)}`);
+                }
+                const result = await response.json();
+                const operationName = result.name;
+
+                // Poll for completion
+                return await pollOperation(operationName, key);
+
+            } catch (error) {
+                console.error("Gemini Video API Error:", error);
+                throw error;
+            }
+        }
+
+        async function callGeminiVideoFromImage(prompt, base64ImageData, key) {
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/veo-2.0-generate-001:predictLongRunning?key=${key}`;
+            const payload = {
+                instances: [{
+                    prompt: prompt,
+                    image: {
+                        mimeType: 'image/png',
+                        bytesBase64Encoded: base64ImageData
+                    }
+                }],
+                parameters: { "sampleCount": 1 }
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok) {
+                    const errorBody = await response.json().catch(() => response.text());
+                    throw new Error(`API Error: ${response.status} ${response.statusText} - ${JSON.stringify(errorBody)}`);
+                }
+                const result = await response.json();
+                const operationName = result.name;
+
+                // Poll for completion
+                return await pollOperation(operationName, key);
+
+            } catch (error) {
+                console.error("Gemini Video from Image Error:", error);
+                throw error;
+            }
+        }
+
+        async function pollOperation(operationName, key) {
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/${operationName}?key=${key}`;
+            while (true) {
+                await new Promise(res => setTimeout(res, 10000)); // Poll every 10 seconds
+                try {
+                    const response = await fetch(apiUrl);
+                    if (!response.ok) {
+                       const errorBody = await response.json().catch(() => response.text());
+                       throw new Error(`Polling API Error: ${response.status} ${response.statusText} - ${JSON.stringify(errorBody)}`);
+                    }
+                    const result = await response.json();
+                    
+                    if (result.done) {
+                        const videoUri = result.response?.generateVideoResponse?.generatedSamples?.[0]?.video?.uri || result.response?.generatedSamples?.[0]?.video?.uri;
+                        if (videoUri) {
+                            const videoResponse = await fetch(`${videoUri}&key=${key}`);
+                            if (!videoResponse.ok) {
+                                throw new Error(`Video download failed: ${videoResponse.status} ${videoResponse.statusText}`);
+                            }
+                            const videoBlob = await videoResponse.blob();
+                            return URL.createObjectURL(videoBlob);
+                        } else {
+                            throw new Error("Video generation failed or URI not found.");
+                        }
+                    }
+                } catch (error) {
+                    console.error("Polling Error:", error);
+                    throw error;
+                }
+            }
+        }
+
+async function callOpenAIVideo(prompt, key, nodeId) {
+            const apiUrl = 'https://api.openai.com/v1/videos';
+            const formData = new FormData();
+            formData.append('prompt', prompt);
+            formData.append('model', 'sora-2');
+            formData.append('size', '1280x720');
+            formData.append('seconds', '8');
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${key}` },
+                body: formData
+            });
+
+            if (!response.ok) {
+                const errorBody = await response.json();
+                throw new Error(`API Error: ${response.status} ${response.statusText} - ${errorBody.error.message}`);
+            }
+
+            const result = await response.json();
+            const videoId = result.id;
+            return await pollOpenAIVideo(videoId, key, nodeId);
+        }
+
+        async function callOpenAIVideoFromImage(prompt, base64ImageData, key, nodeId) {
+            const apiUrl = 'https://api.openai.com/v1/videos';
+            const imageBlob = base64ToBlob(base64ImageData, 'image/jpeg'); // Sora prefers jpeg
+
+            const formData = new FormData();
+            formData.append('prompt', prompt);
+            formData.append('model', 'sora-2');
+            formData.append('size', '1280x720');
+            formData.append('seconds', '8');
+            formData.append('input_reference', imageBlob, 'source.jpeg');
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${key}` },
+                body: formData
+            });
+
+            if (!response.ok) {
+                const errorBody = await response.json();
+                throw new Error(`API Error: ${response.status} ${response.statusText} - ${errorBody.error.message}`);
+            }
+
+            const result = await response.json();
+            const videoId = result.id;
+            return await pollOpenAIVideo(videoId, key, nodeId);
+        }
+        
+        
+        async function pollOpenAIVideo(videoId, key, nodeId) {
+            const statusUrl = `https://api.openai.com/v1/videos/${videoId}`;
+            while (true) {
+                await new Promise(res => setTimeout(res, 5000)); // Poll every 5 seconds
+                try {
+                    const response = await fetch(statusUrl, {
+                        headers: { 'Authorization': `Bearer ${key}` }
+                    });
+
+                    if (!response.ok) {
+                        const errorBody = await response.json();
+                        throw new Error(`Polling API Error: ${response.status} ${response.statusText} - ${errorBody.error.message}`);
+                    }
+
+                    const result = await response.json();
+                    const progress = result.progress ? `${Math.round(result.progress)}%` : '';
+                    updateNodeVideo(nodeId, 'loading', `Status: ${result.status} ${progress}`);
+
+                    if (result.status === 'completed') {
+                        const contentUrl = `https://api.openai.com/v1/videos/${videoId}/content`;
+                        const videoResponse = await fetch(contentUrl, {
+                             headers: { 'Authorization': `Bearer ${key}` }
+                        });
+                        if (!videoResponse.ok) {
+                            throw new Error(`Video download failed: ${videoResponse.status} ${videoResponse.statusText}`);
+                        }
+                        const videoBlob = await videoResponse.blob();
+                        return URL.createObjectURL(videoBlob);
+                    } else if (result.status === 'failed') {
+                        throw new Error(`Video generation failed. Reason: ${result.error || 'Unknown'}`);
+                    }
+                } catch (error) {
+                    console.error("OpenAI Polling Error:", error);
+                    throw error;
+                }
+            }
+        }
+  
+        // --- Combination & Stitching Logic ---
+        function toggleNodeSelection(nodeId) {
+            const nodeEl = document.getElementById(`node-${nodeId}`);
+            if (selectedNodesForCombine.has(nodeId)) {
+                selectedNodesForCombine.delete(nodeId);
+                nodeEl.classList.remove('selected-for-combine');
+            } else {
+                selectedNodesForCombine.add(nodeId);
+                nodeEl.classList.add('selected-for-combine');
+            }
+            updateCombinationBar();
+        }
+
+        function updateCombinationBar() {
+            if (selectedNodesForCombine.size < 1) {
+                combinationBar.classList.add('hidden');
+                return;
+            }
+            
+            combinationBar.classList.remove('hidden');
+            comboThumbnails.innerHTML = '';
+            
+            const selectedNodeArray = Array.from(selectedNodesForCombine).map(id => nodes.find(n => n.id === id));
+
+            selectedNodeArray.forEach(node => {
+                const thumbContainer = document.createElement('div');
+                thumbContainer.className = 'combo-thumbnail-container';
+
+                if (node.type === 'image-response' && node.content.startsWith('data:image')) {
+                    const thumb = document.createElement('img');
+                    thumb.src = node.content;
+                    thumb.className = 'combo-thumbnail';
+
+                    const durationInput = document.createElement('input');
+                    durationInput.type = 'number';
+                    durationInput.className = 'duration-input';
+                    durationInput.value = 3;
+                    durationInput.min = 0.5;
+                    durationInput.max = 30;
+                    durationInput.step = 0.5;
+                    durationInput.dataset.nodeId = node.id;
+                    
+                    thumbContainer.appendChild(thumb);
+                    thumbContainer.appendChild(durationInput);
+                } else if (node.type === 'video-response' && node.content.startsWith('blob:')) {
+                    const thumb = document.createElement('video');
+                    thumb.src = node.content;
+                    thumb.className = 'combo-thumbnail';
+                    thumb.muted = true;
+                    thumb.loop = true;
+                    thumb.playsInline = true;
+                    thumb.addEventListener('mouseenter', () => thumb.play());
+                    thumb.addEventListener('mouseleave', () => thumb.pause());
+                    thumbContainer.appendChild(thumb);
+                }
+                comboThumbnails.appendChild(thumbContainer);
+            });
+
+            const allImages = selectedNodeArray.every(node => node.type === 'image-response');
+            combineImagesBtn.style.display = allImages && selectedNodesForCombine.size >= 2 ? 'block' : 'none';
+            stitchBtn.style.display = selectedNodesForCombine.size >= 1 ? 'block' : 'none';
+        }
+        
+        combineImagesBtn.addEventListener('click', () => {
+            const parentIds = Array.from(selectedNodesForCombine);
+            const selectedNodeObjects = parentIds.map(id => nodes.find(n => n.id === id));
+
+            const avgX = selectedNodeObjects.reduce((sum, n) => sum + n.x, 0) / selectedNodeObjects.length;
+            const avgY = selectedNodeObjects.reduce((sum, n) => sum + n.y, 0) / selectedNodeObjects.length;
+
+            createNode(`input-combine-${Date.now()}`, parentIds, avgX, avgY - 70, 'input-prompt', { parentIds: true });
+            
+            parentIds.forEach(id => {
+                document.getElementById(`node-${id}`).classList.remove('selected-for-combine');
+            });
+            selectedNodesForCombine.clear();
+            updateCombinationBar();
+        });
+
+        stitchBtn.addEventListener('click', () => {
+            stitchSelectedMedia();
+        });
+
+        async function stitchSelectedMedia() {
+            const parentIds = Array.from(selectedNodesForCombine);
+            const mediaNodes = parentIds.map(id => nodes.find(n => n.id === id)).filter(Boolean);
+
+            if (mediaNodes.length === 0) return;
+
+            const avgX = mediaNodes.reduce((sum, n) => sum + n.x, 0) / mediaNodes.length;
+            const avgY = mediaNodes.reduce((sum, n) => sum + n.y, 0) / mediaNodes.length;
+            const stitchNodeId = `stitched-video-${Date.now()}`;
+            createNode(stitchNodeId, parentIds, avgX, avgY - 450, 'video-response', { model: 'Stitched', originalPrompt: `Combined ${mediaNodes.length} clips.`, progressText: 'Initializing stitching...' });
+            
+            parentIds.forEach(id => document.getElementById(`node-${id}`)?.classList.remove('selected-for-combine'));
+            selectedNodesForCombine.clear();
+            updateCombinationBar();
+
+            try {
+                const canvas = document.createElement('canvas');
+                canvas.width = 1280;
+                canvas.height = 720;
+                const ctx = canvas.getContext('2d');
+                const stream = canvas.captureStream(30);
+                const recorder = new MediaRecorder(stream, { mimeType: 'video/webm; codecs=vp9' });
+                const chunks = [];
+                recorder.ondataavailable = e => chunks.push(e.data);
+
+                const recordingPromise = new Promise(resolve => {
+                    recorder.onstop = () => {
+                        const blob = new Blob(chunks, { type: 'video/webm' });
+                        resolve(URL.createObjectURL(blob));
+                    };
+                });
+
+                recorder.start();
+
+                for (let i = 0; i < mediaNodes.length; i++) {
+                    const node = mediaNodes[i];
+                    updateNodeVideo(stitchNodeId, 'loading', `Processing clip ${i + 1} of ${mediaNodes.length}...`);
+                    if (node.type === 'image-response') {
+                        const durationInput = document.querySelector(`.duration-input[data-node-id="${node.id}"]`);
+                        const duration = durationInput ? parseFloat(durationInput.value) : 3;
+                        await processImageToCanvas(node, ctx, canvas, duration);
+                    } else if (node.type === 'video-response') {
+                        await processVideoToCanvas(node, ctx, canvas);
+                    }
+                }
+
+                updateNodeVideo(stitchNodeId, 'loading', 'Finalizing video...');
+                recorder.stop();
+                const finalVideoUrl = await recordingPromise;
+
+                updateNodeVideo(stitchNodeId, finalVideoUrl);
+
+            } catch (error) {
+                console.error("Error during video stitching:", error);
+                updateNodeVideo(stitchNodeId, `**Error:** Stitching failed. ${error.message}`);
+            }
+        }
+
+        function drawMediaToCanvas(mediaElement, ctx, canvas) {
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const mediaWidth = mediaElement.videoWidth || mediaElement.width;
+            const mediaHeight = mediaElement.videoHeight || mediaElement.height;
+            const mediaAspect = mediaWidth / mediaHeight;
+            const canvasAspect = canvas.width / canvas.height;
+
+            let drawWidth, drawHeight, offsetX, offsetY;
+
+            if (mediaAspect > canvasAspect) {
+                drawWidth = canvas.width;
+                drawHeight = drawWidth / mediaAspect;
+                offsetX = 0;
+                offsetY = (canvas.height - drawHeight) / 2;
+            } else {
+                drawHeight = canvas.height;
+                drawWidth = drawHeight * mediaAspect;
+                offsetY = 0;
+                offsetX = (canvas.width - drawWidth) / 2;
+            }
+            ctx.drawImage(mediaElement, offsetX, offsetY, drawWidth, drawHeight);
+        }
+
+        function processImageToCanvas(node, ctx, canvas, duration) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.onload = () => {
+                    drawMediaToCanvas(img, ctx, canvas);
+                    setTimeout(resolve, duration * 1000);
+                };
+                img.onerror = reject;
+                img.src = node.content;
+            });
+        }
+
+        function processVideoToCanvas(node, ctx, canvas) {
+            return new Promise((resolve, reject) => {
+                const video = document.createElement('video');
+                video.muted = true;
+                video.crossOrigin = "anonymous";
+
+                const onFrame = () => {
+                    if (video.paused || video.ended) return;
+                    drawMediaToCanvas(video, ctx, canvas);
+                    requestAnimationFrame(onFrame);
+                };
+
+                video.addEventListener('ended', resolve);
+                video.addEventListener('error', reject);
+                video.addEventListener('canplay', () => {
+                    video.play();
+                    requestAnimationFrame(onFrame);
+                });
+                
+                video.src = node.content;
+            });
+        }
+
+        // --- Save and Load ---
+        async function saveState() {
+            try {
+                // For videos with blob URLs, we need to convert them to data URLs to save them.
+                const nodesToSave = JSON.parse(JSON.stringify(nodes)); // Deep copy
+
+                const conversionPromises = nodesToSave.map(async (node) => {
+                    if (node.type === 'video-response' && node.content.startsWith('blob:')) {
+                        const response = await fetch(node.content);
+                        const blob = await response.blob();
+                        node.content = await new Promise((resolve, reject) => {
+                            const reader = new FileReader();
+                            reader.onloadend = () => resolve(reader.result);
+                            reader.onerror = reject;
+                            reader.readAsDataURL(blob);
+                        });
+                    }
+                });
+
+                await Promise.all(conversionPromises);
+
+                const canvasState = {
+                    nodes: nodesToSave,
+                    pan,
+                    zoom,
+                    zIndexCounter,
+                };
+                const stateString = JSON.stringify(canvasState, null, 2);
+                const blob = new Blob([stateString], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'ooha-canvas-state.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+            } catch (error) {
+                console.error("Failed to save state:", error);
+                alert("Could not save the canvas state. Check the console for errors.");
+            }
+        }
+        
+        async function loadState(file) {
+            const reader = new FileReader();
+            reader.onload = async (event) => {
+                try {
+                    const state = JSON.parse(event.target.result);
+                    
+                    // Clear current canvas
+                    world.innerHTML = '';
+                    linesContainer.innerHTML = '';
+                    nodes = [];
+
+                    pan = state.pan;
+                    zoom = state.zoom;
+                    zIndexCounter = state.zIndexCounter || 1;
+                    
+                    // For videos saved as data URLs, convert them back to blob URLs for better performance
+                    const conversionPromises = state.nodes.map(async (node) => {
+                        if (node.type === 'video-response' && node.content.startsWith('data:video/')) {
+                            const response = await fetch(node.content);
+                            const blob = await response.blob();
+                            node.content = URL.createObjectURL(blob);
+                        }
+                    });
+                    
+                    await Promise.all(conversionPromises);
+                    
+                    nodes = state.nodes;
+                    
+                    nodes.forEach(node => renderNode(node));
+
+                    updateWorldTransform();
+                    requestAnimationFrame(drawLines);
+
+                } catch (error) {
+                    console.error("Failed to load state:", error);
+                    alert("Could not load the canvas state. Make sure it's a valid save file.");
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        saveBtn.addEventListener('click', saveState);
+        loadBtn.addEventListener('click', () => loadInput.click());
+        loadInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                loadState(file);
+            }
+            // Reset the input so the same file can be loaded again
+            e.target.value = null; 
+        });
+
+        // --- Modal Management & Init ---
+        function openModal(modalEl) { document.querySelectorAll('.modal').forEach(m => m.classList.add('hidden')); modalEl.classList.remove('hidden'); }
+        function closeModal(modalEl) { modalEl.classList.add('hidden'); }
+        settingsBtn.addEventListener('click', () => { 
+            geminiKeyInput.value = geminiKey; 
+            openaiKeyInput.value = openaiKey; 
+            perplexityKeyInput.value = perplexityKey; 
+            maxWordsInput.value = maxResponseWords; 
+            openModal(settingsModal); 
+        });
+        settingsSaveBtn.addEventListener('click', () => { geminiKey = geminiKeyInput.value; openaiKey = openaiKeyInput.value; perplexityKey = perplexityKeyInput.value; maxResponseWords = maxWordsInput.value; localStorage.setItem('gemini_api_key', geminiKey); localStorage.setItem('openai_api_key', openaiKey); localStorage.setItem('perplexity_api_key', perplexityKey); localStorage.setItem('max_response_words', maxResponseWords); closeModal(settingsModal); });
+        settingsCancelBtn.addEventListener('click', () => closeModal(settingsModal));
+        function openCommentModal(nodeId) { activeCommentNodeId = nodeId; const node = nodes.find(n => n.id === nodeId); if (!node) return; commentList.innerHTML = ''; if (node.comments.length > 0) { node.comments.forEach(c => { const p = document.createElement('p'); p.textContent = c; p.className = 'bg-gray-100 dark:bg-gray-800 p-2 rounded text-sm'; commentList.appendChild(p); }); } else { commentList.innerHTML = '<p class="text-gray-500 text-sm">No comments yet.</p>'; } commentInput.value = ''; openModal(commentModal); }
+        commentSaveBtn.addEventListener('click', () => { const commentText = commentInput.value.trim(); if (commentText && activeCommentNodeId) { const node = nodes.find(n => n.id === activeCommentNodeId); if (node) node.comments.push(commentText); } closeModal(commentModal); activeCommentNodeId = null; });
+        commentCancelBtn.addEventListener('click', () => { closeModal(commentModal); activeCommentNodeId = null; });
+        
+        addPostitBtn.addEventListener('click', () => {
+            const centerX = (window.innerWidth / 2 - pan.x) / zoom;
+            const centerY = (window.innerHeight / 2 - pan.y) / zoom;
+            createNode(`postit-${Date.now()}`, null, centerX - 100, centerY - 100, 'post-it', {});
+        });
+        
+        addRectBtn.addEventListener('click', () => {
+             const centerX = (window.innerWidth / 2 - pan.x) / zoom;
+             const centerY = (window.innerHeight / 2 - pan.y) / zoom;
+             createNode(`shape-${Date.now()}`, null, centerX - 75, centerY - 75, 'shape', {shape: 'rect'});
+        });
+        
+        addCircleBtn.addEventListener('click', () => {
+             const centerX = (window.innerWidth / 2 - pan.x) / zoom;
+             const centerY = (window.innerHeight / 2 - pan.y) / zoom;
+             createNode(`shape-${Date.now()}`, null, centerX - 75, centerY - 75, 'shape', {shape: 'circle'});
+        });
+
+        addTextBtn.addEventListener('click', () => {
+             const centerX = (window.innerWidth / 2 - pan.x) / zoom;
+             const centerY = (window.innerHeight / 2 - pan.y) / zoom;
+             createNode(`text-${Date.now()}`, null, centerX - 100, centerY - 25, 'text-node', {});
+        });
+        
+        function selectNode(nodeId) {
+             if (selectedNodeId) {
+                 const prevSelectedEl = document.getElementById(`node-${selectedNodeId}`);
+                 if (prevSelectedEl) prevSelectedEl.classList.remove('selected');
+             }
+             selectedNodeId = nodeId;
+             if (selectedNodeId) {
+                 const newSelectedEl = document.getElementById(`node-${selectedNodeId}`);
+                 if (newSelectedEl) newSelectedEl.classList.add('selected');
+             }
+        }
+
+        function openStyleModal(nodeId) {
+            selectNode(nodeId);
+            const node = nodes.find(n => n.id === nodeId);
+            if (!node) return;
+
+            if (node.type === 'shape') {
+                styleColorSection.style.display = 'block';
+                styleFontSection.style.display = 'none';
+                styleNodeColorInput.value = node.data.color;
+            } else if (node.type === 'text-node') {
+                styleColorSection.style.display = 'block';
+                styleFontSection.style.display = 'block';
+                styleNodeColorInput.value = node.data.color;
+                styleNodeFontInput.value = node.data.font;
+            } else {
+                return; // Don't open for other node types
+            }
+            openModal(styleModal);
+        }
+        
+        styleCloseBtn.addEventListener('click', () => closeModal(styleModal));
+
+        styleNodeColorInput.addEventListener('input', (e) => {
+            if (!selectedNodeId) return;
+            const node = nodes.find(n => n.id === selectedNodeId);
+            if (!node) return;
+            
+            const newColor = e.target.value;
+            node.data.color = newColor;
+            
+            const nodeEl = document.getElementById(`node-${selectedNodeId}`);
+            if (node.type === 'shape') {
+                 nodeEl.style.backgroundColor = newColor;
+            } else if (node.type === 'text-node') {
+                 nodeEl.querySelector('textarea').style.color = newColor;
+            }
+        });
+
+        styleNodeFontInput.addEventListener('input', (e) => {
+            if (!selectedNodeId || nodes.find(n => n.id === selectedNodeId).type !== 'text-node') return;
+            
+            const node = nodes.find(n => n.id === selectedNodeId);
+            const newFont = e.target.value;
+            node.data.font = newFont;
+            
+            const nodeEl = document.getElementById(`node-${selectedNodeId}`);
+            nodeEl.querySelector('textarea').style.fontFamily = newFont;
+        });
+
+        function bringNodeToFront(nodeId) {
+            const node = nodes.find(n => n.id === nodeId);
+            if (!node) return;
+            node.zIndex = zIndexCounter++;
+            const nodeEl = document.getElementById(`node-${nodeId}`);
+            if (nodeEl) nodeEl.style.zIndex = node.zIndex;
+        }
+
+        function sendNodeToBack(nodeId) {
+            const node = nodes.find(n => n.id === nodeId);
+            if (!node) return;
+            const minZ = Math.min(...nodes.map(n => n.zIndex || 0));
+            node.zIndex = minZ - 1;
+            const nodeEl = document.getElementById(`node-${nodeId}`);
+            if (nodeEl) nodeEl.style.zIndex = node.zIndex;
+        }
+
+        // --- Sketching Logic ---
+        function initSketchCanvas() {
+            sketchCtx.fillStyle = "white"; // Or match theme background
+            sketchCtx.fillRect(0, 0, sketchCanvas.width, sketchCanvas.height);
+            sketchCtx.lineCap = 'round';
+            sketchCtx.lineJoin = 'round';
+            isErasing = false;
+            sketchEraserBtn.classList.remove('active');
+        }
+        
+        function getSketchCoords(e) {
+            const rect = sketchCanvas.getBoundingClientRect();
+            if (e.touches && e.touches.length > 0) {
+                 return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+            }
+            return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        }
+
+        function startSketching(e) {
+            e.preventDefault();
+            isSketching = true;
+            const { x, y } = getSketchCoords(e);
+            [lastSketchX, lastSketchY] = [x, y];
+        }
+
+        function drawSketch(e) {
+            if (!isSketching) return;
+            e.preventDefault();
+            const { x, y } = getSketchCoords(e);
+
+            sketchCtx.beginPath();
+            if (isErasing) {
+                sketchCtx.globalCompositeOperation = 'destination-out';
+            } else {
+                sketchCtx.globalCompositeOperation = 'source-over';
+                sketchCtx.strokeStyle = sketchColorInput.value;
+            }
+            sketchCtx.lineWidth = sketchSizeInput.value;
+            sketchCtx.moveTo(lastSketchX, lastSketchY);
+            sketchCtx.lineTo(x, y);
+            sketchCtx.stroke();
+            [lastSketchX, lastSketchY] = [x, y];
+        }
+
+        function stopSketching() {
+            isSketching = false;
+            sketchCtx.beginPath();
+        }
+        
+        addSketchBtn.addEventListener('click', () => {
+            openModal(sketchModal);
+            initSketchCanvas();
+        });
+
+        sketchCancelBtn.addEventListener('click', () => closeModal(sketchModal));
+        sketchFinishBtn.addEventListener('click', () => {
+            const dataUrl = sketchCanvas.toDataURL('image/png');
+            const centerX = (window.innerWidth / 2 - pan.x) / zoom;
+            const centerY = (window.innerHeight / 2 - pan.y) / zoom;
+            const newNode = createNode(`sketch-${Date.now()}`, null, centerX - 175, centerY - 219, 'image-response', { model: 'SKETCH', originalPrompt: 'User Sketch' }, dataUrl);
+            createInputNode(newNode.id);
+            closeModal(sketchModal);
+        });
+        
+        sketchCanvas.addEventListener('mousedown', startSketching);
+        sketchCanvas.addEventListener('mousemove', drawSketch);
+        sketchCanvas.addEventListener('mouseup', stopSketching);
+        sketchCanvas.addEventListener('mouseleave', stopSketching);
+        sketchCanvas.addEventListener('touchstart', startSketching, { passive: false });
+        sketchCanvas.addEventListener('touchmove', drawSketch, { passive: false });
+        sketchCanvas.addEventListener('touchend', stopSketching);
+
+        sketchSizeInput.addEventListener('input', (e) => {
+            sketchSizeLabel.textContent = e.target.value;
+        });
+
+        sketchEraserBtn.addEventListener('click', () => {
+            isErasing = !isErasing;
+            sketchEraserBtn.classList.toggle('active', isErasing);
+        });
+
+        sketchClearBtn.addEventListener('click', initSketchCanvas);
+
+
+        function init() {
+            const savedTheme = localStorage.getItem('canvas-theme') || 'light';
+            applyTheme(savedTheme);
+            saveBtn.innerHTML = ICONS.save;
+            loadBtn.innerHTML = ICONS.folder;
+            addSketchBtn.innerHTML = ICONS.sketch;
+            addPostitBtn.innerHTML = ICONS.postit;
+            addRectBtn.innerHTML = ICONS.rect;
+            addCircleBtn.innerHTML = ICONS.circle;
+            addTextBtn.innerHTML = ICONS.text;
+            sketchEraserBtn.innerHTML = ICONS.eraser;
+            sketchClearBtn.innerHTML = ICONS.trash;
+            createNode(`input-${Date.now()}`, null, -175, -200, 'input-prompt', {});
+            updateWorldTransform();
+        }
+        init();
+    </script>
+</body>
+</html>
