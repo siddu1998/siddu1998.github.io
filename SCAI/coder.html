@@ -4,217 +4,298 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Professional Qualitative Coding Tool with AI Learning</title>
-    <!-- Papa Parse for CSV handling -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
+        /* Design System — Editorial Magazine */
         :root {
-            --primary-color: #0866ff;
-            --primary-hover: #0653d1;
-            --bg-color: #f0f2f5;
-            --card-bg: #ffffff;
-            --text-color: #1c1e21;
-            --subtle-text: #606770;
-            --border-color: #ddd;
-            --shadow: 0 1px 3px rgba(0,0,0,0.12);
-            /* Define a palette of highlight colors */
-            --highlight-bg-1: rgba(255, 210, 70, 0.5); --highlight-border-1: #FFD246;
-            --highlight-bg-2: rgba(132, 225, 147, 0.5); --highlight-border-2: #84E193;
-            --highlight-bg-3: rgba(131, 195, 255, 0.5); --highlight-border-3: #83C3FF;
-            --highlight-bg-4: rgba(255, 156, 156, 0.5); --highlight-border-4: #FF9C9C;
-            --highlight-bg-5: rgba(200, 162, 255, 0.5); --highlight-border-5: #C8A2FF;
-            --highlight-bg-6: rgba(255, 179, 114, 0.5); --highlight-border-6: #FFB372;
-            --highlight-bg-7: rgba(114, 239, 219, 0.5); --highlight-border-7: #72EFDB;
-            --highlight-bg-8: rgba(245, 183, 238, 0.5); --highlight-border-8: #F5B7EE;
+            --ink: #1a1a1a;
+            --paper: #f8f5f0;
+            --accent: #1a1a1a;
+            --muted: #6b6b6b;
+            --rule: #d4d0c8;
+            --serif: 'Instrument Serif', Georgia, serif;
+            --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            /* Highlight palette — warm, editorial-friendly */
+            --highlight-bg-1: rgba(212, 208, 200, 0.6); --highlight-border-1: #1a1a1a;
+            --highlight-bg-2: rgba(139, 90, 43, 0.25); --highlight-border-2: #8b5a2b;
+            --highlight-bg-3: rgba(45, 106, 79, 0.25); --highlight-border-3: #2d6a4f;
+            --highlight-bg-4: rgba(139, 41, 66, 0.25); --highlight-border-4: #8b2942;
+            --highlight-bg-5: rgba(107, 76, 154, 0.25); --highlight-border-5: #6b4c9a;
+            --highlight-bg-6: rgba(196, 94, 46, 0.25); --highlight-border-6: #c45e2c;
+            --highlight-bg-7: rgba(22, 115, 232, 0.2); --highlight-border-7: #1a73e8;
+            --highlight-bg-8: rgba(93, 78, 55, 0.3); --highlight-border-8: #5d4e37;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0; padding: 20px; line-height: 1.6;
+            font-family: var(--sans);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            background-color: var(--paper);
+            color: var(--ink);
+            margin: 0;
+            padding: 0 1rem;
+            min-height: 100vh;
         }
 
-        .container { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; max-width: 1400px; margin: auto; }
-        header { grid-column: 1 / -1; margin-bottom: 10px; }
-        h1, h2, h3 { color: var(--text-color); }
-        h1 { font-size: 2em; margin-bottom: 0; }
-        header p { font-size: 1.1em; color: var(--subtle-text); }
-        main { display: flex; flex-direction: column; gap: 20px; }
-        .card { background-color: var(--card-bg); border-radius: 8px; padding: 20px; box-shadow: var(--shadow); }
-        .file-inputs { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
-        .file-inputs > div { flex: 1; }
-        .mapping-grid { display: grid; grid-template-columns: auto 1fr; gap: 10px 15px; align-items: center; margin: 20px 0; }
-        label { font-weight: 600; display: block; margin-bottom: 5px; }
-        input[type="file"], input[type="password"], select { width: 100%; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px; box-sizing: border-box; background-color: #f6f7f8; }
-        
-        button { background-color: var(--primary-color); color: white; border: none; padding: 10px 15px; border-radius: 6px; font-size: 1em; font-weight: bold; cursor: pointer; transition: background-color 0.2s; display: inline-flex; align-items: center; gap: 8px; }
-        button:hover:not(:disabled) { background-color: var(--primary-hover); }
-        button:disabled { background-color: #a0a0a0; cursor: not-allowed; }
-
-        #text-display-area { background-color: #fcfcfc; border: 1px solid var(--border-color); border-radius: 4px; padding: 15px; height: 350px; overflow-y: auto; line-height: 1.8; font-size: 1.1em; white-space: pre-wrap; }
-        #text-display-area::selection { background-color: #b3d4fc; }
-
-        .highlighted-text { border-radius: 3px; padding: 2px 0; cursor: pointer; }
-        .highlight-color-1 { background-color: var(--highlight-bg-1); border-bottom: 2px solid var(--highlight-border-1); }
-        .highlight-color-2 { background-color: var(--highlight-bg-2); border-bottom: 2px solid var(--highlight-border-2); }
-        .highlight-color-3 { background-color: var(--highlight-bg-3); border-bottom: 2px solid var(--highlight-border-3); }
-        .highlight-color-4 { background-color: var(--highlight-bg-4); border-bottom: 2px solid var(--highlight-border-4); }
-        .highlight-color-5 { background-color: var(--highlight-bg-5); border-bottom: 2px solid var(--highlight-border-5); }
-        .highlight-color-6 { background-color: var(--highlight-bg-6); border-bottom: 2px solid var(--highlight-border-6); }
-        .highlight-color-7 { background-color: var(--highlight-bg-7); border-bottom: 2px solid var(--highlight-border-7); }
-        .highlight-color-8 { background-color: var(--highlight-bg-8); border-bottom: 2px solid var(--highlight-border-8); }
-        
-        #progress-table-container { max-height: 60vh; overflow-y: auto; }
-        #progress-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        #progress-table th, #progress-table td { border: 1px solid var(--border-color); padding: 8px; text-align: left; }
-        #progress-table th { background-color: #f6f7f8; position: sticky; top: 0; }
-        #progress-table td { word-break: break-word; }
-
-        /* Updated context menu styles for click navigation */
-        #context-menu { 
-            position: absolute; 
-            display: none; 
-            background-color: var(--card-bg); 
-            border-radius: 8px; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
-            z-index: 1000; 
-            padding: 8px 0; 
-            min-width: 220px; 
-            max-width: 300px;
-            border: 1px solid var(--border-color);
+        .container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: auto 1fr;
+            gap: 1px;
+            max-width: 1400px;
+            height: 100vh;
+            margin: 0 auto;
+            background: var(--rule);
+            border: 1px solid var(--rule);
         }
-        
-        .menu-header {
-            padding: 8px 16px;
-            background-color: #f8f9fa;
-            border-bottom: 1px solid var(--border-color);
-            font-weight: 600;
-            font-size: 0.9em;
-            color: var(--subtle-text);
-        }
-        
-        .menu-item {
-            padding: 10px 16px;
-            cursor: pointer;
-            border-bottom: 1px solid #f0f0f0;
-            transition: background-color 0.2s;
+        header {
+            grid-column: 1 / -1;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--paper);
+            border-bottom: 1px solid var(--rule);
         }
-        
-        .menu-item:last-child {
-            border-bottom: none;
-        }
-        
-        .menu-item:hover {
-            background-color: #f8f9fa;
-        }
-        
-        .menu-item.has-children::after {
-            content: '›';
-            font-size: 1.2em;
-            color: var(--subtle-text);
-        }
-        
-        .menu-item.back-button {
-            background-color: #f0f2f5;
-            font-weight: 600;
-            border-bottom: 2px solid var(--border-color);
-        }
-        
-        .menu-item.back-button::before {
-            content: '‹ ';
-            font-size: 1.2em;
-        }
-        
-        .menu-item.apply-code {
-            background-color: #e3f2fd;
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-        
-        .menu-item.apply-code:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
+        header .nav-title { font-family: var(--serif); font-size: 1.25rem; font-weight: 400; color: var(--ink); }
+        header .nav-subtitle { font-size: 0.85rem; color: var(--muted); }
+        main { display: flex; flex-direction: column; gap: 1px; background: var(--rule); min-height: 0; overflow: auto; }
+        aside { background: var(--paper); min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
 
-        #prompt-navigation { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        #prompt-display { font-weight: bold; font-size: 1.1em; }
-        
-        .ai-settings { 
-            background-color: #f6f7f8; 
-            padding: 15px; 
-            border-radius: 6px; 
-            margin-top: 15px;
+        /* Typography */
+        h1 { font-family: var(--serif); font-size: 2.5rem; font-weight: 400; margin-bottom: 0.5rem; color: var(--ink); letter-spacing: -0.02em; }
+        h2 { font-family: var(--serif); font-size: 1.8rem; font-weight: 400; margin-top: 0; margin-bottom: 1.5rem; padding-top: 1.5rem; border-top: 3px solid var(--ink); color: var(--ink); }
+        h2:first-child { border-top: none; padding-top: 0; }
+        h3 { font-family: var(--sans); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin: 1.5rem 0 1rem; }
+        h4 { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; margin-bottom: 0.75rem; color: var(--ink); }
+        label { font-family: var(--sans); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.05em; display: block; margin-bottom: 0.5rem; color: var(--ink); }
+
+        .card { background: var(--paper); padding: 2rem 2.5rem; }
+        .file-inputs { display: flex; flex-direction: column; gap: 1.25rem; margin-bottom: 1.5rem; }
+        .file-inputs > div { flex: 1; }
+        .mapping-grid { display: grid; grid-template-columns: auto 1fr; gap: 0.75rem 1.5rem; align-items: center; margin: 1.5rem 0; }
+
+        input[type="file"], input[type="password"], select, textarea {
+            width: 100%; padding: 0.75rem 1rem;
+            border: 1px solid var(--rule);
+            font-family: var(--sans); font-size: 1rem;
+            background: var(--paper);
+            box-sizing: border-box;
+            transition: border-color 0.2s ease;
+        }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--ink); }
+        select { cursor: pointer; }
+
+        button {
+            font-family: var(--sans); font-weight: 500; font-size: 0.95rem; letter-spacing: 0.02em;
+            background: var(--ink); color: var(--paper);
+            border: none; padding: 0.75rem 1.25rem;
+            cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem;
+            transition: background-color 0.2s ease, opacity 0.2s ease;
+        }
+        button:hover:not(:disabled) { background: var(--muted); }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .no-codebook-box {
+            background: rgba(26, 26, 26, 0.04);
+            border: 2px solid var(--ink);
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .no-codebook-box p { margin: 0 0 1rem 0; font-family: var(--serif); font-size: 1.1rem; color: var(--ink); }
+        .skip-codebook-btn { width: 100%; justify-content: center; }
+
+        #coding-section {
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            flex: 1;
+        }
+        #coding-section h2 { font-size: 1.35rem; padding-top: 0; margin-bottom: 0.75rem; border-top: none; }
+        #coding-section h2,
+        #coding-section #prompt-navigation,
+        #coding-section .ai-settings,
+        #coding-section #ai-status { flex-shrink: 0; }
+
+        .ai-coder-group {
+            display: inline-flex;
+            align-items: stretch;
+        }
+        .ai-coder-group #ai-coder-btn { border-radius: 0; }
+        .ai-coder-group #ai-coder-btn:first-child { border-radius: 6px 0 0 6px; }
+        .ai-settings-btn {
+            width: 40px;
+            padding: 0.75rem;
+            border-radius: 0 6px 6px 0;
+            border-left: 1px solid rgba(248, 245, 240, 0.3);
+            font-size: 1rem;
+        }
+        #text-display-area {
+            font-family: var(--sans); font-size: 1.05rem; line-height: 1.8;
+            background: var(--paper); border: 1px solid var(--rule);
+            padding: 1.5rem 2rem;
+            flex: 1;
+            min-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        #text-display-area::selection { background: rgba(26, 26, 26, 0.2); }
+
+        .highlighted-text { border-radius: 2px; padding: 2px 0; cursor: pointer; }
+        .highlight-color-1 { background: var(--highlight-bg-1); border-bottom: 2px solid var(--highlight-border-1); }
+        .highlight-color-2 { background: var(--highlight-bg-2); border-bottom: 2px solid var(--highlight-border-2); }
+        .highlight-color-3 { background: var(--highlight-bg-3); border-bottom: 2px solid var(--highlight-border-3); }
+        .highlight-color-4 { background: var(--highlight-bg-4); border-bottom: 2px solid var(--highlight-border-4); }
+        .highlight-color-5 { background: var(--highlight-bg-5); border-bottom: 2px solid var(--highlight-border-5); }
+        .highlight-color-6 { background: var(--highlight-bg-6); border-bottom: 2px solid var(--highlight-border-6); }
+        .highlight-color-7 { background: var(--highlight-bg-7); border-bottom: 2px solid var(--highlight-border-7); }
+        .highlight-color-8 { background: var(--highlight-bg-8); border-bottom: 2px solid var(--highlight-border-8); }
+
+        #progress-section { padding: 2rem; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+        #progress-section h2 { margin-bottom: 1rem; flex-shrink: 0; }
+        #save-progress-btn { flex-shrink: 0; }
+        #progress-table-container { flex: 1; min-height: 0; overflow-y: auto; overflow-x: auto; margin-top: 1rem; }
+        #progress-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        #progress-table th, #progress-table td { border: 1px solid var(--rule); padding: 0.75rem 1rem; text-align: left; vertical-align: top; }
+        #progress-table th { background: rgba(26, 26, 26, 0.04); font-family: var(--sans); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); position: sticky; top: 0; z-index: 1; }
+        #progress-table td { word-break: break-word; white-space: normal; }
+        #no-codes-msg { color: var(--muted); font-style: italic; }
+
+        #save-progress-btn { margin-bottom: 1rem; }
+
+        /* Context menu */
+        #context-menu {
+            position: absolute; display: none;
+            background: var(--paper);
+            border: 1px solid var(--rule);
+            z-index: 1000;
+            padding: 0;
+            min-width: 240px; max-width: 320px;
+        }
+        .menu-header {
+            padding: 0.75rem 1.25rem;
+            font-family: var(--sans); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--muted);
+            border-bottom: 1px solid var(--rule);
+        }
+        .menu-item {
+            padding: 0.875rem 1.25rem;
+            font-family: var(--sans); font-size: 0.95rem;
+            cursor: pointer;
+            border-bottom: 1px solid var(--rule);
+            transition: background 0.15s ease;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .menu-item:last-child { border-bottom: none; }
+        .menu-item:hover { background: rgba(26, 26, 26, 0.04); }
+        .menu-item.has-children::after { content: '›'; font-size: 1.1em; color: var(--muted); }
+        .menu-item.back-button { background: rgba(26, 26, 26, 0.02); font-weight: 500; }
+        .menu-item.back-button::before { content: '‹ '; font-size: 1.1em; }
+        .menu-item.apply-code { font-weight: 500; }
+        .menu-item.apply-code:hover { background: var(--ink); color: var(--paper); }
+
+        #coding-section h2 { margin-bottom: 1rem; }
+        #prompt-navigation { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem; }
+        #prompt-display { font-family: var(--sans); font-size: 0.9rem; font-weight: 500; color: var(--muted); letter-spacing: 0.02em; }
+
+        .ai-settings {
+            background: rgba(26, 26, 26, 0.02);
+            border: 1px solid var(--rule);
+            padding: 1.5rem;
+            margin-top: 1rem;
             display: none;
         }
         .ai-settings.show { display: block; }
-        .ai-settings label { margin-top: 10px; }
-        .ai-settings textarea { 
-            width: 100%; 
-            min-height: 100px; 
-            margin-top: 5px;
-            font-family: monospace;
-            font-size: 0.9em;
-        }
-        
+        .ai-settings label { margin-top: 1rem; }
+        .ai-settings textarea { min-height: 100px; margin-top: 0.5rem; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.9rem; }
+
         .ai-status {
-            margin-top: 10px;
-            padding: 10px;
-            border-radius: 4px;
-            background-color: #e3f2fd;
-            color: #1976d2;
-            font-size: 0.9em;
+            margin-top: 1rem; padding: 1rem 1.25rem;
+            font-size: 0.9rem;
             display: none;
+            color: var(--muted);
         }
-        .ai-status.show { display: block; }
-        .ai-status.error { background-color: #ffebee; color: #c62828; }
-        .ai-status.success { background-color: #e8f5e9; color: #2e7d32; }
-        
+        .ai-status.show { display: block; background: rgba(26, 26, 26, 0.04); }
+        .ai-status.error { background: rgba(139, 41, 66, 0.1); color: #8b2942; }
+        .ai-status.success { background: rgba(45, 106, 79, 0.1); color: #2d6a4f; }
+
         .learning-stats {
-            background-color: #e8f5e9;
-            border: 1px solid #4caf50;
-            border-radius: 4px;
-            padding: 10px;
-            margin-top: 10px;
-            font-size: 0.9em;
+            background: rgba(45, 106, 79, 0.08);
+            border: 1px solid var(--rule);
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 0.9rem;
             display: none;
         }
         .learning-stats.show { display: block; }
-        .learning-stats strong { color: #2e7d32; }
+        .learning-stats strong { color: #2d6a4f; }
 
-        .examples-section {
-            margin-top: 15px;
-            padding: 10px;
-            background-color: #f0f8ff;
-            border-radius: 4px;
-            border-left: 4px solid var(--primary-color);
-            font-size: 0.9em;
-        }
-        
         .hidden { display: none; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 26, 26, 0.4);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal {
+            background: var(--paper);
+            border: 1px solid var(--rule);
+            padding: 2rem;
+            max-width: 420px;
+            width: calc(100% - 2rem);
+        }
+        .modal h3 { font-family: var(--serif); font-size: 1.25rem; font-weight: 400; margin: 0 0 1rem 0; text-transform: none; letter-spacing: normal; }
+        .modal p { margin: 0 0 1.5rem 0; font-size: 1rem; color: var(--ink); }
+        .modal .modal-actions { display: flex; justify-content: flex-end; }
+        .modal .modal-actions button { min-width: 80px; }
+
+        /* Prompt Modal (for input) */
+        #prompt-modal-overlay { display: none; }
+        #prompt-modal-overlay.show { display: flex; }
+        .prompt-modal .modal-actions { gap: 0.75rem; }
+        .prompt-modal input {
+            width: 100%;
+            margin-bottom: 1.5rem;
+            padding: 0.75rem 1rem;
+            font-family: var(--sans);
+            font-size: 1rem;
+            border: 1px solid var(--rule);
+            background: var(--paper);
+            box-sizing: border-box;
+        }
+        .prompt-modal input:focus { outline: none; border-color: var(--ink); }
+
         .loading-spinner {
-            display: inline-block;
-            width: 16px; height: 16px;
-            border: 2px solid rgba(255,255,255,.3);
-            border-radius: 50%; border-top-color: #fff;
+            display: inline-block; width: 16px; height: 16px;
+            border: 2px solid rgba(248, 245, 240, 0.4);
+            border-radius: 50%; border-top-color: var(--paper);
             animation: spin 1s ease-in-out infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        @media (min-width: 768px) { .file-inputs { flex-direction: row; gap: 20px; } }
-        @media (max-width: 900px) {
+        @media (min-width: 768px) { .file-inputs { flex-direction: row; gap: 1.5rem; } }
+        @media (max-width: 992px) {
             .container { grid-template-columns: 1fr; }
-            header { text-align: center; }
+            header { text-align: left; padding: 1.5rem 2rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>🧠 HITL Qualitative Coding Tool</h1>
-            <p>The AI learns from your coding examples to improve automatic coding accuracy. Highlight text to code manually, or let AI learn from your patterns.</p>
+        <header class="nav-bar">
+            <span class="nav-title">🧠 HITL Qualitative Coding Tool</span>
+            <span class="nav-subtitle">Highlight to code · AI learns from your patterns</span>
         </header>
         <main>
             <div id="setup-section" class="card">
@@ -223,6 +304,10 @@
                     <div><label for="data-file">Upload Data CSV</label><input type="file" id="data-file" accept=".csv"></div>
                     <div><label for="codebook-file">Upload Codebook CSV</label><input type="file" id="codebook-file" accept=".csv"></div>
                     <div><label for="progress-file">Optional: Upload Saved Progress</label><input type="file" id="progress-file" accept=".csv"></div>
+                </div>
+                <div class="no-codebook-box">
+                    <p>No codebook? Start fresh and add codes as you code:</p>
+                    <button type="button" id="start-without-codebook-btn" class="skip-codebook-btn">Start without codebook</button>
                 </div>
                 <div>
                     <label for="api-key">OpenAI API Key</label>
@@ -243,12 +328,12 @@
                 <h2>2. Code Your Text</h2>
                 <div id="prompt-navigation">
                     <button id="back-btn" disabled>Back</button>
-                    <div>
+                    <div class="ai-coder-group">
                         <button id="ai-coder-btn" disabled>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L4.047 3.339 8 7.293l3.954-3.954L9.049.435zm3.61 3.611L8.708 8l3.954 3.954 2.904-2.905c.58-.58.58-1.519 0-2.098l-2.904-2.905zm-.706 8.642L8 8.708l-3.954 3.954 2.905 2.904c.58.58 1.519.58 2.098 0l2.905-2.904zm-8.642-.706L7.292 8 3.339 4.046.435 6.951c-.58.58-.58 1.519 0 2.098l2.904 2.905z"/></svg>
                             <span id="ai-coder-btn-text">Smart AI Coder</span>
                         </button>
-                        <button id="ai-settings-toggle" style="margin-left: 5px;">⚙️</button>
+                        <button id="ai-settings-toggle" class="ai-settings-btn" type="button" title="AI Coder settings">⚙</button>
                     </div>
                     <div id="prompt-display"></div>
                     <button id="next-btn" disabled>Next</button>
@@ -303,6 +388,27 @@
     </div>
     <div id="context-menu"></div>
 
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal">
+            <h3 id="modal-title">Notice</h3>
+            <p id="modal-message"></p>
+            <div class="modal-actions">
+                <button type="button" id="modal-ok-btn">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="prompt-modal-overlay" class="modal-overlay">
+        <div class="modal prompt-modal">
+            <h3 id="prompt-modal-title">Enter value</h3>
+            <input type="text" id="prompt-modal-input" placeholder="">
+            <div class="modal-actions">
+                <button type="button" id="prompt-modal-cancel">Cancel</button>
+                <button type="button" id="prompt-modal-ok">OK</button>
+            </div>
+        </div>
+    </div>
+
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         // --- STATE MANAGEMENT ---
@@ -333,6 +439,57 @@
                 codesWithExamples: 0,
                 lastUpdated: null
             }
+        };
+
+        // --- MODAL ---
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        const modalOkBtn = document.getElementById('modal-ok-btn');
+
+        const showModal = (message, title = 'Notice') => {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            modalOverlay.classList.add('show');
+        };
+
+        const hideModal = () => modalOverlay.classList.remove('show');
+
+        modalOkBtn.addEventListener('click', hideModal);
+        modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) hideModal(); });
+
+        const promptModalOverlay = document.getElementById('prompt-modal-overlay');
+        const promptModalTitle = document.getElementById('prompt-modal-title');
+        const promptModalInput = document.getElementById('prompt-modal-input');
+        const promptModalCancel = document.getElementById('prompt-modal-cancel');
+        const promptModalOk = document.getElementById('prompt-modal-ok');
+
+        const showPromptModal = (title, defaultValue = '') => {
+            promptModalTitle.textContent = title;
+            promptModalInput.value = defaultValue;
+            promptModalOverlay.classList.add('show');
+            promptModalInput.focus();
+            return new Promise((resolve) => {
+                const finish = (val) => {
+                    promptModalOverlay.classList.remove('show');
+                    resolve(val);
+                    promptModalOk.removeEventListener('click', onOk);
+                    promptModalCancel.removeEventListener('click', onCancel);
+                    promptModalOverlay.removeEventListener('click', onOverlayClick);
+                    promptModalInput.removeEventListener('keydown', onKeydown);
+                };
+                const onOk = () => finish(promptModalInput.value.trim());
+                const onCancel = () => finish(null);
+                const onOverlayClick = (e) => { if (e.target === promptModalOverlay) onCancel(); };
+                const onKeydown = (e) => {
+                    if (e.key === 'Enter') onOk();
+                    else if (e.key === 'Escape') onCancel();
+                };
+                promptModalOk.addEventListener('click', onOk);
+                promptModalCancel.addEventListener('click', onCancel);
+                promptModalOverlay.addEventListener('click', onOverlayClick);
+                promptModalInput.addEventListener('keydown', onKeydown);
+            });
         };
 
         // --- DOM ELEMENTS ---
@@ -518,13 +675,24 @@
             if (!file) return;
             Papa.parse(file, { header: true, skipEmptyLines: true, complete: (res) => callback(res.data, res.meta.fields) });
         };
+        const defaultCodebookCols = ['Open Code', 'Axial Code', 'Selective Code'];
         const checkFilesAndShowMapping = () => {
-            if (state.data.length > 0 && state.codebook.raw && state.codebook.raw.length > 0) {
+            // Allow empty codebook - user can start fresh with just headers (Open, Axial, Selective)
+            if (state.data.length > 0 && state.codebook.raw && Array.isArray(state.codebook.raw)) {
                 elements.columnMappingSection.classList.remove('hidden');
             }
         };
+        const startWithoutCodebook = () => {
+            if (state.data.length === 0) { showModal('Please upload your Data CSV first.'); return; }
+            state.codebook.raw = [];
+            populateSelect('open-code-col', defaultCodebookCols);
+            populateSelect('axial-code-col', defaultCodebookCols);
+            populateSelect('selective-code-col', defaultCodebookCols);
+            elements.columnMappingSection.classList.remove('hidden');
+        };
         elements.dataFileInput.addEventListener('change', (e) => handleFile(e.target.files[0], (d, h) => { state.data = d; populateSelect('id-col', h); populateSelect('text-col', h); checkFilesAndShowMapping(); }));
-        elements.codebookFileInput.addEventListener('change', (e) => handleFile(e.target.files[0], (d, h) => { state.codebook.raw = d; populateSelect('open-code-col', h); populateSelect('axial-code-col', h); populateSelect('selective-code-col', h); checkFilesAndShowMapping(); }));
+        elements.codebookFileInput.addEventListener('change', (e) => handleFile(e.target.files[0], (d, h) => { state.codebook.raw = d; const cols = (h && h.length > 0) ? h : defaultCodebookCols; populateSelect('open-code-col', cols); populateSelect('axial-code-col', cols); populateSelect('selective-code-col', cols); checkFilesAndShowMapping(); }));
+        document.getElementById('start-without-codebook-btn').addEventListener('click', startWithoutCodebook);
         
         elements.progressFileInput.addEventListener('change', (e) => handleFile(e.target.files[0], (d) => {
             const requiredKeys = ['uuid', 'ID', 'Highlighted Text', 'Open Code', 'Axial Code', 'Selective Code', 'startIndex'];
@@ -537,7 +705,7 @@
                 if (!newRow.uuid) newRow.uuid = Date.now() + '-' + Math.random().toString(36).substr(2, 9);
                 return newRow;
             });
-            alert(`${state.codedData.length} progress entries loaded.`);
+            showModal(`${state.codedData.length} progress entries loaded.`, 'Progress loaded');
             updateLearningExamples(); // Update learning examples when progress is loaded
             updateProgressTable(); 
             if (state.currentPromptIndex > -1) renderCurrentPrompt();
@@ -551,7 +719,7 @@
         elements.startCodingBtn.addEventListener('click', () => {
             state.apiKey = elements.apiKeyInput.value.trim();
             if (!state.apiKey) {
-                alert('Please enter your OpenAI API key to enable the AI Coder.');
+                showModal('Please enter your OpenAI API key to enable the AI Coder.');
             }
             state.columnMapping = { id: document.getElementById('id-col').value, text: document.getElementById('text-col').value, open: document.getElementById('open-code-col').value, axial: document.getElementById('axial-code-col').value, selective: document.getElementById('selective-code-col').value };
             state.hierarchicalCodebook = {};
@@ -697,6 +865,51 @@
             menu.style.display = 'block';
         };
 
+        const addCodeToStructureAndApply = (sel, axi, opn) => {
+            const newRow = {};
+            newRow[state.columnMapping.open] = opn;
+            newRow[state.columnMapping.axial] = axi;
+            newRow[state.columnMapping.selective] = sel;
+            state.codebook.raw.push(newRow);
+            if (!state.hierarchicalCodebook[sel]) state.hierarchicalCodebook[sel] = {};
+            if (!state.hierarchicalCodebook[sel][axi]) state.hierarchicalCodebook[sel][axi] = [];
+            if (!state.hierarchicalCodebook[sel][axi].includes(opn)) state.hierarchicalCodebook[sel][axi].push(opn);
+            applyCode(state.menuState.selectedText, opn, axi, sel);
+            hideMenu();
+        };
+
+        const addNewCodeAndApply = async () => {
+            const openCode = await showPromptModal('Enter Open Code (most specific):');
+            if (openCode === null || !openCode.trim()) return;
+            const axialCode = await showPromptModal('Enter Axial Code (middle level):', '');
+            if (axialCode === null) return;
+            const selectiveCode = await showPromptModal('Enter Selective Code (broad theme):', axialCode || 'Theme');
+            if (selectiveCode === null || !selectiveCode.trim()) return;
+            const opn = openCode.trim(), axi = (axialCode || '').trim() || opn, sel = selectiveCode.trim();
+            if (!opn || !sel) return;
+            addCodeToStructureAndApply(sel, axi || sel, opn);
+        };
+
+        const addNewAxialCodeAndApply = async () => {
+            const sel = state.menuState.selectedSelective;
+            const axialCode = await showPromptModal(`Add new Axial Code under "${sel}":`);
+            if (axialCode === null || !axialCode.trim()) return;
+            const axi = axialCode.trim();
+            const openCode = await showPromptModal('Enter Open Code for this axial category:', axi);
+            if (openCode === null || !openCode.trim()) return;
+            const opn = openCode.trim();
+            addCodeToStructureAndApply(sel, axi, opn);
+        };
+
+        const addNewOpenCodeAndApply = async () => {
+            const sel = state.menuState.selectedSelective;
+            const axi = state.menuState.selectedAxial;
+            const openCode = await showPromptModal(`Add new Open Code under "${sel} > ${axi}":`);
+            if (openCode === null || !openCode.trim()) return;
+            const opn = openCode.trim();
+            addCodeToStructureAndApply(sel, axi, opn);
+        };
+
         const buildSelectiveCodeMenu = (menu) => {
             const header = document.createElement('div');
             header.className = 'menu-header';
@@ -704,6 +917,14 @@
             menu.appendChild(header);
             
             const selectiveCodes = Object.keys(state.hierarchicalCodebook);
+            if (selectiveCodes.length === 0) {
+                const addItem = document.createElement('div');
+                addItem.className = 'menu-item apply-code';
+                addItem.textContent = '➕ Add new code (start fresh)';
+                addItem.addEventListener('click', addNewCodeAndApply);
+                menu.appendChild(addItem);
+                return;
+            }
             selectiveCodes.forEach(selectiveCode => {
                 const item = document.createElement('div');
                 item.className = 'menu-item has-children';
@@ -715,6 +936,11 @@
                 });
                 menu.appendChild(item);
             });
+            const addSelectiveItem = document.createElement('div');
+            addSelectiveItem.className = 'menu-item apply-code';
+            addSelectiveItem.textContent = '➕ Add new selective code';
+            addSelectiveItem.addEventListener('click', addNewCodeAndApply);
+            menu.appendChild(addSelectiveItem);
         };
 
         const buildAxialCodeMenu = (menu) => {
@@ -746,6 +972,11 @@
                 });
                 menu.appendChild(item);
             });
+            const addAxialItem = document.createElement('div');
+            addAxialItem.className = 'menu-item apply-code';
+            addAxialItem.textContent = '➕ Add new axial code';
+            addAxialItem.addEventListener('click', addNewAxialCodeAndApply);
+            menu.appendChild(addAxialItem);
         };
 
         const buildOpenCodeMenu = (menu) => {
@@ -781,6 +1012,11 @@
                 });
                 menu.appendChild(item);
             });
+            const addOpenItem = document.createElement('div');
+            addOpenItem.className = 'menu-item apply-code';
+            addOpenItem.textContent = '➕ Add new open code';
+            addOpenItem.addEventListener('click', addNewOpenCodeAndApply);
+            menu.appendChild(addOpenItem);
         };
 
         const positionMenu = () => {
@@ -941,7 +1177,7 @@
 
         async function handleAiCoding() {
             if (!state.apiKey) {
-                alert("Please enter your OpenAI API key in the setup section first.");
+                showModal("Please enter your OpenAI API key in the setup section first.");
                 return;
             }
 

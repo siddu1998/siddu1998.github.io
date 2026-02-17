@@ -31,6 +31,7 @@
             padding: 4rem 2rem;
             max-width: 600px;
             margin: 0 auto;
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6' fill='none' stroke='%23888' stroke-width='1.5'/%3E%3C/svg%3E") 8 8, auto;
         }
         
         a {
@@ -225,6 +226,89 @@
             color: var(--muted);
         }
         
+        .project-link {
+            cursor: inherit;
+        }
+        
+        /* Tooltip: appears below cursor, bottom-right; design-system muted */
+        .project-tooltip {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+            max-width: 280px;
+            padding: 0.65rem 0.9rem;
+            background: var(--paper);
+            color: var(--muted);
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-weight: 400;
+            line-height: 1.45;
+            border-radius: 4px;
+            opacity: 0;
+            transform: scale(0.96);
+            transform-origin: top left;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .project-tooltip.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        /* Arrow: top-left of tooltip points up toward cursor */
+        .project-tooltip::after {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 12px;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 6px solid #e0e0e0;
+        }
+        
+        .project-tooltip .tooltip-desc {
+            margin: 0 0 0.5rem 0;
+        }
+        
+        .project-tooltip .tooltip-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            margin-top: 0.5rem;
+        }
+        
+        .project-tooltip .tooltip-tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.35rem;
+            margin-top: 0.25rem;
+        }
+        
+        .project-tooltip .tooltip-tag-row:first-of-type {
+            margin-top: 0;
+        }
+        
+        .project-tooltip .tooltip-label {
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #bbb;
+            margin-right: 0.15rem;
+        }
+        
+        .project-tooltip .tooltip-tag {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.45rem;
+            background: #f0efec;
+            color: var(--muted);
+            border-radius: 3px;
+            border: 1px solid #e8e6e3;
+        }
+        
         /* Responsive */
         @media (max-width: 600px) {
             body {
@@ -247,7 +331,7 @@
 </head>
 <body>
 
-    <div class="logo">◆</div>
+    <!-- <div class="logo">◆</div> -->
 
     <div class="name-section">
         <h1 class="name">Sai Siddartha Maram</h1>
@@ -270,44 +354,47 @@
 
     <section>
         <h2>Selected UX Case Studies</h2>
-        <ul class="link-list">
-            <li class="case-study-item"><a href="./uxai.html">Cursor Research: AI Qualitative Analysis</a><span class="case-study-meta">LLM × Research</span></li>
-            <li class="case-study-item"><a href="./canvasNew.html">Ooha: AI Canvas</a><span class="case-study-meta">LLM × Design</span></li>
-            <li class="case-study-item"><a href="./Xbox2.html">AURA: Agentic User Research</a><span class="case-study-meta">Xbox</span></li>
-            <li class="case-study-item"><a href="./googleTrips.html">Google Trips</a><span class="case-study-meta">Google</span></li>
-            <li class="case-study-item"><a href="./religionVideoGamesNew.html">Religious Inclusivity in Games</a><span class="case-study-meta">CHI PLAY '24</span></li>
-            <li class="case-study-item"><a href="./metaNew.html">Facebook Home for Gen-Z</a><span class="case-study-meta">Meta</span></li>
-            <li class="case-study-item"><a href="./shlokaNew.html">Shloka: Climate Action Games</a><span class="case-study-meta">ACM DIS '25 🏆</span></li>
-            <li class="case-study-item"><a href="./studycrafter.html">TGP: Gamified Prompts Taxonomy</a><span class="case-study-meta">CHI PLAY '26</span></li>
-            <li class="case-study-item"><a href="./ToD.html">Tales of Dharma</a><span class="case-study-meta">Best Seller: 1000+ sold</span></li>
+        <ul class="link-list project-links">
+            <li class="case-study-item"><a href="./uxai.html" class="project-link" data-desc="Interviews with 10 UX researchers revealed transcript atomization and evidence gathering as the worst pain. Cursor Research is an AI canvas with human-in-the-loop chunking, thematic analysis, and RAG-powered semantic search." data-methods="Interviews|Surveys|Thematic analysis" data-tools="LLM|RAG|OpenAI/Claude">Cursor Research: AI Qualitative Analysis</a><span class="case-study-meta">LLM × Research</span></li>
+            <li class="case-study-item"><a href="./canvasNew.html" class="project-link" data-desc="An AI-powered canvas for collaborative ideation and design exploration—transforming how teams move from raw ideas to structured concepts with LLM-assisted workflows." data-methods="Design research|Co-creation" data-tools="LLM|Canvas">Ooha: AI Canvas</a><span class="case-study-meta">LLM × Design</span></li>
+            <li class="case-study-item"><a href="./Xbox2.html" class="project-link" data-desc="Agentic systems for scalable, AI-assisted user research at Xbox—automating repetitive analysis while keeping researchers in the loop for quality and insight." data-methods="Agentic workflows|User research" data-tools="AI agents|LLM">AURA: Agentic User Research</a><span class="case-study-meta">Xbox</span></li>
+            <li class="case-study-item"><a href="./googleTrips.html" class="project-link" data-desc="Travel planning and discovery for the Google Trips experience—designing for intent-based exploration and day-by-day itineraries." data-methods="UX research|Usability" data-tools="Google design">Google Trips</a><span class="case-study-meta">Google</span></li>
+            <li class="case-study-item"><a href="./religionVideoGamesNew.html" class="project-link" data-desc="Designing for religious inclusivity in video games—understanding how players from diverse faith backgrounds experience games and what representation they need (CHI PLAY '24)." data-methods="Survey|Interviews|Content analysis" data-tools="Games research">Religious Inclusivity in Games</a><span class="case-study-meta">CHI PLAY '24</span></li>
+            <li class="case-study-item"><a href="./metaNew.html" class="project-link" data-desc="Exploring future opportunities for contextual and emotionally-aware feed experiences for Gen-Z through novel generative research methods at Meta Top of Home." data-methods="Generative research|Concept testing" data-tools="Meta research">Facebook Home for Gen-Z</a><span class="case-study-meta">Meta</span></li>
+            <li class="case-study-item"><a href="./shlokaNew.html" class="project-link" data-desc="The first academically-researched climate game integrating authentic Hindu religious practices to teach environmental responsibility. Four months fieldwork, co-design with temples—ACM DIS 2025 Best Paper." data-methods="Ethnography|Co-design|Fieldwork" data-tools="Computer vision|Game design">Shloka: Climate Action Games</a><span class="case-study-meta">ACM DIS '25 🏆</span></li>
+            <li class="case-study-item"><a href="./studycrafter.html" class="project-link" data-desc="A taxonomy for embedding game mechanics into LLM prompts—turning chatbots into game engines for learning. Participatory design with educators and students, grounded theory analysis (CHI PLAY '26)." data-methods="Participatory Design|Grounded Theory" data-tools="LLM|StudyCrafter AI">TGP: Gamified Prompts Taxonomy</a><span class="case-study-meta">CHI PLAY '26</span></li>
+            <li class="case-study-item"><a href="./ToD.html" class="project-link" data-desc="A narrative tabletop game exploring dharma and moral choice—best seller with 1000+ copies sold. Blends Indian philosophy with accessible game mechanics." data-methods="Narrative design|Playtesting" data-tools="Game design">Tales of Dharma</a><span class="case-study-meta">Best Seller: 1000+ sold</span></li>
         
         </ul>
     </section>
 
     <section>
         <h2>More Case Studies</h2>
-        <ul class="link-list">
+        <ul class="link-list project-links">
             
-            <li><a href="./opmNew.html">Game Play Reflection Systems</a><span class="case-study-meta">CHI '24</span></li>
-            <li><a href="./astraVerseNew.html">AstraVerse Character Design</a><span class="case-study-meta">ACM FDG '23</span></li>
-            <li><a href="./chessNew.html">AI Chess Coach</a></li>
-            <li><a href="./moveNew.html">Move: Workflow Optimization</a><span class="case-study-meta">Inveto Robotics</span></li>
+            <li><a href="./opmNew.html" class="project-link" data-desc="Systems that help players reflect on their play—designing for post-play reflection and meaning-making in games (CHI '24)." data-methods="Reflection design|User studies" data-tools="Games research">Game Play Reflection Systems</a><span class="case-study-meta">CHI '24</span></li>
+            <li><a href="./astraVerseNew.html" class="project-link" data-desc="Character design and narrative systems for AstraVerse—exploring how AI and storytelling intersect in character creation (ACM FDG '23)." data-methods="Design research|Narrative design" data-tools="Character systems">AstraVerse Character Design</a><span class="case-study-meta">ACM FDG '23</span></li>
+            <li><a href="./chessNew.html" class="project-link" data-desc="An AI coach to support learning and improvement in chess—balancing challenge and feedback for skill development." data-methods="Learning design|Evaluation" data-tools="AI|Chess">AI Chess Coach</a></li>
+            <li><a href="./moveNew.html" class="project-link" data-desc="Workflow optimization tools at Invento Robotics—reducing friction and context-switching in operational workflows." data-methods="Workflow analysis|UX design" data-tools="Invento">Move: Workflow Optimization</a><span class="case-study-meta">Inveto Robotics</span></li>
     
         </ul>
     </section>
 
     <section>
         <h2>UI Projects and Design Systems</h2>
-        <ul class="link-list">
-            <li><a href="./design-system.html">Magazine UI Design System</a></li>
-            <li><a href="./currencyShowcase.html">Currency Showcase</a></li>
-            <li><a href="./gradientGenerator.html">Gradient Generator</a></li>
+        <ul class="link-list project-links">
+            <li><a href="./design-system.html" class="project-link" data-desc="A cohesive design system for magazine-style interfaces—typography, layout, and components for editorial digital products." data-methods="Design systems|Component design" data-tools="Figma">Magazine UI Design System</a></li>
+            <li><a href="./currencyShowcase.html" class="project-link" data-desc="Visual showcase of currency and financial UI patterns—exploring clarity and trust in money-related interfaces." data-methods="UI design|Patterns" data-tools="Figma">Currency Showcase</a></li>
+            <li><a href="./gradientGenerator.html" class="project-link" data-desc="A tool for creating, previewing, and exporting custom CSS gradients—focused on designer and developer workflow." data-methods="UI design|Tool design" data-tools="Web">Gradient Generator</a></li>
 
         </ul>
     </section>
 
 
     <a href="https://info.flagcounter.com/AdSQ" style="display: none;"><img src="https://s01.flagcounter.com/count2/AdSQ/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Free counters!" border="0"></a>
+
+    <!-- Cursor project tooltip -->
+    <div class="project-tooltip" id="projectTooltip" aria-hidden="true"></div>
 
     <!-- About Panel -->
     <div class="about-overlay" id="aboutOverlay"></div>
@@ -351,6 +438,63 @@
             if (e.key === 'Escape' && aboutPanel.classList.contains('active')) {
                 closeAbout();
             }
+        });
+
+        // Cursor project tooltip — text below cursor, bottom-right corner
+        const tooltip = document.getElementById('projectTooltip');
+        const projectLinks = document.querySelectorAll('.project-link[data-desc]');
+        let mouseX = 0, mouseY = 0;
+        const offsetX = 14;
+        const offsetY = 14;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            if (tooltip.classList.contains('visible')) {
+                tooltip.style.left = (mouseX + offsetX) + 'px';
+                tooltip.style.top = (mouseY + offsetY) + 'px';
+            }
+        });
+
+        function renderTooltip(link) {
+            const desc = link.getAttribute('data-desc');
+            if (!desc) return;
+            const methods = link.getAttribute('data-methods');
+            const tools = link.getAttribute('data-tools');
+            let html = '<p class="tooltip-desc">' + desc + '</p>';
+            if (methods || tools) {
+                html += '<div class="tooltip-tags">';
+                if (methods) {
+                    const methodList = methods.split('|').map(s => s.trim()).filter(Boolean);
+                    if (methodList.length) {
+                        html += '<div class="tooltip-tag-row"><span class="tooltip-label">Methods</span>';
+                        methodList.forEach(m => { html += '<span class="tooltip-tag">' + m + '</span>'; });
+                        html += '</div>';
+                    }
+                }
+                if (tools) {
+                    const toolList = tools.split('|').map(s => s.trim()).filter(Boolean);
+                    if (toolList.length) {
+                        html += '<div class="tooltip-tag-row"><span class="tooltip-label">Tools</span>';
+                        toolList.forEach(t => { html += '<span class="tooltip-tag">' + t + '</span>'; });
+                        html += '</div>';
+                    }
+                }
+                html += '</div>';
+            }
+            tooltip.innerHTML = html;
+            tooltip.style.left = (mouseX + offsetX) + 'px';
+            tooltip.style.top = (mouseY + offsetY) + 'px';
+            tooltip.classList.add('visible');
+            tooltip.setAttribute('aria-hidden', 'false');
+        }
+
+        projectLinks.forEach((link) => {
+            link.addEventListener('mouseenter', () => renderTooltip(link));
+            link.addEventListener('mouseleave', () => {
+                tooltip.classList.remove('visible');
+                tooltip.setAttribute('aria-hidden', 'true');
+            });
         });
     </script>
 </body>
