@@ -58,6 +58,22 @@
             margin-bottom: 3.5rem;
         }
 
+        .name-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.25rem;
+        }
+
+        .name-row .name {
+            margin-bottom: 0;
+        }
+
+        .name-row .connect-links {
+            margin-top: 0;
+        }
+
         .name {
             font-family: var(--serif);
             font-size: 1.75rem;
@@ -76,14 +92,32 @@
         /* Connect Links (horizontal) */
         .connect-links {
             display: flex;
-            gap: 1.25rem;
+            gap: 1rem;
             flex-wrap: wrap;
             margin-top: 1rem;
+            align-items: center;
         }
 
         .connect-links a {
             color: var(--muted);
             font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .connect-links a.icon-link {
+            padding: 0.25rem;
+        }
+
+        .connect-links a.icon-link svg {
+            width: 20px;
+            height: 20px;
+            display: block;
+        }
+
+        .connect-links a.icon-link:hover {
+            color: var(--ink);
         }
 
         /* Generic Section */
@@ -245,6 +279,33 @@
             cursor: inherit;
         }
 
+        /* Page nav: glance all sections */
+        .page-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem 1.25rem;
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e8e6e3;
+        }
+        .page-nav a {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+        .page-nav a:hover {
+            color: var(--ink);
+        }
+
+        .page-nav a.active {
+            color: var(--ink);
+            font-weight: 500;
+        }
+
+        /* Collapsible content sections — hidden until nav is clicked */
+        .content-section.collapsed {
+            display: none;
+        }
+
         /* Tooltip: appears below cursor, bottom-right; design-system muted */
         .project-tooltip {
             position: fixed;
@@ -350,28 +411,29 @@
     <!-- <div class="logo">◆</div> -->
 
     <div class="name-section">
-        <h1 class="name">Sai Siddartha Maram</h1>
-        <p class="role">PhD Candidate at <a href="https://guiilab.ucsc.edu/" target="_blank">GUII lab, UC Santa Cruz</a>
-        </p>
-        <p class="role">Previously at Meta, Xbox/Microsoft, Invento Robotics</p>
+        <div class="name-row">
+            <h1 class="name">Sai Siddartha Maram</h1>
+            <div class="connect-links">
+                <a href="https://linkedin.com/in/sid-maram" target="_blank" rel="noopener" class="icon-link" aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                <a href="https://scholar.google.com/citations?user=0eShD5EAAAAJ&hl=en" target="_blank" rel="noopener" class="icon-link" aria-label="Google Scholar"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg></a>
+                <a href="https://x.com/ADesiHCI" target="_blank" rel="noopener" class="icon-link" aria-label="Twitter / X"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                <a href="https://siddu1998.github.io/cv.pdf" target="_blank" rel="noopener" class="icon-link" aria-label="Resume"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></a>
+            </div>
+        </div>
+        <p class="role">I design how humans and agents interact with humans and agents.</p>
 
         <p class="role">If you want to know a bit more about me, read <a href="#" class="about-trigger"
                 id="aboutTrigger">here</a>.</p>
         <p class="role">Reach out to me - <a>msaisiddartha1@gmail.com</a></p>
-        <div class="connect-links">
-            <a href="https://linkedin.com/in/sid-maram" target="_blank">LinkedIn</a>
-            <a href="https://scholar.google.com/citations?user=0eShD5EAAAAJ&hl=en" target="_blank">Google Scholar</a>
-            <a href="https://x.com/ADesiHCI" target="_blank">Twitter</a>
-            <!-- <a href="mailto:msaisiddartha1@gmail.com">Email</a> -->
-            <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
-            <a href="./blog.html">Blog</a>
-        </div>
     </div>
 
+    <nav class="page-nav" aria-label="On this page">
+        <a href="#case-studies">Case Studies</a>
+        <a href="#research-papers">Research Papers</a>
+        <a href="#ui-projects">UI &amp; Design Systems</a>
+    </nav>
 
-
-    <section>
-        <h2>Selected Case Studies</h2>
+    <section id="case-studies" class="content-section collapsed">
         <ul class="link-list project-links">
             <li class="case-study-item"><a href="./uxai.html" class="project-link"
                     data-desc="Interviews with 10 UX researchers revealed transcript atomization and evidence gathering as the worst pain. Cursor Research is an AI canvas with human-in-the-loop chunking, thematic analysis, and RAG-powered semantic search."
@@ -409,26 +471,18 @@
                     data-desc="A narrative tabletop game exploring dharma and moral choice—best seller with 1000+ copies sold. Blends Indian philosophy with accessible game mechanics."
                     data-methods="Narrative design|Playtesting" data-tools="Game design">Tales of Dharma</a><span
                     class="case-study-meta">Best Seller: 1000+ sold</span></li>
-
-        </ul>
-    </section>
-
-    <section>
-        <h2>More Case Studies</h2>
-        <ul class="link-list project-links">
-
-            <li><a href="./opmNew.html" class="project-link"
+            <li class="case-study-item"><a href="./opmNew.html" class="project-link"
                     data-desc="Systems that help players reflect on their play—designing for post-play reflection and meaning-making in games (CHI '24)."
                     data-methods="Reflection design|User studies" data-tools="Games research">Game Play Reflection
                     Systems</a><span class="case-study-meta">CHI '24</span></li>
-            <li><a href="./astraVerseNew.html" class="project-link"
+            <li class="case-study-item"><a href="./astraVerseNew.html" class="project-link"
                     data-desc="Character design and narrative systems for AstraVerse—exploring how AI and storytelling intersect in character creation (ACM FDG '23)."
                     data-methods="Design research|Narrative design" data-tools="Character systems">AstraVerse Character
                     Design</a><span class="case-study-meta">ACM FDG '23</span></li>
-            <li><a href="./chessNew.html" class="project-link"
+            <li class="case-study-item"><a href="./chessNew.html" class="project-link"
                     data-desc="An AI coach to support learning and improvement in chess—balancing challenge and feedback for skill development."
                     data-methods="Learning design|Evaluation" data-tools="AI|Chess">AI Chess Coach</a></li>
-            <li><a href="./moveNew.html" class="project-link"
+            <li class="case-study-item"><a href="./moveNew.html" class="project-link"
                     data-desc="Workflow optimization tools at Invento Robotics—reducing friction and context-switching in operational workflows."
                     data-methods="Workflow analysis|UX design" data-tools="Invento">Move: Workflow Optimization</a><span
                     class="case-study-meta">Inveto Robotics</span></li>
@@ -436,25 +490,7 @@
         </ul>
     </section>
 
-    <section>
-        <h2>UI Projects and Design Systems</h2>
-        <ul class="link-list project-links">
-            <li><a href="./design-system.html" class="project-link"
-                    data-desc="A cohesive design system for magazine-style interfaces—typography, layout, and components for editorial digital products."
-                    data-methods="Design systems|Component design" data-tools="Figma">Magazine UI Design System</a></li>
-            <li><a href="./currencyShowcase.html" class="project-link"
-                    data-desc="Visual showcase of currency and financial UI patterns—exploring clarity and trust in money-related interfaces."
-                    data-methods="UI design|Patterns" data-tools="Figma">Currency Showcase</a></li>
-            <li><a href="./gradientGenerator.html" class="project-link"
-                    data-desc="A tool for creating, previewing, and exporting custom CSS gradients—focused on designer and developer workflow."
-                    data-methods="UI design|Tool design" data-tools="Web">Gradient Generator</a></li>
-
-        </ul>
-    </section>
-
-    <section>
-        <h2>Research Papers</h2>
-
+    <section id="research-papers" class="content-section collapsed">
         <h3 class="research-category">AI in Education & Learning</h3>
         <ul class="link-list">
             <li class="case-study-item"><a href="https://arxiv.org/abs/2508.11707" target="_blank">Listening with Language Models: Using LLMs to Collect and Interpret Classroom Feedback</a><span class="case-study-meta">arXiv · 2025</span></li>
@@ -473,7 +509,21 @@
             <li class="case-study-item"><a href="https://dl.acm.org/doi/10.1145/3582437.3582445" target="_blank">A Visual Ethnographic Study at Cultural Spaces to Identify Character Creation Opportunities</a><span class="case-study-meta">ACM FDG'23 · 2023</span></li>
             <li class="case-study-item"><a href="https://www.springerprofessional.de/astraverse-establishing-a-culturally-sensitive-framework-for-int/23634780" target="_blank">AstraVerse: Establishing a Culturally-Sensitive Framework for Interactive Narrative</a><span class="case-study-meta">ACM FDG'23 · 2023</span></li>
         </ul>
+    </section>
 
+    <section id="ui-projects" class="content-section collapsed">
+        <ul class="link-list project-links">
+            <li><a href="./design-system.html" class="project-link"
+                    data-desc="A cohesive design system for magazine-style interfaces—typography, layout, and components for editorial digital products."
+                    data-methods="Design systems|Component design" data-tools="Figma">Magazine UI Design System</a></li>
+            <li><a href="./currencyShowcase.html" class="project-link"
+                    data-desc="Visual showcase of currency and financial UI patterns—exploring clarity and trust in money-related interfaces."
+                    data-methods="UI design|Patterns" data-tools="Figma">Currency Showcase</a></li>
+            <li><a href="./gradientGenerator.html" class="project-link"
+                    data-desc="A tool for creating, previewing, and exporting custom CSS gradients—focused on designer and developer workflow."
+                    data-methods="UI design|Tool design" data-tools="Web">Gradient Generator</a></li>
+
+        </ul>
     </section>
 
     <a href="https://info.flagcounter.com/AdSQ" style="display: none;"><img
@@ -488,6 +538,9 @@
     <aside class="about-panel" id="aboutPanel">
         <button class="about-panel-close" id="aboutClose" aria-label="Close">&times;</button>
         <img src="IMG_7021 (1).jpg" alt="Sai Siddartha Maram" class="about-panel-image">
+        <p>
+            PhD Candidate at <a href="https://guiilab.ucsc.edu/" target="_blank">GUII lab, UC Santa Cruz</a>. Previously at Meta, Xbox/Microsoft, Invento Robotics.
+        </p>
         <h2>Crafting intuitive experiences, solving complex problems.</h2>
         <p>
             My approach to UX research is defined by a decade of navigating the intersection of AI, software, and human
@@ -504,6 +557,35 @@
     </aside>
 
     <script>
+        // Page nav: show section only when its nav link is clicked
+        (function() {
+            const navLinks = document.querySelectorAll('.page-nav a[href^="#"]');
+            const sections = document.querySelectorAll('.content-section');
+
+            function openSection(sectionId) {
+                sections.forEach(function(s) {
+                    s.classList.toggle('collapsed', s.id !== sectionId);
+                });
+                navLinks.forEach(function(a) {
+                    const href = a.getAttribute('href');
+                    a.classList.toggle('active', href === '#' + sectionId);
+                });
+                if (sectionId && history.replaceState) {
+                    history.replaceState(null, '', '#' + sectionId);
+                }
+            }
+
+            navLinks.forEach(function(a) {
+                a.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const id = a.getAttribute('href').slice(1);
+                    if (id) openSection(id);
+                });
+            });
+
+            // Keep all sections collapsed on initial load (no hash-based open)
+        })();
+
         const aboutTrigger = document.getElementById('aboutTrigger');
         const aboutPanel = document.getElementById('aboutPanel');
         const aboutOverlay = document.getElementById('aboutOverlay');
