@@ -1,0 +1,1955 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RK Joshi Design System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Eczar:wght@400;500;600;700&family=Rozha+One&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --joshi-ink: #1a1a1a;
+            --joshi-paper: #ffffff;
+            --joshi-paper-warm: #fafafa;
+            --joshi-accent: #c1392b;
+            --joshi-accent-dark: #a93226;
+            --joshi-muted: #6b6b6b;
+            --joshi-rule: #e0e0e0;
+            --joshi-highlight: #fef7f6;
+            --font-display: 'Rozha One', serif;
+            --font-body: 'Eczar', serif;
+            --color-brand-primary: #c1392b;
+            --color-semantic-success: #2e7d32;
+            --color-semantic-warning: #d35400;
+            --color-semantic-error: #c62828;
+            --color-neutral-50: #fafafa;
+            --color-neutral-100: #f5f5f5;
+            --color-neutral-200: #e8e8e8;
+            --color-neutral-300: #d4d4d4;
+            --color-neutral-400: #a3a3a3;
+            --color-neutral-600: #525252;
+            --color-neutral-900: #1a1a1a;
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+            --space-8: 32px;
+            --space-10: 40px;
+            --space-12: 48px;
+            --space-16: 64px;
+            --space-20: 80px;
+            --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.07);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--joshi-ink);
+            background: var(--joshi-paper);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: url('RK_Joshi (1).jpg') center center / cover no-repeat;
+            opacity: 0.04;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        nav,
+        main {
+            z-index: 1;
+        }
+
+        nav {
+            width: 200px;
+            padding: var(--space-6) var(--space-4);
+            border-right: 1px solid var(--joshi-rule);
+            flex-shrink: 0;
+            background: var(--joshi-paper);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        nav a {
+            display: block;
+            margin-bottom: var(--space-2);
+            color: var(--joshi-muted);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            transition: color 0.15s ease;
+        }
+
+        nav a:hover {
+            color: var(--joshi-ink);
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--joshi-accent);
+            text-decoration: none;
+            display: block;
+            margin-bottom: var(--space-6);
+        }
+
+        .nav-section-label {
+            margin-top: 1rem;
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--joshi-muted);
+            pointer-events: none;
+        }
+
+        main {
+            flex-grow: 1;
+            position: relative;
+        }
+
+        .hero {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--space-12) var(--space-8);
+            border-bottom: 2px solid var(--joshi-ink);
+        }
+
+        .hero-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--joshi-muted);
+            margin-bottom: var(--space-4);
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-weight: 400;
+            line-height: 1.1;
+            color: var(--joshi-ink);
+            margin-bottom: var(--space-4);
+        }
+
+        .hero-dedication {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--joshi-muted);
+            opacity: 0.85;
+            margin-top: var(--space-2);
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--joshi-muted);
+            max-width: 560px;
+            line-height: 1.5;
+        }
+
+        .article-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--space-8);
+        }
+
+        .lede {
+            font-size: 1.1rem;
+            line-height: 1.55;
+            color: var(--joshi-ink);
+            margin-bottom: var(--space-8);
+            max-width: 640px;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-top: var(--space-12);
+            margin-bottom: var(--space-4);
+            padding-top: var(--space-6);
+            border-top: 2px solid var(--joshi-rule);
+            color: var(--joshi-ink);
+        }
+
+        h3 {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--joshi-muted);
+            margin-top: var(--space-6);
+            margin-bottom: var(--space-2);
+        }
+
+        h4 {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: var(--space-4);
+            margin-bottom: var(--space-2);
+            color: var(--joshi-ink);
+        }
+
+        p {
+            margin-bottom: var(--space-4);
+            color: var(--joshi-ink);
+            max-width: 640px;
+        }
+
+        ul {
+            margin-bottom: var(--space-4);
+            padding-left: var(--space-6);
+            max-width: 640px;
+        }
+
+        ul li {
+            margin-bottom: var(--space-1);
+        }
+
+        /* Color system */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1px;
+            background: var(--joshi-rule);
+            border: 1px solid var(--joshi-rule);
+            margin: var(--space-4) 0;
+        }
+
+        .color-swatch {
+            padding: var(--space-4);
+            background: var(--joshi-paper);
+        }
+
+        .swatch-preview {
+            height: 56px;
+            margin-bottom: var(--space-2);
+            border: 1px solid var(--joshi-rule);
+        }
+
+        .swatch-name {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .swatch-value {
+            font-size: 12px;
+            font-family: ui-monospace, monospace;
+            color: var(--joshi-muted);
+        }
+
+        /* Type scale */
+        .type-row {
+            display: flex;
+            align-items: baseline;
+            padding: var(--space-2) 0;
+            border-bottom: 1px solid var(--joshi-rule);
+            gap: var(--space-6);
+        }
+
+        .type-row:last-child {
+            border-bottom: none;
+        }
+
+        .type-label {
+            width: 100px;
+            flex-shrink: 0;
+            font-size: 12px;
+            color: var(--joshi-muted);
+        }
+
+        .type-sample {
+            flex-grow: 1;
+        }
+
+        /* Block component */
+        .block {
+            border: 1px solid var(--joshi-rule);
+            margin: var(--space-4) 0;
+        }
+
+        .block-head {
+            padding: var(--space-2) var(--space-4);
+            background: var(--color-neutral-100);
+            border-bottom: 1px solid var(--joshi-rule);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--joshi-muted);
+        }
+
+        .block-body {
+            padding: var(--space-4);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            padding: var(--space-2) var(--space-4);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: var(--joshi-accent);
+            color: #fff;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--joshi-accent-dark);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--joshi-ink);
+            border-color: var(--joshi-rule);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: var(--color-neutral-100);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--joshi-ink);
+        }
+
+        .btn-ghost:hover:not(:disabled) {
+            background: var(--color-neutral-100);
+        }
+
+        .btn-danger {
+            background: var(--color-semantic-error);
+            color: #fff;
+        }
+
+        .btn-danger:hover:not(:disabled) {
+            background: #b71c1c;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+        }
+
+        /* Forms */
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-1);
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            max-width: 320px;
+            font-family: var(--font-body);
+            font-size: 15px;
+            padding: var(--space-2) var(--space-3);
+            border: 1px solid var(--joshi-rule);
+            background: var(--joshi-paper);
+            color: var(--joshi-ink);
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--joshi-accent);
+            box-shadow: 0 0 0 2px var(--joshi-highlight);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-4);
+        }
+
+        .form-textarea {
+            width: 100%;
+            max-width: 400px;
+            min-height: 100px;
+            font-family: var(--font-body);
+            font-size: 15px;
+            padding: var(--space-2) var(--space-3);
+            border: 1px solid var(--joshi-rule);
+            background: var(--joshi-paper);
+            color: var(--joshi-ink);
+            resize: vertical;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--joshi-accent);
+            box-shadow: 0 0 0 2px var(--joshi-highlight);
+        }
+
+        .form-checkbox,
+        .form-radio {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            cursor: pointer;
+            margin-bottom: var(--space-2);
+            font-size: 14px;
+        }
+
+        .form-checkbox input,
+        .form-radio input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--joshi-accent);
+            cursor: pointer;
+        }
+
+        .form-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .form-toggle input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .form-toggle-track {
+            width: 44px;
+            height: 24px;
+            background: var(--color-neutral-300);
+            border-radius: 12px;
+            position: relative;
+            transition: background 0.2s;
+        }
+
+        .form-toggle-track::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s;
+        }
+
+        .form-toggle input:checked+.form-toggle-track {
+            background: var(--joshi-accent);
+        }
+
+        .form-toggle input:checked+.form-toggle-track::after {
+            transform: translateX(20px);
+        }
+
+        /* Navigation */
+        .breadcrumb {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-1);
+            font-size: 13px;
+            color: var(--joshi-muted);
+        }
+
+        .breadcrumb a {
+            color: var(--joshi-muted);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--joshi-ink);
+        }
+
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+
+        .pagination a,
+        .pagination span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            padding: 0 var(--space-2);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--joshi-ink);
+            text-decoration: none;
+            border: 1px solid var(--joshi-rule);
+            background: var(--joshi-paper);
+            transition: all 0.15s;
+        }
+
+        .pagination a:hover {
+            background: var(--color-neutral-100);
+        }
+
+        .pagination .current {
+            background: var(--joshi-ink);
+            color: var(--joshi-paper);
+            border-color: var(--joshi-ink);
+        }
+
+        /* Feedback */
+        .toast {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            background: var(--joshi-ink);
+            color: var(--joshi-paper);
+            font-size: 14px;
+            margin-bottom: var(--space-2);
+        }
+
+        .toast-success {
+            background: var(--color-semantic-success);
+        }
+
+        .toast-error {
+            background: var(--color-semantic-error);
+        }
+
+        .toast-warning {
+            background: var(--color-semantic-warning);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--color-neutral-200);
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--joshi-accent);
+            width: 60%;
+            transition: width 0.3s;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            padding: 2px var(--space-2);
+            background: var(--color-neutral-200);
+            color: var(--joshi-ink);
+        }
+
+        .badge-accent {
+            background: var(--joshi-highlight);
+            color: var(--joshi-accent-dark);
+        }
+
+        .badge-success {
+            background: #e8f5e9;
+            color: var(--color-semantic-success);
+        }
+
+        /* Icons */
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: var(--space-3);
+        }
+
+        .icon-cell {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3);
+            border: 1px solid var(--joshi-rule);
+            font-size: 11px;
+            color: var(--joshi-muted);
+        }
+
+        .icon-cell svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* Data table */
+        .dir-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .dir-table th,
+        .dir-table td {
+            padding: var(--space-2) var(--space-3);
+            text-align: left;
+            border-bottom: 1px solid var(--joshi-rule);
+        }
+
+        .dir-table th {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--joshi-muted);
+        }
+
+        .dir-table tr:hover {
+            background: var(--joshi-highlight);
+        }
+
+        /* Code block */
+        .code-block {
+            background: var(--joshi-ink);
+            color: var(--joshi-paper);
+            padding: var(--space-4);
+            font-family: ui-monospace, monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            margin: var(--space-4) 0;
+        }
+
+        /* App examples */
+        .app-examples-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-4);
+            margin: var(--space-6) 0;
+            align-items: start;
+        }
+
+        .app-example-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--joshi-muted);
+            text-align: center;
+            margin-bottom: var(--space-2);
+        }
+
+        .app-example-wrap {
+            width: 100%;
+            border: 2px solid var(--joshi-rule);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .app-example-inner {
+            background: var(--joshi-paper);
+            min-height: 420px;
+        }
+
+        .app-example .app-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-4);
+            border-bottom: 1px solid var(--joshi-rule);
+        }
+
+        .app-example .app-top-bar-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        /* Blog feed app */
+        .app-example .app-segmented {
+            display: flex;
+            border-bottom: 1px solid var(--joshi-rule);
+        }
+
+        .app-example .app-segmented button {
+            flex: 1;
+            padding: var(--space-2);
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            border: none;
+            background: transparent;
+            color: var(--joshi-muted);
+        }
+
+        .app-example .app-segmented button.active {
+            background: var(--joshi-highlight);
+            color: var(--joshi-accent-dark);
+        }
+
+        .app-example .app-post {
+            display: flex;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            border-bottom: 1px solid var(--joshi-rule);
+        }
+
+        .app-example .app-post-votes {
+            flex-shrink: 0;
+            width: 28px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--joshi-muted);
+        }
+
+        .app-example .app-post-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .app-example .app-post-community {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--joshi-accent);
+            margin-bottom: 2px;
+        }
+
+        .app-example .app-post-title {
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.3;
+            margin-bottom: var(--space-1);
+        }
+
+        .app-example .app-post-meta {
+            font-size: 11px;
+            color: var(--joshi-muted);
+        }
+
+        /* Social app */
+        .app-social .app-story-row {
+            display: flex;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            border-bottom: 1px solid var(--joshi-rule);
+            overflow-x: auto;
+        }
+
+        .app-social .app-story {
+            flex-shrink: 0;
+            width: 56px;
+            text-align: center;
+            font-size: 11px;
+            color: var(--joshi-ink);
+        }
+
+        .app-social .app-story-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 2px solid var(--joshi-accent);
+            margin-bottom: var(--space-1);
+            background: var(--color-neutral-100);
+            object-fit: cover;
+            display: block;
+        }
+
+        .app-social .app-post-card {
+            border-bottom: 1px solid var(--joshi-rule);
+        }
+
+        .app-social .app-post-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-2) var(--space-4);
+        }
+
+        .app-social .app-post-header-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--joshi-accent);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .app-social .app-post-header-name {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .app-social .app-post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .app-social .app-post-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--color-neutral-200), var(--color-neutral-100));
+            display: block;
+            overflow: hidden;
+        }
+
+        .app-social .app-post-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            padding: var(--space-2) var(--space-4);
+        }
+
+        .app-social .app-post-actions button {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            color: var(--joshi-ink);
+            display: inline-flex;
+        }
+
+        .app-social .app-post-actions button svg {
+            width: 22px;
+            height: 22px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .app-social .app-post-actions button.liked {
+            color: var(--joshi-accent);
+        }
+
+        .app-social .app-post-actions button.liked svg {
+            fill: currentColor;
+        }
+
+        .app-social .app-post-likes {
+            padding: 0 var(--space-4) var(--space-2);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .app-social .app-post-caption {
+            padding: 0 var(--space-4) var(--space-3);
+            font-size: 12px;
+        }
+
+        /* Cricket app */
+        .app-cricket .app-score-summary {
+            text-align: center;
+            padding: var(--space-4);
+            border-bottom: 1px solid var(--joshi-rule);
+        }
+
+        .app-cricket .app-score-summary .teams {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--joshi-muted);
+            margin-bottom: var(--space-2);
+        }
+
+        .app-cricket .app-score-summary .score {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .app-cricket .app-score-summary .overs {
+            font-size: 12px;
+            color: var(--joshi-muted);
+            margin-top: var(--space-1);
+        }
+
+        .app-cricket .app-scorecard-table {
+            width: 100%;
+            font-size: 11px;
+            border-collapse: collapse;
+        }
+
+        .app-cricket .app-scorecard-table th,
+        .app-cricket .app-scorecard-table td {
+            padding: var(--space-1) var(--space-2);
+            text-align: left;
+            border-bottom: 1px solid var(--joshi-rule);
+        }
+
+        .app-cricket .app-scorecard-table th {
+            font-weight: 600;
+            color: var(--joshi-muted);
+        }
+
+        /* Auth pattern */
+        .auth-card {
+            max-width: 380px;
+            margin: 0 auto;
+            padding: var(--space-8);
+            border: 1px solid var(--joshi-rule);
+            background: var(--joshi-paper);
+        }
+
+        .auth-card h2 {
+            border: none;
+            padding: 0;
+            margin-bottom: var(--space-6);
+            text-align: center;
+        }
+
+        .auth-card .btn {
+            width: 100%;
+            margin-top: var(--space-2);
+        }
+
+        .auth-links {
+            text-align: center;
+            margin-top: var(--space-4);
+            font-size: 13px;
+        }
+
+        .auth-links a {
+            color: var(--joshi-muted);
+            text-decoration: none;
+        }
+
+        .auth-links a:hover {
+            color: var(--joshi-ink);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: var(--space-12);
+        }
+
+        .empty-state-icon {
+            font-size: 2.5rem;
+            color: var(--joshi-rule);
+            margin-bottom: var(--space-4);
+        }
+
+        .empty-state p {
+            color: var(--joshi-muted);
+            max-width: 360px;
+            margin: 0 auto var(--space-4);
+        }
+
+        section[id] {
+            scroll-margin-top: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: var(--space-12);
+            padding-top: var(--space-6);
+            border-top: 1px solid var(--joshi-rule);
+            text-align: center;
+        }
+
+        .footer a {
+            color: var(--joshi-muted);
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .footer a:hover {
+            color: var(--joshi-ink);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            nav {
+                width: 100%;
+                height: auto;
+                padding: var(--space-4);
+                border-right: none;
+                border-bottom: 1px solid var(--joshi-rule);
+            }
+
+            .nav-logo {
+                display: inline-block;
+                margin-right: var(--space-4);
+                margin-bottom: 0;
+            }
+
+            nav a {
+                display: inline-block;
+                margin-right: var(--space-4);
+                margin-bottom: 0;
+            }
+
+            .nav-section-label {
+                display: none;
+            }
+
+            .article-container {
+                padding: var(--space-4);
+            }
+
+            .hero {
+                padding: var(--space-6) var(--space-4);
+            }
+
+            .icon-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .app-examples-row {
+                grid-template-columns: 1fr;
+                max-width: 320px;
+                margin: var(--space-6) auto;
+            }
+        }
+
+        /* ---- Device Frames ---- */
+        .device-frame {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .device-tv {
+            display: inline-block;
+        }
+
+        .device-tv .device-tv-bezel {
+            background: #222;
+            border-radius: 6px;
+            padding: 10px 10px 18px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        .device-tv .device-tv-screen {
+            border-radius: 3px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .device-tv .device-tv-stand {
+            width: 60px;
+            height: 14px;
+            background: #333;
+            margin: 0 auto;
+            border-radius: 0 0 4px 4px;
+        }
+
+        .device-tv .device-tv-base {
+            width: 100px;
+            height: 6px;
+            background: #444;
+            margin: 0 auto;
+            border-radius: 0 0 3px 3px;
+        }
+
+        .device-watch {
+            display: inline-block;
+        }
+
+        .device-watch .device-watch-body {
+            background: #333;
+            border-radius: 50%;
+            padding: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .device-watch .device-watch-body::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 35%;
+            width: 5px;
+            height: 20px;
+            background: linear-gradient(to right, #555, #444);
+            border-radius: 0 3px 3px 0;
+        }
+
+        .device-watch .device-watch-screen {
+            border-radius: 50%;
+            overflow: hidden;
+            aspect-ratio: 1;
+        }
+
+        .device-watch .device-watch-band-top,
+        .device-watch .device-watch-band-bottom {
+            width: 52px;
+            height: 18px;
+            background: #444;
+            margin: 0 auto;
+            border-radius: 4px;
+        }
+
+        .device-watch .device-watch-band-top {
+            margin-bottom: -4px;
+            position: relative;
+            z-index: 0;
+        }
+
+        .device-watch .device-watch-band-bottom {
+            margin-top: -4px;
+            position: relative;
+            z-index: 0;
+        }
+
+        .device-laptop {
+            display: inline-block;
+            width: 100%;
+        }
+
+        .device-laptop .device-laptop-lid {
+            background: #333;
+            border-radius: 8px 8px 0 0;
+            padding: 10px 10px 0;
+            box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .device-laptop .device-laptop-lid::before {
+            content: '';
+            display: block;
+            width: 6px;
+            height: 6px;
+            background: #555;
+            border-radius: 50%;
+            margin: 0 auto 6px;
+        }
+
+        .device-laptop .device-laptop-screen {
+            border-radius: 2px 2px 0 0;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .device-laptop .device-laptop-base {
+            background: linear-gradient(to bottom, #ccc, #bbb);
+            height: 12px;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .device-laptop .device-laptop-base::before {
+            content: '';
+            display: block;
+            width: 40%;
+            height: 3px;
+            background: #aaa;
+            border-radius: 0 0 2px 2px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="index.html" class="nav-logo">Sai Maram</a>
+        <a href="index.html">Home</a>
+        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+        <div class="nav-section-label">Sections</div>
+        <a href="#style-foundations">1. Style Foundations</a>
+        <a href="#component-library">2. Component Library</a>
+        <a href="#pattern-library">3. Pattern Library</a>
+        <a href="#app-example">App Examples</a>
+        <a href="#governance">4. Governance</a>
+        <a href="#color">Color</a>
+        <a href="#typography">Typography</a>
+        <a href="#iconography">Iconography</a>
+        <a href="#spacing">Spacing</a>
+        <a href="#buttons">Buttons</a>
+        <a href="#forms">Forms</a>
+        <a href="#navigation">Navigation</a>
+        <a href="#feedback">Feedback</a>
+        <a href="#data-display">Data Display</a>
+    </nav>
+
+    <main>
+        <header class="hero">
+            <div class="hero-label">Design system</div>
+            <h1>Calligraphic UI</h1>
+            <p class="hero-dedication">Dedicated to R.K. Joshi</p>
+            <p class="hero-subtitle">A design system honoring the legacy of R.K. Joshi—blending ancient Indian
+                calligraphic traditions with modern digital utility. Clean, grounded, humanistic.</p>
+        </header>
+
+        <article class="article-container">
+            <p class="lede">R.K. Joshi believed that designing with a deep understanding of letterforms, history, and
+                the tools
+                that create them produces work of lasting value. This system translates that conviction into digital
+                components—replacing
+                hard clinical angles with the organic warmth of the reed pen.</p>
+
+            <h2 id="style-foundations">1. Style Foundations</h2>
+            <p>Color, type, tokens, icons, and spacing—the building blocks that sync design and code.</p>
+
+            <h2 id="philosophy">Design philosophy</h2>
+            <ul>
+                <li><strong>Calligraphic warmth:</strong> Stroke-contrast typefaces and vermillion accents evoke the
+                    handwritten manuscript tradition without sacrificing screen legibility.</li>
+                <li><strong>Restraint over ornament:</strong> One display face, one body face, one accent hue. Each
+                    element earns its place—nothing decorative without function.</li>
+                <li><strong>Humanistic hierarchy:</strong> The visual rhythm mirrors how a scribe organizes a page: bold
+                    headings, generous body text, and clear sectional breaks.</li>
+                <li><strong>Cultural grounding:</strong> Color names (Vermillion, Core Ink), spacing metaphors, and
+                    content examples are rooted in Indian calligraphic practice rather than generic tech conventions.
+                </li>
+            </ul>
+
+            <h2 id="color">Color palette</h2>
+            <p>The palette draws from a scribe's workbench: deep carbon ink, clean white paper, and the unmistakable
+                vermillion
+                used to mark titles in traditional Indian manuscripts. We deliberately avoided the warm beige of aged
+                paper for
+                the background—white provides the contrast and crispness a digital interface demands, while the RK Joshi
+                portrait
+                in the background provides the warmth at a whisper-level opacity.</p>
+            <h3>Primary & secondary</h3>
+            <div class="color-grid">
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--joshi-ink);"></div>
+                    <div class="swatch-name">Core Ink</div>
+                    <div class="swatch-value">#1A1A1A</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--joshi-paper);"></div>
+                    <div class="swatch-name">Paper</div>
+                    <div class="swatch-value">#FFFFFF</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--joshi-accent);"></div>
+                    <div class="swatch-name">Vermillion</div>
+                    <div class="swatch-value">#C1392B</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--joshi-muted);"></div>
+                    <div class="swatch-name">Muted</div>
+                    <div class="swatch-value">#6B6B6B</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--joshi-rule);"></div>
+                    <div class="swatch-name">Rule</div>
+                    <div class="swatch-value">#E0E0E0</div>
+                </div>
+            </div>
+            <h3>Semantic</h3>
+            <div class="color-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--color-semantic-success);"></div>
+                    <div class="swatch-name">Success</div>
+                    <div class="swatch-value">#2E7D32</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--color-semantic-warning);"></div>
+                    <div class="swatch-name">Warning</div>
+                    <div class="swatch-value">#D35400</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--color-semantic-error);"></div>
+                    <div class="swatch-name">Error</div>
+                    <div class="swatch-value">#C62828</div>
+                </div>
+            </div>
+            <h3>Neutral / grayscale</h3>
+            <div class="color-grid" style="grid-template-columns: repeat(5, 1fr);">
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--color-neutral-50);"></div>
+                    <div class="swatch-name">50</div>
+                    <div class="swatch-value">--neutral-50</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--color-neutral-200);"></div>
+                    <div class="swatch-name">200</div>
+                    <div class="swatch-value">--neutral-200</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--color-neutral-400);"></div>
+                    <div class="swatch-name">400</div>
+                    <div class="swatch-value">--neutral-400</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--color-neutral-600);"></div>
+                    <div class="swatch-name">600</div>
+                    <div class="swatch-value">--neutral-600</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--color-neutral-900);"></div>
+                    <div class="swatch-name">900</div>
+                    <div class="swatch-value">--neutral-900</div>
+                </div>
+            </div>
+
+            <h2 id="typography">Typography</h2>
+            <p>The type pairing is the conceptual core of this system. <strong>Rozha One</strong> was chosen for display
+                because its extreme stroke contrast—thick verticals against razor-thin joins—mirrors the pressure
+                dynamics
+                of a reed pen on paper. It carries the visual authority of formal Indian calligraphy.
+                <strong>Eczar</strong>,
+                designed for screen readability with a generous x-height and sharp terminals, handles body text and UI
+                labels.
+                Together they create a hierarchy that feels both scholarly and modern.
+            </p>
+            <h3>Type scale</h3>
+            <div class="block">
+                <div class="block-head">H1–Body scale</div>
+                <div class="block-body">
+                    <div class="type-row">
+                        <span class="type-label">H1</span>
+                        <span class="type-sample"
+                            style="font-family: var(--font-display); font-size: clamp(1.75rem, 4vw, 2.25rem);">Page
+                            title</span>
+                    </div>
+                    <div class="type-row">
+                        <span class="type-label">H2</span>
+                        <span class="type-sample" style="font-family: var(--font-display); font-size: 1.5rem;">Section
+                            heading</span>
+                    </div>
+                    <div class="type-row">
+                        <span class="type-label">H3</span>
+                        <span class="type-sample"
+                            style="font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--joshi-muted);">Subsection
+                            label</span>
+                    </div>
+                    <div class="type-row">
+                        <span class="type-label">H4</span>
+                        <span class="type-sample" style="font-weight: 600;">Subtitle</span>
+                    </div>
+                    <div class="type-row">
+                        <span class="type-label">Body</span>
+                        <span class="type-sample">The quick brown fox jumps over the lazy dog.</span>
+                    </div>
+                </div>
+            </div>
+
+            <h2 id="iconography">Iconography</h2>
+            <p>Icons use a stroke-line style (never filled) to echo the calligraphic emphasis on line quality over mass.
+                At 24×24 with stroke-width 2, they remain legible at small sizes while maintaining visual consistency
+                with the thin joins found in Rozha One's letterforms.</p>
+            <div class="icon-grid">
+                <div class="icon-cell"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>Home</div>
+                <div class="icon-cell"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>Search</div>
+                <div class="icon-cell"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>User</div>
+                <div class="icon-cell"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path
+                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                        </path>
+                    </svg>Like</div>
+                <div class="icon-cell"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>Add</div>
+            </div>
+
+            <h2 id="spacing">Spacing</h2>
+            <p>We use a strict 8px base grid because it maps cleanly to common screen densities and provides a vertical
+                rhythm that mirrors the ruled lines of a manuscript page. The scale progresses from tight UI gaps (4px)
+                to
+                generous sectional breathing room (48–80px), reflecting how a calligrapher varies line spacing between
+                body text and chapter headings.</p>
+            <div class="block">
+                <div class="block-head">Spacing tokens</div>
+                <div class="block-body" style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
+                    <span class="badge">--space-1 (4px)</span>
+                    <span class="badge">--space-2 (8px)</span>
+                    <span class="badge">--space-4 (16px)</span>
+                    <span class="badge badge-accent">--space-6 (24px)</span>
+                    <span class="badge badge-accent">--space-8 (32px)</span>
+                    <span class="badge badge-accent">--space-12 (48px)</span>
+                </div>
+            </div>
+
+            <h2 id="component-library">2. Component Library</h2>
+            <p>Components are designed to feel utilitarian and flat—no border-radius, no drop shadows, no gradients.
+                This flatness is a deliberate choice: rounded corners and soft shadows belong to consumer SaaS products
+                that optimize for friendliness. This system optimizes for <em>authority</em> and <em>clarity</em>,
+                the same qualities a well-set manuscript page communicates. The vermillion accent color is reserved
+                exclusively for primary actions and active states to prevent visual inflation.</p>
+
+            <section id="buttons">
+                <h3>Buttons</h3>
+                <div class="block">
+                    <div class="block-head">Button variants</div>
+                    <div class="block-body">
+                        <div class="btn-group" style="margin-bottom: var(--space-4);">
+                            <button class="btn btn-primary">Primary Action</button>
+                            <button class="btn btn-secondary">Secondary</button>
+                            <button class="btn btn-ghost">Ghost Link</button>
+                            <button class="btn btn-danger">Delete</button>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-primary" disabled>Primary Disabled</button>
+                            <button class="btn btn-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
+                                With Icon
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="forms">
+                <h3>Forms & inputs</h3>
+                <p>Form inputs use the Eczar body face at 15px, maintaining readability without oversizing. Focus states
+                    shift the border to vermillion with a subtle warm wash, providing clear affordance without
+                    disrupting
+                    the page's visual calm. Labels are set in small uppercase to create a clear distinction from input
+                    content.</p>
+                <div class="block">
+                    <div class="block-head">Form elements</div>
+                    <div class="block-body" style="display: flex; flex-wrap: wrap; gap: var(--space-8);">
+                        <div style="flex: 1; min-width: 260px;">
+                            <div class="form-group">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-input" placeholder="e.g. Shruti Hassan">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Script Family</label>
+                                <select class="form-select">
+                                    <option>Devanagari</option>
+                                    <option>Brahmi</option>
+                                    <option>Tamil</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Biography</label>
+                                <textarea class="form-textarea"
+                                    placeholder="Tell us about your calligraphy..."></textarea>
+                            </div>
+                        </div>
+                        <div style="flex: 1; min-width: 260px;">
+                            <div class="form-group">
+                                <label class="form-label">Preferences</label>
+                                <label class="form-checkbox"><input type="checkbox" checked> Use Calligraphic
+                                    Ligatures</label>
+                                <label class="form-checkbox"><input type="checkbox"> Display Palm Paper Texture</label>
+                                <label class="form-checkbox"><input type="checkbox" disabled> Enable Dark Mode
+                                    (Beta)</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Enable Grid Snap</label>
+                                <label class="form-toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="form-toggle-track"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="navigation">
+                <h3>Navigation</h3>
+                <div class="block">
+                    <div class="block-head">Breadcrumb & pagination</div>
+                    <div class="block-body">
+                        <div class="breadcrumb" style="margin-bottom: var(--space-6);">
+                            <a href="#">Manuscripts</a> <span>/</span> <a href="#">Devanagari</a> <span>/</span>
+                            <strong>12th Century</strong>
+                        </div>
+                        <div class="pagination">
+                            <a href="#">&laquo;</a>
+                            <a href="#">1</a>
+                            <span class="current">2</span>
+                            <a href="#">3</a>
+                            <a href="#">&raquo;</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="feedback">
+                <h3>Feedback</h3>
+                <p>Toast notifications use full-width blocks with semantic background colors. We avoid icons-only
+                    patterns—every
+                    toast includes descriptive text because the system's calligraphic heritage values language as the
+                    primary
+                    communication tool.</p>
+                <div class="block">
+                    <div class="block-head">Toasts & progress</div>
+                    <div class="block-body">
+                        <div class="toast toast-success" style="display: flex;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Manuscript successfully digitized.
+                        </div>
+                        <div class="toast toast-error" style="display: flex;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="15" y1="9" x2="9" y2="15"></line>
+                                <line x1="9" y1="9" x2="15" y2="15"></line>
+                            </svg>
+                            Error saving strokes.
+                        </div>
+                        <div class="form-group" style="margin-top: var(--space-6);">
+                            <label class="form-label">Translation Progress</label>
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="data-display">
+                <h3>Data display</h3>
+                <div class="block">
+                    <div class="block-head">Table & badges</div>
+                    <div class="block-body">
+                        <div style="display: flex; gap: var(--space-3); margin-bottom: var(--space-4);">
+                            <span class="badge">Draft</span>
+                            <span class="badge badge-accent">New</span>
+                            <span class="badge badge-success">Published</span>
+                        </div>
+                        <table class="dir-table">
+                            <thead>
+                                <tr>
+                                    <th>Artifact</th>
+                                    <th>Century</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Rigveda Samhita</td>
+                                    <td>11th C.</td>
+                                    <td><span class="badge badge-success">Verified</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Arthashastra</td>
+                                    <td>2nd C. BCE</td>
+                                    <td><span class="badge">Pending</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <h2 id="pattern-library">3. Pattern Library</h2>
+            <p>Patterns are opinionated compositions. They codify the system's thinking about common UX scenarios—how a
+                login flow should feel, what an empty state communicates—so that every screen in the product speaks with
+                one consistent voice.</p>
+
+            <section id="auth">
+                <h3>Authentication</h3>
+                <p>The login card is centered and borderless in feel—a single 1px rule contains it without competing
+                    with
+                    the form fields inside. The display heading uses Rozha One to make the entry point feel intentional
+                    rather than generic.</p>
+                <div class="block">
+                    <div class="block-body">
+                        <div class="auth-card">
+                            <h2 style="font-family: var(--font-display); margin-top: 0;">Log In</h2>
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-input" style="max-width: 100%;"
+                                    placeholder="scholar@institute.edu">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-input" style="max-width: 100%;"
+                                    placeholder="••••••••">
+                            </div>
+                            <button class="btn btn-primary" style="width: 100%;">Authenticate</button>
+                            <div class="auth-links">Don't have an account? <a href="#">Register</a></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="empty">
+                <h3>Empty & error states</h3>
+                <div class="block">
+                    <div class="block-body">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">○</div>
+                            <h4>No Manuscripts Found</h4>
+                            <p>Try adjusting your search criteria or uploading a new palm-leaf scan to the database.</p>
+                            <button class="btn btn-secondary">Clear Filters</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <h2 id="app-example">App Examples</h2>
+            <p>These mockups test the system against real-world product patterns: a content feed, a social media app,
+                and a data-dense sports scorecard. The goal is to demonstrate that a calligraphic aesthetic can feel
+                natural in modern mobile contexts—not as decoration, but as genuine design language that improves
+                scannability and emotional resonance.</p>
+
+            <div class="app-examples-row">
+                <!-- Blog Feed -->
+                <div class="app-example">
+                    <div class="app-example-label">Blog Feed</div>
+                    <div class="app-example-wrap">
+                        <div class="app-example-inner">
+                            <div class="app-top-bar">
+                                <span class="app-top-bar-title"
+                                    style="font-family: var(--font-display); color: var(--joshi-accent);">The
+                                    Scribe</span>
+                            </div>
+                            <div class="app-segmented">
+                                <button class="active">Latest</button>
+                                <button>Popular</button>
+                                <button>Saved</button>
+                            </div>
+                            <div class="app-post">
+                                <div class="app-post-votes">▲<br>142</div>
+                                <div class="app-post-body">
+                                    <div class="app-post-community">Type Design</div>
+                                    <div class="app-post-title">The Geometry of Devanagari</div>
+                                    <div class="app-post-meta">2h ago · 24 comments</div>
+                                </div>
+                            </div>
+                            <div class="app-post">
+                                <div class="app-post-votes">▲<br>98</div>
+                                <div class="app-post-body">
+                                    <div class="app-post-community">Calligraphy</div>
+                                    <div class="app-post-title">Mastering the Reed Pen</div>
+                                    <div class="app-post-meta">5h ago · 5 comments</div>
+                                </div>
+                            </div>
+                            <div class="app-post">
+                                <div class="app-post-votes">▲<br>67</div>
+                                <div class="app-post-body">
+                                    <div class="app-post-community">History</div>
+                                    <div class="app-post-title">Brahmi to Modern Scripts</div>
+                                    <div class="app-post-meta">1d ago · 12 comments</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social -->
+                <div class="app-example app-social">
+                    <div class="app-example-label">Social Media</div>
+                    <div class="app-example-wrap">
+                        <div class="app-example-inner">
+                            <div class="app-top-bar">
+                                <span class="app-top-bar-title"
+                                    style="font-family: var(--font-display); color: var(--joshi-accent);">Social
+                                    Lens</span>
+                            </div>
+                            <div class="app-story-row">
+                                <div class="app-story"><img class="app-story-avatar" src="temporary/sai_3.png"
+                                        alt="You">You</div>
+                                <div class="app-story"><img class="app-story-avatar" src="temporary/sai_2.jpg"
+                                        alt="akash">akash_t</div>
+                                <div class="app-story"><img class="app-story-avatar" src="temporary/sai_4.jpg"
+                                        alt="pune">pune_art</div>
+                            </div>
+                            <div class="app-post-card">
+                                <div class="app-post-header">
+                                    <img class="app-post-header-avatar" src="temporary/sai_5.jpg" alt="User">
+                                    <span class="app-post-header-name">rkjoshi_archive</span>
+                                </div>
+                                <div class="app-post-image"><img src="temporary/mathew.png" alt="Post"></div>
+                                <div class="app-post-actions">
+                                    <button class="liked"><svg viewBox="0 0 24 24">
+                                            <path
+                                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                            </path>
+                                        </svg></button>
+                                    <button><svg viewBox="0 0 24 24">
+                                            <path
+                                                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                                            </path>
+                                        </svg></button>
+                                </div>
+                                <div class="app-post-likes">243 likes</div>
+                                <div class="app-post-caption"><strong>rkjoshi_archive</strong> A beautiful evening
+                                    reflecting on typography near the sea. #design</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cricket -->
+                <div class="app-example app-cricket">
+                    <div class="app-example-label">Cricket Score</div>
+                    <div class="app-example-wrap">
+                        <div class="app-example-inner">
+                            <div class="app-top-bar">
+                                <span class="app-top-bar-title"
+                                    style="font-family: var(--font-display); color: var(--joshi-accent);">CricTrak</span>
+                            </div>
+                            <div class="app-score-summary">
+                                <div class="teams">IND vs AUS · FINAL</div>
+                                <div class="score">284/4</div>
+                                <div class="overs">42.4 Overs</div>
+                            </div>
+                            <div style="padding: var(--space-3);">
+                                <table class="app-scorecard-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Batter</th>
+                                            <th>R</th>
+                                            <th>B</th>
+                                            <th>SR</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>S. Tendulkar</td>
+                                            <td><strong>98</strong></td>
+                                            <td>104</td>
+                                            <td>94.2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>V. Kohli</td>
+                                            <td><strong>45</strong></td>
+                                            <td>32</td>
+                                            <td>140.6</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Cross-platform</h3>
+            <p>The calligraphic system must transcend mobile. These examples demonstrate that Rozha One's stroke
+                contrast and the vermillion accent translate to a 10-foot TV interface, a glanceable watch face, and
+                a productivity dashboard alike.</p>
+
+            <!-- TV -->
+            <div class="app-example-label">TV — Manuscript gallery</div>
+            <div class="device-frame" style="margin-bottom: var(--space-8);">
+                <div class="device-tv" style="width: 100%; max-width: 680px;">
+                    <div class="device-tv-bezel" style="padding: 14px 14px 24px;">
+                        <div class="device-tv-screen" style="aspect-ratio: 16/9;">
+                            <div
+                                style="width: 100%; height: 100%; background: url('assets/rkjoshi-tv-bg.png') center/cover; position: relative;">
+                                <!-- Info overlay at bottom -->
+                                <div
+                                    style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.88)); padding: 32px 20px 14px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                                        <div>
+                                            <div
+                                                style="font-family: var(--font-body); font-size: 9px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--joshi-accent); margin-bottom: 2px;">
+                                                Collection · 14th Century</div>
+                                            <div
+                                                style="font-family: var(--font-display); font-size: 22px; line-height: 1.1; color: #fff; margin-bottom: 4px;">
+                                                Gita Govinda Folios</div>
+                                            <div
+                                                style="font-family: var(--font-body); font-size: 11px; color: rgba(255,255,255,0.5);">
+                                                48 folios · Mewar school · Gold leaf on indigo wash</div>
+                                        </div>
+                                        <div style="display: flex; gap: 6px;">
+                                            <span
+                                                style="padding: 4px 12px; background: var(--joshi-accent); color: #fff; font-family: var(--font-body); font-size: 11px; font-weight: 600;">View</span>
+                                            <span
+                                                style="padding: 4px 12px; border: 1px solid rgba(255,255,255,0.3); color: #fff; font-family: var(--font-body); font-size: 11px;">Save</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="device-tv-stand" style="width: 80px; height: 18px;"></div>
+                    <div class="device-tv-base" style="width: 140px; height: 8px;"></div>
+                </div>
+            </div>
+
+            <!-- Watch + Laptop side by side -->
+            <div
+                style="display: flex; gap: var(--space-8); justify-content: center; align-items: flex-start; flex-wrap: wrap;">
+                <!-- Watch: Word of the Day -->
+                <div style="text-align: center;">
+                    <div class="app-example-label">Watch — Word of the day</div>
+                    <div class="device-frame">
+                        <div class="device-watch">
+                            <div class="device-watch-band-top"></div>
+                            <div class="device-watch-body">
+                                <div class="device-watch-screen">
+                                    <div
+                                        style="background: var(--joshi-ink); color: var(--joshi-paper); width: 200px; height: 200px; display: flex; flex-direction: column; justify-content: center; padding: 12px;">
+                                        <div style="text-align: center;">
+                                            <div
+                                                style="font-family: var(--font-body); font-size: 8px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--joshi-accent); margin-bottom: 2px;">
+                                                WORD OF THE DAY</div>
+                                            <div
+                                                style="font-family: var(--font-display); font-size: 26px; line-height: 1.1; color: var(--joshi-accent); margin-bottom: 2px;">
+                                                Lipi</div>
+                                            <div
+                                                style="font-family: var(--font-body); font-size: 10px; color: rgba(255,255,255,0.5); margin-bottom: 8px;">
+                                                लिपि · noun</div>
+                                            <div
+                                                style="font-family: var(--font-body); font-size: 10px; line-height: 1.3; color: rgba(255,255,255,0.8); margin-bottom: 6px;">
+                                                Script; a system of writing. From Sanskrit, 'to paint.'</div>
+                                            <div style="font-size: 9px; color: rgba(255,255,255,0.4);">Swipe for
+                                                etymology →</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="device-watch-band-bottom"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Laptop: Document Dashboard -->
+                <div style="text-align: center; flex: 1; max-width: 480px;">
+                    <div class="app-example-label">Laptop — Document manager</div>
+                    <div class="device-frame">
+                        <div class="device-laptop" style="width: 100%;">
+                            <div class="device-laptop-lid" style="padding: 8px 12px 0; border-radius: 10px 10px 0 0;">
+                                <div class="device-laptop-screen" style="aspect-ratio: 16/10;">
+                                    <div class="app-example-inner"
+                                        style="font-size: 12px; height: 100%; overflow: hidden;">
+                                        <div class="app-top-bar" style="padding: var(--space-2) var(--space-3);">
+                                            <span class="app-top-bar-title"
+                                                style="font-family: var(--font-display); font-size: 14px; color: var(--joshi-accent);">Lipi
+                                                Archive</span>
+                                            <span
+                                                style="font-family: var(--font-body); font-size: 9px; color: var(--joshi-muted);">12
+                                                manuscripts</span>
+                                        </div>
+                                        <div style="padding: 0;">
+                                            <div
+                                                style="display: flex; padding: var(--space-1) var(--space-3); font-family: var(--font-body); font-weight: 600; font-size: 9px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--joshi-muted); border-bottom: 1px solid var(--joshi-rule);">
+                                                <div style="flex: 2;">Title</div>
+                                                <div style="flex: 1;">Script</div>
+                                                <div style="flex: 1; text-align: right;">Date</div>
+                                            </div>
+                                            <div
+                                                style="display: flex; padding: var(--space-1) var(--space-3); border-bottom: 1px solid var(--joshi-rule); align-items: center;">
+                                                <div
+                                                    style="flex: 2; font-family: var(--font-display); font-size: 13px; color: var(--joshi-ink);">
+                                                    Gita Govinda</div>
+                                                <div
+                                                    style="flex: 1; font-family: var(--font-body); font-size: 11px; color: var(--joshi-muted);">
+                                                    Devanagari</div>
+                                                <div
+                                                    style="flex: 1; text-align: right; font-family: var(--font-body); font-size: 11px; color: var(--joshi-muted);">
+                                                    c. 1300</div>
+                                            </div>
+                                            <div
+                                                style="display: flex; padding: var(--space-1) var(--space-3); border-bottom: 1px solid var(--joshi-rule); align-items: center;">
+                                                <div
+                                                    style="flex: 2; font-family: var(--font-display); font-size: 13px; color: var(--joshi-ink);">
+                                                    Ramayana Palm Leaf</div>
+                                                <div
+                                                    style="flex: 1; font-family: var(--font-body); font-size: 11px; color: var(--joshi-muted);">
+                                                    Grantha</div>
+                                                <div
+                                                    style="flex: 1; text-align: right; font-family: var(--font-body); font-size: 11px; color: var(--joshi-muted);">
+                                                    c. 1100</div>
+                                            </div>
+                                            <div
+                                                style="display: flex; padding: var(--space-1) var(--space-3); align-items: center;">
+                                                <div
+                                                    style="flex: 2; font-family: var(--font-display); font-size: 13px; color: var(--joshi-ink);">
+                                                    Arthashastra Folio</div>
+                                                <div
+                                                    style="flex: 1; font-family: var(--font-body); font-size: 11px; color: var(--joshi-muted);">
+                                                    Brahmi</div>
+                                                <div
+                                                    style="flex: 1; text-align: right; font-family: var(--font-body); font-size: 11px; color: var(--joshi-muted);">
+                                                    c. 200 BCE</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="device-laptop-base" style="height: 14px; border-radius: 0 0 10px 10px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 id="governance">4. Governance & Rules</h2>
+            <p>A design system without governance is just a component library. These rules ensure the system stays
+                coherent as it scales across teams and products.</p>
+            <div class="block">
+                <div class="block-body">
+                    <h3 style="margin-top: 0;">Accessibility (A11y)</h3>
+                    <p>Aesthetic choices must never compromise access. Every color pairing is tested for WCAG AA
+                        compliance.</p>
+                    <ul>
+                        <li><strong>Contrast:</strong> Vermillion (#c1392b) passes 4.5:1 ratio against white background.
+                        </li>
+                        <li><strong>Legibility:</strong> Eczar's generous x-height ensures readability at 16px.</li>
+                        <li><strong>Focus States:</strong> Distinct stroke outline around all actionable components.
+                        </li>
+                    </ul>
+
+                    <h3 style="margin-top: var(--space-8);">Content Strategy</h3>
+                    <p>Tone: <em>Authoritative, Grounded, and Human</em>. Avoid modern tech-jargon where appropriate.
+                    </p>
+
+                    <h3 style="margin-top: var(--space-8);">Usage / Handover</h3>
+                    <p>Import the core CSS bundle in your application head:</p>
+                    <div class="code-block">&lt;link rel="stylesheet" href="rkjoshi-system.min.css"&gt;</div>
+                </div>
+            </div>
+
+        </article>
+
+        <footer class="footer">
+            <p><a href="index.html">← Back to Portfolio</a></p>
+        </footer>
+    </main>
+</body>
+
+</html>

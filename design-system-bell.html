@@ -1,0 +1,2819 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utility Design System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            /* Utility design system: directory legibility, economy, industrial */
+            --bell-ink: #0d0d0d;
+            --bell-paper: #f6f5f3;
+            --bell-paper-warm: #f2f0eb;
+            --bell-accent: #0066b3;
+            --bell-accent-dark: #004c88;
+            --bell-muted: #5c5c5c;
+            --bell-rule: #c8c6c2;
+            --bell-highlight: #e8f4fc;
+            --font-bell: 'IBM Plex Sans Condensed', 'Arial Narrow', sans-serif;
+            /* Design tokens */
+            --color-brand-primary: #0066b3;
+            --color-brand-secondary: #5c5c5c;
+            --color-semantic-success: #0d7d4a;
+            --color-semantic-warning: #b8860b;
+            --color-semantic-error: #c41e3a;
+            --color-neutral-100: #f0efec;
+            --color-neutral-200: #d8d6d2;
+            --color-neutral-400: #8a8884;
+            --color-neutral-600: #4a4946;
+            --color-neutral-900: #0d0d0d;
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+            --space-8: 32px;
+            --space-10: 40px;
+            --space-12: 48px;
+            --space-16: 64px;
+            --space-20: 80px;
+            --space-24: 96px;
+            --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.06);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --shadow-xl: 0 16px 40px rgba(0, 0, 0, 0.14);
+            --z-dropdown: 100;
+            --z-sticky: 200;
+            --z-modal: 300;
+            --z-toast: 400;
+            --z-tooltip: 500;
+            --color-neutral-50: #fafaf9;
+            --color-neutral-300: #b8b6b2;
+            --color-neutral-500: #6c6a66;
+            --color-neutral-700: #3a3936;
+            --color-neutral-800: #242322;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-bell);
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--bell-ink);
+            background: var(--bell-paper);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: url(temporary/mathew.png) center center / cover no-repeat;
+            opacity: 0.06;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        nav,
+        main {
+            z-index: 1;
+        }
+
+        nav {
+            width: 200px;
+            padding: var(--space-6) var(--space-4);
+            border-right: 1px solid var(--bell-rule);
+            flex-shrink: 0;
+            background: var(--bell-paper);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        nav a {
+            display: block;
+            margin-bottom: var(--space-2);
+            color: var(--bell-muted);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            transition: color 0.15s ease;
+        }
+
+        nav a:hover {
+            color: var(--bell-ink);
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.02em;
+            color: var(--bell-ink);
+            text-decoration: none;
+            display: block;
+            margin-bottom: var(--space-6);
+        }
+
+        main {
+            flex-grow: 1;
+            position: relative;
+        }
+
+        /* ——— Hero ——— */
+        .hero {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--space-12) var(--space-8);
+            border-bottom: 2px solid var(--bell-ink);
+        }
+
+        .hero-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--bell-muted);
+            margin-bottom: var(--space-4);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            color: var(--bell-ink);
+            margin-bottom: var(--space-4);
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--bell-muted);
+            max-width: 560px;
+            line-height: 1.5;
+        }
+
+        .hero-dedication {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--bell-muted);
+            opacity: 0.85;
+            margin-top: var(--space-2);
+        }
+
+        /* ——— Article ——— */
+        .article-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--space-8);
+        }
+
+        .lede {
+            font-size: 1.15rem;
+            line-height: 1.55;
+            color: var(--bell-ink);
+            margin-bottom: var(--space-8);
+            max-width: 640px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: var(--space-12);
+            margin-bottom: var(--space-4);
+            padding-top: var(--space-6);
+            border-top: 2px solid var(--bell-rule);
+            color: var(--bell-ink);
+            letter-spacing: -0.01em;
+        }
+
+        h3 {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--bell-muted);
+            margin-top: var(--space-6);
+            margin-bottom: var(--space-2);
+        }
+
+        h3.section-start {
+            margin-top: var(--space-10);
+        }
+
+        h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: var(--space-4);
+            margin-bottom: var(--space-2);
+            color: var(--bell-ink);
+        }
+
+        p {
+            margin-bottom: var(--space-4);
+            color: var(--bell-ink);
+            max-width: 640px;
+        }
+
+        ul {
+            margin-bottom: var(--space-4);
+            padding-left: var(--space-6);
+            max-width: 640px;
+        }
+
+        ul li {
+            margin-bottom: var(--space-1);
+        }
+
+        /* ——— Color system ——— */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1px;
+            background: var(--bell-rule);
+            border: 1px solid var(--bell-rule);
+            margin: var(--space-4) 0;
+        }
+
+        .color-swatch {
+            padding: var(--space-4);
+            background: var(--bell-paper);
+        }
+
+        .swatch-preview {
+            height: 56px;
+            margin-bottom: var(--space-2);
+            border: 1px solid var(--bell-rule);
+        }
+
+        .swatch-name {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .swatch-value {
+            font-size: 12px;
+            font-family: ui-monospace, monospace;
+            color: var(--bell-muted);
+        }
+
+        /* ——— Type scale ——— */
+        .type-row {
+            display: flex;
+            align-items: baseline;
+            padding: var(--space-2) 0;
+            border-bottom: 1px solid var(--bell-rule);
+            gap: var(--space-6);
+        }
+
+        .type-row:last-child {
+            border-bottom: none;
+        }
+
+        .type-label {
+            width: 100px;
+            flex-shrink: 0;
+            font-size: 12px;
+            color: var(--bell-muted);
+        }
+
+        .type-sample {
+            flex-grow: 1;
+        }
+
+        /* ——— Components ——— */
+        .block {
+            border: 1px solid var(--bell-rule);
+            margin: var(--space-4) 0;
+        }
+
+        .block-head {
+            padding: var(--space-2) var(--space-4);
+            background: var(--color-neutral-100);
+            border-bottom: 1px solid var(--bell-rule);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--bell-muted);
+        }
+
+        .block-body {
+            padding: var(--space-4);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            font-family: var(--font-bell);
+            font-size: 14px;
+            font-weight: 600;
+            padding: var(--space-2) var(--space-4);
+            border: 1px solid transparent;
+            cursor: pointer;
+            letter-spacing: 0.02em;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: var(--bell-accent);
+            color: #fff;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--bell-accent-dark);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--bell-ink);
+            border-color: var(--bell-rule);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: var(--color-neutral-100);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--bell-ink);
+        }
+
+        .btn-ghost:hover:not(:disabled) {
+            background: var(--color-neutral-100);
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+        }
+
+        /* Form */
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-1);
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            max-width: 320px;
+            font-family: var(--font-bell);
+            font-size: 15px;
+            padding: var(--space-2) var(--space-3);
+            border: 1px solid var(--bell-rule);
+            background: var(--bell-paper);
+            color: var(--bell-ink);
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--bell-accent);
+            box-shadow: 0 0 0 2px var(--bell-highlight);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-4);
+        }
+
+        .form-textarea {
+            width: 100%;
+            max-width: 400px;
+            min-height: 100px;
+            font-family: var(--font-bell);
+            font-size: 15px;
+            padding: var(--space-2) var(--space-3);
+            border: 1px solid var(--bell-rule);
+            background: var(--bell-paper);
+            color: var(--bell-ink);
+            resize: vertical;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--bell-accent);
+            box-shadow: 0 0 0 2px var(--bell-highlight);
+        }
+
+        .form-checkbox,
+        .form-radio {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            cursor: pointer;
+            margin-bottom: var(--space-2);
+            font-size: 14px;
+        }
+
+        .form-checkbox input,
+        .form-radio input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--bell-accent);
+            cursor: pointer;
+        }
+
+        .form-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .form-toggle input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .form-toggle-track {
+            width: 44px;
+            height: 24px;
+            background: var(--color-neutral-300);
+            border-radius: 12px;
+            position: relative;
+            transition: background 0.2s;
+        }
+
+        .form-toggle-track::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s;
+        }
+
+        .form-toggle input:checked+.form-toggle-track {
+            background: var(--bell-accent);
+        }
+
+        .form-toggle input:checked+.form-toggle-track::after {
+            transform: translateX(20px);
+        }
+
+        /* Buttons extended */
+        .btn-danger {
+            background: var(--color-semantic-error);
+            color: #fff;
+        }
+
+        .btn-danger:hover:not(:disabled) {
+            background: #a01830;
+        }
+
+        .btn-loading {
+            pointer-events: none;
+        }
+
+        .btn-loading .btn-spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid currentColor;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: util-spin 0.6s linear infinite;
+        }
+
+        @keyframes util-spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Nav components */
+        .nav-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-4);
+            border-bottom: 1px solid var(--bell-rule);
+            background: var(--bell-paper);
+        }
+
+        .nav-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--bell-rule);
+        }
+
+        .nav-tabs a {
+            padding: var(--space-2) var(--space-4);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            color: var(--bell-muted);
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            transition: color 0.15s, border-color 0.15s;
+        }
+
+        .nav-tabs a:hover {
+            color: var(--bell-ink);
+        }
+
+        .nav-tabs a.active {
+            color: var(--bell-ink);
+            border-bottom-color: var(--bell-ink);
+        }
+
+        .breadcrumb {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-1);
+            font-size: 13px;
+            color: var(--bell-muted);
+        }
+
+        .breadcrumb a {
+            color: var(--bell-muted);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--bell-ink);
+        }
+
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            flex-wrap: nowrap;
+        }
+
+        .pagination a,
+        .pagination span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            padding: 0 var(--space-2);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--bell-ink);
+            text-decoration: none;
+            border: 1px solid var(--bell-rule);
+            background: var(--bell-paper);
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+
+        .pagination a:hover {
+            background: var(--color-neutral-100);
+            border-color: var(--color-neutral-300);
+        }
+
+        .pagination .current {
+            background: var(--bell-ink);
+            color: var(--bell-paper);
+            border-color: var(--bell-ink);
+        }
+
+        .pagination .disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* Feedback */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: var(--z-modal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-4);
+        }
+
+        .modal-dialog {
+            background: var(--bell-paper);
+            padding: var(--space-6);
+            max-width: 440px;
+            width: 100%;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--bell-rule);
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: var(--space-2);
+        }
+
+        .toast {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            background: var(--bell-ink);
+            color: var(--bell-paper);
+            font-size: 14px;
+        }
+
+        .toast-success {
+            background: var(--color-semantic-success);
+        }
+
+        .toast-warning {
+            background: var(--color-semantic-warning);
+        }
+
+        .toast-error {
+            background: var(--color-semantic-error);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--color-neutral-200);
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--bell-accent);
+            transition: width 0.3s ease;
+        }
+
+        /* Data display */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1px;
+            background: var(--bell-rule);
+            border: 1px solid var(--bell-rule);
+        }
+
+        .card-cell {
+            background: var(--bell-paper);
+            padding: var(--space-4);
+        }
+
+        .card-cell h4 {
+            margin-top: 0;
+            font-size: 1rem;
+        }
+
+        .card-cell p {
+            font-size: 13px;
+            color: var(--bell-muted);
+            margin-bottom: 0;
+            max-width: none;
+        }
+
+        .badge-success {
+            background: #d1f0e0;
+            color: var(--color-semantic-success);
+        }
+
+        .badge-warning {
+            background: #f5e6c4;
+            color: #7a5a08;
+        }
+
+        .badge-error {
+            background: #fad4d9;
+            color: var(--color-semantic-error);
+        }
+
+        .tooltip-wrap {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip-wrap:hover .tooltip-content {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .tooltip-content {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: var(--space-1);
+            padding: var(--space-2) var(--space-3);
+            background: var(--bell-ink);
+            color: var(--bell-paper);
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.15s, visibility 0.15s;
+            z-index: var(--z-tooltip);
+        }
+
+        /* Selection */
+        .segmented {
+            display: inline-flex;
+            background: var(--color-neutral-100);
+            padding: 2px;
+        }
+
+        .segmented button {
+            padding: var(--space-1) var(--space-3);
+            font-family: var(--font-bell);
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            background: transparent;
+            color: var(--bell-muted);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .segmented button.active {
+            background: var(--bell-paper);
+            color: var(--bell-ink);
+            box-shadow: var(--shadow-xs);
+        }
+
+        .slider-wrap {
+            padding: var(--space-2) 0;
+        }
+
+        .slider {
+            width: 100%;
+            max-width: 200px;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: var(--color-neutral-200);
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--bell-accent);
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: var(--bell-accent);
+            cursor: pointer;
+            border: none;
+            border-radius: 50%;
+        }
+
+        /* Icons */
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: var(--space-3);
+        }
+
+        .icon-cell {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3);
+            border: 1px solid var(--bell-rule);
+            font-size: 11px;
+            color: var(--bell-muted);
+        }
+
+        .icon-cell svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* Patterns */
+        .search-filters-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-3);
+            align-items: center;
+            padding: var(--space-4);
+            border: 1px solid var(--bell-rule);
+            background: var(--bell-paper);
+        }
+
+        .search-filters-bar .form-input {
+            max-width: 240px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: var(--space-12);
+        }
+
+        .empty-state-icon {
+            font-size: 2.5rem;
+            color: var(--bell-rule);
+            margin-bottom: var(--space-4);
+        }
+
+        .empty-state h4 {
+            margin-bottom: var(--space-2);
+        }
+
+        .empty-state p {
+            color: var(--bell-muted);
+            max-width: 360px;
+            margin: 0 auto var(--space-4);
+        }
+
+        .error-page {
+            text-align: center;
+            padding: var(--space-12);
+        }
+
+        .error-page .error-code {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1;
+            color: var(--bell-rule);
+            margin-bottom: var(--space-2);
+        }
+
+        .auth-card {
+            max-width: 380px;
+            margin: 0 auto;
+            padding: var(--space-8);
+            border: 1px solid var(--bell-rule);
+            background: var(--bell-paper);
+        }
+
+        .auth-card h2 {
+            border: none;
+            padding: 0;
+            margin-bottom: var(--space-6);
+            text-align: center;
+        }
+
+        .auth-card .btn {
+            width: 100%;
+            margin-top: var(--space-2);
+        }
+
+        .auth-links {
+            text-align: center;
+            margin-top: var(--space-4);
+            font-size: 13px;
+        }
+
+        .auth-links a {
+            color: var(--bell-muted);
+            text-decoration: none;
+        }
+
+        .auth-links a:hover {
+            color: var(--bell-ink);
+        }
+
+        section[id] {
+            scroll-margin-top: 1rem;
+        }
+
+        /* Table / directory list */
+        .dir-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .dir-table th,
+        .dir-table td {
+            padding: var(--space-2) var(--space-3);
+            text-align: left;
+            border-bottom: 1px solid var(--bell-rule);
+        }
+
+        .dir-table th {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--bell-muted);
+        }
+
+        .dir-table tr:hover {
+            background: var(--bell-highlight);
+        }
+
+        .dir-table .num {
+            font-variant-numeric: tabular-nums;
+            text-align: right;
+        }
+
+        /* Directory-style name list */
+        .dir-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border: 1px solid var(--bell-rule);
+        }
+
+        .dir-list li {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: var(--space-4);
+            padding: var(--space-2) var(--space-4);
+            border-bottom: 1px solid var(--bell-rule);
+            font-size: 14px;
+            align-items: center;
+        }
+
+        .dir-list li:last-child {
+            border-bottom: none;
+        }
+
+        .dir-list .name {
+            font-weight: 500;
+        }
+
+        .dir-list .value {
+            font-variant-numeric: tabular-nums;
+            color: var(--bell-muted);
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            padding: 2px var(--space-2);
+            background: var(--color-neutral-200);
+            color: var(--bell-ink);
+        }
+
+        .badge-accent {
+            background: var(--bell-highlight);
+            color: var(--bell-accent-dark);
+        }
+
+        /* Code */
+        .code-block {
+            background: var(--bell-ink);
+            color: var(--bell-paper);
+            padding: var(--space-4);
+            font-family: ui-monospace, monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            margin: var(--space-4) 0;
+            overflow-x: auto;
+        }
+
+        .code-block .c {
+            color: #8a8a8a;
+        }
+
+        .code-block .k {
+            color: #7eb8da;
+        }
+
+        .code-block .s {
+            color: #e5c07b;
+        }
+
+        /* In-page app example (mobile blog feed) */
+        .app-examples-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-4);
+            margin: var(--space-6) 0;
+            align-items: start;
+        }
+
+        .app-example-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--bell-muted);
+            text-align: center;
+            margin-bottom: var(--space-2);
+        }
+
+        .app-example-wrap {
+            width: 100%;
+            margin: 0;
+            border: 2px solid var(--bell-rule);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .app-example-inner {
+            background: var(--bell-paper);
+            min-height: 420px;
+        }
+
+        .app-example .app-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-4);
+            border-bottom: 1px solid var(--bell-rule);
+        }
+
+        .app-example .app-top-bar-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .app-example .app-segmented {
+            display: flex;
+            border-bottom: 1px solid var(--bell-rule);
+        }
+
+        .app-example .app-segmented button {
+            flex: 1;
+            padding: var(--space-2);
+            font-family: var(--font-bell);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            border: none;
+            background: transparent;
+            color: var(--bell-muted);
+        }
+
+        .app-example .app-segmented button.active {
+            background: var(--bell-highlight);
+            color: var(--bell-accent-dark);
+        }
+
+        .app-example .app-feed {
+            padding: 0;
+        }
+
+        .app-example .app-post {
+            display: flex;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            border-bottom: 1px solid var(--bell-rule);
+        }
+
+        .app-example .app-post-votes {
+            flex-shrink: 0;
+            width: 28px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--bell-muted);
+        }
+
+        .app-example .app-post-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .app-example .app-post-community {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--bell-accent);
+            margin-bottom: 2px;
+        }
+
+        .app-example .app-post-title {
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.3;
+            margin-bottom: var(--space-1);
+        }
+
+        .app-example .app-post-meta {
+            font-size: 11px;
+            color: var(--bell-muted);
+        }
+
+        /* Social / Instagram-style app example */
+        .app-social .app-top-bar {
+            padding: var(--space-3) var(--space-4);
+        }
+
+        .app-social .app-story-row {
+            display: flex;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            border-bottom: 1px solid var(--bell-rule);
+            overflow-x: auto;
+        }
+
+        .app-social .app-story {
+            flex-shrink: 0;
+            width: 56px;
+            text-align: center;
+            font-size: 11px;
+            color: var(--bell-ink);
+            cursor: pointer;
+        }
+
+        .app-social .app-story-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 2px solid var(--bell-rule);
+            margin-bottom: var(--space-1);
+            background: var(--color-neutral-100);
+            object-fit: cover;
+            display: block;
+        }
+
+        .app-social .app-post-card {
+            border-bottom: 1px solid var(--bell-rule);
+        }
+
+        .app-social .app-post-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-2) var(--space-4);
+        }
+
+        .app-social .app-post-header-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--bell-accent);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .app-social .app-post-header-name {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .app-social .app-post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .app-social .app-post-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--color-neutral-200) 0%, var(--color-neutral-100) 100%);
+            display: block;
+            cursor: pointer;
+            user-select: none;
+            overflow: hidden;
+        }
+
+        .app-social .app-post-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            padding: var(--space-2) var(--space-4);
+        }
+
+        .app-social .app-post-actions button {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            color: var(--bell-ink);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .app-social .app-post-actions button svg {
+            width: 22px;
+            height: 22px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .app-social .app-post-actions button.liked {
+            color: #c41e3a;
+        }
+
+        .app-social .app-post-actions button.liked svg {
+            fill: currentColor;
+        }
+
+        .app-social .app-post-likes {
+            padding: 0 var(--space-4) var(--space-2);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--bell-ink);
+        }
+
+        .app-social .app-post-caption {
+            padding: 0 var(--space-4) var(--space-3);
+            font-size: 12px;
+            color: var(--bell-ink);
+        }
+
+        /* Cricket scorecard app example */
+        .app-cricket .app-top-bar {
+            padding: var(--space-3) var(--space-4);
+        }
+
+        .app-cricket .app-cricket-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--bell-rule);
+        }
+
+        .app-cricket .app-cricket-tabs button {
+            flex: 1;
+            padding: var(--space-2);
+            font-family: var(--font-bell);
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            border: none;
+            background: transparent;
+            color: var(--bell-muted);
+            cursor: pointer;
+        }
+
+        .app-cricket .app-cricket-tabs button.active {
+            color: var(--bell-ink);
+            background: var(--bell-highlight);
+        }
+
+        .app-cricket .app-cricket-panel {
+            display: none;
+            padding: var(--space-3);
+        }
+
+        .app-cricket .app-cricket-panel.active {
+            display: block;
+        }
+
+        .app-cricket .app-commentary-list {
+            max-height: 140px;
+            overflow-y: auto;
+            font-size: 11px;
+            line-height: 1.45;
+            border-top: 1px solid var(--bell-rule);
+            padding-top: var(--space-2);
+            margin-top: var(--space-2);
+        }
+
+        .app-cricket .app-commentary-list p {
+            padding: var(--space-1) 0;
+            border-bottom: 1px solid var(--color-neutral-100);
+            margin: 0;
+            color: var(--bell-ink);
+        }
+
+        .app-cricket .app-commentary-list p strong {
+            color: var(--bell-muted);
+            margin-right: var(--space-1);
+        }
+
+        .app-cricket .app-score-summary {
+            text-align: center;
+            padding: var(--space-4);
+            border-bottom: 1px solid var(--bell-rule);
+        }
+
+        .app-cricket .app-score-summary .teams {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--bell-muted);
+            margin-bottom: var(--space-2);
+        }
+
+        .app-cricket .app-score-summary .score {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .app-cricket .app-score-summary .overs {
+            font-size: 12px;
+            color: var(--bell-muted);
+            margin-top: var(--space-1);
+        }
+
+        .app-cricket .app-scorecard-table {
+            width: 100%;
+            font-size: 11px;
+            border-collapse: collapse;
+        }
+
+        .app-cricket .app-scorecard-table th,
+        .app-cricket .app-scorecard-table td {
+            padding: var(--space-1) var(--space-2);
+            text-align: left;
+            border-bottom: 1px solid var(--bell-rule);
+        }
+
+        .app-cricket .app-scorecard-table th {
+            font-weight: 600;
+            color: var(--bell-muted);
+        }
+
+        .app-cricket .app-scorecard-table .runs {
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .app-cricket .app-live-actions {
+            display: flex;
+            gap: var(--space-2);
+            margin-top: var(--space-4);
+            flex-wrap: wrap;
+        }
+
+        .app-cricket .app-live-actions button {
+            padding: var(--space-2) var(--space-3);
+            font-family: var(--font-bell);
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid var(--bell-rule);
+            background: var(--bell-paper);
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .app-cricket .app-live-actions button:hover {
+            background: var(--color-neutral-100);
+        }
+
+        .app-cricket .app-live-actions button.primary {
+            background: var(--bell-accent);
+            color: #fff;
+            border-color: var(--bell-accent);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: var(--space-12);
+            padding-top: var(--space-6);
+            border-top: 1px solid var(--bell-rule);
+            text-align: center;
+        }
+
+        .footer a {
+            color: var(--bell-muted);
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .footer a:hover {
+            color: var(--bell-ink);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            nav {
+                width: 100%;
+                height: auto;
+                padding: var(--space-4);
+                border-right: none;
+                border-bottom: 1px solid var(--bell-rule);
+            }
+
+            .nav-logo {
+                display: inline-block;
+                margin-right: var(--space-4);
+                margin-bottom: 0;
+            }
+
+            nav a {
+                display: inline-block;
+                margin-right: var(--space-4);
+                margin-bottom: 0;
+            }
+
+            .article-container {
+                padding: var(--space-4);
+            }
+
+            .hero {
+                padding: var(--space-6) var(--space-4);
+            }
+
+            .icon-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .app-examples-row {
+                grid-template-columns: 1fr;
+                max-width: 320px;
+                margin: var(--space-6) auto;
+            }
+        }
+
+        /* ---- Device Frames ---- */
+        .device-frame {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* TV */
+        .device-tv {
+            display: inline-block;
+        }
+
+        .device-tv .device-tv-bezel {
+            background: #222;
+            border-radius: 6px;
+            padding: 10px 10px 18px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        .device-tv .device-tv-screen {
+            border-radius: 3px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .device-tv .device-tv-stand {
+            width: 60px;
+            height: 14px;
+            background: #333;
+            margin: 0 auto;
+            border-radius: 0 0 4px 4px;
+        }
+
+        .device-tv .device-tv-base {
+            width: 100px;
+            height: 6px;
+            background: #444;
+            margin: 0 auto;
+            border-radius: 0 0 3px 3px;
+        }
+
+        /* Watch */
+        .device-watch {
+            display: inline-block;
+        }
+
+        .device-watch .device-watch-body {
+            background: #333;
+            border-radius: 50%;
+            padding: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .device-watch .device-watch-body::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 35%;
+            width: 5px;
+            height: 20px;
+            background: linear-gradient(to right, #555, #444);
+            border-radius: 0 3px 3px 0;
+        }
+
+        .device-watch .device-watch-screen {
+            border-radius: 50%;
+            overflow: hidden;
+            aspect-ratio: 1;
+        }
+
+        .device-watch .device-watch-band-top,
+        .device-watch .device-watch-band-bottom {
+            width: 52px;
+            height: 18px;
+            background: #444;
+            margin: 0 auto;
+            border-radius: 4px;
+        }
+
+        .device-watch .device-watch-band-top {
+            margin-bottom: -4px;
+            position: relative;
+            z-index: 0;
+        }
+
+        .device-watch .device-watch-band-bottom {
+            margin-top: -4px;
+            position: relative;
+            z-index: 0;
+        }
+
+        /* Laptop */
+        .device-laptop {
+            display: inline-block;
+            width: 100%;
+        }
+
+        .device-laptop .device-laptop-lid {
+            background: #333;
+            border-radius: 8px 8px 0 0;
+            padding: 10px 10px 0;
+            box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .device-laptop .device-laptop-lid::before {
+            content: '';
+            display: block;
+            width: 6px;
+            height: 6px;
+            background: #555;
+            border-radius: 50%;
+            margin: 0 auto 6px;
+        }
+
+        .device-laptop .device-laptop-screen {
+            border-radius: 2px 2px 0 0;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .device-laptop .device-laptop-base {
+            background: linear-gradient(to bottom, #ccc, #bbb);
+            height: 12px;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .device-laptop .device-laptop-base::before {
+            content: '';
+            display: block;
+            width: 40%;
+            height: 3px;
+            background: #aaa;
+            border-radius: 0 0 2px 2px;
+            margin: 0 auto;
+        }
+
+        /* Phone */
+        .device-phone {
+            display: inline-block;
+        }
+
+        .device-phone .device-phone-body {
+            background: #222;
+            border-radius: 24px;
+            padding: 10px 6px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        .device-phone .device-phone-body::before {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 4px;
+            background: #444;
+            border-radius: 2px;
+            margin: 0 auto 6px;
+        }
+
+        .device-phone .device-phone-screen {
+            border-radius: 14px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .device-phone .device-phone-body::after {
+            content: '';
+            display: block;
+            width: 36px;
+            height: 4px;
+            background: #444;
+            border-radius: 2px;
+            margin: 6px auto 0;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="index.html" class="nav-logo">Sai Maram</a>
+        <a href="index.html">Home</a>
+        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+        <div
+            style="margin-top: 1rem; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bell-muted);">
+            Sections</div>
+        <a href="#style-foundations">1. Style Foundations</a>
+        <a href="#component-library">2. Component Library</a>
+        <a href="#pattern-library">3. Pattern Library</a>
+        <a href="#app-example">App example</a>
+        <a href="#governance">4. Governance</a>
+        <a href="#philosophy">Philosophy</a>
+        <a href="#color">Color</a>
+        <a href="#typography">Typography</a>
+        <a href="#design-tokens">Design Tokens</a>
+        <a href="#iconography">Iconography</a>
+        <a href="#grid-layout">Grid & Layout</a>
+        <a href="#spacing">Spacing</a>
+        <a href="#elevation">Elevation</a>
+        <a href="#buttons">Buttons</a>
+        <a href="#forms">Forms</a>
+        <a href="#navigation">Navigation</a>
+        <a href="#feedback">Feedback</a>
+        <a href="#data-display">Data Display</a>
+        <a href="#selection">Selection</a>
+    </nav>
+
+    <main>
+        <header class="hero">
+            <div class="hero-label">Design system</div>
+            <h1>Utility Design System</h1>
+            <p class="hero-dedication">Dedicated to Matthew Carter</p>
+            <p class="hero-subtitle">A utilitarian design language—condensed type, legible at small sizes, economical.
+                Built for lists, tables, and dense information.</p>
+        </header>
+
+        <article class="article-container">
+            <p class="lede">Matthew Carter spent decades shaping how millions read—from Bell Centennial, engineered for
+                flawed phone-book printing, to Verdana, built for low-resolution screens. This system channels that
+                same conviction: every typographic choice must earn its place through measurable legibility, not
+                aesthetic preference.</p>
+
+            <h2 id="style-foundations">1. Style Foundations (Atoms)</h2>
+            <p>Color, type, tokens, icons, grid, spacing, and elevation—the building blocks that sync design and code.
+            </p>
+
+            <h2 id="philosophy">Design philosophy</h2>
+            <ul>
+                <li><strong>Economy:</strong> Condensed type and tight grids fit more information without clutter.</li>
+                <li><strong>Legibility first:</strong> High x-height, open counters, and clear hierarchy so content
+                    reads at a glance.</li>
+                <li><strong>Utility over decoration:</strong> No decorative serifs or drop caps—every element has a job.
+                </li>
+                <li><strong>Directory heritage:</strong> Tables, name lists, and structured data feel native to the
+                    system.</li>
+            </ul>
+
+            <h2 id="color">Color palette</h2>
+            <p>The palette takes its cue from Bell System directories: near-black ink on off-white stock, with a single
+                institutional blue for wayfinding. We avoided warm tones deliberately—warmth implies editorial
+                personality,
+                while this system prizes neutrality and data clarity. The blue accent (#0066b3) was chosen for its
+                WCAG AAA contrast against both the paper background and white text, so it works as a link color, a
+                button
+                fill, and a chart highlight without adjustment.</p>
+            <h3>Primary & secondary</h3>
+            <div class="color-grid">
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--bell-ink);"></div>
+                    <div class="swatch-name">Ink (Primary)</div>
+                    <div class="swatch-value">#0d0d0d</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--bell-paper);"></div>
+                    <div class="swatch-name">Paper</div>
+                    <div class="swatch-value">#f6f5f3</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--bell-accent);"></div>
+                    <div class="swatch-name">Accent</div>
+                    <div class="swatch-value">#0066b3</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--bell-muted);"></div>
+                    <div class="swatch-name">Muted (Secondary)</div>
+                    <div class="swatch-value">#5c5c5c</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--bell-rule);"></div>
+                    <div class="swatch-name">Rule</div>
+                    <div class="swatch-value">#c8c6c2</div>
+                </div>
+            </div>
+            <h3>Semantic (Success, Warning, Error)</h3>
+            <div class="color-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--color-semantic-success);"></div>
+                    <div class="swatch-name">Success</div>
+                    <div class="swatch-value">--color-semantic-success</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--color-semantic-warning);"></div>
+                    <div class="swatch-name">Warning</div>
+                    <div class="swatch-value">--color-semantic-warning</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--color-semantic-error);"></div>
+                    <div class="swatch-name">Error</div>
+                    <div class="swatch-value">--color-semantic-error</div>
+                </div>
+            </div>
+            <h3>Neutral / grayscale</h3>
+            <div class="color-grid" style="grid-template-columns: repeat(5, 1fr);">
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--color-neutral-50);"></div>
+                    <div class="swatch-name">50</div>
+                    <div class="swatch-value">--color-neutral-50</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--color-neutral-200);"></div>
+                    <div class="swatch-name">200</div>
+                    <div class="swatch-value">--color-neutral-200</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--color-neutral-400);"></div>
+                    <div class="swatch-name">400</div>
+                    <div class="swatch-value">--color-neutral-400</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--color-neutral-600);"></div>
+                    <div class="swatch-name">600</div>
+                    <div class="swatch-value">--color-neutral-600</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--color-neutral-900);"></div>
+                    <div class="swatch-name">900</div>
+                    <div class="swatch-value">--color-neutral-900</div>
+                </div>
+            </div>
+
+            <h2 id="typography">Typography</h2>
+            <p><strong>IBM Plex Sans Condensed</strong> was chosen for a specific reason: it is one of the few
+                open-source condensed families with a genuinely high x-height and open counters at small sizes.
+                Carter's Bell Centennial solved the same problem—legibility under adverse conditions—and IBM Plex
+                Condensed carries that DNA into screen rendering. The condensed width lets us fit 20–30% more
+                information
+                per line than a standard-width sans, critical for tables, lists, and dashboards. We use four
+                weights (400–700) to create hierarchy without changing typeface.</p>
+            <h3>Type scale</h3>
+            <div class="block">
+                <div class="block-head">H1–H6, Body, Label</div>
+                <div class="block-body">
+                    <div class="type-row">
+                        <span class="type-label">H1</span>
+                        <span class="type-sample"
+                            style="font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 700;">Page title</span>
+                    </div>
+                    <div class="type-row">
+                        <span class="type-label">H2</span>
+                        <span class="type-sample" style="font-size: 1.5rem; font-weight: 700;">Section</span>
+                    </div>
+                    <div class="type-row">
+                        <span class="type-label">H3</span>
+                        <span class="type-sample" style="font-size: 1.25rem; font-weight: 600;">Subsection</span>
+                    </div>
+                    <div class="type-row">
+                        <span class="type-label">H4</span>
+                        <span class="type-sample" style="font-size: 1.1rem; font-weight: 600;">Card title</span>
+                    </div>
+                    <div class="type-row">
+                        <span class="type-label">H5</span>
+                        <span class="type-sample" style="font-size: 1rem; font-weight: 600;">Small heading</span>
+                    </div>
+                    <div class="type-row">
+                        <span class="type-label">H6</span>
+                        <span class="type-sample" style="font-size: 0.95rem; font-weight: 600;">Minor heading</span>
+                    </div>
+                    <div class="type-row">
+                        <span class="type-label">Body</span>
+                        <span class="type-sample" style="font-size: 15px;">Body text at 15px for comfortable
+                            reading.</span>
+                    </div>
+                    <div class="type-row">
+                        <span class="type-label">Label</span>
+                        <span class="type-sample"
+                            style="font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--bell-muted);">Form
+                            label / caption</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3 id="design-tokens">Design tokens</h3>
+            <p>Named variables (e.g. <code>--color-brand-primary</code>, <code>--space-4</code>) that sync design and
+                code.</p>
+            <div class="code-block">
+                <span class="c">/* Utility design system tokens */</span>
+                :root {
+                <span class="k">--bell-ink</span>: <span class="s">#0d0d0d</span>;
+                <span class="k">--bell-paper</span>: <span class="s">#f6f5f3</span>;
+                <span class="k">--bell-accent</span>: <span class="s">#0066b3</span>;
+                <span class="k">--color-brand-primary</span>: <span class="s">#0066b3</span>;
+                <span class="k">--color-semantic-success</span>: <span class="s">#0d7d4a</span>;
+                <span class="k">--font-bell</span>: <span class="s">'IBM Plex Sans Condensed', sans-serif</span>;
+                <span class="k">--space-2</span>: <span class="s">8px</span>; <span class="k">--space-4</span>: <span
+                    class="s">16px</span>; <span class="k">--space-8</span>: <span class="s">32px</span>;
+                <span class="k">--z-modal</span>: <span class="s">300</span>; <span class="k">--z-toast</span>: <span
+                    class="s">400</span>;
+                }
+            </div>
+
+            <h3 id="iconography">Iconography</h3>
+            <p>Icons are stroke-based at 24×24 with stroke-width 2 to match the visual weight of IBM Plex Condensed
+                at body size. Filled icons would compete with the condensed type's tight rhythm; strokes keep the
+                icon grid airy. Every icon must be paired with a text label or ARIA tooltip—icon-only buttons fail
+                usability tests for directory-style interfaces where speed of scanning matters.</p>
+            <div class="block">
+                <div class="block-head">Icon set (examples)</div>
+                <div class="block-body">
+                    <div class="icon-grid">
+                        <div class="icon-cell">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+                                fill="none" stroke-width="2">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                                <polyline points="9 22 9 12 15 12 15 22" />
+                            </svg>
+                            Home
+                        </div>
+                        <div class="icon-cell">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+                                fill="none" stroke-width="2">
+                                <circle cx="11" cy="11" r="8" />
+                                <path d="m21 21-4.35-4.35" />
+                            </svg>
+                            Search
+                        </div>
+                        <div class="icon-cell">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+                                fill="none" stroke-width="2">
+                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                            </svg>
+                            Bookmark
+                        </div>
+                        <div class="icon-cell">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+                                fill="none" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                            User
+                        </div>
+                        <div class="icon-cell">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+                                fill="none" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            Check
+                        </div>
+                        <div class="icon-cell">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+                                fill="none" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18" />
+                                <line x1="6" y1="6" x2="18" y2="18" />
+                            </svg>
+                            Close
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 id="grid-layout">Grid & layout</h3>
+            <p>Column counts, gutter widths, and responsive breakpoints.</p>
+            <ul>
+                <li><strong>Columns:</strong> 12 desktop, 8 tablet, 4 mobile.</li>
+                <li><strong>Gutter:</strong> 24px (--space-6).</li>
+                <li><strong>Max width:</strong> 900px for content.</li>
+                <li><strong>Breakpoints:</strong> 768px, 992px.</li>
+            </ul>
+
+            <h3 id="spacing">Spacing scale</h3>
+            <p>The 8px base grid reflects a simple principle: tighter spacing than typical SaaS products. Where most
+                systems use 16px as the base increment, we halve it because dense data UIs need rows and columns
+                to sit close together. The --space-2 (8px) is the default cell padding; --space-4 (16px) creates
+                comfortable section breaks. Larger values (48–96px) are reserved for page-level breathing room between
+                major content zones.</p>
+            <div class="code-block">
+                <span class="k">--space-1</span>: <span class="s">4px</span>; <span class="k">--space-2</span>: <span
+                    class="s">8px</span>; <span class="k">--space-4</span>: <span class="s">16px</span>; <span
+                    class="k">--space-6</span>: <span class="s">24px</span>; <span class="k">--space-8</span>: <span
+                    class="s">32px</span>; <span class="k">--space-12</span>: <span class="s">48px</span>;
+            </div>
+
+            <h3 id="elevation">Elevation & shadows</h3>
+            <p>Z-index layers and shadow styles for depth.</p>
+            <ul>
+                <li><strong>Z-index:</strong> dropdown 100, sticky 200, modal 300, toast 400, tooltip 500.</li>
+                <li><strong>Shadows:</strong> xs → sm → md → lg → xl.</li>
+            </ul>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-4); margin: var(--space-4) 0;">
+                <div style="width: 80px; height: 48px; background: var(--bell-paper); box-shadow: var(--shadow-xs);">
+                </div>
+                <div style="width: 80px; height: 48px; background: var(--bell-paper); box-shadow: var(--shadow-sm);">
+                </div>
+                <div style="width: 80px; height: 48px; background: var(--bell-paper); box-shadow: var(--shadow-md);">
+                </div>
+                <div style="width: 80px; height: 48px; background: var(--bell-paper); box-shadow: var(--shadow-lg);">
+                </div>
+            </div>
+
+            <h2 id="component-library">2. Component Library (Molecules)</h2>
+            <p>Components are designed for data-entry speed and scanning efficiency. Buttons use
+                the condensed typeface at 14px with minimal padding—large touch targets are less important here than
+                fitting controls alongside dense content. The 4px border-radius is the only decorative element; it
+                softens hard edges without introducing the rounded-pill aesthetic that signals consumer apps.</p>
+
+            <h3 id="buttons">Buttons</h3>
+            <p>Four button types cover every interaction pattern. Primary (filled) for the single most important
+                action on screen. Secondary (outlined) for supporting actions. Ghost (borderless) for tertiary or
+                inline actions. Danger (red) exclusively for destructive operations. The loading state uses a
+                CSS spinner to prevent double-clicks on slow network operations.</p>
+            <div class="block">
+                <div class="block-head">Types</div>
+                <div class="block-body">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary">Primary</button>
+                        <button type="button" class="btn btn-secondary">Secondary</button>
+                        <button type="button" class="btn btn-ghost">Ghost</button>
+                        <button type="button" class="btn btn-danger">Danger</button>
+                    </div>
+                </div>
+            </div>
+            <div class="block">
+                <div class="block-head">States: Disabled, Loading</div>
+                <div class="block-body">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" disabled>Disabled</button>
+                        <button type="button" class="btn btn-primary btn-loading"><span class="btn-spinner"></span>
+                            Loading</button>
+                    </div>
+                </div>
+            </div>
+
+            <h3 id="forms">Form elements</h3>
+            <p>Form inputs prioritize rapid data entry. The focus ring uses a 3px box-shadow in ink-black at 10%
+                opacity—subtle enough to avoid visual noise in dense forms, but clearly visible for keyboard
+                navigation. Labels are always above inputs (never inline placeholders) because directory editing
+                workflows often involve tabbing through dozens of fields.</p>
+            <div class="block">
+                <div class="block-head">Input, textarea, dropdown</div>
+                <div class="block-body">
+                    <div class="form-group">
+                        <label class="form-label" for="bell-input">Label</label>
+                        <input type="text" id="bell-input" class="form-input" placeholder="Placeholder">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="bell-textarea">Text area</label>
+                        <textarea id="bell-textarea" class="form-textarea" placeholder="Multi-line"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="bell-select">Dropdown</label>
+                        <select id="bell-select" class="form-select">
+                            <option>Option A</option>
+                            <option>Option B</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="block">
+                <div class="block-head">Checkbox, radio, toggle</div>
+                <div class="block-body">
+                    <label class="form-checkbox"><input type="checkbox" checked> Checkbox</label>
+                    <label class="form-checkbox"><input type="checkbox"> Another</label>
+                    <label class="form-radio"><input type="radio" name="bell-r" checked> Radio A</label>
+                    <label class="form-radio"><input type="radio" name="bell-r"> Radio B</label>
+                    <label class="form-toggle"><input type="checkbox" checked><span class="form-toggle-track"></span>
+                        Toggle on</label>
+                    <label class="form-toggle"><input type="checkbox"><span class="form-toggle-track"></span> Toggle
+                        off</label>
+                </div>
+            </div>
+
+            <h3 id="navigation">Navigation</h3>
+            <p>Navigation components use the condensed type at small sizes with clear active states. The tab pattern
+                uses a bottom border indicator (2px) rather than background fills—this keeps the horizontal space
+                tight while maintaining an obvious visual distinction between active and inactive tabs.</p>
+            <div class="block">
+                <div class="block-head">Header</div>
+                <div class="block-body" style="padding: 0;">
+                    <header class="nav-header">
+                        <span style="font-weight: 700;">Logo</span>
+                        <div style="display: flex; gap: var(--space-4);">
+                            <a href="#" style="color: var(--bell-ink); text-decoration: none; font-size: 14px;">Nav
+                                1</a>
+                            <a href="#" style="color: var(--bell-muted); text-decoration: none; font-size: 14px;">Nav
+                                2</a>
+                        </div>
+                    </header>
+                </div>
+            </div>
+            <div class="block">
+                <div class="block-head">Breadcrumb</div>
+                <div class="block-body">
+                    <nav class="breadcrumb">
+                        <a href="#">Home</a><span>/</span><a href="#">Section</a><span>/</span><span>Current</span>
+                    </nav>
+                </div>
+            </div>
+            <div class="block">
+                <div class="block-head">Tabs</div>
+                <div class="block-body" style="padding: 0;">
+                    <div class="nav-tabs">
+                        <a href="#" class="active">Tab one</a>
+                        <a href="#">Tab two</a>
+                        <a href="#">Tab three</a>
+                    </div>
+                </div>
+            </div>
+            <div class="block">
+                <div class="block-head">Pagination</div>
+                <div class="block-body">
+                    <nav class="pagination" aria-label="Pagination">
+                        <a href="#" aria-label="Previous page">←</a>
+                        <a href="#">1</a>
+                        <span class="current" aria-current="page">2</span>
+                        <a href="#">3</a>
+                        <a href="#" aria-label="Next page">→</a>
+                    </nav>
+                </div>
+            </div>
+
+            <h3 id="feedback" class="section-start">Feedback & overlays</h3>
+            <p>Feedback components use high-contrast semantic colors against dark or white backgrounds. Toasts are
+                intentionally compact—they must not obstruct the data grid below. Modals use a light backdrop (40%
+                black) to maintain context awareness, and their dialogs inherit the 8px border-radius to feel
+                contained without being ornate.</p>
+            <div class="block">
+                <div class="block-head">Modal</div>
+                <div class="block-body">
+                    <div class="modal-backdrop" style="position: relative; inset: auto; background: rgba(0,0,0,0.15);">
+                        <div class="modal-dialog">
+                            <h4 class="modal-title">Modal title</h4>
+                            <p style="margin-bottom: var(--space-4);">Body copy for the dialog.</p>
+                            <div class="btn-group"><button type="button" class="btn btn-primary">Confirm</button><button
+                                    type="button" class="btn btn-secondary">Cancel</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="block">
+                <div class="block-head">Toasts</div>
+                <div class="block-body">
+                    <div style="display: flex; flex-wrap: wrap; gap: var(--space-2);">
+                        <div class="toast">Default</div>
+                        <div class="toast toast-success">Success</div>
+                        <div class="toast toast-warning">Warning</div>
+                        <div class="toast toast-error">Error</div>
+                    </div>
+                </div>
+            </div>
+            <div class="block">
+                <div class="block-head">Progress bar</div>
+                <div class="block-body">
+                    <div class="progress-bar" style="max-width: 280px;">
+                        <div class="progress-bar-fill" style="width: 60%;"></div>
+                    </div>
+                    <p style="font-size: 13px; color: var(--bell-muted); margin-top: var(--space-1);">60%</p>
+                </div>
+            </div>
+
+            <h3 id="data-display">Data display</h3>
+            <p>Tables are the native habitat of this system—the entire type and spacing system was designed to
+                make tabular data scan quickly. Row hover states use neutral-50 to create a reading guide without
+                overwhelming the grid lines. Badges use muted semantic backgrounds (light green, amber, red) to
+                indicate status at a glance.</p>
+            <div class="block">
+                <div class="block-head">Table</div>
+                <div class="block-body" style="padding: 0;">
+                    <table class="dir-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Extension</th>
+                                <th class="num">Dept</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Anderson, J.</td>
+                                <td>x3401</td>
+                                <td class="num">12</td>
+                            </tr>
+                            <tr>
+                                <td>Brown, M.</td>
+                                <td>x3402</td>
+                                <td class="num">12</td>
+                            </tr>
+                            <tr>
+                                <td>Clark, S.</td>
+                                <td>x3403</td>
+                                <td class="num">07</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="block">
+                <div class="block-head">Cards</div>
+                <div class="block-body" style="padding: 0;">
+                    <div class="card-grid">
+                        <div class="card-cell">
+                            <h4>Card one</h4>
+                            <p>Short description.</p>
+                        </div>
+                        <div class="card-cell">
+                            <h4>Card two</h4>
+                            <p>Short description.</p>
+                        </div>
+                        <div class="card-cell">
+                            <h4>Card three</h4>
+                            <p>Short description.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="block">
+                <div class="block-head">Badges / tags</div>
+                <div class="block-body">
+                    <span class="badge">Default</span>
+                    <span class="badge badge-accent">Accent</span>
+                    <span class="badge badge-success">Success</span>
+                    <span class="badge badge-warning">Warning</span>
+                    <span class="badge badge-error">Error</span>
+                </div>
+            </div>
+            <div class="block">
+                <div class="block-head">Tooltip</div>
+                <div class="block-body">
+                    <div class="tooltip-wrap">
+                        <button type="button" class="btn btn-secondary">Hover me</button>
+                        <span class="tooltip-content">Tooltip text</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3 id="selection">Selection</h3>
+            <p>Sliders and segmented controls.</p>
+            <div class="block">
+                <div class="block-head">Segmented control</div>
+                <div class="block-body">
+                    <div class="segmented">
+                        <button type="button" class="active">Option A</button>
+                        <button type="button">Option B</button>
+                        <button type="button">Option C</button>
+                    </div>
+                </div>
+            </div>
+            <div class="block">
+                <div class="block-head">Slider</div>
+                <div class="block-body">
+                    <div class="slider-wrap"><input type="range" min="0" max="100" value="40" class="slider"></div>
+                </div>
+            </div>
+
+            <h2 id="directory">Directory pattern</h2>
+            <p>The directory list is the signature pattern of this system—directly descended from the phone book.
+                Name–number pairs with dotted leaders, alphabetical ordering, and compact row height. Carter
+                designed Bell Centennial to survive the brutal conditions of newsprint directory printing; this
+                digital version inherits that philosophy by keeping rows tight (single-line, no wrapping) and
+                using condensed type to maximize entries per viewport.</p>
+            <div class="block">
+                <div class="block-head">Name / Number list</div>
+                <div class="block-body" style="padding: 0;">
+                    <ul class="dir-list">
+                        <li><span class="name">Anderson, James</span><span class="value">(555) 340-1201</span></li>
+                        <li><span class="name">Brown, Maria</span><span class="value">(555) 340-1202</span></li>
+                        <li><span class="name">Clark, Susan</span><span class="value">(555) 340-1203</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2 id="app-example">App examples</h2>
+            <p>A design system proves itself when applied to real products. The mobile examples below test whether
+                condensed type and tight spacing hold up on small screens. The cross-platform examples that follow
+                demonstrate scalability—the same token system driving a smartwatch notification, a mobile feed,
+                a laptop dashboard, and a TV channel guide.</p>
+
+            <div class="app-examples-row">
+                <div>
+                    <div class="app-example-label">Blog feed (Reddit)</div>
+                    <div class="app-example-wrap">
+                        <div class="app-example-inner app-example">
+                            <header class="app-top-bar">
+                                <span class="app-top-bar-title">Feed</span>
+                                <span style="font-size: 11px; color: var(--bell-muted);">⋯</span>
+                            </header>
+                            <div class="app-segmented">
+                                <button type="button" class="active">Hot</button>
+                                <button type="button">New</button>
+                                <button type="button">Top</button>
+                            </div>
+                            <div class="app-feed">
+                                <article class="app-post">
+                                    <div class="app-post-votes">247 ↑</div>
+                                    <div class="app-post-body">
+                                        <div class="app-post-community">r/DesignSystems</div>
+                                        <div class="app-post-title">How we scaled our design tokens across 12 products
+                                        </div>
+                                        <div class="app-post-meta">u/design_lead · 2h · 42 comments</div>
+                                    </div>
+                                </article>
+                                <article class="app-post">
+                                    <div class="app-post-votes">1.2k ↑</div>
+                                    <div class="app-post-body">
+                                        <div class="app-post-community">r/UXResearch</div>
+                                        <div class="app-post-title">Condensed typefaces for dense data UIs: a
+                                            readability study</div>
+                                        <div class="app-post-meta">u/researcher_amy · 5h · 89 comments</div>
+                                    </div>
+                                </article>
+                                <article class="app-post">
+                                    <div class="app-post-votes">56 ↑</div>
+                                    <div class="app-post-body">
+                                        <div class="app-post-community">r/Frontend</div>
+                                        <div class="app-post-title">Building a blog feed with CSS Grid and design tokens
+                                        </div>
+                                        <div class="app-post-meta">u/dev_james · 8h · 12 comments</div>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="app-example-label">Social feed (Instagram)</div>
+                    <div class="app-example-wrap">
+                        <div class="app-example-inner app-example app-social">
+                            <header class="app-top-bar">
+                                <span class="app-top-bar-title">Social</span>
+                                <span style="font-size: 11px; color: var(--bell-muted);">⋯</span>
+                            </header>
+                            <div class="app-story-row">
+                                <div class="app-story">
+                                    <img class="app-story-avatar" src="temporary/sai_3.png" alt="You">You
+                                </div>
+                                <div class="app-story">
+                                    <img class="app-story-avatar" src="temporary/sai_2.jpg" alt="jane_d">jane_d
+                                </div>
+                                <div class="app-story">
+                                    <img class="app-story-avatar" src="temporary/sai_4.jpg" alt="dev_mike">dev_mike
+                                </div>
+                                <div class="app-story">
+                                    <img class="app-story-avatar" src="temporary/sai_5.jpg" alt="design_">design_
+                                </div>
+                            </div>
+                            <div class="app-post-card">
+                                <div class="app-post-header">
+                                    <img class="app-post-header-avatar" src="temporary/sai_2.jpg" alt="jane_design">
+                                    <span class="app-post-header-name">jane_design</span>
+                                </div>
+                                <div class="app-post-image" data-social-like aria-label="Double-tap to like">
+                                    <img src="temporary/mathew.png" alt="Post">
+                                </div>
+                                <div class="app-post-actions">
+                                    <button type="button" class="social-like-btn" aria-pressed="false"
+                                        aria-label="Like"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                            <path
+                                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                            </path>
+                                        </svg></button>
+                                    <button type="button" aria-label="Comment"><svg xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24">
+                                            <path
+                                                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                                            </path>
+                                        </svg></button>
+                                    <button type="button" aria-label="Share"><svg xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24">
+                                            <line x1="22" y1="2" x2="11" y2="13" />
+                                            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                                        </svg></button>
+                                </div>
+                                <div class="app-post-likes"><span class="social-like-count">24</span> likes</div>
+                                <div class="app-post-caption"><strong>jane_design</strong> Sunset from the studio</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="app-example-label">Cricket (Cricbuzz)</div>
+                    <div class="app-example-wrap">
+                        <div class="app-example-inner app-example app-cricket">
+                            <header class="app-top-bar">
+                                <span class="app-top-bar-title">Live</span>
+                                <span style="font-size: 10px; font-weight: 600; color: var(--color-semantic-error);">●
+                                    LIVE</span>
+                            </header>
+                            <div class="app-cricket-tabs">
+                                <button type="button" class="app-cricket-tab active" data-tab="live">Live</button>
+                                <button type="button" class="app-cricket-tab" data-tab="scorecard">Scorecard</button>
+                                <button type="button" class="app-cricket-tab" data-tab="commentary">Commentary</button>
+                            </div>
+                            <div id="cricket-live-panel" class="app-cricket-panel active">
+                                <div class="app-score-summary">
+                                    <div class="teams">India vs Australia</div>
+                                    <div class="score"><span id="cricket-runs">187</span>/<span
+                                            id="cricket-wickets">3</span></div>
+                                    <div class="overs"><span id="cricket-overs">34.2</span> overs</div>
+                                </div>
+                                <div class="app-live-actions">
+                                    <button type="button" class="primary" id="cricket-add-run">+1 Run</button>
+                                    <button type="button" id="cricket-add-four">+4</button>
+                                    <button type="button" id="cricket-add-six">+6</button>
+                                    <button type="button" id="cricket-add-wicket">Wicket</button>
+                                </div>
+                                <div id="cricket-commentary" class="app-commentary-list">
+                                    <p><strong>34.2</strong> Kohli drives through cover for four. 187/3.</p>
+                                    <p><strong>34.1</strong> Single to midwicket. Sharma on strike.</p>
+                                    <p><strong>33.6</strong> Starc to Iyer. Dot ball. End of over.</p>
+                                    <p><strong>33.5</strong> Two runs. Quick running between the wickets.</p>
+                                </div>
+                            </div>
+                            <div id="cricket-scorecard-panel" class="app-cricket-panel">
+                                <table class="app-scorecard-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Batter</th>
+                                            <th class="runs">R</th>
+                                            <th>B</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>R Sharma</td>
+                                            <td class="runs">67</td>
+                                            <td>82</td>
+                                        </tr>
+                                        <tr>
+                                            <td>V Kohli</td>
+                                            <td class="runs">54</td>
+                                            <td>61</td>
+                                        </tr>
+                                        <tr>
+                                            <td>S Iyer</td>
+                                            <td class="runs">22</td>
+                                            <td>28</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p style="font-size: 11px; color: var(--bell-muted); margin-top: var(--space-2);">
+                                    Bowling: Starc 7-0-42-1</p>
+                            </div>
+                            <div id="cricket-commentary-panel" class="app-cricket-panel">
+                                <div class="app-commentary-list" id="cricket-commentary-full">
+                                    <p><strong>34.2</strong> Kohli drives through cover for four. 187/3.</p>
+                                    <p><strong>34.1</strong> Single to midwicket. Sharma on strike.</p>
+                                    <p><strong>33.6</strong> Starc to Iyer. Dot ball. End of over.</p>
+                                    <p><strong>33.5</strong> Two runs. Quick running between the wickets.</p>
+                                    <p><strong>33.4</strong> Iyer flicks to fine leg for one.</p>
+                                    <p><strong>33.3</strong> Defended back to the bowler.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Cross-platform</h3>
+            <p>The same design tokens adapt to radically different screen sizes. Condensed type is particularly
+                well-suited to constrained interfaces — it was literally invented for this purpose.</p>
+
+            <!-- TV -->
+            <div class="app-example-label">TV — Live cricket broadcast</div>
+            <div class="device-frame" style="margin-bottom: var(--space-8);">
+                <div class="device-tv" style="width: 100%; max-width: 680px;">
+                    <div class="device-tv-bezel" style="padding: 14px 14px 24px;">
+                        <div class="device-tv-screen" style="aspect-ratio: 16/9;">
+                            <div
+                                style="width: 100%; height: 100%; background: url('assets/bell-tv-bg.png') center/cover; position: relative;">
+                                <!-- Score overlay HUD at bottom -->
+                                <div
+                                    style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.85)); padding: 32px 20px 14px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                                        <div>
+                                            <div
+                                                style="font-size: 9px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bell-accent); margin-bottom: 2px;">
+                                                LIVE · 2nd Innings</div>
+                                            <div style="font-size: 18px; font-weight: 700; color: #fff;">IND 187/3 <span
+                                                    style="font-size: 12px; font-weight: 400; color: rgba(255,255,255,0.6);">(16.2
+                                                    ov)</span></div>
+                                        </div>
+                                        <div style="text-align: right;">
+                                            <div style="font-size: 12px; color: rgba(255,255,255,0.6);">Target 175</div>
+                                            <div
+                                                style="font-size: 11px; font-weight: 600; color: var(--color-semantic-success);">
+                                                IND need 13 off 22 balls</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Channel badge top-left -->
+                                <div
+                                    style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.6); padding: 3px 8px; border-radius: 3px;">
+                                    <span
+                                        style="font-size: 10px; font-weight: 700; color: #fff; letter-spacing: 0.05em;">ESPN</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="device-tv-stand" style="width: 80px; height: 18px;"></div>
+                    <div class="device-tv-base" style="width: 140px; height: 8px;"></div>
+                </div>
+            </div>
+
+            <!-- Watch + Laptop side by side -->
+            <div
+                style="display: flex; gap: var(--space-8); justify-content: center; align-items: flex-start; flex-wrap: wrap;">
+                <!-- Watch: Notification -->
+                <div style="text-align: center;">
+                    <div class="app-example-label">Watch — Notification</div>
+                    <div class="device-frame">
+                        <div class="device-watch">
+                            <div class="device-watch-band-top"></div>
+                            <div class="device-watch-body">
+                                <div class="device-watch-screen">
+                                    <div
+                                        style="background: var(--bell-ink); color: var(--bell-paper); width: 200px; height: 200px; display: flex; flex-direction: column; justify-content: center; padding: var(--space-3);">
+                                        <div style="text-align: center;">
+                                            <div
+                                                style="font-size: 9px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bell-accent); margin-bottom: 2px;">
+                                                INBOX</div>
+                                            <div style="font-size: 13px; font-weight: 700; margin-bottom: 2px;">Team
+                                                standup</div>
+                                            <div
+                                                style="font-size: 9px; color: rgba(255,255,255,0.5); margin-bottom: 8px;">
+                                                design_lead · 2m ago</div>
+                                            <div
+                                                style="font-size: 10px; line-height: 1.3; color: rgba(255,255,255,0.8); margin-bottom: 8px;">
+                                                Sprint review moved to 3pm. Update Jira tickets…</div>
+                                            <div style="display: flex; gap: 4px; justify-content: center;">
+                                                <span
+                                                    style="padding: 2px 8px; background: var(--bell-accent); color: #fff; font-size: 9px; font-weight: 600; border-radius: 3px;">Reply</span>
+                                                <span
+                                                    style="padding: 2px 8px; background: rgba(255,255,255,0.15); font-size: 9px; font-weight: 600; border-radius: 3px;">Dismiss</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="device-watch-band-bottom"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Laptop: Dashboard -->
+                <div style="text-align: center; flex: 1; max-width: 480px;">
+                    <div class="app-example-label">Laptop — Analytics dashboard</div>
+                    <div class="device-frame">
+                        <div class="device-laptop" style="width: 100%;">
+                            <div class="device-laptop-lid" style="padding: 8px 12px 0; border-radius: 10px 10px 0 0;">
+                                <div class="device-laptop-screen" style="aspect-ratio: 16/10;">
+                                    <div class="app-example-inner app-example"
+                                        style="font-size: 11px; height: 100%; overflow: hidden;">
+                                        <header class="app-top-bar" style="padding: var(--space-2) var(--space-4);">
+                                            <span class="app-top-bar-title" style="font-size: 14px;">Analytics</span>
+                                            <span style="font-size: 10px; color: var(--bell-muted);">Last 30 days</span>
+                                        </header>
+                                        <div
+                                            style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--bell-rule); border-bottom: 1px solid var(--bell-rule);">
+                                            <div
+                                                style="background: var(--bell-paper); padding: var(--space-2); text-align: center;">
+                                                <div style="font-size: 18px; font-weight: 700;">12,847</div>
+                                                <div
+                                                    style="font-size: 9px; font-weight: 600; text-transform: uppercase; color: var(--bell-muted);">
+                                                    Page views</div>
+                                            </div>
+                                            <div
+                                                style="background: var(--bell-paper); padding: var(--space-2); text-align: center;">
+                                                <div
+                                                    style="font-size: 18px; font-weight: 700; color: var(--color-semantic-success);">
+                                                    +24%</div>
+                                                <div
+                                                    style="font-size: 9px; font-weight: 600; text-transform: uppercase; color: var(--bell-muted);">
+                                                    Growth</div>
+                                            </div>
+                                            <div
+                                                style="background: var(--bell-paper); padding: var(--space-2); text-align: center;">
+                                                <div style="font-size: 18px; font-weight: 700;">3:42</div>
+                                                <div
+                                                    style="font-size: 9px; font-weight: 600; text-transform: uppercase; color: var(--bell-muted);">
+                                                    Avg. session</div>
+                                            </div>
+                                        </div>
+                                        <div style="padding: 0;">
+                                            <div
+                                                style="display: flex; padding: var(--space-1) var(--space-3); font-weight: 600; font-size: 9px; text-transform: uppercase; color: var(--bell-muted); border-bottom: 1px solid var(--bell-rule);">
+                                                <div style="flex: 2;">Page</div>
+                                                <div style="flex: 1; text-align: right;">Views</div>
+                                                <div style="flex: 1; text-align: right;">Bounce</div>
+                                            </div>
+                                            <div
+                                                style="display: flex; padding: var(--space-1) var(--space-3); border-bottom: 1px solid var(--bell-rule);">
+                                                <div style="flex: 2; font-weight: 600;">/design-system</div>
+                                                <div style="flex: 1; text-align: right;">4,231</div>
+                                                <div
+                                                    style="flex: 1; text-align: right; color: var(--color-semantic-success);">
+                                                    18%</div>
+                                            </div>
+                                            <div style="display: flex; padding: var(--space-1) var(--space-3);">
+                                                <div style="flex: 2; font-weight: 600;">/case-study/ooha</div>
+                                                <div style="flex: 1; text-align: right;">3,102</div>
+                                                <div
+                                                    style="flex: 1; text-align: right; color: var(--color-semantic-warning);">
+                                                    34%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="device-laptop-base" style="height: 14px; border-radius: 0 0 10px 10px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 id="pattern-library">3. Pattern Library (Organisms)</h2>
+            <p>Patterns are opinionated assemblies of components. They encode product-level decisions—how search
+                should feel (fast, inline, filterable), what an empty state communicates (invitation, not frustration),
+                and how authentication balances security with speed. Every pattern was designed to work within
+                the condensed, data-dense aesthetic.</p>
+            <h3>Search & filters</h3>
+            <div class="block">
+                <div class="block-body">
+                    <div class="search-filters-bar">
+                        <input type="search" class="form-input" placeholder="Search..." aria-label="Search">
+                        <select class="form-select" style="width: auto; min-width: 140px;">
+                            <option>All</option>
+                        </select>
+                        <select class="form-select" style="width: auto; min-width: 120px;">
+                            <option>Sort</option>
+                        </select>
+                        <button type="button" class="btn btn-primary">Apply</button>
+                    </div>
+                </div>
+            </div>
+            <h3>Onboarding / empty state</h3>
+            <div class="block">
+                <div class="block-body">
+                    <div class="empty-state">
+                        <div class="empty-state-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg"
+                                width="40" height="40" viewBox="0 0 24 24" stroke="currentColor" fill="none"
+                                stroke-width="2">
+                                <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
+                                <path
+                                    d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
+                            </svg></div>
+                        <h4>No items yet</h4>
+                        <p>Get started by adding your first item.</p>
+                        <button type="button" class="btn btn-primary">Add item</button>
+                    </div>
+                </div>
+            </div>
+            <h3>Error handling</h3>
+            <div class="block">
+                <div class="block-head">404</div>
+                <div class="block-body">
+                    <div class="error-page">
+                        <div class="error-code">404</div>
+                        <h2>Page not found</h2>
+                        <p>The page you're looking for doesn't exist or has been moved.</p>
+                        <a href="#" class="btn btn-primary"
+                            style="margin-top: var(--space-4); text-decoration: none;">Go home</a>
+                    </div>
+                </div>
+            </div>
+            <div class="block">
+                <div class="block-head">No results</div>
+                <div class="block-body">
+                    <div class="empty-state">
+                        <div class="empty-state-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg"
+                                width="40" height="40" viewBox="0 0 24 24" stroke="currentColor" fill="none"
+                                stroke-width="2">
+                                <circle cx="11" cy="11" r="8" />
+                                <path d="m21 21-4.35-4.35" />
+                            </svg></div>
+                        <h4>No results found</h4>
+                        <p>Try adjusting your filters or search.</p>
+                    </div>
+                </div>
+            </div>
+            <h3>Messaging</h3>
+            <div class="block">
+                <div class="block-body">
+                    <div style="max-width: 300px;">
+                        <div
+                            style="background: var(--color-neutral-100); padding: var(--space-3); margin-bottom: var(--space-2); font-size: 14px;">
+                            User message (left).</div>
+                        <div
+                            style="background: var(--bell-accent); color: #fff; padding: var(--space-3); margin-left: auto; max-width: 80%; font-size: 14px;">
+                            Reply (right).</div>
+                    </div>
+                </div>
+            </div>
+            <h3>Authentication</h3>
+            <div class="block">
+                <div class="block-body">
+                    <div class="auth-card">
+                        <h2>Log in</h2>
+                        <div class="form-group">
+                            <label class="form-label" for="auth-email">Email</label>
+                            <input type="email" id="auth-email" class="form-input" placeholder="you@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="auth-pw">Password</label>
+                            <input type="password" id="auth-pw" class="form-input" placeholder="••••••••">
+                        </div>
+                        <button type="button" class="btn btn-primary">Log in</button>
+                        <div class="auth-links"><a href="#">Forgot password?</a> · <a href="#">Sign up</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 id="governance">4. Governance & Documentation (Rules)</h2>
+            <p>A system without rules is just a collection of components. Governance ensures every new contribution
+                upholds the same economy and legibility standards that define the system. These rules are intentionally
+                strict—when you optimize for data density, even small deviations in spacing or contrast compound
+                quickly.</p>
+            <h3>Accessibility (A11y)</h3>
+            <ul>
+                <li><strong>WCAG:</strong> Target Level AA. Contrast 4.5:1 body, 3:1 large text.</li>
+                <li><strong>ARIA:</strong> <code>aria-label</code> on icon buttons, <code>aria-live</code> for dynamic
+                    content, <code>role="dialog"</code> for modals.</li>
+                <li><strong>Keyboard:</strong> All interactive elements focusable; Tab order; Escape closes modals;
+                    Enter/Space activate buttons.</li>
+                <li><strong>Focus:</strong> Visible focus ring; don’t remove without a replacement.</li>
+            </ul>
+            <h3>Content strategy</h3>
+            <ul>
+                <li><strong>Voice & tone:</strong> Clear, professional, concise. Avoid jargon.</li>
+                <li><strong>Grammar:</strong> Sentence case for headings and buttons. Error messages explain what went
+                    wrong and how to fix it.</li>
+            </ul>
+            <h3>Developer handover</h3>
+            <ul>
+                <li><strong>Install:</strong> Copy styles or extract CSS variables and component classes. No NPM package
+                    yet.</li>
+                <li><strong>Code:</strong> Use class names <code>.btn .btn-primary</code>, <code>.form-input</code>.
+                    Override <code>:root</code> for theming.</li>
+            </ul>
+            <div class="code-block">
+                <span class="c">// React</span>
+                &lt;button className="btn btn-primary"&gt;Save&lt;/button&gt;
+            </div>
+            <h3>Contribution model</h3>
+            <ul>
+                <li><strong>Suggest:</strong> Propose components via issue; include use case and mockup.</li>
+                <li><strong>Test:</strong> New components must work across breakpoints and meet contrast/keyboard
+                    requirements.</li>
+                <li><strong>Add:</strong> Update this page and shared CSS; document usage.</li>
+            </ul>
+            <h3>Asset library</h3>
+            <ul>
+                <li>Figma / Sketch / Adobe XD: download design kit from [link]. Components named to match code tokens.
+                </li>
+                <li>Sync design tokens (colors, spacing, type) with this page.</li>
+            </ul>
+
+            <footer class="footer">
+                <a href="index.html">← Back to portfolio</a>
+            </footer>
+        </article>
+    </main>
+    <script>
+        (function () {
+            // Blog feed: tab switch (Hot / New / Top)
+            document.querySelectorAll('.app-example .app-segmented button').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var parent = this.closest('.app-segmented');
+                    if (!parent) return;
+                    parent.querySelectorAll('button').forEach(function (b) { b.classList.remove('active'); });
+                    this.classList.add('active');
+                });
+            });
+
+            // Social feed: like button and double-tap on image
+            var likeBtn = document.querySelector('.social-like-btn');
+            var likeCountEl = document.querySelector('.social-like-count');
+            var postImage = document.querySelector('[data-social-like]');
+            if (likeBtn && likeCountEl) {
+                likeBtn.addEventListener('click', function () {
+                    var liked = this.getAttribute('aria-pressed') === 'true';
+                    this.classList.toggle('liked', !liked);
+                    this.setAttribute('aria-pressed', !liked);
+                    var n = parseInt(likeCountEl.textContent, 10) + (liked ? -1 : 1);
+                    likeCountEl.textContent = Math.max(0, n);
+                });
+            }
+            if (postImage && likeBtn && likeCountEl) {
+                postImage.addEventListener('dblclick', function () {
+                    if (likeBtn.getAttribute('aria-pressed') === 'true') return;
+                    likeBtn.classList.add('liked');
+                    likeBtn.setAttribute('aria-pressed', 'true');
+                    var n = parseInt(likeCountEl.textContent, 10) + 1;
+                    likeCountEl.textContent = n;
+                });
+            }
+
+            // Cricket: tabs and score controls
+            var cricketTabs = document.querySelectorAll('.app-cricket-tab');
+            var livePanel = document.getElementById('cricket-live-panel');
+            var scorecardPanel = document.getElementById('cricket-scorecard-panel');
+            cricketTabs.forEach(function (tab) {
+                tab.addEventListener('click', function () {
+                    var t = this.getAttribute('data-tab');
+                    cricketTabs.forEach(function (x) { x.classList.remove('active'); });
+                    this.classList.add('active');
+                    if (t === 'live') {
+                        livePanel.classList.add('active');
+                        scorecardPanel.classList.remove('active');
+                        document.getElementById('cricket-commentary-panel') && document.getElementById('cricket-commentary-panel').classList.remove('active');
+                    } else if (t === 'scorecard') {
+                        livePanel.classList.remove('active');
+                        scorecardPanel.classList.add('active');
+                        document.getElementById('cricket-commentary-panel') && document.getElementById('cricket-commentary-panel').classList.remove('active');
+                    } else {
+                        livePanel.classList.remove('active');
+                        scorecardPanel.classList.remove('active');
+                        document.getElementById('cricket-commentary-panel') && document.getElementById('cricket-commentary-panel').classList.add('active');
+                    }
+                });
+            });
+
+            var runsEl = document.getElementById('cricket-runs');
+            var wicketsEl = document.getElementById('cricket-wickets');
+            var oversEl = document.getElementById('cricket-overs');
+            var runs = 187, wickets = 3;
+            var oversBalls = 34 * 6 + 2; // 34.2
+
+            function updateCricketScore() {
+                if (runsEl) runsEl.textContent = runs;
+                if (wicketsEl) wicketsEl.textContent = wickets;
+                var o = Math.floor(oversBalls / 6);
+                var b = oversBalls % 6;
+                if (oversEl) oversEl.textContent = o + '.' + b;
+            }
+
+            document.getElementById('cricket-add-run') && document.getElementById('cricket-add-run').addEventListener('click', function () {
+                runs += 1;
+                oversBalls += 1;
+                updateCricketScore();
+                addCommentary(1, 'Single.');
+            });
+            document.getElementById('cricket-add-four') && document.getElementById('cricket-add-four').addEventListener('click', function () {
+                runs += 4;
+                oversBalls += 1;
+                updateCricketScore();
+                addCommentary(4, 'FOUR! Driven through the off side.');
+            });
+            document.getElementById('cricket-add-six') && document.getElementById('cricket-add-six').addEventListener('click', function () {
+                runs += 6;
+                oversBalls += 1;
+                updateCricketScore();
+                addCommentary(6, 'SIX! Cleared the ropes.');
+            });
+            document.getElementById('cricket-add-wicket') && document.getElementById('cricket-add-wicket').addEventListener('click', function () {
+                if (wickets < 9) { wickets += 1; oversBalls += 1; updateCricketScore(); addCommentary(0, 'Wicket!'); }
+            });
+
+            function addCommentary(runOrWicket, text) {
+                var o = Math.floor(oversBalls / 6);
+                var b = oversBalls % 6;
+                var overStr = o + '.' + b;
+                var line = '<p><strong>' + overStr + '</strong> ' + text + ' ' + runs + '/' + wickets + '.</p>';
+                var liveComm = document.getElementById('cricket-commentary');
+                var fullComm = document.getElementById('cricket-commentary-full');
+                if (liveComm) {
+                    var div = document.createElement('div');
+                    div.innerHTML = line;
+                    liveComm.insertBefore(div.firstChild, liveComm.firstChild);
+                }
+                if (fullComm) {
+                    var d = document.createElement('div');
+                    d.innerHTML = line;
+                    fullComm.insertBefore(d.firstChild, fullComm.firstChild);
+                }
+            }
+        })();
+    </script>
+</body>
+
+</html>

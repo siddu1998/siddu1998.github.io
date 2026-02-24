@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Feed — Utility Design System example</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:ital,wght@0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #0d0d0d;
+            --paper: #f6f5f3;
+            --accent: #0066b3;
+            --muted: #5c5c5c;
+            --rule: #c8c6c2;
+            --highlight: #e8f4fc;
+            --font: 'IBM Plex Sans Condensed', 'Arial Narrow', sans-serif;
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-6: 24px;
+            --space-8: 32px;
+            --safe-top: env(safe-area-inset-top, 0);
+            --safe-bottom: env(safe-area-inset-bottom, 0);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font);
+            font-size: 15px;
+            line-height: 1.45;
+            color: var(--ink);
+            background: var(--paper);
+            min-height: 100vh;
+            padding-bottom: calc(56px + var(--safe-bottom));
+        }
+        .app {
+            max-width: 428px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        /* Top bar */
+        .top-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--paper);
+            border-bottom: 1px solid var(--rule);
+            padding: var(--space-4) var(--space-4);
+            padding-top: calc(var(--space-4) + var(--safe-top));
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .top-bar-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .top-bar-actions {
+            display: flex;
+            gap: var(--space-4);
+        }
+        .top-bar-actions button {
+            background: none;
+            border: none;
+            padding: var(--space-2);
+            cursor: pointer;
+            color: var(--muted);
+        }
+        .top-bar-actions button:hover { color: var(--ink); }
+        .top-bar-actions svg { width: 22px; height: 22px; display: block; }
+
+        /* Segmented control */
+        .segmented {
+            display: flex;
+            padding: var(--space-2) var(--space-4);
+            gap: 0;
+            background: var(--paper);
+            border-bottom: 1px solid var(--rule);
+        }
+        .segmented button {
+            flex: 1;
+            padding: var(--space-2) var(--space-3);
+            font-family: var(--font);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .segmented button.active {
+            background: var(--highlight);
+            color: var(--accent);
+        }
+
+        /* Feed */
+        .feed {
+            padding: var(--space-2) 0;
+        }
+        .post {
+            display: flex;
+            gap: var(--space-3);
+            padding: var(--space-4);
+            border-bottom: 1px solid var(--rule);
+            background: var(--paper);
+            transition: background 0.15s;
+        }
+        .post:active { background: var(--highlight); }
+        .post-votes {
+            flex-shrink: 0;
+            width: 36px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+            font-variant-numeric: tabular-nums;
+        }
+        .post-votes svg {
+            width: 24px;
+            height: 24px;
+            display: block;
+            margin: 0 auto var(--space-1);
+            color: var(--muted);
+        }
+        .post-body { flex: 1; min-width: 0; }
+        .post-community {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: var(--space-1);
+        }
+        .post-title {
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.35;
+            color: var(--ink);
+            margin-bottom: var(--space-2);
+        }
+        .post-meta {
+            font-size: 12px;
+            color: var(--muted);
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+        }
+        .post-meta span { font-variant-numeric: tabular-nums; }
+        .post-comments {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+        .post-comments svg { width: 14px; height: 14px; }
+
+        /* Bottom nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 428px;
+            height: calc(56px + var(--safe-bottom));
+            padding-bottom: var(--safe-bottom);
+            background: var(--paper);
+            border-top: 1px solid var(--rule);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            z-index: 100;
+        }
+        .bottom-nav a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            padding: var(--space-2);
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+        .bottom-nav a:hover, .bottom-nav a.active { color: var(--ink); }
+        .bottom-nav a.active { color: var(--accent); }
+        .bottom-nav svg { width: 24px; height: 24px; display: block; }
+
+        /* Back link */
+        .design-system-link {
+            display: block;
+            text-align: center;
+            padding: var(--space-6);
+            font-size: 12px;
+            color: var(--muted);
+            text-decoration: none;
+            border-top: 1px solid var(--rule);
+        }
+        .design-system-link:hover { color: var(--ink); }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <header class="top-bar">
+            <span class="top-bar-title">Feed</span>
+            <div class="top-bar-actions">
+                <button type="button" aria-label="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                </button>
+                <button type="button" aria-label="Menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+            </div>
+        </header>
+
+        <nav class="segmented" aria-label="Sort feed">
+            <button type="button" class="active">Hot</button>
+            <button type="button">New</button>
+            <button type="button">Top</button>
+        </nav>
+
+        <main class="feed">
+            <article class="post">
+                <div class="post-votes">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+                    247
+                </div>
+                <div class="post-body">
+                    <div class="post-community">r/DesignSystems</div>
+                    <h2 class="post-title">How we scaled our design tokens across 12 products</h2>
+                    <div class="post-meta">
+                        <span>u/design_lead</span>
+                        <span>2h</span>
+                        <span class="post-comments">42 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+                    </div>
+                </div>
+            </article>
+            <article class="post">
+                <div class="post-votes">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+                    1.2k
+                </div>
+                <div class="post-body">
+                    <div class="post-community">r/UXResearch</div>
+                    <h2 class="post-title">Condensed typefaces for dense data UIs: a readability study</h2>
+                    <div class="post-meta">
+                        <span>u/researcher_amy</span>
+                        <span>5h</span>
+                        <span class="post-comments">89</span>
+                    </div>
+                </div>
+            </article>
+            <article class="post">
+                <div class="post-votes">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+                    56
+                </div>
+                <div class="post-body">
+                    <div class="post-community">r/Frontend</div>
+                    <h2 class="post-title">Building a blog feed with CSS Grid and design tokens</h2>
+                    <div class="post-meta">
+                        <span>u/dev_james</span>
+                        <span>8h</span>
+                        <span class="post-comments">12</span>
+                    </div>
+                </div>
+            </article>
+            <article class="post">
+                <div class="post-votes">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+                    334
+                </div>
+                <div class="post-body">
+                    <div class="post-community">r/TypeDesign</div>
+                    <h2 class="post-title">Legibility at small sizes: what the data says</h2>
+                    <div class="post-meta">
+                        <span>u/type_nerd</span>
+                        <span>1d</span>
+                        <span class="post-comments">67</span>
+                    </div>
+                </div>
+            </article>
+            <article class="post">
+                <div class="post-votes">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+                    89
+                </div>
+                <div class="post-body">
+                    <div class="post-community">r/DesignSystems</div>
+                    <h2 class="post-title">Utility-first design systems: when to use them</h2>
+                    <div class="post-meta">
+                        <span>u/sys_designer</span>
+                        <span>2d</span>
+                        <span class="post-comments">23</span>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <a href="design-system-bell.html" class="design-system-link">Built with Utility Design System →</a>
+    </div>
+
+    <nav class="bottom-nav" aria-label="Main">
+        <a href="#" class="active" aria-current="page">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Home
+        </a>
+        <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            Search
+        </a>
+        <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Create
+        </a>
+        <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            Notifications
+        </a>
+        <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Profile
+        </a>
+    </nav>
+</body>
+</html>

@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Design System - Portfolio Documentation</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --ink: #1a1a1a;
@@ -16,14 +19,55 @@
             --rule: #d4d0c8;
             --serif: 'Instrument Serif', Georgia, serif;
             --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            /* Design tokens */
+            --color-brand-primary: #1a1a1a;
+            --color-brand-secondary: #6b6b6b;
+            --color-semantic-success: #16a34a;
+            --color-semantic-warning: #ca8a04;
+            --color-semantic-error: #dc2626;
+            --color-neutral-50: #fafafa;
+            --color-neutral-100: #f5f5f5;
+            --color-neutral-200: #e5e5e5;
+            --color-neutral-300: #d4d4d4;
+            --color-neutral-400: #a3a3a3;
+            --color-neutral-500: #737373;
+            --color-neutral-600: #525252;
+            --color-neutral-700: #404040;
+            --color-neutral-800: #262626;
+            --color-neutral-900: #1a1a1a;
+            /* Spacing scale (8px base) */
+            --space-0: 0;
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+            --space-8: 32px;
+            --space-10: 40px;
+            --space-12: 48px;
+            --space-16: 64px;
+            --space-20: 80px;
+            --space-24: 96px;
+            /* Elevation & shadows */
+            --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1), 0 8px 24px rgba(0, 0, 0, 0.08);
+            --shadow-xl: 0 16px 32px rgba(0, 0, 0, 0.12), 0 16px 48px rgba(0, 0, 0, 0.1);
+            --z-dropdown: 100;
+            --z-sticky: 200;
+            --z-modal: 300;
+            --z-toast: 400;
+            --z-tooltip: 500;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             background-color: var(--paper);
             font-family: var(--sans);
@@ -33,7 +77,7 @@
             display: flex;
             min-height: 100vh;
         }
-        
+
         /* --- Navigation --- */
         nav {
             width: 200px;
@@ -45,7 +89,7 @@
             top: 0;
             height: 100vh;
         }
-        
+
         nav a {
             display: block;
             margin-bottom: 0.75rem;
@@ -55,11 +99,11 @@
             letter-spacing: 0.02em;
             transition: color 0.2s ease;
         }
-        
+
         nav a:hover {
             color: var(--ink);
         }
-        
+
         .nav-logo {
             font-family: var(--serif);
             font-size: 1.4rem;
@@ -69,13 +113,13 @@
             text-decoration: none;
             display: block;
         }
-        
+
         main {
             flex-grow: 1;
             overflow-y: auto;
             background-color: var(--paper);
         }
-        
+
         /* --- Hero Section --- */
         .hero {
             padding: 6rem 4rem 4rem;
@@ -83,7 +127,7 @@
             margin: 0 auto;
             border-bottom: 1px solid var(--rule);
         }
-        
+
         .issue-number {
             font-family: var(--sans);
             font-size: 0.75rem;
@@ -93,7 +137,7 @@
             margin-bottom: 1.5rem;
             font-weight: 500;
         }
-        
+
         h1 {
             font-family: var(--serif);
             font-size: 4rem;
@@ -104,7 +148,7 @@
             letter-spacing: -0.02em;
             max-width: 800px;
         }
-        
+
         .hero-subtitle {
             font-family: var(--serif);
             font-size: 1.5rem;
@@ -112,14 +156,14 @@
             color: var(--muted);
             max-width: 600px;
         }
-        
+
         /* --- Article Layout --- */
         .article-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 4rem;
         }
-        
+
         .lede {
             font-family: var(--serif);
             font-size: 1.5rem;
@@ -128,7 +172,7 @@
             max-width: 800px;
             margin-bottom: 3rem;
         }
-        
+
         .lede::first-letter {
             font-size: 4.5rem;
             float: left;
@@ -137,7 +181,7 @@
             margin-top: 0.1rem;
             color: var(--ink);
         }
-        
+
         h2 {
             font-family: var(--serif);
             font-size: 2.5rem;
@@ -148,7 +192,7 @@
             padding-top: 2rem;
             border-top: 3px solid var(--ink);
         }
-        
+
         h3 {
             font-family: var(--sans);
             font-size: 0.85rem;
@@ -159,7 +203,7 @@
             margin-bottom: 1rem;
             color: var(--muted);
         }
-        
+
         h4 {
             font-family: var(--serif);
             font-size: 1.3rem;
@@ -168,13 +212,13 @@
             margin-bottom: 0.75rem;
             color: var(--ink);
         }
-        
+
         p {
             margin-bottom: 1.25rem;
             color: var(--ink);
             max-width: 680px;
         }
-        
+
         /* --- Color System --- */
         .color-grid {
             display: grid;
@@ -184,12 +228,12 @@
             border: 1px solid var(--rule);
             margin: 2rem 0;
         }
-        
+
         .color-swatch {
             padding: 2rem 1.5rem;
             background: var(--paper);
         }
-        
+
         .swatch-preview {
             width: 100%;
             height: 80px;
@@ -197,7 +241,7 @@
             margin-bottom: 1rem;
             border: 1px solid var(--rule);
         }
-        
+
         .swatch-name {
             font-family: var(--sans);
             font-size: 0.85rem;
@@ -206,27 +250,27 @@
             text-transform: uppercase;
             margin-bottom: 0.25rem;
         }
-        
+
         .swatch-value {
             font-family: monospace;
             font-size: 0.85rem;
             color: var(--muted);
         }
-        
+
         .swatch-usage {
             font-size: 0.8rem;
             color: var(--muted);
             margin-top: 0.5rem;
             line-height: 1.4;
         }
-        
+
         /* --- Typography Showcase --- */
         .type-specimen {
             border: 1px solid var(--rule);
             padding: 2rem;
             margin: 2rem 0;
         }
-        
+
         .type-specimen-header {
             display: flex;
             justify-content: space-between;
@@ -235,7 +279,7 @@
             padding-bottom: 1rem;
             border-bottom: 1px solid var(--rule);
         }
-        
+
         .type-name {
             font-family: var(--sans);
             font-size: 0.8rem;
@@ -243,35 +287,35 @@
             letter-spacing: 0.15em;
             text-transform: uppercase;
         }
-        
+
         .type-details {
             font-size: 0.85rem;
             color: var(--muted);
         }
-        
+
         .type-sample-serif {
             font-family: var(--serif);
         }
-        
+
         .type-sample-sans {
             font-family: var(--sans);
         }
-        
+
         .type-scale {
             margin: 1.5rem 0;
         }
-        
+
         .type-scale-item {
             display: flex;
             align-items: baseline;
             padding: 1rem 0;
             border-bottom: 1px solid var(--rule);
         }
-        
+
         .type-scale-item:last-child {
             border-bottom: none;
         }
-        
+
         .type-scale-label {
             width: 120px;
             flex-shrink: 0;
@@ -279,26 +323,26 @@
             color: var(--muted);
             font-family: var(--sans);
         }
-        
+
         .type-scale-example {
             flex-grow: 1;
         }
-        
+
         /* --- Component Showcase --- */
         .component-demo {
             border: 1px solid var(--rule);
             margin: 2rem 0;
         }
-        
+
         .component-header {
             padding: 1rem 1.5rem;
-            background: rgba(0,0,0,0.02);
+            background: rgba(0, 0, 0, 0.02);
             border-bottom: 1px solid var(--rule);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .component-name {
             font-family: var(--sans);
             font-size: 0.8rem;
@@ -306,7 +350,7 @@
             letter-spacing: 0.1em;
             text-transform: uppercase;
         }
-        
+
         .component-tag {
             font-size: 0.75rem;
             color: var(--muted);
@@ -314,12 +358,12 @@
             background: var(--paper);
             border: 1px solid var(--rule);
         }
-        
+
         .component-preview {
             padding: 2rem;
             background: var(--paper);
         }
-        
+
         /* --- Stat Box Demo --- */
         .stat-grid-demo {
             display: grid;
@@ -328,13 +372,13 @@
             background: var(--rule);
             border: 1px solid var(--rule);
         }
-        
+
         .stat-box-demo {
             background: var(--paper);
             padding: 2rem;
             text-align: center;
         }
-        
+
         .stat-number-demo {
             font-family: var(--serif);
             font-size: 2.8rem;
@@ -343,14 +387,14 @@
             line-height: 1;
             margin-bottom: 0.5rem;
         }
-        
+
         .stat-label-demo {
             font-size: 0.8rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
             color: var(--muted);
         }
-        
+
         /* --- Card Grid Demo --- */
         .card-grid-demo {
             display: grid;
@@ -358,12 +402,12 @@
             gap: 1px;
             background: var(--ink);
         }
-        
+
         .card-demo {
             background: var(--paper);
             padding: 2rem;
         }
-        
+
         .card-demo h4 {
             font-family: var(--serif);
             font-size: 1.4rem;
@@ -371,14 +415,14 @@
             margin-bottom: 1rem;
             margin-top: 0;
         }
-        
+
         .card-demo p {
             font-size: 0.95rem;
             color: var(--muted);
             margin-bottom: 0;
             max-width: none;
         }
-        
+
         /* --- Quote Demo --- */
         .quote-demo {
             background: linear-gradient(to right, var(--ink), var(--ink)) no-repeat 0 0;
@@ -389,7 +433,7 @@
             font-style: italic;
             line-height: 1.5;
         }
-        
+
         .quote-demo cite {
             display: block;
             font-family: var(--sans);
@@ -400,7 +444,7 @@
             color: var(--muted);
             margin-top: 1rem;
         }
-        
+
         /* --- Accent Colors --- */
         .accent-grid {
             display: grid;
@@ -408,30 +452,30 @@
             gap: 1rem;
             margin: 2rem 0;
         }
-        
+
         .accent-item {
             text-align: center;
         }
-        
+
         .accent-swatch {
             width: 100%;
             height: 60px;
             border-radius: 4px;
             margin-bottom: 0.75rem;
         }
-        
+
         .accent-name {
             font-size: 0.8rem;
             font-weight: 500;
             margin-bottom: 0.25rem;
         }
-        
+
         .accent-value {
             font-family: monospace;
             font-size: 0.75rem;
             color: var(--muted);
         }
-        
+
         /* --- Code Block --- */
         .code-block {
             background: var(--ink);
@@ -444,19 +488,19 @@
             overflow-x: auto;
             border-radius: 4px;
         }
-        
+
         .code-block .comment {
             color: #6b7280;
         }
-        
+
         .code-block .property {
             color: #93c5fd;
         }
-        
+
         .code-block .value {
             color: #fcd34d;
         }
-        
+
         /* --- Principles Grid --- */
         .principles-grid {
             display: grid;
@@ -466,12 +510,12 @@
             border: 1px solid var(--rule);
             margin: 2rem 0;
         }
-        
+
         .principle-card {
             background: var(--paper);
             padding: 2.5rem;
         }
-        
+
         .principle-number {
             font-family: var(--serif);
             font-size: 3rem;
@@ -480,28 +524,28 @@
             line-height: 1;
             margin-bottom: 1rem;
         }
-        
+
         .principle-card h4 {
             font-family: var(--serif);
             font-size: 1.4rem;
             margin-bottom: 1rem;
             margin-top: 0;
         }
-        
+
         .principle-card p {
             font-size: 0.95rem;
             color: var(--muted);
             margin-bottom: 0;
             max-width: none;
         }
-        
+
         /* --- Layout Demo --- */
         .layout-demo {
             border: 2px dashed var(--rule);
             padding: 1rem;
             margin: 2rem 0;
         }
-        
+
         .layout-label {
             font-family: var(--sans);
             font-size: 0.7rem;
@@ -513,16 +557,16 @@
             display: inline-block;
             margin-bottom: 0.5rem;
         }
-        
+
         .layout-box {
-            background: rgba(0,0,0,0.03);
+            background: rgba(0, 0, 0, 0.03);
             border: 1px dashed var(--rule);
             padding: 1rem;
             text-align: center;
             font-size: 0.85rem;
             color: var(--muted);
         }
-        
+
         /* --- Dark Section Demo --- */
         .dark-section-demo {
             background: var(--ink);
@@ -530,17 +574,17 @@
             padding: 3rem;
             margin: 2rem 0;
         }
-        
+
         .dark-section-demo h4 {
             color: var(--paper);
             margin-top: 0;
         }
-        
+
         .dark-section-demo p {
-            color: rgba(255,255,255,0.8);
+            color: rgba(255, 255, 255, 0.8);
             max-width: none;
         }
-        
+
         /* --- Footer --- */
         .footer {
             margin-top: 4rem;
@@ -548,40 +592,690 @@
             border-top: 1px solid var(--rule);
             text-align: center;
         }
-        
+
         .footer a {
             color: var(--muted);
             text-decoration: none;
             font-size: 0.9rem;
             letter-spacing: 0.05em;
         }
-        
+
         .footer a:hover {
             color: var(--ink);
         }
-        
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: var(--space-2) var(--space-4);
+            border-radius: 4px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            min-height: 40px;
+        }
+
+        .btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .btn-primary {
+            background: var(--color-brand-primary);
+            color: var(--paper);
+            border-color: var(--color-brand-primary);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--color-neutral-700);
+            border-color: var(--color-neutral-700);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary:active:not(:disabled) {
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--ink);
+            border-color: var(--rule);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: var(--color-neutral-100);
+            border-color: var(--color-neutral-300);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--ink);
+            border-color: transparent;
+        }
+
+        .btn-ghost:hover:not(:disabled) {
+            background: var(--color-neutral-100);
+        }
+
+        .btn-danger {
+            background: var(--color-semantic-error);
+            color: white;
+            border-color: var(--color-semantic-error);
+        }
+
+        .btn-danger:hover:not(:disabled) {
+            background: #b91c1c;
+            border-color: #b91c1c;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-loading {
+            pointer-events: none;
+            position: relative;
+        }
+
+        .btn-loading .btn-spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid currentColor;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+            align-items: center;
+        }
+
+        /* --- Form elements --- */
+        .form-group {
+            margin-bottom: var(--space-4);
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: var(--space-1);
+            color: var(--ink);
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            font-family: var(--sans);
+            font-size: 1rem;
+            padding: var(--space-2) var(--space-3);
+            border: 1px solid var(--rule);
+            border-radius: 4px;
+            background: var(--paper);
+            color: var(--ink);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--color-brand-primary);
+            box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.1);
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: var(--muted);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-select {
+            cursor: pointer;
+            appearance: auto;
+        }
+
+        .form-checkbox,
+        .form-radio {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            cursor: pointer;
+            margin-bottom: var(--space-2);
+        }
+
+        .form-checkbox input,
+        .form-radio input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--color-brand-primary);
+            cursor: pointer;
+        }
+
+        .form-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            cursor: pointer;
+        }
+
+        .form-toggle input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .form-toggle-track {
+            width: 44px;
+            height: 24px;
+            background: var(--color-neutral-300);
+            border-radius: 12px;
+            position: relative;
+            transition: background 0.2s;
+        }
+
+        .form-toggle-track::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s;
+        }
+
+        .form-toggle input:checked+.form-toggle-track {
+            background: var(--color-brand-primary);
+        }
+
+        .form-toggle input:checked+.form-toggle-track::after {
+            transform: translateX(20px);
+        }
+
+        /* --- Navigation components --- */
+        .nav-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-4);
+            border-bottom: 1px solid var(--rule);
+            background: var(--paper);
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .nav-tabs a {
+            padding: var(--space-2) var(--space-4);
+            font-size: 0.9rem;
+            color: var(--muted);
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .nav-tabs a:hover {
+            color: var(--ink);
+        }
+
+        .nav-tabs a.active {
+            color: var(--ink);
+            border-bottom-color: var(--ink);
+            font-weight: 500;
+        }
+
+        .breadcrumb {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-1);
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .breadcrumb a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--ink);
+        }
+
+        .breadcrumb span {
+            color: var(--muted);
+        }
+
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+
+        .pagination a,
+        .pagination span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            padding: 0 var(--space-2);
+            font-size: 0.9rem;
+            color: var(--ink);
+            text-decoration: none;
+            border: 1px solid var(--rule);
+            border-radius: 4px;
+            background: var(--paper);
+            transition: all 0.2s;
+        }
+
+        .pagination a:hover {
+            background: var(--color-neutral-100);
+            border-color: var(--color-neutral-300);
+        }
+
+        .pagination .current {
+            background: var(--ink);
+            color: var(--paper);
+            border-color: var(--ink);
+        }
+
+        .pagination .disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* --- Feedback & overlays --- */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: var(--z-modal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-4);
+        }
+
+        .modal-dialog {
+            background: var(--paper);
+            border-radius: 8px;
+            box-shadow: var(--shadow-xl);
+            max-width: 480px;
+            width: 100%;
+            padding: var(--space-6);
+        }
+
+        .modal-title {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            margin-bottom: var(--space-2);
+        }
+
+        .toast {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            background: var(--ink);
+            color: var(--paper);
+            border-radius: 4px;
+            box-shadow: var(--shadow-lg);
+            font-size: 0.9rem;
+        }
+
+        .toast-success {
+            background: var(--color-semantic-success);
+        }
+
+        .toast-warning {
+            background: var(--color-semantic-warning);
+        }
+
+        .toast-error {
+            background: var(--color-semantic-error);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--color-neutral-200);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--color-brand-primary);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        /* --- Data display --- */
+        .ds-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .ds-table th,
+        .ds-table td {
+            padding: var(--space-2) var(--space-3);
+            text-align: left;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .ds-table th {
+            font-weight: 500;
+            color: var(--muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .ds-table tr:hover {
+            background: var(--color-neutral-50);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: var(--space-1) var(--space-2);
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 4px;
+        }
+
+        .badge-default {
+            background: var(--color-neutral-200);
+            color: var(--ink);
+        }
+
+        .badge-success {
+            background: #dcfce7;
+            color: var(--color-semantic-success);
+        }
+
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-error {
+            background: #fee2e2;
+            color: var(--color-semantic-error);
+        }
+
+        .tooltip-wrap {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip-wrap:hover .tooltip-content {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .tooltip-content {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: var(--space-1);
+            padding: var(--space-2) var(--space-3);
+            background: var(--ink);
+            color: var(--paper);
+            font-size: 0.8rem;
+            border-radius: 4px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+            z-index: var(--z-tooltip);
+        }
+
+        /* --- Selection (slider, segmented) --- */
+        .segmented-control {
+            display: inline-flex;
+            background: var(--color-neutral-100);
+            border-radius: 6px;
+            padding: 2px;
+        }
+
+        .segmented-control button {
+            padding: var(--space-1) var(--space-3);
+            font-size: 0.9rem;
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .segmented-control button.active {
+            background: var(--paper);
+            color: var(--ink);
+            font-weight: 500;
+            box-shadow: var(--shadow-xs);
+        }
+
+        .slider-wrap {
+            padding: var(--space-2) 0;
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: var(--color-neutral-200);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--color-brand-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            background: var(--color-brand-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* --- Icons (placeholder grid) --- */
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: var(--space-4);
+        }
+
+        .icon-cell {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3);
+            border: 1px solid var(--rule);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        .icon-cell svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* --- Pattern: Search & filters --- */
+        .search-filters-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-3);
+            align-items: center;
+            padding: var(--space-4);
+            background: var(--paper);
+            border: 1px solid var(--rule);
+            border-radius: 8px;
+            margin-bottom: var(--space-4);
+        }
+
+        .search-filters-bar .form-input {
+            max-width: 280px;
+        }
+
+        /* --- Pattern: Empty state --- */
+        .empty-state {
+            text-align: center;
+            padding: var(--space-16);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            color: var(--rule);
+            margin-bottom: var(--space-4);
+        }
+
+        .empty-state h4 {
+            margin-bottom: var(--space-2);
+        }
+
+        .empty-state p {
+            color: var(--muted);
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- Pattern: Error 404 --- */
+        .error-page {
+            text-align: center;
+            padding: var(--space-16);
+        }
+
+        .error-page .error-code {
+            font-family: var(--serif);
+            font-size: 6rem;
+            line-height: 1;
+            color: var(--rule);
+            margin-bottom: var(--space-2);
+        }
+
+        .error-page h2 {
+            margin-bottom: var(--space-2);
+            border: none;
+            padding: 0;
+        }
+
+        /* --- Pattern: Auth layout --- */
+        .auth-card {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: var(--space-8);
+            border: 1px solid var(--rule);
+            border-radius: 8px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .auth-card h2 {
+            border: none;
+            padding: 0;
+            margin-bottom: var(--space-6);
+            text-align: center;
+        }
+
+        .auth-card .form-group {
+            margin-bottom: var(--space-4);
+        }
+
+        .auth-card .btn {
+            width: 100%;
+            margin-top: var(--space-2);
+        }
+
+        .auth-links {
+            text-align: center;
+            margin-top: var(--space-4);
+            font-size: 0.9rem;
+        }
+
+        .auth-links a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        .auth-links a:hover {
+            color: var(--ink);
+        }
+
+        /* --- Section anchors for nav --- */
+        section[id] {
+            scroll-margin-top: 1rem;
+        }
+
         /* --- Responsive --- */
         @media (max-width: 1100px) {
+
             .color-grid,
             .accent-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
-            
+
+            .icon-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
             .stat-grid-demo,
             .card-grid-demo {
                 grid-template-columns: 1fr;
             }
-            
+
             .principles-grid {
                 grid-template-columns: 1fr;
             }
         }
-        
+
         @media (max-width: 992px) {
             body {
                 flex-direction: column;
             }
-            
+
             nav {
                 width: 100%;
                 padding: 1rem 2rem;
@@ -590,49 +1284,255 @@
                 height: auto;
                 position: relative;
             }
-            
+
             .nav-logo {
                 display: inline-block;
                 margin-bottom: 0;
                 margin-right: 2rem;
             }
-            
+
             nav a {
                 display: inline-block;
                 margin-right: 1.5rem;
                 margin-bottom: 0;
             }
-            
+
             .article-container {
                 padding: 2rem;
             }
-            
+
             .hero {
                 padding: 3rem 2rem;
             }
-            
+
             h1 {
                 font-size: 2.8rem;
             }
         }
-        
+
         @media (max-width: 768px) {
-            h1 { font-size: 2.2rem; }
-            h2 { font-size: 1.8rem; }
-            
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
             .color-grid,
             .accent-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
+
+        /* --- App Examples --- */
+        .app-examples-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-6);
+            margin: 2rem 0;
+        }
+
+        .app-example-label {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: var(--space-2);
+        }
+
+        .app-example-wrap {
+            border: 1px solid var(--rule);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .app-example-inner {
+            background: var(--paper);
+            font-family: var(--sans);
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--ink);
+        }
+
+        .app-example-inner .app-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-2) var(--space-4);
+            border-bottom: 1px solid var(--rule);
+            background: var(--paper);
+        }
+
+        .app-example-inner .app-top-bar-title {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        @media (max-width: 992px) {
+            .app-examples-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ---- Device Frames ---- */
+        .device-frame {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .device-tv {
+            display: inline-block;
+        }
+
+        .device-tv .device-tv-bezel {
+            background: #222;
+            border-radius: 6px;
+            padding: 10px 10px 18px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        .device-tv .device-tv-screen {
+            border-radius: 3px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .device-tv .device-tv-stand {
+            width: 60px;
+            height: 14px;
+            background: #333;
+            margin: 0 auto;
+            border-radius: 0 0 4px 4px;
+        }
+
+        .device-tv .device-tv-base {
+            width: 100px;
+            height: 6px;
+            background: #444;
+            margin: 0 auto;
+            border-radius: 0 0 3px 3px;
+        }
+
+        .device-watch {
+            display: inline-block;
+        }
+
+        .device-watch .device-watch-body {
+            background: #333;
+            border-radius: 50%;
+            padding: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .device-watch .device-watch-body::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 35%;
+            width: 5px;
+            height: 20px;
+            background: linear-gradient(to right, #555, #444);
+            border-radius: 0 3px 3px 0;
+        }
+
+        .device-watch .device-watch-screen {
+            border-radius: 50%;
+            overflow: hidden;
+            aspect-ratio: 1;
+        }
+
+        .device-watch .device-watch-band-top,
+        .device-watch .device-watch-band-bottom {
+            width: 52px;
+            height: 18px;
+            background: #444;
+            margin: 0 auto;
+            border-radius: 4px;
+        }
+
+        .device-watch .device-watch-band-top {
+            margin-bottom: -4px;
+            position: relative;
+            z-index: 0;
+        }
+
+        .device-watch .device-watch-band-bottom {
+            margin-top: -4px;
+            position: relative;
+            z-index: 0;
+        }
+
+        .device-phone {
+            display: inline-block;
+        }
+
+        .device-phone .device-phone-body {
+            background: #222;
+            border-radius: 24px;
+            padding: 10px 6px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        .device-phone .device-phone-body::before {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 4px;
+            background: #444;
+            border-radius: 2px;
+            margin: 0 auto 6px;
+        }
+
+        .device-phone .device-phone-screen {
+            border-radius: 14px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .device-phone .device-phone-body::after {
+            content: '';
+            display: block;
+            width: 36px;
+            height: 4px;
+            background: #444;
+            border-radius: 2px;
+            margin: 6px auto 0;
+        }
     </style>
 </head>
+
 <body>
 
     <nav>
         <a href="index.html" class="nav-logo">Sai Maram</a>
         <a href="index.html">Home</a>
         <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+        <div
+            style="margin-top: 1.5rem; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);">
+            Design System</div>
+        <a href="#style-foundations">1. Style Foundations</a>
+        <a href="#component-library">2. Component Library</a>
+        <a href="#pattern-library">3. Pattern Library</a>
+        <a href="#governance">4. Governance & Docs</a>
+        <a href="#design-philosophy">Design Philosophy</a>
+        <a href="#color-system">Color System</a>
+        <a href="#typography">Typography</a>
+        <a href="#design-tokens">Design Tokens</a>
+        <a href="#iconography">Iconography</a>
+        <a href="#grid-layout">Grid & Layout</a>
+        <a href="#spacing">Spacing Scale</a>
+        <a href="#elevation">Elevation & Shadows</a>
+        <a href="#buttons">Buttons</a>
+        <a href="#forms">Form Elements</a>
+        <a href="#navigation">Navigation</a>
+        <a href="#feedback">Feedback & Overlays</a>
+        <a href="#data-display">Data Display</a>
+        <a href="#selection">Selection</a>
     </nav>
 
     <main>
@@ -640,48 +1540,69 @@
         <header class="hero">
             <div class="issue-number">Documentation · Design System</div>
             <h1>Editorial Magazine Design System</h1>
-            <p class="hero-subtitle">A comprehensive design language for case study pages—typography, color, components, and principles.</p>
+            <p class="hero-subtitle">A comprehensive design language for case study pages—typography, color, components,
+                and principles.</p>
         </header>
 
         <article class="article-container">
-            
-            <!-- Opening Lede -->
-            <p class="lede">This portfolio draws inspiration from editorial magazine design—clean typography, generous whitespace, and a focus on content hierarchy. Every case study uses a consistent design system that balances sophistication with readability.</p>
 
-            <h2>Design Philosophy</h2>
-            
+            <!-- Opening Lede -->
+            <p class="lede">Print magazines solved the hierarchy problem decades ago — drop caps pull you in, generous
+                margins let the eye recover, and a serif–sans pairing signals "this is serious reading." This design
+                system translates those same conventions into HTML and CSS, proving that editorial sophistication
+                doesn't require a printing press.</p>
+
+            <h2 id="style-foundations">1. Style Foundations (The "Atoms")</h2>
+            <p>Foundational tokens and rules that sync design and code: colors, type, spacing, elevation, and
+                iconography.</p>
+
+            <h2 id="design-philosophy">Design Philosophy</h2>
+
             <div class="principles-grid">
                 <div class="principle-card">
                     <div class="principle-number">01</div>
                     <h4>Content First</h4>
-                    <p>The design serves the content, not the other way around. Typography and layout choices prioritize readability and comprehension over decoration.</p>
+                    <p>The design serves the content, not the other way around. Typography and layout choices prioritize
+                        readability and comprehension over decoration.</p>
                 </div>
                 <div class="principle-card">
                     <div class="principle-number">02</div>
                     <h4>Editorial Heritage</h4>
-                    <p>Drawing from print magazine traditions—drop caps, pull quotes, generous margins—to create a premium reading experience on screen.</p>
+                    <p>Drawing from print magazine traditions—drop caps, pull quotes, generous margins—to create a
+                        premium reading experience on screen.</p>
                 </div>
                 <div class="principle-card">
                     <div class="principle-number">03</div>
                     <h4>Systematic Flexibility</h4>
-                    <p>A consistent core system (typography, spacing, components) with accent color variations that give each project its own identity.</p>
+                    <p>A consistent core system (typography, spacing, components) with accent color variations that give
+                        each project its own identity.</p>
                 </div>
                 <div class="principle-card">
                     <div class="principle-number">04</div>
                     <h4>Quiet Sophistication</h4>
-                    <p>Avoiding trendy effects and AI-aesthetic clichés. The design feels timeless, professional, and distinctly human-crafted.</p>
+                    <p>Avoiding trendy effects and AI-aesthetic clichés. The design feels timeless, professional, and
+                        distinctly human-crafted.</p>
                 </div>
             </div>
 
-            <h2>Color System</h2>
-            
+            <h2 id="color-system">Color System</h2>
+            <p>The palette is deliberately restrained. <strong>#f8f5f0 (Paper)</strong> was chosen over pure white
+                because
+                it reduces screen glare during long reading sessions — the same reason print magazines use off-white
+                stock.
+                The ink (<strong>#1a1a1a</strong>) is slightly softened from true black to avoid the harsh contrast that
+                strains eyes.
+                Each project gets a single accent color that acts like an editorial "highlight marker" — it brands the
+                case study without overwhelming the content. The accent never touches body text; it's reserved for
+                drop caps, labels, links, and interactive elements.</p>
+
             <h3>Core Palette</h3>
             <p>Five semantic colors form the foundation. These remain constant across all case studies.</p>
-            
+
             <div class="color-grid">
                 <div class="color-swatch">
                     <div class="swatch-preview" style="background: #1a1a1a;"></div>
-                    <div class="swatch-name">Ink</div>
+                    <div class="swatch-name">Ink (Primary)</div>
                     <div class="swatch-value">#1a1a1a</div>
                     <div class="swatch-usage">Primary text, headings, dark sections</div>
                 </div>
@@ -699,7 +1620,7 @@
                 </div>
                 <div class="color-swatch">
                     <div class="swatch-preview" style="background: #6b6b6b;"></div>
-                    <div class="swatch-name">Muted</div>
+                    <div class="swatch-name">Muted (Secondary)</div>
                     <div class="swatch-value">#6b6b6b</div>
                     <div class="swatch-usage">Secondary text, captions</div>
                 </div>
@@ -711,9 +1632,59 @@
                 </div>
             </div>
 
+            <h3>Semantic Colors (Success, Warning, Error)</h3>
+            <p>Use for feedback states, validation, and status indicators.</p>
+            <div class="accent-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="accent-item">
+                    <div class="accent-swatch" style="background: var(--color-semantic-success);"></div>
+                    <div class="accent-name">Success</div>
+                    <div class="accent-value">--color-semantic-success</div>
+                </div>
+                <div class="accent-item">
+                    <div class="accent-swatch" style="background: var(--color-semantic-warning);"></div>
+                    <div class="accent-name">Warning</div>
+                    <div class="accent-value">--color-semantic-warning</div>
+                </div>
+                <div class="accent-item">
+                    <div class="accent-swatch" style="background: var(--color-semantic-error);"></div>
+                    <div class="accent-name">Error</div>
+                    <div class="accent-value">--color-semantic-error</div>
+                </div>
+            </div>
+
+            <h3>Neutral / Grayscale</h3>
+            <p>Neutral scale for backgrounds, borders, and subtle hierarchy.</p>
+            <div class="color-grid" style="grid-template-columns: repeat(5, 1fr);">
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--color-neutral-50);"></div>
+                    <div class="swatch-name">50</div>
+                    <div class="swatch-value">--color-neutral-50</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--color-neutral-200);"></div>
+                    <div class="swatch-name">200</div>
+                    <div class="swatch-value">--color-neutral-200</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--color-neutral-400);"></div>
+                    <div class="swatch-name">400</div>
+                    <div class="swatch-value">--color-neutral-400</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--color-neutral-600);"></div>
+                    <div class="swatch-name">600</div>
+                    <div class="swatch-value">--color-neutral-600</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="swatch-preview" style="background: var(--color-neutral-900);"></div>
+                    <div class="swatch-name">900</div>
+                    <div class="swatch-value">--color-neutral-900</div>
+                </div>
+            </div>
+
             <h3>Project Accent Colors</h3>
             <p>Each case study has a unique accent color reflecting the project's brand or theme.</p>
-            
+
             <div class="accent-grid">
                 <div class="accent-item">
                     <div class="accent-swatch" style="background: #c41e3a;"></div>
@@ -767,21 +1738,46 @@
                 </div>
             </div>
 
+            <h3 id="design-tokens">Design Tokens</h3>
+            <p>Named variables (e.g. <code>--color-brand-primary</code>) keep design and code in sync. Use in CSS and
+                export to Figma/Sketch tokens.</p>
             <div class="code-block">
-<span class="comment">/* CSS Custom Properties */</span>
-:root {
-    <span class="property">--ink</span>: <span class="value">#1a1a1a</span>;
-    <span class="property">--paper</span>: <span class="value">#f8f5f0</span>;
-    <span class="property">--accent</span>: <span class="value">#c41e3a</span>; <span class="comment">/* varies per project */</span>
-    <span class="property">--muted</span>: <span class="value">#6b6b6b</span>;
-    <span class="property">--rule</span>: <span class="value">#d4d0c8</span>;
-}
+                <span class="comment">/* CSS Custom Properties — Design Tokens */</span>
+                :root {
+                <span class="comment">/* Brand */</span>
+                <span class="property">--color-brand-primary</span>: <span class="value">#1a1a1a</span>;
+                <span class="property">--color-brand-secondary</span>: <span class="value">#6b6b6b</span>;
+                <span class="comment">/* Semantic */</span>
+                <span class="property">--color-semantic-success</span>: <span class="value">#16a34a</span>;
+                <span class="property">--color-semantic-warning</span>: <span class="value">#ca8a04</span>;
+                <span class="property">--color-semantic-error</span>: <span class="value">#dc2626</span>;
+                <span class="comment">/* Neutral scale */</span>
+                <span class="property">--color-neutral-50</span>: <span class="value">#fafafa</span>;
+                <span class="property">--color-neutral-900</span>: <span class="value">#1a1a1a</span>;
+                <span class="comment">/* Spacing (8px base) */</span>
+                <span class="property">--space-1</span>: <span class="value">4px</span>; <span
+                    class="property">--space-2</span>: <span class="value">8px</span>; <span
+                    class="property">--space-4</span>: <span class="value">16px</span>; <span
+                    class="property">--space-8</span>: <span class="value">32px</span>;
+                <span class="comment">/* Shadows & z-index */</span>
+                <span class="property">--shadow-sm</span>: <span class="value">0 2px 4px rgba(0,0,0,0.06)</span>;
+                <span class="property">--z-modal</span>: <span class="value">300</span>; <span
+                    class="property">--z-toast</span>: <span class="value">400</span>;
+                }
             </div>
 
-            <h2>Typography</h2>
-            
+            <h2 id="typography">Typography</h2>
+            <p><strong>Instrument Serif</strong> was chosen as the display face because it carries the authority of
+                traditional editorial headlines without the weight of a Didot or Bodoni. Its moderate contrast and
+                generous letterforms read clearly at 4rem while its italic cuts add personality to pull quotes and
+                stat numbers. <strong>DM Sans</strong> handles everything else — body text, navigation, labels,
+                captions.
+                Its geometric construction and high x-height make it exceptionally legible at small sizes on screen.
+                The serif–sans pairing is the defining editorial gesture: it signals "long-form, considered content"
+                to the reader before they read a single word.</p>
+
             <h3>Primary Typefaces</h3>
-            
+
             <div class="type-specimen">
                 <div class="type-specimen-header">
                     <span class="type-name">Instrument Serif</span>
@@ -794,58 +1790,507 @@
                     The quick brown fox jumps over the lazy dog
                 </div>
             </div>
-            
+
             <div class="type-specimen">
                 <div class="type-specimen-header">
                     <span class="type-name">DM Sans</span>
                     <span class="type-details">Body Text, UI, Navigation</span>
                 </div>
                 <div class="type-sample-sans" style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 1rem;">
-                    The quick brown fox jumps over the lazy dog. This is the primary body text typeface, optimized for long-form reading on screens. It pairs well with Instrument Serif for a classic editorial feel.
+                    The quick brown fox jumps over the lazy dog. This is the primary body text typeface, optimized for
+                    long-form reading on screens. It pairs well with Instrument Serif for a classic editorial feel.
                 </div>
-                <div class="type-sample-sans" style="font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);">
+                <div class="type-sample-sans"
+                    style="font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);">
                     The quick brown fox jumps over the lazy dog
                 </div>
             </div>
 
             <h3>Type Scale</h3>
-            
+            <p>Responsive type scale: H1–H6, Body, Label. Use these for consistent hierarchy.</p>
+
             <div class="type-scale">
                 <div class="type-scale-item">
-                    <span class="type-scale-label">H1 / Title</span>
-                    <span class="type-scale-example" style="font-family: var(--serif); font-size: 3.2rem; line-height: 1.05;">Case Study Title</span>
+                    <span class="type-scale-label">H1</span>
+                    <span class="type-scale-example"
+                        style="font-family: var(--serif); font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.05;">Page
+                        Title</span>
                 </div>
                 <div class="type-scale-item">
-                    <span class="type-scale-label">H2 / Section</span>
-                    <span class="type-scale-example" style="font-family: var(--serif); font-size: 2.5rem;">Section Heading</span>
+                    <span class="type-scale-label">H2</span>
+                    <span class="type-scale-example" style="font-family: var(--serif); font-size: 2.5rem;">Section
+                        Heading</span>
                 </div>
                 <div class="type-scale-item">
-                    <span class="type-scale-label">H3 / Label</span>
-                    <span class="type-scale-example" style="font-family: var(--sans); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted);">Subsection Label</span>
+                    <span class="type-scale-label">H3</span>
+                    <span class="type-scale-example"
+                        style="font-family: var(--sans); font-size: 1.25rem; font-weight: 500;">Subsection</span>
                 </div>
                 <div class="type-scale-item">
-                    <span class="type-scale-label">H4 / Card</span>
-                    <span class="type-scale-example" style="font-family: var(--serif); font-size: 1.3rem;">Card Title</span>
+                    <span class="type-scale-label">H4</span>
+                    <span class="type-scale-example" style="font-family: var(--serif); font-size: 1.3rem;">Card
+                        Title</span>
                 </div>
                 <div class="type-scale-item">
-                    <span class="type-scale-label">Lede</span>
-                    <span class="type-scale-example" style="font-family: var(--serif); font-size: 1.5rem; line-height: 1.6;">Opening paragraph with drop cap</span>
+                    <span class="type-scale-label">H5</span>
+                    <span class="type-scale-example"
+                        style="font-family: var(--sans); font-size: 1.1rem; font-weight: 500;">Small Heading</span>
+                </div>
+                <div class="type-scale-item">
+                    <span class="type-scale-label">H6</span>
+                    <span class="type-scale-example"
+                        style="font-family: var(--sans); font-size: 1rem; font-weight: 500;">Minor Heading</span>
                 </div>
                 <div class="type-scale-item">
                     <span class="type-scale-label">Body</span>
-                    <span class="type-scale-example" style="font-family: var(--sans); font-size: 1.1rem; line-height: 1.7;">Standard paragraph text for content</span>
+                    <span class="type-scale-example"
+                        style="font-family: var(--sans); font-size: 1.1rem; line-height: 1.7;">Standard paragraph text
+                        for content.</span>
+                </div>
+                <div class="type-scale-item">
+                    <span class="type-scale-label">Label</span>
+                    <span class="type-scale-example"
+                        style="font-family: var(--sans); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted);">Form
+                        label / Caption</span>
+                </div>
+                <div class="type-scale-item">
+                    <span class="type-scale-label">Lede</span>
+                    <span class="type-scale-example"
+                        style="font-family: var(--serif); font-size: 1.5rem; line-height: 1.6;">Opening paragraph with
+                        drop cap</span>
                 </div>
                 <div class="type-scale-item">
                     <span class="type-scale-label">Caption</span>
-                    <span class="type-scale-example" style="font-family: var(--sans); font-size: 0.85rem; color: var(--muted);">Image caption or meta text</span>
+                    <span class="type-scale-example"
+                        style="font-family: var(--sans); font-size: 0.85rem; color: var(--muted);">Image caption or meta
+                        text</span>
                 </div>
             </div>
 
-            <h2>Components</h2>
-            
+            <h3 id="iconography">Iconography</h3>
+            <p>Icons use a 24px stroke-based style at 2px weight. Stroke icons were chosen over filled ones because
+                they feel lighter — they complement the editorial aesthetic without competing with the serif headlines
+                or creating visual heaviness. The 24px default pairs with body text; 16px is available for inline use
+                alongside labels and captions.</p>
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Icon set (examples)</span>
+                    <span class="component-tag">24px</span>
+                </div>
+                <div class="component-preview">
+                    <div class="icon-grid">
+                        <div class="icon-cell">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+                                fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                                <polyline points="9 22 9 12 15 12 15 22" />
+                            </svg>
+                            <span>Home</span>
+                        </div>
+                        <div class="icon-cell">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+                                fill="none" stroke-width="2">
+                                <circle cx="11" cy="11" r="8" />
+                                <path d="m21 21-4.35-4.35" />
+                            </svg>
+                            <span>Search</span>
+                        </div>
+                        <div class="icon-cell">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+                                fill="none" stroke-width="2">
+                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                            </svg>
+                            <span>Bookmark</span>
+                        </div>
+                        <div class="icon-cell">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+                                fill="none" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                            <span>User</span>
+                        </div>
+                        <div class="icon-cell">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+                                fill="none" stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M12 6v6l4 2" />
+                            </svg>
+                            <span>Time</span>
+                        </div>
+                        <div class="icon-cell">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+                                fill="none" stroke-width="2">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                            </svg>
+                            <span>Message</span>
+                        </div>
+                        <div class="icon-cell">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+                                fill="none" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            <span>Check</span>
+                        </div>
+                        <div class="icon-cell">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor"
+                                fill="none" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18" />
+                                <line x1="6" y1="6" x2="18" y2="18" />
+                            </svg>
+                            <span>Close</span>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.85rem; color: var(--muted);">Usage: prefer 24px for UI;
+                        16px for inline; always pair with a label or tooltip for accessibility.</p>
+                </div>
+            </div>
+
+            <h3 id="grid-layout">Grid & Layout</h3>
+            <p>Column counts, gutter widths, and responsive breakpoints.</p>
+            <ul>
+                <li><strong>Columns:</strong> 12-column grid on desktop; 8 on tablet; 4 on mobile.</li>
+                <li><strong>Gutter:</strong> 24px (var(--space-6)) between columns.</li>
+                <li><strong>Max container width:</strong> 1200px for article content.</li>
+                <li><strong>Breakpoints:</strong> 768px (mobile), 992px (tablet), 1100px (desktop), 1200px (wide).</li>
+            </ul>
+            <div class="layout-demo">
+                <div class="layout-label">12 columns · 24px gutter</div>
+                <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--space-6);">
+                    <div class="layout-box" style="grid-column: span 4;">4 col</div>
+                    <div class="layout-box" style="grid-column: span 4;">4 col</div>
+                    <div class="layout-box" style="grid-column: span 4;">4 col</div>
+                </div>
+            </div>
+
+            <h3 id="spacing">Spacing Scale</h3>
+            <p>8px base increment for margins and padding. Use tokens for consistency.</p>
+            <div class="code-block">
+                <span class="property">--space-0</span>: <span class="value">0</span>; <span
+                    class="property">--space-1</span>: <span class="value">4px</span>; <span
+                    class="property">--space-2</span>: <span class="value">8px</span>;
+                <span class="property">--space-3</span>: <span class="value">12px</span>; <span
+                    class="property">--space-4</span>: <span class="value">16px</span>; <span
+                    class="property">--space-5</span>: <span class="value">20px</span>;
+                <span class="property">--space-6</span>: <span class="value">24px</span>; <span
+                    class="property">--space-8</span>: <span class="value">32px</span>; <span
+                    class="property">--space-10</span>: <span class="value">40px</span>;
+                <span class="property">--space-12</span>: <span class="value">48px</span>; <span
+                    class="property">--space-16</span>: <span class="value">64px</span>; <span
+                    class="property">--space-20</span>: <span class="value">80px</span>;
+            </div>
+
+            <h3 id="elevation">Elevation & Shadows</h3>
+            <p>Z-index layers and shadow styles for depth.</p>
+            <ul>
+                <li><strong>z-index:</strong> dropdown 100, sticky 200, modal 300, toast 400, tooltip 500.</li>
+                <li><strong>Shadows:</strong> xs → sm → md → lg → xl for cards, modals, and overlays.</li>
+            </ul>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-4); margin: 1.5rem 0;">
+                <div
+                    style="width: 100px; height: 60px; background: var(--paper); border-radius: 4px; box-shadow: var(--shadow-xs);">
+                </div>
+                <div
+                    style="width: 100px; height: 60px; background: var(--paper); border-radius: 4px; box-shadow: var(--shadow-sm);">
+                </div>
+                <div
+                    style="width: 100px; height: 60px; background: var(--paper); border-radius: 4px; box-shadow: var(--shadow-md);">
+                </div>
+                <div
+                    style="width: 100px; height: 60px; background: var(--paper); border-radius: 4px; box-shadow: var(--shadow-lg);">
+                </div>
+                <div
+                    style="width: 100px; height: 60px; background: var(--paper); border-radius: 4px; box-shadow: var(--shadow-xl);">
+                </div>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--muted);">Labels: xs, sm, md, lg, xl</p>
+
+            <h2 id="component-library">2. Component Library (The "Molecules")</h2>
+            <p>Components inherit the editorial aesthetic: 4px border-radius softens without making things feel
+                childish, black primary buttons convey seriousness, and the serif headline font appears in stat
+                numbers and card titles to maintain the magazine feel even inside interactive elements. Every component
+                uses design tokens so a single CSS variable override can re-theme the entire system for a different
+                project.</p>
+
+            <h3 id="buttons">Buttons</h3>
+            <p>Primary buttons are ink-black because the editorial system's personality comes from typography, not
+                color.
+                A black primary button says "this is the action" without fighting the per-project accent color. Danger
+                buttons (semantic red) are the only exception — they break the monochrome deliberately to signal
+                irreversible actions.</p>
+
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Button types</span>
+                    <span class="component-tag">.btn</span>
+                </div>
+                <div class="component-preview">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary">Primary</button>
+                        <button type="button" class="btn btn-secondary">Secondary</button>
+                        <button type="button" class="btn btn-ghost">Ghost</button>
+                        <button type="button" class="btn btn-danger">Danger</button>
+                    </div>
+                </div>
+            </div>
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">States</span>
+                    <span class="component-tag">Disabled · Loading</span>
+                </div>
+                <div class="component-preview">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" disabled>Disabled</button>
+                        <button type="button" class="btn btn-primary btn-loading"><span class="btn-spinner"></span>
+                            Loading</button>
+                    </div>
+                </div>
+            </div>
+
+            <h3 id="forms">Form Elements</h3>
+            <p>Inputs use the system sans at 1rem with generous padding for comfortable data entry. The focus state
+                uses a subtle box-shadow (3px, black at 10% opacity) rather than a bright accent ring — this keeps
+                the editorial calm intact while clearly marking the active field for keyboard users.</p>
+
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Inputs & dropdown</span>
+                </div>
+                <div class="component-preview">
+                    <div class="form-group">
+                        <label class="form-label" for="ds-input">Label</label>
+                        <input type="text" id="ds-input" class="form-input" placeholder="Placeholder text">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="ds-textarea">Text area</label>
+                        <textarea id="ds-textarea" class="form-textarea" placeholder="Multi-line input"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="ds-select">Dropdown</label>
+                        <select id="ds-select" class="form-select">
+                            <option>Option one</option>
+                            <option>Option two</option>
+                            <option>Option three</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Checkbox, radio, toggle</span>
+                </div>
+                <div class="component-preview">
+                    <label class="form-checkbox"><input type="checkbox" checked> Checkbox option</label>
+                    <label class="form-checkbox"><input type="checkbox"> Another option</label>
+                    <label class="form-radio"><input type="radio" name="ds-radio" checked> Radio A</label>
+                    <label class="form-radio"><input type="radio" name="ds-radio"> Radio B</label>
+                    <label class="form-toggle"><input type="checkbox" checked><span class="form-toggle-track"></span>
+                        Toggle on</label>
+                    <label class="form-toggle"><input type="checkbox"><span class="form-toggle-track"></span> Toggle
+                        off</label>
+                </div>
+            </div>
+
+            <h3 id="navigation">Navigation</h3>
+            <p>The sticky sidebar mirrors the table of contents in a physical magazine. It uses the sans typeface at
+                small size with generous letter-spacing — the same treatment as magazine section labels. On mobile,
+                it collapses to a horizontal top bar, preserving the full viewport width for content.</p>
+
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Header</span>
+                </div>
+                <div class="component-preview" style="padding: 0;">
+                    <header class="nav-header">
+                        <span style="font-family: var(--serif); font-size: 1.2rem;">Logo</span>
+                        <div style="display: flex; gap: var(--space-4);">
+                            <a href="#" style="color: var(--ink); text-decoration: none; font-size: 0.9rem;">Nav 1</a>
+                            <a href="#" style="color: var(--muted); text-decoration: none; font-size: 0.9rem;">Nav 2</a>
+                        </div>
+                    </header>
+                </div>
+            </div>
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Breadcrumb</span>
+                </div>
+                <div class="component-preview">
+                    <nav class="breadcrumb">
+                        <a href="#">Home</a><span>/</span><a href="#">Section</a><span>/</span><span>Current page</span>
+                    </nav>
+                </div>
+            </div>
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Tabs</span>
+                </div>
+                <div class="component-preview" style="padding: 0;">
+                    <div class="nav-tabs">
+                        <a href="#" class="active">Tab one</a>
+                        <a href="#">Tab two</a>
+                        <a href="#">Tab three</a>
+                    </div>
+                </div>
+            </div>
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Pagination</span>
+                </div>
+                <div class="component-preview">
+                    <nav class="pagination">
+                        <a href="#">←</a>
+                        <a href="#">1</a>
+                        <span class="current">2</span>
+                        <a href="#">3</a>
+                        <a href="#">→</a>
+                    </nav>
+                </div>
+            </div>
+
+            <h3 id="feedback">Feedback & Overlays</h3>
+            <p>Modals use the serif font for their title and a generous 8px border-radius to feel like a polished
+                overlay, not a system dialog. Toasts are ink-colored by default and use semantic colors (green, amber,
+                red) only when the message type is meaningful. The 40% backdrop opacity maintains reading context
+                while clearly signaling a modal state.</p>
+
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Modal / Dialog</span>
+                </div>
+                <div class="component-preview">
+                    <div class="modal-backdrop"
+                        style="position: relative; inset: auto; background: rgba(0,0,0,0.2); border-radius: 8px;">
+                        <div class="modal-dialog">
+                            <h4 class="modal-title">Modal title</h4>
+                            <p style="margin-bottom: 1rem;">Body copy for the dialog. Keep it concise.</p>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary">Confirm</button>
+                                <button type="button" class="btn btn-secondary">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Toasts</span>
+                </div>
+                <div class="component-preview">
+                    <div style="display: flex; flex-wrap: wrap; gap: var(--space-2);">
+                        <div class="toast">Default toast</div>
+                        <div class="toast toast-success">Success message</div>
+                        <div class="toast toast-warning">Warning message</div>
+                        <div class="toast toast-error">Error message</div>
+                    </div>
+                </div>
+            </div>
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Progress bar</span>
+                </div>
+                <div class="component-preview">
+                    <div class="progress-bar" style="max-width: 300px;">
+                        <div class="progress-bar-fill" style="width: 60%;"></div>
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem;">60%</p>
+                </div>
+            </div>
+
+            <h3 id="data-display">Data Display</h3>
+            <p>Tables use a borderless top with a subtle bottom-border per row — the same visual language as a
+                magazine index. Badges are small, rounded labels using semantic backgrounds to indicate status.
+                The tooltip component was designed for editorial UIs where space is tight and context is needed
+                without cluttering the layout.</p>
+
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Table</span>
+                </div>
+                <div class="component-preview" style="overflow-x: auto;">
+                    <table class="ds-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Alice</td>
+                                <td>Designer</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td>Bob</td>
+                                <td>Developer</td>
+                                <td><span class="badge badge-default">Pending</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Badges / Tags</span>
+                </div>
+                <div class="component-preview">
+                    <div class="btn-group">
+                        <span class="badge badge-default">Default</span>
+                        <span class="badge badge-success">Success</span>
+                        <span class="badge badge-warning">Warning</span>
+                        <span class="badge badge-error">Error</span>
+                    </div>
+                </div>
+            </div>
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Tooltip</span>
+                </div>
+                <div class="component-preview">
+                    <div class="tooltip-wrap">
+                        <button type="button" class="btn btn-secondary">Hover me</button>
+                        <span class="tooltip-content">Tooltip text</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3 id="selection">Selection</h3>
+            <p>Sliders and segmented controls.</p>
+
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Segmented control</span>
+                </div>
+                <div class="component-preview">
+                    <div class="segmented-control">
+                        <button type="button" class="active">Option A</button>
+                        <button type="button">Option B</button>
+                        <button type="button">Option C</button>
+                    </div>
+                </div>
+            </div>
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Slider</span>
+                </div>
+                <div class="component-preview">
+                    <div class="slider-wrap">
+                        <input type="range" min="0" max="100" value="40" class="slider">
+                    </div>
+                </div>
+            </div>
+
+            <h2>Legacy Components</h2>
+            <p>These components are specific to case study pages. The stat grid uses italic serif numbers
+                because research metrics deserve the visual weight and personality of a headline font — readers
+                scan numbers before text, and the serif italic makes them unmissable. The 1px-gap card grid
+                uses a clever CSS technique: the parent element's background color becomes the border, eliminating
+                the need for individual border properties.</p>
+
             <h3>Stat Grid</h3>
             <p>Used in hero sections to highlight key metrics. 1px gap creates the grid effect.</p>
-            
+
             <div class="component-demo">
                 <div class="component-header">
                     <span class="component-name">Hero Stats</span>
@@ -875,7 +2320,7 @@
 
             <h3>Card Grid</h3>
             <p>Problem statements, findings, and features. Dark 1px borders create visual separation.</p>
-            
+
             <div class="component-demo">
                 <div class="component-header">
                     <span class="component-name">Problem Cards</span>
@@ -901,7 +2346,7 @@
 
             <h3>Inline Quote</h3>
             <p>Pull quotes and testimonials with accent-colored left border.</p>
-            
+
             <div class="component-demo">
                 <div class="component-header">
                     <span class="component-name">Quote Block</span>
@@ -909,7 +2354,8 @@
                 </div>
                 <div class="component-preview">
                     <div class="quote-demo">
-                        "This is how quotes appear throughout the case studies. They add human voice and break up long text sections."
+                        "This is how quotes appear throughout the case studies. They add human voice and break up long
+                        text sections."
                         <cite>— Research Participant, Role</cite>
                     </div>
                 </div>
@@ -917,7 +2363,7 @@
 
             <h3>Dark Results Section</h3>
             <p>High-contrast section for highlighting key outcomes and impact metrics.</p>
-            
+
             <div class="component-demo">
                 <div class="component-header">
                     <span class="component-name">Results Section</span>
@@ -926,24 +2372,28 @@
                 <div class="component-preview" style="padding: 0;">
                     <div class="dark-section-demo">
                         <h4 style="font-family: var(--serif); font-size: 2rem; margin-bottom: 1rem;">Key Outcomes</h4>
-                        <p>This dark section creates visual contrast and signals important results or conclusions. It breaks the reading rhythm intentionally.</p>
+                        <p>This dark section creates visual contrast and signals important results or conclusions. It
+                            breaks the reading rhythm intentionally.</p>
                     </div>
                 </div>
             </div>
 
             <h2>Layout Structure</h2>
-            
+
             <h3>Page Anatomy</h3>
             <p>Every case study follows this structural pattern:</p>
-            
+
             <div class="layout-demo">
                 <div class="layout-label">200px</div>
                 <div style="display: grid; grid-template-columns: 200px 1fr; gap: 1rem; margin-bottom: 1rem;">
                     <div class="layout-box" style="min-height: 300px;">Navigation<br>(sticky)</div>
                     <div>
-                        <div class="layout-box" style="margin-bottom: 1rem;">Hero Section (stats grid, title, meta)</div>
-                        <div class="layout-box" style="margin-bottom: 1rem;">TL;DR Section (4-point summary + sidebar)</div>
-                        <div class="layout-box" style="min-height: 200px;">Article Container (max-width: 1200px)<br>Lede → Sections → Components → Skills → Footer</div>
+                        <div class="layout-box" style="margin-bottom: 1rem;">Hero Section (stats grid, title, meta)
+                        </div>
+                        <div class="layout-box" style="margin-bottom: 1rem;">TL;DR Section (4-point summary + sidebar)
+                        </div>
+                        <div class="layout-box" style="min-height: 200px;">Article Container (max-width: 1200px)<br>Lede
+                            → Sections → Components → Skills → Footer</div>
                     </div>
                 </div>
             </div>
@@ -965,54 +2415,376 @@
                 <li><strong>Lede paragraph:</strong> 800px</li>
             </ul>
 
+            <h2 id="pattern-library">3. Pattern Library (The "Organisms")</h2>
+            <p>Patterns assemble atoms and molecules into product-level compositions. Each pattern encodes a
+                design opinion: search bars are always inline with filters (not hidden behind a toggle), empty
+                states use a large icon and a single CTA (invitation over frustration), and authentication
+                cards are centered with generous shadow to feel trustworthy. These patterns were designed to look
+                native to the editorial system while solving universal UX problems.</p>
+
+            <h3>Search & Filters</h3>
+            <p>Standard layout for searching and narrowing results.</p>
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Search + filters bar</span>
+                </div>
+                <div class="component-preview">
+                    <div class="search-filters-bar">
+                        <input type="search" class="form-input" placeholder="Search..." aria-label="Search">
+                        <select class="form-select" style="width: auto; min-width: 140px;">
+                            <option>All categories</option>
+                        </select>
+                        <select class="form-select" style="width: auto; min-width: 120px;">
+                            <option>Sort by</option>
+                        </select>
+                        <button type="button" class="btn btn-primary">Apply</button>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Onboarding</h3>
+            <p>Guided tours and empty states for new users.</p>
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Empty state</span>
+                </div>
+                <div class="component-preview">
+                    <div class="empty-state">
+                        <div class="empty-state-icon" aria-hidden="true">📭</div>
+                        <h4>No items yet</h4>
+                        <p>Get started by adding your first item. You can import from a file or create one from scratch.
+                        </p>
+                        <button type="button" class="btn btn-primary" style="margin-top: 1rem;">Add item</button>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Error Handling</h3>
+            <p>404 pages, "No Results Found" states, and form validation flows.</p>
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">404 page</span>
+                </div>
+                <div class="component-preview">
+                    <div class="error-page">
+                        <div class="error-code">404</div>
+                        <h2>Page not found</h2>
+                        <p>The page you're looking for doesn't exist or has been moved.</p>
+                        <a href="#" class="btn btn-primary" style="margin-top: 1rem; text-decoration: none;">Go home</a>
+                    </div>
+                </div>
+            </div>
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">No results</span>
+                </div>
+                <div class="component-preview">
+                    <div class="empty-state">
+                        <div class="empty-state-icon" aria-hidden="true">🔍</div>
+                        <h4>No results found</h4>
+                        <p>Try adjusting your filters or search terms.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Messaging</h3>
+            <p>Standardized chat bubbles and comment threads.</p>
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Chat bubble</span>
+                </div>
+                <div class="component-preview">
+                    <div style="max-width: 320px;">
+                        <div
+                            style="background: var(--color-neutral-100); padding: var(--space-3); border-radius: 12px 12px 12px 4px; margin-bottom: var(--space-2);">
+                            <p style="margin: 0; font-size: 0.95rem;">User message bubble (left-aligned).</p>
+                        </div>
+                        <div
+                            style="background: var(--ink); color: var(--paper); padding: var(--space-3); border-radius: 12px 12px 4px 12px; margin-left: auto; max-width: 80%;">
+                            <p style="margin: 0; font-size: 0.95rem;">Reply bubble (right-aligned).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Authentication</h3>
+            <p>Login, sign-up, and "forgot password" layouts.</p>
+            <div class="component-demo">
+                <div class="component-header">
+                    <span class="component-name">Login card</span>
+                </div>
+                <div class="component-preview">
+                    <div class="auth-card">
+                        <h2>Log in</h2>
+                        <div class="form-group">
+                            <label class="form-label" for="auth-email">Email</label>
+                            <input type="email" id="auth-email" class="form-input" placeholder="you@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="auth-pw">Password</label>
+                            <input type="password" id="auth-pw" class="form-input" placeholder="••••••••">
+                        </div>
+                        <button type="button" class="btn btn-primary">Log in</button>
+                        <div class="auth-links">
+                            <a href="#">Forgot password?</a> · <a href="#">Sign up</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <h2>Responsive Behavior</h2>
-            
+
             <p>The design adapts at three breakpoints:</p>
-            
+
             <ul>
                 <li><strong>1100px:</strong> Hero becomes single column, grids stack</li>
                 <li><strong>992px:</strong> Navigation moves to top, horizontal layout</li>
                 <li><strong>768px:</strong> Reduced type scale, simplified spacing</li>
             </ul>
 
-            <p>Navigation transforms from a sticky sidebar to a horizontal top bar on tablet and mobile, preserving space for content.</p>
+            <p>Navigation transforms from a sticky sidebar to a horizontal top bar on tablet and mobile, preserving
+                space for content.</p>
+
+            <h2 id="governance">4. Governance & Documentation (The "Rules")</h2>
+            <p>An editorial design system is only as good as its consistency. These rules exist because the serif–sans
+                pairing, the warm paper tone, and the restrained color palette can be undermined by a single off-brand
+                component. Governance isn't bureaucracy — it's the discipline that makes the system feel like a
+                coherent publication rather than a collection of parts.</p>
+
+            <h3>Accessibility (A11y)</h3>
+            <ul>
+                <li><strong>WCAG:</strong> Target Level AA. Ensure sufficient contrast (4.5:1 for body text, 3:1 for
+                    large text).</li>
+                <li><strong>ARIA:</strong> Use <code>aria-label</code> on icon-only buttons, <code>aria-live</code> for
+                    dynamic content, <code>role="dialog"</code> for modals.</li>
+                <li><strong>Keyboard:</strong> All interactive elements focusable; support Tab order; Escape closes
+                    modals; Enter/Space activate buttons.</li>
+                <li><strong>Focus:</strong> Visible focus ring (e.g. 2px outline or box-shadow). Don’t remove focus
+                    styles without a replacement.</li>
+            </ul>
+
+            <h3>Content Strategy</h3>
+            <ul>
+                <li><strong>Voice & tone:</strong> Clear, professional, and concise. Avoid jargon in UI copy.</li>
+                <li><strong>Grammar:</strong> Use sentence case for headings and buttons; title case only when
+                    appropriate (e.g. product names).</li>
+                <li><strong>Labels:</strong> Use actionable button labels ("Save changes" not "Submit"). Error messages
+                    should explain what went wrong and how to fix it.</li>
+            </ul>
+
+            <h3>Developer Handover</h3>
+            <p>How to install and use the library in code.</p>
+            <ul>
+                <li><strong>Install:</strong> No NPM package yet; copy <code>design-system.html</code> styles or extract
+                    CSS variables and component classes into your project.</li>
+                <li><strong>Code snippets:</strong> Use the same class names (e.g. <code>.btn .btn-primary</code>,
+                    <code>.form-input</code>) for consistency. React/Vue components can wrap these classes.
+                </li>
+                <li><strong>CSS:</strong> All tokens are in <code>:root</code>. Override
+                    <code>--color-brand-primary</code>, <code>--paper</code>, etc. for theming.
+                </li>
+            </ul>
+            <div class="code-block">
+                <span class="comment">// Example: React button</span>
+                &lt;button className="btn btn-primary" type="button"&gt;Save&lt;/button&gt;
+
+                <span class="comment">// Example: CSS override</span>
+                :root {
+                <span class="property">--color-brand-primary</span>: <span class="value">#0866ff</span>;
+                }
+            </div>
+
+            <h3>Contribution Model</h3>
+            <ul>
+                <li><strong>Suggest:</strong> Propose new components or tokens via issue or doc update; include use case
+                    and mockup if possible.</li>
+                <li><strong>Test:</strong> New components must work across breakpoints and meet contrast/keyboard
+                    requirements.</li>
+                <li><strong>Add:</strong> Update this design system page and the shared CSS/component library; document
+                    usage and props.</li>
+            </ul>
+
+            <h3>Asset Library</h3>
+            <p>Design files for the design team.</p>
+            <ul>
+                <li><strong>Figma / Sketch / Adobe XD:</strong> Download the latest design kit from [link to asset
+                    library]. Components and styles are named to match code tokens.</li>
+                <li>Sync design tokens (colors, spacing, type) with this page so design and code stay aligned.</li>
+            </ul>
 
             <h2>Implementation Notes</h2>
-            
+
             <h3>CSS Custom Properties</h3>
-            <p>All colors and font stacks are defined as CSS variables in <code>:root</code>, making theme changes trivial—just update the accent color per project.</p>
+            <p>All colors and font stacks are defined as CSS variables in <code>:root</code>, making theme changes
+                trivial—just update the accent color per project.</p>
 
             <h3>Grid Technique</h3>
-            <p>Card grids use a clever technique: the parent has the border color as background, with 1px gap, and children have the paper color. This creates borders without actual border properties.</p>
+            <p>Card grids use a clever technique: the parent has the border color as background, with 1px gap, and
+                children have the paper color. This creates borders without actual border properties.</p>
 
             <div class="code-block">
-<span class="comment">/* Grid border technique */</span>
-.card-grid {
-    <span class="property">display</span>: <span class="value">grid</span>;
-    <span class="property">grid-template-columns</span>: <span class="value">repeat(3, 1fr)</span>;
-    <span class="property">gap</span>: <span class="value">1px</span>;
-    <span class="property">background</span>: <span class="value">var(--ink)</span>; <span class="comment">/* border color */</span>
-}
+                <span class="comment">/* Grid border technique */</span>
+                .card-grid {
+                <span class="property">display</span>: <span class="value">grid</span>;
+                <span class="property">grid-template-columns</span>: <span class="value">repeat(3, 1fr)</span>;
+                <span class="property">gap</span>: <span class="value">1px</span>;
+                <span class="property">background</span>: <span class="value">var(--ink)</span>; <span
+                    class="comment">/* border color */</span>
+                }
 
-.card {
-    <span class="property">background</span>: <span class="value">var(--paper)</span>; <span class="comment">/* fills gap */</span>
-    <span class="property">padding</span>: <span class="value">2rem</span>;
-}
+                .card {
+                <span class="property">background</span>: <span class="value">var(--paper)</span>; <span
+                    class="comment">/* fills gap */</span>
+                <span class="property">padding</span>: <span class="value">2rem</span>;
+                }
             </div>
 
             <h3>Drop Cap</h3>
-            <p>The lede paragraph uses <code>::first-letter</code> pseudo-element for the drop cap effect, floated left with careful line-height tuning.</p>
+            <p>The lede paragraph uses <code>::first-letter</code> pseudo-element for the drop cap effect, floated left
+                with careful line-height tuning.</p>
 
             <div class="code-block">
-<span class="comment">/* Drop cap effect */</span>
-.lede::first-letter {
-    <span class="property">font-size</span>: <span class="value">4.5rem</span>;
-    <span class="property">float</span>: <span class="value">left</span>;
-    <span class="property">line-height</span>: <span class="value">0.8</span>;
-    <span class="property">margin-right</span>: <span class="value">0.5rem</span>;
-    <span class="property">margin-top</span>: <span class="value">0.1rem</span>;
-    <span class="property">color</span>: <span class="value">var(--accent)</span>;
-}
+                <span class="comment">/* Drop cap effect */</span>
+                .lede::first-letter {
+                <span class="property">font-size</span>: <span class="value">4.5rem</span>;
+                <span class="property">float</span>: <span class="value">left</span>;
+                <span class="property">line-height</span>: <span class="value">0.8</span>;
+                <span class="property">margin-right</span>: <span class="value">0.5rem</span>;
+                <span class="property">margin-top</span>: <span class="value">0.1rem</span>;
+                <span class="property">color</span>: <span class="value">var(--accent)</span>;
+                }
+            </div>
+
+            <h2 id="app-examples">App Examples</h2>
+            <p>A design system's true test is whether it adapts across platforms. The editorial aesthetic — serif
+                headlines,
+                warm paper, and restrained color — must work on a streaming TV interface, a smartwatch notification,
+                and a mobile blog feed. These examples demonstrate that the same design tokens produce interfaces
+                that feel cohesive regardless of screen size.</p>
+
+            <div class="app-examples-row">
+                <!-- TV: Streaming Detail -->
+                <div>
+                    <div class="app-example-label">TV — Streaming detail</div>
+                    <div class="device-frame">
+                        <div class="device-tv">
+                            <div class="device-tv-bezel">
+                                <div class="device-tv-screen">
+                                    <div class="app-example-inner">
+                                        <div
+                                            style="background: var(--ink); color: var(--paper); padding: var(--space-6) var(--space-4);">
+                                            <div
+                                                style="font-family: var(--sans); font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: var(--space-2);">
+                                                Documentary · 2024</div>
+                                            <div
+                                                style="font-family: var(--serif); font-size: 24px; line-height: 1.1; margin-bottom: var(--space-2);">
+                                                The Design of Everyday Things</div>
+                                            <div
+                                                style="font-size: 11px; color: rgba(255,255,255,0.6); margin-bottom: var(--space-3);">
+                                                1h 42m · ★ 4.8 · UX, Design</div>
+                                            <div
+                                                style="font-family: var(--serif); font-style: italic; font-size: 12px; color: rgba(255,255,255,0.8); line-height: 1.4;">
+                                                How the principles of good design shape our world.</div>
+                                        </div>
+                                        <div
+                                            style="display: flex; gap: var(--space-2); padding: var(--space-3) var(--space-4);">
+                                            <span
+                                                style="padding: 3px 10px; background: var(--ink); color: var(--paper); font-size: 11px; font-weight: 600; border-radius: 4px;">Play</span>
+                                            <span
+                                                style="padding: 3px 10px; border: 1px solid var(--rule); font-size: 11px; border-radius: 4px;">My
+                                                List</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="device-tv-stand"></div>
+                            <div class="device-tv-base"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Watch: Article Digest -->
+                <div>
+                    <div class="app-example-label">Watch — Article digest</div>
+                    <div class="device-frame">
+                        <div class="device-watch">
+                            <div class="device-watch-band-top"></div>
+                            <div class="device-watch-body">
+                                <div class="device-watch-screen">
+                                    <div
+                                        style="background: var(--ink); color: var(--paper); width: 200px; height: 200px; display: flex; flex-direction: column; justify-content: center; padding: 12px;">
+                                        <div style="text-align: center;">
+                                            <div
+                                                style="font-size: 9px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px;">
+                                                NOW READING</div>
+                                            <div
+                                                style="font-family: var(--serif); font-size: 14px; line-height: 1.2; margin-bottom: 2px;">
+                                                Designing for Trust</div>
+                                            <div
+                                                style="font-family: var(--serif); font-style: italic; font-size: 10px; color: rgba(255,255,255,0.5); margin-bottom: 8px;">
+                                                by Jane Rodriguez</div>
+                                            <div
+                                                style="font-size: 10px; line-height: 1.3; color: rgba(255,255,255,0.8); margin-bottom: 8px;">
+                                                Chapter 3: Visual consistency builds user confidence…</div>
+                                            <div
+                                                style="width: 60%; height: 3px; background: rgba(255,255,255,0.15); border-radius: 2px; margin: 0 auto;">
+                                                <div
+                                                    style="width: 40%; height: 100%; background: var(--paper); border-radius: 2px;">
+                                                </div>
+                                            </div>
+                                            <div style="font-size: 9px; color: rgba(255,255,255,0.4); margin-top: 3px;">
+                                                40% · 12 min left</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="device-watch-band-bottom"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile: Blog Reader -->
+                <div>
+                    <div class="app-example-label">Mobile — Blog reader</div>
+                    <div class="device-frame">
+                        <div class="device-phone">
+                            <div class="device-phone-body">
+                                <div class="device-phone-screen">
+                                    <div class="app-example-inner" style="width: 260px;">
+                                        <div class="app-top-bar">
+                                            <span class="app-top-bar-title"
+                                                style="font-family: var(--serif);">Editorial</span>
+                                            <span style="font-size: 11px; color: var(--muted);">Profile</span>
+                                        </div>
+                                        <div style="padding: var(--space-3);">
+                                            <div
+                                                style="font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: var(--space-2);">
+                                                Featured</div>
+                                            <div
+                                                style="font-family: var(--serif); font-size: 18px; line-height: 1.2; margin-bottom: 2px;">
+                                                The Case for Radical Simplicity</div>
+                                            <div
+                                                style="font-size: 10px; color: var(--muted); margin-bottom: var(--space-3);">
+                                                Sai Maram · 8 min read</div>
+                                            <div
+                                                style="font-size: 11px; line-height: 1.5; color: var(--ink); margin-bottom: var(--space-3);">
+                                                In an era of design systems with hundreds of components, there's a
+                                                growing movement toward radical reduction…</div>
+                                            <div
+                                                style="border-top: 1px solid var(--rule); padding-top: var(--space-2);">
+                                                <div
+                                                    style="font-family: var(--serif); font-size: 14px; line-height: 1.2; margin-bottom: 2px;">
+                                                    Typography as Interface</div>
+                                                <div style="font-size: 10px; color: var(--muted);">Jane Rodriguez · 5
+                                                    min</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <footer class="footer">
@@ -1022,4 +2794,5 @@
     </main>
 
 </body>
+
 </html>
