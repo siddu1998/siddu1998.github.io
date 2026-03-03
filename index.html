@@ -38,6 +38,160 @@
             margin: 0 auto;
         }
 
+        .pattu-border {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 80px;
+            height: 100vh;
+            z-index: 100;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .pattu-border-inner {
+            position: absolute;
+            left: 80px;
+            top: 0;
+            width: 200vh;
+            height: 80px;
+            background: url('pattu-boarder.png') repeat-x;
+            background-size: auto 100%;
+            transform-origin: 0 0;
+            transform: rotate(90deg);
+        }
+
+        /* Pattu border: clickable with pencil hint */
+        .pattu-border {
+            cursor: pointer;
+            pointer-events: auto;
+        }
+
+        .pattu-hint {
+            position: fixed;
+            left: 90px;
+            top: 24px;
+            z-index: 101;
+            pointer-events: none;
+        }
+
+        .pattu-hint-text {
+            font-family: var(--serif);
+            font-size: 0.78rem;
+            font-style: italic;
+            color: #b8860b;
+            white-space: nowrap;
+            display: block;
+            margin-bottom: -4px;
+            margin-left: 2px;
+        }
+
+        .pattu-hint-arrow {
+            width: 70px;
+            height: 60px;
+            display: block;
+            margin-left: -14px;
+        }
+
+        /* Pencil annotation card */
+        .pattu-note {
+            position: fixed;
+            left: 100px;
+            top: 60px;
+            z-index: 101;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.35s ease;
+        }
+
+        .pattu-note.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .pattu-note-card {
+            background: #fffef8;
+            border: 1px solid #e2ddd4;
+            border-radius: 6px;
+            padding: 1.1rem 1.25rem;
+            max-width: 340px;
+            box-shadow: 2px 3px 12px rgba(0,0,0,0.07);
+            position: relative;
+        }
+
+        .pattu-note-card::before {
+            content: '';
+            position: absolute;
+            left: -7px;
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+            width: 12px;
+            height: 12px;
+            background: #fffef8;
+            border-left: 1px solid #e2ddd4;
+            border-bottom: 1px solid #e2ddd4;
+        }
+
+        .pattu-note-title {
+            font-family: var(--serif);
+            font-size: 1rem;
+            color: var(--ink);
+            margin-bottom: 0.35rem;
+        }
+
+        .pattu-note p {
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: var(--muted);
+            margin: 0 0 0.6rem;
+        }
+
+        .pattu-note p em {
+            color: var(--ink);
+            font-style: italic;
+        }
+
+        .pattu-note-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.4rem;
+            margin: 0.6rem 0;
+        }
+
+        .pattu-note-images img {
+            width: 100%;
+            border-radius: 4px;
+            border: 1px solid #e8e6e3;
+        }
+
+        .pattu-note-close {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            width: 20px;
+            height: 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: var(--muted);
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pattu-note-close:hover { color: var(--ink); }
+        .pattu-note-close svg { width: 12px; height: 12px; }
+
+        @media (max-width: 600px) {
+            .pattu-note {
+                left: 70px;
+                max-width: 260px;
+            }
+            .pattu-note-arrow { display: none; }
+            .pattu-note-card::before { display: none; }
+        }
+
         a {
             color: var(--muted);
             text-decoration: underline;
@@ -1017,6 +1171,32 @@
 
 <body>
 
+    <div class="pattu-border" onclick="var n=document.getElementById('pattu-note'); var h=document.getElementById('pattu-hint'); n.classList.toggle('visible'); if(n.classList.contains('visible')){h.style.display='none';}else{h.style.display='';}"><div class="pattu-border-inner"></div></div>
+
+    <div class="pattu-note" id="pattu-note">
+        <div class="pattu-note-card">
+            <button class="pattu-note-close" onclick="document.getElementById('pattu-note').classList.remove('visible');" aria-label="Close">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <div class="pattu-note-title">The Pattu Border</div>
+            <p>In South Indian silk sarees, the <em>pattu border</em> is the ornate woven edge — temples, peacocks, elephants — each motif carrying generations of meaning.</p>
+            <div class="pattu-note-images">
+                <img src="s1.png" alt="Inside a saree shop in India">
+                <img src="s2.png" alt="Colorful sarees in a shop">
+            </div>
+            <p>When I first walked into a saree shop in India, the shopkeeper explained every detail with effortless expertise: <em>how the weight of the silk tells the occasion, the width of the border signals formality, the motifs connect to regional identity.</em> It felt like a masterclass in human-centered design.</p>
+            <p>That experience stayed with me. The pattu border here is a tribute to that craft — a reminder that the best design communicates richness through thoughtful detail.</p>
+        </div>
+    </div>
+
+    <div class="pattu-hint" id="pattu-hint" aria-hidden="true">
+        <span class="pattu-hint-text">click the border</span>
+        <svg class="pattu-hint-arrow" viewBox="0 0 70 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M58 4 C48 8, 30 14, 18 26 C10 34, 6 44, 4 52" stroke="#b8860b" stroke-width="1.2" stroke-linecap="round" fill="none" stroke-dasharray="4 3"/>
+            <path d="M8 48 L3 55 L0 46" stroke="#b8860b" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+    </div>
+
     <!-- <div class="logo">◆</div> -->
 
     <div class="name-section fade-up">
@@ -1296,7 +1476,7 @@
             <ul class="link-list">
                 <li class="case-study-item"><a href="https://arxiv.org/abs/2508.11707" target="_blank">Listening with
                         Language Models: Using LLMs to Collect and Interpret Classroom Feedback</a><span
-                        class="case-study-meta">arXiv · 2025</span></li>
+                        class="case-study-meta">MIT-AIED 2025</span></li>
                 <li class="case-study-item"><a href="https://par.nsf.gov/servlets/purl/10586905"
                         target="_blank">Strategies
                         for Self-Regulated Learning with AI in an Undergraduate Research Methods Course</a><span
