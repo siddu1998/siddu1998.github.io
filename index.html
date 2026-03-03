@@ -115,7 +115,7 @@
             border-radius: 6px;
             padding: 1.1rem 1.25rem;
             max-width: 340px;
-            box-shadow: 2px 3px 12px rgba(0,0,0,0.07);
+            box-shadow: 2px 3px 12px rgba(0, 0, 0, 0.07);
             position: relative;
         }
 
@@ -180,16 +180,37 @@
             justify-content: center;
         }
 
-        .pattu-note-close:hover { color: var(--ink); }
-        .pattu-note-close svg { width: 12px; height: 12px; }
+        .pattu-note-close:hover {
+            color: var(--ink);
+        }
 
-        @media (max-width: 600px) {
+        .pattu-note-close svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        @media (max-width: 768px) {
+
+            .pattu-border,
+            .pattu-hint,
+            .pattu-note {
+                display: none !important;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 900px) {
             .pattu-note {
                 left: 70px;
                 max-width: 260px;
             }
-            .pattu-note-arrow { display: none; }
-            .pattu-note-card::before { display: none; }
+
+            .pattu-note-arrow {
+                display: none;
+            }
+
+            .pattu-note-card::before {
+                display: none;
+            }
         }
 
         a {
@@ -386,7 +407,7 @@
         }
 
         .tab-panel.active {
-            max-height: 3000px;
+            max-height: 8000px;
             opacity: 1;
         }
 
@@ -699,8 +720,13 @@
         }
 
         @keyframes modalFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         .reactions-modal {
@@ -712,13 +738,20 @@
             overflow-y: auto;
             padding: 2rem 2rem 1.5rem;
             position: relative;
-            box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.18);
             animation: modalSlideUp 0.25s ease;
         }
 
         @keyframes modalSlideUp {
-            from { opacity: 0; transform: translateY(16px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .reactions-modal-header {
@@ -861,7 +894,7 @@
 
         .reactions-modal-reviews img:hover {
             transform: scale(1.02);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         }
 
         .reactions-modal.wide {
@@ -872,6 +905,7 @@
             .reactions-modal {
                 padding: 1.25rem;
             }
+
             .reactions-modal-tweets,
             .reactions-modal-articles,
             .reactions-modal-reviews {
@@ -1171,29 +1205,44 @@
 
 <body>
 
-    <div class="pattu-border" onclick="var n=document.getElementById('pattu-note'); var h=document.getElementById('pattu-hint'); n.classList.toggle('visible'); if(n.classList.contains('visible')){h.style.display='none';}else{h.style.display='';}"><div class="pattu-border-inner"></div></div>
+    <div class="pattu-border"
+        onclick="var n=document.getElementById('pattu-note'); var h=document.getElementById('pattu-hint'); n.classList.toggle('visible'); if(n.classList.contains('visible')){h.style.display='none';}else{h.style.display='';}">
+        <div class="pattu-border-inner"></div>
+    </div>
 
     <div class="pattu-note" id="pattu-note">
         <div class="pattu-note-card">
-            <button class="pattu-note-close" onclick="document.getElementById('pattu-note').classList.remove('visible');" aria-label="Close">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            <button class="pattu-note-close"
+                onclick="document.getElementById('pattu-note').classList.remove('visible');" aria-label="Close">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
             </button>
             <div class="pattu-note-title">The Pattu Border</div>
-            <p>In South Indian silk sarees, the <em>pattu border</em> is the ornate woven edge — temples, peacocks, elephants — each motif carrying generations of meaning.</p>
+            <p>In South Indian silk sarees, the <em>pattu border</em> is the ornate woven edge — temples, peacocks,
+                elephants — each motif carrying generations of meaning.</p>
             <div class="pattu-note-images">
                 <img src="s1.png" alt="Inside a saree shop in India">
                 <img src="s2.png" alt="Colorful sarees in a shop">
             </div>
-            <p>When I first walked into a saree shop in India, the shopkeeper explained every detail with effortless expertise: <em>how the weight of the silk tells the occasion, the width of the border signals formality, the motifs connect to regional identity.</em> It felt like a masterclass in human-centered design.</p>
-            <p>That experience stayed with me. The pattu border here is a tribute to that craft — a reminder that the best design communicates richness through thoughtful detail.</p>
+            <p>When I first walked into a saree shop in India, the shopkeeper explained every detail with effortless
+                expertise: <em>how the weight of the silk tells the occasion, the width of the border signals formality,
+                    the motifs connect to regional identity.</em> It felt like a masterclass in human-centered design.
+            </p>
+            <p>That experience stayed with me. The pattu border here is a tribute to that craft — a reminder that the
+                best design communicates richness through thoughtful detail.</p>
         </div>
     </div>
 
     <div class="pattu-hint" id="pattu-hint" aria-hidden="true">
         <span class="pattu-hint-text">click the border</span>
         <svg class="pattu-hint-arrow" viewBox="0 0 70 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M58 4 C48 8, 30 14, 18 26 C10 34, 6 44, 4 52" stroke="#b8860b" stroke-width="1.2" stroke-linecap="round" fill="none" stroke-dasharray="4 3"/>
-            <path d="M8 48 L3 55 L0 46" stroke="#b8860b" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M58 4 C48 8, 30 14, 18 26 C10 34, 6 44, 4 52" stroke="#b8860b" stroke-width="1.2"
+                stroke-linecap="round" fill="none" stroke-dasharray="4 3" />
+            <path d="M8 48 L3 55 L0 46" stroke="#b8860b" stroke-width="1.2" stroke-linecap="round"
+                stroke-linejoin="round" fill="none" />
         </svg>
     </div>
 
@@ -1236,7 +1285,7 @@
         <p class="role-headline">UX Researcher & Designer · PhD Candidate at <a href="https://guiilab.ucsc.edu/"
                 target="_blank">UC Santa Cruz</a></p>
         <p class="role-affiliation">Previously at Meta, Xbox (Microsoft), Invento Robotics</p>
-        <p class="role-affiliation">I design how humans and AI agents collaborate, learn, and reflect.</p>
+        <p class="role-affiliation">I design how humans and agents interact with humans and agents.</p>
         <p class="role">More <a href="#" class="about-trigger" id="aboutTrigger">about me</a> · <a
                 href="mailto:msaisiddartha1@gmail.com">msaisiddartha1@gmail.com</a></p>
     </div>
@@ -1257,12 +1306,14 @@
                 <div class="featured-card featured-card-ooha">
                     <div class="featured-card-topstrip">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
-                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 7V5a4 4 0 0 0-8 0v2"/>
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                            <path d="M16 7V5a4 4 0 0 0-8 0v2" />
                         </svg>
                         Internship Project
                     </div>
                     <a href="./Xbox2.html" class="featured-card-main">
-                        <div class="featured-card-image"><img src="aura.png" alt="AURA — Agentic User Research interview interface"></div>
+                        <div class="featured-card-image"><img src="aura.png"
+                                alt="AURA — Agentic User Research interview interface"></div>
                         <div class="featured-card-body">
                             <div class="featured-card-header">
                                 <span class="featured-card-badge">Xbox · Microsoft</span>
@@ -1273,53 +1324,66 @@
                                     </svg> NDA</span>
                             </div>
                             <div class="featured-card-title">AURA: Agentic User Research</div>
-                            <div class="featured-card-desc">AI-assisted agentic systems for scalable user research — automating
+                            <div class="featured-card-desc">AI-assisted agentic systems for scalable user research —
+                                automating
                                 analysis while keeping researchers in the loop.</div>
                         </div>
                     </a>
                 </div>
                 <div class="featured-card featured-card-ooha">
-                    <a href="https://ooha-creator.github.io/" target="_blank" rel="noopener" class="featured-card-topstrip featured-card-topstrip-cta" onclick="event.stopPropagation();">
+                    <a href="https://ooha-creator.github.io/" target="_blank" rel="noopener"
+                        class="featured-card-topstrip featured-card-topstrip-cta" onclick="event.stopPropagation();">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
-                            <circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/>
+                            <circle cx="12" cy="12" r="10" />
+                            <polygon points="10 8 16 12 10 16 10 8" />
                         </svg>
                         Try it live
                     </a>
                     <a href="./canvasNew.html" class="featured-card-main">
-                        <div class="featured-card-image"><img src="SCAI/finalOOHA.png" alt="Ooha AI Canvas interface"></div>
+                        <div class="featured-card-image"><img src="SCAI/finalOOHA.png" alt="Ooha AI Canvas interface">
+                        </div>
                         <div class="featured-card-body">
                             <div class="featured-card-header">
                                 <span class="featured-card-badge">LLM × Design</span>
                             </div>
                             <div class="featured-card-title">Ooha: AI Canvas</div>
-                            <div class="featured-card-desc">AI-powered canvas for collaborative ideation — transforming raw
+                            <div class="featured-card-desc">AI-powered canvas for collaborative ideation — transforming
+                                raw
                                 ideas into structured concepts with LLM workflows.</div>
                         </div>
                     </a>
                     <div class="featured-card-reactions">
-                        <button class="featured-card-reactions-btn" onclick="event.stopPropagation(); event.preventDefault(); var m = document.getElementById('ooha-reactions-modal'); m.classList.add('visible'); if (!m.dataset.loaded) { m.dataset.loaded = '1'; if (window.twttr && twttr.widgets) twttr.widgets.load(m); }">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <path d="m3 11 18-5v12L3 13v-2z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
+                        <button class="featured-card-reactions-btn"
+                            onclick="event.stopPropagation(); event.preventDefault(); var m = document.getElementById('ooha-reactions-modal'); m.classList.add('visible'); if (!m.dataset.loaded) { m.dataset.loaded = '1'; if (window.twttr && twttr.widgets) twttr.widgets.load(m); }">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                aria-hidden="true">
+                                <path d="m3 11 18-5v12L3 13v-2z" />
+                                <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
                             </svg>
                             What people are saying
                         </button>
                     </div>
                 </div>
                 <div class="featured-card featured-card-ooha">
-                    <a href="https://cursor-research.github.io/" target="_blank" rel="noopener" class="featured-card-topstrip featured-card-topstrip-cta" onclick="event.stopPropagation();">
+                    <a href="https://cursor-research.github.io/" target="_blank" rel="noopener"
+                        class="featured-card-topstrip featured-card-topstrip-cta" onclick="event.stopPropagation();">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
-                            <circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/>
+                            <circle cx="12" cy="12" r="10" />
+                            <polygon points="10 8 16 12 10 16 10 8" />
                         </svg>
                         Try it live
                     </a>
                     <a href="./uxai.html" class="featured-card-main">
-                        <div class="featured-card-image"><img src="cursor-research.png" alt="Cursor Research — Canvas with Semantic Search"></div>
+                        <div class="featured-card-image"><img src="cursor-research.png"
+                                alt="Cursor Research — Canvas with Semantic Search"></div>
                         <div class="featured-card-body">
                             <div class="featured-card-header">
                                 <span class="featured-card-badge">LLM × Research</span>
                             </div>
                             <div class="featured-card-title">Cursor Research</div>
-                            <div class="featured-card-desc">AI canvas with human-in-the-loop chunking, thematic analysis, and
+                            <div class="featured-card-desc">AI canvas with human-in-the-loop chunking, thematic
+                                analysis, and
                                 RAG-powered semantic search.</div>
                         </div>
                     </a>
@@ -1329,7 +1393,8 @@
 
                 <div class="featured-card featured-card-ooha">
                     <a href="./shlokaNew.html" class="featured-card-main">
-                        <div class="featured-card-image"><img src="Group844.png" alt="Shloka climate elements at religious sites"></div>
+                        <div class="featured-card-image"><img src="Group844.png"
+                                alt="Shloka climate elements at religious sites"></div>
                         <div class="featured-card-body">
                             <div class="featured-card-header">
                                 <span class="featured-card-badge award">ACM DIS '25 — Best Paper</span>
@@ -1340,28 +1405,35 @@
                         </div>
                     </a>
                     <div class="featured-card-reactions">
-                        <button class="featured-card-reactions-btn" onclick="event.stopPropagation(); event.preventDefault(); document.getElementById('shloka-reactions-modal').classList.add('visible');">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <path d="m3 11 18-5v12L3 13v-2z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
+                        <button class="featured-card-reactions-btn"
+                            onclick="event.stopPropagation(); event.preventDefault(); document.getElementById('shloka-reactions-modal').classList.add('visible');">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                aria-hidden="true">
+                                <path d="m3 11 18-5v12L3 13v-2z" />
+                                <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
                             </svg>
                             Press coverage
                         </button>
                     </div>
                 </div>
                 <a href="./religionVideoGamesNew.html" class="featured-card">
-                    <div class="featured-card-image"><img src="Group 162.png" alt="Religion and videogames research"></div>
+                    <div class="featured-card-image"><img src="Group 162.png" alt="Religion and videogames research">
+                    </div>
                     <div class="featured-card-body">
                         <div class="featured-card-header">
                             <span class="featured-card-badge">CHI PLAY '24</span>
                         </div>
                         <div class="featured-card-title">Religious Inclusivity in Games</div>
-                        <div class="featured-card-desc">Understanding how players from diverse faith backgrounds experience
+                        <div class="featured-card-desc">Understanding how players from diverse faith backgrounds
+                            experience
                             games and what representation they need.</div>
                     </div>
                 </a>
                 <div class="featured-card featured-card-ooha">
                     <a href="./ToD.html" class="featured-card-main">
-                        <div class="featured-card-image"><img src="Instagram story - 12.png" alt="Tales of Dharma"></div>
+                        <div class="featured-card-image"><img src="Instagram story - 12.png" alt="Tales of Dharma">
+                        </div>
                         <div class="featured-card-body">
                             <div class="featured-card-header">
                                 <span class="featured-card-badge">Best Seller</span>
@@ -1374,14 +1446,19 @@
                                     </svg> Buy Now</a>
                             </div>
                             <div class="featured-card-title">Tales of Dharma</div>
-                            <div class="featured-card-desc">Narrative tabletop game exploring dharma and moral choice — best
+                            <div class="featured-card-desc">Narrative tabletop game exploring dharma and moral choice —
+                                best
                                 seller with 1000+ copies sold.</div>
                         </div>
                     </a>
                     <div class="featured-card-reactions">
-                        <button class="featured-card-reactions-btn" onclick="event.stopPropagation(); event.preventDefault(); document.getElementById('tod-reactions-modal').classList.add('visible');">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <path d="m3 11 18-5v12L3 13v-2z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
+                        <button class="featured-card-reactions-btn"
+                            onclick="event.stopPropagation(); event.preventDefault(); document.getElementById('tod-reactions-modal').classList.add('visible');">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                aria-hidden="true">
+                                <path d="m3 11 18-5v12L3 13v-2z" />
+                                <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
                             </svg>
                             Customer reviews
                         </button>
@@ -1390,24 +1467,28 @@
                 <div class="featured-card featured-card-ooha">
                     <div class="featured-card-topstrip">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
-                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 7V5a4 4 0 0 0-8 0v2"/>
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                            <path d="M16 7V5a4 4 0 0 0-8 0v2" />
                         </svg>
                         Internship Project
                     </div>
                     <a href="./metaNew.html" class="featured-card-main">
-                        <div class="featured-card-image"><img src="Group 11.png" alt="Facebook Home for Gen-Z design outcomes"></div>
+                        <div class="featured-card-image"><img src="Group 11.png"
+                                alt="Facebook Home for Gen-Z design outcomes"></div>
                         <div class="featured-card-body">
                             <div class="featured-card-header">
                                 <span class="featured-card-badge">Meta</span>
                             </div>
                             <div class="featured-card-title">Facebook Home for Gen-Z</div>
-                            <div class="featured-card-desc">Generative research exploring emotionally-aware feed experiences for
+                            <div class="featured-card-desc">Generative research exploring emotionally-aware feed
+                                experiences for
                                 Gen-Z at Meta Top of Home.</div>
                         </div>
                     </a>
                 </div>
                 <a href="./astraVerseNew.html" class="featured-card">
-                    <div class="featured-card-image"><img src="temporary/images/astraVerse/Group%20101%20(1).png" alt="AstraVerse Character Design"></div>
+                    <div class="featured-card-image"><img src="temporary/images/astraVerse/Group%20101%20(1).png"
+                            alt="AstraVerse Character Design"></div>
                     <div class="featured-card-body">
                         <div class="featured-card-header">
                             <span class="featured-card-badge">ACM FDG '23</span>
@@ -1421,7 +1502,8 @@
                 <h3 class="featured-grid-category">Education × AI</h3>
 
                 <a href="./opmNew.html" class="featured-card">
-                    <div class="featured-card-image"><img src="temporary/images/Group%20107%20(4).png" alt="Game Play Reflection Systems"></div>
+                    <div class="featured-card-image"><img src="temporary/images/Group%20107%20(4).png"
+                            alt="Game Play Reflection Systems"></div>
                     <div class="featured-card-body">
                         <div class="featured-card-header">
                             <span class="featured-card-badge">CHI '24</span>
@@ -1432,13 +1514,16 @@
                     </div>
                 </a>
                 <a href="./studycrafter.html" class="featured-card">
-                    <div class="featured-card-image"><img src="StudyCrafter___Prompt_Taxonomy_CHI_PLAYu (3)/images/Group 245 (1).png" alt="Gamified prompts examples"></div>
+                    <div class="featured-card-image"><img
+                            src="StudyCrafter___Prompt_Taxonomy_CHI_PLAYu (3)/images/Group 245 (1).png"
+                            alt="Gamified prompts examples"></div>
                     <div class="featured-card-body">
                         <div class="featured-card-header">
                             <span class="featured-card-badge">CHI PLAY '26</span>
                         </div>
                         <div class="featured-card-title">TGP: Gamified Prompts</div>
-                        <div class="featured-card-desc">A taxonomy for embedding game mechanics into LLM prompts — turning
+                        <div class="featured-card-desc">A taxonomy for embedding game mechanics into LLM prompts —
+                            turning
                             chatbots into game engines for learning.</div>
                     </div>
                 </a>
@@ -1523,13 +1608,15 @@
         <div class="tab-panel" id="tab-ui-design">
             <div class="featured-grid">
                 <a href="./design-system.html" class="featured-card">
-                    <div class="featured-card-image"><img src="assets/bell-tv-bg.png" alt="Magazine UI design system"></div>
+                    <div class="featured-card-image"><img src="assets/bell-tv-bg.png" alt="Magazine UI design system">
+                    </div>
                     <div class="featured-card-body">
                         <div class="featured-card-header">
                             <span class="featured-card-badge">Design System</span>
                         </div>
                         <div class="featured-card-title">Magazine UI</div>
-                        <div class="featured-card-desc">A cohesive design system for magazine-style interfaces — typography,
+                        <div class="featured-card-desc">A cohesive design system for magazine-style interfaces —
+                            typography,
                             layout, and components for editorial digital products.</div>
                     </div>
                 </a>
@@ -1545,7 +1632,8 @@
                     </div>
                 </a>
                 <a href="./design-system-rkjoshi.html" class="featured-card">
-                    <div class="featured-card-image"><img src="assets/rkjoshi-tv-bg.png" alt="RK Joshi design system"></div>
+                    <div class="featured-card-image"><img src="assets/rkjoshi-tv-bg.png" alt="RK Joshi design system">
+                    </div>
                     <div class="featured-card-body">
                         <div class="featured-card-header">
                             <span class="featured-card-badge">Typography × Heritage</span>
@@ -1739,37 +1827,68 @@
         });
     </script>
     <!-- Ooha reactions modal -->
-    <div class="reactions-modal-backdrop" id="ooha-reactions-modal" onclick="if(event.target===this) this.classList.remove('visible');">
+    <div class="reactions-modal-backdrop" id="ooha-reactions-modal"
+        onclick="if(event.target===this) this.classList.remove('visible');">
         <div class="reactions-modal">
             <div class="reactions-modal-header">
                 <div class="reactions-modal-title">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="m3 11 18-5v12L3 13v-2z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m3 11 18-5v12L3 13v-2z" />
+                        <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
                     </svg>
                     What people are saying about Ooha
                 </div>
-                <button class="reactions-modal-close" onclick="document.getElementById('ooha-reactions-modal').classList.remove('visible');" aria-label="Close">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <button class="reactions-modal-close"
+                    onclick="document.getElementById('ooha-reactions-modal').classList.remove('visible');"
+                    aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
                 </button>
             </div>
             <div class="reactions-modal-tweets">
-                <blockquote class="twitter-tweet" data-dnt="true" data-conversation="none"><p lang="und" dir="ltr">ఊహ ఎంత బాగుందో... haha, I love it! <a href="https://t.co/CH1hwLicvc">https://t.co/CH1hwLicvc</a> <a href="https://t.co/kP5rOxi5VS">pic.twitter.com/kP5rOxi5VS</a></p>&mdash; Sudeepa Kolli (@i_sudeepa) <a href="https://twitter.com/i_sudeepa/status/1976500582082023557?ref_src=twsrc%5Etfw">October 10, 2025</a></blockquote>
-                <blockquote class="twitter-tweet" data-dnt="true" data-conversation="none"><p lang="en" dir="ltr">I've needed an AI idea board that wasn't notion for so long!!!<br><br>This is amazing 🤩 <a href="https://t.co/fTHmOp9vxq">https://t.co/fTHmOp9vxq</a></p>&mdash; Sri Laasya Nutheti (@n_sri_laasya) <a href="https://twitter.com/n_sri_laasya/status/1976046371687080181?ref_src=twsrc%5Etfw">October 8, 2025</a></blockquote>
+                <blockquote class="twitter-tweet" data-dnt="true" data-conversation="none">
+                    <p lang="und" dir="ltr">ఊహ ఎంత బాగుందో... haha, I love it! <a
+                            href="https://t.co/CH1hwLicvc">https://t.co/CH1hwLicvc</a> <a
+                            href="https://t.co/kP5rOxi5VS">pic.twitter.com/kP5rOxi5VS</a></p>&mdash; Sudeepa Kolli
+                    (@i_sudeepa) <a
+                        href="https://twitter.com/i_sudeepa/status/1976500582082023557?ref_src=twsrc%5Etfw">October 10,
+                        2025</a>
+                </blockquote>
+                <blockquote class="twitter-tweet" data-dnt="true" data-conversation="none">
+                    <p lang="en" dir="ltr">I've needed an AI idea board that wasn't notion for so long!!!<br><br>This is
+                        amazing 🤩 <a href="https://t.co/fTHmOp9vxq">https://t.co/fTHmOp9vxq</a></p>&mdash; Sri Laasya
+                    Nutheti (@n_sri_laasya) <a
+                        href="https://twitter.com/n_sri_laasya/status/1976046371687080181?ref_src=twsrc%5Etfw">October
+                        8, 2025</a>
+                </blockquote>
             </div>
         </div>
     </div>
     <!-- Tales of Dharma customer reviews modal -->
-    <div class="reactions-modal-backdrop" id="tod-reactions-modal" onclick="if(event.target===this) this.classList.remove('visible');">
+    <div class="reactions-modal-backdrop" id="tod-reactions-modal"
+        onclick="if(event.target===this) this.classList.remove('visible');">
         <div class="reactions-modal wide">
             <div class="reactions-modal-header">
                 <div class="reactions-modal-title">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="m3 11 18-5v12L3 13v-2z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m3 11 18-5v12L3 13v-2z" />
+                        <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
                     </svg>
                     Customer reviews for Tales of Dharma
                 </div>
-                <button class="reactions-modal-close" onclick="document.getElementById('tod-reactions-modal').classList.remove('visible');" aria-label="Close">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <button class="reactions-modal-close"
+                    onclick="document.getElementById('tod-reactions-modal').classList.remove('visible');"
+                    aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
                 </button>
             </div>
             <div class="reactions-modal-reviews">
@@ -1782,31 +1901,54 @@
     </div>
 
     <!-- Shloka press coverage modal -->
-    <div class="reactions-modal-backdrop" id="shloka-reactions-modal" onclick="if(event.target===this) this.classList.remove('visible');">
+    <div class="reactions-modal-backdrop" id="shloka-reactions-modal"
+        onclick="if(event.target===this) this.classList.remove('visible');">
         <div class="reactions-modal">
             <div class="reactions-modal-header">
                 <div class="reactions-modal-title">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="m3 11 18-5v12L3 13v-2z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m3 11 18-5v12L3 13v-2z" />
+                        <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
                     </svg>
                     Press coverage for Shloka
                 </div>
-                <button class="reactions-modal-close" onclick="document.getElementById('shloka-reactions-modal').classList.remove('visible');" aria-label="Close">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <button class="reactions-modal-close"
+                    onclick="document.getElementById('shloka-reactions-modal').classList.remove('visible');"
+                    aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
                 </button>
             </div>
             <div class="reactions-modal-articles">
-                <a href="https://news.ucsc.edu/2025/08/religion-climate-games/" target="_blank" rel="noopener noreferrer" class="press-card">
+                <a href="https://news.ucsc.edu/2025/08/religion-climate-games/" target="_blank"
+                    rel="noopener noreferrer" class="press-card">
                     <div class="press-card-source">UC Santa Cruz News</div>
-                    <div class="press-card-title">Digital game demonstrates the power of religion for climate change education</div>
-                    <div class="press-card-excerpt">"Even my grandmother could play this game and say 'I know this character, I know what they're talking about.'"</div>
-                    <span class="press-card-read">Read article <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                    <div class="press-card-title">Digital game demonstrates the power of religion for climate change
+                        education</div>
+                    <div class="press-card-excerpt">"Even my grandmother could play this game and say 'I know this
+                        character, I know what they're talking about.'"</div>
+                    <span class="press-card-read">Read article <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24">
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12 5 19 12 12 19" />
+                        </svg></span>
                 </a>
-                <a href="https://phys.org/news/2025-08-digital-game-power-religion-climate.html" target="_blank" rel="noopener noreferrer" class="press-card">
+                <a href="https://phys.org/news/2025-08-digital-game-power-religion-climate.html" target="_blank"
+                    rel="noopener noreferrer" class="press-card">
                     <div class="press-card-source">Phys.org</div>
-                    <div class="press-card-title">Digital game demonstrates the power of religion for climate change education</div>
-                    <div class="press-card-excerpt">"Shloka uses Hindu deities, practices, and narratives to communicate the problems of climate change."</div>
-                    <span class="press-card-read">Read article <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                    <div class="press-card-title">Digital game demonstrates the power of religion for climate change
+                        education</div>
+                    <div class="press-card-excerpt">"Shloka uses Hindu deities, practices, and narratives to communicate
+                        the problems of climate change."</div>
+                    <span class="press-card-read">Read article <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24">
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12 5 19 12 12 19" />
+                        </svg></span>
                 </a>
             </div>
         </div>
