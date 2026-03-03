@@ -15,8 +15,8 @@
             --folk-ink: #1C1612;
             --folk-paper: #F7F3ED;
             --folk-paper-warm: #F0EBE3;
-            --folk-accent: #C65D3E;
-            --folk-accent-dark: #A84B30;
+            --folk-accent: #547053;
+            --folk-accent-dark: #41573E;
             --folk-turmeric: #D4A843;
             --folk-indigo: #2D4F6C;
             --folk-muted: #7A6F63;
@@ -25,7 +25,7 @@
             --font-display: 'Kalam', cursive;
             --font-body: 'Source Code Pro', monospace;
             --font-mono: 'JetBrains Mono', monospace;
-            --color-brand-primary: #C65D3E;
+            --color-brand-primary: #547053;
             --color-brand-secondary: #2D4F6C;
             --color-semantic-success: #4A7C59;
             --color-semantic-warning: #D4A843;
@@ -606,7 +606,7 @@
         .form-textarea:focus {
             outline: none;
             border-color: var(--folk-accent);
-            box-shadow: 0 0 0 3px rgba(198, 93, 62, 0.12);
+            box-shadow: 0 0 0 3px rgba(84, 112, 83, 0.12);
         }
 
         .form-textarea {
@@ -1907,6 +1907,12 @@
                 <p>Every color traces back to a physical source — the dye vats of Machilipatnam, the spice bins of a
                     Kerala market, the charcoal used for lamp-black Kalamkari outlines.</p>
                 <h3>Primary & accent</h3>
+                <p style="font-size: 14px; color: var(--folk-muted); max-width: 600px; margin-bottom: 24px;">
+                    <strong>Mehendi Green</strong> was chosen as the primary brand color to ground the AI in the
+                    physical world. While many tech platforms use energetic digital oranges or neon blues, this muted,
+                    earthy green traces its inspiration to crushed henna leaves and forest foliage—communicating organic
+                    intelligence, trustworthiness, and a deep connection to Indian folk art.
+                </p>
                 <div class="color-grid">
                     <div class="color-swatch">
                         <div class="swatch-preview" style="background: var(--folk-ink);"></div>
@@ -1920,8 +1926,8 @@
                     </div>
                     <div class="color-swatch">
                         <div class="swatch-preview" style="background: var(--folk-accent);"></div>
-                        <div class="swatch-name">Burnt Sienna</div>
-                        <div class="swatch-value">#C65D3E</div>
+                        <div class="swatch-name">Mehendi Green</div>
+                        <div class="swatch-value">#547053</div>
                     </div>
                     <div class="color-swatch">
                         <div class="swatch-preview" style="background: var(--folk-turmeric);"></div>
@@ -2014,7 +2020,7 @@
                         Kalamkari */</span>
                     <span class="k">--folk-paper</span>: <span class="s">#F7F3ED</span>; <span class="c">/* unbleached
                         handloom */</span>
-                    <span class="k">--folk-accent</span>: <span class="s">#C65D3E</span>; <span class="c">/* madder root
+                    <span class="k">--folk-accent</span>: <span class="s">#547053</span>; <span class="c">/* madder root
                         / terra cotta */</span>
                     <span class="k">--folk-turmeric</span>: <span class="s">#D4A843</span>; <span class="c">/* haldi
                         stain */</span>
@@ -2218,7 +2224,7 @@
                 <!-- ============================== -->
 
                 <h3 id="payment">Payment gateway</h3>
-                <p>A clean checkout flow with UPI, card, and netbanking tabs. The burnt sienna CTA anchors the
+                <p>A clean checkout flow with UPI, card, and netbanking tabs. The earthy green CTA anchors the
                     conversion moment.</p>
                 <div class="block">
                     <div class="block-head">Checkout flow</div>
@@ -2451,7 +2457,7 @@
                 </div>
 
                 <h3 id="chat">Chat bubbles</h3>
-                <p>User messages sit right in burnt sienna. AI responses sit left on handloom white. Thinking dots cycle
+                <p>User messages sit right in earthy green. AI responses sit left on handloom white. Thinking dots cycle
                     through spice colors — chilli, turmeric, indigo.</p>
                 <div class="block">
                     <div class="block-head">Prompt suggestions & Empty State</div>
@@ -2489,13 +2495,84 @@
                             </div>
                         </div>
                         <!-- Text input for starting a conversation -->
+                        <!-- Rich text input for starting a conversation -->
                         <div
-                            style="padding: var(--space-3); border-top: 1px solid var(--folk-rule); display: flex; gap: 6px;">
-                            <input
-                                style="flex: 1; font-size: 13px; padding: 10px 14px; border: 1px solid var(--folk-rule); border-radius: 6px; background: var(--folk-paper); font-family: var(--font-body);"
-                                placeholder="Message Karigar…">
-                            <button
-                                style="background: var(--folk-accent); color: var(--folk-paper); border: none; padding: 10px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: var(--font-body);">Send</button>
+                            style="padding: var(--space-3); border-top: 1px solid var(--folk-rule); background: transparent;">
+                            <div
+                                style="border: 1px solid var(--folk-rule); border-radius: 8px; background: var(--folk-paper); display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--shadow-sm);">
+                                <textarea
+                                    style="width: 100%; border: none; background: transparent; padding: 12px 14px; font-size: 13px; font-family: var(--font-body); color: var(--folk-ink); resize: none; outline: none; height: 60px;"
+                                    placeholder="Message Karigar…"></textarea>
+
+                                <div
+                                    style="display: flex; align-items: center; padding: 6px 10px; gap: 8px; background: var(--folk-paper);">
+                                    <!-- Upload Button (+) -->
+                                    <button
+                                        style="background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; color: var(--folk-muted); border-radius: 4px;"
+                                        onmouseover="this.style.background='var(--color-neutral-100)'"
+                                        onmouseout="this.style.background='transparent'">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        </svg>
+                                    </button>
+
+                                    <!-- Planning Pill -->
+                                    <div style="display: flex; align-items: center; gap: 4px; padding: 4px 10px; border: 1px solid transparent; border-radius: 16px; font-size: 12px; font-family: var(--font-mono); color: var(--folk-muted); cursor: pointer; transition: background 0.2s;"
+                                        onmouseover="this.style.background='var(--color-neutral-100)'"
+                                        onmouseout="this.style.background='transparent'">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="18 15 12 9 6 15"></polyline>
+                                        </svg>
+                                        Planning
+                                    </div>
+
+                                    <!-- Model Selector Pill -->
+                                    <div style="display: flex; align-items: center; gap: 4px; padding: 4px 10px; border: 1px solid transparent; border-radius: 16px; font-size: 12px; font-family: var(--font-mono); color: var(--folk-muted); cursor: pointer; transition: background 0.2s;"
+                                        onmouseover="this.style.background='var(--color-neutral-100)'"
+                                        onmouseout="this.style.background='transparent'">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="18 15 12 9 6 15"></polyline>
+                                        </svg>
+                                        Kalamkari-1 (High)
+                                    </div>
+
+                                    <div style="flex: 1;"></div>
+
+                                    <!-- Voice/Mic Button -->
+                                    <button
+                                        style="background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; color: var(--folk-muted); border-radius: 4px; margin-right: 4px;"
+                                        onmouseover="this.style.background='var(--color-neutral-100)'"
+                                        onmouseout="this.style.background='transparent'">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                            <line x1="12" y1="19" x2="12" y2="22"></line>
+                                        </svg>
+                                    </button>
+
+                                    <!-- Send Button -->
+                                    <button
+                                        style="background: var(--folk-accent); color: var(--folk-paper); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; box-shadow: var(--shadow-sm); transition: transform 0.2s, background 0.2s;"
+                                        onmouseover="this.style.transform='scale(1.05)'; this.style.background='var(--folk-accent-dark)'"
+                                        onmouseout="this.style.transform='none'; this.style.background='var(--folk-accent)'">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2571,20 +2648,91 @@
                                 <div class="thinking-dots"><span></span><span></span><span></span></div>
                             </div>
 
+                            <!-- Rich text input for starting a conversation -->
                             <div
-                                style="margin-top: var(--space-4); padding: var(--space-3); border-top: 1px solid var(--folk-rule); display: flex; gap: 6px;">
-                                <input
-                                    style="flex: 1; font-size: 13px; padding: 10px 14px; border: 1px solid var(--folk-rule); border-radius: 6px; background: var(--folk-paper); font-family: var(--font-body);"
-                                    placeholder="Message Karigar...">
-                                <button
-                                    style="background: var(--folk-accent); color: var(--folk-paper); border: none; padding: 10px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: var(--font-body);">Send</button>
+                                style="margin-top: var(--space-4); padding: var(--space-3); border-top: 1px solid var(--folk-rule); background: transparent;">
+                                <div
+                                    style="border: 1px solid var(--folk-rule); border-radius: 8px; background: var(--folk-paper); display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--shadow-sm);">
+                                    <textarea
+                                        style="width: 100%; border: none; background: transparent; padding: 12px 14px; font-size: 13px; font-family: var(--font-body); color: var(--folk-ink); resize: none; outline: none; height: 60px;"
+                                        placeholder="Message Karigar…"></textarea>
+
+                                    <div
+                                        style="display: flex; align-items: center; padding: 6px 10px; gap: 8px; background: var(--folk-paper);">
+                                        <!-- Upload Button (+) -->
+                                        <button
+                                            style="background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; color: var(--folk-muted); border-radius: 4px;"
+                                            onmouseover="this.style.background='var(--color-neutral-100)'"
+                                            onmouseout="this.style.background='transparent'">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                            </svg>
+                                        </button>
+
+                                        <!-- Planning Pill -->
+                                        <div style="display: flex; align-items: center; gap: 4px; padding: 4px 10px; border: 1px solid transparent; border-radius: 16px; font-size: 12px; font-family: var(--font-mono); color: var(--folk-muted); cursor: pointer; transition: background 0.2s;"
+                                            onmouseover="this.style.background='var(--color-neutral-100)'"
+                                            onmouseout="this.style.background='transparent'">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="18 15 12 9 6 15"></polyline>
+                                            </svg>
+                                            Planning
+                                        </div>
+
+                                        <!-- Model Selector Pill -->
+                                        <div style="display: flex; align-items: center; gap: 4px; padding: 4px 10px; border: 1px solid transparent; border-radius: 16px; font-size: 12px; font-family: var(--font-mono); color: var(--folk-muted); cursor: pointer; transition: background 0.2s;"
+                                            onmouseover="this.style.background='var(--color-neutral-100)'"
+                                            onmouseout="this.style.background='transparent'">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="18 15 12 9 6 15"></polyline>
+                                            </svg>
+                                            Kalamkari-1 (High)
+                                        </div>
+
+                                        <div style="flex: 1;"></div>
+
+                                        <!-- Voice/Mic Button -->
+                                        <button
+                                            style="background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; color: var(--folk-muted); border-radius: 4px; margin-right: 4px;"
+                                            onmouseover="this.style.background='var(--color-neutral-100)'"
+                                            onmouseout="this.style.background='transparent'">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                                <line x1="12" y1="19" x2="12" y2="22"></line>
+                                            </svg>
+                                        </button>
+
+                                        <!-- Send Button -->
+                                        <button
+                                            style="background: var(--folk-accent); color: var(--folk-paper); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; box-shadow: var(--shadow-sm); transition: transform 0.2s, background 0.2s;"
+                                            onmouseover="this.style.transform='scale(1.05)'; this.style.background='var(--folk-accent-dark)'"
+                                            onmouseout="this.style.transform='none'; this.style.background='var(--folk-accent)'">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <h3 id="voice">Voice AI</h3>
-                <p>The voice orb uses concentric ripple animations inspired by kolam patterns. Burnt sienna core pulses
+                <p>The voice orb uses concentric ripple animations inspired by kolam patterns. Burnt mehendi core pulses
                     outward — like sound waves, like the expanding rings of a rangoli.</p>
                 <div class="block">
                     <div class="block-head">Karigar Voice — listening state</div>
@@ -2633,7 +2781,7 @@
                 </div>
 
                 <h3 id="terminal">Terminal / CLI</h3>
-                <p>The terminal uses the Karigar palette for syntax highlighting — turmeric for keywords, sienna for
+                <p>The terminal uses the Karigar palette for syntax highlighting — turmeric for keywords, mehendi for
                     the prompt, sage for success. Think <em>Claude Code</em> with handcraft warmth.</p>
                 <div class="block">
                     <div class="block-head">Karigar Terminal session</div>
@@ -2662,7 +2810,7 @@
                                 <div class="terminal-line"><span class="terminal-prompt">❯ </span><span
                                         class="terminal-cmd">karigar apply --dry-run</span></div>
                                 <div class="terminal-line"><span class="terminal-output"> </span><span
-                                        class="terminal-error">- background: #C65D3E;</span></div>
+                                        class="terminal-error">- background: #547053;</span></div>
                                 <div class="terminal-line"><span class="terminal-output"> </span><span
                                         class="terminal-success">+ background: var(--folk-accent);</span></div>
                                 <div class="terminal-line"><span class="terminal-output"> </span><span
@@ -2791,11 +2939,83 @@
                                         </div>
                                     </div>
                                     <div
-                                        style="padding: var(--space-2) var(--space-3); border-top: 1px solid var(--folk-rule); display: flex; gap: 6px;">
-                                        <input
-                                            style="flex: 1; font-size: 11px; padding: 6px 10px; border: 1px solid var(--folk-rule); border-radius: 4px; background: var(--folk-paper); font-family: var(--font-body);"
-                                            placeholder="Send a message…"><button
-                                            style="background: var(--folk-accent); color: var(--folk-paper); border: none; padding: 6px 12px; border-radius: 4px; font-size: 10px; font-weight: 600; cursor: pointer; font-family: var(--font-body);">Send</button>
+                                        style="padding: var(--space-2) var(--space-3); border-top: 1px solid var(--folk-rule); background: transparent;">
+                                        <div
+                                            style="border: 1px solid var(--folk-rule); border-radius: 8px; background: var(--folk-paper); display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--shadow-sm);">
+                                            <textarea
+                                                style="width: 100%; border: none; background: transparent; padding: 12px 14px; font-size: 11px; font-family: var(--font-body); color: var(--folk-ink); resize: none; outline: none; height: 50px;"
+                                                placeholder="Send a message…"></textarea>
+
+                                            <div
+                                                style="display: flex; align-items: center; padding: 6px 10px; gap: 8px; background: var(--folk-paper);">
+                                                <!-- Upload Button (+) -->
+                                                <button
+                                                    style="background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; color: var(--folk-muted); border-radius: 4px;"
+                                                    onmouseover="this.style.background='var(--color-neutral-100)'"
+                                                    onmouseout="this.style.background='transparent'">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                    </svg>
+                                                </button>
+
+                                                <!-- Planning Pill -->
+                                                <div style="display: flex; align-items: center; gap: 4px; padding: 4px 8px; border: 1px solid transparent; border-radius: 16px; font-size: 10px; font-family: var(--font-mono); color: var(--folk-muted); cursor: pointer; transition: background 0.2s;"
+                                                    onmouseover="this.style.background='var(--color-neutral-100)'"
+                                                    onmouseout="this.style.background='transparent'">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <polyline points="18 15 12 9 6 15"></polyline>
+                                                    </svg>
+                                                    Planning
+                                                </div>
+
+                                                <!-- Model Selector Pill -->
+                                                <div style="display: flex; align-items: center; gap: 4px; padding: 4px 8px; border: 1px solid transparent; border-radius: 16px; font-size: 10px; font-family: var(--font-mono); color: var(--folk-muted); cursor: pointer; transition: background 0.2s;"
+                                                    onmouseover="this.style.background='var(--color-neutral-100)'"
+                                                    onmouseout="this.style.background='transparent'">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <polyline points="18 15 12 9 6 15"></polyline>
+                                                    </svg>
+                                                    Kalamkari-1 (High)
+                                                </div>
+
+                                                <div style="flex: 1;"></div>
+
+                                                <!-- Voice/Mic Button -->
+                                                <button
+                                                    style="background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; color: var(--folk-muted); border-radius: 4px; margin-right: 4px;"
+                                                    onmouseover="this.style.background='var(--color-neutral-100)'"
+                                                    onmouseout="this.style.background='transparent'">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z">
+                                                        </path>
+                                                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                                        <line x1="12" y1="19" x2="12" y2="22"></line>
+                                                    </svg>
+                                                </button>
+
+                                                <!-- Send Button -->
+                                                <button
+                                                    style="background: var(--folk-accent); color: var(--folk-paper); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; box-shadow: var(--shadow-sm); transition: transform 0.2s, background 0.2s;"
+                                                    onmouseover="this.style.transform='scale(1.05)'; this.style.background='var(--folk-accent-dark)'"
+                                                    onmouseout="this.style.transform='none'; this.style.background='var(--folk-accent)'">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                                                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -2804,40 +3024,6 @@
                     <div class="laptop-base"></div>
                 </div>
 
-                <h3 style="margin-top: var(--space-10);">Karigar Voice</h3>
-                <div class="app-example-label">Laptop — Karigar Voice Assistant</div>
-                <div class="laptop-frame" style="margin-bottom: var(--space-8);">
-                    <div class="laptop-lid">
-                        <div class="laptop-screen" style="aspect-ratio: 16/10;">
-                            <div
-                                style="height: 100%; background: var(--folk-ink); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: var(--space-4);">
-                                <div
-                                    style="font-family: var(--font-display); font-size: 16px; color: var(--folk-accent);">
-                                    Karigar Voice</div>
-                                <div
-                                    style="width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle, var(--folk-accent) 0%, var(--folk-accent-dark) 70%, var(--folk-ink) 100%); display: flex; align-items: center; justify-content: center; position: relative;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                        style="width: 24px; height: 24px; stroke: var(--folk-paper); fill: none; stroke-width: 2;">
-                                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-                                        <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-                                    </svg>
-                                </div>
-                                <div
-                                    style="font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--folk-accent);">
-                                    Listening…</div>
-                                <div
-                                    style="font-size: 12px; color: var(--color-neutral-400); font-style: italic; max-width: 280px; text-align: center; font-family: var(--font-body);">
-                                    "What spices are used in traditional Chettinad cooking?"</div>
-                                <div style="display: flex; gap: 6px; margin-top: 8px;"><span
-                                        style="padding: 4px 10px; border: 1px solid var(--color-neutral-600); border-radius: 12px; font-size: 10px; color: var(--color-neutral-400); font-family: var(--font-body);">Tell
-                                        me more</span><span
-                                        style="padding: 4px 10px; border: 1px solid var(--color-neutral-600); border-radius: 12px; font-size: 10px; color: var(--color-neutral-400); font-family: var(--font-body);">Show
-                                        recipes</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="laptop-base"></div>
-                </div>
 
                 <h3>Karigar CLI — Terminal</h3>
                 <div class="app-example-label">Laptop — Karigar CLI (Claude Code style)</div>
