@@ -1,0 +1,3344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karigar Design System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Source+Code+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --folk-ink: #1C1612;
+            --folk-paper: #F7F3ED;
+            --folk-paper-warm: #F0EBE3;
+            --folk-accent: #C65D3E;
+            --folk-accent-dark: #A84B30;
+            --folk-turmeric: #D4A843;
+            --folk-indigo: #2D4F6C;
+            --folk-muted: #7A6F63;
+            --folk-rule: #D5CEC4;
+            --folk-highlight: #FDF5EE;
+            --font-display: 'Kalam', cursive;
+            --font-body: 'Source Code Pro', monospace;
+            --font-mono: 'JetBrains Mono', monospace;
+            --color-brand-primary: #C65D3E;
+            --color-brand-secondary: #2D4F6C;
+            --color-semantic-success: #4A7C59;
+            --color-semantic-warning: #D4A843;
+            --color-semantic-error: #B5342B;
+            --color-neutral-50: #FAF8F5;
+            --color-neutral-100: #F0EBE3;
+            --color-neutral-200: #D5CEC4;
+            --color-neutral-300: #B8B0A5;
+            --color-neutral-400: #9A9087;
+            --color-neutral-500: #7A6F63;
+            --color-neutral-600: #5C5347;
+            --color-neutral-700: #3E372F;
+            --color-neutral-800: #2A241E;
+            --color-neutral-900: #1C1612;
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+            --space-8: 32px;
+            --space-10: 40px;
+            --space-12: 48px;
+            --space-16: 64px;
+            --space-20: 80px;
+            --shadow-xs: 0 1px 2px rgba(28, 22, 18, 0.06);
+            --shadow-sm: 0 1px 3px rgba(28, 22, 18, 0.08);
+            --shadow-md: 0 4px 12px rgba(28, 22, 18, 0.1);
+            --shadow-lg: 0 8px 24px rgba(28, 22, 18, 0.12);
+            --shadow-xl: 0 16px 40px rgba(28, 22, 18, 0.14);
+            --z-dropdown: 100;
+            --z-sticky: 200;
+            --z-modal: 300;
+            --z-toast: 400;
+            --z-tooltip: 500;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.65;
+            color: var(--folk-ink);
+            background: var(--folk-paper);
+            display: flex;
+        }
+
+        a {
+            color: var(--folk-accent);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        a:hover {
+            color: var(--folk-accent-dark);
+        }
+
+        /* --- Nav sidebar --- */
+        nav {
+            width: 220px;
+            flex-shrink: 0;
+            padding: 2rem 1.5rem;
+            border-right: 1px solid var(--folk-rule);
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            overflow-y: auto;
+            background: var(--folk-paper);
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--folk-ink);
+            text-decoration: none;
+            display: block;
+            margin-bottom: var(--space-6);
+        }
+
+        .nav-logo span {
+            color: var(--folk-accent);
+        }
+
+        nav a {
+            display: block;
+            padding: 0.25rem 0;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--folk-muted);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        nav a:hover {
+            color: var(--folk-ink);
+        }
+
+        .nav-section-label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--folk-rule);
+            margin-top: var(--space-6);
+            margin-bottom: var(--space-2);
+        }
+
+        /* --- Main content --- */
+        .content-wrap {
+            flex: 1;
+            display: flex;
+            min-width: 0;
+            justify-content: center;
+        }
+
+        main {
+            flex: 1;
+            min-width: 0;
+            padding: var(--space-12) var(--space-10);
+            max-width: 900px;
+        }
+
+        .inspiration-gallery {
+            column-count: 3;
+            column-gap: var(--space-4);
+            margin: var(--space-12) 0;
+            margin-top: var(--space-8);
+        }
+
+        @media (max-width: 768px) {
+            .inspiration-gallery {
+                column-count: 2;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .inspiration-gallery {
+                column-count: 1;
+            }
+        }
+
+        .gallery-item {
+            break-inside: avoid;
+            margin-bottom: var(--space-6);
+            position: relative;
+        }
+
+        .gallery-image {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: var(--space-2);
+            object-fit: cover;
+            box-shadow: var(--shadow-sm);
+            display: block;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gallery-image:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .gallery-placeholder {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: var(--space-2);
+            background: var(--folk-paper-warm);
+            border: 2px dashed var(--color-neutral-300);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-neutral-400);
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-align: center;
+            padding: var(--space-4);
+        }
+
+        .gallery-caption {
+            font-size: 11px;
+            color: var(--folk-muted);
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        /* --- Hero --- */
+        .hero {
+            margin-bottom: var(--space-12);
+        }
+
+        .hero-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--folk-accent);
+            margin-bottom: var(--space-2);
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 2.75rem);
+            font-weight: 700;
+            line-height: 1.15;
+            color: var(--folk-ink);
+            margin-bottom: var(--space-4);
+        }
+
+        .hero h1 span {
+            color: var(--folk-accent);
+        }
+
+        .hero-dedication {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--folk-muted);
+            opacity: 0.85;
+            margin-bottom: var(--space-4);
+        }
+
+        .hero-subtitle {
+            font-size: 1.05rem;
+            color: var(--folk-muted);
+            max-width: 560px;
+            line-height: 1.6;
+        }
+
+        .hero-bg {
+            width: 100%;
+            max-height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: var(--space-6);
+            opacity: 0.35;
+        }
+
+        /* --- Article --- */
+        .article-container {
+            max-width: 720px;
+        }
+
+        .lede {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--folk-ink);
+            margin-bottom: var(--space-8);
+            max-width: 640px;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: 1.65rem;
+            font-weight: 700;
+            margin-top: var(--space-12);
+            margin-bottom: var(--space-4);
+            padding-bottom: var(--space-2);
+            border-bottom: 2px solid var(--folk-accent);
+            color: var(--folk-ink);
+        }
+
+        h3 {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--folk-muted);
+            margin-top: var(--space-6);
+            margin-bottom: var(--space-2);
+        }
+
+        h3.section-start {
+            margin-top: var(--space-10);
+        }
+
+        h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: var(--space-4);
+            margin-bottom: var(--space-2);
+        }
+
+        p {
+            margin-bottom: var(--space-4);
+            max-width: 640px;
+        }
+
+        ul,
+        ol {
+            margin-bottom: var(--space-4);
+            padding-left: 1.5em;
+        }
+
+        li {
+            margin-bottom: var(--space-1);
+        }
+
+        code {
+            font-family: var(--font-mono);
+            font-size: 0.88em;
+            background: var(--color-neutral-100);
+            padding: 0.15em 0.4em;
+            border-radius: 3px;
+        }
+
+        /* --- Brand Inspiration --- */
+        .inspiration-gallery {
+            column-count: 3;
+            column-gap: var(--space-4);
+            margin: var(--space-8) 0;
+            margin-top: var(--space-6);
+        }
+
+        @media (max-width: 768px) {
+            .inspiration-gallery {
+                column-count: 2;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .inspiration-gallery {
+                column-count: 1;
+            }
+        }
+
+        .gallery-item {
+            break-inside: avoid;
+            margin-bottom: var(--space-6);
+            position: relative;
+        }
+
+        .gallery-image {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: var(--space-2);
+            object-fit: cover;
+            box-shadow: var(--shadow-sm);
+            display: block;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gallery-image:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .gallery-caption {
+            font-size: 11px;
+            color: var(--folk-muted);
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        /* --- Color swatches --- */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--space-3);
+            margin: var(--space-4) 0;
+        }
+
+        .color-swatch {
+            text-align: center;
+        }
+
+        .swatch-preview {
+            height: 56px;
+            border-radius: 6px;
+            margin-bottom: var(--space-2);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .swatch-name {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .swatch-value {
+            font-size: 12px;
+            font-family: var(--font-mono);
+            color: var(--folk-muted);
+        }
+
+        /* --- Type scale --- */
+        .type-row {
+            display: flex;
+            align-items: baseline;
+            padding: var(--space-2) 0;
+            border-bottom: 1px solid var(--folk-rule);
+        }
+
+        .type-label {
+            width: 60px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--folk-muted);
+            flex-shrink: 0;
+        }
+
+        .type-sample {
+            flex: 1;
+        }
+
+        /* --- Blocks --- */
+        .block {
+            border: 1px solid var(--folk-rule);
+            margin: var(--space-4) 0;
+        }
+
+        .block-head {
+            padding: var(--space-2) var(--space-4);
+            background: var(--folk-paper-warm);
+            border-bottom: 1px solid var(--folk-rule);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--folk-muted);
+        }
+
+        .block-body {
+            padding: var(--space-4);
+        }
+
+        .code-block {
+            background: var(--folk-ink);
+            color: var(--folk-paper);
+            padding: var(--space-4);
+            font-family: var(--font-mono);
+            font-size: 13px;
+            line-height: 1.6;
+            margin: var(--space-4) 0;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+
+        .code-block .k {
+            color: var(--folk-turmeric);
+        }
+
+        .code-block .s {
+            color: #e8b87a;
+        }
+
+        .code-block .c {
+            color: var(--color-neutral-400);
+            font-style: italic;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            padding: var(--space-2) var(--space-4);
+            border-radius: 4px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-height: 40px;
+        }
+
+        .btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .btn-primary {
+            background: var(--folk-accent);
+            color: var(--folk-paper);
+            border-color: var(--folk-accent);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--folk-accent-dark);
+            border-color: var(--folk-accent-dark);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--folk-ink);
+            border-color: var(--folk-rule);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: var(--color-neutral-100);
+            border-color: var(--color-neutral-300);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--folk-ink);
+            border-color: transparent;
+        }
+
+        .btn-ghost:hover:not(:disabled) {
+            background: var(--color-neutral-100);
+        }
+
+        .btn-danger {
+            background: var(--color-semantic-error);
+            color: white;
+            border-color: var(--color-semantic-error);
+        }
+
+        .btn-loading .btn-spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid currentColor;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+            align-items: center;
+        }
+
+        /* --- Forms --- */
+        .form-group {
+            margin-bottom: var(--space-4);
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: var(--space-1);
+            color: var(--folk-muted);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            max-width: 340px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            padding: var(--space-2) var(--space-3);
+            border: 1px solid var(--folk-rule);
+            border-radius: 4px;
+            background: var(--folk-paper);
+            color: var(--folk-ink);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--folk-accent);
+            box-shadow: 0 0 0 3px rgba(198, 93, 62, 0.12);
+        }
+
+        .form-textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .form-checkbox,
+        .form-radio {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            cursor: pointer;
+            margin-bottom: var(--space-2);
+            font-size: 14px;
+        }
+
+        .form-checkbox input,
+        .form-radio input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--folk-accent);
+            cursor: pointer;
+        }
+
+        .form-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            cursor: pointer;
+        }
+
+        .form-toggle input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .form-toggle-track {
+            width: 44px;
+            height: 24px;
+            background: var(--color-neutral-300);
+            border-radius: 12px;
+            position: relative;
+            transition: background 0.2s;
+        }
+
+        .form-toggle-track::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s;
+        }
+
+        .form-toggle input:checked+.form-toggle-track {
+            background: var(--folk-accent);
+        }
+
+        .form-toggle input:checked+.form-toggle-track::after {
+            transform: translateX(20px);
+        }
+
+        /* --- Navigation --- */
+        .nav-tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid var(--folk-rule);
+        }
+
+        .nav-tabs a {
+            padding: var(--space-2) var(--space-4);
+            font-size: 14px;
+            color: var(--folk-muted);
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .nav-tabs a:hover {
+            color: var(--folk-ink);
+        }
+
+        .nav-tabs a.active {
+            color: var(--folk-ink);
+            border-bottom-color: var(--folk-accent);
+            font-weight: 600;
+        }
+
+        .breadcrumb {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-1);
+            font-size: 13px;
+            color: var(--folk-muted);
+        }
+
+        .breadcrumb a {
+            color: var(--folk-muted);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--folk-ink);
+        }
+
+        /* --- AI Interaction Patterns --- */
+        /* Feedback Bar */
+        .ai-feedback-bar {
+            display: flex;
+            gap: var(--space-4);
+            align-items: center;
+            padding-top: var(--space-2);
+            margin-top: var(--space-3);
+            border-top: 1px dashed var(--folk-rule);
+        }
+
+        .feedback-action {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            background: none;
+            border: none;
+            color: var(--folk-muted);
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            padding: var(--space-1) var(--space-2);
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .feedback-action:hover {
+            background: var(--folk-paper-warm);
+            color: var(--folk-ink);
+        }
+
+        .feedback-action svg {
+            width: 14px;
+            height: 14px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .feedback-action.report:hover {
+            color: var(--color-semantic-error);
+            background: rgba(206, 68, 68, 0.08);
+        }
+
+        /* Citations */
+        .citation-inline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--folk-paper-warm);
+            color: var(--folk-accent-dark);
+            border: 1px solid var(--folk-rule);
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 0 4px;
+            margin: 0 2px;
+            cursor: pointer;
+            vertical-align: super;
+            text-decoration: none;
+            transition: background 0.15s;
+        }
+
+        .citation-inline:hover {
+            background: var(--folk-highlight);
+            border-color: var(--folk-accent);
+        }
+
+        .citation-block {
+            background: var(--folk-paper-warm);
+            border-radius: 6px;
+            padding: var(--space-4);
+            margin-top: var(--space-4);
+            font-size: 12px;
+        }
+
+        .citation-item {
+            display: flex;
+            gap: var(--space-3);
+            margin-bottom: var(--space-2);
+            color: var(--folk-muted);
+            line-height: 1.4;
+        }
+
+        .citation-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .citation-number {
+            color: var(--folk-accent-dark);
+            font-weight: 700;
+        }
+
+        .citation-link {
+            color: var(--folk-indigo);
+            text-decoration: underline;
+            text-decoration-color: rgba(45, 79, 108, 0.3);
+            text-underline-offset: 2px;
+        }
+
+        /* Prompt Suggestions */
+        .suggestions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-4);
+            margin-top: var(--space-6);
+            margin-bottom: var(--space-6);
+        }
+
+        .suggestion-card {
+            background: var(--folk-paper);
+            border: 1px solid var(--folk-rule);
+            border-radius: 8px;
+            padding: var(--space-4);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+
+        .suggestion-card:hover {
+            border-color: var(--folk-accent);
+            box-shadow: var(--shadow-sm);
+            transform: translateY(-2px);
+        }
+
+        .suggestion-icon {
+            font-size: 18px;
+        }
+
+        .suggestion-title {
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--folk-ink);
+        }
+
+        .suggestion-desc {
+            font-size: 12px;
+            color: var(--folk-muted);
+            line-height: 1.4;
+        }
+
+        /* Graceful Error Handling */
+        .ai-error-banner {
+            display: flex;
+            gap: var(--space-4);
+            padding: var(--space-4);
+            background: var(--folk-paper-warm);
+            border-left: 4px solid var(--color-semantic-warning);
+            border-radius: 0 8px 8px 0;
+            align-items: flex-start;
+            margin-bottom: var(--space-4);
+        }
+
+        .ai-error-banner.critical {
+            border-left-color: var(--color-semantic-error);
+            background: rgba(206, 68, 68, 0.04);
+        }
+
+        .ai-error-icon {
+            font-size: 18px;
+        }
+
+        .ai-error-content h4 {
+            margin: 0 0 var(--space-1) 0;
+            font-size: 14px;
+            color: var(--folk-ink);
+        }
+
+        .ai-error-content p {
+            margin: 0;
+            font-size: 13px;
+            color: var(--folk-muted);
+        }
+
+        /* --- Feedback --- */
+        .toast {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            background: var(--folk-ink);
+            color: var(--folk-paper);
+            border-radius: 4px;
+            box-shadow: var(--shadow-lg);
+            font-size: 14px;
+            margin-bottom: var(--space-2);
+        }
+
+        .toast-success {
+            background: var(--color-semantic-success);
+        }
+
+        .toast-warning {
+            background: var(--color-semantic-warning);
+            color: var(--folk-ink);
+        }
+
+        .toast-error {
+            background: var(--color-semantic-error);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--color-neutral-200);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--folk-accent);
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+
+        .modal-backdrop {
+            position: relative;
+            background: rgba(28, 22, 18, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-4);
+            border-radius: 8px;
+        }
+
+        .modal-dialog {
+            background: var(--folk-paper);
+            border-radius: 8px;
+            box-shadow: var(--shadow-xl);
+            max-width: 400px;
+            width: 100%;
+            padding: var(--space-6);
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            margin-bottom: var(--space-2);
+        }
+
+        /* --- Data display --- */
+        .dir-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .dir-table th,
+        .dir-table td {
+            padding: var(--space-2) var(--space-3);
+            text-align: left;
+            border-bottom: 1px solid var(--folk-rule);
+        }
+
+        .dir-table th {
+            font-weight: 600;
+            color: var(--folk-muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: var(--space-1) var(--space-2);
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 3px;
+            background: var(--color-neutral-200);
+            color: var(--folk-ink);
+            letter-spacing: 0.03em;
+        }
+
+        .badge-accent {
+            background: #fce8e2;
+            color: var(--folk-accent);
+        }
+
+        .badge-success {
+            background: #dcfce7;
+            color: var(--color-semantic-success);
+        }
+
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-error {
+            background: #fee2e2;
+            color: var(--color-semantic-error);
+        }
+
+        .badge-indigo {
+            background: #e0eaf2;
+            color: var(--folk-indigo);
+        }
+
+        /* Icon grid */
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: var(--space-4);
+        }
+
+        .icon-cell {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3);
+            border: 1px solid var(--folk-rule);
+            border-radius: 4px;
+            font-size: 11px;
+            color: var(--folk-muted);
+        }
+
+        .icon-cell svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* ============================== */
+        /* AI-SPECIFIC COMPONENTS         */
+        /* ============================== */
+
+        /* --- Spice Box Loader (dots) --- */
+        .spice-loader {
+            display: flex;
+            gap: var(--space-3);
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-4);
+        }
+
+        .spice-circle {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            animation: spicePulse 1.8s ease-in-out infinite;
+        }
+
+        .spice-circle:nth-child(1) {
+            background: var(--folk-accent);
+            animation-delay: 0s;
+        }
+
+        .spice-circle:nth-child(2) {
+            background: var(--folk-turmeric);
+            animation-delay: 0.3s;
+        }
+
+        .spice-circle:nth-child(3) {
+            background: var(--folk-indigo);
+            animation-delay: 0.6s;
+        }
+
+        .spice-circle:nth-child(4) {
+            background: var(--color-semantic-success);
+            animation-delay: 0.9s;
+        }
+
+        .spice-circle:nth-child(5) {
+            background: #8B5E3C;
+            animation-delay: 1.2s;
+        }
+
+        .spice-circle:nth-child(6) {
+            background: var(--color-semantic-error);
+            animation-delay: 1.5s;
+        }
+
+        @keyframes spicePulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.4;
+            }
+
+            50% {
+                transform: scale(1.5);
+                opacity: 1;
+            }
+        }
+
+        .spice-loader-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--folk-muted);
+            text-align: center;
+            margin-top: var(--space-2);
+        }
+
+        .spice-legend {
+            display: flex;
+            gap: var(--space-4);
+            flex-wrap: wrap;
+            margin-top: var(--space-3);
+            justify-content: center;
+        }
+
+        .spice-legend-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            font-size: 11px;
+            color: var(--folk-muted);
+        }
+
+        .spice-legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* --- Spice Spinner --- */
+        .spice-spinner {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid var(--color-neutral-200);
+            border-top-color: var(--folk-accent);
+            animation: spiceSpin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spiceSpin {
+            0% {
+                border-top-color: var(--folk-accent);
+                border-right-color: var(--color-neutral-200);
+            }
+
+            16% {
+                border-top-color: var(--folk-turmeric);
+            }
+
+            33% {
+                border-top-color: var(--folk-indigo);
+                border-right-color: var(--folk-accent);
+            }
+
+            50% {
+                border-top-color: var(--color-semantic-success);
+                border-right-color: var(--folk-turmeric);
+            }
+
+            66% {
+                border-top-color: #8B5E3C;
+                border-right-color: var(--folk-indigo);
+            }
+
+            83% {
+                border-top-color: var(--color-semantic-error);
+                border-right-color: var(--color-semantic-success);
+            }
+
+            100% {
+                border-top-color: var(--folk-accent);
+                transform: rotate(360deg);
+            }
+        }
+
+        /* --- Chat Bubbles --- */
+        .chat-container {
+            max-width: 480px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+        }
+
+        .chat-bubble {
+            max-width: 85%;
+            padding: var(--space-3) var(--space-4);
+            font-size: 14px;
+            line-height: 1.55;
+            border-radius: 12px;
+        }
+
+        .chat-user {
+            align-self: flex-end;
+            background: var(--folk-accent);
+            color: var(--folk-paper);
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-ai {
+            align-self: flex-start;
+            background: var(--folk-paper-warm);
+            color: var(--folk-ink);
+            border: 1px solid var(--folk-rule);
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-ai-label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--folk-accent);
+            margin-bottom: var(--space-1);
+        }
+
+        .chat-thinking {
+            align-self: flex-start;
+            background: var(--folk-paper-warm);
+            border: 1px solid var(--folk-rule);
+            border-radius: 12px;
+            border-bottom-left-radius: 4px;
+            padding: var(--space-3) var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .thinking-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .thinking-dots span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            animation: thinkBounce 1.4s ease-in-out infinite;
+        }
+
+        .thinking-dots span:nth-child(1) {
+            background: var(--folk-accent);
+        }
+
+        .thinking-dots span:nth-child(2) {
+            background: var(--folk-turmeric);
+            animation-delay: 0.2s;
+        }
+
+        .thinking-dots span:nth-child(3) {
+            background: var(--folk-indigo);
+            animation-delay: 0.4s;
+        }
+
+        @keyframes thinkBounce {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0.6);
+                opacity: 0.4;
+            }
+
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* --- Voice AI --- */
+        .voice-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-4);
+            padding: var(--space-8);
+        }
+
+        .voice-orb {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--folk-accent) 0%, var(--folk-accent-dark) 70%, var(--folk-ink) 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+
+        @keyframes voiceSpeak {
+            0% {
+                transform: scale(1);
+                background: radial-gradient(circle, var(--folk-turmeric) 0%, var(--folk-accent) 60%, var(--folk-accent-dark) 100%);
+            }
+
+            33% {
+                transform: scale(1.06);
+                background: radial-gradient(circle, var(--folk-accent) 0%, var(--folk-turmeric) 50%, var(--folk-accent-dark) 100%);
+            }
+
+            66% {
+                transform: scale(0.97);
+                background: radial-gradient(circle, var(--folk-turmeric) 10%, var(--folk-accent) 70%, var(--folk-ink) 100%);
+            }
+
+            100% {
+                transform: scale(1);
+                background: radial-gradient(circle, var(--folk-turmeric) 0%, var(--folk-accent) 60%, var(--folk-accent-dark) 100%);
+            }
+        }
+
+        /* Audio wave bars for speaking state */
+        .voice-wave {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            height: 32px;
+            margin-top: var(--space-2);
+        }
+
+        .voice-wave span {
+            width: 3px;
+            background: var(--folk-accent);
+            border-radius: 2px;
+            animation: waveBar 1s ease-in-out infinite;
+        }
+
+        .voice-wave span:nth-child(1) {
+            height: 40%;
+            animation-delay: 0s;
+        }
+
+        .voice-wave span:nth-child(2) {
+            height: 70%;
+            animation-delay: 0.15s;
+        }
+
+        .voice-wave span:nth-child(3) {
+            height: 100%;
+            animation-delay: 0.3s;
+        }
+
+        .voice-wave span:nth-child(4) {
+            height: 60%;
+            animation-delay: 0.45s;
+        }
+
+        .voice-wave span:nth-child(5) {
+            height: 85%;
+            animation-delay: 0.1s;
+        }
+
+        .voice-wave span:nth-child(6) {
+            height: 45%;
+            animation-delay: 0.25s;
+        }
+
+        .voice-wave span:nth-child(7) {
+            height: 75%;
+            animation-delay: 0.4s;
+        }
+
+        @keyframes waveBar {
+
+            0%,
+            100% {
+                transform: scaleY(0.3);
+            }
+
+            50% {
+                transform: scaleY(1);
+            }
+        }
+
+        .voice-orb svg {
+            width: 36px;
+            height: 36px;
+            stroke: var(--folk-paper);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .voice-status {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--folk-accent);
+        }
+
+        /* --- Terminal --- */
+        .terminal-block {
+            background: var(--folk-ink);
+            color: var(--folk-paper);
+            border-radius: 8px;
+            overflow: hidden;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            line-height: 1.6;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .terminal-header {
+            background: var(--color-neutral-800);
+            padding: var(--space-2) var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            border-bottom: 1px solid var(--color-neutral-700);
+        }
+
+        .terminal-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .terminal-dot.red {
+            background: var(--color-semantic-error);
+        }
+
+        .terminal-dot.yellow {
+            background: var(--folk-turmeric);
+        }
+
+        .terminal-dot.green {
+            background: var(--color-semantic-success);
+        }
+
+        .terminal-title {
+            font-size: 11px;
+            color: var(--color-neutral-400);
+            margin-left: var(--space-2);
+        }
+
+        .terminal-body {
+            padding: var(--space-4);
+        }
+
+        .terminal-prompt {
+            color: var(--folk-accent);
+        }
+
+        .terminal-cmd {
+            color: var(--folk-paper);
+        }
+
+        .terminal-output {
+            color: var(--color-neutral-400);
+        }
+
+        .terminal-success {
+            color: var(--color-semantic-success);
+        }
+
+        .terminal-warning {
+            color: var(--folk-turmeric);
+        }
+
+        .terminal-error {
+            color: var(--color-semantic-error);
+        }
+
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background: var(--folk-accent);
+            animation: blink 1s step-end infinite;
+            vertical-align: text-bottom;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* --- Credit Card --- */
+        .credit-card {
+            width: 340px;
+            height: 200px;
+            border-radius: 12px;
+            padding: var(--space-5);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .credit-card-dark {
+            background: linear-gradient(135deg, var(--folk-ink) 0%, var(--color-neutral-800) 50%, #3a2e25 100%);
+            color: var(--folk-paper);
+        }
+
+        .credit-card-accent {
+            background: linear-gradient(135deg, var(--folk-accent) 0%, var(--folk-accent-dark) 50%, #7a3220 100%);
+            color: var(--folk-paper);
+        }
+
+        .credit-card-indigo {
+            background: linear-gradient(135deg, var(--folk-indigo) 0%, #1e3a50 50%, #142838 100%);
+            color: var(--folk-paper);
+        }
+
+        .cc-chip {
+            width: 36px;
+            height: 28px;
+            border-radius: 4px;
+            background: linear-gradient(135deg, var(--folk-turmeric), #C9A33D);
+        }
+
+        .cc-number {
+            font-family: var(--font-mono);
+            font-size: 16px;
+            letter-spacing: 0.15em;
+            font-weight: 500;
+        }
+
+        .cc-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .cc-label {
+            font-size: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.6;
+            margin-bottom: 2px;
+        }
+
+        .cc-name {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .cc-expiry {
+            font-family: var(--font-mono);
+            font-size: 12px;
+        }
+
+        .cc-logo {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 700;
+            opacity: 0.9;
+        }
+
+        .cc-pattern {
+            position: absolute;
+            right: -20px;
+            top: -20px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 40px solid rgba(255, 255, 255, 0.04);
+        }
+
+        /* --- Payment Gateway --- */
+        .payment-card {
+            border: 1px solid var(--folk-rule);
+            border-radius: 8px;
+            max-width: 380px;
+            padding: var(--space-5);
+            background: var(--folk-paper);
+        }
+
+        .payment-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-4);
+        }
+
+        .payment-amount {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .payment-methods {
+            display: flex;
+            gap: var(--space-2);
+            margin-bottom: var(--space-4);
+        }
+
+        .payment-method {
+            flex: 1;
+            padding: var(--space-2);
+            border: 1px solid var(--folk-rule);
+            border-radius: 4px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .payment-method.active {
+            border-color: var(--folk-accent);
+            background: var(--folk-highlight);
+            color: var(--folk-accent);
+        }
+
+        .payment-divider {
+            height: 1px;
+            background: var(--folk-rule);
+            margin: var(--space-4) 0;
+        }
+
+        /* --- Graph Canvas --- */
+        .graph-canvas {
+            background: var(--folk-paper-warm);
+            border: 1px solid var(--folk-rule);
+            border-radius: 8px;
+            padding: var(--space-2);
+            position: relative;
+            min-height: 240px;
+            overflow: hidden;
+        }
+
+        .graph-node {
+            position: absolute;
+            padding: var(--space-2) var(--space-3);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 2px solid;
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            box-shadow: var(--shadow-sm);
+            background: var(--folk-paper);
+        }
+
+        .graph-node-accent {
+            border-color: var(--folk-accent);
+        }
+
+        .graph-node-indigo {
+            border-color: var(--folk-indigo);
+        }
+
+        .graph-node-turmeric {
+            border-color: var(--folk-turmeric);
+        }
+
+        .graph-node-success {
+            border-color: var(--color-semantic-success);
+        }
+
+        .graph-node-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .graph-edge {
+            position: absolute;
+            height: 2px;
+            background: var(--folk-rule);
+            transform-origin: left center;
+        }
+
+        /* --- Laptop frame --- */
+        .laptop-frame {
+            width: 100%;
+            max-width: 640px;
+        }
+
+        .laptop-lid {
+            background: #333;
+            border-radius: 10px 10px 0 0;
+            padding: 8px 12px 0;
+        }
+
+        .laptop-lid::before {
+            content: '';
+            display: block;
+            width: 6px;
+            height: 6px;
+            background: #555;
+            border-radius: 50%;
+            margin: 0 auto 6px;
+        }
+
+        .laptop-screen {
+            border-radius: 2px 2px 0 0;
+            overflow: hidden;
+            background: var(--folk-paper);
+        }
+
+        .laptop-base {
+            background: linear-gradient(to bottom, #ccc, #bbb);
+            height: 12px;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .app-example-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--folk-muted);
+            margin-bottom: var(--space-3);
+            text-align: center;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 1200px) {
+            .image-rail {
+                display: none;
+            }
+        }
+
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column;
+            }
+
+            nav {
+                width: 100%;
+                padding: 1rem 2rem;
+                border-right: none;
+                border-bottom: 1px solid var(--folk-rule);
+                height: auto;
+                position: relative;
+            }
+
+            .nav-logo {
+                display: inline-block;
+                margin-bottom: 0;
+                margin-right: 2rem;
+            }
+
+            nav a {
+                display: inline-block;
+                margin-right: 1rem;
+            }
+
+            .nav-section-label {
+                display: none;
+            }
+
+            main {
+                padding: var(--space-8) var(--space-6);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .color-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .icon-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            main {
+                padding: var(--space-6) var(--space-4);
+            }
+        }
+
+        section[id] {
+            scroll-margin-top: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="index.html" class="nav-logo">Karigar-<span>AI</span></a>
+        <a href="index.html">Home</a>
+        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+        <div class="nav-section-label">Sections</div>
+        <a href="#style-foundations">1. Style Foundations</a>
+        <a href="#component-library">2. Component Library</a>
+        <a href="#ai-components">3. AI Components</a>
+        <a href="#applications">4. Applications</a>
+        <a href="#governance">5. Governance</a>
+        <div class="nav-section-label">Quick links</div>
+        <a href="#color">Color</a>
+        <a href="#typography">Typography</a>
+        <a href="#payment">Payment</a>
+        <a href="#graph">Graph Canvas</a>
+        <a href="#chat">Chat</a>
+        <a href="#voice">Voice AI</a>
+        <a href="#terminal">Terminal</a>
+    </nav>
+
+    <div class="content-wrap">
+        <main>
+            <header class="hero">
+                <div class="hero-label">AI Design System</div>
+                <h1>Karigar-<span>AI</span></h1>
+                <p class="hero-dedication">An AI design system inspired from India — Kalamkari, spice markets &
+                    handcraft</p>
+                <p class="hero-subtitle">A culturally-grounded design language for AI experiences — LLM chat interfaces,
+                    voice assistants, terminal tools, payment flows, and data visualization. Every motif earns its
+                    place.</p>
+                <img src="assets/folkart-kalamkari-bg.png" alt="Kalamkari pattern" class="hero-bg">
+            </header>
+
+            <article class="article-container">
+                <p class="lede">Indian folk art is inherently functional — every motif on a Kalamkari textile tells a
+                    story, every Warli figure communicates a scene. Karigar applies that same principle: every visual
+                    choice serves the AI experience. The color palette comes from spice markets and natural dyes. The
+                    rhythm comes from rangoli and kolam. The warmth comes from handcraft.</p>
+
+                <h2 id="style-foundations">1. Style Foundations</h2>
+                <p>Color, type, tokens, icons, and spacing — the atoms derived from Kalamkari dyes, spice bazaars, and
+                    the artisan's hand.</p>
+
+                <h3 id="philosophy">Design philosophy</h3>
+                <ul>
+                    <li><strong>Narrative clarity:</strong> Folk art tells stories without text. AI interfaces should
+                        communicate state and intent at a glance.</li>
+                    <li><strong>Earthen minimalism:</strong> Derived from natural dyes — turmeric, indigo, vermillion —
+                        not synthetic color theory.</li>
+                    <li><strong>Handcraft warmth:</strong> The Kalam font brings the feeling of a hand-painted sign into
+                        the digital interface.</li>
+                    <li><strong>Ritual rhythm:</strong> The structured repetition of rangoli and kolam patterns applied
+                        to UI spacing and layout cadence.</li>
+                </ul>
+
+                <h3 id="brand-inspiration">Brand Inspiration</h3>
+                <p>The visual language of Karigar is grounded in Indian handcraft traditions and natural ingredients.
+                    This gallery showcases the raw materials, textiles, and artifacts that inspired our design tokens.
+                </p>
+                <div class="inspiration-gallery">
+                    <div class="gallery-item">
+                        <img src="folk 1.jpg" alt="Indian folk art pattern" class="gallery-image"
+                            style="height: 220px;">
+                        <div class="gallery-caption">Kalamkari — hand-drawn textile art from Andhra</div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="chilli.jpg" alt="Red chilli peppers" class="gallery-image" style="height: 160px;">
+                        <div class="gallery-caption">Chilli — our accent red</div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="folk 2.png" alt="Folk art motifs" class="gallery-image" style="height: 240px;">
+                        <div class="gallery-caption">Paisley & lotus motifs</div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="turmeric.jpg" alt="Turmeric powder and root" class="gallery-image"
+                            style="height: 180px;">
+                        <div class="gallery-caption">Turmeric — warning tone</div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="Brown-Mustard-Seeds.jpg" alt="Brown mustard seeds" class="gallery-image"
+                            style="height: 140px;">
+                        <div class="gallery-caption">Mustard — indigo dye base</div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="Cardamom.webp" alt="Green cardamom pods" class="gallery-image" style="height: 160px;">
+                        <div class="gallery-caption">Cardamom — sage green success state</div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="folk 3.jpg" alt="Folk art textile" class="gallery-image" style="height: 200px;">
+                        <div class="gallery-caption">Block-printed textiles</div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="assets/folkart-kalamkari-bg.png" alt="Kalamkari background pattern"
+                            class="gallery-image" style="height: 260px;">
+                        <div class="gallery-caption">Generated Kalamkari pattern</div>
+                    </div>
+                </div>
+
+                <h2 id="color">Color palette</h2>
+                <p>Every color traces back to a physical source — the dye vats of Machilipatnam, the spice bins of a
+                    Kerala market, the charcoal used for lamp-black Kalamkari outlines.</p>
+                <h3>Primary & accent</h3>
+                <div class="color-grid">
+                    <div class="color-swatch">
+                        <div class="swatch-preview" style="background: var(--folk-ink);"></div>
+                        <div class="swatch-name">Charcoal Ink</div>
+                        <div class="swatch-value">#1C1612</div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-preview" style="background: var(--folk-paper);"></div>
+                        <div class="swatch-name">Handloom White</div>
+                        <div class="swatch-value">#F7F3ED</div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-preview" style="background: var(--folk-accent);"></div>
+                        <div class="swatch-name">Burnt Sienna</div>
+                        <div class="swatch-value">#C65D3E</div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-preview" style="background: var(--folk-turmeric);"></div>
+                        <div class="swatch-name">Turmeric Gold</div>
+                        <div class="swatch-value">#D4A843</div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-preview" style="background: var(--folk-indigo);"></div>
+                        <div class="swatch-name">Natural Indigo</div>
+                        <div class="swatch-value">#2D4F6C</div>
+                    </div>
+                </div>
+                <h3>Semantic</h3>
+                <div class="color-grid" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="color-swatch">
+                        <div class="swatch-preview" style="background: var(--color-semantic-success);"></div>
+                        <div class="swatch-name">Sage Green</div>
+                        <div class="swatch-value">#4A7C59</div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-preview" style="background: var(--color-semantic-warning);"></div>
+                        <div class="swatch-name">Turmeric</div>
+                        <div class="swatch-value">#D4A843</div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-preview" style="background: var(--color-semantic-error);"></div>
+                        <div class="swatch-name">Kumkum Red</div>
+                        <div class="swatch-value">#B5342B</div>
+                    </div>
+                </div>
+                <h3>Neutral scale</h3>
+                <div class="color-grid">
+                    <div class="color-swatch">
+                        <div class="swatch-preview" style="background: var(--color-neutral-50);"></div>
+                        <div class="swatch-name">50</div>
+                        <div class="swatch-value">#FAF8F5</div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-preview" style="background: var(--color-neutral-200);"></div>
+                        <div class="swatch-name">200</div>
+                        <div class="swatch-value">#D5CEC4</div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-preview" style="background: var(--color-neutral-400);"></div>
+                        <div class="swatch-name">400</div>
+                        <div class="swatch-value">#9A9087</div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-preview" style="background: var(--color-neutral-600);"></div>
+                        <div class="swatch-name">600</div>
+                        <div class="swatch-value">#5C5347</div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-preview" style="background: var(--color-neutral-900);"></div>
+                        <div class="swatch-name">900</div>
+                        <div class="swatch-value">#1C1612</div>
+                    </div>
+                </div>
+
+                <h2 id="typography">Typography</h2>
+                <p><strong>Kalam</strong> carries the energy of hand-lettering — painted shop signs in Jaipur, temple
+                    walls in Thanjavur. <strong>Source Code Pro</strong> handles body text and AI interface labels.
+                    <strong>JetBrains Mono</strong> powers the terminal.
+                </p>
+                <div class="block">
+                    <div class="block-head">Type scale</div>
+                    <div class="block-body">
+                        <div class="type-row"><span class="type-label">H1</span><span class="type-sample"
+                                style="font-family: var(--font-display); font-size: clamp(1.75rem, 4vw, 2.25rem);">Karigar</span>
+                        </div>
+                        <div class="type-row"><span class="type-label">H2</span><span class="type-sample"
+                                style="font-family: var(--font-display); font-size: 1.5rem;">Section heading</span>
+                        </div>
+                        <div class="type-row"><span class="type-label">H3</span><span class="type-sample"
+                                style="font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--folk-muted);">Subsection
+                                label</span></div>
+                        <div class="type-row"><span class="type-label">Body</span><span class="type-sample"
+                                style="font-family: var(--font-body);">The quick brown fox jumps over the lazy
+                                dog.</span></div>
+                        <div class="type-row"><span class="type-label">Mono</span><span class="type-sample"
+                                style="font-family: var(--font-mono); font-size: 13px;">const response = await
+                                model.generate(prompt);</span></div>
+                    </div>
+                </div>
+
+                <h3 id="design-tokens">Design tokens</h3>
+                <div class="code-block"><span class="c">/* Karigar design system tokens */</span>
+                    :root {
+                    <span class="k">--folk-ink</span>: <span class="s">#1C1612</span>; <span class="c">/* lamp-black
+                        Kalamkari */</span>
+                    <span class="k">--folk-paper</span>: <span class="s">#F7F3ED</span>; <span class="c">/* unbleached
+                        handloom */</span>
+                    <span class="k">--folk-accent</span>: <span class="s">#C65D3E</span>; <span class="c">/* madder root
+                        / terra cotta */</span>
+                    <span class="k">--folk-turmeric</span>: <span class="s">#D4A843</span>; <span class="c">/* haldi
+                        stain */</span>
+                    <span class="k">--folk-indigo</span>: <span class="s">#2D4F6C</span>; <span class="c">/* neel dye
+                        vats */</span>
+                    <span class="k">--font-display</span>: <span class="s">'Kalam', cursive</span>;
+                    <span class="k">--font-body</span>: <span class="s">'Source Code Pro', monospace</span>;
+                    }
+                </div>
+
+                <h3 id="iconography">Iconography</h3>
+                <p>Stroke-line icons at 24×24, stroke-width 2. Organic line weight echoing folk illustrations.</p>
+                <div class="icon-grid">
+                    <div class="icon-cell"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                        </svg>Chat</div>
+                    <div class="icon-cell"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                            <line x1="12" y1="19" x2="12" y2="23" />
+                            <line x1="8" y1="23" x2="16" y2="23" />
+                        </svg>Voice</div>
+                    <div class="icon-cell"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <polyline points="4 17 10 11 4 5" />
+                            <line x1="12" y1="19" x2="20" y2="19" />
+                        </svg>Terminal</div>
+                    <div class="icon-cell"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                            <line x1="1" y1="10" x2="23" y2="10" />
+                        </svg>Card</div>
+                    <div class="icon-cell"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>User</div>
+                    <div class="icon-cell"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" y1="8" x2="12" y2="12" />
+                            <line x1="12" y1="16" x2="12.01" y2="16" />
+                        </svg>Alert</div>
+                </div>
+
+                <h3 id="spacing">Spacing</h3>
+                <p>8px base grid — modular rhythm from kolam and rangoli patterns.</p>
+                <div class="code-block"><span class="k">--space-1</span>: <span class="s">4px</span>; <span
+                        class="k">--space-2</span>: <span class="s">8px</span>; <span class="k">--space-4</span>: <span
+                        class="s">16px</span>; <span class="k">--space-6</span>: <span class="s">24px</span>; <span
+                        class="k">--space-8</span>: <span class="s">32px</span>; <span class="k">--space-12</span>:
+                    <span class="s">48px</span>;
+                </div>
+
+
+
+                <!-- ============================== -->
+                <!-- COMPONENT LIBRARY              -->
+                <!-- ============================== -->
+
+                <h2 id="component-library">2. Component Library</h2>
+                <p>Components designed for AI interaction contexts — prompts, generated output, payment flows, and data
+                    visualization.</p>
+
+                <h3 id="buttons">Buttons</h3>
+                <div class="block">
+                    <div class="block-head">Types</div>
+                    <div class="block-body">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary">Send prompt</button>
+                            <button type="button" class="btn btn-secondary">New chat</button>
+                            <button type="button" class="btn btn-ghost">Copy</button>
+                            <button type="button" class="btn btn-danger">Clear all</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="block">
+                    <div class="block-head">States</div>
+                    <div class="block-body">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary" disabled>Disabled</button>
+                            <button type="button" class="btn btn-primary btn-loading"><span class="btn-spinner"></span>
+                                Generating…</button>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 id="forms">Form elements</h3>
+                <div class="block">
+                    <div class="block-head">Input, textarea, dropdown</div>
+                    <div class="block-body">
+                        <div class="form-group"><label class="form-label">System prompt</label><input type="text"
+                                class="form-input" placeholder="You are a helpful assistant…"></div>
+                        <div class="form-group"><label class="form-label">Context</label><textarea class="form-textarea"
+                                placeholder="Paste additional context here…"></textarea></div>
+                        <div class="form-group"><label class="form-label">Model</label><select class="form-select">
+                                <option>GPT-4o</option>
+                                <option>Claude Sonnet</option>
+                                <option>Gemini Pro</option>
+                            </select></div>
+                    </div>
+                </div>
+                <div class="block">
+                    <div class="block-head">Checkbox, radio, toggle</div>
+                    <div class="block-body">
+                        <label class="form-checkbox"><input type="checkbox" checked> Stream responses</label>
+                        <label class="form-checkbox"><input type="checkbox"> Show token count</label>
+                        <label class="form-radio"><input type="radio" name="mode" checked> Chat mode</label>
+                        <label class="form-radio"><input type="radio" name="mode"> Code mode</label>
+                        <label class="form-toggle"><input type="checkbox" checked><span
+                                class="form-toggle-track"></span> Dark terminal</label>
+                    </div>
+                </div>
+
+                <h3 id="navigation">Navigation</h3>
+                <div class="block">
+                    <div class="block-head">Tabs</div>
+                    <div class="block-body" style="padding: 0;">
+                        <div class="nav-tabs"><a href="#" class="active">Chat</a><a href="#">Voice</a><a
+                                href="#">Terminal</a><a href="#">Payments</a></div>
+                    </div>
+                </div>
+
+
+                <h3 id="feedback">Feedback</h3>
+                <div class="block">
+                    <div class="block-head">Modal</div>
+                    <div class="block-body">
+                        <div class="modal-backdrop">
+                            <div class="modal-dialog">
+                                <h4 class="modal-title">Clear conversation?</h4>
+                                <p style="margin-bottom: var(--space-4);">This will delete all messages in this thread.
+                                </p>
+                                <div class="btn-group"><button type="button"
+                                        class="btn btn-danger">Clear</button><button type="button"
+                                        class="btn btn-secondary">Cancel</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="block">
+                    <div class="block-head">Toasts</div>
+                    <div class="block-body">
+                        <div class="toast">Response copied to clipboard</div>
+                        <div class="toast toast-success">Payment processed ₹4,999</div>
+                        <div class="toast toast-warning">Token limit approaching</div>
+                        <div class="toast toast-error">API rate limit exceeded</div>
+                    </div>
+                </div>
+                <div class="block">
+                    <div class="block-head">Progress bar</div>
+                    <div class="block-body">
+                        <div class="progress-bar" style="max-width: 280px;">
+                            <div class="progress-bar-fill" style="width: 68%;"></div>
+                        </div>
+                        <p style="font-size: 12px; color: var(--folk-muted); margin-top: var(--space-1);">Token usage:
+                            68% (2,720 / 4,000)</p>
+                    </div>
+                </div>
+
+                <h3 id="data-display">Data display</h3>
+                <div class="block">
+                    <div class="block-head">Table & badges</div>
+                    <div class="block-body">
+                        <div
+                            style="display: flex; gap: var(--space-3); margin-bottom: var(--space-4); flex-wrap: wrap;">
+                            <span class="badge">Draft</span><span class="badge badge-accent">Active</span><span
+                                class="badge badge-success">Deployed</span><span class="badge badge-warning">Rate
+                                limited</span><span class="badge badge-error">Failed</span><span
+                                class="badge badge-indigo">Processing</span>
+                        </div>
+                        <table class="dir-table">
+                            <thead>
+                                <tr>
+                                    <th>Agent</th>
+                                    <th>Model</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Research Assistant</td>
+                                    <td>GPT-4o</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Code Reviewer</td>
+                                    <td>Claude Sonnet</td>
+                                    <td><span class="badge badge-accent">Testing</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Payment Bot</td>
+                                    <td>Gemini Pro</td>
+                                    <td><span class="badge badge-indigo">Processing</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+
+                <!-- ============================== -->
+                <!-- PAYMENT GATEWAY                -->
+                <!-- ============================== -->
+
+                <h3 id="payment">Payment gateway</h3>
+                <p>A clean checkout flow with UPI, card, and netbanking tabs. The burnt sienna CTA anchors the
+                    conversion moment.</p>
+                <div class="block">
+                    <div class="block-head">Checkout flow</div>
+                    <div class="block-body" style="display: flex; justify-content: center;">
+                        <div class="payment-card">
+                            <div class="payment-header">
+                                <div>
+                                    <div
+                                        style="font-size: 11px; color: var(--folk-muted); text-transform: uppercase; letter-spacing: 0.1em;">
+                                        Total amount</div>
+                                    <div class="payment-amount">₹4,999</div>
+                                </div>
+                                <span class="badge badge-success">Secure</span>
+                            </div>
+                            <div class="payment-methods">
+                                <div class="payment-method active">💳 Card</div>
+                                <div class="payment-method">📱 UPI</div>
+                                <div class="payment-method">🏦 Bank</div>
+                            </div>
+                            <div class="form-group"><label class="form-label">Card number</label><input type="text"
+                                    class="form-input" style="max-width: 100%;" value="4832  1234  5678  7291" readonly>
+                            </div>
+                            <div style="display: flex; gap: var(--space-3);">
+                                <div class="form-group" style="flex: 1;"><label class="form-label">Expiry</label><input
+                                        type="text" class="form-input" style="max-width: 100%;" value="09/28" readonly>
+                                </div>
+                                <div class="form-group" style="flex: 1;"><label class="form-label">CVV</label><input
+                                        type="text" class="form-input" style="max-width: 100%;" value="•••" readonly>
+                                </div>
+                            </div>
+                            <div class="payment-divider"></div>
+                            <button type="button" class="btn btn-primary" style="width: 100%;">Pay ₹4,999</button>
+                            <p
+                                style="font-size: 11px; color: var(--folk-muted); text-align: center; margin-top: var(--space-2); margin-bottom: 0;">
+                                🔒 Secured by Karigar Payment Gateway</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================== -->
+                <!-- GRAPH NODE CANVAS              -->
+                <!-- ============================== -->
+
+                <h3 id="graph">Graph node canvas</h3>
+                <p>Nodes use the spice palette to distinguish different AI agent types. Edges connect through clean
+                    straight lines. Think LangGraph or n8n with folk art warmth.</p>
+                <div class="block">
+                    <div class="block-head">AI Agent pipeline</div>
+                    <div class="block-body" style="padding: 0;">
+                        <div class="graph-canvas" style="min-height: 440px; overflow-x: auto; overflow-y: hidden;">
+                            <!-- SVG edges connecting nodes -->
+                            <svg
+                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;">
+                                <!-- System Prompt right(241,97) -> Ground Chat left(291,119) -->
+                                <path d="M 241,97 C 266,97 266,119 291,119" stroke="var(--folk-turmeric)"
+                                    stroke-width="2" stroke-dasharray="6,3" fill="none" />
+                                <!-- My Prompt right(241,271) -> Ground Chat left(291,140) -->
+                                <path d="M 241,271 C 266,271 266,140 291,140" stroke="var(--folk-accent)"
+                                    stroke-width="2" fill="none" />
+                                <!-- Ground Chat right(511,119) -> Karigar LLM left(561,136) -->
+                                <path d="M 511,119 C 536,119 536,136 561,136" stroke="var(--folk-muted)"
+                                    stroke-width="2" fill="none" />
+                                <!-- Karigar LLM right(681,136) -> Synthesize left(721,73) -->
+                                <path d="M 681,136 C 701,136 701,73 721,73" stroke="var(--folk-indigo)" stroke-width="2"
+                                    fill="none" />
+                                <!-- Karigar LLM right(681,136) -> Feedback Loop left(561,290) -->
+                                <path d="M 681,150 C 720,150 720,290 701,290" stroke="var(--folk-accent)"
+                                    stroke-width="2" fill="none" />
+                                <!-- Response Card right(451,375) -> Feedback Loop left(561,290) -->
+                                <path d="M 451,375 C 506,375 506,300 561,300" stroke="var(--folk-muted)"
+                                    stroke-width="1.5" stroke-dasharray="4,3" fill="none" />
+                            </svg>
+
+                            <!-- Node: System Prompt Builder -->
+                            <div
+                                style="position: absolute; top: 30px; left: 20px; width: 220px; background: var(--folk-paper); border: 1.5px solid var(--folk-turmeric); border-radius: 8px; padding: 12px 14px; box-shadow: var(--shadow-sm); z-index: 1;">
+                                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+                                    <div
+                                        style="width: 7px; height: 7px; border-radius: 50%; background: var(--folk-turmeric);">
+                                    </div>
+                                    <span style="font-size: 11px; font-weight: 700; color: var(--folk-ink);">System
+                                        Prompt Builder</span>
+                                </div>
+                                <div style="font-size: 10px; color: var(--folk-muted); line-height: 1.6;">
+                                    <div>• Role definition: <em>Karigar assistant</em></div>
+                                    <div>• Tone: warmth, precision, folk art</div>
+                                    <div>• Output: structured JSON</div>
+                                </div>
+                            </div>
+
+                            <!-- Node: My Prompt -->
+                            <div
+                                style="position: absolute; top: 220px; left: 20px; width: 220px; background: var(--folk-paper); border: 1.5px solid var(--folk-accent); border-radius: 8px; padding: 12px 14px; box-shadow: var(--shadow-sm); z-index: 1;">
+                                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+                                    <div
+                                        style="width: 7px; height: 7px; border-radius: 50%; background: var(--folk-accent);">
+                                    </div>
+                                    <span style="font-size: 11px; font-weight: 700; color: var(--folk-ink);">My
+                                        Prompt</span>
+                                </div>
+                                <div style="font-size: 10px; color: var(--folk-muted); line-height: 1.6;">
+                                    <div>☑ Context attached</div>
+                                    <div>☑ Style guide referenced</div>
+                                    <div>☐ Examples embedded</div>
+                                </div>
+                            </div>
+
+                            <!-- Node: Ground Chat -->
+                            <div
+                                style="position: absolute; top: 60px; left: 290px; width: 220px; background: var(--folk-paper); border: 1.5px solid var(--color-semantic-success); border-radius: 8px; padding: 12px 14px; box-shadow: var(--shadow-sm); z-index: 1;">
+                                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+                                    <div
+                                        style="width: 7px; height: 7px; border-radius: 50%; background: var(--color-semantic-success);">
+                                    </div>
+                                    <span style="font-size: 11px; font-weight: 700; color: var(--folk-ink);">Ground
+                                        Chat</span>
+                                    <span
+                                        style="margin-left: auto; font-size: 9px; background: rgba(74,124,89,0.12); color: var(--color-semantic-success); padding: 1px 6px; border-radius: 3px; font-weight: 600;">RUNNING</span>
+                                </div>
+                                <div style="font-size: 10px; color: var(--folk-muted); line-height: 1.6;">
+                                    The grounded conversation loop references indexed documents and validates claims
+                                    before generating…
+                                </div>
+                            </div>
+
+                            <!-- Node: ChatGPT -->
+                            <div
+                                style="position: absolute; top: 90px; left: 560px; width: 120px; background: var(--folk-paper); border: 1.5px solid var(--folk-indigo); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow-sm); z-index: 1;">
+                                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                                    <div
+                                        style="width: 7px; height: 7px; border-radius: 50%; background: var(--folk-indigo);">
+                                    </div>
+                                    <span style="font-size: 11px; font-weight: 700; color: var(--folk-ink);">Karigar
+                                        LLM</span>
+                                </div>
+                                <div style="font-size: 9px; color: var(--folk-muted);">• Model: kalamkari-1</div>
+                                <div style="font-size: 9px; color: var(--folk-muted);">• Temp: 0.7</div>
+                            </div>
+
+                            <!-- Node: Synthesize Chat -->
+                            <div
+                                style="position: absolute; top: 30px; left: 720px; width: 140px; background: var(--folk-paper); border: 1.5px solid var(--folk-turmeric); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow-sm); z-index: 1;">
+                                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                                    <div
+                                        style="width: 7px; height: 7px; border-radius: 50%; background: var(--folk-turmeric);">
+                                    </div>
+                                    <span
+                                        style="font-size: 10px; font-weight: 700; color: var(--folk-ink);">Synthesize</span>
+                                </div>
+                                <div style="font-size: 9px; color: var(--folk-muted); line-height: 1.5;">Merge grounded
+                                    output with context window.</div>
+                            </div>
+
+                            <!-- Node: Thumbs Chat -->
+                            <div
+                                style="position: absolute; top: 240px; left: 560px; width: 140px; background: var(--folk-paper); border: 1.5px solid var(--folk-accent); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow-sm); z-index: 1;">
+                                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                                    <div
+                                        style="width: 7px; height: 7px; border-radius: 50%; background: var(--folk-accent);">
+                                    </div>
+                                    <span style="font-size: 10px; font-weight: 700; color: var(--folk-ink);">Feedback
+                                        Loop</span>
+                                </div>
+                                <div style="font-size: 9px; color: var(--folk-muted); line-height: 1.5;">RLHF scoring:
+                                    thumbs up/down signals routed back to fine-tuning.</div>
+                            </div>
+
+                            <!-- Node: FinalCard -->
+                            <div
+                                style="position: absolute; top: 330px; left: 290px; width: 160px; background: var(--folk-paper-warm); border: 1.5px dashed var(--folk-rule); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow-sm); z-index: 1; opacity: 0.7;">
+                                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                                    <div
+                                        style="width: 7px; height: 7px; border-radius: 50%; background: var(--folk-muted);">
+                                    </div>
+                                    <span style="font-size: 10px; font-weight: 600; color: var(--folk-muted);">Response
+                                        Card</span>
+                                </div>
+                                <div style="font-size: 9px; color: var(--folk-muted);">Final structured output delivered
+                                    to the user interface.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================== -->
+                <!-- AI-SPECIFIC COMPONENTS         -->
+                <!-- ============================== -->
+
+                <h2 id="ai-components">3. AI Components</h2>
+                <p>Purpose-built for LLM-powered interfaces. Each component is grounded in folk art metaphor while
+                    serving a precise functional need.</p>
+
+                <h3 id="spice-loader">Spice box loader</h3>
+                <p>The Indian <em>masala dabba</em> holds six essential spices in a circular arrangement. This loader
+                    maps six processing states to six spice colors.</p>
+                <div class="block">
+                    <div class="block-head">Loading indicator — 6 spices</div>
+                    <div class="block-body" style="text-align: center;">
+                        <div class="spice-loader">
+                            <div class="spice-circle"></div>
+                            <div class="spice-circle"></div>
+                            <div class="spice-circle"></div>
+                            <div class="spice-circle"></div>
+                            <div class="spice-circle"></div>
+                            <div class="spice-circle"></div>
+                        </div>
+                        <div class="spice-loader-label">Thinking…</div>
+                        <div class="spice-legend">
+                            <div class="spice-legend-item"><span class="spice-legend-dot"
+                                    style="background: var(--folk-accent);"></span> Chilli</div>
+                            <div class="spice-legend-item"><span class="spice-legend-dot"
+                                    style="background: var(--folk-turmeric);"></span> Turmeric</div>
+                            <div class="spice-legend-item"><span class="spice-legend-dot"
+                                    style="background: var(--folk-indigo);"></span> Mustard</div>
+                            <div class="spice-legend-item"><span class="spice-legend-dot"
+                                    style="background: var(--color-semantic-success);"></span> Cardamom</div>
+                            <div class="spice-legend-item"><span class="spice-legend-dot"
+                                    style="background: #8B5E3C;"></span> Cinnamon</div>
+                            <div class="spice-legend-item"><span class="spice-legend-dot"
+                                    style="background: var(--color-semantic-error);"></span> Kumkum</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="block">
+                    <div class="block-head">Spice spinner — single ring</div>
+                    <div class="block-body" style="text-align: center;">
+                        <div class="spice-spinner"></div>
+                        <div class="spice-loader-label" style="margin-top: var(--space-3);">Processing…</div>
+                    </div>
+                </div>
+
+                <h3 id="chat">Chat bubbles</h3>
+                <p>User messages sit right in burnt sienna. AI responses sit left on handloom white. Thinking dots cycle
+                    through spice colors — chilli, turmeric, indigo.</p>
+                <div class="block">
+                    <div class="block-head">Prompt suggestions & Empty State</div>
+                    <div class="block-body">
+                        <div class="chat-container">
+                            <div style="text-align: center; margin-bottom: var(--space-6); margin-top: var(--space-4);">
+                                <h3
+                                    style="font-family: var(--font-display); font-size: 1.5rem; color: var(--folk-ink); margin-bottom: var(--space-2);">
+                                    Welcome to Karigar</h3>
+                                <p style="color: var(--folk-muted); font-size: 13px;">How can I help you pattern your
+                                    thoughts today?</p>
+                            </div>
+                            <div class="suggestions-grid">
+                                <div class="suggestion-card">
+                                    <span class="suggestion-icon">🎨</span>
+                                    <span class="suggestion-title">Design System Setup</span>
+                                    <span class="suggestion-desc">Create a new color palette based on natural
+                                        dyes.</span>
+                                </div>
+                                <div class="suggestion-card">
+                                    <span class="suggestion-icon">📝</span>
+                                    <span class="suggestion-title">Code Generation</span>
+                                    <span class="suggestion-desc">Write a React component for a Kalmakari card.</span>
+                                </div>
+                                <div class="suggestion-card">
+                                    <span class="suggestion-icon">🔍</span>
+                                    <span class="suggestion-title">Audit Accessibility</span>
+                                    <span class="suggestion-desc">Check contrast ratios on the indigo palette.</span>
+                                </div>
+                                <div class="suggestion-card">
+                                    <span class="suggestion-icon">💬</span>
+                                    <span class="suggestion-title">Review Copy</span>
+                                    <span class="suggestion-desc">Make this text sound more approachable.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Text input for starting a conversation -->
+                        <div
+                            style="padding: var(--space-3); border-top: 1px solid var(--folk-rule); display: flex; gap: 6px;">
+                            <input
+                                style="flex: 1; font-size: 13px; padding: 10px 14px; border: 1px solid var(--folk-rule); border-radius: 6px; background: var(--folk-paper); font-family: var(--font-body);"
+                                placeholder="Message Karigar…">
+                            <button
+                                style="background: var(--folk-accent); color: var(--folk-paper); border: none; padding: 10px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: var(--font-body);">Send</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="block">
+                    <div class="block-head">Chat conversation with citations & feedback</div>
+                    <div class="block-body">
+
+                        <div class="chat-container">
+                            <div class="chat-bubble chat-user">Explain the symbolism of the peacock motif in Kalamkari
+                                textiles.</div>
+                            <div class="chat-bubble chat-ai">
+                                <div class="chat-ai-label">Karigar</div>The peacock in Kalamkari represents divine grace
+                                and immortality <a href="#cite1" class="citation-inline">1</a>. In the Srikalahasti
+                                tradition, artisans use the peacock to frame
+                                narrative scenes — its tail feathers become a natural border pattern, each "eye"
+                                symbolizing cosmic awareness <a href="#cite2" class="citation-inline">2</a>.
+
+                                <div class="citation-block">
+                                    <div class="citation-item">
+                                        <span class="citation-number">1.</span>
+                                        <span><a href="#" class="citation-link">Handbook of Indian Folk Art</a>, Chapter
+                                            4: Kalamkari Motifs (p. 112).</span>
+                                    </div>
+                                    <div class="citation-item">
+                                        <span class="citation-number">2.</span>
+                                        <span><a href="#" class="citation-link">Srikalahasti Textile Traditions</a>,
+                                            Journal of Asian Art (2022).</span>
+                                    </div>
+                                </div>
+
+                                <div class="ai-feedback-bar">
+                                    <button class="feedback-action" title="Good response">
+                                        <svg viewBox="0 0 24 24">
+                                            <path
+                                                d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3">
+                                            </path>
+                                        </svg> Good
+                                    </button>
+                                    <button class="feedback-action" title="Bad response">
+                                        <svg viewBox="0 0 24 24">
+                                            <path
+                                                d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3">
+                                            </path>
+                                        </svg> Bad
+                                    </button>
+                                    <button class="feedback-action" title="Copy response">
+                                        <svg viewBox="0 0 24 24">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                        </svg> Copy
+                                    </button>
+                                    <button class="feedback-action" title="Regenerate">
+                                        <svg viewBox="0 0 24 24">
+                                            <polyline points="23 4 23 10 17 10"></polyline>
+                                            <polyline points="1 20 1 14 7 14"></polyline>
+                                            <path
+                                                d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15">
+                                            </path>
+                                        </svg> Retry
+                                    </button>
+                                    <div style="flex: 1;"></div>
+                                    <button class="feedback-action report" title="Report issue">
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7">
+                                            </path>
+                                        </svg> Report
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="chat-thinking" style="margin-top: var(--space-4);">
+                                <div class="thinking-dots"><span></span><span></span><span></span></div>
+                            </div>
+
+                            <div
+                                style="margin-top: var(--space-4); padding: var(--space-3); border-top: 1px solid var(--folk-rule); display: flex; gap: 6px;">
+                                <input
+                                    style="flex: 1; font-size: 13px; padding: 10px 14px; border: 1px solid var(--folk-rule); border-radius: 6px; background: var(--folk-paper); font-family: var(--font-body);"
+                                    placeholder="Message Karigar...">
+                                <button
+                                    style="background: var(--folk-accent); color: var(--folk-paper); border: none; padding: 10px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: var(--font-body);">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 id="voice">Voice AI</h3>
+                <p>The voice orb uses concentric ripple animations inspired by kolam patterns. Burnt sienna core pulses
+                    outward — like sound waves, like the expanding rings of a rangoli.</p>
+                <div class="block">
+                    <div class="block-head">Karigar Voice — listening state</div>
+                    <div class="block-body">
+                        <div class="voice-container">
+                            <div class="voice-wave" style="height: 24px; width: 120px;">
+                                <svg viewBox="0 0 120 24" style="width: 100%; height: 100%;">
+                                    <path d="M 0,12 Q 10,2 20,12 T 40,12 T 60,12 T 80,12 T 100,12 T 120,12" fill="none"
+                                        stroke="var(--folk-accent)" stroke-width="2" stroke-linecap="round">
+                                        <animate attributeName="d" values="M 0,12 Q 10,2 20,12 T 40,12 T 60,12 T 80,12 T 100,12 T 120,12;
+                                                    M 0,12 Q 10,22 20,12 T 40,12 T 60,12 T 80,12 T 100,12 T 120,12;
+                                                    M 0,12 Q 10,2 20,12 T 40,12 T 60,12 T 80,12 T 100,12 T 120,12"
+                                            dur="2s" repeatCount="indefinite" />
+                                    </path>
+                                    <path d="M 0,12 Q 15,6 30,12 T 60,12 T 90,12 T 120,12" fill="none"
+                                        stroke="var(--folk-indigo)" stroke-width="1.5" stroke-linecap="round"
+                                        opacity="0.5">
+                                        <animate attributeName="d" values="M 0,12 Q 15,6 30,12 T 60,12 T 90,12 T 120,12;
+                                                    M 0,12 Q 15,18 30,12 T 60,12 T 90,12 T 120,12;
+                                                    M 0,12 Q 15,6 30,12 T 60,12 T 90,12 T 120,12" dur="2.5s"
+                                            repeatCount="indefinite" />
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="voice-status">Listening…</div>
+                            <div
+                                style="font-size: 13px; color: var(--folk-muted); font-style: italic; text-align: center; max-width: 300px;">
+                                "Tell me about the history of natural indigo dyeing in India"</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="block">
+                    <div class="block-head">Karigar Voice — speaking state</div>
+                    <div class="block-body">
+                        <div class="voice-container">
+                            <div class="voice-wave">
+                                <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                            </div>
+                            <div class="voice-status" style="color: var(--folk-turmeric);">Speaking…</div>
+                            <div
+                                style="font-size: 13px; color: var(--folk-muted); text-align: center; max-width: 320px; line-height: 1.5;">
+                                "Indigo dyeing in India dates back to 3000 BCE. The Indigofera plant was cultivated
+                                along the banks of the Narmada…"</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 id="terminal">Terminal / CLI</h3>
+                <p>The terminal uses the Karigar palette for syntax highlighting — turmeric for keywords, sienna for
+                    the prompt, sage for success. Think <em>Claude Code</em> with handcraft warmth.</p>
+                <div class="block">
+                    <div class="block-head">Karigar Terminal session</div>
+                    <div class="block-body" style="padding: 0;">
+                        <div class="terminal-block">
+                            <div class="terminal-header">
+                                <div class="terminal-dot red"></div>
+                                <div class="terminal-dot yellow"></div>
+                                <div class="terminal-dot green"></div><span class="terminal-title">karigar —
+                                    ~/projects/karigar</span>
+                            </div>
+                            <div class="terminal-body">
+                                <div class="terminal-line"><span class="terminal-prompt">❯ </span><span
+                                        class="terminal-cmd">karigar "refactor this component to use design
+                                        tokens"</span>
+                                </div>
+                                <div class="terminal-line"><span class="terminal-output">⠿ Analyzing component
+                                        structure...</span></div>
+                                <div class="terminal-line"><span class="terminal-success">✓ Found 12 hardcoded color
+                                        values</span></div>
+                                <div class="terminal-line"><span class="terminal-success">✓ Found 8 hardcoded spacing
+                                        values</span></div>
+                                <div class="terminal-line"><span class="terminal-warning">⚠ 2 values have no matching
+                                        token — creating new ones</span></div>
+                                <div class="terminal-line">&nbsp;</div>
+                                <div class="terminal-line"><span class="terminal-prompt">❯ </span><span
+                                        class="terminal-cmd">karigar apply --dry-run</span></div>
+                                <div class="terminal-line"><span class="terminal-output"> </span><span
+                                        class="terminal-error">- background: #C65D3E;</span></div>
+                                <div class="terminal-line"><span class="terminal-output"> </span><span
+                                        class="terminal-success">+ background: var(--folk-accent);</span></div>
+                                <div class="terminal-line"><span class="terminal-output"> </span><span
+                                        class="terminal-error">- padding: 16px;</span></div>
+                                <div class="terminal-line"><span class="terminal-output"> </span><span
+                                        class="terminal-success">+ padding: var(--space-4);</span></div>
+                                <div class="terminal-line">&nbsp;</div>
+                                <div class="terminal-line"><span class="terminal-success">✓ 20 replacements ready. Run
+                                        `karigar apply` to commit.</span></div>
+                                <div class="terminal-line"><span class="terminal-prompt">❯ </span><span
+                                        class="terminal-cursor"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================== -->
+                <!-- APPLICATIONS                   -->
+                <!-- ============================== -->
+
+                <h2 id="applications">4. Applications</h2>
+                <p>These three examples demonstrate the Karigar system in context — a ChatGPT-style chat (Karigar), a
+                    voice assistant (Karigar Voice), and a terminal (Karigar CLI).</p>
+
+                <h3>Karigar — Chat application</h3>
+                <div class="app-example-label">Laptop — Karigar Chat</div>
+                <div class="laptop-frame">
+                    <div class="laptop-lid">
+                        <div class="laptop-screen" style="aspect-ratio: 16/10;">
+                            <div style="display: flex; height: 100%; font-size: 12px; overflow: hidden;">
+                                <div
+                                    style="width: 180px; background: var(--folk-ink); color: var(--folk-paper); padding: var(--space-3); flex-shrink: 0; display: flex; flex-direction: column;">
+                                    <div
+                                        style="font-family: var(--font-display); font-size: 14px; color: var(--folk-accent); margin-bottom: var(--space-3);">
+                                        Karigar</div>
+                                    <button
+                                        style="background: var(--color-neutral-700); border: 1px solid var(--color-neutral-600); color: var(--folk-paper); padding: 6px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; margin-bottom: var(--space-4); font-family: var(--font-body);">+
+                                        New Chat</button>
+                                    <div
+                                        style="font-size: 9px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-500); margin-bottom: var(--space-1);">
+                                        Today</div>
+                                    <div
+                                        style="padding: 5px 8px; background: var(--color-neutral-800); border-radius: 4px; font-size: 11px; margin-bottom: 3px; color: var(--folk-paper);">
+                                        Kalamkari patterns</div>
+                                    <div
+                                        style="padding: 5px 8px; font-size: 11px; margin-bottom: 3px; color: var(--color-neutral-400);">
+                                        Spice box design</div>
+                                    <div style="padding: 5px 8px; font-size: 11px; color: var(--color-neutral-400);">
+                                        Payment UI review</div>
+                                </div>
+                                <div
+                                    style="flex: 1; display: flex; flex-direction: column; background: var(--folk-paper);">
+                                    <div
+                                        style="padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--folk-rule); display: flex; justify-content: space-between; align-items: center;">
+                                        <span style="font-weight: 600; font-size: 12px;">Kalamkari patterns</span><span
+                                            style="font-size: 10px; color: var(--folk-muted);">GPT-4o</span>
+                                    </div>
+                                    <div
+                                        style="flex: 1; padding: var(--space-3); overflow: hidden; display: flex; flex-direction: column; gap: 8px;">
+                                        <div
+                                            style="align-self: flex-end; background: var(--folk-accent); color: var(--folk-paper); padding: 6px 10px; border-radius: 10px 10px 3px 10px; font-size: 11px; max-width: 70%;">
+                                            What are the main Kalamkari traditions?</div>
+                                        <div
+                                            style="align-self: flex-start; background: var(--folk-paper-warm); border: 1px solid var(--folk-rule); padding: 6px 10px; border-radius: 10px 10px 10px 3px; font-size: 11px; max-width: 80%;">
+                                            <div
+                                                style="font-size: 8px; font-weight: 600; letter-spacing: 0.1em; color: var(--folk-accent); margin-bottom: 2px;">
+                                                KARIGAR</div>Two main traditions: <strong>Srikalahasti</strong>
+                                            (pen-drawn) and <strong>Machilipatnam</strong> (block-printed).
+                                            <!-- Inline feedback icons -->
+                                            <div
+                                                style="display: flex; gap: 4px; margin-top: 6px; border-top: 1px dashed var(--folk-rule); padding-top: 4px;">
+                                                <button
+                                                    style="background: none; border: none; cursor: pointer; padding: 2px; color: var(--folk-muted); font-size: 0; line-height: 0;"
+                                                    title="Good">
+                                                    <svg viewBox="0 0 24 24"
+                                                        style="width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;">
+                                                        <path
+                                                            d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3">
+                                                        </path>
+                                                    </svg>
+                                                </button>
+                                                <button
+                                                    style="background: none; border: none; cursor: pointer; padding: 2px; color: var(--folk-muted); font-size: 0; line-height: 0;"
+                                                    title="Bad">
+                                                    <svg viewBox="0 0 24 24"
+                                                        style="width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;">
+                                                        <path
+                                                            d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3">
+                                                        </path>
+                                                    </svg>
+                                                </button>
+                                                <button
+                                                    style="background: none; border: none; cursor: pointer; padding: 2px; color: var(--folk-muted); font-size: 0; line-height: 0;"
+                                                    title="Copy">
+                                                    <svg viewBox="0 0 24 24"
+                                                        style="width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;">
+                                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                                        <path
+                                                            d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1">
+                                                        </path>
+                                                    </svg>
+                                                </button>
+                                                <button
+                                                    style="background: none; border: none; cursor: pointer; padding: 2px; color: var(--folk-muted); font-size: 0; line-height: 0;"
+                                                    title="Retry">
+                                                    <svg viewBox="0 0 24 24"
+                                                        style="width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;">
+                                                        <polyline points="23 4 23 10 17 10"></polyline>
+                                                        <polyline points="1 20 1 14 7 14"></polyline>
+                                                        <path
+                                                            d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15">
+                                                        </path>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div
+                                            style="align-self: flex-end; background: var(--folk-accent); color: var(--folk-paper); padding: 6px 10px; border-radius: 10px 10px 3px 10px; font-size: 11px; max-width: 70%;">
+                                            Tell me more about natural dyes</div>
+                                        <div
+                                            style="align-self: flex-start; display: flex; gap: 4px; align-items: center; padding: 6px 10px; background: var(--folk-paper-warm); border: 1px solid var(--folk-rule); border-radius: 10px 10px 10px 3px;">
+                                            <span
+                                                style="width: 4px; height: 4px; border-radius: 50%; background: var(--folk-accent); animation: thinkBounce 1.4s ease-in-out infinite;"></span><span
+                                                style="width: 4px; height: 4px; border-radius: 50%; background: var(--folk-turmeric); animation: thinkBounce 1.4s ease-in-out infinite 0.2s;"></span><span
+                                                style="width: 4px; height: 4px; border-radius: 50%; background: var(--folk-indigo); animation: thinkBounce 1.4s ease-in-out infinite 0.4s;"></span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding: var(--space-2) var(--space-3); border-top: 1px solid var(--folk-rule); display: flex; gap: 6px;">
+                                        <input
+                                            style="flex: 1; font-size: 11px; padding: 6px 10px; border: 1px solid var(--folk-rule); border-radius: 4px; background: var(--folk-paper); font-family: var(--font-body);"
+                                            placeholder="Send a message…"><button
+                                            style="background: var(--folk-accent); color: var(--folk-paper); border: none; padding: 6px 12px; border-radius: 4px; font-size: 10px; font-weight: 600; cursor: pointer; font-family: var(--font-body);">Send</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="laptop-base"></div>
+                </div>
+
+                <h3 style="margin-top: var(--space-10);">Karigar Voice</h3>
+                <div class="app-example-label">Laptop — Karigar Voice Assistant</div>
+                <div class="laptop-frame" style="margin-bottom: var(--space-8);">
+                    <div class="laptop-lid">
+                        <div class="laptop-screen" style="aspect-ratio: 16/10;">
+                            <div
+                                style="height: 100%; background: var(--folk-ink); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: var(--space-4);">
+                                <div
+                                    style="font-family: var(--font-display); font-size: 16px; color: var(--folk-accent);">
+                                    Karigar Voice</div>
+                                <div
+                                    style="width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle, var(--folk-accent) 0%, var(--folk-accent-dark) 70%, var(--folk-ink) 100%); display: flex; align-items: center; justify-content: center; position: relative;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                        style="width: 24px; height: 24px; stroke: var(--folk-paper); fill: none; stroke-width: 2;">
+                                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                                        <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                                    </svg>
+                                </div>
+                                <div
+                                    style="font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--folk-accent);">
+                                    Listening…</div>
+                                <div
+                                    style="font-size: 12px; color: var(--color-neutral-400); font-style: italic; max-width: 280px; text-align: center; font-family: var(--font-body);">
+                                    "What spices are used in traditional Chettinad cooking?"</div>
+                                <div style="display: flex; gap: 6px; margin-top: 8px;"><span
+                                        style="padding: 4px 10px; border: 1px solid var(--color-neutral-600); border-radius: 12px; font-size: 10px; color: var(--color-neutral-400); font-family: var(--font-body);">Tell
+                                        me more</span><span
+                                        style="padding: 4px 10px; border: 1px solid var(--color-neutral-600); border-radius: 12px; font-size: 10px; color: var(--color-neutral-400); font-family: var(--font-body);">Show
+                                        recipes</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="laptop-base"></div>
+                </div>
+
+                <h3>Karigar CLI — Terminal</h3>
+                <div class="app-example-label">Laptop — Karigar CLI (Claude Code style)</div>
+                <div class="laptop-frame" style="margin-bottom: var(--space-8);">
+                    <div class="laptop-lid">
+                        <div class="laptop-screen" style="aspect-ratio: 16/10;">
+                            <div
+                                style="height: 100%; background: var(--folk-ink); font-family: var(--font-mono); font-size: 11px; line-height: 1.5; color: var(--folk-paper); display: flex; flex-direction: column;">
+                                <div
+                                    style="padding: 6px 12px; background: var(--color-neutral-800); border-bottom: 1px solid var(--color-neutral-700); display: flex; align-items: center; gap: 6px;">
+                                    <span
+                                        style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-semantic-error);"></span><span
+                                        style="width: 8px; height: 8px; border-radius: 50%; background: var(--folk-turmeric);"></span><span
+                                        style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-semantic-success);"></span><span
+                                        style="font-size: 9px; color: var(--color-neutral-400); margin-left: 6px;">karigar-cli
+                                        v0.1 — ~/karigar</span>
+                                </div>
+                                <div style="flex: 1; padding: 10px 12px; overflow: hidden;">
+                                    <div><span style="color: var(--folk-accent);">❯ </span>karigar "create a spice-box
+                                        loading component"</div>
+                                    <div style="color: var(--color-neutral-400); margin: 4px 0;">⠿ Planning component
+                                        structure...</div>
+                                    <div style="color: var(--color-semantic-success);">✓ Created
+                                        src/components/SpiceLoader.tsx</div>
+                                    <div style="color: var(--color-semantic-success);">✓ Created
+                                        src/styles/spice-loader.css</div>
+                                    <div style="color: var(--folk-turmeric);">⚠ Added 2 new design tokens to tokens.css
+                                    </div>
+                                    <div style="color: var(--color-neutral-400); margin: 4px 0;">── Preview ──</div>
+                                    <div><span style="color: var(--folk-turmeric);">const</span> SpiceLoader = () =&gt;
+                                        (</div>
+                                    <div>&nbsp;&nbsp;&lt;<span style="color: var(--folk-accent);">div</span> <span
+                                            style="color: var(--folk-turmeric);">className</span>=<span
+                                            style="color: #e8b87a;">"spice-loader"</span>&gt;</div>
+                                    <div>&nbsp;&nbsp;&nbsp;&nbsp;{spices.map(s =&gt; &lt;<span
+                                            style="color: var(--folk-accent);">circle</span> <span
+                                            style="color: var(--folk-turmeric);">color</span>={s} /&gt;)}</div>
+                                    <div>&nbsp;&nbsp;&lt;/<span style="color: var(--folk-accent);">div</span>&gt;);
+                                    </div>
+                                    <div style="color: var(--color-neutral-400); margin-top: 4px;">────────────</div>
+                                    <div style="color: var(--color-semantic-success);">✓ Ready. Run `karigar apply` to
+                                        write files.</div>
+                                    <div><span style="color: var(--folk-accent);">❯ </span><span
+                                            style="display: inline-block; width: 6px; height: 12px; background: var(--folk-accent); animation: blink 1s step-end infinite; vertical-align: text-bottom;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="laptop-base"></div>
+                </div>
+
+                <h3 style="margin-top: var(--space-10);">Karigar Developer Docs</h3>
+                <div class="app-example-label">Browser — API Documentation</div>
+                <div class="laptop-frame" style="margin-bottom: var(--space-8);">
+                    <div class="laptop-lid">
+                        <div class="laptop-screen" style="aspect-ratio: 16/10; background: var(--folk-paper);">
+                            <div style="display: flex; height: 100%;">
+                                <!-- Sidebar -->
+                                <div
+                                    style="width: 200px; border-right: 1px solid var(--folk-rule); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2);">
+                                    <div
+                                        style="font-weight: 700; font-family: var(--font-display); font-size: 16px; color: var(--folk-ink); margin-bottom: var(--space-2);">
+                                        Karigar Docs</div>
+                                    <div
+                                        style="font-size: 12px; font-weight: 600; color: var(--folk-muted); margin-bottom: 4px; letter-spacing: 0.05em; text-transform: uppercase;">
+                                        Getting Started</div>
+                                    <a href="#"
+                                        style="font-size: 13px; color: var(--folk-ink); text-decoration: none;">Authentication</a>
+                                    <a href="#"
+                                        style="font-size: 13px; color: var(--folk-muted); text-decoration: none;">Quickstart</a>
+                                    <div
+                                        style="font-size: 12px; font-weight: 600; color: var(--folk-muted); margin-top: var(--space-4); margin-bottom: 4px; letter-spacing: 0.05em; text-transform: uppercase;">
+                                        Endpoints</div>
+                                    <a href="#"
+                                        style="font-size: 13px; color: var(--folk-muted); text-decoration: none;">Chat
+                                        Completions</a>
+                                    <a href="#"
+                                        style="font-size: 13px; color: var(--folk-muted); text-decoration: none;">Voice
+                                        Embeddings</a>
+                                </div>
+                                <!-- Main Content -->
+                                <div style="flex: 1; padding: var(--space-6); overflow-y: auto;">
+                                    <div
+                                        style="font-size: 10px; color: var(--folk-accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">
+                                        Endpoints</div>
+                                    <h4 style="margin: 0 0 var(--space-4) 0; font-size: 20px; color: var(--folk-ink);">
+                                        Chat Completions</h4>
+                                    <p
+                                        style="font-size: 13px; color: var(--folk-muted); margin-bottom: var(--space-4);">
+                                        Given a list of messages comprising a conversation, the model will return a
+                                        response patterned after Indian visual traditions.</p>
+
+                                    <div
+                                        style="display: flex; align-items: center; gap: var(--space-3); background: var(--folk-paper-warm); padding: var(--space-2) var(--space-3); border-radius: 4px; border: 1px solid var(--folk-rule); margin-bottom: var(--space-6);">
+                                        <span
+                                            style="background: var(--folk-indigo); color: white; border-radius: 3px; font-size: 11px; font-weight: 700; padding: 2px 6px;">POST</span>
+                                        <code
+                                            style="font-family: var(--font-mono); font-size: 12px; color: var(--folk-ink);">https://api.karigar.dev/v1/chat/completions</code>
+                                    </div>
+
+                                    <div
+                                        style="background: var(--folk-ink); border-radius: 6px; padding: var(--space-4);">
+                                        <div
+                                            style="display: flex; gap: var(--space-4); margin-bottom: var(--space-3); border-bottom: 1px solid #333; padding-bottom: var(--space-2);">
+                                            <span
+                                                style="color: var(--folk-paper); font-size: 12px; font-family: var(--font-body);">cURL</span>
+                                            <span
+                                                style="color: var(--folk-muted); font-size: 12px; font-family: var(--font-body);">Python</span>
+                                            <span
+                                                style="color: var(--folk-muted); font-size: 12px; font-family: var(--font-body);">Node.js</span>
+                                        </div>
+                                        <div
+                                            style="font-family: var(--font-mono); font-size: 11px; color: var(--folk-paper); line-height: 1.6;">
+                                            <span style="color: var(--folk-turmeric);">curl</span>
+                                            https://api.karigar.dev/v1/chat/completions \<br>
+                                            &nbsp;&nbsp;<span style="color: var(--color-semantic-success);">-H</span>
+                                            <span style="color: #e8b87a;">"Content-Type: application/json"</span> \<br>
+                                            &nbsp;&nbsp;<span style="color: var(--color-semantic-success);">-H</span>
+                                            <span style="color: #e8b87a;">"Authorization: Bearer
+                                                $KARIGAR_API_KEY"</span>
+                                            \<br>
+                                            &nbsp;&nbsp;<span style="color: var(--color-semantic-success);">-d</span>
+                                            <span style="color: #e8b87a;">'{ "model": "karigar-kalamkari-1", "messages":
+                                                [{"role": "user", "content": "Hello!"}] }'</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="laptop-base"></div>
+                </div>
+
+                <h3 style="margin-top: var(--space-10);">Karigar API Dashboard</h3>
+                <div class="app-example-label">Browser — API Keys & Usage</div>
+                <div class="laptop-frame" style="margin-bottom: var(--space-8);">
+                    <div class="laptop-lid">
+                        <div class="laptop-screen"
+                            style="aspect-ratio: 16/10; background: var(--folk-paper); overflow: hidden;">
+                            <!-- Top Nav -->
+                            <div
+                                style="background: var(--folk-ink); padding: var(--space-2) var(--space-5); display: flex; justify-content: space-between; align-items: center;">
+                                <div style="display: flex; align-items: center; gap: var(--space-3);">
+                                    <span
+                                        style="font-family: var(--font-display); font-size: 14px; color: var(--folk-accent);">Karigar</span>
+                                    <span style="font-size: 11px; color: var(--color-neutral-400);">Developer
+                                        Console</span>
+                                </div>
+                                <div style="display: flex; gap: var(--space-4); font-size: 11px;">
+                                    <a href="javascript:void(0)"
+                                        style="color: var(--folk-paper); text-decoration: none; border-bottom: 2px solid var(--folk-accent); padding-bottom: 2px;">API
+                                        Keys</a>
+                                    <a href="javascript:void(0)"
+                                        style="color: var(--color-neutral-400); text-decoration: none;">Usage</a>
+                                    <a href="javascript:void(0)"
+                                        style="color: var(--color-neutral-400); text-decoration: none;">Billing</a>
+                                    <a href="javascript:void(0)"
+                                        style="color: var(--color-neutral-400); text-decoration: none;">Docs</a>
+                                </div>
+                            </div>
+
+                            <!-- Main Content -->
+                            <div style="padding: var(--space-4) var(--space-5);">
+                                <!-- Header -->
+                                <div
+                                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4);">
+                                    <div>
+                                        <div style="font-size: 16px; font-weight: 700; color: var(--folk-ink);">API Keys
+                                        </div>
+                                        <div style="font-size: 11px; color: var(--folk-muted); margin-top: 2px;">Manage
+                                            your spice rack of API keys — each key unlocks a different flavor of the
+                                            Karigar platform.</div>
+                                    </div>
+                                    <button
+                                        style="background: var(--folk-accent); color: var(--folk-paper); border: none; padding: 6px 14px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: var(--font-body); display: flex; align-items: center; gap: 4px;">
+                                        + Create Key</button>
+                                </div>
+
+                                <!-- API Keys Table -->
+                                <div
+                                    style="background: var(--folk-paper-warm); border: 1px solid var(--folk-rule); border-radius: 6px; overflow: hidden;">
+                                    <!-- Table Header -->
+                                    <div
+                                        style="display: grid; grid-template-columns: 2fr 3fr 1fr 1fr; padding: 8px 14px; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--folk-muted); border-bottom: 1px solid var(--folk-rule); background: var(--folk-paper);">
+                                        <div>Name</div>
+                                        <div>Key</div>
+                                        <div>Requests</div>
+                                        <div style="text-align: right;">Status</div>
+                                    </div>
+                                    <!-- Key Row 1: Active -->
+                                    <div
+                                        style="display: grid; grid-template-columns: 2fr 3fr 1fr 1fr; padding: 10px 14px; font-size: 11px; border-bottom: 1px solid var(--folk-rule); align-items: center;">
+                                        <div>
+                                            <div style="font-weight: 600; color: var(--folk-ink);">Kalamkari
+                                                Production</div>
+                                            <div style="font-size: 9px; color: var(--folk-muted);">Created Feb 12</div>
+                                        </div>
+                                        <div
+                                            style="font-family: var(--font-mono); font-size: 10px; color: var(--folk-muted);">
+                                            sk-masala-prod-•••••••••••••7kQ4</div>
+                                        <div style="font-size: 11px; color: var(--folk-ink);">
+                                            <span style="font-weight: 600;">12,847</span>
+                                            <div
+                                                style="width: 100%; height: 3px; background: var(--color-neutral-200); border-radius: 2px; margin-top: 3px;">
+                                                <div
+                                                    style="width: 65%; height: 100%; background: var(--folk-accent); border-radius: 2px;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="text-align: right;"><span
+                                                style="background: rgba(74, 124, 89, 0.12); color: var(--color-semantic-success); padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 600;">Active</span>
+                                        </div>
+                                    </div>
+                                    <!-- Key Row 2: Active -->
+                                    <div
+                                        style="display: grid; grid-template-columns: 2fr 3fr 1fr 1fr; padding: 10px 14px; font-size: 11px; border-bottom: 1px solid var(--folk-rule); align-items: center;">
+                                        <div>
+                                            <div style="font-weight: 600; color: var(--folk-ink);">Indigo Staging</div>
+                                            <div style="font-size: 9px; color: var(--folk-muted);">Created Feb 28</div>
+                                        </div>
+                                        <div
+                                            style="font-family: var(--font-mono); font-size: 10px; color: var(--folk-muted);">
+                                            sk-masala-stg-•••••••••••••nR8x</div>
+                                        <div style="font-size: 11px; color: var(--folk-ink);">
+                                            <span style="font-weight: 600;">3,201</span>
+                                            <div
+                                                style="width: 100%; height: 3px; background: var(--color-neutral-200); border-radius: 2px; margin-top: 3px;">
+                                                <div
+                                                    style="width: 25%; height: 100%; background: var(--folk-indigo); border-radius: 2px;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="text-align: right;"><span
+                                                style="background: rgba(74, 124, 89, 0.12); color: var(--color-semantic-success); padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 600;">Active</span>
+                                        </div>
+                                    </div>
+                                    <!-- Key Row 3: Revoked -->
+                                    <div
+                                        style="display: grid; grid-template-columns: 2fr 3fr 1fr 1fr; padding: 10px 14px; font-size: 11px; align-items: center; opacity: 0.5;">
+                                        <div>
+                                            <div style="font-weight: 600; color: var(--folk-ink);">Turmeric Dev
+                                                (deprecated)</div>
+                                            <div style="font-size: 9px; color: var(--folk-muted);">Created Jan 5</div>
+                                        </div>
+                                        <div
+                                            style="font-family: var(--font-mono); font-size: 10px; color: var(--folk-muted);">
+                                            sk-masala-dev-•••••••••••••xP2m</div>
+                                        <div style="font-size: 11px; color: var(--folk-muted);">—</div>
+                                        <div style="text-align: right;"><span
+                                                style="background: rgba(206, 68, 68, 0.08); color: var(--color-semantic-error); padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 600;">Revoked</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Current Month Summary -->
+                                <div style="display: flex; gap: var(--space-4); margin-top: var(--space-4);">
+                                    <div
+                                        style="flex: 1; background: var(--folk-paper-warm); border: 1px solid var(--folk-rule); border-radius: 6px; padding: var(--space-3);">
+                                        <div
+                                            style="font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--folk-muted); margin-bottom: 4px;">
+                                            March Usage</div>
+                                        <div style="font-size: 18px; font-weight: 700; color: var(--folk-ink);">₹1,240
+                                            <span style="font-size: 11px; font-weight: 400; color: var(--folk-muted);">/
+                                                ₹5,000</span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="flex: 1; background: var(--folk-paper-warm); border: 1px solid var(--folk-rule); border-radius: 6px; padding: var(--space-3);">
+                                        <div
+                                            style="font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--folk-muted); margin-bottom: 4px;">
+                                            Total Requests</div>
+                                        <div style="font-size: 18px; font-weight: 700; color: var(--folk-ink);">16,048
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="flex: 1; background: var(--folk-paper-warm); border: 1px solid var(--folk-rule); border-radius: 6px; padding: var(--space-3);">
+                                        <div
+                                            style="font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--folk-muted); margin-bottom: 4px;">
+                                            Active Model</div>
+                                        <div
+                                            style="font-size: 12px; font-weight: 600; color: var(--folk-accent); font-family: var(--font-mono);">
+                                            karigar-kalamkari-1</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="laptop-base"></div>
+                </div>
+
+                <div class="app-example-label">Browser — Billing & Invoices</div>
+                <div class="laptop-frame" style="margin-bottom: var(--space-8);">
+                    <div class="laptop-lid">
+                        <div class="laptop-screen"
+                            style="aspect-ratio: 16/10; background: var(--folk-paper); overflow: hidden;">
+                            <!-- Top Nav (Billing active) -->
+                            <div
+                                style="background: var(--folk-ink); padding: var(--space-2) var(--space-5); display: flex; justify-content: space-between; align-items: center;">
+                                <div style="display: flex; align-items: center; gap: var(--space-3);">
+                                    <span
+                                        style="font-family: var(--font-display); font-size: 14px; color: var(--folk-accent);">Karigar</span>
+                                    <span style="font-size: 11px; color: var(--color-neutral-400);">Developer
+                                        Console</span>
+                                </div>
+                                <div style="display: flex; gap: var(--space-4); font-size: 11px;">
+                                    <a href="javascript:void(0)"
+                                        style="color: var(--color-neutral-400); text-decoration: none;">API Keys</a>
+                                    <a href="javascript:void(0)"
+                                        style="color: var(--color-neutral-400); text-decoration: none;">Usage</a>
+                                    <a href="javascript:void(0)"
+                                        style="color: var(--folk-paper); text-decoration: none; border-bottom: 2px solid var(--folk-accent); padding-bottom: 2px;">Billing</a>
+                                    <a href="javascript:void(0)"
+                                        style="color: var(--color-neutral-400); text-decoration: none;">Docs</a>
+                                </div>
+                            </div>
+
+                            <!-- Billing Content -->
+                            <div style="padding: var(--space-4) var(--space-5);">
+                                <!-- Header -->
+                                <div style="margin-bottom: var(--space-4);">
+                                    <div style="font-size: 16px; font-weight: 700; color: var(--folk-ink);">Billing
+                                    </div>
+                                    <div style="font-size: 11px; color: var(--folk-muted); margin-top: 2px;">Track your
+                                        spice consumption and manage your payment method.</div>
+                                </div>
+
+                                <div style="display: flex; gap: var(--space-4);">
+                                    <!-- Left: Usage Chart -->
+                                    <div style="flex: 2;">
+                                        <div
+                                            style="background: var(--folk-paper-warm); border: 1px solid var(--folk-rule); border-radius: 6px; padding: var(--space-3); margin-bottom: var(--space-3);">
+                                            <div
+                                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-3);">
+                                                <div>
+                                                    <div
+                                                        style="font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--folk-muted);">
+                                                        March 2026</div>
+                                                    <div
+                                                        style="font-size: 20px; font-weight: 700; color: var(--folk-ink);">
+                                                        ₹1,240 <span
+                                                            style="font-size: 11px; font-weight: 400; color: var(--folk-muted);">/
+                                                            ₹5,000 limit</span></div>
+                                                </div>
+                                                <button
+                                                    style="background: var(--folk-paper); border: 1px solid var(--folk-rule); padding: 4px 10px; border-radius: 4px; font-size: 10px; cursor: pointer; font-family: var(--font-body);">Manage
+                                                    Limit</button>
+                                            </div>
+                                            <!-- Bar Chart -->
+                                            <div
+                                                style="height: 80px; border-bottom: 1px dashed var(--color-neutral-300); border-left: 1px dashed var(--color-neutral-300); display: flex; align-items: flex-end; padding-left: 6px; gap: 8px; position: relative;">
+                                                <div
+                                                    style="width: 18px; background: var(--folk-accent); opacity: 0.35; height: 15%; border-radius: 2px 2px 0 0;">
+                                                </div>
+                                                <div
+                                                    style="width: 18px; background: var(--folk-accent); opacity: 0.45; height: 30%; border-radius: 2px 2px 0 0;">
+                                                </div>
+                                                <div
+                                                    style="width: 18px; background: var(--folk-accent); opacity: 0.55; height: 42%; border-radius: 2px 2px 0 0;">
+                                                </div>
+                                                <div
+                                                    style="width: 18px; background: var(--folk-accent); opacity: 0.7; height: 68%; border-radius: 2px 2px 0 0;">
+                                                </div>
+                                                <div
+                                                    style="width: 18px; background: var(--folk-turmeric); height: 85%; border-radius: 2px 2px 0 0;">
+                                                </div>
+                                                <div
+                                                    style="position: absolute; bottom: -16px; left: 6px; right: 0; display: flex; justify-content: space-between; font-size: 8px; color: var(--folk-muted);">
+                                                    <span>Mar 1</span><span>Mar 5</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Cost Breakdown -->
+                                        <div
+                                            style="background: var(--folk-paper-warm); border: 1px solid var(--folk-rule); border-radius: 6px; padding: var(--space-3);">
+                                            <div
+                                                style="font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--folk-muted); margin-bottom: var(--space-2);">
+                                                Cost Breakdown</div>
+                                            <div
+                                                style="display: flex; justify-content: space-between; font-size: 11px; padding: 4px 0; border-bottom: 1px solid var(--folk-rule);">
+                                                <span style="color: var(--folk-ink);">API Calls (kalamkari-1)</span>
+                                                <span style="font-weight: 600;">₹980</span>
+                                            </div>
+                                            <div
+                                                style="display: flex; justify-content: space-between; font-size: 11px; padding: 4px 0; border-bottom: 1px solid var(--folk-rule);">
+                                                <span style="color: var(--folk-ink);">Embeddings</span>
+                                                <span style="font-weight: 600;">₹180</span>
+                                            </div>
+                                            <div
+                                                style="display: flex; justify-content: space-between; font-size: 11px; padding: 4px 0;">
+                                                <span style="color: var(--folk-ink);">Fine-tuning jobs</span>
+                                                <span style="font-weight: 600;">₹80</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Right: Payment + Invoices -->
+                                    <div style="flex: 1;">
+                                        <!-- Payment Method -->
+                                        <div
+                                            style="background: var(--folk-paper-warm); border: 1px solid var(--folk-rule); border-radius: 6px; padding: var(--space-3); margin-bottom: var(--space-3);">
+                                            <div
+                                                style="font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--folk-muted); margin-bottom: var(--space-2);">
+                                                Payment Method</div>
+                                            <div
+                                                style="display: flex; align-items: center; gap: 8px; padding: 6px 8px; background: var(--folk-paper); border: 1px solid var(--folk-rule); border-radius: 4px;">
+                                                <div
+                                                    style="width: 28px; height: 18px; background: linear-gradient(135deg, var(--folk-ink) 50%, var(--color-neutral-600) 100%); border-radius: 3px;">
+                                                </div>
+                                                <div>
+                                                    <div
+                                                        style="font-size: 10px; font-weight: 600; color: var(--folk-ink);">
+                                                        •••• 7291</div>
+                                                    <div style="font-size: 9px; color: var(--folk-muted);">Exp 09/28
+                                                    </div>
+                                                </div>
+                                                <a href="javascript:void(0)"
+                                                    style="margin-left: auto; font-size: 10px; color: var(--folk-accent); text-decoration: none;">Edit</a>
+                                            </div>
+                                        </div>
+
+                                        <!-- Recent Invoices -->
+                                        <div
+                                            style="background: var(--folk-paper-warm); border: 1px solid var(--folk-rule); border-radius: 6px; padding: var(--space-3);">
+                                            <div
+                                                style="font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--folk-muted); margin-bottom: var(--space-2);">
+                                                Invoices</div>
+                                            <div
+                                                style="display: flex; justify-content: space-between; font-size: 10px; padding: 4px 0; border-bottom: 1px solid var(--folk-rule);">
+                                                <span style="color: var(--folk-ink);">Feb 2026</span>
+                                                <span style="font-weight: 600;">₹3,120</span>
+                                                <a href="javascript:void(0)"
+                                                    style="color: var(--folk-accent); text-decoration: none; font-size: 9px;">PDF</a>
+                                            </div>
+                                            <div
+                                                style="display: flex; justify-content: space-between; font-size: 10px; padding: 4px 0; border-bottom: 1px solid var(--folk-rule);">
+                                                <span style="color: var(--folk-ink);">Jan 2026</span>
+                                                <span style="font-weight: 600;">₹2,840</span>
+                                                <a href="javascript:void(0)"
+                                                    style="color: var(--folk-accent); text-decoration: none; font-size: 9px;">PDF</a>
+                                            </div>
+                                            <div
+                                                style="display: flex; justify-content: space-between; font-size: 10px; padding: 4px 0;">
+                                                <span style="color: var(--folk-ink);">Dec 2025</span>
+                                                <span style="font-weight: 600;">₹1,680</span>
+                                                <a href="javascript:void(0)"
+                                                    style="color: var(--folk-accent); text-decoration: none; font-size: 9px;">PDF</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="laptop-base"></div>
+                </div>
+
+                <!-- ============================== -->
+                <!-- GOVERNANCE                     -->
+                <!-- ============================== -->
+
+                <h2 id="governance">5. Governance</h2>
+                <h3>Contribution</h3>
+                <ul>
+                    <li><strong>Token-first:</strong> Every new value must map to an existing token or justify a new
+                        one.</li>
+                    <li><strong>Source your color:</strong> New colors must trace back to a physical material — dye,
+                        spice, clay, fiber.</li>
+                    <li><strong>AI context required:</strong> Every component must document its AI use case (chat,
+                        voice, terminal, finance, or data).</li>
+                </ul>
+                <h3>Versioning</h3>
+                <ul>
+                    <li><strong>Semantic versioning:</strong> Major (breaking), minor (new components), patch (fixes).
+                    </li>
+                    <li><strong>Changelog:</strong> Every release documents what changed and why, in plain language.
+                    </li>
+                </ul>
+                <h3>Accessibility</h3>
+                <ul>
+                    <li><strong>WCAG 2.1 AA:</strong> All color combinations meet minimum contrast ratios.</li>
+                    <li><strong>Keyboard navigation:</strong> Every interactive element is reachable via Tab.</li>
+                    <li><strong>Reduced motion:</strong> The spice loader and voice orb respect
+                        <code>prefers-reduced-motion</code>.
+                    </li>
+                </ul>
+
+                <div
+                    style="margin-top: var(--space-12); padding: var(--space-6); background: var(--folk-paper-warm); border: 1px solid var(--folk-rule); border-radius: 8px; text-align: center;">
+                    <p
+                        style="font-family: var(--font-display); font-size: 1.3rem; color: var(--folk-ink); margin-bottom: var(--space-2); max-width: none;">
+                        The hand of the artisan meets the mind of the machine.</p>
+                    <p style="font-size: 13px; color: var(--folk-muted); max-width: none; margin: 0;">Karigar Design
+                        System · v1.0</p>
+                </div>
+
+            </article>
+        </main>
+
+    </div>
+</body>
+
+</html>
