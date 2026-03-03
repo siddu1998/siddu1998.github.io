@@ -275,6 +275,21 @@
             padding-top: 4px;
         }
 
+        .featured-grid-category {
+            grid-column: 1 / -1;
+            font-family: var(--serif);
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: var(--muted);
+            margin-top: 1.25rem;
+            padding-bottom: 0.15rem;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .featured-grid-category:first-child {
+            margin-top: 0;
+        }
+
         .featured-card {
             display: block;
             padding: 0;
@@ -409,6 +424,305 @@
         .featured-card-tag.buy-tag:hover {
             background: var(--accent);
             color: #fff;
+        }
+
+        /* Ooha card with Public Reactions */
+        .featured-card-ooha {
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+        }
+
+        .featured-card-ooha .featured-card-main {
+            flex: 1;
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            padding: 0;
+        }
+
+        .featured-card-ooha:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 16px rgba(90, 111, 90, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .featured-card-ooha .featured-card-main:hover .featured-card-image img {
+            transform: scale(1.03);
+        }
+
+        .featured-card-topstrip {
+            padding: 0.4rem 1rem;
+            border-bottom: 1px solid #eee;
+            background: linear-gradient(180deg, #fff 0%, #fafaf9 100%);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #7a6f5f;
+        }
+
+        .featured-card-topstrip svg {
+            width: 13px;
+            height: 13px;
+            flex-shrink: 0;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .featured-card-topstrip-cta {
+            color: var(--accent);
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .featured-card-topstrip-cta:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .featured-card-topstrip-cta:hover svg {
+            stroke: #fff;
+        }
+
+        .featured-card-reactions {
+            padding: 0.55rem 1rem;
+            border-top: 1px solid #eee;
+            background: linear-gradient(180deg, #fafaf9 0%, #fff 100%);
+        }
+
+        .featured-card-reactions-btn {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--accent);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            cursor: pointer;
+            border: none;
+            background: none;
+            padding: 0;
+            font-family: inherit;
+            transition: color 0.2s ease;
+        }
+
+        .featured-card-reactions-btn:hover {
+            color: var(--ink);
+        }
+
+        .featured-card-reactions-btn svg {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+        }
+
+        /* Reactions modal */
+        .reactions-modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(26, 26, 26, 0.45);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            animation: modalFadeIn 0.2s ease;
+        }
+
+        .reactions-modal-backdrop.visible {
+            display: flex;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .reactions-modal {
+            background: var(--paper);
+            border-radius: 12px;
+            max-width: 960px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 2rem 2rem 1.5rem;
+            position: relative;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+            animation: modalSlideUp 0.25s ease;
+        }
+
+        @keyframes modalSlideUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reactions-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+        }
+
+        .reactions-modal-title {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--ink);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .reactions-modal-title svg {
+            width: 18px;
+            height: 18px;
+            color: var(--accent);
+        }
+
+        .reactions-modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid #e8e6e3;
+            background: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            transition: border-color 0.2s ease, color 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .reactions-modal-close:hover {
+            border-color: var(--accent);
+            color: var(--ink);
+        }
+
+        .reactions-modal-close svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .reactions-modal-tweets {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .reactions-modal-tweets .twitter-tweet {
+            margin: 0 !important;
+        }
+
+        .reactions-modal-articles {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .press-card {
+            display: block;
+            text-decoration: none;
+            border: 1px solid #e8e6e3;
+            border-radius: 8px;
+            padding: 1.25rem;
+            background: #fff;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.18s ease;
+        }
+
+        .press-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 16px rgba(90, 111, 90, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .press-card-source {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .press-card-title {
+            font-family: var(--serif);
+            font-size: 1.05rem;
+            font-weight: 400;
+            color: var(--ink);
+            line-height: 1.35;
+            margin-bottom: 0.4rem;
+        }
+
+        .press-card-excerpt {
+            font-size: 0.82rem;
+            color: var(--muted);
+            line-height: 1.55;
+            margin-bottom: 0.6rem;
+        }
+
+        .press-card-read {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--accent);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .press-card-read svg {
+            width: 12px;
+            height: 12px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .reactions-modal-reviews {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .reactions-modal-reviews img {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #e8e6e3;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .reactions-modal-reviews img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        .reactions-modal.wide {
+            max-width: 1100px;
+        }
+
+        @media (max-width: 600px) {
+            .reactions-modal {
+                padding: 1.25rem;
+            }
+            .reactions-modal-tweets,
+            .reactions-modal-articles,
+            .reactions-modal-reviews {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* Generic Section */
@@ -757,65 +1071,184 @@
         <!-- Tab: UX Case Studies (default active) -->
         <div class="tab-panel active" id="tab-ux-cases">
             <div class="featured-grid">
-                <a href="./Xbox2.html" class="featured-card">
-                    <div class="featured-card-image"></div>
+
+                <h3 class="featured-grid-category">LLM × UX</h3>
+
+                <div class="featured-card featured-card-ooha">
+                    <div class="featured-card-topstrip">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 7V5a4 4 0 0 0-8 0v2"/>
+                        </svg>
+                        Internship Project
+                    </div>
+                    <a href="./Xbox2.html" class="featured-card-main">
+                        <div class="featured-card-image"><img src="aura.png" alt="AURA — Agentic User Research interview interface"></div>
+                        <div class="featured-card-body">
+                            <div class="featured-card-header">
+                                <span class="featured-card-badge">Xbox · Microsoft</span>
+                                <span class="featured-card-tag lock-tag"><svg xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                    </svg> NDA</span>
+                            </div>
+                            <div class="featured-card-title">AURA: Agentic User Research</div>
+                            <div class="featured-card-desc">AI-assisted agentic systems for scalable user research — automating
+                                analysis while keeping researchers in the loop.</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="featured-card featured-card-ooha">
+                    <a href="https://ooha-creator.github.io/" target="_blank" rel="noopener" class="featured-card-topstrip featured-card-topstrip-cta" onclick="event.stopPropagation();">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/>
+                        </svg>
+                        Try it live
+                    </a>
+                    <a href="./canvasNew.html" class="featured-card-main">
+                        <div class="featured-card-image"><img src="SCAI/finalOOHA.png" alt="Ooha AI Canvas interface"></div>
+                        <div class="featured-card-body">
+                            <div class="featured-card-header">
+                                <span class="featured-card-badge">LLM × Design</span>
+                            </div>
+                            <div class="featured-card-title">Ooha: AI Canvas</div>
+                            <div class="featured-card-desc">AI-powered canvas for collaborative ideation — transforming raw
+                                ideas into structured concepts with LLM workflows.</div>
+                        </div>
+                    </a>
+                    <div class="featured-card-reactions">
+                        <button class="featured-card-reactions-btn" onclick="event.stopPropagation(); event.preventDefault(); var m = document.getElementById('ooha-reactions-modal'); m.classList.add('visible'); if (!m.dataset.loaded) { m.dataset.loaded = '1'; if (window.twttr && twttr.widgets) twttr.widgets.load(m); }">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="m3 11 18-5v12L3 13v-2z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
+                            </svg>
+                            What people are saying
+                        </button>
+                    </div>
+                </div>
+                <div class="featured-card featured-card-ooha">
+                    <a href="https://cursor-research.github.io/" target="_blank" rel="noopener" class="featured-card-topstrip featured-card-topstrip-cta" onclick="event.stopPropagation();">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/>
+                        </svg>
+                        Try it live
+                    </a>
+                    <a href="./uxai.html" class="featured-card-main">
+                        <div class="featured-card-image"><img src="cursor-research.png" alt="Cursor Research — Canvas with Semantic Search"></div>
+                        <div class="featured-card-body">
+                            <div class="featured-card-header">
+                                <span class="featured-card-badge">LLM × Research</span>
+                            </div>
+                            <div class="featured-card-title">Cursor Research</div>
+                            <div class="featured-card-desc">AI canvas with human-in-the-loop chunking, thematic analysis, and
+                                RAG-powered semantic search.</div>
+                        </div>
+                    </a>
+                </div>
+
+                <h3 class="featured-grid-category">Specialty Stakeholders</h3>
+
+                <div class="featured-card featured-card-ooha">
+                    <a href="./shlokaNew.html" class="featured-card-main">
+                        <div class="featured-card-image"><img src="Group844.png" alt="Shloka climate elements at religious sites"></div>
+                        <div class="featured-card-body">
+                            <div class="featured-card-header">
+                                <span class="featured-card-badge award">ACM DIS '25 — Best Paper</span>
+                            </div>
+                            <div class="featured-card-title">Shloka: Climate Action Games</div>
+                            <div class="featured-card-desc">The first climate game integrating authentic Hindu religious
+                                practices — four months fieldwork, Best Paper award.</div>
+                        </div>
+                    </a>
+                    <div class="featured-card-reactions">
+                        <button class="featured-card-reactions-btn" onclick="event.stopPropagation(); event.preventDefault(); document.getElementById('shloka-reactions-modal').classList.add('visible');">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="m3 11 18-5v12L3 13v-2z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
+                            </svg>
+                            Press coverage
+                        </button>
+                    </div>
+                </div>
+                <a href="./religionVideoGamesNew.html" class="featured-card">
+                    <div class="featured-card-image"><img src="Group 162.png" alt="Religion and videogames research"></div>
                     <div class="featured-card-body">
                         <div class="featured-card-header">
-                            <span class="featured-card-badge">Xbox · Microsoft</span>
-                            <span class="featured-card-tag lock-tag"><svg xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24">
-                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                                </svg> NDA</span>
+                            <span class="featured-card-badge">CHI PLAY '24</span>
                         </div>
-                        <div class="featured-card-title">AURA: Agentic User Research</div>
-                        <div class="featured-card-desc">AI-assisted agentic systems for scalable user research — automating
-                            analysis while keeping researchers in the loop.</div>
+                        <div class="featured-card-title">Religious Inclusivity in Games</div>
+                        <div class="featured-card-desc">Understanding how players from diverse faith backgrounds experience
+                            games and what representation they need.</div>
                     </div>
                 </a>
-                <a href="./metaNew.html" class="featured-card">
-                    <div class="featured-card-image"><img src="Group 11.png" alt="Facebook Home for Gen-Z design outcomes"></div>
+                <div class="featured-card featured-card-ooha">
+                    <a href="./ToD.html" class="featured-card-main">
+                        <div class="featured-card-image"><img src="Instagram story - 12.png" alt="Tales of Dharma"></div>
+                        <div class="featured-card-body">
+                            <div class="featured-card-header">
+                                <span class="featured-card-badge">Best Seller</span>
+                                <a href="https://amzn.in/d/03g2rHzQ" target="_blank" rel="noopener"
+                                    class="featured-card-tag buy-tag" onclick="event.stopPropagation();"><svg
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <circle cx="9" cy="21" r="1" />
+                                        <circle cx="20" cy="21" r="1" />
+                                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                                    </svg> Buy Now</a>
+                            </div>
+                            <div class="featured-card-title">Tales of Dharma</div>
+                            <div class="featured-card-desc">Narrative tabletop game exploring dharma and moral choice — best
+                                seller with 1000+ copies sold.</div>
+                        </div>
+                    </a>
+                    <div class="featured-card-reactions">
+                        <button class="featured-card-reactions-btn" onclick="event.stopPropagation(); event.preventDefault(); document.getElementById('tod-reactions-modal').classList.add('visible');">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="m3 11 18-5v12L3 13v-2z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
+                            </svg>
+                            Customer reviews
+                        </button>
+                    </div>
+                </div>
+                <div class="featured-card featured-card-ooha">
+                    <div class="featured-card-topstrip">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 7V5a4 4 0 0 0-8 0v2"/>
+                        </svg>
+                        Internship Project
+                    </div>
+                    <a href="./metaNew.html" class="featured-card-main">
+                        <div class="featured-card-image"><img src="Group 11.png" alt="Facebook Home for Gen-Z design outcomes"></div>
+                        <div class="featured-card-body">
+                            <div class="featured-card-header">
+                                <span class="featured-card-badge">Meta</span>
+                            </div>
+                            <div class="featured-card-title">Facebook Home for Gen-Z</div>
+                            <div class="featured-card-desc">Generative research exploring emotionally-aware feed experiences for
+                                Gen-Z at Meta Top of Home.</div>
+                        </div>
+                    </a>
+                </div>
+                <a href="./astraVerseNew.html" class="featured-card">
+                    <div class="featured-card-image"><img src="temporary/images/astraVerse/Group%20101%20(1).png" alt="AstraVerse Character Design"></div>
                     <div class="featured-card-body">
                         <div class="featured-card-header">
-                            <span class="featured-card-badge">Meta</span>
+                            <span class="featured-card-badge">ACM FDG '23</span>
                         </div>
-                        <div class="featured-card-title">Facebook Home for Gen-Z</div>
-                        <div class="featured-card-desc">Generative research exploring emotionally-aware feed experiences for
-                            Gen-Z at Meta Top of Home.</div>
+                        <div class="featured-card-title">AstraVerse Character Design</div>
+                        <div class="featured-card-desc">Character design and narrative systems — exploring how AI and
+                            storytelling intersect in character creation.</div>
                     </div>
                 </a>
-                <a href="./canvasNew.html" class="featured-card">
-                    <div class="featured-card-image"><img src="SCAI/finalOOHA.png" alt="Ooha AI Canvas interface"></div>
+
+                <h3 class="featured-grid-category">Education × AI</h3>
+
+                <a href="./opmNew.html" class="featured-card">
+                    <div class="featured-card-image"><img src="temporary/images/Group%20107%20(4).png" alt="Game Play Reflection Systems"></div>
                     <div class="featured-card-body">
                         <div class="featured-card-header">
-                            <span class="featured-card-badge">LLM × Design</span>
+                            <span class="featured-card-badge">CHI '24</span>
                         </div>
-                        <div class="featured-card-title">Ooha: AI Canvas</div>
-                        <div class="featured-card-desc">AI-powered canvas for collaborative ideation — transforming raw
-                            ideas
-                            into structured concepts with LLM workflows.</div>
-                    </div>
-                </a>
-                <a href="./shlokaNew.html" class="featured-card">
-                    <div class="featured-card-image"><img src="Group844.png" alt="Shloka climate elements at religious sites"></div>
-                    <div class="featured-card-body">
-                        <div class="featured-card-header">
-                            <span class="featured-card-badge award">ACM DIS '25 — Best Paper</span>
-                        </div>
-                        <div class="featured-card-title">Shloka: Climate Action Games</div>
-                        <div class="featured-card-desc">The first climate game integrating authentic Hindu religious
-                            practices — four months fieldwork, Best Paper award.</div>
-                    </div>
-                </a>
-                <a href="./uxai.html" class="featured-card">
-                    <div class="featured-card-image"></div>
-                    <div class="featured-card-body">
-                        <div class="featured-card-header">
-                            <span class="featured-card-badge">LLM × Research</span>
-                        </div>
-                        <div class="featured-card-title">Cursor Research</div>
-                        <div class="featured-card-desc">AI canvas with human-in-the-loop chunking, thematic analysis, and
-                            RAG-powered semantic search.</div>
+                        <div class="featured-card-title">Game Play Reflection Systems</div>
+                        <div class="featured-card-desc">Systems that help players reflect on their play — designing for
+                            post-play reflection and meaning-making in games.</div>
                     </div>
                 </a>
                 <a href="./studycrafter.html" class="featured-card">
@@ -829,47 +1262,8 @@
                             chatbots into game engines for learning.</div>
                     </div>
                 </a>
-                <a href="./googleTrips.html" class="featured-card">
-                    <div class="featured-card-image"><img src="SCAI/googleTrips.png" alt="Google Trips collaborative canvas"></div>
-                    <div class="featured-card-body">
-                        <div class="featured-card-header">
-                            <span class="featured-card-badge">Google</span>
-                        </div>
-                        <div class="featured-card-title">Google Trips</div>
-                        <div class="featured-card-desc">Travel planning and discovery — designing for intent-based
-                            exploration and day-by-day itineraries.</div>
-                    </div>
-                </a>
-                <a href="./religionVideoGamesNew.html" class="featured-card">
-                    <div class="featured-card-image"><img src="Group 162.png" alt="Religion and videogames research"></div>
-                    <div class="featured-card-body">
-                        <div class="featured-card-header">
-                            <span class="featured-card-badge">CHI PLAY '24</span>
-                        </div>
-                        <div class="featured-card-title">Religious Inclusivity in Games</div>
-                        <div class="featured-card-desc">Understanding how players from diverse faith backgrounds experience
-                            games and what representation they need.</div>
-                    </div>
-                </a>
-                <div class="featured-card" style="cursor:pointer;" onclick="window.location.href='./ToD.html'">
-                    <div class="featured-card-image"><img src="Instagram story - 12.png" alt="Tales of Dharma"></div>
-                    <div class="featured-card-body">
-                        <div class="featured-card-header">
-                            <span class="featured-card-badge">Best Seller</span>
-                            <a href="https://amzn.in/d/03g2rHzQ" target="_blank" rel="noopener"
-                                class="featured-card-tag buy-tag" onclick="event.stopPropagation();"><svg
-                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <circle cx="9" cy="21" r="1" />
-                                    <circle cx="20" cy="21" r="1" />
-                                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-                                </svg> Buy Now</a>
-                        </div>
-                        <div class="featured-card-title">Tales of Dharma</div>
-                        <div class="featured-card-desc">Narrative tabletop game exploring dharma and moral choice — best
-                            seller with 1000+ copies sold.</div>
-                    </div>
-                </div>
             </div>
+            <!-- Commented out case studies
             <div class="view-more-row">
                 <a href="#" class="view-more-link" id="viewAllCaseStudies">View all case studies <svg
                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -879,54 +1273,10 @@
             </div>
             <section id="case-studies" class="content-section collapsed" style="margin-top:1.5rem;">
                 <ul class="link-list project-links">
-                    <li class="case-study-item"><a href="./uxai.html" class="project-link"
-                            data-desc="Interviews with 10 UX researchers revealed transcript atomization and evidence gathering as the worst pain. Cursor Research is an AI canvas with human-in-the-loop chunking, thematic analysis, and RAG-powered semantic search."
-                            data-methods="Interviews|Surveys|Thematic analysis"
-                            data-tools="LLM|RAG|OpenAI/Claude">Cursor
-                            Research: AI Qualitative Analysis</a><span class="case-study-meta">LLM ×
-                            Research</span></li>
-                    <li class="case-study-item"><a href="./canvasNew.html" class="project-link"
-                            data-desc="An AI-powered canvas for collaborative ideation and design exploration—transforming how teams move from raw ideas to structured concepts with LLM-assisted workflows."
-                            data-methods="Design research|Co-creation" data-tools="LLM|Canvas">Ooha: AI
-                            Canvas</a><span class="case-study-meta">LLM × Design</span></li>
-                    <li class="case-study-item"><a href="./Xbox2.html" class="project-link"
-                            data-desc="Agentic systems for scalable, AI-assisted user research at Xbox—automating repetitive analysis while keeping researchers in the loop for quality and insight."
-                            data-methods="Agentic workflows|User research" data-tools="AI agents|LLM">AURA:
-                            Agentic User Research</a><span class="case-study-meta">Xbox</span></li>
                     <li class="case-study-item"><a href="./googleTrips.html" class="project-link"
                             data-desc="Travel planning and discovery for the Google Trips experience—designing for intent-based exploration and day-by-day itineraries."
                             data-methods="UX research|Usability" data-tools="Google design">Google
                             Trips</a><span class="case-study-meta">Google</span></li>
-                    <li class="case-study-item"><a href="./religionVideoGamesNew.html" class="project-link"
-                            data-desc="Designing for religious inclusivity in video games—understanding how players from diverse faith backgrounds experience games and what representation they need (CHI PLAY '24)."
-                            data-methods="Survey|Interviews|Content analysis" data-tools="Games research">Religious
-                            Inclusivity in Games</a><span class="case-study-meta">CHI PLAY '24</span></li>
-                    <li class="case-study-item"><a href="./metaNew.html" class="project-link"
-                            data-desc="Exploring future opportunities for contextual and emotionally-aware feed experiences for Gen-Z through novel generative research methods at Meta Top of Home."
-                            data-methods="Generative research|Concept testing" data-tools="Meta research">Facebook
-                            Home for Gen-Z</a><span class="case-study-meta">Meta</span></li>
-                    <li class="case-study-item"><a href="./shlokaNew.html" class="project-link"
-                            data-desc="The first academically-researched climate game integrating authentic Hindu religious practices to teach environmental responsibility. Four months fieldwork, co-design with temples—ACM DIS 2025 Best Paper."
-                            data-methods="Ethnography|Co-design|Fieldwork"
-                            data-tools="Computer vision|Game design">Shloka:
-                            Climate Action Games</a><span class="case-study-meta award-pill">ACM DIS '25 — Best
-                            Paper</span></li>
-                    <li class="case-study-item"><a href="./studycrafter.html" class="project-link"
-                            data-desc="A taxonomy for embedding game mechanics into LLM prompts—turning chatbots into game engines for learning. Participatory design with educators and students, grounded theory analysis (CHI PLAY '26)."
-                            data-methods="Participatory Design|Grounded Theory" data-tools="LLM|StudyCrafter AI">TGP:
-                            Gamified Prompts Taxonomy</a><span class="case-study-meta">CHI PLAY '26</span></li>
-                    <li class="case-study-item"><a href="./ToD.html" class="project-link"
-                            data-desc="A narrative tabletop game exploring dharma and moral choice—best seller with 1000+ copies sold. Blends Indian philosophy with accessible game mechanics."
-                            data-methods="Narrative design|Playtesting" data-tools="Game design">Tales of
-                            Dharma</a><span class="case-study-meta">Best Seller: 1000+ sold</span></li>
-                    <li class="case-study-item"><a href="./opmNew.html" class="project-link"
-                            data-desc="Systems that help players reflect on their play—designing for post-play reflection and meaning-making in games (CHI '24)."
-                            data-methods="Reflection design|User studies" data-tools="Games research">Game Play
-                            Reflection Systems</a><span class="case-study-meta">CHI '24</span></li>
-                    <li class="case-study-item"><a href="./astraVerseNew.html" class="project-link"
-                            data-desc="Character design and narrative systems for AstraVerse—exploring how AI and storytelling intersect in character creation (ACM FDG '23)."
-                            data-methods="Design research|Narrative design" data-tools="Character systems">AstraVerse
-                            Character Design</a><span class="case-study-meta">ACM FDG '23</span></li>
                     <li class="case-study-item"><a href="./chessNew.html" class="project-link"
                             data-desc="An AI coach to support learning and improvement in chess—balancing challenge and feedback for skill development."
                             data-methods="Learning design|Evaluation" data-tools="AI|Chess">AI Chess
@@ -937,6 +1287,7 @@
                             Optimization</a><span class="case-study-meta">Inveto Robotics</span></li>
                 </ul>
             </section>
+            -->
         </div>
 
         <!-- Tab: Research -->
@@ -1207,6 +1558,80 @@
             });
         });
     </script>
+    <!-- Ooha reactions modal -->
+    <div class="reactions-modal-backdrop" id="ooha-reactions-modal" onclick="if(event.target===this) this.classList.remove('visible');">
+        <div class="reactions-modal">
+            <div class="reactions-modal-header">
+                <div class="reactions-modal-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m3 11 18-5v12L3 13v-2z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
+                    </svg>
+                    What people are saying about Ooha
+                </div>
+                <button class="reactions-modal-close" onclick="document.getElementById('ooha-reactions-modal').classList.remove('visible');" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="reactions-modal-tweets">
+                <blockquote class="twitter-tweet" data-dnt="true" data-conversation="none"><p lang="und" dir="ltr">ఊహ ఎంత బాగుందో... haha, I love it! <a href="https://t.co/CH1hwLicvc">https://t.co/CH1hwLicvc</a> <a href="https://t.co/kP5rOxi5VS">pic.twitter.com/kP5rOxi5VS</a></p>&mdash; Sudeepa Kolli (@i_sudeepa) <a href="https://twitter.com/i_sudeepa/status/1976500582082023557?ref_src=twsrc%5Etfw">October 10, 2025</a></blockquote>
+                <blockquote class="twitter-tweet" data-dnt="true" data-conversation="none"><p lang="en" dir="ltr">I've needed an AI idea board that wasn't notion for so long!!!<br><br>This is amazing 🤩 <a href="https://t.co/fTHmOp9vxq">https://t.co/fTHmOp9vxq</a></p>&mdash; Sri Laasya Nutheti (@n_sri_laasya) <a href="https://twitter.com/n_sri_laasya/status/1976046371687080181?ref_src=twsrc%5Etfw">October 8, 2025</a></blockquote>
+            </div>
+        </div>
+    </div>
+    <!-- Tales of Dharma customer reviews modal -->
+    <div class="reactions-modal-backdrop" id="tod-reactions-modal" onclick="if(event.target===this) this.classList.remove('visible');">
+        <div class="reactions-modal wide">
+            <div class="reactions-modal-header">
+                <div class="reactions-modal-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m3 11 18-5v12L3 13v-2z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
+                    </svg>
+                    Customer reviews for Tales of Dharma
+                </div>
+                <button class="reactions-modal-close" onclick="document.getElementById('tod-reactions-modal').classList.remove('visible');" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="reactions-modal-reviews">
+                <img src="review1.png" alt="Customer review 1">
+                <img src="review2.png" alt="Customer review 2">
+                <img src="review3.png" alt="Customer review 3">
+                <img src="review4.png" alt="Customer review 4">
+            </div>
+        </div>
+    </div>
+
+    <!-- Shloka press coverage modal -->
+    <div class="reactions-modal-backdrop" id="shloka-reactions-modal" onclick="if(event.target===this) this.classList.remove('visible');">
+        <div class="reactions-modal">
+            <div class="reactions-modal-header">
+                <div class="reactions-modal-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m3 11 18-5v12L3 13v-2z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
+                    </svg>
+                    Press coverage for Shloka
+                </div>
+                <button class="reactions-modal-close" onclick="document.getElementById('shloka-reactions-modal').classList.remove('visible');" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="reactions-modal-articles">
+                <a href="https://news.ucsc.edu/2025/08/religion-climate-games/" target="_blank" rel="noopener noreferrer" class="press-card">
+                    <div class="press-card-source">UC Santa Cruz News</div>
+                    <div class="press-card-title">Digital game demonstrates the power of religion for climate change education</div>
+                    <div class="press-card-excerpt">"Even my grandmother could play this game and say 'I know this character, I know what they're talking about.'"</div>
+                    <span class="press-card-read">Read article <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                </a>
+                <a href="https://phys.org/news/2025-08-digital-game-power-religion-climate.html" target="_blank" rel="noopener noreferrer" class="press-card">
+                    <div class="press-card-source">Phys.org</div>
+                    <div class="press-card-title">Digital game demonstrates the power of religion for climate change education</div>
+                    <div class="press-card-excerpt">"Shloka uses Hindu deities, practices, and narratives to communicate the problems of climate change."</div>
+                    <span class="press-card-read">Read article <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </body>
 
 </html>
