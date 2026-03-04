@@ -7,8 +7,9 @@
     <title>Karigar Design System</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&display=swap" rel="stylesheet">
     <link
-        href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Source+Code+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap"
         rel="stylesheet">
     <style>
         :root {
@@ -22,7 +23,7 @@
             --folk-muted: #7A6F63;
             --folk-rule: #D5CEC4;
             --folk-highlight: #FDF5EE;
-            --font-display: 'Kalam', cursive;
+            --font-display: 'Tiro Devanagari Hindi', serif;
             --font-body: 'Source Code Pro', monospace;
             --font-mono: 'JetBrains Mono', monospace;
             --color-brand-primary: #547053;
@@ -1695,7 +1696,7 @@
         /* --- Laptop frame --- */
         .laptop-frame {
             width: 100%;
-            max-width: 640px;
+            max-width: 760px;
         }
 
         .laptop-lid {
@@ -1794,10 +1795,48 @@
         section[id] {
             scroll-margin-top: 1rem;
         }
+
+        /* --- Folk Architecture Shapes (Cards) --- */
+        .folk-card-haveli {
+            clip-path: url(#arch-mehrab);
+            -webkit-clip-path: url(#arch-mehrab);
+        }
+
+        .folk-card-dome {
+            clip-path: url(#arch-dome);
+            -webkit-clip-path: url(#arch-dome);
+        }
+
+        .folk-card-mandapa {
+            clip-path: polygon(4% 0, 96% 0,
+                    96% 4%, 100% 4%, 100% 96%,
+                    96% 96%, 96% 100%, 4% 100%,
+                    4% 96%, 0 96%, 0 4%, 4% 4%);
+        }
+
+        .folk-card-matka {
+            border-radius: 40% 40% 50% 50% / 15% 15% 30% 30%;
+        }
     </style>
 </head>
 
 <body>
+    <!-- SVG Clip Paths for Folk Art Shapes -->
+    <svg width="0" height="0" style="position: absolute; pointer-events: none;" aria-hidden="true">
+        <defs>
+            <!-- Haveli/Mehrab Arch (elegant scalloped top, flat bottom) -->
+            <clipPath id="arch-mehrab" clipPathUnits="objectBoundingBox">
+                <path
+                    d="M 0,0.2 C 0.05,0.2 0.15,0.1 0.25,0.12 C 0.35,0.14 0.45,0.05 0.5,0 C 0.55,0.05 0.65,0.14 0.75,0.12 C 0.85,0.1 0.95,0.2 1,0.2 L 1,1 L 0,1 Z" />
+            </clipPath>
+
+            <!-- Mughal Minaret Dome (Ogee S-curve top, flat bottom) -->
+            <clipPath id="arch-dome" clipPathUnits="objectBoundingBox">
+                <path
+                    d="M 0,0.3 Q 0.15,0.3 0.25,0.2 C 0.35,0.1 0.45,0.1 0.5,0 C 0.55,0.1 0.65,0.1 0.75,0.2 Q 0.85,0.3 1,0.3 L 1,1 L 0,1 Z" />
+            </clipPath>
+        </defs>
+    </svg>
     <nav>
         <a href="index.html" class="nav-logo">Karigar-<span>AI</span></a>
         <a href="index.html">Home</a>
@@ -1847,7 +1886,8 @@
                         communicate state and intent at a glance.</li>
                     <li><strong>Earthen minimalism:</strong> Derived from natural dyes — turmeric, indigo, vermillion —
                         not synthetic color theory.</li>
-                    <li><strong>Handcraft warmth:</strong> The Kalam font brings the feeling of a hand-painted sign into
+                    <li><strong>Handcraft warmth:</strong> The Tiro Devanagari Hindi font brings the feeling of a
+                        hand-painted sign into
                         the digital interface.</li>
                     <li><strong>Ritual rhythm:</strong> The structured repetition of rangoli and kolam patterns applied
                         to UI spacing and layout cadence.</li>
@@ -1988,7 +2028,8 @@
                 </div>
 
                 <h2 id="typography">Typography</h2>
-                <p><strong>Kalam</strong> carries the energy of hand-lettering — painted shop signs in Jaipur, temple
+                <p><strong>Tiro Devanagari Hindi</strong> carries the energy of hand-lettering — painted shop signs in
+                    Jaipur, temple
                     walls in Thanjavur. <strong>Source Code Pro</strong> handles body text and AI interface labels.
                     <strong>JetBrains Mono</strong> powers the terminal.
                 </p>
@@ -2026,7 +2067,7 @@
                         stain */</span>
                     <span class="k">--folk-indigo</span>: <span class="s">#2D4F6C</span>; <span class="c">/* neel dye
                         vats */</span>
-                    <span class="k">--font-display</span>: <span class="s">'Kalam', cursive</span>;
+                    <span class="k">--font-display</span>: <span class="s">'Tiro Devanagari Hindi', serif</span>;
                     <span class="k">--font-body</span>: <span class="s">'Source Code Pro', monospace</span>;
                     }
                 </div>
@@ -2104,6 +2145,93 @@
                     </div>
                 </div>
 
+                <h3 id="shapes">Folk architecture containers (Cards)</h3>
+                <p>Inspired by India's structural heritage — Haveli arched jharokhas, Mughal domes, stepped Mandapa
+                    pillars, and organic brass matkas. These distinctive shapes turn simple cards into beautiful
+                    storytelling canvases.</p>
+                <div class="block">
+                    <div class="block-head">Shape forms</div>
+                    <div class="block-body" style="background: var(--color-neutral-100); border-radius: 8px;">
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-6);">
+
+                            <!-- Haveli Window -->
+                            <div class="folk-card-haveli"
+                                style="background: var(--folk-paper); padding: var(--space-8) var(--space-4) var(--space-4); box-shadow: var(--shadow-md); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 260px; position: relative;">
+                                <div
+                                    style="width: 48px; height: 48px; border-radius: 50%; background: var(--folk-rule); margin-bottom: var(--space-3); color: var(--folk-accent); display: flex; align-items: center; justify-content: center;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M12 2v20"></path>
+                                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                    </svg>
+                                </div>
+                                <div
+                                    style="font-family: var(--font-display); font-size: 16px; color: var(--folk-accent); margin-bottom: 6px;">
+                                    Haveli Jharokha</div>
+                                <div style="font-size: 11px; color: var(--folk-muted);">Scalloped arch framing, perfect
+                                    for portraits, hero cards, and primary context blocks.</div>
+                            </div>
+
+                            <!-- Mughal Dome -->
+                            <div class="folk-card-dome"
+                                style="background: var(--folk-ink); color: var(--folk-paper); padding: var(--space-8) var(--space-4) var(--space-4); box-shadow: var(--shadow-md); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 260px;">
+                                <div
+                                    style="width: 48px; height: 48px; border-radius: 50%; background: var(--color-neutral-800); margin-bottom: var(--space-3); color: var(--folk-turmeric); display: flex; align-items: center; justify-content: center;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <polygon
+                                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                        </polygon>
+                                    </svg>
+                                </div>
+                                <div
+                                    style="font-family: var(--font-display); font-size: 16px; color: var(--folk-turmeric); margin-bottom: 6px;">
+                                    Mughal Dome</div>
+                                <div style="font-size: 11px; color: var(--color-neutral-400);">Ogee arch top, ideal for
+                                    primary focus points, premium tiers, and calls to action.</div>
+                            </div>
+
+                            <!-- Mandapa Pillar -->
+                            <div class="folk-card-mandapa"
+                                style="background: var(--color-neutral-200); padding: 4px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 260px;">
+                                <div class="folk-card-mandapa"
+                                    style="background: var(--folk-paper); border: 1px solid var(--folk-rule); padding: var(--space-6); height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;">
+                                    <div
+                                        style="font-family: var(--font-mono); font-weight: 700; font-size: 12px; color: var(--folk-indigo); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px;">
+                                        Mandapa Step</div>
+                                    <div style="font-size: 12px; color: var(--folk-muted); line-height: 1.5;">Stepped
+                                        robust polygon container reflecting ancient temple pillars. Excellent for code
+                                        snippets and terminal blocks.</div>
+                                </div>
+                            </div>
+
+                            <!-- Matka Vessel -->
+                            <div class="folk-card-matka"
+                                style="background: var(--folk-accent); color: var(--folk-paper); padding: var(--space-6) var(--space-5); box-shadow: var(--shadow-sm); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 260px; border: 1px solid var(--folk-accent-dark);">
+                                <div
+                                    style="width: 40px; height: 40px; border-radius: 50%; background: var(--folk-accent-dark); margin-bottom: var(--space-3); color: var(--folk-paper); display: flex; align-items: center; justify-content: center;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path
+                                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <div
+                                    style="font-family: var(--font-display); font-size: 16px; color: var(--folk-paper); margin-bottom: 8px;">
+                                    Matka / Kalash</div>
+                                <div style="font-size: 11px; color: var(--folk-paper); opacity: 0.8; line-height: 1.5;">
+                                    Organic swollen curves reminiscent of clay vessels. Organic flow for statistics or
+                                    facts.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <h3 id="forms">Form elements</h3>
                 <div class="block">
                     <div class="block-head">Input, textarea, dropdown</div>
@@ -2127,7 +2255,8 @@
                         <label class="form-radio"><input type="radio" name="mode" checked> Chat mode</label>
                         <label class="form-radio"><input type="radio" name="mode"> Code mode</label>
                         <label class="form-toggle"><input type="checkbox" checked><span
-                                class="form-toggle-track"></span> Dark terminal</label>
+                                class="form-toggle-track"></span> Dark
+                            terminal</label>
                     </div>
                 </div>
 
@@ -2442,7 +2571,8 @@
                             <div class="spice-legend-item"><span class="spice-legend-dot"
                                     style="background: var(--color-semantic-success);"></span> Cardamom</div>
                             <div class="spice-legend-item"><span class="spice-legend-dot"
-                                    style="background: #8B5E3C;"></span> Cinnamon</div>
+                                    style="background: #8B5E3C;"></span>
+                                Cinnamon</div>
                             <div class="spice-legend-item"><span class="spice-legend-dot"
                                     style="background: var(--color-semantic-error);"></span> Kumkum</div>
                         </div>
@@ -2795,7 +2925,8 @@
                             </div>
                             <div class="terminal-body">
                                 <div class="terminal-line"><span class="terminal-prompt">❯ </span><span
-                                        class="terminal-cmd">karigar "refactor this component to use design
+                                        class="terminal-cmd">karigar
+                                        "refactor this component to use design
                                         tokens"</span>
                                 </div>
                                 <div class="terminal-line"><span class="terminal-output">⠿ Analyzing component
@@ -2808,15 +2939,20 @@
                                         token — creating new ones</span></div>
                                 <div class="terminal-line">&nbsp;</div>
                                 <div class="terminal-line"><span class="terminal-prompt">❯ </span><span
-                                        class="terminal-cmd">karigar apply --dry-run</span></div>
+                                        class="terminal-cmd">karigar
+                                        apply --dry-run</span></div>
                                 <div class="terminal-line"><span class="terminal-output"> </span><span
-                                        class="terminal-error">- background: #547053;</span></div>
+                                        class="terminal-error">-
+                                        background: #547053;</span></div>
                                 <div class="terminal-line"><span class="terminal-output"> </span><span
-                                        class="terminal-success">+ background: var(--folk-accent);</span></div>
+                                        class="terminal-success">+
+                                        background: var(--folk-accent);</span></div>
                                 <div class="terminal-line"><span class="terminal-output"> </span><span
-                                        class="terminal-error">- padding: 16px;</span></div>
+                                        class="terminal-error">-
+                                        padding: 16px;</span></div>
                                 <div class="terminal-line"><span class="terminal-output"> </span><span
-                                        class="terminal-success">+ padding: var(--space-4);</span></div>
+                                        class="terminal-success">+
+                                        padding: var(--space-4);</span></div>
                                 <div class="terminal-line">&nbsp;</div>
                                 <div class="terminal-line"><span class="terminal-success">✓ 20 replacements ready. Run
                                         `karigar apply` to commit.</span></div>
@@ -3199,7 +3335,7 @@
                                             Karigar platform.</div>
                                     </div>
                                     <button
-                                        style="background: var(--folk-accent); color: var(--folk-paper); border: none; padding: 6px 14px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: var(--font-body); display: flex; align-items: center; gap: 4px;">
+                                        style="background: var(--folk-accent); color: var(--folk-paper); border: none; padding: 6px 14px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: var(--font-body); display: flex; align-items: center; gap: 4px; white-space: nowrap;">
                                         + Create Key</button>
                                 </div>
 
@@ -3331,7 +3467,8 @@
                                 </div>
                                 <div style="display: flex; gap: var(--space-4); font-size: 11px;">
                                     <a href="javascript:void(0)"
-                                        style="color: var(--color-neutral-400); text-decoration: none;">API Keys</a>
+                                        style="color: var(--color-neutral-400); text-decoration: none;">API
+                                        Keys</a>
                                     <a href="javascript:void(0)"
                                         style="color: var(--color-neutral-400); text-decoration: none;">Usage</a>
                                     <a href="javascript:void(0)"
@@ -3480,6 +3617,109 @@
                         </div>
                     </div>
                     <div class="laptop-base"></div>
+                </div>
+
+                <h3 style="margin-top: var(--space-10);">Plan Selection</h3>
+                <div class="app-example-label">Tier Selection (Mandapa Cards)</div>
+                <div
+                    style="background: var(--color-neutral-100); padding: var(--space-10) var(--space-4); margin-bottom: var(--space-8); display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 8px; width: 100%; max-width: 900px; margin-left: auto; margin-right: auto; overflow: hidden;">
+                    <h3
+                        style="margin-bottom: var(--space-2); font-family: var(--font-display); color: var(--folk-ink); text-align: center;">
+                        Choose Your Plan</h3>
+                    <p
+                        style="font-size: 13px; color: var(--folk-muted); margin-bottom: var(--space-6); text-align: center;">
+                        Select
+                        the tier that best shapes your creative journey.</p>
+
+                    <div
+                        style="display: flex; gap: var(--space-4); align-items: stretch; justify-content: center; margin-top: var(--space-4); flex-wrap: wrap;">
+
+                        <!-- Tier 1: Mitti -->
+                        <div class="folk-card-mandapa"
+                            style="background: var(--color-neutral-300); padding: 2px; display: flex; flex-direction: column; width: 200px; transition: transform 0.2s;"
+                            onmouseover="this.style.transform='translateY(-4px)'"
+                            onmouseout="this.style.transform='none'">
+                            <div class="folk-card-mandapa"
+                                style="background: var(--folk-paper); padding: var(--space-6) var(--space-4); height: 100%; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                                <div style="font-family: var(--font-display); font-size: 18px; color: var(--folk-ink);">
+                                    Mitti</div>
+                                <div
+                                    style="font-size: 9px; color: var(--folk-muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: var(--space-3);">
+                                    Clay / Basic</div>
+                                <div
+                                    style="font-size: 24px; font-weight: 700; color: var(--folk-accent); margin-bottom: var(--space-4);">
+                                    Free</div>
+                                <div
+                                    style="font-size: 11px; color: var(--folk-muted); line-height: 1.6; margin-bottom: var(--space-6);">
+                                    • 100 Karigar Tasks<br>
+                                    • Standard Patterns<br>
+                                    • Community Support
+                                </div>
+                                <button
+                                    style="margin-top: auto; background: var(--color-neutral-200); color: var(--folk-ink); border: none; padding: 8px 16px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: var(--font-body); width: 100%;">Current
+                                    Plan</button>
+                            </div>
+                        </div>
+
+                        <!-- Tier 2: Kansa -->
+                        <div class="folk-card-mandapa"
+                            style="background: var(--folk-accent); padding: 3px; display: flex; flex-direction: column; width: 220px; transform: scale(1.05); z-index: 10; box-shadow: var(--shadow-lg);">
+                            <div class="folk-card-mandapa"
+                                style="background: var(--folk-paper-warm); padding: var(--space-7) var(--space-5); height: 100%; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                                <div
+                                    style="font-family: var(--font-display); font-size: 20px; color: var(--folk-accent-dark);">
+                                    Kansa</div>
+                                <div
+                                    style="font-size: 10px; color: var(--folk-accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: var(--space-3);">
+                                    Bronze / Pro</div>
+                                <div
+                                    style="font-size: 28px; font-weight: 700; color: var(--folk-ink); margin-bottom: var(--space-4);">
+                                    ₹499<span
+                                        style="font-size: 12px; font-weight: 400; color: var(--folk-muted);">/mo</span>
+                                </div>
+                                <div
+                                    style="font-size: 12px; color: var(--folk-ink); line-height: 1.6; margin-bottom: var(--space-6);">
+                                    • Unlimited Tasks<br>
+                                    • Premium Kalamkari<br>
+                                    • Priority rendering<br>
+                                    • Email Support
+                                </div>
+                                <button
+                                    style="margin-top: auto; background: var(--folk-accent); color: var(--folk-paper); border: none; padding: 10px 16px; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: var(--font-body); width: 100%; box-shadow: var(--shadow-sm);">Upgrade
+                                    to Pro</button>
+                            </div>
+                        </div>
+
+                        <!-- Tier 3: Suvarna -->
+                        <div class="folk-card-mandapa"
+                            style="background: var(--folk-turmeric); padding: 2px; display: flex; flex-direction: column; width: 200px; transition: transform 0.2s;"
+                            onmouseover="this.style.transform='translateY(-4px)'"
+                            onmouseout="this.style.transform='none'">
+                            <div class="folk-card-mandapa"
+                                style="background: var(--folk-paper); padding: var(--space-6) var(--space-4); height: 100%; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                                <div style="font-family: var(--font-display); font-size: 18px; color: var(--folk-ink);">
+                                    Suvarna</div>
+                                <div
+                                    style="font-size: 9px; color: var(--folk-turmeric); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: var(--space-3);">
+                                    Gold / Ultra</div>
+                                <div
+                                    style="font-size: 24px; font-weight: 700; color: var(--folk-ink); margin-bottom: var(--space-4);">
+                                    ₹1299<span
+                                        style="font-size: 12px; font-weight: 400; color: var(--folk-muted);">/mo</span>
+                                </div>
+                                <div
+                                    style="font-size: 11px; color: var(--folk-muted); line-height: 1.6; margin-bottom: var(--space-6);">
+                                    • Everything in Pro<br>
+                                    • Dedicated capacity<br>
+                                    • Custom finetuning<br>
+                                    • 24/7 Phone Support
+                                </div>
+                                <button
+                                    style="margin-top: auto; background: var(--folk-turmeric); color: var(--folk-ink); border: none; padding: 8px 16px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: var(--font-body); width: 100%;">Contact
+                                    Sales</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- ============================== -->

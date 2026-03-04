@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Clean Card - Josef Müller</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #D27457;
+            --card-bg: #FCFBF4;
+            --text-color: #000000;
+            --code-color: rgba(210, 116, 87, 0.15);
+            --stripe-color: #E6D8D4;
+            /* Soft beige for the back stripe */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', -apple-system, sans-serif;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .hint {
+            margin-top: 40px;
+            color: #fff;
+            opacity: 0.6;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* 3D Flip Container setup */
+        .flip-container {
+            perspective: 1500px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .card {
+            width: 440px;
+            height: 277px;
+            position: relative;
+            transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .flip-container.flipped .card {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            /* For Safari */
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        /* --- FRONT FACE --- */
+        .card-front {
+            /* no transform needed */
+        }
+
+        .faint-code {
+            position: absolute;
+            top: 32px;
+            left: 32px;
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            line-height: 1.8;
+            color: var(--code-color);
+            z-index: 1;
+            white-space: pre;
+            pointer-events: none;
+            user-select: none;
+            letter-spacing: 0.2px;
+        }
+
+        .character {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .name {
+            position: absolute;
+            top: 45px;
+            right: 40px;
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--text-color);
+            letter-spacing: -0.4px;
+            z-index: 3;
+        }
+
+        .mc-logo {
+            position: absolute;
+            bottom: 36px;
+            right: 40px;
+            width: 72px;
+            height: 44px;
+            z-index: 3;
+        }
+
+        /* --- BACK FACE --- */
+        .card-back {
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mag-stripe {
+            width: 100%;
+            height: 48px;
+            background-color: var(--stripe-color);
+            margin-top: 0;
+        }
+
+        .back-content {
+            padding: 24px 36px 36px 36px;
+            /* Adjusted to balance upper stripe gap */
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-number {
+            font-size: 27px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            color: var(--text-color);
+            margin-top: 20px;
+        }
+
+        .card-details {
+            display: flex;
+            gap: 36px;
+            margin-top: 14px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .back-footer {
+            margin-top: auto;
+        }
+
+        .anthropic-logo {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .anthropic-logo svg {
+            height: 22px;
+            fill: var(--text-color);
+        }
+
+        .legal-text {
+            font-size: 11px;
+            line-height: 1.4;
+            color: var(--text-color);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="flip-container" id="flipContainer">
+        <div class="card">
+
+            <!-- FRONT FACE -->
+            <div class="card-face card-front">
+                <div class="faint-code">open_set = []
+                    heapq.heappush(open_set, (0, start))
+
+                    came_from = {}
+                    g_score = {start: 0}
+                    f_score = {start: heuristic(start, goal)}
+
+                    while open_set:
+                    current = heapq.heappop(open_set)[1]
+
+                    if current == goal:
+                    return reconstruct_path(came_from, current)
+
+                    for neighbor in get_neighbors(current):
+                    tentative_g_score = g_score[current] + d(current, neighbor)
+
+                    if tentative_g_score < g_score.get(neighbor, float('inf')): came_from[neighbor]=current
+                        g_score[neighbor]=tentative_g_score f_score[neighbor]=tentative_g_score + heuristic(neighbor,
+                        goal)</div>
+
+                        <svg class="character" width="140" height="220" viewBox="0 0 140 220"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M0,20 L100,20 L100,90 L140,90 L140,130 L100,130 L100,220 L80,220 L80,165 L60,165 L60,220 L40,220 L40,165 L20,165 L20,220 L0,220 Z"
+                                fill="var(--bg-color)" />
+                            <rect x="50" y="55" width="24" height="24" fill="#000" />
+                        </svg>
+
+                        <div class="name">Josef Müller</div>
+
+                        <svg class="mc-logo" viewBox="0 0 72 44" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="22" cy="22" r="22" fill="#eb001b" />
+                            <circle cx="50" cy="22" r="22" fill="#f79e1b" mix-blend-mode="multiply" />
+                        </svg>
+                </div>
+
+                <!-- BACK FACE -->
+                <div class="card-face card-back">
+                    <div class="mag-stripe"></div>
+
+                    <div class="back-content">
+                        <div class="card-number">4532 1845 7623 9812</div>
+                        <div class="card-details">
+                            <span>09/30</span>
+                            <span>460</span>
+                        </div>
+
+                        <div class="back-footer">
+                            <div class="anthropic-logo">
+                                <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Anthropic A -->
+                                    <path
+                                        d="M31.29 40L23.95 24.36L12.02 40H4.63L23.95 11.23L43.27 40H31.29ZM24.49 25.5L18.47 34.05L21.43 38.64L24.49 33.56L31.39 34.05L24.49 25.5Z" />
+                                    <!-- Anthropic I -->
+                                    <path d="M47.77 40H40.27V11.23H47.77V40Z" />
+                                </svg>
+                            </div>
+                            <div class="legal-text">
+                                This card is the property of Anthropic<br>
+                                1-877-574-324
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="hint">Click the card to flip</div>
+
+        <script>
+            document.getElementById('flipContainer').addEventListener('click', function () {
+                this.classList.toggle('flipped');
+            });
+        </script>
+
+</body>
+
+</html>
