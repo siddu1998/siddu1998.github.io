@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kolam UI — Design System Case Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1a1a1a;
+            --paper: #faf9f7;
+            --muted: #888;
+            --accent: #5a6f5a;
+            --accent-light: #eef2ee;
+            --serif: 'Noto Serif', Georgia, serif;
+            --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --kolam-ink: #1A2639;
+            --kolam-pink: #C74B8B;
+            --kolam-pink-light: #E8A0C9;
+            --kolam-green: #74C178;
+            --kolam-red: #C1272D;
+            --kolam-brown: #5C4033;
+            --kolam-paper: #FAF5E8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--sans);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--ink);
+            background: #fff;
+            display: flex;
+        }
+
+        a {
+            color: var(--muted);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            color: var(--ink);
+        }
+
+        /* --- Nav sidebar --- */
+        nav {
+            width: 200px;
+            flex-shrink: 0;
+            padding: 2.5rem 1.5rem;
+            border-right: 1px solid #eee;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            overflow-y: auto;
+            background: #fff;
+        }
+
+        .nav-back {
+            font-family: var(--serif);
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 2rem;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .nav-back:hover {
+            color: var(--accent);
+        }
+
+        .nav-title {
+            font-family: var(--serif);
+            font-size: 0.95rem;
+            color: var(--ink);
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+        }
+
+        .nav-section-label {
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #ccc;
+            margin-top: 1.5rem;
+            margin-bottom: 0.4rem;
+        }
+
+        nav a.nav-link {
+            display: block;
+            padding: 0.2rem 0;
+            font-size: 0.82rem;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        nav a.nav-link:hover,
+        nav a.nav-link.active {
+            color: var(--ink);
+        }
+
+        /* --- Main content --- */
+        .content-wrap {
+            flex: 1;
+            min-width: 0;
+        }
+
+        main {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 4rem 3rem 6rem;
+        }
+
+        /* --- Hero --- */
+        .hero {
+            margin-bottom: 3rem;
+        }
+
+        .hero-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-family: var(--serif);
+            font-size: 3.5rem;
+            font-weight: 400;
+            color: var(--kolam-ink);
+            line-height: 1;
+        }
+
+        /* --- Photo grid --- */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-bottom: 2.5rem;
+        }
+
+        .photo-grid .photo {
+            width: 100%;
+            aspect-ratio: 1;
+            background: #f0eee9;
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .photo-grid .photo.wide {
+            grid-column: span 2;
+            aspect-ratio: 2/1;
+        }
+
+        .photo-grid .photo.tall {
+            grid-row: span 2;
+            aspect-ratio: 1/2;
+        }
+
+        .photo-grid .photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-grid .photo .ph-label {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #bbb;
+            text-align: center;
+            padding: 0.5rem;
+        }
+
+        /* --- Article --- */
+        h2 {
+            font-family: var(--serif);
+            font-size: 1.65rem;
+            font-weight: 400;
+            color: var(--kolam-ink);
+            margin-top: 3rem;
+            margin-bottom: 0.75rem;
+        }
+
+        h3 {
+            font-family: var(--serif);
+            font-size: 1.15rem;
+            font-weight: 400;
+            color: var(--kolam-ink);
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            max-width: 580px;
+            color: #444;
+        }
+
+        ul,
+        ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5em;
+            color: #444;
+        }
+
+        li {
+            margin-bottom: 0.25rem;
+        }
+
+        strong {
+            font-weight: 500;
+            color: var(--ink);
+        }
+
+        /* --- Section divider --- */
+        .divider {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 3rem 0;
+        }
+
+        /* --- Preserve card specimens --- */
+        .card-row {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0 2rem;
+            flex-wrap: wrap;
+        }
+
+        .p-card {
+            background: var(--kolam-paper);
+            border-radius: 18px;
+            padding: 8px;
+            width: 200px;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+
+        .p-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .p-card-inner {
+            border: 2px solid var(--kolam-green);
+            border-radius: 10px;
+            padding: 1.5rem 1rem 1rem;
+            text-align: center;
+            min-height: 260px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .p-card-inner.red {
+            border-color: var(--kolam-red);
+        }
+
+        .p-card-inner.ink-b {
+            border-color: var(--kolam-ink);
+        }
+
+        .p-card-inner svg {
+            margin-bottom: 0.75rem;
+        }
+
+        .p-card-name {
+            font-family: 'Noto Serif', serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--kolam-ink);
+            margin-bottom: 0.4rem;
+        }
+
+        .p-card-desc {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300;
+            font-size: 0.78rem;
+            color: var(--kolam-brown);
+            text-align: left;
+            line-height: 1.5;
+        }
+
+        .p-card.dark {
+            background: #2C2C2C;
+        }
+
+        .p-card.dark .p-card-inner {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .p-card.dark .p-card-name {
+            color: #F8F5F0;
+        }
+
+        .p-card.dark .p-card-desc {
+            color: #EADDCB;
+        }
+
+        /* --- Chat demo --- */
+        .chat-demo {
+            background: #fff;
+            border: 1px solid #e8e6e3;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 1.5rem 0 2rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            max-width: 520px;
+        }
+
+        .chat-bar {
+            padding: 0.6rem 1rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--kolam-paper);
+        }
+
+        .chat-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .chat-bar-title {
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--muted);
+            margin-left: 0.5rem;
+        }
+
+        .chat-msgs {
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .msg {
+            max-width: 80%;
+            padding: 0.7rem 1rem;
+            font-size: 0.85rem;
+            line-height: 1.55;
+            border-radius: 14px;
+        }
+
+        .msg-u {
+            align-self: flex-end;
+            background: var(--kolam-green);
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+
+        .msg-a {
+            align-self: flex-start;
+            background: var(--kolam-paper);
+            color: var(--kolam-ink);
+            border: 1px solid #e8e0d4;
+            border-bottom-left-radius: 4px;
+        }
+
+        .msg-tag {
+            font-size: 0.58rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--kolam-green);
+            margin-bottom: 0.2rem;
+        }
+
+        /* --- Color swatches --- */
+        .swatch-row {
+            display: flex;
+            gap: 0.75rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .sw {
+            text-align: center;
+            width: 72px;
+        }
+
+        .sw-box {
+            height: 48px;
+            border-radius: 6px;
+            margin-bottom: 0.25rem;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .sw-name {
+            font-size: 0.65rem;
+            font-weight: 500;
+        }
+
+        .sw-val {
+            font-size: 0.6rem;
+            color: var(--muted);
+            font-family: monospace;
+        }
+
+        /* --- Type scale --- */
+        .type-row {
+            display: flex;
+            align-items: baseline;
+            padding: 0.35rem 0;
+            border-bottom: 1px solid #f0eeeb;
+            gap: 1rem;
+        }
+
+        .type-lbl {
+            width: 50px;
+            flex-shrink: 0;
+            font-size: 0.6rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+        }
+
+        /* --- Buttons --- */
+        .btn-row {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 500;
+            padding: 0.4rem 0.9rem;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        .btn-pri {
+            background: var(--kolam-green);
+            color: #fff;
+        }
+
+        .btn-sec {
+            background: transparent;
+            color: var(--kolam-ink);
+            border-color: #d5cec4;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--kolam-ink);
+        }
+
+        .btn-danger {
+            background: var(--kolam-red);
+            color: #fff;
+        }
+
+        /* --- Compare --- */
+        .compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .compare-card {
+            background: #fafafa;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 1.25rem;
+        }
+
+        .compare-tag {
+            font-size: 0.58rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .compare-tag.before {
+            color: var(--kolam-red);
+        }
+
+        .compare-tag.after {
+            color: var(--kolam-green);
+        }
+
+        /* --- Placeholder --- */
+        .ph {
+            width: 100%;
+            border-radius: 6px;
+            background: #f5f3f0;
+            border: 2px dashed #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #bbb;
+            font-size: 0.62rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            text-align: center;
+            padding: 0.75rem;
+        }
+
+        /* --- Badges --- */
+        .badge-row {
+            display: flex;
+            gap: 0.4rem;
+            margin: 0.75rem 0;
+            flex-wrap: wrap;
+        }
+
+        .bdg {
+            display: inline-block;
+            padding: 0.12rem 0.45rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            border-radius: 3px;
+        }
+
+        .bdg-g {
+            background: #dcfce7;
+            color: #4a7c59;
+        }
+
+        .bdg-r {
+            background: #fee2e2;
+            color: var(--kolam-red);
+        }
+
+        .bdg-b {
+            background: #f3ebe3;
+            color: var(--kolam-brown);
+        }
+
+        .bdg-p {
+            background: #f3e8ff;
+            color: #9F2AC3;
+        }
+
+        .bdg-o {
+            background: #fff3e0;
+            color: #F57F20;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 860px) {
+            body {
+                flex-direction: column;
+            }
+
+            nav {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid #eee;
+                padding: 1.5rem;
+            }
+
+            main {
+                padding: 2rem 1.5rem;
+            }
+
+            .photo-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .card-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .compare {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-back">← Home</a>
+        <a href="https://siddu1998.github.io/cv.pdf" target="_blank" class="nav-link" style="margin-top:1.5rem;">Resume
+            ↗</a>
+    </nav>
+
+    <div class="content-wrap">
+        <main>
+
+            <!-- ===== HERO ===== -->
+            <div class="hero">
+                <div class="hero-row">
+                    <!-- Kolam dot-pattern icon — complete 4×4 square -->
+                    <svg viewBox="0 0 80 80" width="80" height="80" fill="none">
+                        <g fill="#C74B8B">
+                            <circle cx="14" cy="14" r="6" />
+                            <circle cx="30" cy="14" r="6" />
+                            <circle cx="46" cy="14" r="6" />
+                            <circle cx="62" cy="14" r="6" />
+                            <circle cx="14" cy="30" r="6" />
+                            <circle cx="30" cy="30" r="6" />
+                            <circle cx="46" cy="30" r="6" />
+                            <circle cx="62" cy="30" r="6" />
+                            <circle cx="14" cy="46" r="6" />
+                            <circle cx="30" cy="46" r="6" />
+                            <circle cx="46" cy="46" r="6" />
+                            <circle cx="62" cy="46" r="6" />
+                            <circle cx="14" cy="62" r="6" />
+                            <circle cx="30" cy="62" r="6" />
+                            <circle cx="46" cy="62" r="6" />
+                            <circle cx="62" cy="62" r="6" />
+                        </g>
+                    </svg>
+                    <h1>Kolam UI</h1>
+                </div>
+            </div>
+
+            <!-- ===== PHOTO COLLAGE ===== -->
+            <div style="margin-bottom:2.5rem;">
+                <img src="Frame 30 (2).png" alt="Kolam and Rangoli art collage"
+                    style="width:100%;border-radius:4px;display:block;">
+            </div>
+
+            <!-- ===== WHAT AND WHY ===== -->
+            <h2 id="what-and-why">What and Why?</h2>
+            <p>Growing up between Switzerland and India, I was shaped by two vastly different visual worlds. On one
+                hand, I learned to see through the logic of the Swiss Style i.e. the clean typography, mathematical
+                precision, and functional grids championed by Josef Müller-Brockmann. On the other, my roots tied me to
+                the vibrant, rhythmic, and intentionally maximalist soul of traditional Indian art.</p>
+            <p>For a long time, these felt like opposing forces in my design practice. I created Kolam UI to finally
+                bring them together. By taking the absolute structural clarity of the Swiss grid and using it as a
+                canvas for the handcrafted warmth and repetitive geometry of a traditional kolam, I've built a design
+                system that reflects the two halves of my identity. It's where order meets vibrant culture.</p>
+            <p>This blog is the living documentation of that journey. It is a space where we will walk through every
+                design decision, document the visual language, explore the foundational art forms that inspire us.</p>
+
+            <hr class="divider">
+
+            <!-- ===== KOLAM SHAPES & CARDS ===== -->
+            <h2 id="kolam-shapes">The Kolam Shapes and Cards</h2>
+
+            <!-- Two-column layout: text left, large image right -->
+            <div style="display:flex;gap:2rem;margin:1rem 0 1.5rem;align-items:flex-start;">
+                <!-- Left: text -->
+                <div style="flex:1;min-width:0;">
+                    <p>In traditional Indian culture, a Kolam is a complex geometric line drawing composed around a
+                        precise, mathematical matrix of dots, drawn daily at the threshold of a home to invite
+                        prosperity. For the Karigar system, this underlying "dot lattice" serves as our foundational
+                        grid. Just as a kolam artist uses the exact same grid of dots to weave an endless variety of
+                        distinct motifs, our system uses this modular lattice to generate a highly flexible array of UI
+                        cards, responsive layouts, and dynamic component states. Because the entire structure is
+                        mathematically anchored in symmetry, the system naturally inherits a sense of perfect balance
+                        and rhythmic proportion. No matter how complex or maximalist the interface becomes, this
+                        symmetrical foundation ensures that the underlying pattern remains harmonious, predictable, and
+                        visually grounding.</p>
+                </div>
+                <!-- Right: one large image matching text height -->
+                <img src="image 28 (2).png" alt="Kolam pattern reference"
+                    style="flex-shrink:0;width:280px;object-fit:cover;border-radius:4px;align-self:stretch;">
+            </div>
+
+            <img src="Frame 47.png" alt="Kolam shapes and cards"
+                style="width:100%;border-radius:4px;display:block;margin:1.5rem 0 2rem;">
+
+            <img src="Frame 53.png" alt="Kolam shape refinement 2"
+                style="width:100%;border-radius:4px;display:block;margin:1.5rem 0 2rem;">
+
+            <img src="Frame 46.png" alt="Kolam shape refinement 1"
+                style="width:100%;border-radius:4px;display:block;margin:1.5rem 0 2rem;">
+
+            <div id="chat">
+                <img src="Group 50 (1).png" alt="AI Chat Interface"
+                    style="width:100%;border-radius:4px;display:block;margin:1.5rem 0 2rem;">
+            </div>
+            <div id="design-system">
+                <img src="Group 51.png" alt="Design System components"
+                    style="width:100%;border-radius:4px;display:block;margin:1.5rem 0 2rem;">
+            </div>
+            <div id="compare">
+                <img src="Group 52.png" alt="Compare & Contrast"
+                    style="width:100%;border-radius:4px;display:block;margin:1.5rem 0 2rem;">
+            </div>
+
+            <script>
+                document.querySelectorAll('nav a.nav-link[href^="#"]').forEach(a => {
+                    a.addEventListener('click', e => {
+                        e.preventDefault();
+                        const t = document.querySelector(a.getAttribute('href'));
+                        if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    });
+                });
+                const secs = document.querySelectorAll('h2[id],h3[id]');
+                const links = document.querySelectorAll('nav a.nav-link[href^="#"]');
+                window.addEventListener('scroll', () => {
+                    let cur = '';
+                    secs.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
+                    links.forEach(l => { l.classList.toggle('active', l.getAttribute('href') === '#' + cur); });
+                });
+            </script>
+</body>
+
+</html>
