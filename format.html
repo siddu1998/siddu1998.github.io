@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Transcript → CSV</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    min-height: 100vh;
+  }
+  h1 { font-size: 1.4rem; margin-bottom: 6px; }
+  p.sub { color: #666; font-size: 0.9rem; margin-bottom: 28px; }
+
+  #drop-zone {
+    width: 100%;
+    max-width: 620px;
+    border: 2px dashed #aaa;
+    border-radius: 10px;
+    padding: 48px 24px;
+    text-align: center;
+    cursor: pointer;
+    background: #fff;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  #drop-zone.drag-over { border-color: #2F4F8F; background: #eef2fb; }
+  #drop-zone p { font-size: 1rem; color: #555; pointer-events: none; }
+  #drop-zone span { font-size: 0.85rem; color: #999; pointer-events: none; }
+  #file-input { display: none; }
+
+  #status {
+    width: 100%;
+    max-width: 620px;
+    margin-top: 20px;
+    font-size: 0.88rem;
+    color: #444;
+  }
+  #file-list { list-style: none; margin-top: 8px; }
+  #file-list li { padding: 3px 0; }
+  #file-list li.ok::before  { content: "✓ "; color: #2e7d32; }
+  #file-list li.err::before { content: "✗ "; color: #c62828; }
+
+  #download-btn {
+    display: none;
+    margin-top: 24px;
+    padding: 12px 32px;
+    font-size: 1rem;
+    background: #2F4F8F;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  #download-btn:hover { background: #1e3a6e; }
+
+  #preview-wrap {
+    display: none;
+    width: 100%;
+    max-width: 900px;
+    margin-top: 28px;
+  }
+  #preview-wrap h2 { font-size: 1rem; margin-bottom: 8px; color: #555; }
+  #preview-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    background: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  }
+  #preview-table th {
+    background: #2F4F8F;
+    color: #fff;
+    padding: 8px 10px;
+    text-align: left;
+  }
+  #preview-table td {
+    padding: 6px 10px;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+  }
+  #preview-table tr.user td { background: #c8e6c9; }
+  #preview-table tr.ai   td { background: #bbdefb; }
+  #preview-table td:last-child { max-width: 500px; word-break: break-word; }
+  #preview-note { font-size: 0.8rem; color: #999; margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<h1>Transcript → CSV</h1>
+<p class="sub">Upload HTML transcript files to generate a qualitative-coding CSV (ID, Turn, Speaker, Message).</p>
+
+<div id="drop-zone" onclick="document.getElementById('file-input').click()">
+  <p>Drag &amp; drop <strong>.html</strong> files here</p>
+  <span>or click to browse</span>
+  <input type="file" id="file-input" accept=".html" multiple>
+</div>
+
+<div id="status">
+  <ul id="file-list"></ul>
+</div>
+
+<button id="download-btn">Download CSV</button>
+
+<div id="preview-wrap">
+  <h2>Preview (first 50 rows)</h2>
+  <table id="preview-table">
+    <thead><tr><th>ID</th><th>Turn</th><th>Speaker</th><th>Message</th></tr></thead>
+    <tbody id="preview-body"></tbody>
+  </table>
+  <p id="preview-note"></p>
+</div>
+
+<script>
+  const dropZone   = document.getElementById('drop-zone');
+  const fileInput  = document.getElementById('file-input');
+  const fileList   = document.getElementById('file-list');
+  const dlBtn      = document.getElementById('download-btn');
+  const previewWrap = document.getElementById('preview-wrap');
+  const previewBody = document.getElementById('preview-body');
+  const previewNote = document.getElementById('preview-note');
+
+  let csvRows = []; // array of arrays
+
+  // ── Drag-and-drop events ──────────────────────────────────────────────────
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('drag-over');
+    handleFiles([...e.dataTransfer.files]);
+  });
+  fileInput.addEventListener('change', () => handleFiles([...fileInput.files]));
+
+  // ── Main processing ───────────────────────────────────────────────────────
+  function handleFiles(files) {
+    const htmlFiles = files.filter(f => f.name.toLowerCase().endsWith('.html'));
+    if (!htmlFiles.length) { alert('No .html files found.'); return; }
+
+    // Sort by filename (case-insensitive), same as Python script
+    htmlFiles.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+
+    fileList.innerHTML = '';
+    csvRows = [['ID', 'Turn', 'Speaker', 'Message']];
+    let pending = htmlFiles.length;
+
+    // Read all files, preserve sorted order via index
+    const results = new Array(htmlFiles.length);
+
+    htmlFiles.forEach((file, idx) => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        results[idx] = { file, html: e.target.result };
+        pending--;
+        if (pending === 0) processAll(results);
+      };
+      reader.readAsText(file);
+    });
+  }
+
+  function processAll(results) {
+    results.forEach(({ file, html }) => {
+      const li = document.createElement('li');
+      try {
+        const rows = parseTranscript(file.name, html);
+        rows.forEach(r => csvRows.push(r));
+        li.className = 'ok';
+        li.textContent = `${file.name}  (${rows.length} turns)`;
+      } catch(err) {
+        li.className = 'err';
+        li.textContent = `${file.name}  — ${err.message}`;
+      }
+      fileList.appendChild(li);
+    });
+
+    if (csvRows.length > 1) {
+      dlBtn.style.display = 'inline-block';
+      renderPreview();
+    }
+  }
+
+  function parseTranscript(filename, html) {
+    // Extract student ID: match THU##-## at start, else use text before first _
+    const idMatch = filename.match(/^([A-Z]+\d+-\d+)/i);
+    const studentId = idMatch ? idMatch[1].toUpperCase() : filename.replace(/\.html$/i, '').split('_')[0];
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+
+    const messages = doc.querySelectorAll('div.user-message, div.ai-message');
+    if (!messages.length) throw new Error('No message divs found');
+
+    const rows = [];
+    let turn = 1;
+    messages.forEach(div => {
+      const isUser = div.classList.contains('user-message');
+      const isAI   = div.classList.contains('ai-message');
+      if (!isUser && !isAI) return;
+
+      const speaker = isUser ? 'User' : 'AI';
+      // Collapse whitespace, strip leading/trailing
+      const text = div.innerText.replace(/\s+/g, ' ').trim();
+      if (!text) return;
+
+      rows.push([studentId, turn, speaker, text]);
+      turn++;
+    });
+
+    return rows;
+  }
+
+  // ── CSV generation ────────────────────────────────────────────────────────
+  function toCSV(rows) {
+    return rows.map(row =>
+      row.map(cell => {
+        const s = String(cell);
+        // Wrap in quotes if contains comma, quote, or newline
+        if (/[",\n\r]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+        return s;
+      }).join(',')
+    ).join('\r\n');
+  }
+
+  dlBtn.addEventListener('click', () => {
+    const csv = toCSV(csvRows);
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' }); // BOM for Excel
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'transcripts.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  // ── Preview table ─────────────────────────────────────────────────────────
+  function renderPreview() {
+    previewBody.innerHTML = '';
+    const data = csvRows.slice(1); // skip header
+    const limit = Math.min(50, data.length);
+    for (let i = 0; i < limit; i++) {
+      const [id, turn, speaker, msg] = data[i];
+      const tr = document.createElement('tr');
+      tr.className = speaker === 'User' ? 'user' : 'ai';
+      tr.innerHTML = `<td>${esc(id)}</td><td>${esc(turn)}</td><td>${esc(speaker)}</td><td>${esc(msg)}</td>`;
+      previewBody.appendChild(tr);
+    }
+    const total = data.length;
+    previewNote.textContent = total > 50
+      ? `Showing first 50 of ${total.toLocaleString()} rows. Download the CSV for all data.`
+      : `${total.toLocaleString()} rows total.`;
+    previewWrap.style.display = 'block';
+  }
+
+  function esc(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+</script>
+</body>
+</html>
