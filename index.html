@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap"
         rel="stylesheet">
     <style>
         :root {
@@ -21,8 +21,8 @@
             --saffron: #e8a020;
             --crimson: #9e2a2b;
             --forest: #2d5a27;
-            --serif: 'Instrument Serif', Georgia, serif;
-            --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --serif: 'Lora', Georgia, serif;
+            --sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         * {
@@ -1211,118 +1211,198 @@
         }
 
         /* =====================================================
-           MAXIMALIST REDESIGN — Kalamkari × Sticker Bomb
+           MAXIMALIST REDESIGN v2 — Editorial Magazine Layout
            ===================================================== */
 
-        /* Big display name */
+        /* Reset body for full-bleed magazine */
+        body {
+            max-width: none !important;
+            padding: 0 0 6rem 5.5rem !important;
+            margin: 0 !important;
+        }
+
+        .role { display: none; }
+
+        /* ---- PAGE MASTHEAD ---- */
+        .page-masthead {
+            background: var(--indigo);
+            padding: 3rem 4rem 2.5rem;
+            border-bottom: 5px solid var(--accent);
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
         .name {
-            font-size: 3.8rem !important;
-            line-height: 1.0 !important;
+            font-size: 5.5rem !important;
+            line-height: 0.92 !important;
             letter-spacing: -0.03em !important;
-            color: var(--indigo) !important;
+            color: var(--paper) !important;
             font-weight: 400 !important;
+            margin-bottom: 0.85rem;
         }
 
         .role-headline {
-            font-size: 1.1rem !important;
-            font-weight: 600 !important;
-            color: var(--ink) !important;
-            margin-top: 0.5rem !important;
+            font-size: 1.05rem !important;
+            font-weight: 400 !important;
+            color: rgba(247,232,200,0.85) !important;
+            margin-bottom: 0.2rem !important;
+        }
+
+        .role-headline a {
+            color: var(--saffron) !important;
+            text-decoration-color: rgba(232,160,32,0.4) !important;
         }
 
         .role-affiliation {
-            color: var(--muted) !important;
+            color: rgba(247,232,200,0.55) !important;
+            font-size: 0.9rem !important;
         }
 
-        .role {
-            display: none; /* replaced by visible about section */
+        .page-masthead .connect-links {
+            margin-top: 0;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.6rem;
         }
 
-        /* Icon links become terracotta */
-        .icon-link {
-            color: var(--accent) !important;
-        }
-        .icon-link:hover {
-            color: var(--indigo) !important;
+        .page-masthead .connect-links a,
+        .page-masthead .icon-link {
+            color: var(--saffron) !important;
         }
 
-        /* ---- VISIBLE ABOUT SECTION ---- */
-        .about-upfront {
+        .page-masthead .connect-links a:hover,
+        .page-masthead .icon-link:hover {
+            color: #fff !important;
+        }
+
+        /* ---- TWO-COLUMN PAGE LAYOUT ---- */
+        .page-layout {
             display: grid;
-            grid-template-columns: 190px 1fr;
-            gap: 2.5rem;
-            margin: 2rem 0 2.5rem;
-            padding: 2rem 2.5rem;
-            background: var(--indigo);
-            color: #f7e8c8;
-            border: 4px solid var(--ink);
-            box-shadow: 7px 7px 0 var(--accent);
-            transform: rotate(-0.4deg);
-            position: relative;
+            grid-template-columns: 260px 1fr;
+            align-items: start;
+            min-height: calc(100vh - 200px);
         }
 
-        .about-upfront::before {
-            content: '✦ about ✦';
-            position: absolute;
-            top: -14px;
-            left: 2rem;
-            background: var(--saffron);
-            color: var(--ink);
-            font-size: 0.65rem;
-            font-weight: 700;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            padding: 0.2rem 0.7rem;
-            border: 2px solid var(--ink);
+        /* ---- SIDEBAR ---- */
+        .page-sidebar {
+            border-right: 3px solid var(--ink);
+            padding: 2.5rem 1.75rem;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            background: rgba(255,255,255,0.28);
         }
 
-        .about-photo {
+        .page-sidebar .sidebar-photo {
             width: 100%;
             aspect-ratio: 3/4;
             object-fit: cover;
             object-position: top;
-            border: 3px solid rgba(247,232,200,0.4);
+            border: 3px solid var(--ink);
+            box-shadow: 6px 6px 0 var(--accent);
             display: block;
+            margin-bottom: 1.75rem;
         }
 
-        .about-bio-col {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        .page-sidebar .sidebar-bio p {
+            font-size: 0.86rem;
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 0.8rem;
         }
 
-        .about-bio-col p {
-            font-family: var(--serif);
-            font-size: 1.05rem;
-            line-height: 1.75;
-            color: rgba(247,232,200,0.9);
-            margin-bottom: 1rem;
+        .page-sidebar .sidebar-bio p:last-child { margin-bottom: 0; }
+
+        .page-sidebar .sidebar-bio a {
+            color: var(--accent) !important;
+            font-weight: 500;
+            text-decoration-color: rgba(196,98,45,0.3) !important;
         }
 
-        .about-bio-col p:last-child {
-            margin-bottom: 0;
+        .page-sidebar .sidebar-bio a:hover {
+            color: var(--indigo) !important;
         }
 
-        .about-bio-col a {
-            color: var(--saffron) !important;
-            text-decoration-color: var(--saffron) !important;
+        /* ---- MAIN CONTENT ---- */
+        .page-main {
+            padding: 2.5rem 3rem;
         }
 
-        .about-bio-col a:hover {
-            color: #fff !important;
+        /* ---- ABOUT UPFRONT: replaced by sidebar ---- */
+        .about-upfront { display: none !important; }
+
+        /* ---- FEATURED SECTION: stripped wrapper ---- */
+        .featured-section {
+            background: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            transform: none !important;
+            margin-bottom: 0 !important;
         }
 
-        /* Allow rotated card corners to show — override overflow:hidden once panel is open */
+        .featured-section::before { display: none !important; }
+
+        /* ---- TABS: solid filled active state ---- */
+        .work-tabs {
+            gap: 0 !important;
+            border-bottom: 3px solid var(--ink) !important;
+            margin-bottom: 2rem !important;
+        }
+
+        .work-tab {
+            font-family: var(--serif) !important;
+            font-size: 1rem !important;
+            padding: 0.75rem 1.5rem !important;
+            color: var(--muted) !important;
+        }
+
+        .work-tab.active {
+            background: var(--ink) !important;
+            color: var(--paper) !important;
+            border-bottom-color: var(--ink) !important;
+            font-weight: 400 !important;
+        }
+
+        .work-tab:hover {
+            color: var(--ink) !important;
+            background: rgba(0,0,0,0.05) !important;
+        }
+
+        /* Tab panel overflow for card hover */
         .tab-panel.active {
             overflow: visible !important;
         }
 
+        /* ---- CARD GRID: 2-col, bigger ---- */
         .featured-grid {
-            padding: 12px 10px 16px !important;
+            display: grid !important;
+            grid-template-columns: 1fr 1fr 1fr !important;
+            gap: 1.25rem !important;
+            padding: 14px 12px 20px !important;
             overflow: visible !important;
         }
 
-        /* ---- STICKER BOMB CARDS ---- */
+        .featured-grid-category {
+            grid-column: 1 / -1 !important;
+            font-family: var(--serif) !important;
+            font-size: 1.5rem !important;
+            font-weight: 400 !important;
+            color: var(--ink) !important;
+            letter-spacing: 0 !important;
+            text-transform: none !important;
+            border-bottom: 3px solid var(--ink) !important;
+            padding-bottom: 0.4rem !important;
+            margin-top: 2.5rem !important;
+        }
+
+        .featured-grid-category:first-child { margin-top: 0 !important; }
+
+        /* ---- CARDS: sticker-bomb style (rotated, rounded, scaled hover) ---- */
         .featured-card {
             border: 3px solid var(--ink) !important;
             box-shadow: 5px 5px 0 var(--ink) !important;
@@ -1330,12 +1410,10 @@
             transition: transform 0.18s ease, box-shadow 0.18s ease !important;
         }
 
-        /* Varied rotations per slot */
         .featured-card:nth-child(3n+1) { transform: rotate(-2.1deg); }
         .featured-card:nth-child(3n+2) { transform: rotate(1.6deg); }
         .featured-card:nth-child(3n+3) { transform: rotate(-0.7deg); }
 
-        /* Subtle tinted backgrounds */
         .featured-card:nth-child(4n+1) { background: #fff !important; }
         .featured-card:nth-child(4n+2) { background: #fdf5ec !important; }
         .featured-card:nth-child(4n+3) { background: #eef0fc !important; }
@@ -1359,12 +1437,13 @@
             box-shadow: 8px 8px 0 var(--accent) !important;
         }
 
-        /* ---- BADGES & TAGS ---- */
+        /* ---- BADGES ---- */
         .featured-card-badge {
             background: var(--accent) !important;
             color: #fff !important;
             font-weight: 700 !important;
-            letter-spacing: 0.06em !important;
+            letter-spacing: 0.05em !important;
+            border-radius: 0 !important;
         }
 
         .featured-card-badge.award {
@@ -1377,42 +1456,21 @@
             color: var(--indigo) !important;
         }
 
-        /* ---- TABS ---- */
-        .work-tabs {
-            border-bottom-color: var(--ink) !important;
-        }
-
-        .work-tab.active {
-            color: var(--accent) !important;
-            border-bottom-color: var(--accent) !important;
-        }
-
-        .work-tab:hover {
-            color: var(--accent) !important;
-        }
-
-        /* ---- SECTION CATEGORIES (grid) ---- */
-        .featured-grid-category {
-            font-size: 0.72rem !important;
-            font-weight: 800 !important;
-            letter-spacing: 0.12em !important;
-            text-transform: uppercase !important;
-            color: var(--accent) !important;
-            border-bottom: 2.5px solid var(--accent) !important;
-            padding-bottom: 0.25rem !important;
-        }
-
         /* ---- RESEARCH SECTION ---- */
         .research-category {
-            font-weight: 800 !important;
-            font-size: 0.75rem !important;
-            letter-spacing: 0.1em !important;
-            text-transform: uppercase !important;
-            color: var(--accent) !important;
-            border-bottom: 2px solid var(--accent) !important;
-            padding-bottom: 0.2rem !important;
-            margin-bottom: 0.6rem !important;
+            font-family: var(--serif) !important;
+            font-size: 1.3rem !important;
+            font-weight: 400 !important;
+            color: var(--ink) !important;
+            letter-spacing: 0 !important;
+            text-transform: none !important;
+            border-bottom: 2px solid var(--ink) !important;
+            padding-bottom: 0.3rem !important;
+            margin-top: 2rem !important;
+            margin-bottom: 0.75rem !important;
         }
+
+        .research-category:first-of-type { margin-top: 0 !important; }
 
         .link-list {
             border-left: 4px solid var(--accent);
@@ -1427,14 +1485,14 @@
 
         .case-study-item a:hover {
             color: var(--accent) !important;
-            text-decoration-color: var(--accent) !important;
         }
 
         .case-study-meta {
-            background: var(--accent) !important;
-            color: #fff !important;
+            background: var(--ink) !important;
+            color: var(--paper) !important;
             border: none !important;
-            font-weight: 700 !important;
+            font-weight: 600 !important;
+            border-radius: 0 !important;
         }
 
         .case-study-meta.award-pill {
@@ -1442,76 +1500,91 @@
             color: var(--ink) !important;
         }
 
-        /* ---- THESIS ENTRY (first research item) ---- */
-        .tab-panel#tab-research .link-list:first-of-type .case-study-item a {
-            font-size: 1.05rem;
-            font-family: var(--serif);
-        }
-
         /* ---- VIEW MORE ---- */
         .view-more-link {
             border: 2px solid var(--ink) !important;
-            font-weight: 600 !important;
             border-radius: 0 !important;
+            font-weight: 600 !important;
         }
 
         .view-more-link:hover {
-            background: var(--accent) !important;
-            color: #fff !important;
-            border-color: var(--accent) !important;
+            background: var(--ink) !important;
+            color: var(--paper) !important;
+            border-color: var(--ink) !important;
         }
 
-        /* ---- FEATURED SECTION WRAPPER ---- */
-        .featured-section {
-            background: rgba(255,255,255,0.55);
-            border: 3px solid var(--ink);
-            box-shadow: 6px 6px 0 var(--indigo);
-            padding: 1.5rem 1.5rem 1rem;
-            transform: rotate(0.2deg);
-            position: relative;
-        }
-
-        .featured-section::before {
-            content: '✦ work ✦';
-            position: absolute;
-            top: -14px;
-            left: 1.5rem;
-            background: var(--indigo);
-            color: #f7e8c8;
-            font-size: 0.65rem;
-            font-weight: 700;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            padding: 0.2rem 0.7rem;
-            border: 2px solid var(--ink);
-        }
-
-        /* ---- PATTU BORDER COLOR UPDATE ---- */
+        /* ---- PATTU HINT ---- */
         .pattu-hint-text {
             color: var(--accent) !important;
         }
 
-        /* ---- RESPONSIVE FIXES ---- */
-        @media (max-width: 700px) {
-            body {
-                padding: 3rem 1.5rem 3rem 1.5rem;
-            }
-
-            .name {
-                font-size: 2.4rem !important;
-            }
-
-            .about-upfront {
+        /* ---- RESPONSIVE ---- */
+        @media (max-width: 960px) {
+            .page-layout {
                 grid-template-columns: 1fr;
             }
 
-            .about-photo {
-                max-width: 160px;
-                aspect-ratio: 1;
+            .page-sidebar {
+                border-right: none !important;
+                border-bottom: 3px solid var(--ink) !important;
+                height: auto !important;
+                position: relative !important;
+                display: flex;
+                gap: 2rem;
+                align-items: flex-start;
+                padding: 2rem !important;
             }
 
-            .featured-section {
-                transform: none;
+            .page-sidebar .sidebar-photo {
+                width: 140px !important;
+                aspect-ratio: 1 !important;
+                flex-shrink: 0;
+            }
+
+            .page-main {
+                padding: 2rem !important;
+            }
+
+            .page-masthead {
+                padding: 2.5rem 2rem 2rem !important;
+            }
+
+            .name {
+                font-size: 3.5rem !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 0 0 4rem 0 !important;
+            }
+
+            .page-masthead {
+                padding: 2rem 1.5rem !important;
+            }
+
+            .name {
+                font-size: 2.6rem !important;
+            }
+
+            .page-masthead .connect-links {
+                flex-direction: row !important;
+                align-items: center !important;
+            }
+
+            .featured-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .page-sidebar {
+                flex-direction: column !important;
+                padding: 1.5rem !important;
+            }
+
+            .page-sidebar .sidebar-photo {
+                width: 100% !important;
+                max-width: 200px !important;
+                aspect-ratio: 1 !important;
             }
         }
     </style>
@@ -1554,56 +1627,58 @@
 
     <!-- <div class="logo">◆</div> -->
 
-    <div class="name-section fade-up">
-        <div class="name-row">
+    <div class="page-masthead fade-up">
+        <div>
             <h1 class="name">Sai Siddartha Maram</h1>
-            <div class="connect-links">
-                <a href="https://linkedin.com/in/sid-maram" target="_blank" rel="noopener" class="icon-link"
-                    aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                        fill="currentColor" aria-hidden="true">
-                        <path
-                            d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                    </svg></a>
-                <a href="https://scholar.google.com/citations?user=0eShD5EAAAAJ&hl=en" target="_blank" rel="noopener"
-                    class="icon-link" aria-label="Google Scholar"><svg xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                        <path
-                            d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z" />
-                    </svg></a>
-                <a href="https://x.com/ADesiHCI" target="_blank" rel="noopener" class="icon-link"
-                    aria-label="Twitter / X"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                        fill="currentColor" aria-hidden="true">
-                        <path
-                            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                    </svg></a>
-                <a href="https://siddu1998.github.io/cv.pdf" target="_blank" rel="noopener" class="icon-link"
-                    aria-label="Resume"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        aria-hidden="true">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                        <polyline points="14 2 14 8 20 8" />
-                        <line x1="16" y1="13" x2="8" y2="13" />
-                        <line x1="16" y1="17" x2="8" y2="17" />
-                        <polyline points="10 9 9 9 8 9" />
-                    </svg></a>
-            </div>
+            <p class="role-headline">UX Researcher, Engineer &amp; Designer · PhD in HCI, <a
+                    href="https://guiilab.ucsc.edu/" target="_blank">UC Santa Cruz</a></p>
+            <p class="role-affiliation">Previously at Meta, Xbox (Microsoft), Invento Robotics</p>
         </div>
-        <p class="role-headline">UX Researcher, Engineer & Designer · PhD in HCI, <a
-                href="https://guiilab.ucsc.edu/" target="_blank">UC Santa Cruz</a></p>
-        <p class="role-affiliation">Previously at Meta, Xbox (Microsoft), Invento Robotics</p>
-        <p class="role-affiliation">I design how humans and agents interact with humans and agents.</p>
+        <div class="connect-links">
+            <a href="https://linkedin.com/in/sid-maram" target="_blank" rel="noopener" class="icon-link"
+                aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                    fill="currentColor" aria-hidden="true">
+                    <path
+                        d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                </svg></a>
+            <a href="https://scholar.google.com/citations?user=0eShD5EAAAAJ&hl=en" target="_blank" rel="noopener"
+                class="icon-link" aria-label="Google Scholar"><svg xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path
+                        d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z" />
+                </svg></a>
+            <a href="https://x.com/ADesiHCI" target="_blank" rel="noopener" class="icon-link"
+                aria-label="Twitter / X"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                    fill="currentColor" aria-hidden="true">
+                    <path
+                        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg></a>
+            <a href="https://siddu1998.github.io/cv.pdf" target="_blank" rel="noopener" class="icon-link"
+                aria-label="Resume"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    aria-hidden="true">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" y1="13" x2="8" y2="13" />
+                    <line x1="16" y1="17" x2="8" y2="17" />
+                    <polyline points="10 9 9 9 8 9" />
+                </svg></a>
+        </div>
     </div>
 
-    <div class="about-upfront fade-up fade-up-d1">
-        <img src="IMG_7021 (1).jpg" alt="Sai Siddartha Maram" class="about-photo">
-        <div class="about-bio-col">
+    <div class="page-layout">
+
+    <aside class="page-sidebar fade-up fade-up-d1">
+        <img src="IMG_7021 (1).jpg" alt="Sai Siddartha Maram" class="sidebar-photo">
+        <div class="sidebar-bio">
             <p>My path into UX research has been shaped by a mix of hands-on work, academic exploration, and a deep interest in how people interact with technology in everyday life. From designing conversational robots at Invento Robotics to studying digital communities at Meta, I've worked at the crossroads of AI, software, and human behavior.</p>
-            <p>With a PhD in Human-Computer Interaction, I explore how design, AI, and community insights can come together to support meaningful learning and reflection — whether studying how families play games, building educational chatbots, or designing tools for collaborative inquiry.</p>
+            <p>With a PhD in Human-Computer Interaction, I explore how design, AI, and community insights can come together to support meaningful learning and reflection.</p>
             <p>Read my <a href="./Sai_Thesis (2)_compressed.pdf" target="_blank">PhD thesis</a> · <a href="mailto:msaisiddartha1@gmail.com">msaisiddartha1@gmail.com</a></p>
         </div>
-    </div>
+    </aside>
 
-    <div class="featured-section fade-up fade-up-d1">
+    <main class="page-main">
+    <div class="featured-section fade-up fade-up-d2">
         <div class="work-tabs">
             <button class="work-tab active" data-tab="ux-cases">Featured UX Case Studies</button>
             <button class="work-tab" data-tab="research">Research</button>
@@ -1990,6 +2065,8 @@
             </div>
         </div>
     </div>
+    </main>
+    </div><!-- /.page-layout -->
 
     <a href="https://info.flagcounter.com/AdSQ" style="display: none;"><img
             src="https://s01.flagcounter.com/count2/AdSQ/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/"
@@ -2062,7 +2139,6 @@
             }
         })();
 
-        const aboutTrigger = document.getElementById('aboutTrigger');
         const aboutPanel = document.getElementById('aboutPanel');
         const aboutOverlay = document.getElementById('aboutOverlay');
         const aboutClose = document.getElementById('aboutClose');
@@ -2080,7 +2156,6 @@
             document.body.style.overflow = '';
         }
 
-        aboutTrigger.addEventListener('click', openAbout);
         aboutClose.addEventListener('click', closeAbout);
         aboutOverlay.addEventListener('click', closeAbout);
 
