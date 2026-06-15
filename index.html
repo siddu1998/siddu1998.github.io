@@ -12,11 +12,15 @@
         rel="stylesheet">
     <style>
         :root {
-            --ink: #1a1a1a;
-            --paper: #faf9f7;
-            --muted: #888;
-            --accent: #5a6f5a;
-            --accent-light: #eef2ee;
+            --ink: #1a1105;
+            --paper: #f7e8c8;
+            --muted: #8a6540;
+            --accent: #c4622d;
+            --accent-light: #fdf0e3;
+            --indigo: #1e2a5e;
+            --saffron: #e8a020;
+            --crimson: #9e2a2b;
+            --forest: #2d5a27;
             --serif: 'Instrument Serif', Georgia, serif;
             --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
         }
@@ -29,12 +33,17 @@
 
         body {
             background-color: var(--paper);
+            background-image:
+                radial-gradient(circle, rgba(196,98,45,0.28) 1.5px, transparent 1.5px),
+                radial-gradient(circle, rgba(196,98,45,0.13) 1px, transparent 1px);
+            background-size: 40px 40px, 20px 20px;
+            background-position: 0 0, 10px 10px;
             font-family: var(--sans);
             font-size: 1.05rem;
             line-height: 1.7;
             color: var(--ink);
-            padding: 4rem 2rem;
-            max-width: 960px;
+            padding: 4rem 2rem 4rem 7rem;
+            max-width: 1080px;
             margin: 0 auto;
         }
 
@@ -1200,6 +1209,311 @@
                 font-size: 1.3rem;
             }
         }
+
+        /* =====================================================
+           MAXIMALIST REDESIGN — Kalamkari × Sticker Bomb
+           ===================================================== */
+
+        /* Big display name */
+        .name {
+            font-size: 3.8rem !important;
+            line-height: 1.0 !important;
+            letter-spacing: -0.03em !important;
+            color: var(--indigo) !important;
+            font-weight: 400 !important;
+        }
+
+        .role-headline {
+            font-size: 1.1rem !important;
+            font-weight: 600 !important;
+            color: var(--ink) !important;
+            margin-top: 0.5rem !important;
+        }
+
+        .role-affiliation {
+            color: var(--muted) !important;
+        }
+
+        .role {
+            display: none; /* replaced by visible about section */
+        }
+
+        /* Icon links become terracotta */
+        .icon-link {
+            color: var(--accent) !important;
+        }
+        .icon-link:hover {
+            color: var(--indigo) !important;
+        }
+
+        /* ---- VISIBLE ABOUT SECTION ---- */
+        .about-upfront {
+            display: grid;
+            grid-template-columns: 190px 1fr;
+            gap: 2.5rem;
+            margin: 2rem 0 2.5rem;
+            padding: 2rem 2.5rem;
+            background: var(--indigo);
+            color: #f7e8c8;
+            border: 4px solid var(--ink);
+            box-shadow: 7px 7px 0 var(--accent);
+            transform: rotate(-0.4deg);
+            position: relative;
+        }
+
+        .about-upfront::before {
+            content: '✦ about ✦';
+            position: absolute;
+            top: -14px;
+            left: 2rem;
+            background: var(--saffron);
+            color: var(--ink);
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            padding: 0.2rem 0.7rem;
+            border: 2px solid var(--ink);
+        }
+
+        .about-photo {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            object-position: top;
+            border: 3px solid rgba(247,232,200,0.4);
+            display: block;
+        }
+
+        .about-bio-col {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .about-bio-col p {
+            font-family: var(--serif);
+            font-size: 1.05rem;
+            line-height: 1.75;
+            color: rgba(247,232,200,0.9);
+            margin-bottom: 1rem;
+        }
+
+        .about-bio-col p:last-child {
+            margin-bottom: 0;
+        }
+
+        .about-bio-col a {
+            color: var(--saffron) !important;
+            text-decoration-color: var(--saffron) !important;
+        }
+
+        .about-bio-col a:hover {
+            color: #fff !important;
+        }
+
+        /* Allow rotated card corners to show — override overflow:hidden once panel is open */
+        .tab-panel.active {
+            overflow: visible !important;
+        }
+
+        .featured-grid {
+            padding: 12px 10px 16px !important;
+            overflow: visible !important;
+        }
+
+        /* ---- STICKER BOMB CARDS ---- */
+        .featured-card {
+            border: 3px solid var(--ink) !important;
+            box-shadow: 5px 5px 0 var(--ink) !important;
+            border-radius: 4px !important;
+            transition: transform 0.18s ease, box-shadow 0.18s ease !important;
+        }
+
+        /* Varied rotations per slot */
+        .featured-card:nth-child(3n+1) { transform: rotate(-2.1deg); }
+        .featured-card:nth-child(3n+2) { transform: rotate(1.6deg); }
+        .featured-card:nth-child(3n+3) { transform: rotate(-0.7deg); }
+
+        /* Subtle tinted backgrounds */
+        .featured-card:nth-child(4n+1) { background: #fff !important; }
+        .featured-card:nth-child(4n+2) { background: #fdf5ec !important; }
+        .featured-card:nth-child(4n+3) { background: #eef0fc !important; }
+        .featured-card:nth-child(4n+4) { background: #fdfbe8 !important; }
+
+        .featured-card:hover {
+            transform: rotate(0deg) translateY(-6px) scale(1.02) !important;
+            box-shadow: 8px 8px 0 var(--accent) !important;
+            z-index: 10;
+            position: relative;
+        }
+
+        .featured-card-ooha {
+            border: 3px solid var(--ink) !important;
+            box-shadow: 5px 5px 0 var(--ink) !important;
+            border-radius: 4px !important;
+        }
+
+        .featured-card-ooha:hover {
+            transform: rotate(0deg) translateY(-6px) scale(1.02) !important;
+            box-shadow: 8px 8px 0 var(--accent) !important;
+        }
+
+        /* ---- BADGES & TAGS ---- */
+        .featured-card-badge {
+            background: var(--accent) !important;
+            color: #fff !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.06em !important;
+        }
+
+        .featured-card-badge.award {
+            background: var(--saffron) !important;
+            color: var(--ink) !important;
+        }
+
+        .featured-card-title {
+            font-size: 1.1rem !important;
+            color: var(--indigo) !important;
+        }
+
+        /* ---- TABS ---- */
+        .work-tabs {
+            border-bottom-color: var(--ink) !important;
+        }
+
+        .work-tab.active {
+            color: var(--accent) !important;
+            border-bottom-color: var(--accent) !important;
+        }
+
+        .work-tab:hover {
+            color: var(--accent) !important;
+        }
+
+        /* ---- SECTION CATEGORIES (grid) ---- */
+        .featured-grid-category {
+            font-size: 0.72rem !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.12em !important;
+            text-transform: uppercase !important;
+            color: var(--accent) !important;
+            border-bottom: 2.5px solid var(--accent) !important;
+            padding-bottom: 0.25rem !important;
+        }
+
+        /* ---- RESEARCH SECTION ---- */
+        .research-category {
+            font-weight: 800 !important;
+            font-size: 0.75rem !important;
+            letter-spacing: 0.1em !important;
+            text-transform: uppercase !important;
+            color: var(--accent) !important;
+            border-bottom: 2px solid var(--accent) !important;
+            padding-bottom: 0.2rem !important;
+            margin-bottom: 0.6rem !important;
+        }
+
+        .link-list {
+            border-left: 4px solid var(--accent);
+            padding-left: 1.25rem;
+        }
+
+        .case-study-item a {
+            color: var(--indigo) !important;
+            font-weight: 500;
+            text-decoration-color: rgba(30,42,94,0.3) !important;
+        }
+
+        .case-study-item a:hover {
+            color: var(--accent) !important;
+            text-decoration-color: var(--accent) !important;
+        }
+
+        .case-study-meta {
+            background: var(--accent) !important;
+            color: #fff !important;
+            border: none !important;
+            font-weight: 700 !important;
+        }
+
+        .case-study-meta.award-pill {
+            background: var(--saffron) !important;
+            color: var(--ink) !important;
+        }
+
+        /* ---- THESIS ENTRY (first research item) ---- */
+        .tab-panel#tab-research .link-list:first-of-type .case-study-item a {
+            font-size: 1.05rem;
+            font-family: var(--serif);
+        }
+
+        /* ---- VIEW MORE ---- */
+        .view-more-link {
+            border: 2px solid var(--ink) !important;
+            font-weight: 600 !important;
+            border-radius: 0 !important;
+        }
+
+        .view-more-link:hover {
+            background: var(--accent) !important;
+            color: #fff !important;
+            border-color: var(--accent) !important;
+        }
+
+        /* ---- FEATURED SECTION WRAPPER ---- */
+        .featured-section {
+            background: rgba(255,255,255,0.55);
+            border: 3px solid var(--ink);
+            box-shadow: 6px 6px 0 var(--indigo);
+            padding: 1.5rem 1.5rem 1rem;
+            transform: rotate(0.2deg);
+            position: relative;
+        }
+
+        .featured-section::before {
+            content: '✦ work ✦';
+            position: absolute;
+            top: -14px;
+            left: 1.5rem;
+            background: var(--indigo);
+            color: #f7e8c8;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            padding: 0.2rem 0.7rem;
+            border: 2px solid var(--ink);
+        }
+
+        /* ---- PATTU BORDER COLOR UPDATE ---- */
+        .pattu-hint-text {
+            color: var(--accent) !important;
+        }
+
+        /* ---- RESPONSIVE FIXES ---- */
+        @media (max-width: 700px) {
+            body {
+                padding: 3rem 1.5rem 3rem 1.5rem;
+            }
+
+            .name {
+                font-size: 2.4rem !important;
+            }
+
+            .about-upfront {
+                grid-template-columns: 1fr;
+            }
+
+            .about-photo {
+                max-width: 160px;
+                aspect-ratio: 1;
+            }
+
+            .featured-section {
+                transform: none;
+            }
+        }
     </style>
 </head>
 
@@ -1274,12 +1588,19 @@
                     </svg></a>
             </div>
         </div>
-        <p class="role-headline">UX Researcher, Engineer & Designer · PhD Candidate at <a
+        <p class="role-headline">UX Researcher, Engineer & Designer · PhD in HCI, <a
                 href="https://guiilab.ucsc.edu/" target="_blank">UC Santa Cruz</a></p>
         <p class="role-affiliation">Previously at Meta, Xbox (Microsoft), Invento Robotics</p>
         <p class="role-affiliation">I design how humans and agents interact with humans and agents.</p>
-        <p class="role">More <a href="#" class="about-trigger" id="aboutTrigger">about me</a> · <a
-                href="mailto:msaisiddartha1@gmail.com">msaisiddartha1@gmail.com</a></p>
+    </div>
+
+    <div class="about-upfront fade-up fade-up-d1">
+        <img src="IMG_7021 (1).jpg" alt="Sai Siddartha Maram" class="about-photo">
+        <div class="about-bio-col">
+            <p>My path into UX research has been shaped by a mix of hands-on work, academic exploration, and a deep interest in how people interact with technology in everyday life. From designing conversational robots at Invento Robotics to studying digital communities at Meta, I've worked at the crossroads of AI, software, and human behavior.</p>
+            <p>With a PhD in Human-Computer Interaction, I explore how design, AI, and community insights can come together to support meaningful learning and reflection — whether studying how families play games, building educational chatbots, or designing tools for collaborative inquiry.</p>
+            <p>Read my <a href="./Sai_Thesis (2)_compressed.pdf" target="_blank">PhD thesis</a> · <a href="mailto:msaisiddartha1@gmail.com">msaisiddartha1@gmail.com</a></p>
+        </div>
     </div>
 
     <div class="featured-section fade-up fade-up-d1">
@@ -1549,6 +1870,11 @@
 
         <!-- Tab: Research -->
         <div class="tab-panel" id="tab-research">
+            <h3 class="research-category">PhD Thesis</h3>
+            <ul class="link-list">
+                <li class="case-study-item"><a href="./Sai_Thesis (2)_compressed.pdf" target="_blank">Scripture to Console: Understanding the Nexus Between Religion and Videogames</a><span class="case-study-meta">UC Santa Cruz · 2026</span></li>
+            </ul>
+
             <h3 class="research-category">AI in Education & Learning</h3>
             <ul class="link-list">
                 <li class="case-study-item"><a href="https://arxiv.org/abs/2508.11707" target="_blank">Listening with
@@ -1678,21 +2004,21 @@
         <button class="about-panel-close" id="aboutClose" aria-label="Close">&times;</button>
         <img src="IMG_7021 (1).jpg" alt="Sai Siddartha Maram" class="about-panel-image">
         <p>
-            PhD Candidate at <a href="https://guiilab.ucsc.edu/" target="_blank">GUII lab, UC Santa Cruz</a>. Previously
+            PhD in HCI from <a href="https://guiilab.ucsc.edu/" target="_blank">GUII lab, UC Santa Cruz</a>. Previously
             at Meta, Xbox/Microsoft, Invento Robotics.
         </p>
         <h2>Crafting intuitive experiences, solving complex problems.</h2>
         <p>
             My approach to UX research is defined by a decade of navigating the intersection of AI, software, and human
             behavior. From engineering conversational robots at Invento Robotics to analyzing digital community dynamics
-            at Meta, I’ve specialized in how emerging technologies integrate into the fabric of everyday life. Currently
-            finishing my Ph.D. in HCI, my work focuses on building "grounded" AI—designing educational chatbots and
-            collaborative tools that move beyond utility to foster genuine reflection and learning. Whether I’m
-            investigating family gaming dynamics or building systems for collaborative inquiry, I aim to create
-            technology that feels less like a tool and more like a thoughtful partner. </p>
+            at Meta, I’ve specialized in how emerging technologies integrate into the fabric of everyday life. My Ph.D.
+            in HCI focused on building "grounded" AI—designing educational chatbots and collaborative tools that move
+            beyond utility to foster genuine reflection and learning. Whether I’m investigating family gaming dynamics or
+            building systems for collaborative inquiry, I aim to create technology that feels less like a tool and more
+            like a thoughtful partner.</p>
 
         <p>
-            Feel free to reach out at <a href="mailto:msaisiddartha1@gmail.com">msaisiddartha1@gmail.com</a>
+            Read my <a href="./Sai_Thesis (2)_compressed.pdf" target="_blank">PhD thesis</a> or reach out at <a href="mailto:msaisiddartha1@gmail.com">msaisiddartha1@gmail.com</a>
         </p>
     </aside>
 
