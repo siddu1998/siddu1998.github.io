@@ -31,29 +31,69 @@
             color: var(--ink);
         }
 
-        /* ── PATTU STRIPE — top decorative bar ─────────────────── */
-        .pattu-stripe {
-            height: 7px;
-            background: linear-gradient(90deg,
-                var(--crimson) 0%,   var(--crimson) 25%,
-                var(--accent)  25%,  var(--accent)  50%,
-                var(--saffron) 50%,  var(--saffron) 75%,
-                var(--forest)  75%,  var(--forest)  100%
-            );
+        /* ── PATTU BORDER — left vertical image strip ──────────── */
+        .pattu-border {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100px;
+            height: 100vh;
+            z-index: 100;
+            pointer-events: none;
+            overflow: hidden;
             cursor: pointer;
-            flex-shrink: 0;
+            pointer-events: auto;
         }
 
-        /* Pattu note tooltip */
+        .pattu-border-inner {
+            position: absolute;
+            left: 80px;
+            top: 0;
+            width: 200vh;
+            height: 80px;
+            background: url('Group 55.png') repeat-x;
+            background-size: auto 100%;
+            transform-origin: 0 0;
+            transform: rotate(90deg);
+        }
+
+        .pattu-hint {
+            position: fixed;
+            left: 90px;
+            top: 24px;
+            z-index: 101;
+            pointer-events: none;
+        }
+        .pattu-hint-text {
+            font-family: var(--serif);
+            font-size: 0.78rem;
+            font-style: italic;
+            color: #b8860b;
+            white-space: nowrap;
+            display: block;
+            margin-bottom: -4px;
+            margin-left: 2px;
+        }
+        .pattu-hint-arrow {
+            width: 70px;
+            height: 60px;
+            display: block;
+            margin-left: -14px;
+        }
+
+        @media (max-width: 768px) {
+            .pattu-border, .pattu-hint { display: none !important; }
+        }
+
+        /* ── PATTU NOTE tooltip ─────────────────────────────────── */
         .pattu-note {
             position: fixed;
-            top: 18px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 300;
-            opacity: 0;
+            left: 100px;
+            top: 60px;
+            z-index: 101;
             pointer-events: none;
-            transition: opacity 0.3s ease;
+            opacity: 0;
+            transition: opacity 0.35s ease;
         }
         .pattu-note.visible {
             opacity: 1;
@@ -62,22 +102,22 @@
         .pattu-note-card {
             background: #fffef8;
             border: 1px solid #e2ddd4;
-            border-radius: 8px;
+            border-radius: 6px;
             padding: 1.1rem 1.25rem;
-            max-width: 360px;
-            box-shadow: 2px 4px 20px rgba(0,0,0,0.1);
+            max-width: 340px;
+            box-shadow: 2px 3px 12px rgba(0,0,0,0.07);
             position: relative;
         }
         .pattu-note-card::before {
             content: '';
             position: absolute;
-            top: -7px;
-            left: 50%;
-            transform: translateX(-50%) rotate(45deg);
+            left: -7px;
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
             width: 12px; height: 12px;
             background: #fffef8;
             border-left: 1px solid #e2ddd4;
-            border-top: 1px solid #e2ddd4;
+            border-bottom: 1px solid #e2ddd4;
         }
         .pattu-note-title {
             font-family: var(--serif);
@@ -733,6 +773,21 @@
 </head>
 <body>
 
+    <!-- Pattu vertical border -->
+    <div class="pattu-border" role="button" tabindex="0" aria-label="About the Pattu border"
+        onclick="var n=document.getElementById('pattu-note'); var h=document.getElementById('pattu-hint'); n.classList.toggle('visible'); if(n.classList.contains('visible')){h.style.display='none';}else{h.style.display='';}">
+        <div class="pattu-border-inner"></div>
+    </div>
+
+    <!-- Pattu hint -->
+    <div class="pattu-hint" id="pattu-hint">
+        <span class="pattu-hint-text">click the border</span>
+        <svg class="pattu-hint-arrow" viewBox="0 0 70 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M60 10 Q20 10 15 40" stroke="#b8860b" stroke-width="1.5" fill="none" stroke-dasharray="4 3"/>
+            <path d="M10 37 L15 44 L22 39" stroke="#b8860b" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </div>
+
     <!-- Pattu Easter egg note -->
     <div class="pattu-note" id="pattu-note">
         <div class="pattu-note-card">
@@ -758,7 +813,7 @@
         <!-- Identity -->
         <section class="identity fade-up d1">
             <h1>Sai Siddartha Maram</h1>
-            <p class="tagline">UX Researcher at Xbox &nbsp;·&nbsp; Engineer &amp; Designer</p>
+            <p class="tagline">Design Researcher at Xbox &nbsp;·&nbsp; Engineer &amp; Designer</p>
             <p class="affiliation">PhD in HCI, <a href="https://guiilab.ucsc.edu/" target="_blank" rel="noopener">UC Santa Cruz</a> &nbsp;·&nbsp; Previously at Meta &nbsp;·&nbsp; Invento Robotics</p>
             <nav class="social-nav" aria-label="Social links">
                 <!-- LinkedIn -->
@@ -793,17 +848,16 @@
             <!-- ── TAB: UX Case Studies ── -->
             <div class="tab-panel active" id="tab-ux-cases" role="tabpanel">
 
-                <p class="work-category">LLM &times; UX</p>
+                <p class="work-category">AI tools for research</p>
                 <div class="card-grid">
 
                     <!-- AURA -->
-                    <div class="proj-card" data-peek-img="aura.png" data-peek-label="Internship · Xbox & Microsoft">
+                    <div class="proj-card" data-peek-img="aura.png" data-peek-label="8 hrs back per study · Brazil, Vietnam, Poland · no translation vendors">
                         <div class="card-topstrip">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 7V5a4 4 0 0 0-8 0v2"/></svg>
                             Internship Project
                         </div>
                         <a href="./Xbox2.html" style="text-decoration:none;display:flex;flex-direction:column;flex:1;">
-                            <!-- <div class="card-img"><img src="aura.png" alt="AURA — Agentic User Research interface" loading="lazy"></div> -->
                             <div class="card-body">
                                 <div class="card-header">
                                     <span class="card-badge">Xbox · Microsoft</span>
@@ -813,23 +867,22 @@
                                     </span>
                                 </div>
                                 <div class="card-title">AURA: Agentic User Research</div>
-                                <div class="card-desc">AI-assisted agentic systems for scalable user research — automating analysis while keeping researchers in the loop.</div>
+                                <div class="card-desc">Xbox couldn't interview players in Brazil, Vietnam, or Poland. Wrong timezones, no local vendors. I built 4 AI capabilities into one platform. Same team, 3 continents, 8 hours back per study.</div>
                             </div>
                         </a>
                     </div>
 
                     <!-- Ooha -->
-                    <div class="proj-card" data-peek-img="SCAI/finalOOHA.png" data-peek-label="AI-powered collaborative ideation canvas">
+                    <div class="proj-card" data-peek-img="SCAI/finalOOHA.png" data-peek-label="340% more directions before committing · 1,000 researchers use it today">
                         <a href="https://ooha-creator.github.io/" target="_blank" rel="noopener" class="card-topstrip card-topstrip-cta" onclick="event.stopPropagation();">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
                             Try it live
                         </a>
                         <a href="./canvasNew.html" style="text-decoration:none;display:flex;flex-direction:column;flex:1;">
-                            <!-- <div class="card-img"><img src="SCAI/finalOOHA.png" alt="Ooha AI Canvas interface" loading="lazy"></div> -->
                             <div class="card-body">
                                 <div class="card-header"><span class="card-badge">LLM × Design</span></div>
                                 <div class="card-title">Ooha: AI Canvas</div>
-                                <div class="card-desc">AI-powered canvas for collaborative ideation — transforming raw ideas into structured concepts with LLM workflows.</div>
+                                <div class="card-desc">Every AI chat tool makes you commit to one idea. I built a spatial canvas where you branch prompts and run GPT-4, Claude, and Gemini side by side. Teams generated 340% more directions before picking one.</div>
                             </div>
                         </a>
                         <div class="card-reactions">
@@ -841,50 +894,56 @@
                     </div>
 
                     <!-- Cursor Research -->
-                    <div class="proj-card" data-peek-img="cursor-research.png" data-peek-label="Human-in-the-loop RAG & thematic analysis">
+                    <div class="proj-card" data-peek-img="cursor-research.png" data-peek-label="73% less prep time · 4.6× faster evidence gathering">
                         <a href="https://cursor-research.vercel.app/" target="_blank" rel="noopener" class="card-topstrip card-topstrip-cta" onclick="event.stopPropagation();">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
                             Try it live
                         </a>
                         <a href="./uxai.html" style="text-decoration:none;display:flex;flex-direction:column;flex:1;">
-                            <!-- <div class="card-img"><img src="cursor-research.png" alt="Cursor Research — Canvas with Semantic Search" loading="lazy"></div> -->
                             <div class="card-body">
                                 <div class="card-header"><span class="card-badge">LLM × Research</span></div>
                                 <div class="card-title">Cursor Research</div>
-                                <div class="card-desc">AI canvas with human-in-the-loop chunking, thematic analysis, and RAG-powered semantic search.</div>
+                                <div class="card-desc">The bottleneck isn't the interview. It's the hours you spend cutting transcripts before any real analysis begins. Built an AI tool that does it 73% faster while keeping the researcher in control of every cut.</div>
                             </div>
                         </a>
                     </div>
 
                     <!-- TGP: Gamified Prompts -->
-                    <div class="proj-card" data-peek-img="StudyCrafter___Prompt_Taxonomy_CHI_PLAYu (3)/images/Group 245 (1).png" data-peek-label="Game mechanics taxonomy for LLM prompts · BJET 2025">
+                    <div class="proj-card" data-peek-img="StudyCrafter___Prompt_Taxonomy_CHI_PLAYu (3)/images/Group 245 (1).png" data-peek-label="Student immersion 2.2 → 5.2 · design time cut 63% · BJET 2025">
                         <a href="https://siddu1998.github.io/SCAI/StudyCrafterAI.html" target="_blank" rel="noopener" class="card-topstrip card-topstrip-cta" onclick="event.stopPropagation();">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
                             Try it live
                         </a>
                         <a href="./studycrafter.html" style="text-decoration:none;display:flex;flex-direction:column;flex:1;">
-                            <!-- <div class="card-img"><img src="StudyCrafter___Prompt_Taxonomy_CHI_PLAYu (3)/images/Group 245 (1).png" alt="Gamified prompts examples" loading="lazy"></div> -->
                             <div class="card-body">
                                 <div class="card-header"><span class="card-badge">BJET 2025</span></div>
                                 <div class="card-title">TGP: Gamified Prompts</div>
-                                <div class="card-desc">A taxonomy for embedding game mechanics into LLM prompts — turning chatbots into game engines for learning.</div>
+                                <div class="card-desc">Co-designed 60 gamified prompts with educators, mapped them into 19 mechanics. When teachers used the taxonomy, student immersion tripled (2.2 to 5.2) and design time dropped 63%.</div>
                             </div>
                         </a>
                     </div>
 
+                    <!-- Game Play Reflection Systems -->
+                    <a href="./opmNew.html" class="proj-card" style="text-decoration:none;" data-peek-img="temporary/images/Group 107 (4).png" data-peek-label="21 months · turned raw game logs into self-assessment moments">
+                        <div class="card-body">
+                            <div class="card-header"><span class="card-badge">CHI '24</span></div>
+                            <div class="card-title">Game Play Reflection Systems</div>
+                            <div class="card-desc">Students playing an educational game were generating rich data that never came back to them. 21 months of iteration to build a visualization that turns gameplay logs into reflection: from passive play to comparing your own strategies.</div>
+                        </div>
+                    </a>
+
                 </div><!-- /.card-grid -->
 
-                <p class="work-category">Specialty Stakeholders</p>
+                <p class="work-category">Design for people the industry overlooks</p>
                 <div class="card-grid">
 
                     <!-- Shloka -->
-                    <div class="proj-card" data-peek-img="Group844.png" data-peek-label="Best Paper · ACM DIS '25">
+                    <div class="proj-card" data-peek-img="Group844.png" data-peek-label="4 months at Tirumala & Sabarimala · 5 temples piloting it now">
                         <a href="./shlokaNew.html" style="text-decoration:none;display:flex;flex-direction:column;flex:1;">
-                            <!-- <div class="card-img"><img src="Group844.png" alt="Shloka climate elements at religious sites" loading="lazy"></div> -->
                             <div class="card-body">
                                 <div class="card-header"><span class="card-badge award">ACM DIS '25 — Best Paper</span></div>
                                 <div class="card-title">Shloka: Climate Action Games</div>
-                                <div class="card-desc">The first climate game integrating authentic Hindu religious practices — four months fieldwork, Best Paper award.</div>
+                                <div class="card-desc">Players couldn't roleplay harming nature. It violated ritual purity. So I rebuilt the mechanics around protection. 4 months of fieldwork at Tirumala and Sabarimala. 87% higher immersion. Five temples now piloting it.</div>
                             </div>
                         </a>
                         <div class="card-reactions">
@@ -896,27 +955,34 @@
                     </div>
 
                     <!-- Religious Inclusivity in Games -->
-                    <a href="./religionVideoGamesNew.html" class="proj-card" style="text-decoration:none;" data-peek-img="Group 162.png" data-peek-label="Faith & representation in games · CHI PLAY '24">
-                        <!-- <div class="card-img"><img src="Group 162.png" alt="Religion and videogames research" loading="lazy"></div> -->
+                    <a href="./religionVideoGamesNew.html" class="proj-card" style="text-decoration:none;" data-peek-img="Group 162.png" data-peek-label="10,000 Reddit posts · the finding surprised everyone, including me">
                         <div class="card-body">
                             <div class="card-header"><span class="card-badge">CHI PLAY '24</span></div>
                             <div class="card-title">Religious Inclusivity in Games</div>
-                            <div class="card-desc">Understanding how players from diverse faith backgrounds experience games and what representation they need.</div>
+                            <div class="card-desc">NLP topic modeling on 10,000+ Reddit posts. The finding flipped the assumed wisdom: religious players don't want religion kept out of games. They want it done right. That distinction became design guidelines.</div>
+                        </div>
+                    </a>
+
+                    <!-- AstraVerse -->
+                    <a href="./astraVerseNew.html" class="proj-card" style="text-decoration:none;" data-peek-img="temporary/images/astraVerse/Group 101 (1).png" data-peek-label="429 artifacts · 141 design elements · now used in Star Wars Eclipse">
+                        <div class="card-body">
+                            <div class="card-header"><span class="card-badge">ACM FDG '23</span></div>
+                            <div class="card-title">AstraVerse Character Design</div>
+                            <div class="card-desc">Spent months photographing 4 temples, cataloguing 429 artifacts. Distilled them into 141 remixable elements game designers can use to build Hindu-inspired characters without copying any deity. Now used in Star Wars Eclipse.</div>
                         </div>
                     </a>
 
                     <!-- Tales of Dharma -->
-                    <div class="proj-card" data-peek-img="Instagram story - 12.png" data-peek-label="Narrative tabletop game · 1000+ copies sold">
+                    <div class="proj-card" data-peek-img="Instagram story - 12.png" data-peek-label="Top 10 card games for 10 weeks · for grandparents & grandchildren">
                         <a href="https://amzn.in/d/03g2rHzQ" target="_blank" rel="noopener" class="card-topstrip card-topstrip-cta">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
                             Buy Now
                         </a>
                         <a href="./ToD.html" style="text-decoration:none;display:flex;flex-direction:column;flex:1;">
-                            <!-- <div class="card-img"><img src="Instagram story - 12.png" alt="Tales of Dharma" loading="lazy"></div> -->
                             <div class="card-body">
                                 <div class="card-header"><span class="card-badge">Best Seller</span></div>
                                 <div class="card-title">Tales of Dharma</div>
-                                <div class="card-desc">Narrative tabletop game exploring dharma and moral choice — best seller with 1000+ copies sold.</div>
+                                <div class="card-desc">Designed for grandparents and grandchildren who don't share a language or cultural frame. Hindu mythology as storytelling prompts. Top 10 card games for 10 weeks. Players said it brought them closer to their culture than any class had.</div>
                             </div>
                         </a>
                         <div class="card-reactions">
@@ -928,45 +994,19 @@
                     </div>
 
                     <!-- Facebook Home for Gen-Z -->
-                    <div class="proj-card" data-peek-img="Group 11.png" data-peek-label="Generative research · Internship @ Meta">
+                    <div class="proj-card" data-peek-img="Group 11.png" data-peek-label="Two new research methods invented · shipped to 1B+ users">
                         <div class="card-topstrip">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 7V5a4 4 0 0 0-8 0v2"/></svg>
                             Internship Project
                         </div>
                         <a href="./metaNew.html" style="text-decoration:none;display:flex;flex-direction:column;flex:1;">
-                            <!-- <div class="card-img"><img src="Group 11.png" alt="Facebook Home for Gen-Z design outcomes" loading="lazy"></div> -->
                             <div class="card-body">
                                 <div class="card-header"><span class="card-badge">Meta</span></div>
                                 <div class="card-title">Facebook Home for Gen-Z</div>
-                                <div class="card-desc">Generative research exploring emotionally-aware feed experiences for Gen-Z at Meta Top of Home.</div>
+                                <div class="card-desc">Standard interviews couldn't surface how people actually feel opening their feed. I invented two methods, Time Loop and Feeling Cues, to get there. The 21 prototypes informed Sports Cards, Spotify integration, and Notes.</div>
                             </div>
                         </a>
                     </div>
-
-                    <!-- AstraVerse -->
-                    <a href="./astraVerseNew.html" class="proj-card" style="text-decoration:none;" data-peek-img="temporary/images/astraVerse/Group 101 (1).png" data-peek-label="Cultural character design · ACM FDG '23">
-                        <!-- <div class="card-img"><img src="temporary/images/astraVerse/Group%20101%20(1).png" alt="AstraVerse Character Design" loading="lazy"></div> -->
-                        <div class="card-body">
-                            <div class="card-header"><span class="card-badge">ACM FDG '23</span></div>
-                            <div class="card-title">AstraVerse Character Design</div>
-                            <div class="card-desc">Character design and narrative systems — exploring how AI and storytelling intersect in character creation.</div>
-                        </div>
-                    </a>
-
-                </div><!-- /.card-grid -->
-
-                <p class="work-category">Education &times; AI</p>
-                <div class="card-grid">
-
-                    <!-- Game Play Reflection Systems -->
-                    <a href="./opmNew.html" class="proj-card" style="text-decoration:none;" data-peek-img="temporary/images/Group 107 (4).png" data-peek-label="Post-play reflection & meaning-making · ACM CHI '24">
-                        <!-- <div class="card-img"><img src="temporary/images/Group%20107%20(4).png" alt="Game Play Reflection Systems" loading="lazy"></div> -->
-                        <div class="card-body">
-                            <div class="card-header"><span class="card-badge">CHI '24</span></div>
-                            <div class="card-title">Game Play Reflection Systems</div>
-                            <div class="card-desc">Systems that help players reflect on their play — designing for post-play reflection and meaning-making in games.</div>
-                        </div>
-                    </a>
 
                 </div><!-- /.card-grid -->
 
@@ -1053,7 +1093,7 @@
                         <div class="card-body">
                             <div class="card-header"><span class="card-badge">Design System</span></div>
                             <div class="card-title">Magazine UI</div>
-                            <div class="card-desc">Typography, layout, and components for editorial digital products.</div>
+                            <div class="card-desc">Editorial type and layout for when the content is the product. Hierarchy that earns the read.</div>
                         </div>
                     </a>
 
@@ -1061,7 +1101,7 @@
                         <div class="card-body">
                             <div class="card-header"><span class="card-badge">Design System</span></div>
                             <div class="card-title">Utility Design System</div>
-                            <div class="card-desc">Condensed type, tokens, components, and patterns for data-dense interfaces.</div>
+                            <div class="card-desc">Built for interfaces where every pixel competes. Condensed type and tight tokens for data-dense dashboards.</div>
                         </div>
                     </a>
 
@@ -1077,7 +1117,7 @@
                         <div class="card-body">
                             <div class="card-header"><span class="card-badge">UI Patterns</span></div>
                             <div class="card-title">Currency Showcase</div>
-                            <div class="card-desc">Visual showcase of currency and financial UI patterns — clarity and trust in money-related interfaces.</div>
+                            <div class="card-desc">Money UIs have to earn trust at a glance. A study in how formatting, color, and micro-copy signal safety before any interaction.</div>
                         </div>
                     </a>
 
@@ -1085,7 +1125,7 @@
                         <div class="card-body">
                             <div class="card-header"><span class="card-badge">Tool</span></div>
                             <div class="card-title">Gradient Generator</div>
-                            <div class="card-desc">A tool for creating, previewing, and exporting custom CSS gradients for designers and developers.</div>
+                            <div class="card-desc">Built because I kept copying gradient CSS between projects. Live preview, export-ready, nothing you don't need.</div>
                         </div>
                     </a>
 
@@ -1097,9 +1137,9 @@
         <!-- About -->
         <section class="section">
             <h2 class="section-label">About</h2>
-            <p>My path into UX research has been shaped by hands-on work, academic exploration, and a deep interest in how people interact with technology in everyday life. From designing conversational robots at Invento Robotics to studying digital communities at Meta, I've worked at the crossroads of AI, software, and human behavior — and now bring that perspective to design research at Xbox.</p>
-            <p>With a <a href="./Sai_Thesis (2)_compressed.pdf" target="_blank" rel="noopener">PhD in Human-Computer Interaction</a>, I explore how design, AI, and community insights can support meaningful learning and reflection. Whether I'm studying how families play games together, helping students engage with educational tools, or building systems for collaborative inquiry — my goal is to design technology that feels thoughtful and grounded. I value clarity over complexity, people over features, and learning over perfection.</p>
-            <p>Feel free to reach out at <a href="mailto:msaisiddartha1@gmail.com">msaisiddartha1@gmail.com</a></p>
+            <p>I grew up between cultures: Telugu at home, English at school, Hindu mythology at bedtime, video games on weekends. That gap is where most of my research lives. I keep finding the same problem: tools and systems that assume a default user who doesn't match the person in front of me. My work is usually an attempt to close that gap, whether it's a climate game that speaks to someone's grandmother or a research platform that doesn't require a bilingual vendor to hear from players in Vietnam.</p>
+            <p>I have a <a href="./Sai_Thesis (2)_compressed.pdf" target="_blank" rel="noopener">PhD in HCI from UC Santa Cruz</a>, spent time at Meta building new generative research methods, and most recently did an internship at Xbox designing AI tooling for their global research team. The through-line across all of it is the same question: who is the system actually designed for, and what do they need that it isn't giving them yet?</p>
+            <p>Reach me at <a href="mailto:msaisiddartha1@gmail.com">msaisiddartha1@gmail.com</a></p>
         </section>
 
         <!-- Connect -->
@@ -1229,8 +1269,8 @@
                 }
             });
 
-            // Pattu stripe keyboard support
-            document.querySelector('.pattu-stripe').addEventListener('keydown', function (e) {
+            // Pattu border keyboard support
+            document.querySelector('.pattu-border').addEventListener('keydown', function (e) {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
                     document.getElementById('pattu-note').classList.toggle('visible');

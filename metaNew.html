@@ -76,6 +76,33 @@
             background-color: var(--paper);
         }
         
+
+        /* --- Impact Statement --- */
+        .impact-statement {
+            padding: 5rem 4rem 4rem;
+            max-width: 900px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .impact-statement p {
+            font-family: var(--serif);
+            font-size: 2.2rem;
+            line-height: 1.45;
+            color: var(--ink);
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        @media (max-width: 768px) {
+            .impact-statement {
+                padding: 3rem 1.5rem 2.5rem;
+            }
+            .impact-statement p {
+                font-size: 1.5rem;
+            }
+        }
+
         /* --- Hero Section --- */
         .hero {
             padding: 6rem 4rem 4rem;
@@ -757,7 +784,11 @@
 
     <main>
         <!-- Hero Section -->
-        <header class="hero">
+        <section class="impact-statement">
+                <p>During my internship on Facebook's Top of Home team, I developed two original generative research methods to explore future product directions. Time Loop helped participants articulate what they needed from their feed at different moments in a day, and Feeling Cues surfaced emotional contexts that standard interview questions consistently failed to reach. The 21 experience prototypes that came out of the research directly informed three features that shipped to over a billion users: Facebook Sports Cards, the Instagram Spotify integration, and location sharing through Notes.</p>
+            </section>
+
+            <header class="hero">
             <div class="hero-content">
                 <div class="issue-number">Case Study № 03 · Meta</div>
                 <h1>Reinventing Facebook's Home</h1>
@@ -826,7 +857,7 @@
                     <div class="tldr-item">
                         <div class="tldr-number">04</div>
                         <div class="tldr-title">The Impact</div>
-                        <p class="tldr-text">Research informed features reaching 1B+ users including Meta-Spotify integration and Facebook Sports cards.</p>
+                        <p class="tldr-text">Research directly informed three features that shipped to 1B+ users: Facebook Sports Cards, the Instagram Spotify integration, and location sharing through Notes.</p>
                     </div>
                 </div>
                 
@@ -889,7 +920,7 @@
                     <div class="result-item">
                         <div class="result-number">1B+</div>
                         <div class="result-label">Users Impacted</div>
-                        <div class="result-detail">Through Meta-Spotify integration and Facebook Sports cards</div>
+                        <div class="result-detail">Through Facebook Sports Cards, Instagram Spotify integration, and location sharing through Notes</div>
                     </div>
                     <div class="result-item">
                         <div class="result-number">2</div>
@@ -993,12 +1024,25 @@
             </div>
 
             <h2>Research Impact</h2>
-            
-            <p>The Time Loop and Feeling Cues methods generated rich insights that directly informed product development. While specific findings remain confidential due to NDA, the research contributed to features that reached over 1 billion users.</p>
-            
-            <p><strong>Features informed by this research:</strong> The Sports scorecard and Spotify connect features—currently deployed across Meta products—emerged directly from patterns identified through these methods. Temporal patterns revealed users wanted sports updates during specific times of day, while emotional context research identified music as content supporting multiple emotional states (relaxation, motivation, celebration).</p>
-            
-            <p><strong>Beyond shipped features:</strong> The 21 prototypes created from this research informed product direction beyond what ultimately launched, shaping Facebook's understanding of contextual and emotional engagement for future development.</p>
+
+            <p>The Time Loop and Feeling Cues methods generated insights that directly shaped three features now used by over a billion people. Each feature traces back to a specific pattern that emerged from the research.</p>
+
+            <div class="findings-grid" style="margin-top: 2rem;">
+                <div class="finding-card">
+                    <h4>Facebook Sports Cards</h4>
+                    <p>Time Loop sessions revealed that users consistently wanted sports content at specific moments: scores before the day started, live updates during lunch breaks, and final results in the evening wind-down. The specificity of these time windows — not just "I want sports updates" but "I want them before I leave the house" — directly shaped the Sports Card format, which surfaces team scores and match context within the feed rather than requiring users to seek it out.</p>
+                </div>
+                <div class="finding-card">
+                    <h4>Instagram Spotify Integration</h4>
+                    <p>Feeling Cues research identified music as the single content type most strongly associated with multiple emotional states simultaneously — relaxation, motivation, celebration, and connection all pointed back to music as a throughline. The insight that music could serve as an emotional bridge across different states, rather than being tied to one mood, made it a natural candidate for feed integration. This directly informed the Spotify connect feature across Meta products.</p>
+                </div>
+                <div class="finding-card">
+                    <h4>Location Sharing through Notes</h4>
+                    <p>Time Loop sessions surfaced a consistent pattern among users in transitional moments — commuting, traveling, moving between places — who reported a stronger pull toward sharing their current context with friends than users in static settings. Being somewhere felt shareable in a way that sitting at home did not. This drove the insight behind location-aware sharing within Notes, enabling users to signal presence and movement as a lightweight form of connection.</p>
+                </div>
+            </div>
+
+            <p style="margin-top: 2rem;"><strong>Beyond these three features:</strong> The 21 prototypes created from this research informed product direction beyond what ultimately launched, shaping Facebook's understanding of contextual and emotional engagement for future development cycles.</p>
 
             <h2>Methodological Contributions</h2>
             

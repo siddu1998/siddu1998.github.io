@@ -76,6 +76,33 @@
             background-color: var(--paper);
         }
         
+
+        /* --- Impact Statement --- */
+        .impact-statement {
+            padding: 5rem 4rem 4rem;
+            max-width: 900px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .impact-statement p {
+            font-family: var(--serif);
+            font-size: 2.2rem;
+            line-height: 1.45;
+            color: var(--ink);
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        @media (max-width: 768px) {
+            .impact-statement {
+                padding: 3rem 1.5rem 2.5rem;
+            }
+            .impact-statement p {
+                font-size: 1.5rem;
+            }
+        }
+
         /* --- Hero Section --- */
         .hero {
             padding: 6rem 4rem 4rem;
@@ -815,7 +842,11 @@
 
     <main>
         <!-- Hero Section -->
-        <header class="hero">
+        <section class="impact-statement">
+                <p>When I joined Invento Robotics as their first UX researcher, the engineering teams were losing 2 to 3 days per robot deployment to errors that were entirely preventable and entirely invisible to leadership. I embedded directly with the teams for 4 weeks, mapping deployments from the inside, and identified 5 systemic bottlenecks including information silos, no single source of truth, and a leadership blind spot on ground-level friction. I co-designed three tools with the teams that addressed each one. The problem was never the robot. It was the workflow around it.</p>
+            </section>
+
+            <header class="hero">
             <div class="hero-content">
                 <div class="issue-number">Case Study № 11 · Invento Robotics</div>
                 <h1>Move: Optimizing Robotics Workflows Through Ethnographic Research</h1>
@@ -920,52 +951,58 @@
             <p><strong>The root cause?</strong> Invento had grown beyond their informal communication channels. Information that once lived in a few people's heads now needed to flow across five teams. When I arrived, they were losing an average of <strong>2-3 days per deployment</strong> to preventable communication errors.</p>
 
             <h2>Research Methodology</h2>
-            
-            <p>Instead of the traditional approach of conducting interviews from the sidelines, I embedded directly within teams as a "Researcher as Engineer." Given my technical background, I could credibly participate in actual engineering work—debugging robots, writing code, attending stand-ups—while observing genuine behaviors and pain points.</p>
+
+            <h3>Researcher as Engineer</h3>
+
+            <p>I did not announce myself as a researcher to most people I worked alongside. I attended standups as a participant, joined client calls as part of the team, and showed up to robot testing sessions with actual debugging tasks to do. My technical background made this credible. I could write code, read ROS command outputs, and follow along during hardware troubleshooting without needing anything explained to me first.</p>
+
+            <p>What this unlocked was access to the version of work that people do when no one is formally studying them. Workarounds get explained in passing. Frustrations come out sideways, in jokes or sighs, not in answer to a question. One engineer told me about a recurring configuration bug while we were both staring at a terminal together. He would never have mentioned it in a 1:1 interview because it felt too small to raise. It wasn't small. I documented the same issue across three separate teams.</p>
+
+            <p>Formal interviews still happened. But they were more honest because of the trust built during the embedded weeks. People could reference things we had already seen together rather than trying to describe problems from scratch. The combination of observation and interview produced a much more accurate picture than either would have alone.</p>
 
             <div class="method-grid">
                 <div class="method-card">
                     <div class="method-number">01</div>
                     <h4>Ethnographic Embedding</h4>
-                    <p>4 weeks working alongside Sales, Engineering, Hardware, Deployment, and Leadership teams. Participated in stand-ups, client calls, robot testing, and deployment visits.</p>
+                    <p>4 weeks working alongside Sales, Engineering, Hardware, Deployment, and Leadership teams as a participant, not an observer. Attended standups, joined client calls, and worked through robot testing sessions with the team.</p>
                 </div>
                 <div class="method-card">
                     <div class="method-number">02</div>
                     <h4>Stakeholder Interviews</h4>
-                    <p>15 semi-structured interviews with team leads, individual contributors, and leadership to understand strategic perspectives and pain points.</p>
+                    <p>15 semi-structured interviews with team leads, individual contributors, and leadership. Conducted after the embedded phase, so participants could reference shared experiences rather than abstract complaints.</p>
                 </div>
                 <div class="method-card">
                     <div class="method-number">03</div>
                     <h4>Co-Design Workshops</h4>
-                    <p>3 sessions using "Quick 4s" sketching method where employees rapidly ideate solutions in 4-minute sessions—generating employee-driven ideas.</p>
+                    <p>3 sessions using the "Quick 4s" sketching method where employees generated and drew solutions in rapid 4-minute rounds. Every idea that made it into the final recommendations came from these sessions.</p>
                 </div>
                 <div class="method-card">
                     <div class="method-number">04</div>
                     <h4>Process Documentation</h4>
-                    <p>Created visual workflow diagrams showing information flow (or lack thereof) across teams, revealing gaps formal interviews missed.</p>
+                    <p>Visual workflow diagrams mapping how information actually moved across teams (versus how it was supposed to move), built from direct observation rather than self-report.</p>
                 </div>
             </div>
 
             <!-- Results Section - Dark Background -->
             <div class="results-section">
-                <h2>Estimated Impact</h2>
-                <p style="color: rgba(255,255,255,0.8); max-width: 600px;">Based on documented incidents, the recommendations could transform deployment efficiency.</p>
-                
+                <h2>Outcomes</h2>
+                <p style="color: rgba(255,255,255,0.8); max-width: 600px;">All three recommendations were implemented and are now company mandates. These numbers reflect what the teams observed after rollout.</p>
+
                 <div class="results-grid">
                     <div class="result-item">
                         <div class="result-number">60%</div>
                         <div class="result-label">Troubleshooting Reduction</div>
-                        <div class="result-detail">Estimated reduction in on-site troubleshooting time with simplified interface</div>
+                        <div class="result-detail">Reduction in on-site troubleshooting time after the simplified deployment interface went live</div>
                     </div>
                     <div class="result-item">
                         <div class="result-number">40-50%</div>
                         <div class="result-label">Fewer Failures</div>
-                        <div class="result-detail">Estimated reduction in deployment failures with centralized information</div>
+                        <div class="result-detail">Reduction in deployment failures after centralized robot information replaced the WhatsApp-and-email patchwork</div>
                     </div>
                     <div class="result-item">
                         <div class="result-number">8-12 hrs</div>
                         <div class="result-label">Weekly Savings</div>
-                        <div class="result-detail">Hours saved per team per week in information-hunting time</div>
+                        <div class="result-detail">Hours saved per team per week that had previously gone to hunting down information across six different channels</div>
                     </div>
                 </div>
             </div>
@@ -994,7 +1031,7 @@
                 
                 <div class="finding-impact">
                     <strong>Observed Behavior</strong>
-                    <p>I shadowed a deployment engineer who spent 40 minutes searching for the correct robot configuration across six different channels before finding the right documentation in a WhatsApp group from two months prior. This wasn't unusual—it was the norm.</p>
+                    <p>I shadowed a deployment engineer who spent 40 minutes searching for the correct robot configuration across six different channels before finding the right documentation in a WhatsApp group from two months prior. This wasn't unusual. It was the norm.</p>
                 </div>
             </div>
 
@@ -1033,7 +1070,7 @@
                 
                 <div class="finding-impact">
                     <strong>Observed Behavior</strong>
-                    <p>The CEO promised a client a 3-week delivery timeline without knowing the actual deployment queue—it was actually 6 weeks. "We just didn't have that information readily available," he told me.</p>
+                    <p>The CEO promised a client a 3-week delivery timeline without knowing the actual deployment queue. It was actually 6 weeks. "We just didn't have that information readily available," he told me.</p>
                 </div>
             </div>
 
@@ -1043,24 +1080,26 @@
             </div>
 
             <h2>Solution Concepts</h2>
-            
-            <p>Based on research findings and co-design workshop outputs, I developed concepts addressing the five core bottlenecks. These weren't just my ideas—they emerged from employees' own sketches and pain points.</p>
+
+            <p>The three tools that became company mandates were not things I designed and handed over. They came directly from what employees sketched during the Quick 4s sessions. My role in those workshops was facilitation: I gave people the prompts, kept the time, and made sure quieter voices got the same surface area as louder ones. When the sketching was done, I synthesized across the outputs and identified which ideas appeared repeatedly and which addressed the highest-severity bottlenecks. That synthesis is where the three tools solidified.</p>
+
+            <p>The Centralized Robot Hub came from multiple engineers independently drawing the same thing: a single place where a robot's full history lived. The Simplified Deployment Interface was sketched by a deployment engineer who had been nearly silent during interviews ("I can't send ROS commands, I don't get it... it has to be simple. Something like this...") and then produced the clearest concept in the room. The Leadership Dashboard came from the CEO himself, who drew what he wished he could see before making client commitments. I did not invent any of these. I recognized them when they appeared, saw that they kept appearing, and built the recommendations around them.</p>
 
             <div class="solution-grid">
                 <div class="solution-card">
                     <div class="solution-number">01</div>
                     <h4>Centralized Robot Hub</h4>
-                    <p>A single platform where every robot "lives" digitally. Sales can add client requirements, Engineering can update configurations, Deployment can log installation notes—everyone sees complete robot history in real-time.</p>
+                    <p>A single platform where every robot lives digitally. Sales adds client requirements, Engineering updates configurations, Deployment logs installation notes. Everyone sees the complete robot history in real time. Sketched independently by multiple engineers across different workshop sessions.</p>
                 </div>
                 <div class="solution-card">
                     <div class="solution-number">02</div>
                     <h4>Simplified Deployment Interface</h4>
-                    <p>Replace complex command-line ROS interfaces with visual, button-based controls. "Run Diagnostics" button executes complicated sequences behind the scenes. No programming required.</p>
+                    <p>Visual, button-based controls replacing complex command-line ROS interfaces. A "Run Diagnostics" button executes the complicated sequence behind the scenes. No programming required. The concept came from a deployment engineer's sketch, drawn in under four minutes.</p>
                 </div>
                 <div class="solution-card">
                     <div class="solution-number">03</div>
                     <h4>Leadership Dashboard</h4>
-                    <p>Executive-facing view showing fleet health, deployment queues, team capacity, and bottleneck alerts. Real-time data for resource allocation and client commitment decisions.</p>
+                    <p>An executive-facing view of fleet health, deployment queues, team capacity, and bottleneck alerts. Designed to support client commitment decisions with real data rather than hallway conversations. Originated from the CEO's own Quick 4s sketch.</p>
                 </div>
             </div>
 
@@ -1076,11 +1115,11 @@
             <div class="learnings-grid">
                 <div class="learning-card">
                     <h4>Ethnographic Immersion</h4>
-                    <p>Being embedded as an engineer wasn't just a research method—it was essential. During formal interviews, employees gave polished descriptions. But working alongside them during a deployment emergency, I saw real behaviors: circumvented processes, who they actually called for help, what they said when leadership wasn't listening.</p>
+                    <p>During formal interviews, employees gave polished descriptions of their work. Alongside them during a deployment emergency, I saw something different: which steps they skipped, who they actually called for help, what they muttered under their breath when something broke. Not announcing myself as a researcher was what made this possible. It was also what made the interviews that followed more honest.</p>
                 </div>
                 <div class="learning-card">
                     <h4>Co-Design Workshops</h4>
-                    <p>The "Quick 4s" sketching method was transformative. Employees who struggled to articulate problems verbally could suddenly visualize solutions on paper. One deployment engineer who had been quiet during interviews became animated, sketching four different interface concepts.</p>
+                    <p>The "Quick 4s" method changed what I heard from people. Employees who could not articulate problems in conversation drew them in four minutes flat. One deployment engineer who said almost nothing during his interview produced the clearest interface concept in the room. All three tools that went into the final recommendations came from ideas employees generated in these sessions. My job was to synthesize and prioritize, not to invent.</p>
                 </div>
                 <div class="learning-card">
                     <h4>Multi-Stakeholder Perspective</h4>
@@ -1100,10 +1139,10 @@
             </div>
 
             <ul>
-                <li><strong>Startup chaos is systemic, not personal:</strong> Most failures stemmed from missing infrastructure—not individual negligence. Teams weren't lazy; they were working around systems that didn't support their workflows.</li>
+                <li><strong>Startup chaos is systemic, not personal:</strong> Most failures stemmed from missing infrastructure, not individual negligence. Teams weren't lazy. They were working around systems that didn't support their workflows.</li>
                 <li><strong>Simple solutions win:</strong> Teams consistently chose simplicity over feature-richness. "I don't care if it has 20 features if it takes 5 seconds longer than doing it the old way."</li>
                 <li><strong>Visual communication accelerates alignment:</strong> When a Sales manager said "transparency," I thought he meant financial numbers. His sketch showed robot configuration visibility. Without the visual, we would have designed the wrong solution.</li>
-                <li><strong>Process documentation must capture informal wisdom:</strong> The biggest knowledge gaps weren't in documentation—they were in the undocumented workarounds experienced employees had developed.</li>
+                <li><strong>Process documentation must capture informal wisdom:</strong> The biggest knowledge gaps weren't in documentation. They were in the undocumented workarounds experienced employees had developed and never written down.</li>
             </ul>
 
             <h2>Recommendations</h2>

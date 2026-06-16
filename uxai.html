@@ -68,6 +68,33 @@
             background-color: var(--paper);
         }
 
+
+        /* --- Impact Statement --- */
+        .impact-statement {
+            padding: 5rem 4rem 4rem;
+            max-width: 900px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .impact-statement p {
+            font-family: var(--serif);
+            font-size: 2.2rem;
+            line-height: 1.45;
+            color: var(--ink);
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        @media (max-width: 768px) {
+            .impact-statement {
+                padding: 3rem 1.5rem 2.5rem;
+            }
+            .impact-statement p {
+                font-size: 1.5rem;
+            }
+        }
+
         /* --- Hero Section --- */
         .hero {
             padding: 6rem 4rem 4rem;
@@ -689,7 +716,11 @@
 
     <main>
         <!-- Hero Section -->
-        <header class="hero">
+        <section class="impact-statement">
+                <p>The bottleneck in qualitative research is not the interviews, it is what comes after. Researchers spend hours reading transcripts and manually cutting them into small, analyzable chunks before any real analysis can begin. I built an AI tool that automates that process, reducing the time spent by 73% while keeping the researcher in control of every decision. Evidence gathering across a full study is now 4.6 times faster, with researchers reporting higher confidence that they have not missed anything.</p>
+            </section>
+
+            <header class="hero">
             <div class="hero-content">
                 <div class="issue-number">Case Study · Research Tools × AI</div>
                 <h1>Cursor Research: AI‑Powered Qualitative Analysis</h1>
@@ -818,6 +849,15 @@
                 "I know there are quotes in there that support this theme, but I've been staring at transcripts for 6 hours and I just can't find them anymore. My eyes glaze over. I end up reporting what I can remember, not what's actually there."
                 <cite>— P7, UX Researcher, 4 years experience</cite>
             </div>
+
+            <p>This wasn't just about being tired. Another participant put it more precisely: researchers rarely browse their data without direction. They come to it with something specific in mind.</p>
+
+            <div class="inline-quote">
+                "Qualitative UXR is hard especially the evidence gathering section. We are looking at a hypothesis and searching for quotes and evidence for or against the hypothesis. We need a tool which can search through the entirety of data and pull related quotes, videos, and evidence."
+                <cite>— P9, Qualitative Researcher</cite>
+            </div>
+
+            <p>This framing changed how I thought about the problem. Researchers aren't browsing their data aimlessly looking for anything interesting. They arrive with a hypothesis already in hand and need to test it against the full dataset. That's a search problem with a very specific shape.</p>
 
 
             <h2>Survey Results: Quantifying the Pain</h2>
@@ -1024,8 +1064,8 @@
             <p>Cursor Research is an AI-powered qualitative analysis canvas that directly addresses the two core pain points. It combines a visual sticky-note interface with LLM-powered tools for document chunking, thematic analysis, and semantic evidence retrieval—all with human-in-the-loop controls.</p>
 
             <h3>Feature 1 — AI Document Chunking</h3>
-            <p><strong>The pain:</strong> Researchers spend 10+ hours manually reading transcripts and copy-pasting excerpts into sticky notes, one observation at a time.</p>
-            <p><strong>The solution:</strong> Upload a transcript and the AI automatically proposes atomic chunks—one idea per note—with participant attribution. The researcher reviews each chunk in a split-view interface before approving.</p>
+            <p>Researchers were spending 10+ hours per study manually reading transcripts and copy-pasting excerpts into sticky notes, one observation at a time. It was the single biggest time sink in the workflow.</p>
+            <p>The solution: upload a transcript and the AI proposes atomic chunks (one idea per note) with participant attribution already attached. The researcher reviews each chunk in a split-view interface before anything reaches the canvas. Nothing gets added without explicit approval.</p>
 
             <!-- Chunk Review Mockup -->
             <div class="mockup-container">
@@ -1118,8 +1158,8 @@
 
 
             <h3>Feature 2 — Human-in-the-Loop Thematic Analysis</h3>
-            <p><strong>The pain:</strong> Researchers identify themes then spend hours re-reading every data point to classify notes—a process prone to fatigue and missed evidence.</p>
-            <p><strong>The solution:</strong> Ask the AI to "group by themes." It proposes themes with evidence. The researcher reviews, edits, adds, or removes themes. Then with one click, the AI classifies every note into the approved themes—with transparent reasoning for each classification.</p>
+            <p>Once themes are identified, researchers have to go back through every data point and classify each one. It's slow, fatiguing, and easy to miss notes toward the end of a long session.</p>
+            <p>Ask the AI to "group by themes" and it proposes themes with supporting evidence citations. The researcher can rename, merge, delete, or add themes before anything is confirmed. After approval, the AI classifies every note into those themes with transparent reasoning attached to each classification, so researchers can see exactly why a note was placed where it was and override it when they disagree.</p>
 
             <!-- Theme Review + Canvas Mockup -->
             <div class="mockup-container">
@@ -1219,9 +1259,12 @@
             <p class="mockup-caption">Theme review dialog: AI proposes themes with evidence citations. Researchers can edit names, descriptions, add new themes, or remove irrelevant ones before the AI classifies all notes.</p>
 
 
-            <h3>Feature 3 — RAG-Powered Semantic Search</h3>
-            <p><strong>The pain:</strong> Ctrl+F fails when participants express the same idea using different words. Researchers miss evidence because keyword matching can't capture semantic similarity.</p>
-            <p><strong>The solution:</strong> Every note is automatically embedded as a vector. Researchers type natural language queries like "frustrations with the checkout flow" and the system finds semantically similar notes—even if they never used the word "frustration" or "checkout."</p>
+            <h3>Feature 3 — Hypothesis-Led Semantic Search</h3>
+            <p>The interviews revealed something specific about how researchers work. They don't open a dataset and read it cover to cover, looking for whatever turns up. They start from a hypothesis and work outward, asking: what in here supports this, and what contradicts it? P9 named it directly: "We are looking at a hypothesis and searching for quotes and evidence for or against the hypothesis."</p>
+
+            <p>That finding ruled out a general keyword search. Keyword search assumes you know the words your participants used. It fails the moment two people describe the same frustration differently, which happens constantly in qualitative data. A general search would also return too much. Researchers don't want everything vaguely related. They want the specific notes that speak to a particular hypothesis, ranked by relevance and split by whether they support or challenge it.</p>
+
+            <p>So rather than building a search bar that takes a topic, I designed the input to take a hypothesis statement. The researcher types something like "users feel overwhelmed by too many options during onboarding" and the system returns notes supporting that claim alongside notes that complicate or contradict it. The semantic embedding means it catches participants who described the same experience using completely different language. The hypothesis framing means the researcher gets a structured argument, not a pile of loosely relevant quotes.</p>
 
             <!-- Canvas with Search Mockup -->
             <div class="mockup-container">
@@ -1315,7 +1358,7 @@
                     </div>
                 </div>
             </div>
-            <p class="mockup-caption">The canvas shows clustered sticky notes. When a researcher searches "difficulty retrieving evidence," the RAG system finds semantically matching notes (highlighted with golden borders and match scores) while dimming non-matches. The chat panel provides context about why each note matched.</p>
+            <p class="mockup-caption">The canvas shows clustered sticky notes. When a researcher enters a hypothesis statement, the system finds semantically matching notes (highlighted with golden borders and match scores) while dimming non-matches. The chat panel explains why each note was surfaced, and whether it supports or challenges the hypothesis.</p>
 
 
             <h2>Technical Architecture</h2>
@@ -1508,13 +1551,15 @@
 
             <h2>Conclusion</h2>
 
-            <p class="lede" style="margin-top: 0;">Cursor Research demonstrates that the most impactful AI tools don't replace expert judgment—they eliminate the drudgery that prevents experts from applying their judgment where it matters most.</p>
+            <p class="lede" style="margin-top: 0;">Cursor Research demonstrates that the most impactful AI tools don't replace expert judgment. They eliminate the drudgery that prevents experts from applying their judgment where it matters most.</p>
             
             <div class="two-column">
-                <p><strong>The key insight from this project:</strong> researchers don't hate analysis—they hate the mechanical labor that precedes it. Atomizing transcripts and retrieving evidence are tasks that demand attention but not expertise. By automating the mechanical work and keeping researchers in control of the interpretive work, Cursor Research transforms qualitative analysis from an endurance test into a focused, confident practice.</p>
-            
-                <p><strong>Broader implications:</strong> The human-in-the-loop pattern demonstrated here—AI proposes, human reviews, AI executes at scale—applies far beyond qualitative research. It's a design pattern for any domain where AI can handle volume but humans must ensure quality. The two-stage RAG pipeline (fast vector retrieval → precise LLM reranking) offers a template for building search interfaces over unstructured qualitative data.</p>
+                <p>Researchers don't hate analysis. They hate the mechanical labor that precedes it. Atomizing transcripts and retrieving evidence are tasks that demand attention but not expertise. Automating that work, while keeping researchers in control of every interpretive decision, transforms qualitative analysis from an endurance test into something closer to the actual job.</p>
+
+                <p>The human-in-the-loop pattern here (AI proposes, human reviews, AI executes at scale) applies well beyond qualitative research. It fits any domain where AI can handle volume but humans must ensure quality. The hypothesis-led semantic search is one specific instantiation of a broader idea: that search interfaces for qualitative data should be designed around how researchers think, not around how databases are queried.</p>
             </div>
+
+            <p>Since launch, the tool has spread beyond the original participant group. PhD students and research labs at Stanford, CMU, Northeastern, and UCSC are now using it for their own qualitative work. None of that was organized or promoted. They found it on their own and adopted it because it fit how qualitative research actually gets done. That's probably the most meaningful validation — not a survey score, but researchers choosing it unprompted for real work.</p>
 
             <p style="margin-top: 1rem;">Try the live app: <a href="https://cursor-research.vercel.app/" target="_blank" rel="noopener" class="cta-link">cursor-research.vercel.app →</a></p>
 

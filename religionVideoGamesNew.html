@@ -76,6 +76,33 @@
             background-color: var(--paper);
         }
         
+
+        /* --- Impact Statement --- */
+        .impact-statement {
+            padding: 5rem 4rem 4rem;
+            max-width: 900px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .impact-statement p {
+            font-family: var(--serif);
+            font-size: 2.2rem;
+            line-height: 1.45;
+            color: var(--ink);
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        @media (max-width: 768px) {
+            .impact-statement {
+                padding: 3rem 1.5rem 2.5rem;
+            }
+            .impact-statement p {
+                font-size: 1.5rem;
+            }
+        }
+
         /* --- Hero Section --- */
         .hero {
             padding: 6rem 4rem 4rem;
@@ -839,7 +866,11 @@
 
     <main>
         <!-- Hero Section -->
-        <header class="hero">
+        <section class="impact-statement">
+                <p>There is a persistent assumption in game design that religious players want religion kept out of their games. I analyzed over 10,000 Reddit posts from religious and gaming communities using NLP topic modeling and found the opposite: religious players actively champion games that represent their traditions authentically and vocally reject games that appropriate or trivialize them. That distinction between authentic representation and disrespectful depiction became the foundation for a set of design guidelines for culturally sensitive game development.</p>
+            </section>
+
+            <header class="hero">
             <div class="hero-content">
                 <div class="issue-number">Case Study № 05 · Research</div>
                 <h1>Digital Discourse on Religion & Videogames</h1>
@@ -925,9 +956,9 @@
             <p class="lede">When SMITE included Hindu deities as playable characters, the game faced community backlash and legal complaints. When Christian players discovered prayer mechanics in The Binding of Isaac, they debated whether engaging with blasphemous content violated their faith. These incidents reveal a larger question: How do religious players actually perceive and discuss religious themes in videogames?</p>
             
             <div class="two-column">
-                <p>This case study documents a large-scale digital ethnography analyzing 10,000+ Reddit posts from religious and gaming communities. Using advanced topic modeling and qualitative analysis, I uncovered the complex ways players negotiate religious content in games—revealing tensions between creative expression, cultural sensitivity, and religious identity.</p>
-                
-                <p>The findings challenge simple "religion vs. games" narratives. The same players who critique games for blasphemy also champion religious content done respectfully. The relationship is far more nuanced than assumed.</p>
+                <p>This case study documents a large-scale digital ethnography analyzing 10,000+ Reddit posts from religious and gaming communities. Using BERTopic modeling and qualitative thematic analysis, I mapped how players negotiate religious content in games: what they consider disrespectful, what they actively want, and where the tensions between creative expression and religious identity actually sit.</p>
+
+                <p>The findings challenge the assumption that religious players want religion kept out of games. They don't. They want it done seriously.</p>
             </div>
 
             <h2>The Problem</h2>
@@ -937,23 +968,27 @@
                 <cite>— Research Gap</cite>
             </div>
             
-            <p><strong>Religious themes in games are growing, but developers lack understanding of player perceptions.</strong> Games increasingly draw from religious traditions for characters, narratives, and world-building. However, developers often design religious content without understanding how religious players—who represent billions of potential players—actually perceive these depictions.</p>
-            
-            <p><strong>The gap:</strong> Game designers know some religious content provokes controversy, but they lack systematic understanding of what players find offensive versus engaging. When does incorporating religious themes feel like respectful cultural exploration, and when does it feel like appropriation or blasphemy?</p>
-            
-            <p><strong>The research opportunity:</strong> Religious players actively discuss these topics online—in gaming subreddits, religious forums, and community spaces. These conversations reveal authentic, unfiltered perspectives on how religious content is perceived, critiqued, and engaged with.</p>
+            <p>Games increasingly draw from religious traditions for characters, narratives, and world-building. Developers often design religious content without understanding how religious players actually perceive these depictions, despite religious players numbering in the billions.</p>
+
+            <p>Game designers know some religious content provokes controversy, but they lack systematic understanding of what players find offensive versus engaging. When does incorporating religious themes feel like respectful cultural exploration, and when does it feel like appropriation or trivialization?</p>
+
+            <p>The cost of getting this wrong is concrete. SMITE faced a formal FCC complaint, coordinated legal pressure from Hindu advocacy groups, and community boycotts when Hindu deities were added as playable combat characters. None of that happened because developers were malicious. It happened because they had no framework for understanding how religious players perceive these design decisions. The guidelines from this research exist to give developers that framework before they ship, not after.</p>
 
             <h2>My Approach</h2>
-            
+
+            <p>The conversation about religion and games was already happening at scale. More than 10,000 Reddit posts across religious and gaming communities addressed this topic, and those conversations were organic: players were not performing for a researcher. That is why I chose Reddit over interviews. Interviews would have captured 20 or 30 carefully considered opinions. Reddit gave me 10,000 candid ones, including the arguments, the corrections, the community pushback, and the moments where players surprised me by championing the very content they had earlier criticized.</p>
+
+            <p>For analysis, I used BERTopic rather than keyword search or traditional topic models. The reason is straightforward. A keyword search for "blasphemy" would have missed posts where players used words like "disrespectful," "cheapened," or "wrong" to express the same concern. BERTopic works by grouping posts based on semantic similarity: it finds clusters of meaning, not clusters of identical words. That distinction matters when you are studying a topic where the same underlying feeling gets expressed in dozens of different ways across different religious communities.</p>
+
             <h3>Data Collection</h3>
             <p>Collected 10,000+ Reddit posts using Python's PRAW library, targeting both religious subreddits (r/Christianity, r/Islam, r/Hinduism) and gaming communities (r/pokemon, r/Smite).</p>
-            
+
             <h3>Topic Modeling</h3>
-            <p>Applied BERTopic—a state-of-the-art NLP tool that leverages sentence embeddings to automatically cluster text by semantic similarity, not just word frequency.</p>
-            
+            <p>Applied BERTopic, which uses sentence embeddings to cluster text by semantic similarity rather than word frequency. Two posts using completely different vocabulary can land in the same cluster if they are discussing the same idea.</p>
+
             <h3>Human-in-the-Loop Validation</h3>
-            <p>Researchers reviewed, interpreted, and labeled topic clusters to ensure contextual accuracy and nuance—computational efficiency with human interpretation.</p>
-            
+            <p>Researchers reviewed, interpreted, and labeled topic clusters to ensure contextual accuracy. The algorithm found the groupings; humans determined what those groupings actually meant.</p>
+
             <h3>Thematic Analysis</h3>
             <p>Synthesized 22 sub-themes into 3 primary themes revealing the complex player-religion-game relationship.</p>
 
@@ -998,7 +1033,7 @@
 
             <h2>Research Methodology</h2>
             
-            <p>Understanding how religious players perceive videogames required analyzing massive amounts of online discourse—far more than traditional qualitative methods could handle. I adopted a mixed-methods approach combining computational efficiency with human interpretation.</p>
+            <p>Understanding how religious players perceive videogames required analyzing a volume of online discourse that traditional qualitative methods cannot handle at this scale. I adopted a mixed-methods approach combining computational efficiency with human interpretation.</p>
 
             <figure class="image-aside">
                 <img src="Group 162.png" alt="UXR Pipeline for Religion and Videogames Study">
@@ -1017,12 +1052,12 @@
                 <div class="method-step">
                     <div class="method-step-number">2</div>
                     <h4>Topic Modeling</h4>
-                    <p>BERTopic used sentence embeddings to cluster text by semantic similarity. Unlike traditional models relying on word frequency, it understands that "game with gods" and "religious characters" belong together.</p>
+                    <p>BERTopic uses sentence embeddings to cluster text by semantic similarity rather than word frequency. It groups "game with gods" and "religious characters" together because they are semantically related, even though they share no keywords.</p>
                 </div>
                 <div class="method-step">
                     <div class="method-step-number">3</div>
                     <h4>Human Validation</h4>
-                    <p>Researchers reviewed sample posts from each cluster, interpreted underlying themes, assigned descriptive labels, and flagged incoherent clusters. Computational efficiency with human nuance.</p>
+                    <p>Researchers reviewed sample posts from each cluster, interpreted underlying themes, assigned descriptive labels, and flagged incoherent clusters. The computational model handles scale; the human reviewers handle meaning.</p>
                 </div>
             </div>
 
@@ -1033,7 +1068,7 @@
 
             <h2>Key Findings: Three Primary Themes</h2>
             
-            <p>Through topic modeling and qualitative analysis, the research surfaced 22 distinct sub-themes, which synthesized into three primary themes revealing the complex, often contradictory relationship between religious players and videogames:</p>
+            <p>Through topic modeling and qualitative analysis, the research surfaced 22 distinct sub-themes, which collapsed into three primary themes. Together they describe something more complicated than I expected: not a conflict between religion and games, but a nuanced ongoing negotiation.</p>
 
             <div class="findings-grid">
                 <div class="finding-card">
@@ -1042,15 +1077,15 @@
                 </div>
                 <div class="finding-card">
                     <h4>Theme 2: Design Space</h4>
-                    <p>Communities enthusiastically brainstorming ways to incorporate religious themes—characters, mechanics, settings, aesthetics—respectfully. Players don't reject religious content; they want it done well.</p>
+                    <p>Communities brainstorming how to incorporate religious themes into characters, mechanics, settings, and aesthetics. Players don't reject religious content. They want it done well.</p>
                 </div>
                 <div class="finding-card">
                     <h4>Theme 3: Education</h4>
-                    <p>Religious communities actively using games for teaching faith, maintaining community, and developing educational content. Games aren't threats—they're vehicles for faith expression.</p>
+                    <p>Religious communities actively using games for teaching faith, maintaining community, and developing educational content. Games are not threats to these communities. They are tools those communities were already using on their own.</p>
                 </div>
             </div>
 
-            <p><strong>Why these themes matter:</strong> They reveal the same players who critique games for blasphemy also champion religious content done respectfully. This complexity challenges simple "religion vs. games" narratives—the relationship is far more nuanced.</p>
+            <p>The same players who critique games for blasphemy also champion religious content done respectfully. That complexity is the finding. It challenges simple "religion vs. games" narratives and gives designers something to actually work with.</p>
 
             <div class="image-container">
                 <img src="Group 521.png" alt="Examples of Religious Depictions in Games">
@@ -1060,8 +1095,8 @@
             <div class="theme-card">
                 <div class="theme-number">Theme 1</div>
                 <h4>Blasphemous Elements & Misrepresentation</h4>
-                <p>Many religious players felt games misrepresented or disrespected their beliefs. This wasn't abstract offense—it was concrete concern about how sacred figures, rituals, and values were depicted in gameplay contexts.</p>
-                <p><strong>What players critiqued:</strong> Inaccurate depictions of deities, trivialization of sacred figures into combat stats, gameplay mechanics conflicting with religious values, and the act of "controlling" gods in games.</p>
+                <p>Many religious players felt games misrepresented or disrespected their beliefs. The concern was not abstract. It was about specific choices: how sacred figures were depicted, what rituals were trivialized, and how religious values were handled in gameplay contexts.</p>
+                <p>The critiques were specific: inaccurate depictions of deities, sacred figures reduced to combat stats, gameplay mechanics that conflicted with religious values, and the basic act of "controlling" gods in a game.</p>
                 <div class="theme-quotes">
                     <div class="theme-quote">"Kali has been deprived of all her original reference material. Instead, the character we see in Smite is a totally tranquil...blue woman with four arms."</div>
                     <div class="theme-quote">"Seeing my God murdered by other gods...is upsetting. I find it unsettling to consider Ganesha engaging in warfare."</div>
@@ -1076,8 +1111,8 @@
             <div class="theme-card">
                 <div class="theme-number">Theme 2</div>
                 <h4>Religion as a Rich Design Space</h4>
-                <p>Despite concerns about blasphemy, many players enthusiastically view religion as a vast source of inspiration for game design. These same communities that protested misrepresentation actively brainstormed how to incorporate religious themes respectfully.</p>
-                <p><strong>What players explored:</strong> Characters inspired by religious narratives, game mechanics grounded in sacred concepts, settings based on religious locations, and aesthetics drawn from religious art and architecture.</p>
+                <p>The communities filing complaints about SMITE were also writing detailed game design pitches on r/Hinduism. Players who objected to misrepresentation were simultaneously brainstorming how to incorporate religious themes respectfully. That coexistence was one of the most consistent patterns in the data.</p>
+                <p>Players were specific about what they wanted: characters grounded in actual religious narratives, mechanics that reflected sacred concepts rather than just borrowing iconography, settings based on real religious locations, and aesthetics drawn from religious art with care for what that art means.</p>
                 <div class="theme-quotes">
                     <div class="theme-quote">"The Mahabharata provides numerous characters and stories for developing games; what are some stories you think would be good levels in the game?"</div>
                     <div class="theme-quote">"Introducing a Christian character for Smite: The Archangel Gabriel...Gabriel radiates a glow that speeds up his and his nearby allies' HP and MP regeneration."</div>
@@ -1092,8 +1127,8 @@
             <div class="theme-card">
                 <div class="theme-number">Theme 3</div>
                 <h4>Games for Religious Education & Community</h4>
-                <p>Beyond entertainment, religious communities actively leverage videogames for education and community building. Players develop or advocate for games that teach religious concepts, maintain faith, and connect communities.</p>
-                <p><strong>How communities used games:</strong> Developing quiz games to teach religious knowledge, creating games around religious festivals, organizing community events in online games, and curating lists of "religiously appropriate" games.</p>
+                <p>Religious communities were already using games for education and community building, without any prompting from developers. Players were creating, recommending, and organizing around games that connected to their faith.</p>
+                <p>Communities were developing quiz games to teach religious knowledge, building games around religious festivals, organizing community events inside online games, and curating lists of games they considered appropriate for their members. None of this required developer support. Imagine what they could do with it.</p>
                 <div class="theme-quotes">
                     <div class="theme-quote">"What questions should I include in an Android quiz game on Hinduism I am building?"</div>
                     <div class="theme-quote">"God inspires me to create Christian videogames...Please lead me to God's Word and in the appropriate direction!"</div>
@@ -1106,41 +1141,49 @@
             </div>
 
             <h2>Design Guidelines</h2>
-            
-            <p>For UX professionals and game designers, this research highlights critical considerations for respectful religious representation:</p>
+
+            <p>These guidelines come directly from the patterns in the data. Each one addresses a specific failure mode I observed in how games currently handle religious content, and a corresponding opportunity that religious players said they wanted.</p>
 
             <div class="guidelines-grid">
                 <div class="guideline-card">
-                    <h4>Prioritize Cultural Sensitivity</h4>
-                    <p>Don't just reference religious themes—deeply research them. Understand symbolic meanings, historical contexts, and cultural significance. Avoid reducing sacred figures to combat stats without considering religious importance.</p>
+                    <h4>Do not reduce deities to combat stats</h4>
+                    <p>Hindu players were not upset that Kali appeared in SMITE. They were upset that Kali's design stripped her of iconographic meaning and replaced it with a damage-per-second number. If a sacred figure appears in your game, research what that figure actually means to the community before deciding what role they play mechanically.</p>
                 </div>
                 <div class="guideline-card">
-                    <h4>Engage Communities Early</h4>
-                    <p>Foster dialogue with religious players and communities during development, not after release. Early engagement prevents costly backlash and creates better products through collaborative input.</p>
+                    <h4>Bring community members into design review before launch</h4>
+                    <p>Post-launch patches don't undo the initial offense. The players who will be most affected by religious depictions are on Reddit right now, discussing exactly what they want and don't want. Find them in pre-release playtesting, not in the FCC complaint queue.</p>
                 </div>
                 <div class="guideline-card">
-                    <h4>Acknowledge Diversity</h4>
-                    <p>What feels respectful to one religious community may offend another. There's no universal "safe" approach—understand the specific communities your game engages with and their particular concerns.</p>
+                    <h4>Treat each religious tradition as distinct</h4>
+                    <p>What counts as acceptable representation for one community may be offensive to another. There is no generic "respectful religious content" setting. The research shows that Christian, Hindu, Muslim, and Jewish players have different concerns, different thresholds, and different design opportunities. Design for the specific tradition you are drawing from.</p>
                 </div>
                 <div class="guideline-card">
-                    <h4>Leverage Educational Potential</h4>
-                    <p>Religious communities actively use games for education and community building. Consider opportunities to support these purposes while maintaining game quality and entertainment value.</p>
+                    <h4>Design religious mechanics around meaning, not aesthetics</h4>
+                    <p>Players flagged a clear line between games that used religious imagery as decoration and games that built mechanics around religious concepts. The latter were consistently received better. A prayer mechanic that reflects how prayer actually functions in a tradition lands differently than a glowing cross as a power-up visual.</p>
+                </div>
+                <div class="guideline-card">
+                    <h4>Support player-created religious content where possible</h4>
+                    <p>Several communities were actively building educational games and organizing faith-based events inside existing games. Studios that make this easier (through modding tools, community spaces, or in-game event infrastructure) get goodwill from exactly the communities most likely to feel alienated by misrepresentation.</p>
+                </div>
+                <div class="guideline-card">
+                    <h4>Distinguish inspiration from appropriation in your documentation</h4>
+                    <p>Players consistently gave more benefit of the doubt to studios that were transparent about their sources and intentions. If your game draws from a specific religious tradition, document how and why. That transparency does not prevent controversy, but it shifts the conversation from "they don't care" to "they tried and got it wrong," which is a recoverable position.</p>
                 </div>
             </div>
 
             <div class="inline-quote">
-                "Religious themes aren't a liability to be avoided—they're a rich design space offering creative potential, engaged audiences, and opportunities for meaningful gameplay when done respectfully."
+                "Religious themes are not a liability to be avoided. They are a design space with real stakes: engaged audiences who will reward respectful work and organized communities who will push back on lazy work."
                 <cite>— Core Research Finding</cite>
             </div>
 
             <h2>Conclusion</h2>
 
-            <p class="lede" style="margin-top: 0;">This research illuminates the intricate, often paradoxical, relationship between religion and videogames. The three themes reveal a complex landscape where the same communities that critique blasphemous depictions also champion respectful religious content.</p>
-            
+            <p class="lede" style="margin-top: 0;">Religious players don't reject religious themes in games. They reject disrespectful representation. That distinction is what 10,000 posts made visible.</p>
+
             <div class="two-column">
-                <p><strong>The central finding:</strong> Religious players don't reject religious themes in games wholesale. They reject <em>disrespectful</em> representation, <em>trivialization</em> of sacred concepts, and <em>misrepresentation</em> of their beliefs. When religious content is handled with cultural sensitivity and respect, players actively engage with it, create around it, and use it for education and community building.</p>
-            
-                <p><strong>Ultimately:</strong> Creating resonant, inclusive gaming experiences involving religion requires a thoughtful balance between creative expression, community expectations, and profound respect for diverse beliefs. Games can explore religious themes, represent cultural traditions, and even engage sacred concepts—when designers approach these topics with care.</p>
+                <p>The communities that filed complaints about SMITE were also brainstorming Mahabharata-based game levels and building Hinduism quiz apps on Android. They are not hostile to games. They want games to treat their traditions with the same seriousness those traditions deserve in any other medium.</p>
+
+                <p>What I found most surprising was how organized these conversations were. Players were not just venting. They were writing detailed character concept sheets for how religious figures could appear in games respectfully, specifying abilities that aligned with theological significance rather than combat utility. That level of engagement is an asset for any studio willing to listen before shipping.</p>
             </div>
 
             <!-- Skills Section -->

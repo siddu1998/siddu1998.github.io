@@ -76,6 +76,33 @@
             background-color: var(--paper);
         }
         
+
+        /* --- Impact Statement --- */
+        .impact-statement {
+            padding: 5rem 4rem 4rem;
+            max-width: 900px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .impact-statement p {
+            font-family: var(--serif);
+            font-size: 2.2rem;
+            line-height: 1.45;
+            color: var(--ink);
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        @media (max-width: 768px) {
+            .impact-statement {
+                padding: 3rem 1.5rem 2.5rem;
+            }
+            .impact-statement p {
+                font-size: 1.5rem;
+            }
+        }
+
         /* --- Hero Section --- */
         .hero {
             padding: 6rem 4rem 4rem;
@@ -975,7 +1002,11 @@
 
     <main>
         <!-- Hero Section -->
-        <header class="hero">
+        <section class="impact-statement">
+                <p>I co-designed 60 gamified prompts with educators and students, then used grounded theory to derive a taxonomy of 5 dimensions and 19 sub-dimensions mapping the full design space of game mechanics in LLM prompts. When educators used the taxonomy to structure their prompts, student immersion tripled from 2.2 to 5.2, and the time designers spent figuring out what to build dropped by 63%.</p>
+            </section>
+
+            <header class="hero">
             <div class="hero-content">
                 <div class="issue-number">Research Case Study · CHI PLAY · 2026</div>
                 <h1>Turning Chatbots into Game Engines for Learning</h1>
@@ -1063,12 +1094,14 @@
         <article class="article-container">
             
             <!-- Opening Lede -->
-            <p class="lede">Large Language Models have become central infrastructure in education, yet their interactions remain stubbornly transactional—students ask, the AI answers, learning stays shallow. We asked: what if the chatbot wasn't a tutor, but a game engine?</p>
-            
+            <p class="lede">A student typed a question into an AI chatbot, read the answer, and copied it into her assignment. She never had to think. That moment is the problem this research addresses.</p>
+
             <div class="two-column">
-                <p>Despite the rise of orchestration platforms like Playlab.ai, CircleIn, and Magic School AI, the resulting AI interactions are frequently linear and inert. Without deliberate pedagogical structuring, these assistants default to efficient information delivery—inadvertently encouraging the very passivity educators seek to avoid.</p>
-                
-                <p>We define <em>gameful prompting</em> as the strategic embedding of game mechanics—such as narrative roles, resource constraints, and rule-based feedback—directly into the system instructions of an LLM. This approach transforms the general-purpose chatbot into a lightweight game engine, democratizing the creation of educational games.</p>
+                <p>I watched this happen repeatedly during early observations. Students weren't being lazy; the interface itself invited passivity. Ask, receive, paste. The interaction loop was optimized for speed, not cognition. Educators noticed it too. One instructor I interviewed put it plainly: her students were producing more polished AI-generated text while demonstrating less understanding when she asked follow-up questions in class. The tool was making them look more capable while making them less so.</p>
+
+                <p>The deeper issue is structural. Despite the rise of orchestration platforms like Playlab.ai, CircleIn, and Magic School AI, the resulting AI interactions default to efficient information delivery. Without deliberate design to the contrary, these systems function as answer engines. They offload the cognitive work students need to do in order to actually learn. The question that drove this project was whether we could use the same LLM to do the opposite: force the student to stay in the loop, make decisions, and experience stakes.</p>
+
+                <p>We define <em>gameful prompting</em> as the strategic embedding of game mechanics (narrative roles, resource constraints, rule-based feedback) directly into the system instructions of an LLM. This approach turns the general-purpose chatbot into a lightweight game engine, without requiring specialized development or custom software.</p>
             </div>
 
             <!-- Teaser Figure -->
@@ -1232,6 +1265,23 @@
 
             <h3>AI Control &amp; NPCs</h3>
             <p>AI Control governs output length, language restrictions, choice-based input, and visual elements (ASCII art, generated images, emojis). NPCs create companions, mentors, and adversaries with distinct personalities that students interact with through conflict, persuasion, and collaboration.</p>
+
+            <h3>A Worked Example: One Dimension in Practice</h3>
+            <p>The quickest way to see what the taxonomy actually does is to watch a single dimension transform a prompt. Take a basic instructional prompt for teaching climate science:</p>
+
+            <div class="inline-quote">
+                "You are a helpful tutor. Explain the greenhouse effect to the student and answer any questions they have."
+                <cite>— A typical L0 prompt, pre-taxonomy</cite>
+            </div>
+
+            <p>Now apply the NPCs dimension. The "Establishing" sub-code asks you to give the AI a specific character with defined personality traits and a relationship to the student. The "Interaction Patterns" sub-code specifies how that character should behave when the student gets something wrong (does it argue back? ask a leading question? withhold the answer?).</p>
+
+            <div class="inline-quote">
+                "You are ARIA, a climate scientist who has just returned from a failed expedition to the Arctic. You are frustrated that people still don't understand what you witnessed. You will NOT directly explain the greenhouse effect. Instead, you will share fragmented observations from your expedition (melting ice, unexpected temperatures, instrument readings) and wait for the student to propose explanations. When they guess incorrectly, respond with skepticism and ask what evidence supports their claim."
+                <cite>— The same learning goal, after applying the NPCs dimension</cite>
+            </div>
+
+            <p>The learning objective is identical. The interaction is not. The student now has to form hypotheses, justify them to a skeptical character, and revise their thinking in response to pushback. The AI is still doing the heavy lifting under the hood, but the surface experience is closer to a mystery game than a tutoring session. That shift is what the taxonomy systematizes across all five dimensions.</p>
 
             <!-- Multiplayer Example -->
             <div class="image-container">
@@ -1541,6 +1591,12 @@
                 <p><strong>Immersion and enjoyment</strong> showed the strongest effects and continued improving from L1 to L2 (both significant), suggesting the taxonomy's structured game mechanics—progression systems, NPCs, inventory—add measurable value beyond basic gamification.</p>
                 <p><strong>Attention</strong> improved significantly from L0→L1 but <em>plateaued</em> between L1→L2 (not significant). This is a meaningful null result: it suggests that basic narrative framing captures most of the attention benefit, while the taxonomy's additional mechanics contribute more to immersion and emotional engagement than sustained focus.</p>
                 <p><strong>Cross-domain consistency:</strong> The pattern held across both topics (climate change and basic math), suggesting the taxonomy captures fundamental engagement mechanisms rather than domain-specific effects.</p>
+            </div>
+
+            <div class="research-rationale">
+                <div class="research-rationale-label">What This Means for a Product Team</div>
+                <p>Immersion going from 2.2 to 5.2 on a 7-point scale is a large absolute shift, but the number alone doesn't explain why a product team should care. Immersion, in the PENS framework, measures how much a student feels transported into the experience rather than watching it from the outside. In practice, that feeling correlates with longer time-on-task, lower mid-session dropout, and greater willingness to re-engage after making a mistake. Students who feel immersed don't close the tab when they get something wrong; they try again.</p>
+                <p>For a product team building an educational AI, that matters in a specific, measurable way. Session length and return rate are the metrics most educational platforms optimize for. A jump from 2.2 to 5.2 in immersion suggests that taxonomy-structured prompts could shift the experience from something students tolerate to something they seek out. The design work required to achieve that shift (writing prompts using the taxonomy) takes roughly the same amount of time as writing a standard prompt, but produces a measurably different student experience. That is a strong argument for building taxonomy guidance directly into the prompt-authoring interface, rather than treating it as optional documentation.</p>
             </div>
 
             <div class="inline-quote">

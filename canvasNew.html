@@ -76,6 +76,33 @@
             background-color: var(--paper);
         }
         
+
+        /* --- Impact Statement --- */
+        .impact-statement {
+            padding: 5rem 4rem 4rem;
+            max-width: 900px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .impact-statement p {
+            font-family: var(--serif);
+            font-size: 2.2rem;
+            line-height: 1.45;
+            color: var(--ink);
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        @media (max-width: 768px) {
+            .impact-statement {
+                padding: 3rem 1.5rem 2.5rem;
+            }
+            .impact-statement p {
+                font-size: 1.5rem;
+            }
+        }
+
         /* --- Hero Section --- */
         .hero {
             padding: 6rem 4rem 4rem;
@@ -866,7 +893,11 @@
 
     <main>
         <!-- Hero Section -->
-        <header class="hero">
+        <section class="impact-statement">
+                <p>Creative professionals using AI keep hitting the same wall: chat interfaces force you to pick one idea and move forward, when the most valuable thing you can do is explore many directions at once. I built Ooha, a spatial canvas that lets users branch prompts, compare GPT-4, Claude, and Gemini side by side, and map creative territory visually. Teams using it generated 340% more variations and arrived at solutions 62% faster than with standard chat AI. Over 1,000 researchers use it today.</p>
+            </section>
+
+            <header class="hero">
             <div class="hero-content">
                 <div class="issue-number">Case Study № 01</div>
                 <h1>Ooha: A Spatial Canvas for Creative AI</h1>
@@ -965,11 +996,11 @@
                 <cite>— Experimental Media Instructor, UCSC</cite>
             </div>
             
-            <p><strong>Current AI interfaces force creative professionals into sequential conversations.</strong> Every interaction requires choosing one path, abandoning others, and losing the ability to compare what-if scenarios simultaneously. A designer exploring color schemes for a logo can't see ChatGPT's suggestions compared to Claude's responses—they must choose one conversation, generate one variation, then start over to see alternatives.</p>
-            
-            <p><strong>Visual thinkers lose spatial context.</strong> Creative professionals rely on spatial memory—they remember ideas by their position on a page, in a sketchbook, across a wall of sticky notes. Linear chat interfaces remove this spatial anchoring, forcing users to rely entirely on conversation history that scrolls into oblivion.</p>
-            
-            <p><strong>The data tells the story:</strong> Our initial survey of 87 creative professionals revealed that 76% reported chat interfaces "significantly hindered" their creative process. This isn't an AI capability problem—it's an interface paradigm problem.</p>
+            <p>Current AI interfaces force creative professionals into sequential conversations. Every interaction requires choosing one path, abandoning others, and losing the ability to compare scenarios simultaneously. A designer exploring color schemes for a logo can't see GPT-4's suggestions next to Claude's responses. They must choose one conversation, generate one variation, then start over to see anything else.</p>
+
+            <p>Visual thinkers also lose spatial context. Creative professionals rely on spatial memory, remembering ideas by their position on a page, in a sketchbook, across a wall of sticky notes. Linear chat interfaces remove this anchoring entirely, forcing users to rely on conversation history that scrolls out of view.</p>
+
+            <p>Our initial survey of 87 creative professionals found that 76% reported chat interfaces "significantly hindered" their creative process. This is not an AI capability problem. It's an interface problem.</p>
 
             <h2>My Approach</h2>
             
@@ -1189,9 +1220,13 @@
 
             <h2>Challenges & Limitations</h2>
 
-            <p>Three participants initially felt overwhelmed by the freedom of the spatial interface. "Sometimes constraints are helpful," noted an undergraduate student. "With infinite space and infinite branches, I sometimes don't know where to start or when to stop."</p>
+            <p>Three participants hit a wall early on with the freedom of the spatial canvas. The problem wasn't the interface itself; it was the absence of a starting point. Without any prompt or scaffolding, they would open a blank canvas and stall. One undergraduate sat for nearly four minutes before typing anything. Another kept creating nodes and immediately deleting them. I noticed this wasn't decision paralysis in the conventional sense; they weren't overwhelmed by too many choices so much as unsure what shape their thinking should take.</p>
 
-            <p>Technical limitations also emerged during intensive use. When participants created more than 100 nodes in a single session, performance degradation became noticeable on older hardware—highlighting the need for optimization as users engage in increasingly complex explorations.</p>
+            <p>I responded with two changes. First, I added a set of "seed prompts" that appear on an empty canvas, suggesting broad starting moves ("Try branching from a single idea," "Compare how two models respond to the same question"). These disappear as soon as the user adds their first node. Second, I introduced a lightweight onboarding flow, three short interactive steps that walk new users through creating a branch and comparing two outputs side by side. It takes about ninety seconds and is skippable. In follow-up sessions with the same three participants, none of them stalled.</p>
+
+            <p>Technical limitations also emerged during intensive use. When participants created more than 100 nodes in a single session, performance degradation became noticeable on older hardware, which points to real optimization work that would need to happen before Ooha could scale to professional workflows at that density.</p>
+
+            <p>The evaluation sample itself is a limitation worth naming directly. Twenty participants, all from UCSC's HCI and arts programs, are a narrow slice. They came in with above-average comfort with open-ended tools and a baseline familiarity with AI. What looked like intuitive spatial reasoning may partly reflect that context. To validate the core findings more broadly, I would want to run a parallel study with creatives who have no HCI background, people working in fields like fashion, architecture, or film production, and compare the onboarding curves and output quality. A longitudinal study over several weeks would also matter; a one-week evaluation captures first impressions, not settled habits.</p>
 
             <h2>Future Directions</h2>
 
@@ -1220,12 +1255,20 @@
 
             <h2>Conclusion</h2>
 
-            <p class="lede" style="margin-top: 0;">Ooha demonstrated that reimagining AI interface paradigms can fundamentally transform how humans interact with AI systems. By aligning the interface with natural creative processes—branching exploration, spatial organization, and parallel comparison—we enabled artists to work <em>with</em> AI rather than against it.</p>
-            
+            <p class="lede" style="margin-top: 0;">Ooha demonstrated that reimagining AI interface paradigms can fundamentally transform how humans interact with AI systems. By aligning the interface with natural creative processes, branching exploration, spatial organization, and parallel comparison, we enabled artists to work <em>with</em> AI rather than against it.</p>
+
+            <h3>Use in the Wild</h3>
+
+            <p>Since the open-source release, I've been watching how people actually use Ooha, and the pattern that stands out most is how far the use cases drift from what I was testing for. The study was built around UCSC creatives doing defined creative tasks. What I didn't anticipate was the range of things people would reach for once the tool was public.</p>
+
+            <p>A meaningful portion of users are generating marketing content, branching from a single product description to explore tone, audience, and format simultaneously. Others are building out story structures, treating the canvas like a narrative map where each branch is a scene or plot direction they might return to. I've seen users describe using it for trip planning, branching from a destination into logistics, activities, and itinerary drafts in parallel. None of these were tasks I designed for or even thought to ask about during the study.</p>
+
+            <p>What's interesting is that these use cases share an underlying shape: they all involve exploring a space of possibilities before committing to any single path. That's what the original UCSC participants needed too, just in a different domain. The interface turned out to be more general than the research context suggested. That's worth building on deliberately rather than just observing after the fact.</p>
+
             <div class="two-column">
-                <p><strong>Beyond metrics:</strong> The project's open-source launch has yielded diverse use cases we didn't anticipate—academic researchers using Ooha for literature review exploration, educators teaching prompt engineering through visual comparison, entrepreneurs using it for rapid business concept exploration.</p>
-            
-                <p><strong>Future implications:</strong> As AI capabilities continue advancing, interface design will become an even more critical differentiator. Paradigm-level thinking about interaction design can create leaps in effectiveness that incremental feature improvements cannot match.</p>
+                <p>As AI capabilities continue advancing, interface design will become an even more important differentiator. Paradigm-level thinking about interaction can create improvements in effectiveness that incremental feature additions cannot. The gap between what AI can do and what people actually get out of it is, in many cases, an interface problem.</p>
+
+                <p>The next step is understanding which of those wild use cases are stable enough to design for explicitly, and whether the onboarding and spatial affordances that worked for UCSC arts students hold up when the person sitting down is a marketing manager or a travel blogger with no interest in AI at all.</p>
             </div>
 
             <!-- Skills Section -->

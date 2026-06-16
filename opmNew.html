@@ -76,6 +76,33 @@
             background-color: var(--paper);
         }
         
+
+        /* --- Impact Statement --- */
+        .impact-statement {
+            padding: 5rem 4rem 4rem;
+            max-width: 900px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .impact-statement p {
+            font-family: var(--serif);
+            font-size: 2.2rem;
+            line-height: 1.45;
+            color: var(--ink);
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        @media (max-width: 768px) {
+            .impact-statement {
+                padding: 3rem 1.5rem 2.5rem;
+            }
+            .impact-statement p {
+                font-size: 1.5rem;
+            }
+        }
+
         /* --- Hero Section --- */
         .hero {
             padding: 6rem 4rem 4rem;
@@ -874,7 +901,11 @@
 
     <main>
         <!-- Hero Section -->
-        <header class="hero">
+        <section class="impact-statement">
+                <p>Students playing educational games generate data constantly, but almost none of it ever comes back to them in a form they can learn from. Over 21 months of iterative research and design, I built a visualization system for the educational game Parallel that transforms raw gameplay logs into reflection opportunities. Students could see where they lost time, compare their strategies to peers, and replay key moments with synchronized data. The result was a measurable shift from passive gameplay to active self-assessment.</p>
+            </section>
+
+            <header class="hero">
             <div class="hero-content">
                 <div class="issue-number">Case Study № 08 · ACM CHI 2024</div>
                 <h1>OPM Viz: Bridging Gameplay Data and Learning Reflection</h1>
@@ -957,12 +988,12 @@
         <article class="article-container">
             
             <!-- Opening Lede -->
-            <p class="lede">Educational games generate massive amounts of gameplay data—every decision, every strategy, every moment of struggle or breakthrough. But when students finish a level, where does that data go? Usually, nowhere. The game records it, but students never see it again.</p>
-            
+            <p class="lede">I watched a student finish a level in Parallel, put down the controller, and immediately ask: "Was that good?" She had no idea. The game gave her a completion screen. It did not tell her she had taken 34 steps when the median was 18, or that she had revisited the same synchronization zone four times in a row.</p>
+
             <div class="two-column">
-                <p>This case study documents the development of OPM Viz, a visualization system for the 'Parallel' educational game that transforms gameplay data into learning opportunities. Rather than letting valuable performance data disappear into the void, OPM Viz makes it accessible, comparable, and actionable.</p>
-                
-                <p>Students don't know how their approach compared to their peers, where they could improve, or what strategies might be more efficient. Through a 21-month Design-Based Research project, we turned every play session into a reflective learning experience.</p>
+                <p>That moment was not unusual. Over the course of this project I observed it again and again: students completing levels with genuine curiosity about whether their approach was efficient, then getting nothing back. The game had recorded everything. The data was there. It just never came back to the person who generated it.</p>
+
+                <p>This case study documents the development of OPM Viz, a visualization system for Parallel that transforms gameplay logs into reflection opportunities. Through a 21-month Design-Based Research project, I built something that lets students see where they lost time, compare their strategies to peers, and replay key moments with synchronized data. The goal was to make every completed level a starting point for learning, not an endpoint.</p>
             </div>
 
             <h2>The Problem</h2>
@@ -1032,8 +1063,12 @@
             <h2>Understanding Users</h2>
             
             <h3>Instructor Focus Groups</h3>
-            
-            <p>Before designing the visualization, we needed to understand how experts actually use gameplay data. We conducted workshops with two experienced parallel programming instructors who analyzed anonymized student gameplay recordings from 'Parallel'.</p>
+
+            <p>Before designing anything, I needed to understand how experts read gameplay data. I ran workshops with two experienced parallel programming instructors who had taught with Parallel across multiple semesters. These were not one-off consultations. Both instructors stayed as design partners for the full 21 months, reviewing prototypes, pushing back on design decisions, and telling me when something that looked clean on screen would not actually help a student learn.</p>
+
+            <p>What became clear early on was that the instructors and the students wanted fundamentally different things from the visualization. The instructors were thinking at the classroom level. They wanted to see which concepts tripped up most students this week, whether a cohort was clustering around the same inefficient strategy, and where in the game they should intervene before the next session. Students were not thinking about their cohort at all. They wanted to know whether their own approach was good, and if not, what specifically to do differently.</p>
+
+            <p>That tension shaped a lot of the design work. A visualization organized around class-level patterns would have been useful for instructors but alienating for students, who would see aggregate data without a foothold for personal meaning. A visualization built purely around individual improvement would have missed the comparison signal that instructors kept returning to as the most diagnostic information. The resolution I landed on was to make personal performance the entry point, with peer comparison as the mechanism for contextualizing it. Students start by seeing their own run, then pull in anonymized peers as reference points. Instructors can look at the same interface and read class-wide patterns from the comparison data that students are exploring for personal reasons.</p>
 
             <div class="insights-grid">
                 <div class="insight-card">
@@ -1178,7 +1213,7 @@
                 </div>
                 <div class="contribution-card">
                     <h4>Published Research</h4>
-                    <p>Shared findings and system design with the academic community via publication at ACM CHI 2024.</p>
+                    <p>The work was accepted at ACM CHI 2024 after peer review by independent domain experts. In this context, peer review means the methodology, findings, and design rationale were evaluated by researchers outside the project before the work was presented publicly. That process is a check on rigor, not just a credentialing step. It means the approach held up to scrutiny from people with no stake in the outcome.</p>
                 </div>
             </div>
 
@@ -1189,7 +1224,7 @@
             <div class="two-column">
                 <p>By centering the design process around both instructor expertise and student needs, we created a system that not only presents data but actively facilitates comparative analysis and reflection that leads to deeper understanding.</p>
             
-                <p>This work contributes to learning analytics and educational technology, showing how UX research methods can inform tools that truly support learning rather than simply displaying information. The positive evaluation results and academic recognition underscore the value of this user-centered approach.</p>
+                <p>This work contributes to learning analytics and educational technology, showing how UX research methods can produce tools that genuinely support learning rather than simply display information. The evaluation results were positive, and the approach was validated through publication at ACM CHI 2024. Both things point in the same direction: grounding visualization design in real user behavior, with real design partners, over real time, is worth it.</p>
             </div>
 
             <!-- Skills Section -->
