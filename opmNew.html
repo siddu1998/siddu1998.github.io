@@ -44,8 +44,22 @@
             position: sticky;
             top: 0;
             height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        
+
+        .nav-home-bottom {
+            display: block;
+            margin-top: auto;
+            padding-top: 1.5rem;
+            font-size: 0.82rem;
+            color: var(--muted);
+            text-decoration: none;
+            border-top: 1px solid var(--rule);
+            transition: color 0.15s;
+        }
+        .nav-home-bottom:hover { color: var(--ink); }
+
         nav a {
             display: block;
             margin-bottom: 0.75rem;
@@ -69,7 +83,39 @@
             text-decoration: none;
             display: block;
         }
-        
+
+        nav .nav-back {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: color 0.15s;
+        }
+        nav .nav-back:hover { color: var(--ink); }
+
+        nav .nav-section {
+            display: block;
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin: 1.5rem 0 0.5rem;
+            font-weight: 600;
+        }
+
+        nav a.nav-link {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            transition: color 0.15s ease;
+        }
+        nav a.nav-link:hover { color: var(--ink); }
+        nav a.nav-link.active { color: var(--ink); font-weight: 500; }
+
         main {
             flex-grow: 1;
             overflow-y: auto;
@@ -894,9 +940,21 @@
 <body>
 
     <nav>
-        <a href="index.html" class="nav-logo">Sai Maram</a>
-        <a href="index.html">Home</a>
-        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+        <a href="./index.html" class="nav-logo">Sai Siddartha</a>
+        <a href="./index.html" class="nav-back">← All projects</a>
+        <span class="nav-section">Overview</span>
+        <a href="#problem" class="nav-link">The Problem</a>
+        <a href="#approach" class="nav-link">Research Approach</a>
+        <span class="nav-section">Process</span>
+        <a href="#users" class="nav-link">Understanding Users</a>
+        <a href="#outcomes" class="nav-link">Key Outcomes</a>
+        <span class="nav-section">Solution</span>
+        <a href="#solution" class="nav-link">OPM Viz</a>
+        <a href="#evaluation" class="nav-link">Evaluation</a>
+        <span class="nav-section">Impact</span>
+        <a href="#impact" class="nav-link">Impact & Contributions</a>
+        <a href="#conclusion" class="nav-link">Conclusion</a>
+    <a href="./index.html" class="nav-home-bottom">← Home</a>
     </nav>
 
     <main>
@@ -996,7 +1054,7 @@
                 <p>This case study documents the development of OPM Viz, a visualization system for Parallel that transforms gameplay logs into reflection opportunities. Through a 21-month Design-Based Research project, I built something that lets students see where they lost time, compare their strategies to peers, and replay key moments with synchronized data. The goal was to make every completed level a starting point for learning, not an endpoint.</p>
             </div>
 
-            <h2>The Problem</h2>
+            <h2 id="problem">The Problem</h2>
             
             <div class="problem-grid">
                 <div class="problem-card">
@@ -1018,7 +1076,7 @@
                 <cite>— Student participant during playtesting</cite>
             </div>
 
-            <h2>Research Approach</h2>
+            <h2 id="approach">Research Approach</h2>
             
             <p>As Lead UX Researcher and Designer, I conducted a 21-month Design-Based Research project to create and validate OPM Viz:</p>
 
@@ -1060,7 +1118,7 @@
                 <p class="image-caption">UXR pipeline adopted for this project: Understand → Design → Evaluate.</p>
             </div>
 
-            <h2>Understanding Users</h2>
+            <h2 id="users">Understanding Users</h2>
             
             <h3>Instructor Focus Groups</h3>
 
@@ -1110,7 +1168,7 @@
 
             <!-- Results Section - Dark Background -->
             <div class="results-section">
-                <h2>Key Outcomes</h2>
+                <h2 id="outcomes">Key Outcomes</h2>
                 <p style="color: rgba(255,255,255,0.8); max-width: 600px;">The evaluation confirmed OPM Viz successfully prompted the reflection we designed it for.</p>
                 
                 <div class="results-grid">
@@ -1132,7 +1190,7 @@
                 </div>
             </div>
 
-            <h2>The Solution: OPM Viz</h2>
+            <h2 id="solution">The Solution: OPM Viz</h2>
             
             <p>Guided by Shneiderman's Visual Information-Seeking Mantra ("Overview first, zoom and filter, then details-on-demand"), we designed OPM Viz—an interactive visualization system that integrates with 'Parallel' to empower student reflection.</p>
 
@@ -1163,7 +1221,7 @@
                 </div>
             </div>
 
-            <h2>Evaluation: Does it Foster Reflection?</h2>
+            <h2 id="evaluation">Evaluation: Does it Foster Reflection?</h2>
             
             <p>We conducted an evaluative study with 8 students using think-aloud protocol and semi-structured interviews. Our analysis focused on whether students actually used comparison features, whether the system prompted reflection, and what specific insights emerged.</p>
 
@@ -1196,7 +1254,7 @@
                 <cite>— Research finding</cite>
             </div>
 
-            <h2>Impact & Contributions</h2>
+            <h2 id="impact">Impact & Contributions</h2>
             
             <div class="contribution-grid">
                 <div class="contribution-card">
@@ -1217,7 +1275,7 @@
                 </div>
             </div>
 
-            <h2>Conclusion</h2>
+            <h2 id="conclusion">Conclusion</h2>
 
             <p class="lede" style="margin-top: 0;">OPM Viz successfully demonstrated how thoughtful visualization design can bridge the gap between gameplay data and meaningful learning reflection.</p>
             
@@ -1255,6 +1313,26 @@
             </footer>
         </article>
     </main>
+
+<script>
+(function() {
+    const sectionIds = ['problem','approach','users','outcomes','solution','evaluation','impact','conclusion'];
+    const navLinks = document.querySelectorAll('nav a.nav-link');
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                navLinks.forEach(l => l.classList.remove('active'));
+                const link = document.querySelector('nav a.nav-link[href="#' + e.target.id + '"]');
+                if (link) link.classList.add('active');
+            }
+        });
+    }, { threshold: 0.25 });
+    sectionIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) obs.observe(el);
+    });
+})();
+</script>
 
 </body>
 </html>

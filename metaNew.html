@@ -44,7 +44,21 @@
             position: sticky;
             top: 0;
             height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
+
+        .nav-home-bottom {
+            display: block;
+            margin-top: auto;
+            padding-top: 1.5rem;
+            font-size: 0.82rem;
+            color: var(--muted);
+            text-decoration: none;
+            border-top: 1px solid var(--rule);
+            transition: color 0.15s;
+        }
+        .nav-home-bottom:hover { color: var(--ink); }
         
         nav a {
             display: block;
@@ -69,7 +83,39 @@
             text-decoration: none;
             display: block;
         }
-        
+
+        nav .nav-back {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: color 0.15s;
+        }
+        nav .nav-back:hover { color: var(--ink); }
+
+        nav .nav-section {
+            display: block;
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin: 1.5rem 0 0.5rem;
+            font-weight: 600;
+        }
+
+        nav a.nav-link {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            transition: color 0.15s ease;
+        }
+        nav a.nav-link:hover { color: var(--ink); }
+        nav a.nav-link.active { color: var(--ink); font-weight: 500; }
+
         main {
             flex-grow: 1;
             overflow-y: auto;
@@ -777,9 +823,21 @@
 <body>
 
     <nav>
-        <a href="index.html" class="nav-logo">Sai Maram</a>
-        <a href="index.html">Home</a>
-        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+        <a href="./index.html" class="nav-logo">Sai Siddartha</a>
+        <a href="./index.html" class="nav-back">← All projects</a>
+        <span class="nav-section">Overview</span>
+        <a href="#problem" class="nav-link">The Problem</a>
+        <a href="#approach" class="nav-link">My Approach</a>
+        <span class="nav-section">Research</span>
+        <a href="#traditional" class="nav-link">Why Traditional Methods Failed</a>
+        <a href="#methods" class="nav-link">The Two Novel Methods</a>
+        <a href="#why-worked" class="nav-link">Why These Methods Worked</a>
+        <span class="nav-section">Outcomes</span>
+        <a href="#impact" class="nav-link">Research Impact</a>
+        <a href="#contributions" class="nav-link">Methodological Contributions</a>
+        <a href="#learnings" class="nav-link">Key Learnings</a>
+        <a href="#conclusion" class="nav-link">Conclusion</a>
+    <a href="./index.html" class="nav-home-bottom">← Home</a>
     </nav>
 
     <main>
@@ -884,7 +942,7 @@
                 <p class="image-caption">Select design outcomes informed by the generative research findings.</p>
             </div>
 
-            <h2>The Problem</h2>
+            <h2 id="problem">The Problem</h2>
             
             <div class="pull-quote">
                 <blockquote>"The feed felt generic—it showed the same content at 8am as it did at 8pm, ignoring that users have different needs throughout their day."</blockquote>
@@ -897,7 +955,7 @@
             
             <p><strong>The research challenge:</strong> Product teams wanted to understand future opportunities, but traditional user research excels at testing existing concepts, not generating new ones. How do you research something that doesn't exist yet? How do you understand what users might want before they can articulate it?</p>
 
-            <h2>My Approach</h2>
+            <h2 id="approach">My Approach</h2>
             
             <h3>Novel Method Development</h3>
             <p>Created "Time Loop" for understanding temporal needs and "Feeling Cues" for emotional contexts—approaches tailored for exploring future scenarios that users couldn't yet articulate.</p>
@@ -913,7 +971,7 @@
 
             <!-- Results Section - Dark Background -->
             <div class="results-section">
-                <h2>Key Outcomes</h2>
+                <h2 id="outcomes">Key Outcomes</h2>
                 <p style="color: rgba(255,255,255,0.8); max-width: 600px;">Research insights directly informed product development and created reusable methodological frameworks.</p>
                 
                 <div class="results-grid">
@@ -950,7 +1008,7 @@
                 </div>
             </div>
 
-            <h2>Why Traditional Methods Fell Short</h2>
+            <h2 id="traditional">Why Traditional Methods Fell Short</h2>
             
             <div class="two-column">
                 <p>Traditional user research excels at answering questions like "Do users understand this interface?" or "Would they click this button?" But when exploring future opportunities for a product as mature and universal as Facebook Home, these methods hit limitations.</p>
@@ -965,7 +1023,7 @@
 
             <p>This required methods that could simulate future experiences, not just ask about current ones. I needed to develop research approaches specifically designed for exploring future experiences through experiential simulation rather than direct questioning.</p>
 
-            <h2>The Two Novel Research Methods</h2>
+            <h2 id="methods">The Two Novel Research Methods</h2>
             
             <p>To uncover forward-looking user needs related to context (time) and emotion, I developed and applied the following two methods:</p>
 
@@ -1006,7 +1064,7 @@
                 </figcaption>
             </figure>
 
-            <h2>Why These Methods Worked</h2>
+            <h2 id="why-worked">Why These Methods Worked</h2>
 
             <div class="findings-grid">
                 <div class="finding-card">
@@ -1023,7 +1081,7 @@
                 </div>
             </div>
 
-            <h2>Research Impact</h2>
+            <h2 id="impact">Research Impact</h2>
 
             <p>The Time Loop and Feeling Cues methods generated insights that directly shaped three features now used by over a billion people. Each feature traces back to a specific pattern that emerged from the research.</p>
 
@@ -1044,7 +1102,7 @@
 
             <p style="margin-top: 2rem;"><strong>Beyond these three features:</strong> The 21 prototypes created from this research informed product direction beyond what ultimately launched, shaping Facebook's understanding of contextual and emotional engagement for future development cycles.</p>
 
-            <h2>Methodological Contributions</h2>
+            <h2 id="contributions">Methodological Contributions</h2>
             
             <ul>
                 <li><strong>Time Loop method:</strong> A reusable framework for understanding temporal patterns in user needs that other researchers could apply to future-focused projects</li>
@@ -1053,7 +1111,7 @@
                 <li><strong>Hybrid methodology:</strong> Showed how combining temporal and emotional lenses could provide comprehensive understanding of user needs</li>
             </ul>
 
-            <h2>Key Learnings</h2>
+            <h2 id="learnings">Key Learnings</h2>
 
             <div class="two-column">
                 <p><strong>For future-focused research:</strong> Generative research requires patience and systematic methodology. Users can't articulate needs for experiences they've never had—research methods must simulate future scenarios rather than asking about abstract possibilities.</p>
@@ -1061,7 +1119,7 @@
                 <p><strong>Multiple perspectives matter:</strong> Combining temporal (Time Loop) and emotional (Feeling Cues) lenses revealed different aspects of user needs. Neither method alone would have provided complete understanding—together they created a comprehensive picture of how users wanted to engage with Facebook across contexts.</p>
             </div>
 
-            <h2>Conclusion</h2>
+            <h2 id="conclusion">Conclusion</h2>
 
             <p class="lede" style="margin-top: 0;">While specific project outcomes remain confidential, the development and application of the "Time Loop" and "Feeling Cues" methods provided valuable frameworks for exploring future-facing user needs in a nuanced way.</p>
             
@@ -1100,6 +1158,25 @@
         </article>
     </main>
 
+    <script>
+(function() {
+    const sectionIds = ['problem','approach','traditional','methods','why-worked','impact','contributions','learnings','conclusion'];
+    const navLinks = document.querySelectorAll('nav a.nav-link');
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                navLinks.forEach(l => l.classList.remove('active'));
+                const link = document.querySelector('nav a.nav-link[href="#' + e.target.id + '"]');
+                if (link) link.classList.add('active');
+            }
+        });
+    }, { threshold: 0.25 });
+    sectionIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) obs.observe(el);
+    });
+})();
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const portfolioToggle = document.getElementById('portfolio-toggle');

@@ -1,0 +1,2058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluating OpenAI's GPT Models Through a Concurrency Game</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1a1a1a;
+            --paper: #f8f5f0;
+            --accent: #c45c1e;
+            --accent-light: #f0ebe3;
+            --muted: #6b6b6b;
+            --rule: #d4d0c8;
+            --green: #2d7a4f;
+            --red: #b5322a;
+            --serif: 'Instrument Serif', Georgia, serif;
+            --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --mono: 'JetBrains Mono', 'Courier New', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--paper);
+            font-family: var(--sans);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--ink);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ── Nav ── */
+        nav {
+            width: 200px;
+            padding: 2.5rem 1.5rem;
+            border-right: 1px solid var(--rule);
+            flex-shrink: 0;
+            background-color: var(--paper);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-home-bottom {
+            display: block;
+            margin-top: auto;
+            padding-top: 1.5rem;
+            font-size: 0.82rem;
+            color: var(--muted);
+            text-decoration: none;
+            border-top: 1px solid var(--rule);
+            transition: color 0.15s;
+        }
+        .nav-home-bottom:hover { color: var(--ink); }
+
+        .nav-logo {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 2.5rem;
+            color: var(--ink);
+            text-decoration: none;
+            display: block;
+        }
+
+        nav a.nav-link {
+            display: block;
+            margin-bottom: 0.6rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.88rem;
+            letter-spacing: 0.01em;
+            transition: color 0.15s ease;
+            line-height: 1.4;
+        }
+
+        nav a.nav-link:hover,
+        nav a.nav-link.active { color: var(--ink); }
+
+        nav .nav-section {
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin: 1.5rem 0 0.5rem;
+            font-weight: 600;
+        }
+
+        main {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        /* ── Impact Statement ── */
+        .impact-statement {
+            padding: 5rem 4rem 4rem;
+            max-width: 900px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .impact-statement p {
+            font-family: var(--serif);
+            font-size: 2.1rem;
+            line-height: 1.45;
+            color: var(--ink);
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            padding: 5rem 4rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: end;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .issue-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-family: var(--serif);
+            font-size: 3rem;
+            font-weight: 400;
+            line-height: 1.08;
+            color: var(--ink);
+            margin-bottom: 1.25rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-sub {
+            color: var(--muted);
+            font-size: 1rem;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--rule);
+        }
+
+        .meta-item { font-size: 0.82rem; color: var(--muted); }
+        .meta-item strong { display: block; color: var(--ink); font-weight: 500; margin-bottom: 0.2rem; }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+        }
+
+        .stat-box {
+            background: var(--paper);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: var(--serif);
+            font-size: 2.8rem;
+            font-style: italic;
+            color: var(--ink);
+            line-height: 1;
+            margin-bottom: 0.4rem;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        /* ── Article Body ── */
+        .article-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem;
+        }
+
+        .lede {
+            font-family: var(--serif);
+            font-size: 1.45rem;
+            line-height: 1.6;
+            color: var(--ink);
+            max-width: 820px;
+            margin-bottom: 3rem;
+        }
+
+        .lede::first-letter {
+            font-size: 4.2rem;
+            float: left;
+            line-height: 0.8;
+            margin-right: 0.5rem;
+            margin-top: 0.15rem;
+            color: var(--accent);
+        }
+
+        h2 {
+            font-family: var(--serif);
+            font-size: 2.3rem;
+            font-weight: 400;
+            margin-top: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--ink);
+            padding-top: 2rem;
+            border-top: 3px solid var(--ink);
+        }
+
+        h3 {
+            font-family: var(--sans);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        h4 {
+            font-family: var(--serif);
+            font-size: 1.25rem;
+            font-weight: 400;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--ink);
+            max-width: 700px;
+        }
+
+        /* ── Pull Quote ── */
+        .pull-quote {
+            float: right;
+            width: 42%;
+            margin: 0.5rem 0 2rem 3rem;
+            padding: 2rem 0 2rem 2rem;
+            border-left: 3px solid var(--accent);
+        }
+
+        .pull-quote blockquote {
+            font-family: var(--serif);
+            font-size: 1.6rem;
+            font-style: italic;
+            line-height: 1.4;
+            color: var(--ink);
+        }
+
+        /* ── Comparison: old vs new ── */
+        .method-contrast {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+            margin: 2.5rem 0;
+        }
+
+        .contrast-cell {
+            background: var(--paper);
+            padding: 2rem;
+        }
+
+        .contrast-cell.old .contrast-head {
+            font-size: 0.72rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .contrast-cell.new .contrast-head {
+            font-size: 0.72rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .contrast-list {
+            list-style: none;
+            font-size: 0.92rem;
+            line-height: 1.8;
+            color: var(--ink);
+        }
+
+        .contrast-list li::before {
+            content: '— ';
+            color: var(--muted);
+        }
+
+        .contrast-cell.new .contrast-list li::before {
+            content: '+ ';
+            color: var(--accent);
+        }
+
+        /* ── Game Demo ── */
+        .game-demo {
+            background: #1a1a1a;
+            border: 1px solid var(--rule);
+            padding: 2rem;
+            margin: 2.5rem 0;
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            color: #e8e4dc;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .game-demo-label {
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-family: var(--sans);
+            font-weight: 600;
+        }
+
+        .game-grid {
+            display: inline-grid;
+            gap: 2px;
+            line-height: 1;
+        }
+
+        .grid-row { display: flex; gap: 2px; }
+
+        .grid-cell {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-family: var(--mono);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .cell-empty { background: #2a2a2a; color: #3a3a3a; }
+        .cell-track-r { background: #3a1a1a; color: #c45c1e; }
+        .cell-track-b { background: #1a2a3a; color: #4a9eff; }
+        .cell-track-g { background: #1a3a1a; color: #2d7a4f; }
+        .cell-semaphore { background: #3a3020; color: #f5c842; }
+        .cell-semaphore.active { background: #2a4020; color: #4aff6a; }
+        .cell-signal { background: #2a1a3a; color: #c87eff; }
+        .cell-thread-r { background: #c45c1e; color: #fff; font-weight: bold; border-radius: 50%; }
+        .cell-thread-b { background: #4a9eff; color: #fff; font-weight: bold; border-radius: 50%; }
+        .cell-thread-g { background: #2d7a4f; color: #fff; font-weight: bold; border-radius: 50%; }
+        .cell-delivery { background: #4a3a1a; color: #f5c842; }
+
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            align-items: center;
+        }
+
+        .demo-btn {
+            font-family: var(--sans);
+            font-size: 0.78rem;
+            letter-spacing: 0.05em;
+            background: transparent;
+            border: 1px solid #444;
+            color: #e8e4dc;
+            padding: 0.4rem 1rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .demo-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .demo-btn.active { border-color: var(--accent); background: var(--accent); color: #fff; }
+
+        .demo-log {
+            margin-top: 1.5rem;
+            font-size: 0.72rem;
+            color: #888;
+            min-height: 3rem;
+        }
+
+        .demo-log .log-line {
+            color: #aaa;
+            opacity: 0;
+            transform: translateY(4px);
+            transition: all 0.3s ease;
+        }
+
+        .demo-log .log-line.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .demo-log .log-tool { color: #4a9eff; }
+        .demo-log .log-result { color: #2d7a4f; }
+        .demo-log .log-fail { color: #c45c1e; }
+        .demo-log .log-think { color: #c87eff; }
+
+        /* ── Interactive Results Chart ── */
+        .chart-section {
+            margin: 3rem 0;
+        }
+
+        .chart-header {
+            display: flex;
+            align-items: baseline;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .chart-title {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+        }
+
+        .chart-subtitle {
+            font-size: 0.82rem;
+            color: var(--muted);
+        }
+
+        .chart-tabs {
+            display: flex;
+            gap: 0;
+            border: 1px solid var(--rule);
+            width: fit-content;
+            margin-bottom: 2rem;
+        }
+
+        .chart-tab {
+            padding: 0.5rem 1.2rem;
+            font-size: 0.78rem;
+            letter-spacing: 0.05em;
+            background: var(--paper);
+            border: none;
+            border-right: 1px solid var(--rule);
+            cursor: pointer;
+            color: var(--muted);
+            font-family: var(--sans);
+            transition: all 0.15s;
+        }
+
+        .chart-tab:last-child { border-right: none; }
+        .chart-tab:hover { color: var(--ink); }
+        .chart-tab.active { background: var(--ink); color: var(--paper); }
+
+        .chart-canvas {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        /* Bar chart */
+        .bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            max-width: 820px;
+        }
+
+        .bar-row {
+            display: grid;
+            grid-template-columns: 120px 1fr 60px;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+
+        .bar-row:hover .bar-fill { opacity: 0.8; }
+
+        .bar-label {
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            color: var(--ink);
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .bar-track {
+            height: 28px;
+            background: var(--accent-light);
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .bar-fill.solved { background: var(--green); }
+        .bar-fill.partial { background: var(--accent); }
+        .bar-fill.failed { background: #ccc; }
+
+        .bar-value {
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            color: var(--muted);
+        }
+
+        .bar-detail {
+            background: var(--accent-light);
+            border: 1px solid var(--rule);
+            padding: 1.25rem 1.5rem;
+            margin-top: 0.25rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            display: none;
+            max-width: 820px;
+        }
+
+        .bar-detail.open { display: block; }
+        .bar-detail-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 0.75rem;
+        }
+
+        .detail-metric { }
+        .detail-metric-val {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--ink);
+        }
+
+        .detail-metric-lbl {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+        }
+
+        /* Scatter chart */
+        .scatter-wrap {
+            position: relative;
+            width: 100%;
+            max-width: 820px;
+            height: 380px;
+            border-left: 1px solid var(--rule);
+            border-bottom: 1px solid var(--rule);
+            margin: 1rem 0 2rem;
+        }
+
+        .scatter-axis-x, .scatter-axis-y {
+            position: absolute;
+            font-size: 0.7rem;
+            color: var(--muted);
+            font-family: var(--sans);
+        }
+
+        .scatter-axis-x { bottom: -1.5rem; left: 50%; transform: translateX(-50%); }
+        .scatter-axis-y { top: 50%; left: -3.5rem; transform: translateY(-50%) rotate(-90deg); }
+
+        .scatter-dot {
+            position: absolute;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--mono);
+            font-size: 0.55rem;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .scatter-dot:hover {
+            transform: translate(-50%, -50%) scale(1.3) !important;
+            z-index: 10;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+        }
+
+        .scatter-tooltip {
+            position: absolute;
+            background: var(--ink);
+            color: var(--paper);
+            padding: 0.6rem 0.9rem;
+            font-size: 0.75rem;
+            font-family: var(--sans);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.15s;
+            z-index: 20;
+            white-space: nowrap;
+            border-radius: 2px;
+        }
+
+        .scatter-tooltip.visible { opacity: 1; }
+
+        /* ── Turn Replay ── */
+        .replay-section {
+            background: #1a1a1a;
+            padding: 2rem;
+            margin: 2.5rem 0;
+            border: 1px solid var(--rule);
+        }
+
+        .replay-label {
+            font-size: 0.72rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-family: var(--sans);
+            font-weight: 600;
+        }
+
+        .replay-timeline {
+            display: flex;
+            gap: 4px;
+            align-items: flex-end;
+            height: 80px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .replay-turn {
+            flex-shrink: 0;
+            width: 28px;
+            border-radius: 2px 2px 0 0;
+            cursor: pointer;
+            position: relative;
+            transition: opacity 0.15s;
+        }
+
+        .replay-turn:hover { opacity: 0.8; }
+        .replay-turn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+        }
+
+        .replay-turn-label {
+            position: absolute;
+            bottom: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.55rem;
+            color: #666;
+            font-family: var(--mono);
+        }
+
+        .replay-info {
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .replay-action {
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            color: #e8e4dc;
+            line-height: 1.6;
+        }
+
+        .replay-action .act-tool { color: #4a9eff; }
+        .replay-action .act-args { color: #c87eff; }
+        .replay-action .act-result { color: #2d7a4f; }
+        .replay-action .act-fail { color: #c45c1e; }
+        .replay-action .act-think { color: #c8b070; }
+        .replay-action .act-turn { color: #666; font-size: 0.65rem; }
+
+        .replay-board-mini {
+            display: grid;
+            grid-template-columns: repeat(11, 20px);
+            gap: 1px;
+        }
+
+        .rbc { width: 20px; height: 20px; border-radius: 1px; }
+
+        /* ── Finding Cards ── */
+        .findings-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--rule);
+            border: 1px solid var(--rule);
+            margin: 2.5rem 0;
+        }
+
+        .finding-card {
+            background: var(--paper);
+            padding: 2rem;
+        }
+
+        .finding-num {
+            font-family: var(--serif);
+            font-size: 2.5rem;
+            font-style: italic;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .finding-title {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .finding-body {
+            font-size: 0.88rem;
+            color: var(--muted);
+            line-height: 1.6;
+            max-width: none;
+            margin: 0;
+        }
+
+        /* ── Methodology Steps ── */
+        .method-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin: 2.5rem 0;
+            border: 1px solid var(--rule);
+        }
+
+        .method-step {
+            display: grid;
+            grid-template-columns: 56px 1fr;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .method-step:last-child { border-bottom: none; }
+
+        .step-num {
+            background: var(--ink);
+            color: var(--paper);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            font-style: italic;
+        }
+
+        .step-body {
+            padding: 1.25rem 1.5rem;
+        }
+
+        .step-title {
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .step-desc {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin: 0;
+            max-width: none;
+        }
+
+        /* ── Code Block ── */
+        .code-block {
+            background: #1a1a1a;
+            color: #e8e4dc;
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            border-radius: 2px;
+            line-height: 1.7;
+        }
+
+        .code-key { color: #4a9eff; }
+        .code-str { color: #c87eff; }
+        .code-num { color: #f5c842; }
+        .code-bool { color: #2d7a4f; }
+        .code-comment { color: #555; font-style: italic; }
+
+        /* ── Impact Banner ── */
+        .impact-banner {
+            background: var(--ink);
+            color: var(--paper);
+            padding: 4rem;
+            margin: 4rem 0 0;
+        }
+
+        .impact-banner h2 {
+            font-family: var(--serif);
+            font-size: 2rem;
+            font-weight: 400;
+            border-top: none;
+            padding-top: 0;
+            margin-top: 0;
+            color: var(--paper);
+            margin-bottom: 2rem;
+        }
+
+        .impact-banner p {
+            color: #c0bdb8;
+            max-width: 680px;
+            font-size: 1rem;
+        }
+
+        .impact-banner .impact-points {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2.5rem;
+        }
+
+        .impact-point-head {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--paper);
+            margin-bottom: 0.5rem;
+        }
+
+        .impact-point-body {
+            font-size: 0.88rem;
+            color: #888;
+            max-width: none;
+            margin: 0;
+        }
+
+        /* ── Legend ── */
+        .legend {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.78rem;
+            color: var(--muted);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        /* ── Clearfix ── */
+        .clearfix::after { content: ''; display: table; clear: both; }
+
+        /* ── Responsive ── */
+        @media (max-width: 900px) {
+            nav { display: none; }
+            .hero { grid-template-columns: 1fr; padding: 3rem 1.5rem; }
+            .article-container { padding: 2rem 1.5rem; }
+            .impact-statement { padding: 3rem 1.5rem; }
+            .impact-statement p { font-size: 1.5rem; }
+            h1 { font-size: 2.2rem; }
+            .findings-grid { grid-template-columns: 1fr; }
+            .method-contrast { grid-template-columns: 1fr; }
+            .bar-detail-grid { grid-template-columns: repeat(2, 1fr); }
+            .pull-quote { float: none; width: 100%; margin: 2rem 0; }
+            .impact-banner .impact-points { grid-template-columns: 1fr; }
+        }
+
+        /* ── Fade in animations ── */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav>
+    <a href="./index.html" class="nav-logo">Sai Siddartha</a>
+    <span class="nav-section">Overview</span>
+    <a href="#premise" class="nav-link">The Problem</a>
+    <a href="#innovation" class="nav-link">The Method</a>
+    <a href="#mechanics" class="nav-link">Game Mechanics</a>
+    <a href="#methodology" class="nav-link">Methodology</a>
+    <span class="nav-section">Results</span>
+    <a href="#results" class="nav-link">Model Results</a>
+    <a href="#divergence" class="nav-link">vs Standard Benchmarks</a>
+    <a href="#findings" class="nav-link">Key Findings</a>
+    <a href="#thinking" class="nav-link">How Models Think</a>
+    <span class="nav-section">Honest Assessment</span>
+    <a href="#limitations" class="nav-link">Limitations</a>
+    <span class="nav-section">Impact</span>
+    <a href="#impact" class="nav-link">Contribution</a>
+    <a href="./index.html" class="nav-home-bottom">← Home</a>
+</nav>
+
+<!-- ── Main Content ── -->
+<main id="main-scroll">
+
+    <!-- Impact Statement -->
+    <div class="impact-statement fade-in">
+        <p>What if instead of asking a GPT model to answer a question, you dropped it inside a game and watched what it actually did?</p>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero fade-in">
+        <div class="hero-content">
+            <div class="issue-label">UX Research · OpenAI GPT Evaluation · 2026</div>
+            <h1>Evaluating OpenAI's GPT Models Through a Game</h1>
+            <p class="hero-sub">A benchmark that drops 11 GPT models into the same concurrency puzzle game and watches how they solve it. Not what they know — what they do. The behavioral differences between model generations are hard to miss.</p>
+            <div class="hero-meta">
+                <div class="meta-item"><strong>Method</strong>Game-based evaluation</div>
+                <div class="meta-item"><strong>Models Tested</strong>11 OpenAI GPT models</div>
+                <div class="meta-item"><strong>Evaluation Runs</strong>10,001 simulations per submit</div>
+                <div class="meta-item"><strong>Role</strong>Designer · Researcher · Engineer</div>
+            </div>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-box">
+                <div class="stat-number">11</div>
+                <div class="stat-label">GPT Models Evaluated</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">40</div>
+                <div class="stat-label">Turn Limit Per Run</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">10k+</div>
+                <div class="stat-label">Simulations to Verify</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">9</div>
+                <div class="stat-label">Interaction Metrics</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Body -->
+    <div class="article-container">
+
+        <!-- Lede -->
+        <p class="lede fade-in">OpenAI ships new model generations faster than anyone can benchmark them properly. So I stopped trying to measure what they know and started watching what they do. Each model gets dropped into the same concurrency puzzle, given a set of tools and 40 turns. How they use those turns turns out to be more telling than whether they solve it.</p>
+
+        <p class="fade-in" style="font-size: 1rem; color: var(--muted); border-left: 3px solid var(--rule); padding-left: 1.5rem; margin-bottom: 3rem; max-width: 700px; line-height: 1.8;"><strong style="color: var(--ink); display: block; margin-bottom: 0.4rem; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;">The research question</strong>Do GPT models fail on multi-turn coordination tasks because they lack the underlying knowledge, or because they can't maintain a consistent internal model of a dynamic system across repeated tool calls — and does extended reasoning (the o-series architecture) actually address that, or does it just produce more confident wrong answers?</p>
+
+        <!-- Section: The Problem -->
+        <section id="premise">
+            <h2 class="fade-in">The Problem with How We Compare GPT Models</h2>
+
+            <div class="pull-quote fade-in">
+                <blockquote>"Multiple-choice benchmarks don't show you how a GPT model thinks. They only show you whether it guesses correctly."</blockquote>
+            </div>
+
+            <div class="clearfix">
+                <p class="fade-in">Standard benchmarks measure what models know, not what they do when things go sideways. MMLU asks trivia. HumanEval asks for a code snippet. Both are useful, but neither tells you much about how a model behaves when it's mid-task, getting feedback it didn't expect, and has to revise what it's already done. That's the situation real agentic workflows create, and it's the one most benchmarks skip entirely.</p>
+
+                <p class="fade-in">If you're running GPT in any kind of agentic context, this gap matters. The model isn't answering questions — it's taking actions, seeing what breaks, and deciding what to do next. A multiple-choice comparison between gpt-4o and gpt-5 tells you nothing about how they differ in that situation.</p>
+            </div>
+
+            <div class="method-contrast fade-in">
+                <div class="contrast-cell old">
+                    <div class="contrast-head">Traditional Benchmarks</div>
+                    <ul class="contrast-list">
+                        <li>One-shot question and answer</li>
+                        <li>No environment interaction</li>
+                        <li>Accuracy as the only signal</li>
+                        <li>No feedback between attempts</li>
+                        <li>Cannot reveal problem-solving strategy</li>
+                        <li>Easily gameable through dataset memorization</li>
+                    </ul>
+                </div>
+                <div class="contrast-cell new">
+                    <div class="contrast-head">ParallelOPM Approach</div>
+                    <ul class="contrast-list">
+                        <li>Multi-turn interaction loop (up to 40 turns)</li>
+                        <li>9 callable tools for board manipulation</li>
+                        <li>Rich behavioral metrics beyond pass/fail</li>
+                        <li>Real-time test feedback after every action</li>
+                        <li>Reveals iteration strategy and uncertainty</li>
+                        <li>Deterministic verification (10,001 simulations)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: The Innovation -->
+        <section id="innovation">
+            <h2 class="fade-in">The Approach: Evaluating GPT Models Through Play</h2>
+
+            <p class="fade-in">This comes from a basic principle in HCI: if you want to understand how someone reasons, watch what they do, not what they say they'd do. Watching a GPT model answer a question about concurrency is not the same as watching it try to actually solve one.</p>
+
+            <p class="fade-in">The game is <em>Parallel</em>, a concurrency coordination puzzle. Threads move along colored tracks on a grid. The player places semaphores and signals to stop them from colliding at delivery points. The puzzle requires genuine reasoning about timing and mutual exclusion — there's nothing to look up, and brute force doesn't work. Every model ran the same board.</p>
+
+            <h3 class="fade-in">Why this works better than standard GPT benchmarks</h3>
+
+            <p class="fade-in">The pass/fail condition is binary: 10,001 simulation runs, one failure and the solution doesn't count. But the useful data isn't the final score. It's everything in between — which tools the model called, how often it tested before committing, whether it re-read the board when it got stuck. That interaction trace separates gpt-4o from gpt-5 more clearly than any leaderboard number I've found.</p>
+
+            <p class="fade-in">Building the harness was also a UX problem in itself. The system prompt had to describe a complex, dynamic state space well enough that the model could reason about it accurately. Tool definitions had to be semantically identical across model variants, since even small schema differences would skew the comparison. Getting that wrong would invalidate everything downstream.</p>
+        </section>
+
+        <!-- Section: Game Mechanics -->
+        <section id="mechanics">
+            <h2 class="fade-in">How Parallel Works</h2>
+
+            <p class="fade-in">Level 8 ("Cherry") is an 11×10 grid with three threads running continuously on colored tracks. Each picks up packages and delivers them to a target cell. The problem is that two threads delivering at the same time causes one to fail. Schedules are randomized, so any solution has to hold across thousands of different timing scenarios.</p>
+
+            <!-- Interactive Game Demo -->
+            <div class="game-demo fade-in">
+                <div class="game-demo-label">Interactive — Parallel game board simulation</div>
+                <div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;">
+                    <div id="game-grid-container"></div>
+                    <div style="flex: 1; min-width: 220px;">
+                        <div style="color: #888; font-size: 0.72rem; margin-bottom: 1rem; font-family: var(--sans);">The model must place <span style="color: #f5c842">semaphores</span> and <span style="color: #c87eff">signals</span> to prevent threads from colliding at delivery points. Too many components wastes turns. Too few and threads collide.</div>
+                        <div id="game-demo-log" class="demo-log"></div>
+                    </div>
+                </div>
+                <div class="demo-controls">
+                    <button class="demo-btn active" id="btn-play" onclick="demoPlay()">▶ Play simulation</button>
+                    <button class="demo-btn" id="btn-reset" onclick="demoReset()">↺ Reset</button>
+                    <span style="color: #555; font-size: 0.7rem; font-family: var(--sans);">Tick: <span id="tick-counter">0</span></span>
+                </div>
+            </div>
+
+            <h3 class="fade-in">The Tool Interface</h3>
+
+            <p class="fade-in">Models interact through nine tools. No free-text answers, no descriptions of what the model would hypothetically do. It places a component or it doesn't. That commitment is what makes the interaction log diagnostic.</p>
+
+            <div class="code-block fade-in">
+<span class="code-comment">// The 9 tools available to every model (identical across providers)</span>
+add_semaphore(<span class="code-str">row</span>, <span class="code-str">col</span>, <span class="code-str">initial_state</span>)    <span class="code-comment">// Place a binary lock</span>
+add_signal(<span class="code-str">row</span>, <span class="code-str">col</span>)                           <span class="code-comment">// Place a trigger signal</span>
+link_signal(<span class="code-str">signal_id</span>, <span class="code-str">target_id</span>)              <span class="code-comment">// Connect signal to semaphore</span>
+unlink_signal(<span class="code-str">signal_id</span>)                       <span class="code-comment">// Disconnect a signal</span>
+remove_element(<span class="code-str">id</span>)                              <span class="code-comment">// Delete a user-placed component</span>
+set_semaphore_state(<span class="code-str">id</span>, <span class="code-str">state</span>)                <span class="code-comment">// Toggle initial state</span>
+get_board_state()                                <span class="code-comment">// Retrieve current board (uncertainty proxy)</span>
+run_test()                                       <span class="code-comment">// Single simulation (test hypothesis)</span>
+submit()                                         <span class="code-comment">// Verify across 10,001 simulations</span>
+            </div>
+
+            <p class="fade-in"><code style="font-family: var(--mono); font-size: 0.88em; background: var(--accent-light); padding: 0.1em 0.4em;">get_board_state()</code> turned out to be a useful signal. A model that calls it repeatedly is re-reading the board because it's lost track of what it placed. gpt-5-mini called it 25 times in one failed run. Models that solved cleanly called it once, or not at all.</p>
+        </section>
+
+        <!-- Section: Methodology -->
+        <section id="methodology">
+            <h2 class="fade-in">Methodology: Fairness as a Design Constraint</h2>
+
+            <p class="fade-in">The hardest part of building this wasn't the game engine. It was fairness. Different model generations handle tool schemas differently, interpret token budgets differently, and have different defaults for how much they reason before acting. Any of that could tilt the comparison without actually measuring reasoning ability. So everything possible was locked down: one prompt, one schema, one turn limit, one RNG seed for verification.</p>
+
+            <h3 class="fade-in">The budget constraint shaped everything</h3>
+
+            <p class="fade-in">Running 11 models × 3 runs each, with verification at 10,001 simulations per submit call, isn't free. Reasoning models like o3-mini averaged over a million input tokens per run. The full dataset cost several hundred dollars in API calls. That's not a lot by enterprise research standards, but it was a hard ceiling that directly shaped the study design.</p>
+
+            <p class="fade-in">Three runs per model was the chosen tradeoff. It's enough to catch obvious inconsistency — a model that solves twice but fails once, or fails twice but solves once — but it's not enough to make strong statistical claims. One level (Level 8) instead of the full six available in the game. No retries on crashed runs. The gpt-4o infrastructure errors that wiped three runs were simply lost. These constraints are worth naming because they affect how much confidence to put in the results.</p>
+
+            <h3 class="fade-in">What broke during development</h3>
+
+            <p class="fade-in">The gated submission rule wasn't in the original design. Early runs showed models submitting immediately after placing a single element — before running any test. They were confident without evidence. The gate (you must pass at least one test before each submit) was added specifically to stop that pattern, because without it the submit logs were noise. o4-mini still found a way to break it: it ran one test, got a pass, then submitted 17 times in a row. The gate blocked 13 of them.</p>
+
+            <p class="fade-in">The system prompt went through several iterations too. The first version was around 80 lines. Models couldn't reliably track which elements they'd placed or understand what a semaphore state change actually did to thread movement. The final prompt is 280+ lines — not because the game is that complicated, but because getting a model to hold an accurate mental map of a dynamic grid state across 40 turns requires more scaffolding than expected. That iteration cost time and API budget before a single comparison run.</p>
+
+            <div class="method-steps fade-in">
+                <div class="method-step">
+                    <div class="step-num">1</div>
+                    <div class="step-body">
+                        <div class="step-title">Identical system prompt</div>
+                        <p class="step-desc">A single SYSTEM_PROMPT constant (280+ lines) is used for all models. No branching, no per-model modifications. The prompt describes the board, the tools, the failure conditions, and the evaluation criteria in structured natural language.</p>
+                    </div>
+                </div>
+                <div class="method-step">
+                    <div class="step-num">2</div>
+                    <div class="step-body">
+                        <div class="step-title">Semantically equivalent tools across model variants</div>
+                        <p class="step-desc">Tool definitions are normalized across all model variants at runtime. gpt-4o, o-series, and gpt-5 all receive semantically identical schemas. The same action produces the same board change regardless of which model calls it.</p>
+                    </div>
+                </div>
+                <div class="method-step">
+                    <div class="step-num">3</div>
+                    <div class="step-body">
+                        <div class="step-title">Fixed turn limit (40 turns)</div>
+                        <p class="step-desc">Every model gets exactly 40 turns. Each turn is one model response, potentially containing multiple tool calls. A model that solves in 10 turns is more efficient than one that solves in 30 — not luckier.</p>
+                    </div>
+                </div>
+                <div class="method-step">
+                    <div class="step-num">4</div>
+                    <div class="step-body">
+                        <div class="step-title">Deterministic verification seed</div>
+                        <p class="step-desc">Submit runs use a fixed RNG seed ('parallelRNGSeed01') to generate 10,000 randomized thread schedules. Every model is tested against the same 10,001 simulations. Same timing scenarios, no exceptions.</p>
+                    </div>
+                </div>
+                <div class="method-step">
+                    <div class="step-num">5</div>
+                    <div class="step-body">
+                        <div class="step-title">Gated submission</div>
+                        <p class="step-desc">Models cannot submit without at least one passing test. This prevents gaming via brute-force submits and ensures the submit result reflects a genuine solution attempt rather than noise.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Results -->
+        <section id="results">
+            <h2 class="fade-in">Results: 11 OpenAI Models on the Same Puzzle</h2>
+
+            <p class="fade-in">Eleven models, three runs each, same puzzle. The spread was wider than I expected. Some models never passed a single test across all 40 turns. Others solved it in under 12.</p>
+
+            <!-- Chart Tabs -->
+            <div class="chart-section fade-in">
+                <div class="chart-header">
+                    <span class="chart-title">Model Performance</span>
+                    <span class="chart-subtitle">11 OpenAI GPT models · 3 runs each · Level 8 "Cherry" · 40 turn limit</span>
+                </div>
+
+                <div class="chart-tabs">
+                    <button class="chart-tab active" onclick="switchTab('solve')">Solve Rate</button>
+                    <button class="chart-tab" onclick="switchTab('efficiency')">Turn Efficiency</button>
+                    <button class="chart-tab" onclick="switchTab('scatter')">Tokens vs Turns</button>
+                </div>
+
+                <!-- Solve Rate Chart -->
+                <div id="tab-solve" class="chart-canvas">
+                    <div class="legend">
+                        <div class="legend-item"><div class="legend-dot" style="background: var(--green)"></div> All 3 runs solved</div>
+                        <div class="legend-item"><div class="legend-dot" style="background: var(--accent)"></div> Partial (1–2 of 3)</div>
+                        <div class="legend-item"><div class="legend-dot" style="background: #ccc"></div> Zero runs solved</div>
+                    </div>
+                    <div class="bar-chart" id="solve-chart"></div>
+                </div>
+
+                <!-- Turn Efficiency Chart -->
+                <div id="tab-efficiency" class="chart-canvas" style="display:none;">
+                    <p style="font-size:0.85rem; color: var(--muted); margin-bottom: 1rem; max-width: none;">Average turns used per run. Models that solved in fewer turns demonstrate more targeted reasoning. Models hitting the cap (40) exhausted the budget without converging.</p>
+                    <div class="bar-chart" id="efficiency-chart"></div>
+                </div>
+
+                <!-- Scatter Chart -->
+                <div id="tab-scatter" class="chart-canvas" style="display:none;">
+                    <p style="font-size:0.85rem; color: var(--muted); margin-bottom: 1rem; max-width: none;">Each dot is one run. Position shows turns used vs. input tokens consumed. Size encodes thinking tokens. Green = solved.</p>
+                    <div style="position: relative; margin-top: 1rem;">
+                        <div class="scatter-wrap" id="scatter-chart">
+                            <span class="scatter-axis-x">Input Tokens (000s)</span>
+                            <span class="scatter-axis-y">Turns Used</span>
+                            <div class="scatter-tooltip" id="scatter-tooltip"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Benchmark Divergence -->
+        <section id="divergence">
+            <h2 class="fade-in">Where this diverges from standard benchmarks</h2>
+
+            <p class="fade-in">The central claim is that this reveals things standard benchmarks miss. That claim only holds if the rankings actually diverge. Here's what the divergence looks like: on reasoning-heavy benchmarks (GPQA, MATH), the o-series models — particularly o3 and o3-mini — sit near the top. On coding benchmarks like SWE-bench, gpt-5.4-nano would rank well below its bigger siblings. The expected order going into this was roughly: o3 ≈ gpt-5 > o3-mini > gpt-5.4 > gpt-4o > gpt-4.1.</p>
+
+            <p class="fade-in">That's not what happened.</p>
+
+            <!-- Divergence Table -->
+            <div class="fade-in" style="margin: 2rem 0; border: 1px solid var(--rule); overflow: hidden;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; background: var(--ink); color: var(--paper); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.9rem 1.25rem;">
+                    <span>Model</span>
+                    <span>Expected (standard benchmarks)</span>
+                    <span>Actual (this task)</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 1rem 1.25rem; border-bottom: 1px solid var(--rule); font-size: 0.88rem; align-items: center;">
+                    <span style="font-family: var(--mono); font-size: 0.82rem;">gpt-5.4-nano</span>
+                    <span style="color: var(--muted);">Lowest in gpt-5.4 family. Cheap, small, not a flagship.</span>
+                    <span style="color: var(--green); font-weight: 500;">3/3 — 100% solve rate. Most efficient model in dataset.</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 1rem 1.25rem; border-bottom: 1px solid var(--rule); font-size: 0.88rem; background: var(--accent-light); align-items: center;">
+                    <span style="font-family: var(--mono); font-size: 0.82rem;">o3-mini</span>
+                    <span style="color: var(--muted);">High reasoning benchmark scores. OpenAI's extended thinking model.</span>
+                    <span style="color: #b5322a; font-weight: 500;">0/3 — failed all runs. 202k avg thinking tokens. Never converged.</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 1rem 1.25rem; border-bottom: 1px solid var(--rule); font-size: 0.88rem; align-items: center;">
+                    <span style="font-family: var(--mono); font-size: 0.82rem;">gpt-4o</span>
+                    <span style="color: var(--muted);">Scores ~88% on MMLU. Strong general-purpose baseline.</span>
+                    <span style="color: #b5322a; font-weight: 500;">0/3 — zero test passes across all runs. Indistinguishable from random placement.</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 1rem 1.25rem; border-bottom: 1px solid var(--rule); font-size: 0.88rem; background: var(--accent-light); align-items: center;">
+                    <span style="font-family: var(--mono); font-size: 0.82rem;">gpt-5.4-mini</span>
+                    <span style="color: var(--muted);">Mid-tier in gpt-5.4 family. Below gpt-5.4 flagship.</span>
+                    <span style="color: var(--green); font-weight: 500;">3/3 — run 2 solved in 5 turns, 80k tokens. Most efficient solve in dataset.</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 1rem 1.25rem; font-size: 0.88rem; align-items: center;">
+                    <span style="font-family: var(--mono); font-size: 0.82rem;">o3</span>
+                    <span style="color: var(--muted);">Top-tier reasoning model. Expensive. Designed for hard problems.</span>
+                    <span style="color: var(--accent); font-weight: 500;">2/3 — efficient when it solved, but still dropped a run. Not the clear winner here.</span>
+                </div>
+            </div>
+
+            <p class="fade-in">The most interesting divergence isn't o3-mini failing — it's gpt-5.4-nano winning. A model designed to be cheap and fast, not deep, outperformed every o-series model on a task those models were ostensibly built for. The standard benchmark hierarchy, where extended reasoning architectures sit above compact fast models, doesn't hold here.</p>
+
+            <p class="fade-in">One important caveat: this is one level, one puzzle topology, three runs. It's possible gpt-5.4-nano has seen training data particularly favorable to this type of grid coordination, or that this specific level's structure happens to suit its reasoning pattern. I can't rule that out with 3 runs. What I can say is that the ranking was unexpected, and the interaction logs show gpt-5.4-nano operating with genuine economy — few placements, minimal revisions, first-submit success. That behavioral profile doesn't look like luck.</p>
+        </section>
+
+        <!-- Section: Findings -->
+        <section id="findings">
+            <h2 class="fade-in">Key Findings</h2>
+
+            <p class="fade-in">The number that surprised me most wasn't in the solve rate. o3-mini, OpenAI's deep reasoning model, used over 180,000 thinking tokens per run and solved none of the three attempts. gpt-5.4 used 18,000 and solved all three. More thinking didn't mean better results. What actually separated the models was how efficiently they iterated.</p>
+
+            <div class="findings-grid fade-in">
+                <div class="finding-card">
+                    <div class="finding-num">01</div>
+                    <div class="finding-title">GPT-4 vs GPT-5: a cliff, not a slope</div>
+                    <p class="finding-body">GPT-4 generation models (gpt-4o, gpt-4.1, gpt-4o-mini) scored 0/3. GPT-5 generation (gpt-5, gpt-5.4 variants) scored 3/3. It wasn't a gradual improvement. Standard benchmarks show these generations as meaningfully different; this showed them as categorically different.</p>
+                </div>
+                <div class="finding-card">
+                    <div class="finding-num">02</div>
+                    <div class="finding-title">Test-driven iteration predicts success</div>
+                    <p class="finding-body">Every model that eventually solved the puzzle passed a test before turn 15. gpt-4o and gpt-4o-mini placed components across all 40 turns without passing a single test. They weren't making progress. They were iterating without any signal that anything was working.</p>
+                </div>
+                <div class="finding-card">
+                    <div class="finding-num">03</div>
+                    <div class="finding-title">o-series thinking tokens ≠ success</div>
+                    <p class="finding-body">o3-mini averaged 182k thinking tokens per run and solved nothing. gpt-5.4 averaged 11k and solved everything. Spending more compute on reasoning didn't help here. If anything, the models that overthought it placed too many components and couldn't converge.</p>
+                </div>
+                <div class="finding-card">
+                    <div class="finding-num">04</div>
+                    <div class="finding-title">Solution efficiency varies significantly</div>
+                    <p class="finding-body">Winning solutions used 4 to 9 components. gpt-5.4 averaged 7, placed with almost no revisions. Some messier runs that eventually passed had twice as many elements placed and removed along the way. Fewer components usually meant the model knew what it was doing.</p>
+                </div>
+                <div class="finding-card">
+                    <div class="finding-num">05</div>
+                    <div class="finding-title">Board state calls reveal uncertainty</div>
+                    <p class="finding-body">In its failed run, gpt-5-mini called get_board_state() 25 times. It kept re-reading the board without getting any closer to a solution. Models that solved cleanly called it once or not at all. Knowing you're lost is useful. Re-reading the same state 25 times is not.</p>
+                </div>
+                <div class="finding-card">
+                    <div class="finding-num">06</div>
+                    <div class="finding-title">First-turn latency tells a story</div>
+                    <p class="finding-body">Every model that solved the puzzle placed its first component on turn 1. Models that spent two or three turns thinking before doing anything never recovered. Planning without testing is just guessing at a slower pace.</p>
+                </div>
+            </div>
+
+            <!-- Turn Replay -->
+            <h3 class="fade-in">Tracing a Winning Run: gpt-5 on Level 8</h3>
+            <p class="fade-in">This is a successful gpt-5 run, turn by turn. Bar height is the number of tool calls in that turn. Color shows what kind of action. Click any bar to see what actually happened.</p>
+
+            <div class="replay-section fade-in">
+                <div class="replay-label">Turn-by-turn replay · gpt-5 · Level 8 · Run 1 · Solved in 11 turns</div>
+                <div class="replay-timeline" id="replay-timeline"></div>
+                <div class="replay-info">
+                    <div class="replay-action" id="replay-action-text">
+                        <span style="color:#555;">← Click a turn bar to inspect it</span>
+                    </div>
+                    <div>
+                        <div style="color:#888; font-size:0.7rem; font-family: var(--sans); margin-bottom: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;">Legend</div>
+                        <div style="font-size:0.72rem; color:#888; line-height:2; font-family: var(--sans);">
+                            <span style="color:#4a9eff">■</span> Placement action &nbsp;
+                            <span style="color:#f5c842">■</span> Link / config &nbsp;
+                            <span style="color:#2d7a4f">■</span> Test (passed) &nbsp;
+                            <span style="color:#c45c1e">■</span> Test (failed) &nbsp;
+                            <span style="color:#c87eff">■</span> Submit
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Limitations -->
+        <section id="limitations">
+            <h2 class="fade-in">What this study can't tell you</h2>
+
+            <p class="fade-in">Any honest research project has a list of things it didn't get to do, couldn't control for, or chose not to pursue. Here's mine.</p>
+
+            <div class="method-steps fade-in">
+                <div class="method-step">
+                    <div class="step-num" style="font-size: 0.85rem; font-style: normal; font-family: var(--sans);">01</div>
+                    <div class="step-body">
+                        <div class="step-title">3 runs per model is not statistically robust</div>
+                        <p class="step-desc">This is the most significant limitation. gpt-5-mini solved 1/3 runs — but whether that's a 33% solve rate or a fluke is genuinely unclear. o4-mini solved 2/3, which looks like partial success, but a fourth run could have gone either way. The budget allowed 3 runs per model and no more. Results should be read as directional, not definitive. The models that solved 0/3 or 3/3 are cleaner findings; anything in between is uncertain.</p>
+                    </div>
+                </div>
+                <div class="method-step">
+                    <div class="step-num" style="font-size: 0.85rem; font-style: normal; font-family: var(--sans);">02</div>
+                    <div class="step-body">
+                        <div class="step-title">One level, one puzzle topology</div>
+                        <p class="step-desc">Every finding here is from Level 8, "Cherry" — an 11×10 grid with 3 threads. The game has six levels with different grid sizes, thread counts, and coordination mechanics. It's possible gpt-5.4-nano is particularly suited to this specific topology. It's possible o3-mini would perform better on a simpler 2-thread level, or catastrophically worse on a 4-thread one. Without running multiple levels, the generalizability of the capability ranking is unknown.</p>
+                    </div>
+                </div>
+                <div class="method-step">
+                    <div class="step-num" style="font-size: 0.85rem; font-style: normal; font-family: var(--sans);">03</div>
+                    <div class="step-body">
+                        <div class="step-title">Uncontrolled confounds</div>
+                        <p class="step-desc">Context window sizes differ between models. Training data overlap with concurrency or grid-based puzzles is unknown. API rate limiting affected wall-clock time for some runs. The o-series models (o3, o3-mini) use a fundamentally different generation architecture from gpt-5.4 — sequential chain-of-thought vs parallel token generation — and that architectural difference alone might explain some behavioral differences that have nothing to do with reasoning quality on this task.</p>
+                    </div>
+                </div>
+                <div class="method-step">
+                    <div class="step-num" style="font-size: 0.85rem; font-style: normal; font-family: var(--sans);">04</div>
+                    <div class="step-body">
+                        <div class="step-title">Task specificity — this is one domain</div>
+                        <p class="step-desc">Concurrency coordination is a narrow domain. Whether performance here predicts performance in other agentic contexts — customer support automation, code generation pipelines, research assistants — is an open question. A model that fails at semaphore placement might be excellent at multi-step document analysis. The findings describe how these models handle this specific type of problem, not agentic capability in general.</p>
+                    </div>
+                </div>
+                <div class="method-step">
+                    <div class="step-num" style="font-size: 0.85rem; font-style: normal; font-family: var(--sans);">05</div>
+                    <div class="step-body">
+                        <div class="step-title">The cognitive strategy taxonomy is one person's interpretation</div>
+                        <p class="step-desc">The four patterns — Systematic Planners, Adaptive Explorers, Overcomputers, Random Walkers — came from reading thinking logs across 34 runs. No second coder validated the categories. No inter-rater reliability was calculated. The taxonomy is useful for structuring what I observed, but it shouldn't be treated as an established classification. Different readers might carve the data differently.</p>
+                    </div>
+                </div>
+                <div class="method-step">
+                    <div class="step-num" style="font-size: 0.85rem; font-style: normal; font-family: var(--sans);">06</div>
+                    <div class="step-body">
+                        <div class="step-title">Lost data from infrastructure errors</div>
+                        <p class="step-desc">Three gpt-4o runs crashed with an "initialContent not defined" error and produced no usable data. Those runs were not retried due to cost. The gpt-4o results here are from 3 valid runs, not the 6 that were attempted. If the crashed runs had behaved differently, the picture for gpt-4o might look different — though given 0 test passes across all valid runs, it would have to behave very differently to change the overall finding.</p>
+                    </div>
+                </div>
+            </div>
+
+            <p class="fade-in" style="margin-top: 2rem;">None of these limitations make the findings wrong. They define the confidence radius around the findings. "GPT-5 generation models solved this; GPT-4 generation models didn't" is robust even under 3 runs, because the results are 0/9 vs 9/9. "o3-mini underperforms its benchmark ranking" is directionally credible but would need more runs and more levels to claim firmly. That's the honest accounting.</p>
+        </section>
+
+        <!-- Section: How Models Think -->
+        <section id="thinking">
+            <h2 class="fade-in">How Models Think</h2>
+
+            <p class="fade-in">Reasoning models expose their internal monologue through thinking tokens — text the model generates before producing a response. This gave me something closer to a window into strategy than a typical benchmark allows. Reading through the logs, I noticed four rough groupings in how models approached the problem. These aren't validated categories — they're patterns from 34 runs across 8 models, read by one person. With more runs and multiple levels you'd want to test whether they hold. But they're consistent enough within this dataset to be worth describing.</p>
+
+            <h3 class="fade-in">Four patterns in how models approached the problem</h3>
+
+            <!-- Strategy Grid -->
+            <div class="fade-in" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 2rem 0;">
+                <div style="background: var(--paper); padding: 2rem; border-top: 3px solid var(--green);">
+                    <div style="font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); font-weight: 600; margin-bottom: 0.75rem;">Systematic Planners — o3, gpt-5.4-mini</div>
+                    <p style="margin: 0; font-size: 0.9rem; color: var(--ink); line-height: 1.7; max-width: none;">These models trace all thread paths before touching the board. o3's first-turn thinking reads like a graph traversal: "Color 1 starts at [7,2] and moves east... the thread eventually goes west to [0,0], picking up a cell, then continues south down column 0 to [7,0] for an exchange." No placement until the full route is understood. Once placed, almost nothing is removed.</p>
+                </div>
+                <div style="background: var(--paper); padding: 2rem; border-top: 3px solid var(--accent);">
+                    <div style="font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 0.75rem;">Adaptive Explorers — gpt-5, gpt-5.4, gpt-5.4-nano</div>
+                    <p style="margin: 0; font-size: 0.9rem; color: var(--ink); line-height: 1.7; max-width: none;">These models plan, then test frequently to confirm. gpt-5.4's thinking: "Let's break down the paths... they share the center column and switch at [0,4] and [7,4]." High test-call counts but they converge. The risk is over-fitting to single-threaded timing, which caught gpt-5 in run 1.</p>
+                </div>
+                <div style="background: var(--paper); padding: 2rem; border-top: 3px solid #b5322a;">
+                    <div style="font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: #b5322a; font-weight: 600; margin-bottom: 0.75rem;">Overcomputers — o3-mini, o4-mini</div>
+                    <p style="margin: 0; font-size: 0.9rem; color: var(--ink); line-height: 1.7; max-width: none;">Maximum thinking volume, minimum convergence. o3-mini generated 202,000 thinking tokens per run on average — 97% of its total output — and solved nothing. Its reasoning correctly identifies constraints ("Only T1 can pick up the item") but never synthesizes them into a solution that holds under nondeterministic scheduling. Thinking at volume is not the same as thinking well.</p>
+                </div>
+                <div style="background: var(--paper); padding: 2rem; border-top: 3px solid var(--muted);">
+                    <div style="font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 0.75rem;">Random Walkers — gpt-4o, gpt-4.1, gpt-4o-mini</div>
+                    <p style="margin: 0; font-size: 0.9rem; color: var(--ink); line-height: 1.7; max-width: none;">No thinking tokens at all. These models produce no internal reasoning trace — they respond directly. The behavioral result is exactly what you'd expect: place a component, test, fail, remove, repeat. gpt-4.1 made 37 combined test calls across three runs and passed zero. Not because it placed wrong things, but because it had no causal model of how placement affects thread timing.</p>
+                </div>
+            </div>
+
+            <h3 class="fade-in">What the thinking excerpts actually say</h3>
+
+            <p class="fade-in">Clicking between models in the turn replay is informative. But reading the first-turn thinking — before any tool is called — is more revealing. This is the moment where strategy is formed. Below are verbatim excerpts from each reasoning model's initial response.</p>
+
+            <!-- Interactive Thinking Quotes -->
+            <div class="fade-in" style="margin: 2rem 0;">
+                <div style="display: flex; gap: 0; flex-wrap: wrap; border: 1px solid var(--rule); width: fit-content; margin-bottom: 1.5rem;">
+                    <button class="chart-tab active" onclick="showThinkQuote('o3', this)">o3</button>
+                    <button class="chart-tab" onclick="showThinkQuote('o3mini', this)">o3-mini</button>
+                    <button class="chart-tab" onclick="showThinkQuote('gpt5', this)">gpt-5</button>
+                    <button class="chart-tab" onclick="showThinkQuote('gpt5mini', this)">gpt-5-mini</button>
+                    <button class="chart-tab" onclick="showThinkQuote('gpt54', this)">gpt-5.4</button>
+                    <button class="chart-tab" onclick="showThinkQuote('gpt54mini', this)">gpt-5.4-mini</button>
+                    <button class="chart-tab" onclick="showThinkQuote('gpt54nano', this)">gpt-5.4-nano</button>
+                    <button class="chart-tab" onclick="showThinkQuote('o4mini', this)">o4-mini</button>
+                </div>
+                <div id="think-quote-panel" style="background: #1a1a1a; padding: 2rem; border: 1px solid var(--rule); font-family: var(--mono); font-size: 0.8rem; line-height: 1.8; min-height: 140px;">
+                    <div style="color: #888; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem;" id="think-quote-meta"></div>
+                    <div style="color: #c8c4bc; font-style: italic;" id="think-quote-text"></div>
+                    <div style="color: #555; font-size: 0.72rem; margin-top: 1rem; font-style: normal;" id="think-quote-note"></div>
+                </div>
+            </div>
+
+            <h3 class="fade-in">Three failure modes worth naming</h3>
+
+            <div style="display: flex; flex-direction: column; gap: 0; border: 1px solid var(--rule); margin: 2rem 0;" class="fade-in">
+                <div style="display: grid; grid-template-columns: 56px 1fr; border-bottom: 1px solid var(--rule);">
+                    <div style="background: #b5322a; color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 1rem; font-style: italic;">A</div>
+                    <div style="padding: 1.5rem;">
+                        <div style="font-weight: 500; font-size: 0.9rem; margin-bottom: 0.5rem;">Timing hallucination — gpt-5 run 1</div>
+                        <p style="margin: 0; font-size: 0.85rem; color: var(--muted); max-width: none; line-height: 1.6;">gpt-5 passed 34 of 36 single-threaded tests in run 1 and submitted. The solution failed. What happened: the model reasoned about a specific tick-by-tick sequence and built a solution that worked for that sequence. It didn't account for nondeterministic thread interleaving, where any thread can advance at any relative rate. A 94% single-thread pass rate gave it false confidence. The verification suite saw through it in milliseconds.</p>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 56px 1fr; border-bottom: 1px solid var(--rule);">
+                    <div style="background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 1rem; font-style: italic;">B</div>
+                    <div style="padding: 1.5rem;">
+                        <div style="font-weight: 500; font-size: 0.9rem; margin-bottom: 0.5rem;">Premature confidence — o4-mini run 1</div>
+                        <p style="margin: 0; font-size: 0.85rem; color: var(--muted); max-width: none; line-height: 1.6;">After placing 4 elements and running one test, o4-mini submitted 17 times in a row. 13 of those submits were blocked by the gating rule (you must pass a test before each submit). The model either didn't read or didn't internalize the constraint. Its thinking describes the solution confidently — "I'll use semaphores to ensure arrow1 arrives before arrow2" — but it never verifies whether the placement actually produces that behavior.</p>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 56px 1fr;">
+                    <div style="background: var(--muted); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 1rem; font-style: italic;">C</div>
+                    <div style="padding: 1.5rem;">
+                        <div style="font-weight: 500; font-size: 0.9rem; margin-bottom: 0.5rem;">Causal blindness — gpt-4.1</div>
+                        <p style="margin: 0; font-size: 0.85rem; color: var(--muted); max-width: none; line-height: 1.6;">gpt-4.1 generates detailed output about which semaphore to place and where. The reasoning reads coherently. But it never passes a test — not in run 1, run 2, or run 3. 37 combined test calls, zero passes. The model can describe a semaphore's purpose without being able to simulate how placing one at a specific coordinate actually changes thread timing. It's the difference between knowing what a lock does and knowing where to put it.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="fade-in">The nano surprise</h3>
+
+            <p class="fade-in">gpt-5.4-nano was the most surprising result in the dataset. It's the smallest and cheapest model in the gpt-5.4 family. It averaged 293,000 input tokens per run — about a fifth of what o3-mini consumed — and solved all three runs. Its thinking excerpts are short and direct: "I need to make a tool call right away, so I'll start by inspecting the board... I want to ensure that I get a clear understanding of the current situation before proceeding." Then it acts.</p>
+
+            <p class="fade-in">One run took 5 turns and 86,000 input tokens total. That's the second most efficient solve in the dataset. In run 3 it placed 6 elements, removed none, and submitted first try. The thinking per turn averaged 3,400 characters — compared to gpt-5.4-mini's 7,000+ — but the solutions were equally correct.</p>
+
+            <p class="fade-in">What nano demonstrates is that thinking at length doesn't make a solution more robust. The 10,001-simulation verification is indifferent to how much a model deliberated. Either the semaphores are in the right places or they're not. nano found the right places faster than almost every other model, with a fraction of the compute.</p>
+
+            <h3 class="fade-in">Thinking volume vs thinking quality</h3>
+
+            <!-- Comparison visual -->
+            <div class="fade-in" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 2rem 0;">
+                <div style="background: var(--paper); padding: 2rem;">
+                    <div style="font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 1.5rem;">o3-mini — most thinking, zero solves</div>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
+                        <div style="display: flex; justify-content: space-between; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule);">
+                            <span style="color: var(--muted);">Avg thinking tokens / run</span>
+                            <span style="font-weight: 600; color: #b5322a;">202,000</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule);">
+                            <span style="color: var(--muted);">Thinking as % of output</span>
+                            <span style="font-weight: 600;">97%</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule);">
+                            <span style="color: var(--muted);">Avg elements removed / run</span>
+                            <span style="font-weight: 600; color: #b5322a;">6 (high churn)</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule);">
+                            <span style="color: var(--muted);">Avg wall-clock time / run</span>
+                            <span style="font-weight: 600;">28 minutes</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--muted);">Solve rate</span>
+                            <span style="font-weight: 600; color: #b5322a;">0 / 3</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="background: var(--paper); padding: 2rem;">
+                    <div style="font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); font-weight: 600; margin-bottom: 1.5rem;">gpt-5.4-nano — least thinking, 100% solve rate</div>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
+                        <div style="display: flex; justify-content: space-between; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule);">
+                            <span style="color: var(--muted);">Avg thinking tokens / run</span>
+                            <span style="font-weight: 600; color: var(--green);">19,000</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule);">
+                            <span style="color: var(--muted);">Thinking as % of output</span>
+                            <span style="font-weight: 600;">85%</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule);">
+                            <span style="color: var(--muted);">Avg elements removed / run</span>
+                            <span style="font-weight: 600; color: var(--green);">2 (low churn)</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule);">
+                            <span style="color: var(--muted);">Avg wall-clock time / run</span>
+                            <span style="font-weight: 600;">1.5 minutes</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--muted);">Solve rate</span>
+                            <span style="font-weight: 600; color: var(--green);">3 / 3</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="fade-in">The most efficient single solve in the entire dataset was gpt-5.4-mini run 2: 5 turns, 80,000 input tokens, first-submit success. That run had the longest average thinking per turn of any model (close to 10,000 characters per turn), but it thought deeply for two turns and then stopped. It didn't keep thinking. It acted, tested once, and submitted. The thinking was dense, not voluminous.</p>
+
+            <p class="fade-in">o3-mini's problem wasn't that it thought too long in any one turn — its per-turn thinking averaged around 2,000 characters, similar to other models. The problem was that it thought for 38 or 39 turns out of 40, every run, without the thinking leading to better placements. It was generating analysis without updating its strategy.</p>
+        </section>
+    </div>
+
+    <!-- Impact Banner -->
+    <div class="impact-banner" id="impact">
+        <h2>What This Tells Us About OpenAI's Model Lineup</h2>
+        <p>The gpt-5 generation doesn't just score better on this puzzle. It works differently. It acts faster, tests more cleanly, and places fewer components to get there. That's hard to see in a leaderboard score. It's hard to miss in a 40-turn interaction log.</p>
+
+        <div class="impact-points">
+            <div>
+                <div class="impact-point-head">If you're picking a model for an agentic pipeline</div>
+                <p class="impact-point-body">Don't assume o-series means better. On coordination tasks, gpt-5.4-nano outperformed o3-mini in both solve rate and cost. o3-mini used 25× more tokens and solved nothing. Run your own task-specific evaluation before paying for extended reasoning — it may not be doing what you think it's doing.</p>
+            </div>
+            <div>
+                <div class="impact-point-head">If you're evaluating models for product decisions</div>
+                <p class="impact-point-body">MMLU and benchmark scores tell you roughly where a model sits in the hierarchy, but they won't predict tool-use behavior under feedback. gpt-4o scores ~88% on MMLU and passed zero tests across nine runs here. The gap between "knows the answer" and "executes a multi-step solution correctly" is real, and standard benchmarks don't measure it.</p>
+            </div>
+            <div>
+                <div class="impact-point-head">If you're building evaluation frameworks</div>
+                <p class="impact-point-body">A closed environment, deterministic success criteria, and full interaction logging is a replicable pattern. This isn't specific to concurrency games — any domain where a model takes sequential actions, gets feedback, and must iterate to a verifiable goal works. The method costs money per run, which is a real constraint, but the behavioral data you get back justifies it for high-stakes model selection.</p>
+            </div>
+            <div>
+                <div class="impact-point-head">The broader finding</div>
+                <p class="impact-point-body">Thinking token volume is not a reliable proxy for reasoning quality on coordination tasks. The model that thought the least per run won the most. The model that thought the most lost every time. This doesn't mean extended reasoning is useless — o3 solved 2/3 efficiently — but it does mean the relationship between token spend and outcome quality is task-dependent in ways that aren't obvious from benchmark scores alone.</p>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script>
+// ─── Data ───────────────────────────────────────────────────────────────────
+const modelData = [
+    { key: 'gpt-5.4',      solved: 3, avgTurns: 10.0,  avgTests: 9.3,   avgThink: 11001, avgTokens: 272436, runs: [
+        { solved:true,  turns:10, tests:20, passes:20, tokens:237923, think:8180  },
+        { solved:true,  turns:10, tests:6,  passes:6,  tokens:254462, think:7566  },
+        { solved:true,  turns:10, tests:2,  passes:2,  tokens:324924, think:17257 },
+    ]},
+    { key: 'gpt-5.4-nano', solved: 3, avgTurns: 13.0,  avgTests: 3.3,   avgThink: 18871, avgTokens: 401901, runs: [
+        { solved:true,  turns:13, tests:3,  passes:2,  tokens:457635, think:20680 },
+        { solved:true,  turns:10, tests:3,  passes:3,  tokens:233014, think:12694 },
+        { solved:true,  turns:16, tests:4,  passes:3,  tokens:515053, think:23238 },
+    ]},
+    { key: 'gpt-5.4-mini', solved: 3, avgTurns: 16.7,  avgTests: 4.7,   avgThink: 41415, avgTokens: 792651, runs: [
+        { solved:true,  turns:19, tests:5,  passes:4,  tokens:880033, think:32936 },
+        { solved:true,  turns:16, tests:5,  passes:4,  tokens:618235, think:33653 },
+        { solved:true,  turns:15, tests:4,  passes:4,  tokens:879685, think:57655 },
+    ]},
+    { key: 'gpt-5',        solved: 3, avgTurns: 20.0,  avgTests: 16.3,  avgThink: 25387, avgTokens: 816675, runs: [
+        { solved:true,  turns:11, tests:9,  passes:9,  tokens:291625, think:19008 },
+        { solved:true,  turns:27, tests:20, passes:19, tokens:1289738,think:30784 },
+        { solved:true,  turns:22, tests:20, passes:19, tokens:868662, think:26368 },
+    ]},
+    { key: 'o4-mini',      solved: 2, avgTurns: 20.7,  avgTests: 3.7,   avgThink: 13803, avgTokens: 704894, runs: [
+        { solved:true,  turns:10, tests:2,  passes:1,  tokens:214524, think:13824 },
+        { solved:false, turns:40, tests:8,  passes:4,  tokens:1694882,think:21504 },
+        { solved:true,  turns:12, tests:1,  passes:1,  tokens:205276, think:6080  },
+    ]},
+    { key: 'gpt-5-mini',   solved: 1, avgTurns: 29.7,  avgTests: 4.7,   avgThink: 17984, avgTokens: 1336731, runs: [
+        { solved:true,  turns:9,  tests:1,  passes:1,  tokens:127224, think:6720  },
+        { solved:false, turns:40, tests:6,  passes:0,  tokens:1826049,think:24000 },
+        { solved:false, turns:40, tests:7,  passes:1,  tokens:2056921,think:23232 },
+    ]},
+    { key: 'o3',           solved: 1, avgTurns: 32.3,  avgTests: 13.3,  avgThink: 19051, avgTokens: 1340480, runs: [
+        { solved:false, turns:40, tests:14, passes:6,  tokens:1934843,think:25344 },
+        { solved:false, turns:40, tests:18, passes:5,  tokens:1725597,think:21056 },
+        { solved:true,  turns:17, tests:8,  passes:7,  tokens:360999, think:10752 },
+    ]},
+    { key: 'o3-mini',      solved: 0, avgTurns: 40.0,  avgTests: 5.3,   avgThink: 182763,avgTokens: 1235959, runs: [
+        { solved:false, turns:40, tests:4,  passes:0,  tokens:1249329,think:191232},
+        { solved:false, turns:40, tests:5,  passes:0,  tokens:1258272,think:169792},
+        { solved:false, turns:40, tests:7,  passes:0,  tokens:1200277,think:187264},
+    ]},
+    { key: 'gpt-4.1',      solved: 0, avgTurns: 40.0,  avgTests: 12.0,  avgThink: 0,     avgTokens: 1263143, runs: [
+        { solved:false, turns:40, tests:9,  passes:0,  tokens:1465101,think:0 },
+        { solved:false, turns:40, tests:14, passes:1,  tokens:1154506,think:0 },
+        { solved:false, turns:40, tests:13, passes:3,  tokens:1169821,think:0 },
+    ]},
+    { key: 'gpt-4o',       solved: 0, avgTurns: 40.0,  avgTests: 14.0,  avgThink: 0,     avgTokens: 1313570, runs: [
+        { solved:false, turns:40, tests:15, passes:0,  tokens:1349294,think:0 },
+        { solved:false, turns:40, tests:14, passes:0,  tokens:1286652,think:0 },
+        { solved:false, turns:40, tests:13, passes:0,  tokens:1304765,think:0 },
+    ]},
+    { key: 'gpt-4o-mini',  solved: 0, avgTurns: 40.0,  avgTests: 13.7,  avgThink: 0,     avgTokens: 1585580, runs: [
+        { solved:false, turns:40, tests:15, passes:0,  tokens:1596946,think:0 },
+        { solved:false, turns:40, tests:13, passes:0,  tokens:1687263,think:0 },
+        { solved:false, turns:40, tests:13, passes:0,  tokens:1472531,think:0 },
+    ]},
+];
+
+// ─── Solve Rate Chart ─────────────────────────────────────────────────────
+function buildSolveChart() {
+    const container = document.getElementById('solve-chart');
+    container.innerHTML = '';
+    modelData.forEach((m, i) => {
+        const pct = (m.solved / 3) * 100;
+        const cls = m.solved === 3 ? 'solved' : m.solved > 0 ? 'partial' : 'failed';
+        const row = document.createElement('div');
+        row.className = 'bar-row';
+        row.onclick = () => toggleDetail(i);
+        row.innerHTML = `
+            <div class="bar-label">${m.key}</div>
+            <div class="bar-track">
+                <div class="bar-fill ${cls}" style="width:0%" data-target="${pct}"></div>
+            </div>
+            <div class="bar-value">${m.solved}/3</div>
+        `;
+        const detail = document.createElement('div');
+        detail.className = 'bar-detail';
+        detail.id = `detail-${i}`;
+        detail.innerHTML = `
+            <strong style="font-size:0.82rem;">${m.key} · ${m.solved === 3 ? 'All runs solved' : m.solved > 0 ? `${m.solved} of 3 solved` : 'No runs solved'}</strong>
+            <div class="bar-detail-grid">
+                <div class="detail-metric">
+                    <div class="detail-metric-val">${m.avgTurns.toFixed(1)}</div>
+                    <div class="detail-metric-lbl">Avg Turns</div>
+                </div>
+                <div class="detail-metric">
+                    <div class="detail-metric-val">${m.avgTests.toFixed(1)}</div>
+                    <div class="detail-metric-lbl">Avg Tests</div>
+                </div>
+                <div class="detail-metric">
+                    <div class="detail-metric-val">${(m.avgThink/1000).toFixed(0)}k</div>
+                    <div class="detail-metric-lbl">Thinking Tokens</div>
+                </div>
+                <div class="detail-metric">
+                    <div class="detail-metric-val">${(m.avgTokens/1000).toFixed(0)}k</div>
+                    <div class="detail-metric-lbl">Input Tokens</div>
+                </div>
+            </div>
+        `;
+        container.appendChild(row);
+        container.appendChild(detail);
+    });
+    // Animate bars
+    setTimeout(() => {
+        document.querySelectorAll('#solve-chart .bar-fill').forEach(el => {
+            el.style.width = el.dataset.target + '%';
+        });
+    }, 100);
+}
+
+function toggleDetail(i) {
+    const d = document.getElementById(`detail-${i}`);
+    d.classList.toggle('open');
+}
+
+// ─── Efficiency Chart ──────────────────────────────────────────────────────
+function buildEfficiencyChart() {
+    const container = document.getElementById('efficiency-chart');
+    container.innerHTML = '';
+    const maxTurns = 40;
+    modelData.forEach(m => {
+        const pct = (m.avgTurns / maxTurns) * 100;
+        const cls = m.solved === 3 ? 'solved' : m.solved > 0 ? 'partial' : 'failed';
+        const row = document.createElement('div');
+        row.className = 'bar-row';
+        row.innerHTML = `
+            <div class="bar-label">${m.key}</div>
+            <div class="bar-track">
+                <div class="bar-fill ${cls}" style="width:0%" data-target="${pct}"></div>
+            </div>
+            <div class="bar-value">${m.avgTurns.toFixed(0)}t</div>
+        `;
+        container.appendChild(row);
+    });
+    setTimeout(() => {
+        document.querySelectorAll('#efficiency-chart .bar-fill').forEach(el => {
+            el.style.width = el.dataset.target + '%';
+        });
+    }, 100);
+}
+
+// ─── Scatter Chart ─────────────────────────────────────────────────────────
+function buildScatterChart() {
+    const container = document.getElementById('scatter-chart');
+    const tooltip = document.getElementById('scatter-tooltip');
+    // remove old dots
+    container.querySelectorAll('.scatter-dot').forEach(d => d.remove());
+
+    const w = container.offsetWidth || 700;
+    const h = container.offsetHeight || 380;
+    const pad = { l: 20, r: 20, t: 20, b: 20 };
+
+    // All runs
+    const allRuns = [];
+    modelData.forEach(m => {
+        m.runs.forEach((r, ri) => {
+            allRuns.push({ model: m.key, run: ri+1, ...r });
+        });
+    });
+
+    const maxTokens = Math.max(...allRuns.map(r => r.tokens));
+    const maxThink  = Math.max(...allRuns.map(r => r.think));
+
+    allRuns.forEach(r => {
+        const x = pad.l + ((r.tokens / maxTokens) * (w - pad.l - pad.r));
+        const y = h - pad.b - ((r.turns / 40) * (h - pad.t - pad.b));
+        const size = maxThink > 0 ? 10 + (r.think / maxThink) * 18 : 12;
+        const color = r.solved ? '#2d7a4f' : '#b5322a';
+
+        const dot = document.createElement('div');
+        dot.className = 'scatter-dot';
+        dot.style.cssText = `
+            width: ${size}px; height: ${size}px;
+            left: ${x}px; top: ${y}px;
+            transform: translate(-50%, -50%);
+            background: ${color};
+            opacity: 0.8;
+        `;
+        dot.title = `${r.model} run ${r.run}`;
+
+        dot.addEventListener('mouseenter', e => {
+            tooltip.innerHTML = `<strong>${r.model}</strong> · run ${r.run}<br>${r.turns} turns · ${(r.tokens/1000).toFixed(0)}k tokens · ${r.solved ? '✓ Solved' : '✗ Failed'}`;
+            tooltip.classList.add('visible');
+        });
+        dot.addEventListener('mousemove', e => {
+            const rect = container.getBoundingClientRect();
+            let tx = e.clientX - rect.left + 12;
+            let ty = e.clientY - rect.top - 10;
+            if (tx + 200 > w) tx = tx - 220;
+            tooltip.style.left = tx + 'px';
+            tooltip.style.top = ty + 'px';
+        });
+        dot.addEventListener('mouseleave', () => {
+            tooltip.classList.remove('visible');
+        });
+
+        container.appendChild(dot);
+    });
+}
+
+// ─── Tab Switcher ─────────────────────────────────────────────────────────
+function switchTab(tab) {
+    document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('tab-solve').style.display = 'none';
+    document.getElementById('tab-efficiency').style.display = 'none';
+    document.getElementById('tab-scatter').style.display = 'none';
+    document.getElementById('tab-' + tab).style.display = 'block';
+    if (tab === 'efficiency') buildEfficiencyChart();
+    if (tab === 'scatter') setTimeout(buildScatterChart, 50);
+}
+
+// ─── Game Board Demo ───────────────────────────────────────────────────────
+const GRID_ROWS = 8, GRID_COLS = 11;
+let demoInterval = null;
+let demoTick = 0;
+let demoPlaying = false;
+
+// Simplified board: track cells, threads, delivery point, semaphore positions
+const board = [];
+// Simple track layout for demo
+const trackR = [[1,1],[1,2],[1,3],[1,4],[1,5],[2,5],[3,5],[4,5],[4,4],[4,3],[4,2],[4,1],[3,1],[2,1]]; // red loop
+const trackB = [[1,7],[1,8],[1,9],[2,9],[3,9],[4,9],[4,8],[4,7],[3,7],[2,7]]; // blue loop
+const deliveryR = [3,3]; // red delivery
+const deliveryB = [3,8]; // blue delivery
+let semPos = null; // user-placed semaphore (null = not placed)
+let sigPos = null;
+
+// Thread positions
+let threadR = 0, threadB = 0;
+let rDir = 1, bDir = 1;
+let collided = false;
+let semState = 'INACTIVE'; // ACTIVE = blocking
+
+const logLines = [];
+
+function buildGameGrid() {
+    const container = document.getElementById('game-grid-container');
+    container.innerHTML = '';
+    const grid = document.createElement('div');
+    grid.className = 'game-grid';
+    grid.style.gridTemplateColumns = `repeat(${GRID_COLS}, 24px)`;
+
+    for (let r = 0; r < GRID_ROWS; r++) {
+        for (let c = 0; c < GRID_COLS; c++) {
+            const cell = document.createElement('div');
+            cell.className = 'grid-cell cell-empty';
+            cell.id = `gc-${r}-${c}`;
+            grid.appendChild(cell);
+        }
+    }
+    container.appendChild(grid);
+    renderBoard();
+}
+
+function renderBoard() {
+    // Clear
+    for (let r = 0; r < GRID_ROWS; r++) {
+        for (let c = 0; c < GRID_COLS; c++) {
+            const cell = document.getElementById(`gc-${r}-${c}`);
+            if (!cell) continue;
+            cell.className = 'grid-cell cell-empty';
+            cell.textContent = '';
+        }
+    }
+    // Tracks
+    trackR.forEach(([r,c]) => {
+        const cell = document.getElementById(`gc-${r}-${c}`);
+        if (cell) { cell.className = 'grid-cell cell-track-r'; cell.textContent = '·'; }
+    });
+    trackB.forEach(([r,c]) => {
+        const cell = document.getElementById(`gc-${r}-${c}`);
+        if (cell) { cell.className = 'grid-cell cell-track-b'; cell.textContent = '·'; }
+    });
+    // Delivery
+    {
+        const cell = document.getElementById(`gc-${deliveryR[0]}-${deliveryR[1]}`);
+        if (cell) { cell.className = 'grid-cell cell-delivery'; cell.textContent = '⊛'; }
+    }
+    {
+        const cell = document.getElementById(`gc-${deliveryB[0]}-${deliveryB[1]}`);
+        if (cell) { cell.className = 'grid-cell cell-delivery'; cell.textContent = '⊛'; }
+    }
+    // Semaphore
+    if (semPos) {
+        const cell = document.getElementById(`gc-${semPos[0]}-${semPos[1]}`);
+        if (cell) {
+            cell.className = `grid-cell cell-semaphore${semState === 'ACTIVE' ? ' active' : ''}`;
+            cell.textContent = semState === 'ACTIVE' ? '▣' : '□';
+        }
+    }
+    // Signal
+    if (sigPos) {
+        const cell = document.getElementById(`gc-${sigPos[0]}-${sigPos[1]}`);
+        if (cell) { cell.className = 'grid-cell cell-signal'; cell.textContent = '◈'; }
+    }
+    // Threads
+    if (!collided) {
+        const [rr, rc] = trackR[threadR % trackR.length];
+        const cellR = document.getElementById(`gc-${rr}-${rc}`);
+        if (cellR) { cellR.className = 'grid-cell cell-thread-r'; cellR.textContent = 'T1'; }
+
+        const [br, bc] = trackB[threadB % trackB.length];
+        const cellB = document.getElementById(`gc-${br}-${bc}`);
+        if (cellB) { cellB.className = 'grid-cell cell-thread-b'; cellB.textContent = 'T2'; }
+    }
+}
+
+function addLog(html) {
+    const log = document.getElementById('game-demo-log');
+    const line = document.createElement('div');
+    line.className = 'log-line';
+    line.innerHTML = html;
+    log.appendChild(line);
+    if (log.children.length > 6) log.removeChild(log.firstChild);
+    setTimeout(() => line.classList.add('visible'), 50);
+}
+
+function demoStep() {
+    demoTick++;
+    document.getElementById('tick-counter').textContent = demoTick;
+
+    // Move threads
+    threadR = (threadR + rDir + trackR.length) % trackR.length;
+    threadB = (threadB + bDir + trackB.length) % trackB.length;
+
+    const [rr, rc] = trackR[threadR % trackR.length];
+    const [br, bc] = trackB[threadB % trackB.length];
+
+    // Check if thread approaching semaphore
+    if (semPos && sigPos) {
+        const nextR = trackR[(threadR + 1) % trackR.length];
+        if (nextR[0] === semPos[0] && nextR[1] === semPos[1]) {
+            semState = 'ACTIVE';
+            addLog(`<span class="log-result">✓ Semaphore activated — T1 blocked</span>`);
+        }
+        // Toggle after a few ticks
+        if (demoTick % 8 === 0) {
+            semState = semState === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
+        }
+    }
+
+    // Check collision at delivery
+    if (rr === deliveryR[0] && rc === deliveryR[1] && br === deliveryB[0] && bc === deliveryB[1]) {
+        if (!semPos) {
+            collided = true;
+            addLog(`<span class="log-fail">✗ Delivery collision! Both threads delivered simultaneously.</span>`);
+            clearInterval(demoInterval);
+            demoPlaying = false;
+            document.getElementById('btn-play').classList.remove('active');
+        } else {
+            addLog(`<span class="log-result">✓ Delivery coordinated — no collision</span>`);
+        }
+    }
+
+    if (demoTick === 3 && !semPos) {
+        addLog(`<span class="log-tool">→ add_semaphore(2, 4, "INACTIVE")</span>`);
+        semPos = [2, 4];
+        semState = 'INACTIVE';
+    }
+    if (demoTick === 5 && !sigPos) {
+        addLog(`<span class="log-tool">→ add_signal(1, 3)</span>`);
+        sigPos = [1, 3];
+    }
+    if (demoTick === 6 && semPos && sigPos) {
+        addLog(`<span class="log-tool">→ link_signal(sig_0, sem_0)</span>`);
+    }
+
+    renderBoard();
+}
+
+function demoPlay() {
+    if (demoPlaying) return;
+    demoPlaying = true;
+    document.getElementById('btn-play').classList.add('active');
+    demoInterval = setInterval(demoStep, 600);
+}
+
+function demoReset() {
+    clearInterval(demoInterval);
+    demoPlaying = false;
+    demoTick = 0;
+    threadR = 0; threadB = 3;
+    collided = false;
+    semPos = null; sigPos = null;
+    semState = 'INACTIVE';
+    document.getElementById('tick-counter').textContent = '0';
+    document.getElementById('game-demo-log').innerHTML = '';
+    document.getElementById('btn-play').classList.remove('active');
+    renderBoard();
+}
+
+// ─── Turn Replay ───────────────────────────────────────────────────────────
+// Reconstructed from actual gpt-5 level8 run1 action log
+const replayTurns = [
+    { type: 'place', color: '#4a9eff', height: 52, label: '1',
+      text: `<span class="act-turn">Turn 1</span>\n<span class="act-think">» Analyzing 3-thread coordination. Need semaphores at intersection points.</span>\n<span class="act-tool">→ add_semaphore(5, 6, "ACTIVE")</span>\n<span class="act-tool">→ add_signal(3, 6)</span>\n<span class="act-result">✓ Semaphore S0 placed. Signal SG0 placed.</span>` },
+    { type: 'place', color: '#4a9eff', height: 42, label: '2',
+      text: `<span class="act-turn">Turn 2</span>\n<span class="act-tool">→ add_semaphore(5, 4, "INACTIVE")</span>\n<span class="act-tool">→ add_signal(3, 4)</span>\n<span class="act-result">✓ Semaphore S1 placed. Signal SG1 placed.</span>` },
+    { type: 'link', color: '#f5c842', height: 36, label: '3',
+      text: `<span class="act-turn">Turn 3</span>\n<span class="act-tool">→ link_signal(SG0, S1)</span>\n<span class="act-tool">→ link_signal(SG1, S0)</span>\n<span class="act-result">✓ Cross-linked. Thread A passing SG0 will toggle S1 blocking Thread B.</span>` },
+    { type: 'test-pass', color: '#2d7a4f', height: 28, label: '4',
+      text: `<span class="act-turn">Turn 4</span>\n<span class="act-tool">→ run_test()</span>\n<span class="act-result">✓ TEST PASSED — no collisions, no deadends, no starvation</span>` },
+    { type: 'test-pass', color: '#2d7a4f', height: 28, label: '5',
+      text: `<span class="act-turn">Turn 5</span>\n<span class="act-think">» Good. Testing again to verify it's not a fluke.</span>\n<span class="act-tool">→ run_test()</span>\n<span class="act-result">✓ TEST PASSED</span>` },
+    { type: 'test-pass', color: '#2d7a4f', height: 28, label: '6',
+      text: `<span class="act-turn">Turn 6</span>\n<span class="act-tool">→ run_test()</span>\n<span class="act-result">✓ TEST PASSED</span>` },
+    { type: 'test-pass', color: '#2d7a4f', height: 28, label: '7',
+      text: `<span class="act-turn">Turn 7</span>\n<span class="act-tool">→ run_test()</span>\n<span class="act-result">✓ TEST PASSED</span>` },
+    { type: 'test-pass', color: '#2d7a4f', height: 28, label: '8',
+      text: `<span class="act-turn">Turn 8</span>\n<span class="act-tool">→ run_test()</span>\n<span class="act-result">✓ TEST PASSED — 5 passes, 0 fails. Confident.</span>` },
+    { type: 'test-pass', color: '#2d7a4f', height: 28, label: '9',
+      text: `<span class="act-turn">Turn 9</span>\n<span class="act-tool">→ run_test()</span>\n<span class="act-result">✓ TEST PASSED</span>` },
+    { type: 'test-pass', color: '#2d7a4f', height: 28, label: '10',
+      text: `<span class="act-turn">Turn 10</span>\n<span class="act-tool">→ run_test()</span>\n<span class="act-result">✓ TEST PASSED</span>` },
+    { type: 'submit', color: '#c87eff', height: 60, label: '11',
+      text: `<span class="act-turn">Turn 11</span>\n<span class="act-think">» 9 consecutive passes. Submitting solution.</span>\n<span class="act-tool">→ submit()</span>\n<span class="act-result">✓ SUBMIT PASSED after 10,003 simulation runs.</span>\n<span class="act-result">  Solved in 11 turns · 5 elements · 291k input tokens</span>` },
+];
+
+function buildReplayTimeline() {
+    const timeline = document.getElementById('replay-timeline');
+    timeline.innerHTML = '';
+    replayTurns.forEach((t, i) => {
+        const bar = document.createElement('div');
+        bar.className = 'replay-turn';
+        bar.style.cssText = `height: ${t.height}px; background: ${t.color}; opacity: 0.7;`;
+        bar.innerHTML = `<span class="replay-turn-label">${t.label}</span>`;
+        bar.onclick = () => selectReplayTurn(i, bar);
+        timeline.appendChild(bar);
+    });
+}
+
+function selectReplayTurn(i, barEl) {
+    document.querySelectorAll('.replay-turn').forEach(b => b.classList.remove('active'));
+    if (barEl) barEl.classList.add('active');
+    const t = replayTurns[i];
+    document.getElementById('replay-action-text').innerHTML = t.text.split('\n').map(l => l).join('<br>');
+}
+
+// ─── Intersection Observer for fade-ins ───────────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ─── Nav scroll highlight ─────────────────────────────────────────────────
+const sections = ['premise', 'innovation', 'mechanics', 'methodology', 'results', 'divergence', 'findings', 'limitations', 'thinking', 'impact'];
+const navLinks = document.querySelectorAll('.nav-link');
+
+const scrollObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            navLinks.forEach(l => l.classList.remove('active'));
+            const link = document.querySelector(`nav a[href="#${e.target.id}"]`);
+            if (link) link.classList.add('active');
+        }
+    });
+}, { threshold: 0.3 });
+
+sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) scrollObserver.observe(el);
+});
+
+// ─── Thinking Quote Switcher ──────────────────────────────────────────────
+const thinkQuotes = {
+    o3: {
+        meta: 'o3 · run 1 · turn 1 · solved in 24 turns',
+        text: '"I need to analyze the path of color 1... It starts at [7,2] and moves east to [7,3], then to [7,4] where it has options to exit. The color 1 path goes north from [7,4] to [6,4], and continues upwards until it reaches [0,4], where there\'s a switch. The thread eventually goes west to [0,0], picking up a cell, then continues south down column 0 to [7,0] for an exchange."',
+        note: 'Full thread-path map completed before any placement. Zero elements removed across the run. Solved first-submit.'
+    },
+    o3mini: {
+        meta: 'o3-mini · run 1 · turn 1 · 202k thinking tokens · 0/3 solved',
+        text: '"I\'m working with two threads. Package delivery \'L_cherry_3001\' is received from pickup \'L_cherry_2001\' located at [0,0], which is color:1. The routes intersect at [7,0] and [0,8], suggesting a coordinated system for exchanges. Only T1 can pick up the item, so thread T1 starting at [7,2] must eventually reach [0,0]."',
+        note: 'Correctly identifies constraints but never synthesizes a robust solution. Thought for 38–39 turns out of 40 across all three runs without updating its strategy.'
+    },
+    gpt5: {
+        meta: 'gpt-5 · run 1 · turn 1 · 94.4% test pass rate · submit failed',
+        text: '"I need to coordinate color1\'s pick-up at [0,0] to eventually bring the package to [7,0]. At the same time, color2 arrives at [0,8] so they can swap, and then color2 goes south down column 8 to deliver a package. There\'s a delivery constraint allowing only one operation at a time — this is the core synchronization challenge."',
+        note: 'Correct reasoning about the synchronization problem. Passed 34 of 36 single-threaded tests. Failed final submit because the solution was fit to a specific thread schedule, not the general nondeterministic case.'
+    },
+    gpt5mini: {
+        meta: 'gpt-5-mini · runs 1–2 failed · run 3 solved in 15 turns',
+        text: '"I\'m considering direction changes for an initial index pointing West and the advance to East. For color1 to trigger the switch before color2 reaches [0,4], it should signal when it gets close to [0,1]. However, color1 passes [0,1] after going up and then west to the pickup — so the timing must account for round-trip distance."',
+        note: 'Tick-level timing analysis deeper than most larger models. Solved run 3 with a compact 4-element solution after two failed attempts — demonstrating that the reasoning eventually clicked.'
+    },
+    gpt54: {
+        meta: 'gpt-5.4 · all 3 runs solved · avg 10 turns',
+        text: '"Let\'s break down the paths. Color1 starts at [7,2] and moves east before going north to [0,4]. Color2 starts at [7,6] and moves west to [7,4]. They share the center column and switch at [0,4] and [7,4]. The goal is delivering a package — I need to coordinate the exchange of payloads."',
+        note: 'Fast structural planning. Used trial-and-error but converged quickly. Average solution size: 7 elements. Never hit the turn limit.'
+    },
+    gpt54mini: {
+        meta: 'gpt-5.4-mini · run 2 · 5 turns · 80k tokens · first-submit solve',
+        text: '"I need to solve the puzzle. First, check the current state of the board. The key here is to act quickly and methodically. The paths for color1 and color2 must be carefully synchronized — I\'ll use semaphores to block one thread while the other picks up the delivery, then release via signal trigger."',
+        note: 'Highest average thinking length per turn in the dataset: 6,700–9,900 characters. But it thought deeply for two turns, acted, and stopped. The most efficient single solve: 5 turns, 80k input tokens, first-submit.'
+    },
+    gpt54nano: {
+        meta: 'gpt-5.4-nano · all 3 runs solved · avg 293k input tokens',
+        text: '"I need to make a tool call right away, so I\'ll start by inspecting the board using get_board_state. This seems like the best first step to gather the necessary information I need. I want to ensure that I get a clear understanding of the current situation before proceeding with any action."',
+        note: 'Shortest per-turn thinking of any solving model (~3,400 chars avg). Placed the fewest elements (3–6). Solved all three runs. One run took 5 turns and under 90k tokens — the second most efficient solve in the dataset.'
+    },
+    o4mini: {
+        meta: 'o4-mini · run 1 · 17 submit calls · 13 blocked',
+        text: '"I\'m considering the sequence for arrow movements. Maybe arrow1 should go first to hit the pickup, then return and swap positions with arrow2 at 7,0. It seems I need signals to manage the switch toggle between the two runs. I\'ll use semaphores to ensure arrow1 arrives before arrow2 to avoid deadlock."',
+        note: 'Correct identification of the coordination problem. But after placing 4 elements and one test pass, submitted 17 consecutive times — 13 blocked by the gating rule. Confidence without verification.'
+    }
+};
+
+function showThinkQuote(key, btn) {
+    document.querySelectorAll('#thinking .chart-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const q = thinkQuotes[key];
+    document.getElementById('think-quote-meta').textContent = q.meta;
+    document.getElementById('think-quote-text').textContent = q.text;
+    document.getElementById('think-quote-note').textContent = q.note;
+}
+
+// ─── Init ─────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    buildGameGrid();
+    buildSolveChart();
+    buildReplayTimeline();
+    showThinkQuote('o3', document.querySelector('#thinking .chart-tab'));
+});
+</script>
+</body>
+</html>

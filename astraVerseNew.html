@@ -44,7 +44,21 @@
             position: sticky;
             top: 0;
             height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
+
+        .nav-home-bottom {
+            display: block;
+            margin-top: auto;
+            padding-top: 1.5rem;
+            font-size: 0.82rem;
+            color: var(--muted);
+            text-decoration: none;
+            border-top: 1px solid var(--rule);
+            transition: color 0.15s;
+        }
+        .nav-home-bottom:hover { color: var(--ink); }
         
         nav a {
             display: block;
@@ -69,7 +83,39 @@
             text-decoration: none;
             display: block;
         }
-        
+
+        nav .nav-back {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: color 0.15s;
+        }
+        nav .nav-back:hover { color: var(--ink); }
+
+        nav .nav-section {
+            display: block;
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin: 1.5rem 0 0.5rem;
+            font-weight: 600;
+        }
+
+        nav a.nav-link {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            transition: color 0.15s ease;
+        }
+        nav a.nav-link:hover { color: var(--ink); }
+        nav a.nav-link.active { color: var(--ink); font-weight: 500; }
+
         main {
             flex-grow: 1;
             overflow-y: auto;
@@ -861,9 +907,20 @@
 <body>
 
     <nav>
-        <a href="index.html" class="nav-logo">Sai Maram</a>
-        <a href="index.html">Home</a>
-        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+        <a href="./index.html" class="nav-logo">Sai Siddartha</a>
+        <a href="./index.html" class="nav-back">← All projects</a>
+        <span class="nav-section">Overview</span>
+        <a href="#problem" class="nav-link">The Problem</a>
+        <a href="#approach" class="nav-link">Research Approach</a>
+        <span class="nav-section">Process</span>
+        <a href="#ethnography" class="nav-link">Visual Ethnography</a>
+        <a href="#designsystem" class="nav-link">Design System</a>
+        <a href="#toolkit" class="nav-link">AstraVerse Toolkit</a>
+        <span class="nav-section">Outcomes</span>
+        <a href="#validation" class="nav-link">Validation</a>
+        <a href="#adoption" class="nav-link">Industry Adoption</a>
+        <a href="#conclusion" class="nav-link">Conclusion</a>
+    <a href="./index.html" class="nav-home-bottom">← Home</a>
     </nav>
 
     <main>
@@ -963,7 +1020,7 @@
                 <p>This case study documents the development of AstraVerse, a framework for creating culturally-inspired game characters that are both novel and respectful. Rather than transplanting gods wholesale into games, AstraVerse enables designers to remix cultural elements systematically—creating original characters that honor traditions without copying sacred figures.</p>
             </div>
 
-            <h2>The Problem</h2>
+            <h2 id="problem">The Problem</h2>
             
             <div class="problem-grid">
                 <div class="problem-card">
@@ -985,7 +1042,7 @@
                 <cite>— Temple Priest during stakeholder interviews</cite>
             </div>
 
-            <h2>Research Approach</h2>
+            <h2 id="approach">Research Approach</h2>
             
             <p>As Project Lead and Primary Researcher, I developed AstraVerse through a rigorous UX research process combining ethnography, design systems thinking, and participatory validation:</p>
 
@@ -1029,7 +1086,7 @@
 
             <!-- Results Section - Dark Background -->
             <div class="results-section">
-                <h2>Key Outcomes</h2>
+                <h2 id="outcomes">Key Outcomes</h2>
                 <p style="color: rgba(255,255,255,0.8); max-width: 600px;">The framework successfully balances creative freedom with cultural respect.</p>
                 
                 <div class="results-grid">
@@ -1056,7 +1113,7 @@
                 </div>
             </div>
 
-            <h2>Visual Ethnography</h2>
+            <h2 id="ethnography">Visual Ethnography</h2>
             
             <p>To understand authentic cultural visual language—not stereotypes or Western representations—we conducted visual ethnography at four Hindu temples in Sunnyvale, California. This wasn't tourism; we systematically documented actual visual elements, rituals, and objects in these sacred spaces.</p>
 
@@ -1096,7 +1153,7 @@
 
             <p>This insight shaped the entire framework. Rather than asking "How do we copy gods respectfully?", we asked "How do we create original characters inspired by cultural aesthetics?"</p>
 
-            <h2>Building the Design System</h2>
+            <h2 id="designsystem">Building the Design System</h2>
             
             <p>The breakthrough: Rather than treating whole gods as units, we identified their component elements—ornaments, postures, symbolic attributes, color palettes. By making these elements modular and remixable, designers could create new combinations while staying culturally grounded.</p>
 
@@ -1124,7 +1181,7 @@
                 </div>
             </div>
 
-            <h2>The AstraVerse Toolkit</h2>
+            <h2 id="toolkit">The AstraVerse Toolkit</h2>
 
             <p>The framework was translated into a tangible design tool: cards representing identified cultural elements. Designers can search for specific elements similar to how Character Creation Interfaces in games present structured choices.</p>
 
@@ -1137,7 +1194,7 @@
                 <p class="image-caption">The AstraVerse card system: Paradigms structure the choice of granular Syntagm elements.</p>
             </div>
 
-            <h2>Validation</h2>
+            <h2 id="validation">Validation</h2>
 
             <div class="image-container">
                 <img src="temporary/images/astraVerse/Group 100.png" alt="Evaluation strategy">
@@ -1223,13 +1280,13 @@
                 </div>
             </div>
 
-            <h2>Industry Adoption</h2>
+            <h2 id="adoption">Industry Adoption</h2>
 
             <p>After the research was published at ACM FDG 2023, two game studios reached out directly for consultation. The teams working on Star Wars Eclipse and Spellcasters Chronicles had found the taxonomy through the paper and wanted to apply it to their own character pipelines. This wasn't passive "being used in the wild." The studios read the work, understood the methodology, and contacted me to discuss how to implement it. Both projects deal with fictional worlds that draw on cultural traditions, so the need for a principled way to distinguish inspiration from copying was immediate and practical.</p>
 
             <p>That kind of follow-on is unusual for academic HCI work. Most published frameworks stay in citation lists. The fact that working studios came looking for it suggests the taxonomy solved a real problem they already knew they had.</p>
 
-            <h2>Conclusion</h2>
+            <h2 id="conclusion">Conclusion</h2>
 
             <p class="lede" style="margin-top: 0;">AstraVerse demonstrates that it's possible to move beyond direct appropriation in culturally inspired character design.</p>
 
@@ -1267,6 +1324,26 @@
             </footer>
         </article>
     </main>
+
+<script>
+(function() {
+    const sectionIds = ['problem','approach','ethnography','designsystem','toolkit','validation','adoption','conclusion'];
+    const navLinks = document.querySelectorAll('nav a.nav-link');
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                navLinks.forEach(l => l.classList.remove('active'));
+                const link = document.querySelector('nav a.nav-link[href="#' + e.target.id + '"]');
+                if (link) link.classList.add('active');
+            }
+        });
+    }, { threshold: 0.25 });
+    sectionIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) obs.observe(el);
+    });
+})();
+</script>
 
 </body>
 </html>

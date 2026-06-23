@@ -44,7 +44,21 @@
             position: sticky;
             top: 0;
             height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
+
+        .nav-home-bottom {
+            display: block;
+            margin-top: auto;
+            padding-top: 1.5rem;
+            font-size: 0.82rem;
+            color: var(--muted);
+            text-decoration: none;
+            border-top: 1px solid var(--rule);
+            transition: color 0.15s;
+        }
+        .nav-home-bottom:hover { color: var(--ink); }
         
         nav a {
             display: block;
@@ -69,7 +83,39 @@
             text-decoration: none;
             display: block;
         }
-        
+
+        nav .nav-back {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: color 0.15s;
+        }
+        nav .nav-back:hover { color: var(--ink); }
+
+        nav .nav-section {
+            display: block;
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin: 1.5rem 0 0.5rem;
+            font-weight: 600;
+        }
+
+        nav a.nav-link {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            transition: color 0.15s ease;
+        }
+        nav a.nav-link:hover { color: var(--ink); }
+        nav a.nav-link.active { color: var(--ink); font-weight: 500; }
+
         main {
             flex-grow: 1;
             overflow-y: auto;
@@ -995,9 +1041,21 @@
 <body>
 
     <nav>
-        <a href="index.html" class="nav-logo">Sai Maram</a>
-        <a href="index.html">Home</a>
-        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+        <a href="./index.html" class="nav-logo">Sai Siddartha</a>
+        <a href="./index.html" class="nav-back">← All projects</a>
+        <span class="nav-section">Overview</span>
+        <a href="#gap" class="nav-link">Research Gap</a>
+        <a href="#methodology" class="nav-link">Methodology</a>
+        <span class="nav-section">Contributions</span>
+        <a href="#corpus" class="nav-link">Prompts Corpus</a>
+        <a href="#taxonomy" class="nav-link">Taxonomy</a>
+        <span class="nav-section">Evaluation</span>
+        <a href="#results" class="nav-link">Key Results</a>
+        <a href="#evaluation" class="nav-link">Evaluation Strategy</a>
+        <span class="nav-section">Reflection</span>
+        <a href="#reflections" class="nav-link">Research Reflections</a>
+        <a href="#limitations" class="nav-link">Limitations</a>
+    <a href="./index.html" class="nav-home-bottom">← Home</a>
     </nav>
 
     <main>
@@ -1110,7 +1168,7 @@
                 <p class="image-caption">Examples from the corpus: (a) An ARG-styled game where participants upload food labels; (b) LLM-generated images on game world shifts; (c) Point systems visualized through ASCII characters.</p>
             </div>
 
-            <h2>Identifying the Research Gap</h2>
+            <h2 id="gap">Identifying the Research Gap</h2>
             
             <p>Recent studies warn of <strong>cognitive offloading</strong>—a phenomenon where learners outsource mental effort to the AI, treating it as an "answer engine" rather than a thinking partner. The central challenge is no longer providing access to AI, but designing interactions that resist passivity and sustain the "productive struggle" essential for deep learning.</p>
 
@@ -1124,7 +1182,7 @@
                 <p>We deliberately framed this as a <em>design</em> question rather than an <em>efficacy</em> question because the field first needs a shared vocabulary before it can systematically study optimization. You can't measure what you can't name.</p>
             </div>
 
-            <h2>Research Methodology</h2>
+            <h2 id="methodology">Research Methodology</h2>
             
             <p>Our research followed a three-phase approach: (1) constructing a corpus of gamified prompts through participatory activities, (2) building the taxonomy through grounded theory, and (3) evaluating the taxonomy for coverage, usability, and impact.</p>
 
@@ -1186,7 +1244,7 @@
                 <p class="image-caption">(Left) Poster advertising the Bot-a-thon hackathon; (Middle) Participants comparing gamified prompts; (Right) Assignment instructions for course-embedded prompt creation.</p>
             </div>
 
-            <h2>Contribution 1: The Gamified Prompts Corpus</h2>
+            <h2 id="corpus">Contribution 1: The Gamified Prompts Corpus</h2>
             
             <p>Through our generative activities, we obtained a corpus of <strong>60 gamified learning prompts</strong>—the first available corpus of its kind. The average prompt was 394 words, distributed across diverse topics including programming, STEM, life skills, humanities, climate science, and more.</p>
 
@@ -1200,7 +1258,7 @@
                 <p class="image-caption">A prompt from the corpus with taxonomy codes highlighted. The corpus allows users to search, query prompts based on tags, and interact with them directly.</p>
             </div>
 
-            <h2>Contribution 2: The Taxonomy of Gamified Prompts</h2>
+            <h2 id="taxonomy">Contribution 2: The Taxonomy of Gamified Prompts</h2>
 
             <p>Through grounded theory analysis of the 960 coded units, we derived the <strong>TGP</strong>—a taxonomy with 5 primary dimensions and 19 sub-dimensions that maps the full design space of gamified LLM prompts.</p>
 
@@ -1291,7 +1349,7 @@
 
             <!-- Results Section - Dark Background -->
             <div class="results-section">
-                <h2>Key Results at a Glance</h2>
+                <h2 id="results">Key Results at a Glance</h2>
                 <p style="color: rgba(255,255,255,0.8); max-width: 700px;">Taxonomy-guided prompts (L2) consistently outperformed both standard prompts (L0) and non-taxonomy gamified prompts (L1) across all engagement dimensions.</p>
                 
                 <div class="results-grid">
@@ -1318,7 +1376,7 @@
                 </div>
             </div>
 
-            <h2>Evaluation Strategy</h2>
+            <h2 id="evaluation">Evaluation Strategy</h2>
 
             <div class="research-rationale">
                 <div class="research-rationale-label">Why These Three Constructs?</div>
@@ -1620,7 +1678,7 @@
                 <p class="image-caption">Illustration of Level 0 (standard), Level 1 (gamified without taxonomy), and Level 2 (gamified with taxonomy) prompts, showing progressive design sophistication.</p>
             </div>
 
-            <h2>Research Reflections &amp; Theoretical Contribution</h2>
+            <h2 id="reflections">Research Reflections &amp; Theoretical Contribution</h2>
 
             <p>Beyond the taxonomy itself, this work surfaced important methodological insights about studying AI-mediated learning experiences and the relationship between game design theory and generative AI.</p>
 
@@ -1672,7 +1730,7 @@
                 <p class="image-caption">Researchers developing the dimensions of the taxonomy through an iterative grounded theory process with constant comparison.</p>
             </div>
 
-            <h2>Limitations &amp; What I'd Do Differently</h2>
+            <h2 id="limitations">Limitations &amp; What I'd Do Differently</h2>
 
             <ul>
                 <li><strong>Engagement ≠ Learning:</strong> Our evaluation deliberately measured engagement, immersion, and attention—not learning outcomes. This was a scoping decision: we first needed to establish that the taxonomy produces <em>more engaging</em> experiences before investing in learning transfer studies. Future work will incorporate pre/post assessments and measure knowledge retention.</li>
@@ -1710,6 +1768,26 @@
             </footer>
         </article>
     </main>
+
+<script>
+(function() {
+    const sectionIds = ['gap','methodology','corpus','taxonomy','results','evaluation','reflections','limitations'];
+    const navLinks = document.querySelectorAll('nav a.nav-link');
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                navLinks.forEach(l => l.classList.remove('active'));
+                const link = document.querySelector('nav a.nav-link[href="#' + e.target.id + '"]');
+                if (link) link.classList.add('active');
+            }
+        });
+    }, { threshold: 0.25 });
+    sectionIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) obs.observe(el);
+    });
+})();
+</script>
 
 </body>
 </html>

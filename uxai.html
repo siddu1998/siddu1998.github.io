@@ -41,7 +41,21 @@
             position: sticky;
             top: 0;
             height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
+
+        .nav-home-bottom {
+            display: block;
+            margin-top: auto;
+            padding-top: 1.5rem;
+            font-size: 0.82rem;
+            color: var(--muted);
+            text-decoration: none;
+            border-top: 1px solid var(--rule);
+            transition: color 0.15s;
+        }
+        .nav-home-bottom:hover { color: var(--ink); }
         nav a {
             display: block;
             margin-bottom: 0.75rem;
@@ -61,7 +75,38 @@
             text-decoration: none;
             display: block;
         }
-        
+        nav .nav-back {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: color 0.15s;
+        }
+        nav .nav-back:hover { color: var(--ink); }
+
+        nav .nav-section {
+            display: block;
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin: 1.5rem 0 0.5rem;
+            font-weight: 600;
+        }
+
+        nav a.nav-link {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            transition: color 0.15s ease;
+        }
+        nav a.nav-link:hover { color: var(--ink); }
+        nav a.nav-link.active { color: var(--ink); font-weight: 500; }
+
         main {
             flex-grow: 1;
             overflow-y: auto;
@@ -709,9 +754,22 @@
 </head>
 <body>
     <nav>
-        <a href="index.html" class="nav-logo">Sai Maram</a>
-        <a href="index.html">Home</a>
-        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+        <a href="./index.html" class="nav-logo">Sai Siddartha</a>
+        <a href="./index.html" class="nav-back">← All projects</a>
+        <span class="nav-section">Discovery</span>
+        <a href="#interviews" class="nav-link">Interviewing Researchers</a>
+        <a href="#survey" class="nav-link">Survey Results</a>
+        <span class="nav-section">Design</span>
+        <a href="#principles" class="nav-link">Design Principles</a>
+        <a href="#solution" class="nav-link">Cursor Research</a>
+        <span class="nav-section">Build</span>
+        <a href="#architecture" class="nav-link">Technical Architecture</a>
+        <span class="nav-section">Evaluation</span>
+        <a href="#eval-results" class="nav-link">Evaluation Results</a>
+        <a href="#before-after" class="nav-link">Before vs. After</a>
+        <a href="#feedback" class="nav-link">Researcher Feedback</a>
+        <a href="#conclusion" class="nav-link">Conclusion</a>
+    <a href="./index.html" class="nav-home-bottom">← Home</a>
     </nav>
 
     <main>
@@ -816,7 +874,7 @@
             </div>
 
 
-            <h2>Discovery: Interviewing Researchers</h2>
+            <h2 id="interviews">Discovery: Interviewing Researchers</h2>
             
             <div class="pull-quote">
                 <blockquote>"I spent two full days just copying and pasting quotes from a 90-minute interview into sticky notes. Two days. For one interview."</blockquote>
@@ -860,7 +918,7 @@
             <p>This framing changed how I thought about the problem. Researchers aren't browsing their data aimlessly looking for anything interesting. They arrive with a hypothesis already in hand and need to test it against the full dataset. That's a search problem with a very specific shape.</p>
 
 
-            <h2>Survey Results: Quantifying the Pain</h2>
+            <h2 id="survey">Survey Results: Quantifying the Pain</h2>
             
             <p>The post-interview survey confirmed what the qualitative data suggested: transcript atomization and evidence gathering are the most painful stages of the qualitative research workflow. Here's what the numbers revealed.</p>
 
@@ -1031,7 +1089,7 @@
             <p>The survey data painted a clear picture: <strong>transcript atomization</strong> and <strong>evidence gathering</strong> are not just annoying—they consume nearly 20 hours per study combined and are the primary sources of researcher frustration and uncertainty. These two pain points became the design targets for Cursor Research.</p>
 
 
-            <h2>Design Principles</h2>
+            <h2 id="principles">Design Principles</h2>
 
             <p>From the interview findings, I derived four design principles that would guide every decision in building Cursor Research:</p>
 
@@ -1059,7 +1117,7 @@
             </div>
 
 
-            <h2>Solution: Cursor Research</h2>
+            <h2 id="solution">Solution: Cursor Research</h2>
 
             <p>Cursor Research is an AI-powered qualitative analysis canvas that directly addresses the two core pain points. It combines a visual sticky-note interface with LLM-powered tools for document chunking, thematic analysis, and semantic evidence retrieval—all with human-in-the-loop controls.</p>
 
@@ -1361,7 +1419,7 @@
             <p class="mockup-caption">The canvas shows clustered sticky notes. When a researcher enters a hypothesis statement, the system finds semantically matching notes (highlighted with golden borders and match scores) while dimming non-matches. The chat panel explains why each note was surfaced, and whether it supports or challenges the hypothesis.</p>
 
 
-            <h2>Technical Architecture</h2>
+            <h2 id="architecture">Technical Architecture</h2>
 
             <div class="tool-grid">
                 <div class="tool-card">
@@ -1385,7 +1443,7 @@
 
             <!-- Results Section -->
             <div class="results-section">
-                <h2>Evaluation Results</h2>
+                <h2 id="eval-results">Evaluation Results</h2>
                 <p style="color: rgba(255,255,255,0.8); max-width: 600px;">I conducted a comparative evaluation with 8 of the original 10 researchers, measuring task completion time, accuracy, and satisfaction across the two core pain-point tasks.</p>
                 
                 <div class="results-grid">
@@ -1423,7 +1481,7 @@
             </div>
 
 
-            <h2>Evaluation: Before vs. After</h2>
+            <h2 id="before-after">Evaluation: Before vs. After</h2>
 
             <p>To validate the solution, I ran a within-subjects study where 8 researchers each completed two comparable analysis tasks—one using their existing workflow (Miro + spreadsheets + Ctrl+F) and one using Cursor Research. Tasks were counterbalanced to control for order effects.</p>
 
@@ -1531,7 +1589,7 @@
             </div>
 
 
-            <h2>Researcher Feedback</h2>
+            <h2 id="feedback">Researcher Feedback</h2>
 
             <div class="findings-grid">
                 <div class="finding-card">
@@ -1549,7 +1607,7 @@
             </div>
 
 
-            <h2>Conclusion</h2>
+            <h2 id="conclusion">Conclusion</h2>
 
             <p class="lede" style="margin-top: 0;">Cursor Research demonstrates that the most impactful AI tools don't replace expert judgment. They eliminate the drudgery that prevents experts from applying their judgment where it matters most.</p>
             
@@ -1588,5 +1646,24 @@
         </article>
     </main>
 
+<script>
+(function() {
+    const sectionIds = ['interviews','survey','principles','solution','architecture','eval-results','before-after','feedback','conclusion'];
+    const navLinks = document.querySelectorAll('nav a.nav-link');
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                navLinks.forEach(l => l.classList.remove('active'));
+                const link = document.querySelector('nav a.nav-link[href="#' + e.target.id + '"]');
+                if (link) link.classList.add('active');
+            }
+        });
+    }, { threshold: 0.25 });
+    sectionIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) obs.observe(el);
+    });
+})();
+</script>
 </body>
 </html>

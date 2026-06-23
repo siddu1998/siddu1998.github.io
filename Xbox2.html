@@ -118,7 +118,21 @@
             position: sticky;
             top: 0;
             height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
+
+        .nav-home-bottom {
+            display: block;
+            margin-top: auto;
+            padding-top: 1.5rem;
+            font-size: 0.82rem;
+            color: var(--muted);
+            text-decoration: none;
+            border-top: 1px solid var(--rule);
+            transition: color 0.15s;
+        }
+        .nav-home-bottom:hover { color: var(--ink); }
         
         nav a {
             display: block;
@@ -143,7 +157,39 @@
             text-decoration: none;
             display: block;
         }
-        
+
+        nav .nav-back {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: color 0.15s;
+        }
+        nav .nav-back:hover { color: var(--ink); }
+
+        nav .nav-section {
+            display: block;
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin: 1.5rem 0 0.5rem;
+            font-weight: 600;
+        }
+
+        nav a.nav-link {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            transition: color 0.15s ease;
+        }
+        nav a.nav-link:hover { color: var(--ink); }
+        nav a.nav-link.active { color: var(--ink); font-weight: 500; }
+
         main {
             flex-grow: 1;
             overflow-y: auto;
@@ -879,9 +925,19 @@
 
     <div id="content-wrapper">
         <nav>
-            <a href="index.html" class="nav-logo">Sai Maram</a>
-            <a href="index.html">Home</a>
-            <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+            <a href="./index.html" class="nav-logo">Sai Siddartha</a>
+            <a href="./index.html" class="nav-back">← All projects</a>
+            <span class="nav-section">Overview</span>
+            <a href="#problem" class="nav-link">The Problem</a>
+            <a href="#approach" class="nav-link">My Approach</a>
+            <span class="nav-section">Process</span>
+            <a href="#codesign" class="nav-link">Co-Design</a>
+            <a href="#aura" class="nav-link">AURA Platform</a>
+            <span class="nav-section">Outcomes</span>
+            <a href="#evaluation" class="nav-link">Evaluation</a>
+            <a href="#impact" class="nav-link">Organizational Impact</a>
+            <a href="#conclusion" class="nav-link">Conclusion</a>
+        <a href="./index.html" class="nav-home-bottom">← Home</a>
         </nav>
 
         <main>
@@ -1012,7 +1068,7 @@
                 </div>
                 <p class="video-caption">AURA demonstration showing all four capabilities in action within the platform.</p>
 
-                <h2>The Problem</h2>
+                <h2 id="problem">The Problem</h2>
                 
                 <div class="pull-quote">
                     <blockquote>"I collect the data, send it to vendors, wait weeks, then finally get back something I can analyze. It feels like I'm constantly waiting."</blockquote>
@@ -1029,7 +1085,7 @@
 
                 <p>Without scalable solutions to conduct research across languages and time zones, Xbox risked missing player insights in high-growth international markets. Understanding how players in different cultural contexts experience games is essential for product decisions that affect millions of players.</p>
 
-                <h2>My Approach</h2>
+                <h2 id="approach">My Approach</h2>
                 
                 <h3>Phase 1 — Discovery Research</h3>
                 <p>8 contextual inquiries and 5 interviews with researchers to understand current workflows, pain points, and opportunities for AI integration across all stages of the research process.</p>
@@ -1085,7 +1141,7 @@
                     </div>
                 </div>
 
-                <h2>Co-Designing with Researchers</h2>
+                <h2 id="codesign">Co-Designing with Researchers</h2>
                 
                 <p>I knew early on that AI's potential here was easy to overestimate from the outside. Understanding exactly how it could support UX researchers required spending real time with those researchers, watching them work. To ground AURA in actual needs, I conducted 8 contextual inquiries (observing researchers in their workspace doing real work) and 5 semi-structured interviews with researchers across Xbox Research.</p>
 
@@ -1109,7 +1165,7 @@
                     <cite>— Xbox Research Lead</cite>
                 </div>
 
-                <h2>AURA: One Platform, Four Capabilities</h2>
+                <h2 id="aura">AURA: One Platform, Four Capabilities</h2>
 
                 <p>One thing I noticed during the contextual inquiries was that researchers weren't just frustrated by individual bottlenecks in isolation. They were frustrated by context-switching. Mid-study, a researcher would be reviewing an interview transcript, then jump to a different tool to apply codes, then open a third tool for synthesis, then a fourth for sharing findings with the team. Each switch broke their thinking. I decided early on that AURA needed to be a single platform rather than a collection of separate tools. Researchers should be able to move between capabilities without losing their place in the work.</p>
 
@@ -1136,7 +1192,7 @@
 
                 <p><em>For detailed demonstrations of each capability, I recommend watching the video at the top of this page.</em></p>
 
-                <h2>Evaluation</h2>
+                <h2 id="evaluation">Evaluation</h2>
                 
                 <div class="nda-notice">Due to NDA, exact statistical numbers regarding outcomes cannot be shared publicly.</div>
                 
@@ -1184,7 +1240,7 @@
                     </ul>
                 </div>
 
-                <h2>Organizational Impact</h2>
+                <h2 id="impact">Organizational Impact</h2>
 
                 <div class="two-column">
                     <p>AURA is now used by multiple teams across Xbox Research. What I find most interesting about how it spread is that nobody mandated it. The first researchers to use it started telling colleagues about specific things it had let them do, sessions in markets they couldn't previously reach, studies finished in a day instead of a week. Word moved through the org naturally. Four teams had integrated it into their regular workflow by the time I presented to leadership.</p>
@@ -1207,7 +1263,7 @@
                     </div>
                 </div>
 
-                <h2>Conclusion</h2>
+                <h2 id="conclusion">Conclusion</h2>
 
                 <p class="lede" style="margin-top: 0;">AURA shows that meaningful impact in enterprise research doesn't require massive teams or years of development. It requires understanding researcher needs in specific, concrete terms, then building something that fits directly into how they already think about their work.</p>
 
@@ -1274,6 +1330,25 @@
                 }
             });
         });
+    </script>
+    <script>
+    (function() {
+        const sectionIds = ['problem','approach','codesign','aura','evaluation','impact','conclusion'];
+        const navLinks = document.querySelectorAll('nav a.nav-link');
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    const link = document.querySelector('nav a.nav-link[href="#' + e.target.id + '"]');
+                    if (link) link.classList.add('active');
+                }
+            });
+        }, { threshold: 0.25 });
+        sectionIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) obs.observe(el);
+        });
+    })();
     </script>
 </body>
 </html>

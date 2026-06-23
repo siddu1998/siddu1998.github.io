@@ -44,7 +44,21 @@
             position: sticky;
             top: 0;
             height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
+
+        .nav-home-bottom {
+            display: block;
+            margin-top: auto;
+            padding-top: 1.5rem;
+            font-size: 0.82rem;
+            color: var(--muted);
+            text-decoration: none;
+            border-top: 1px solid var(--rule);
+            transition: color 0.15s;
+        }
+        .nav-home-bottom:hover { color: var(--ink); }
         
         nav a {
             display: block;
@@ -69,7 +83,39 @@
             text-decoration: none;
             display: block;
         }
-        
+
+        nav .nav-back {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: color 0.15s;
+        }
+        nav .nav-back:hover { color: var(--ink); }
+
+        nav .nav-section {
+            display: block;
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin: 1.5rem 0 0.5rem;
+            font-weight: 600;
+        }
+
+        nav a.nav-link {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            transition: color 0.15s ease;
+        }
+        nav a.nav-link:hover { color: var(--ink); }
+        nav a.nav-link.active { color: var(--ink); font-weight: 500; }
+
         main {
             flex-grow: 1;
             overflow-y: auto;
@@ -859,9 +905,18 @@
 <body>
 
     <nav>
-        <a href="index.html" class="nav-logo">Sai Maram</a>
-        <a href="index.html">Home</a>
-        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+        <a href="./index.html" class="nav-logo">Sai Siddartha</a>
+        <a href="./index.html" class="nav-back">← All projects</a>
+        <span class="nav-section">Overview</span>
+        <a href="#problem" class="nav-link">The Problem</a>
+        <a href="#approach" class="nav-link">My Approach</a>
+        <span class="nav-section">Research</span>
+        <a href="#methodology" class="nav-link">Methodology</a>
+        <a href="#findings" class="nav-link">Key Findings</a>
+        <span class="nav-section">Outcomes</span>
+        <a href="#guidelines" class="nav-link">Design Guidelines</a>
+        <a href="#conclusion" class="nav-link">Conclusion</a>
+    <a href="./index.html" class="nav-home-bottom">← Home</a>
     </nav>
 
     <main>
@@ -961,7 +1016,7 @@
                 <p>The findings challenge the assumption that religious players want religion kept out of games. They don't. They want it done seriously.</p>
             </div>
 
-            <h2>The Problem</h2>
+            <h2 id="problem">The Problem</h2>
             
             <div class="pull-quote">
                 <blockquote>"Developers either avoid religious content entirely or implement it without guidance."</blockquote>
@@ -974,7 +1029,7 @@
 
             <p>The cost of getting this wrong is concrete. SMITE faced a formal FCC complaint, coordinated legal pressure from Hindu advocacy groups, and community boycotts when Hindu deities were added as playable combat characters. None of that happened because developers were malicious. It happened because they had no framework for understanding how religious players perceive these design decisions. The guidelines from this research exist to give developers that framework before they ship, not after.</p>
 
-            <h2>My Approach</h2>
+            <h2 id="approach">My Approach</h2>
 
             <p>The conversation about religion and games was already happening at scale. More than 10,000 Reddit posts across religious and gaming communities addressed this topic, and those conversations were organic: players were not performing for a researcher. That is why I chose Reddit over interviews. Interviews would have captured 20 or 30 carefully considered opinions. Reddit gave me 10,000 candid ones, including the arguments, the corrections, the community pushback, and the moments where players surprised me by championing the very content they had earlier criticized.</p>
 
@@ -1031,7 +1086,7 @@
                 </div>
             </div>
 
-            <h2>Research Methodology</h2>
+            <h2 id="methodology">Research Methodology</h2>
             
             <p>Understanding how religious players perceive videogames required analyzing a volume of online discourse that traditional qualitative methods cannot handle at this scale. I adopted a mixed-methods approach combining computational efficiency with human interpretation.</p>
 
@@ -1066,7 +1121,7 @@
                 <p class="image-caption">Example BERTopic output for the r/islam subreddit showing automatically generated topic clusters that researchers then labeled.</p>
             </div>
 
-            <h2>Key Findings: Three Primary Themes</h2>
+            <h2 id="findings">Key Findings: Three Primary Themes</h2>
             
             <p>Through topic modeling and qualitative analysis, the research surfaced 22 distinct sub-themes, which collapsed into three primary themes. Together they describe something more complicated than I expected: not a conflict between religion and games, but a nuanced ongoing negotiation.</p>
 
@@ -1140,7 +1195,7 @@
                 <p class="image-caption">Understanding how games with religious elements contribute to education and community building.</p>
             </div>
 
-            <h2>Design Guidelines</h2>
+            <h2 id="guidelines">Design Guidelines</h2>
 
             <p>These guidelines come directly from the patterns in the data. Each one addresses a specific failure mode I observed in how games currently handle religious content, and a corresponding opportunity that religious players said they wanted.</p>
 
@@ -1176,7 +1231,7 @@
                 <cite>— Core Research Finding</cite>
             </div>
 
-            <h2>Conclusion</h2>
+            <h2 id="conclusion">Conclusion</h2>
 
             <p class="lede" style="margin-top: 0;">Religious players don't reject religious themes in games. They reject disrespectful representation. That distinction is what 10,000 posts made visible.</p>
 
@@ -1233,6 +1288,26 @@
             }
         });
     </script>
+
+<script>
+(function() {
+    const sectionIds = ['problem','approach','methodology','findings','guidelines','conclusion'];
+    const navLinks = document.querySelectorAll('nav a.nav-link');
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                navLinks.forEach(l => l.classList.remove('active'));
+                const link = document.querySelector('nav a.nav-link[href="#' + e.target.id + '"]');
+                if (link) link.classList.add('active');
+            }
+        });
+    }, { threshold: 0.25 });
+    sectionIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) obs.observe(el);
+    });
+})();
+</script>
 
 </body>
 </html>

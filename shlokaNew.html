@@ -44,7 +44,21 @@
             position: sticky;
             top: 0;
             height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
+
+        .nav-home-bottom {
+            display: block;
+            margin-top: auto;
+            padding-top: 1.5rem;
+            font-size: 0.82rem;
+            color: var(--muted);
+            text-decoration: none;
+            border-top: 1px solid var(--rule);
+            transition: color 0.15s;
+        }
+        .nav-home-bottom:hover { color: var(--ink); }
         
         nav a {
             display: block;
@@ -69,7 +83,39 @@
             text-decoration: none;
             display: block;
         }
-        
+
+        nav .nav-back {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: color 0.15s;
+        }
+        nav .nav-back:hover { color: var(--ink); }
+
+        nav .nav-section {
+            display: block;
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin: 1.5rem 0 0.5rem;
+            font-weight: 600;
+        }
+
+        nav a.nav-link {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            transition: color 0.15s ease;
+        }
+        nav a.nav-link:hover { color: var(--ink); }
+        nav a.nav-link.active { color: var(--ink); font-weight: 500; }
+
         main {
             flex-grow: 1;
             overflow-y: auto;
@@ -866,9 +912,20 @@
 <body>
 
     <nav>
-        <a href="index.html" class="nav-logo">Sai Maram</a>
-        <a href="index.html">Home</a>
-        <a href="https://siddu1998.github.io/cv.pdf" target="_blank">Resume</a>
+        <a href="./index.html" class="nav-logo">Sai Siddartha</a>
+        <a href="./index.html" class="nav-back">← All projects</a>
+        <span class="nav-section">Overview</span>
+        <a href="#problem" class="nav-link">The Problem</a>
+        <a href="#approach" class="nav-link">My Approach</a>
+        <span class="nav-section">Process</span>
+        <a href="#phase1" class="nav-link">Ethnographic Discovery</a>
+        <a href="#phase2" class="nav-link">Co-Design</a>
+        <a href="#phase3" class="nav-link">Evaluation</a>
+        <span class="nav-section">Outcomes</span>
+        <a href="#principles" class="nav-link">Design Principles</a>
+        <a href="#impact" class="nav-link">Impact & Adoption</a>
+        <a href="#conclusion" class="nav-link">Conclusion</a>
+    <a href="./index.html" class="nav-home-bottom">← Home</a>
     </nav>
 
     <main>
@@ -969,7 +1026,7 @@
                 <p>This case study documents Shloka, a climate game that integrates authentic Hindu religious practices to teach environmental responsibility. Rather than asking players to adopt new values, Shloka connects climate action to existing cultural frameworks, turning environmental responsibility from abstract civic duty into sacred obligation.</p>
             </div>
 
-            <h2>The Problem</h2>
+            <h2 id="problem">The Problem</h2>
             
             <div class="pull-quote">
                 <blockquote>"When players don't see themselves in the narrative, they don't engage."</blockquote>
@@ -982,7 +1039,7 @@
 
             <p>Religious communities represent billions of people with strong environmental values embedded in their faith. Hinduism alone conceptualizes rivers as goddesses, forests as divine abodes, and environmental protection as dharma. These aren't metaphors. They're active frameworks that millions of people use to make moral decisions. Climate games almost entirely ignore them.</p>
 
-            <h2>My Approach</h2>
+            <h2 id="approach">My Approach</h2>
             
             <h3>Ethnographic Fieldwork</h3>
             <p>4-month visual ethnography at Tirumala and Sabarimala pilgrimage sites (412 photos, 43 videos) documenting real ritual practices and environmental contexts firsthand.</p>
@@ -1038,7 +1095,7 @@
                 </div>
             </div>
 
-            <h2>Phase 1: Ethnographic Discovery</h2>
+            <h2 id="phase1">Phase 1: Ethnographic Discovery</h2>
             
             <p>Rather than relying on secondary sources or theoretical knowledge, I conducted firsthand ethnographic fieldwork at two of India's most significant pilgrimage sites: <strong>Tirumala</strong> (the world's most visited temple, home to Venkateswara) and <strong>Sabarimala</strong> (dedicated to Ayyappa, located in a forest reserve).</p>
             
@@ -1088,7 +1145,7 @@
                 </div>
             </div>
 
-            <h2>Phase 2: Co-Design & Cultural Navigation</h2>
+            <h2 id="phase2">Phase 2: Co-Design & Cultural Navigation</h2>
             
             <p>Moving from ethnographic insights to game design required navigating complex theological considerations. Good intentions aren't enough when working with sacred content. Design decisions needed alignment with religious principles, not just aesthetic appeal.</p>
 
@@ -1156,7 +1213,7 @@
                 <p class="image-caption">Different stages in a Shloka level, each teaching specific climate change concepts through culturally-authentic gameplay.</p>
             </div>
 
-            <h2>Phase 3: Rigorous Evaluation</h2>
+            <h2 id="phase3">Phase 3: Rigorous Evaluation</h2>
             
             <p>To validate Shloka's effectiveness, I ran a comparative evaluation against 9 existing climate games. The goal wasn't just to show our game performed better. I wanted to understand what specifically drove the difference, because "our game won" is not a research finding.</p>
 
@@ -1188,7 +1245,7 @@
                 </div>
             </div>
 
-            <h2>Design Principles Discovered</h2>
+            <h2 id="principles">Design Principles Discovered</h2>
             
             <p>Through this comparative research, I identified five key principles for culturally-responsive design that apply beyond games:</p>
 
@@ -1225,7 +1282,7 @@
                 </div>
             </div>
 
-            <h2>Impact & Adoption</h2>
+            <h2 id="impact">Impact & Adoption</h2>
 
             <div class="two-column">
                 <p>The paper was published as a full paper at ACM DIS 2025 and received the Best Paper Award. An earlier work-in-progress version appeared at ACM CHI PLAY 2024. The HCI community recognized it as a methodological contribution to faith-based design, not just a game.</p>
@@ -1233,7 +1290,7 @@
                 <p>Five temples are now piloting Shloka for youth climate education. Two game design courses have adopted the framework. The code and design documents are available open-source. The temple adoption matters most to me, because those relationships required trust built over months, not a polished demo.</p>
             </div>
 
-            <h2>Conclusion</h2>
+            <h2 id="conclusion">Conclusion</h2>
 
             <p class="lede" style="margin-top: 0;">Culturally-responsive design is not just about representation. It is about deeply understanding and integrating the cultural practices and values that actually drive human behavior.</p>
             
@@ -1289,6 +1346,26 @@
                 });
             }
         });
+    </script>
+
+    <script>
+(function() {
+    const sectionIds = ['problem','approach','phase1','phase2','phase3','principles','impact','conclusion'];
+    const navLinks = document.querySelectorAll('nav a.nav-link');
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                navLinks.forEach(l => l.classList.remove('active'));
+                const link = document.querySelector('nav a.nav-link[href="#' + e.target.id + '"]');
+                if (link) link.classList.add('active');
+            }
+        });
+    }, { threshold: 0.25 });
+    sectionIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) obs.observe(el);
+    });
+})();
     </script>
 
 </body>
