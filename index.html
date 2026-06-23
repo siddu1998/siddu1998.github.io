@@ -764,6 +764,122 @@
             #pacman-section { display: none !important; }
         }
 
+        /* ── TESTIMONIALS MARQUEE ───────────────────────────────── */
+        .tmarquee-outer {
+            overflow: hidden;
+            margin: 0 -1rem;
+            padding: 0.75rem 0 1.25rem;
+            cursor: default;
+            background: var(--bg);
+        }
+        .tmarquee-track {
+            display: flex;
+            gap: 1.1rem;
+            width: max-content;
+            animation: tscroll 52s linear infinite;
+            align-items: flex-start;
+            background: var(--bg);
+        }
+        .tmarquee-outer:hover .tmarquee-track {
+            animation-play-state: paused;
+        }
+        @keyframes tscroll {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+        }
+
+        .tquote-card {
+            flex-shrink: 0;
+            width: 360px;
+            border-radius: 16px;
+            padding: 1.6rem 1.6rem 1.4rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.22s ease, box-shadow 0.22s ease;
+        }
+
+        /* grain via repeating dot pattern */
+        .tquote-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background-image:
+                radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px),
+                radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 4px 4px, 9px 9px;
+            background-position: 0 0, 2px 2px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .tquote-card:hover { transform: translateY(-5px); }
+
+        /* deep, rich backgrounds — white text always readable */
+        .tquote-card.tc-rust   { background: #7a2810; box-shadow: 0 4px 24px rgba(122,40,16,0.4); }
+        .tquote-card.tc-navy   { background: #0e1a40; box-shadow: 0 4px 24px rgba(14,26,64,0.45); }
+        .tquote-card.tc-ink    { background: #1a1105; box-shadow: 0 4px 24px rgba(0,0,0,0.4); }
+        .tquote-card.tc-moss   { background: #1c3a1a; box-shadow: 0 4px 24px rgba(28,58,26,0.4); }
+
+        .tquote-card:hover.tc-rust  { box-shadow: 0 12px 36px rgba(122,40,16,0.5); }
+        .tquote-card:hover.tc-navy  { box-shadow: 0 12px 36px rgba(14,26,64,0.55); }
+        .tquote-card:hover.tc-ink   { box-shadow: 0 12px 36px rgba(0,0,0,0.5); }
+        .tquote-card:hover.tc-moss  { box-shadow: 0 12px 36px rgba(28,58,26,0.5); }
+
+        .tquote-open {
+            font-family: var(--serif);
+            font-size: 3.5rem;
+            line-height: 1;
+            color: rgba(255,255,255,0.35) !important;
+            display: block;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+            user-select: none;
+        }
+
+        .tquote-text {
+            font-family: var(--serif);
+            font-size: 0.9rem;
+            font-style: italic;
+            line-height: 1.8;
+            color: #ffffff !important;
+            flex: 1;
+            margin-bottom: 1.25rem;
+            position: relative;
+            z-index: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 6;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .tquote-person {
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            position: relative;
+            z-index: 1;
+            margin-top: auto;
+        }
+        .tquote-name {
+            font-family: var(--sans);
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: 0.01em;
+        }
+        .tquote-role {
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 0.02em;
+        }
+
         /* ── FOOTER ─────────────────────────────────────────────── */
         .site-footer {
             border-top: 1px solid rgba(26,17,5,0.1);
@@ -1289,6 +1405,90 @@
             </div><!-- /#tab-ui-design -->
 
         </section><!-- /.section work -->
+
+        <!-- Recommendations -->
+        <section class="section fade-up">
+            <h2 class="section-label">From people I've worked with</h2>
+
+            <div class="tmarquee-outer">
+                <div class="tmarquee-track">
+
+                    <div class="tquote-card tc-rust">
+                        <span class="tquote-open">&ldquo;</span>
+                        <p class="tquote-text">Your work over this period has been excellent. You showed a ton of self-drive and motivation, and delivered results. As evidenced by everyone's reactions to the AURA work, you built a suite of tools that serve as a blueprint for XR as we move into a new world of automation and AI. I love the philosophical approach — keeping the human in the loop. We were truly lucky to have you again this summer.</p>
+                        <div class="tquote-person">
+                            <span class="tquote-name">JJ</span>
+                            <span class="tquote-role">Principal Researcher &middot; Xbox</span>
+                        </div>
+                    </div>
+
+                    <div class="tquote-card tc-navy">
+                        <span class="tquote-open">&ldquo;</span>
+                        <p class="tquote-text">Thank you for ALL that you've done this summer. You had major impact on our family team(s) grappling with investment areas and the vision for family gaming experiences. These verbatims are testament to your ability, creativity and commitment to excellence. Passionate, curious and human-centered in all the right ways.</p>
+                        <div class="tquote-person">
+                            <span class="tquote-name">Udaya</span>
+                            <span class="tquote-role">Senior Researcher &middot; Xbox</span>
+                        </div>
+                    </div>
+
+                    <div class="tquote-card tc-ink">
+                        <span class="tquote-open">&ldquo;</span>
+                        <p class="tquote-text">Your work is very smart, and you've developed some really insightful strategies for conducting research. You've really shown yourself to be a smart critical thinker, and you've needed very little hand holding to get the ball rolling. You have consistently been ahead of the curve when it comes to learning.</p>
+                        <div class="tquote-person">
+                            <span class="tquote-name">Zach Lamm</span>
+                            <span class="tquote-role">UX Research Manager &middot; Meta</span>
+                        </div>
+                    </div>
+
+                    <div class="tquote-card tc-moss">
+                        <span class="tquote-open">&ldquo;</span>
+                        <p class="tquote-text">Your resilience and creativity have been nothing short of extraordinary. You leaned in by ideating, thinking critically, and building multiple innovative tools that not only advanced your team's approach to research but also inspired mine in X3. Your energy is contagious, and your brilliance shines through in every conversation. I always leave our discussions feeling inspired and re-energized.</p>
+                        <div class="tquote-person">
+                            <span class="tquote-name">Vitica Arnold, M.S.</span>
+                            <span class="tquote-role">UX Researcher &middot; Microsoft</span>
+                        </div>
+                    </div>
+
+                    <!-- Duplicates for seamless loop -->
+                    <div class="tquote-card tc-rust">
+                        <span class="tquote-open">&ldquo;</span>
+                        <p class="tquote-text">Your work over this period has been excellent. You showed a ton of self-drive and motivation, and delivered results. As evidenced by everyone's reactions to the AURA work, you built a suite of tools that serve as a blueprint for XR as we move into a new world of automation and AI. I love the philosophical approach — keeping the human in the loop. We were truly lucky to have you again this summer.</p>
+                        <div class="tquote-person">
+                            <span class="tquote-name">JJ</span>
+                            <span class="tquote-role">Principal Researcher &middot; Xbox</span>
+                        </div>
+                    </div>
+
+                    <div class="tquote-card tc-navy">
+                        <span class="tquote-open">&ldquo;</span>
+                        <p class="tquote-text">Thank you for ALL that you've done this summer. You had major impact on our family team(s) grappling with investment areas and the vision for family gaming experiences. These verbatims are testament to your ability, creativity and commitment to excellence. Passionate, curious and human-centered in all the right ways.</p>
+                        <div class="tquote-person">
+                            <span class="tquote-name">Udaya</span>
+                            <span class="tquote-role">Senior Researcher &middot; Xbox</span>
+                        </div>
+                    </div>
+
+                    <div class="tquote-card tc-ink">
+                        <span class="tquote-open">&ldquo;</span>
+                        <p class="tquote-text">Your work is very smart, and you've developed some really insightful strategies for conducting research. You've really shown yourself to be a smart critical thinker, and you've needed very little hand holding to get the ball rolling. You have consistently been ahead of the curve when it comes to learning.</p>
+                        <div class="tquote-person">
+                            <span class="tquote-name">Zach Lamm</span>
+                            <span class="tquote-role">UX Research Manager &middot; Meta</span>
+                        </div>
+                    </div>
+
+                    <div class="tquote-card tc-moss">
+                        <span class="tquote-open">&ldquo;</span>
+                        <p class="tquote-text">Your resilience and creativity have been nothing short of extraordinary. You leaned in by ideating, thinking critically, and building multiple innovative tools that not only advanced your team's approach to research but also inspired mine in X3. Your energy is contagious, and your brilliance shines through in every conversation. I always leave our discussions feeling inspired and re-energized.</p>
+                        <div class="tquote-person">
+                            <span class="tquote-name">Vitica Arnold, M.S.</span>
+                            <span class="tquote-role">UX Researcher &middot; Microsoft</span>
+                        </div>
+                    </div>
+
+                </div><!-- /.tmarquee-track -->
+            </div><!-- /.tmarquee-outer -->
+        </section>
 
         <!-- About -->
         <section class="section">
